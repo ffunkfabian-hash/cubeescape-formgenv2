@@ -1,0 +1,282 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "cubeescape-design/weapon-spec/1",
+ "title": "Weapon spec der Konzeptblätter (format_version 2)",
+ "description": "Beschreibung: claude/docs/weapon-spec.md. Erzeugt von claude/generator/export_spec.py; geprüft von claude/generator/test_spec.py (eigene Teilmenge von JSON Schema: type, required, properties, items, enum, const, pattern, minimum, minItems, maxItems, additionalProperties nur, wenn gesetzt). Unbekannte Felder sind erlaubt (Erweiterung innerhalb format_version 1); die genauen Kanal- und Ankerlisten prüft test_spec.py.",
+ "$defs": {
+  "slot": {"enum": ["MT_Primary", "MT_Secondary", "MT_Accent", "MT_Metal", "MT_Energy", "MT_Emission", "MT_Detail", "SK_Accent1", "SK_Accent2"]},
+  "finish": {"enum": ["paint", "polished_gold", "polished_chrome", "neon"]},
+  "vec2": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+  "poly2": {"type": "array", "items": {"$ref": "#/$defs/vec2"}, "minItems": 3},
+  "partId": {"type": "string", "pattern": "^p[0-9]{2,}$"},
+  "text2": {"type": "object", "required": ["de", "en"], "properties": {"de": {"type": "string"}, "en": {"type": "string"}}},
+  "skinLayer": {
+   "type": "object", "required": ["type", "block"],
+   "properties": {
+    "type": {"enum": ["side_block", "bands", "gradient", "rings", "finish", "edge_wear", "glyphs", "trim"]},
+    "block": {"enum": ["farbflaechen", "glyphen", "streifen", "material", "schmuck"]},
+    "parts": {"type": "array"}, "slot": {"$ref": "#/$defs/slot"}, "slots": {"type": "array", "items": {"$ref": "#/$defs/slot"}, "minItems": 1},
+    "dir": {"$ref": "#/$defs/vec3"}, "poly_yz_m": {"$ref": "#/$defs/poly2"}, "center_yz_m": {"$ref": "#/$defs/vec2"},
+    "width_m": {"type": "number", "minimum": 0}, "period_m": {"type": "number", "minimum": 0}, "count": {"type": "integer", "minimum": 1},
+    "steps": {"type": "integer", "minimum": 2}, "coverage": {"type": "number", "minimum": 0}, "width_mm": {"type": "number", "minimum": 0},
+    "color": {"$ref": "#/$defs/hex"}, "kind": {"enum": ["ribs", "fins"]},
+    "decals": {"type": "array", "items": {"type": "object", "required": ["surface", "slot", "points_m"],
+               "properties": {"surface": {"enum": ["left", "right"]}, "slot": {"$ref": "#/$defs/slot"},
+                              "points_m": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 3}}}}
+   }
+  },
+  "skin": {
+   "type": "object", "required": ["id", "name", "hero", "blocks", "description_de", "description_en", "accents", "slots_used", "colors", "layers", "notes"],
+   "properties": {
+    "id": {"type": "string"}, "name": {"type": "string"}, "hero": {"type": "boolean"},
+    "blocks": {"type": "array", "items": {"enum": ["farbflaechen", "glyphen", "streifen", "material", "schmuck"]}, "minItems": 1},
+    "accents": {"type": "object", "required": ["SK_Accent1", "SK_Accent2"]},
+    "slots_used": {"type": "array", "items": {"$ref": "#/$defs/slot"}, "minItems": 1},
+    "colors": {"type": "object", "required": ["base", "standard", "arktis", "nacht"]},
+    "layers": {"type": "array", "items": {"$ref": "#/$defs/skinLayer"}, "minItems": 1},
+    "notes": {"type": "array", "items": {"type": "string"}}
+   }
+  },
+  "hex": {"type": "string", "pattern": "^#[0-9A-F]{6}$"},
+  "hexOrNull": {"type": ["string", "null"], "pattern": "^#[0-9A-F]{6}$"},
+  "channel": {"enum": ["MT_Primary", "MT_Secondary", "MT_Accent", "MT_Metal", "MT_Energy", "MT_Emission", "MT_Detail"]},
+  "vec3": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+  "vec3OrNull": {"type": ["array", "null"], "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+  "bounds": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 2, "maxItems": 2},
+  "dims": {
+   "type": "object", "required": ["length", "height", "width", "bounds_m"],
+   "properties": {"length": {"type": "number", "minimum": 0}, "height": {"type": "number", "minimum": 0},
+                  "width": {"type": "number", "minimum": 0}, "bounds_m": {"$ref": "#/$defs/bounds"}}
+  },
+  "anchor": {
+   "type": "object", "required": ["position_m", "model", "source"],
+   "properties": {"position_m": {"$ref": "#/$defs/vec3OrNull"}, "model": {"$ref": "#/$defs/vec3OrNull"}, "source": {"type": "string"},
+                  "part": {"description": "claude-0.5, optional: Teil, aus dem der Anker abgeleitet ist", "type": ["string", "null"], "pattern": "^p[0-9]{2,3}$"}}
+  },
+  "motion": {
+   "type": "object", "required": ["kind", "name_de", "toolgen_node", "motions", "parts", "labels", "match", "source"],
+   "properties": {
+    "kind": {"enum": ["slide", "bolt", "cell", "fins", "coil", "pump", "lever", "hatch", "cylinder", "hammer", "rails", "breech", "drum", "feed_cover", "cocking", "string", "shield", "vent", "top_break"]},
+    "name_de": {"type": "string"}, "toolgen_node": {"type": "string"},
+    "proposed": {"description": "claude-0.10, optional: Art eines neuen Waffentyps, in Toolgen kein Use-Clip; toolgen_node ist ein Vorschlag", "const": true},
+    "motions": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["type", "axis"],
+                "properties": {"type": {"enum": ["translate", "rotate"]}, "axis": {"$ref": "#/$defs/vec3"}}}},
+    "parts": {"type": ["array", "null"], "items": {"type": "string", "pattern": "^p[0-9]{2,3}$"}},
+    "labels": {"type": "array", "items": {"type": "string"}},
+    "match": {"enum": ["label", "similar", null]},
+    "riding_parts": {"description": "claude-0.17.1, optional: Teile, die ohne passende Bezeichnung mit dem Bewegungsteil laufen (KG01: Zierleiste, Kimme, Korn auf dem Schlitten); auch in parts", "type": "array", "items": {"type": "string", "pattern": "^p[0-9]{2,3}$"}},
+    "source": {"type": "string"}
+   }
+  },
+  "sourced": {"type": "object", "required": ["value", "source"], "properties": {"value": {"type": "number"}, "source": {"type": "string"}}},
+  "windowElement": {
+   "type": "object", "required": ["type", "decal", "part", "emissive", "view_axis_m", "center_m"],
+   "properties": {"type": {"enum": ["decal", "part", "disc"]}, "face_fraction": {"type": "number", "minimum": 0}, "decal": {"description": "Index in decals[] bei type decal, sonst null", "type": ["integer", "null"], "minimum": 0},
+                  "part": {"type": "string", "pattern": "^p[0-9]{2,3}$"}, "emissive": {"type": "boolean"},
+                  "view_axis_m": {"$ref": "#/$defs/vec3"}, "center_m": {"$ref": "#/$defs/vec3"}}
+  },
+  "channels": {
+   "type": "object",
+   "required": ["MT_Primary", "MT_Secondary", "MT_Accent", "MT_Metal", "MT_Energy", "MT_Emission", "MT_Detail"],
+   "properties": {
+    "MT_Primary": {"$ref": "#/$defs/hexOrNull"}, "MT_Secondary": {"$ref": "#/$defs/hexOrNull"},
+    "MT_Accent": {"$ref": "#/$defs/hexOrNull"}, "MT_Metal": {"$ref": "#/$defs/hexOrNull"},
+    "MT_Energy": {"$ref": "#/$defs/hexOrNull"}, "MT_Emission": {"$ref": "#/$defs/hexOrNull"},
+    "MT_Detail": {"$ref": "#/$defs/hexOrNull"}
+   }
+  }
+ },
+ "type": "object",
+ "required": ["format", "format_version", "generator", "sheet", "weapon", "element", "element_source", "units", "axes",
+              "dimensions_m", "anchors", "palette", "channels_used", "parts", "sight", "decals", "textures", "summary"],
+ "properties": {
+  "format": {"const": "cubeescape-design/weapon-spec"},
+  "format_version": {"const": 2},
+  "generator": {"type": "object", "required": ["repo", "tool", "claude_version"]},
+  "sheet": {
+   "type": "object", "required": ["id", "file", "variant", "number", "nick", "fid"],
+   "properties": {"id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+$"}, "variant": {"type": "string"},
+                  "variant_name": {"type": ["string", "null"]},
+                  "number": {"type": "string"}, "file": {"type": "string"}, "nick": {"type": "string"}, "fid": {"type": "string"}}
+  },
+  "weapon": {
+   "type": "object", "required": ["name_de", "toolgen_id"],
+   "properties": {"toolgen_id": {"description": "Toolgen-Werkzeug; null bei neuen Designtypen ohne Toolgen-Werkzeug (claude-0.10, KG12 … KG22; claude-0.10.1, KG23 … KG25; toolgen_status not_connected); scout_rifle (KX11) seit claude-0.17 und Toolgen 0.24 (toolgen_status tool, Element energy)",
+                                 "enum": ["pistol", "assault_rifle", "pulse_rifle", "shotgun", "sniper_rifle", "smg", "fusion_rifle", "trace_rifle", "rocket_launcher", "bow", "scout_rifle", null]},
+                  "design_type": {"description": "claude-0.10, optional: Designtyp nach dem Destiny-2-Abgleich (claude/generator/wtypes.py); scout_rifle = Scout-Gewehr, trace_rifle = Spurgewehr",
+                                  "enum": ["sidearm", "auto_rifle", "pulse_rifle", "shotgun", "sniper_rifle", "submachine_gun", "fusion_rifle", "trace_rifle", "rocket_launcher", "combat_bow",
+                                           "scout_rifle", "hand_cannon", "linear_fusion_rifle", "grenade_launcher_special", "grenade_launcher_heavy", "machine_gun", "sword", "glaive", "heavy_crossbow"]},
+                  "design_type_de": {"type": "string"}, "destiny_type": {"type": "string"}, "type_source": {"type": "string"},
+                  "subtype": {"description": "dynamic_heat, micro_missile, spread_shot seit claude-0.10.1 (KG23–KG25)", "enum": ["rocket_assisted", "slug", "breech_loaded", "drum_loaded", "dynamic_heat", "micro_missile", "spread_shot", null]},
+                  "ammo_class": {"description": "Munitionsklasse in Destiny 2, nur Einordnung", "enum": ["primary", "special", "heavy"]},
+                  "toolgen_status": {"enum": ["tool", "not_connected"]},
+                  "note": {"description": "Hinweis, wenn die Bauweise eines bestehenden Blatts vom Typnamen abweicht (ID und Typ bleiben)", "type": "string"}}
+  },
+  "element": {"enum": ["solar", "arc", "void", "energy", null]},
+  "element_source": {"type": "string"},
+  "units": {
+   "type": "object", "required": ["model_unit_m", "model_length_units", "reference_length_m", "rule", "reference"],
+   "properties": {"model_unit_m": {"type": "number", "minimum": 0}, "model_length_units": {"type": "number", "minimum": 0},
+                  "reference_length_m": {"type": "number", "minimum": 0}}
+  },
+  "axes": {
+   "type": "object", "required": ["model", "target", "matrix_model_to_target", "origin", "formula"],
+   "properties": {"origin": {"const": "Socket_Hand"},
+                  "matrix_model_to_target": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 3, "maxItems": 3}}
+  },
+  "dimensions_m": {
+   "type": "object", "required": ["weapon", "with_sight"],
+   "properties": {"weapon": {"$ref": "#/$defs/dims"}, "with_sight": {"$ref": "#/$defs/dims"}}
+  },
+  "anchors": {
+   "type": "object",
+   "required": ["Socket_Hand", "Socket_SupportHand", "Socket_Muzzle", "Socket_CenterOfMass", "Socket_Sight"],
+   "properties": {
+    "Socket_Hand": {"$ref": "#/$defs/anchor"}, "Socket_SupportHand": {"$ref": "#/$defs/anchor"},
+    "Socket_Muzzle": {"$ref": "#/$defs/anchor"}, "Socket_CenterOfMass": {"$ref": "#/$defs/anchor"},
+    "Socket_Sight": {"$ref": "#/$defs/anchor"},
+    "Socket_FrontSight": {"description": "claude-0.17.1, optional (nur Blätter mit fester Kimme/Korn, KG01): Kornspitze; Socket_Sight ist dann die Oberkante der Kimmenkerbe", "$ref": "#/$defs/anchor"}
+   }
+  },
+  "palette": {
+   "type": "array", "minItems": 4, "maxItems": 4,
+   "items": {
+    "type": "object", "required": ["id", "name", "swatches", "channels", "other_colors", "on_sheet", "sight_colors"],
+    "properties": {
+     "id": {"enum": ["base", "standard", "arktis", "nacht"]},
+     "name": {"type": "string"},
+     "swatches": {"type": "array", "items": {"$ref": "#/$defs/hex"}, "minItems": 4, "maxItems": 4},
+     "channels": {"$ref": "#/$defs/channels"},
+     "other_colors": {"type": "object"},
+     "on_sheet": {"type": "boolean"},
+     "sight_colors": {"enum": ["wie Modell", "extrapoliert"]}
+    }
+   }
+  },
+  "channels_used": {"type": "array", "items": {"$ref": "#/$defs/channel"}},
+  "parts": {
+   "type": "array", "minItems": 1,
+   "items": {
+    "type": "object",
+    "required": ["id", "label", "channel", "channel_source", "material", "emissive", "sight", "color", "area_m2", "long_axis", "bounds_m"],
+    "properties": {
+     "id": {"type": "string", "pattern": "^p[0-9]{2,3}$"},
+     "label": {"type": ["string", "null"]},
+     "channel": {"$ref": "#/$defs/channel"},
+     "channel_source": {"enum": ["explicit", "role", "distributed"]},
+     "material": {"description": "glass ab claude-0.7 (Glasscheiben der Visier-Serie)", "enum": ["painted", "brushed", "rubber", "matte", "lit", "glass"]},
+     "toolgen_material": {"description": "claude-0.5.2, optional: Material im Wortschatz von Toolgen surface_recipes.json › materials; null = Klarglas (in Toolgen noch kein Material, claude-0.7)",
+                          "enum": ["painted", "painted_matte", "ceramic", "brushed", "satin", "polished", "rough_cast", "rubber", "energy_glass", null]},
+     "emissive": {"type": "boolean"}, "sight": {"type": "boolean"},
+     "color": {"$ref": "#/$defs/hex"},
+     "area_m2": {"type": "number", "minimum": 0},
+     "long_axis": {"enum": ["X", "Y", "Z"]},
+     "bounds_m": {"$ref": "#/$defs/bounds"},
+     "moving": {"description": "claude-0.5, optional: Art der Bewegung (moving_parts) oder null", "enum": ["slide", "bolt", "cell", "fins", "coil", "pump", "lever", "hatch", "cylinder", "hammer", "rails", "breech", "drum", "feed_cover", "cocking", "string", "shield", "vent", "top_break", null]}
+    }
+   }
+  },
+  "moving_parts": {
+   "description": "claude-0.5, optional (ältere Specs ohne): bewegliche Teile wie Toolgens Use-Clip; Beschreibung in weapon-spec.md › Bewegliche Teile",
+   "type": "object", "required": ["source", "root_moves", "frame", "items", "note"],
+   "properties": {"source": {"type": "string"}, "frame": {"type": "string"}, "root_moves": {"const": false}, "items": {"type": "array", "items": {"$ref": "#/$defs/motion"}},
+                  "note": {"type": ["string", "null"]}}
+  },
+  "robot_fit": {
+   "description": "claude-0.5.1, optional (ältere Specs ohne): Größe in der Roboterhand (Cube Escape 0.82, Stufe 2); Beschreibung in weapon-spec.md › Größe in der Roboterhand",
+   "type": "object", "required": ["source", "robot", "concept_sheets", "applies", "reason", "targets", "sheet_at_target"],
+   "properties": {
+    "source": {"type": "string"}, "concept_sheets": {"const": false}, "applies": {"type": "boolean"}, "reason": {"type": ["string", "null"]},
+    "robot": {"type": "object", "required": ["height_m", "hand_m", "arm_m"],
+              "properties": {"height_m": {"$ref": "#/$defs/sourced"}, "hand_m": {"$ref": "#/$defs/sourced"}, "arm_m": {"$ref": "#/$defs/sourced"}}},
+    "targets": {"type": ["object", "null"]},
+    "sheet_at_target": {"type": ["object", "null"], "required": ["scale", "support_forward_m", "stock_behind_m", "barrel_m", "receiver_height_m", "basis", "ok"],
+                        "properties": {"scale": {"type": "number", "minimum": 0}, "support_forward_m": {"type": ["number", "null"]},
+                                       "stock_behind_m": {"type": "number"}, "barrel_m": {"type": ["number", "null"]},
+                                       "receiver_height_m": {"type": ["number", "null"]}, "basis": {"type": "string"}, "ok": {"type": "object"}}}
+   }
+  },
+  "sight": {
+   "type": "object", "required": ["present", "kind", "window", "source", "modular", "mount_side", "labels", "parts", "bounds_m", "anchor"],
+   "properties": {
+    "present": {"type": "boolean"},
+    "kind": {"enum": ["iron", "reflex", "holo", "scope", "energy", "pin", null]},
+    "type": {"description": "claude-0.5.2, optional: Typ des Visiertypen-Blatts (kind folgt daraus)",
+             "enum": ["standard", "holo", "precision", "reflex", "sniper", "machine", "energy", "trace", "rocket", "iron", "pin", null]},
+    "type_source": {"type": "string"},
+    "frame": {"description": "claude-0.5.2, optional: Rahmen-Variante", "enum": ["standard", "compact", "open", "closed", "industrial", "lightweight", null]},
+    "frame_source": {"type": "string"},
+    "window": {"enum": ["none", "open", "glass", "lens", null]},
+    "mount_side": {"enum": ["top", "left", "right", null]},
+    "labels": {"type": "array", "items": {"type": "string"}},
+    "parts": {"type": "array", "items": {"type": "string"}},
+    "window_geometry": {"description": "claude-0.5, optional: Fensterelemente des Visiers oder null (Grund in window_geometry_note)",
+                        "type": ["object", "null"], "required": ["elements", "source"],
+                        "properties": {"elements": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/windowElement"}}, "source": {"type": "string"}}},
+    "window_geometry_note": {"type": ["string", "null"]},
+    "iron": {"description": "claude-0.17.1, optional (feste Kimme/Korn, KG01): Teile, Maße in m und Visierlinie; Beschreibung in weapon-spec.md › Kimme und Korn",
+             "type": "object", "required": ["rear_parts", "front_parts", "notch_posts", "rear_width_m", "notch_width_m", "notch_depth_m", "rear_height_m", "front_width_m", "front_height_m", "sight_line", "ads_target", "rides"],
+             "properties": {"rear_parts": {"type": "array", "items": {"$ref": "#/$defs/partId"}}, "front_parts": {"type": "array", "items": {"$ref": "#/$defs/partId"}},
+                            "notch_posts": {"type": "array", "items": {"$ref": "#/$defs/partId"}, "minItems": 2, "maxItems": 2},
+                            "rear_width_m": {"type": "number", "minimum": 0}, "notch_width_m": {"type": "number", "minimum": 0}, "notch_depth_m": {"type": "number", "minimum": 0},
+                            "rear_height_m": {"type": "number", "minimum": 0}, "front_width_m": {"type": "number", "minimum": 0}, "front_height_m": {"type": "number", "minimum": 0},
+                            "sight_line": {"type": "object", "required": ["rear_anchor", "front_anchor", "parallel_to_muzzle_axis", "height_above_muzzle_axis_m", "length_m", "rule"],
+                                           "properties": {"rear_anchor": {"const": "Socket_Sight"}, "front_anchor": {"const": "Socket_FrontSight"}, "parallel_to_muzzle_axis": {"const": true},
+                                                          "height_above_muzzle_axis_m": {"type": "number"}, "length_m": {"type": "number", "minimum": 0}, "rule": {"type": "string"}}},
+                            "ads_target": {"type": "string"}, "rides": {"enum": ["slide"]}, "rides_note": {"type": "string"}}},
+    "sight_spec": {"description": "claude-0.7, optional (Waffen 1–9): Standardvisier der Visier-Serie, Verweis auf VSnn.spec.json und Lage auf der Waffe",
+     "type": "object",
+     "required": ["id", "file", "format", "mount", "riser_m", "socket_mount_m", "socket_reticle_m", "socket_eye_m", "line_height_m", "rail", "line_clear_of_weapon", "blocked_by", "replaced"],
+     "properties": {
+      "id": {"type": "string", "pattern": "^VS0[1-9]$"}, "file": {"type": "string", "pattern": "^VS0[1-9]\\.spec\\.json$"},
+      "format": {"const": "cubeescape-design/sight-spec"}, "variant": {"type": "string"}, "mount": {"type": "string"},
+      "riser_m": {"type": "number", "minimum": 0},
+      "socket_mount_m": {"$ref": "#/$defs/vec3"}, "socket_reticle_m": {"$ref": "#/$defs/vec3"}, "socket_eye_m": {"$ref": "#/$defs/vec3OrNull"},
+      "line_height_m": {"type": "number", "minimum": 0},
+      "rail": {"type": "object", "required": ["part", "added", "seat"],
+               "properties": {"part": {"$ref": "#/$defs/partId"}, "added": {"type": "boolean"}, "seat": {"type": "string"}}},
+      "line_clear_of_weapon": {"type": "boolean"}, "blocked_by": {"type": "array", "items": {"type": "string"}},
+      "replaced": {"type": "array", "items": {"type": "string"}}}}
+   }
+  },
+  "decals": {
+   "type": "array",
+   "items": {
+    "type": "object", "required": ["part", "channel", "surface", "emissive", "color", "area_m2", "bounds_m"],
+    "properties": {
+     "part": {"type": "string", "pattern": "^p[0-9]{2,3}$"},
+     "channel": {"$ref": "#/$defs/channel"},
+     "surface": {"enum": ["left", "right", "front", "back", "top", "bottom"]},
+     "emissive": {"type": "boolean"},
+     "color": {"$ref": "#/$defs/hex"},
+     "area_m2": {"type": "number", "minimum": 0},
+     "bounds_m": {"$ref": "#/$defs/bounds"}
+    }
+   }
+  },
+  "textures": {
+   "type": "object", "required": ["source", "vocabulary", "painted", "brushed", "rubber", "matte", "lit"],
+   "properties": {"catalog": {"description": "claude-0.8, optional: Texturkatalog docs/textures/catalog.json (file, format, format_version, claude_version, sha256_claude_parts, ids)", "type": "object"}}
+  },
+  "texture_profile": {
+   "description": "claude-0.8, optional (nicht beim Bogen): Texturprofil des Waffentyps aus dem Textur-Blatt des Nutzers; weapon-spec.md › Texturprofil",
+   "type": "object", "required": ["housing", "metal", "rubber", "energy", "edge_wear", "decals", "source"],
+   "properties": {"edge_wear": {"type": "object", "required": ["level"], "properties": {"level": {"enum": ["subtle", "medium", "strong"]}}},
+                  "decals": {"type": "object", "required": ["toolgen"], "properties": {"toolgen": {"type": "array", "items": {"type": "string"}, "minItems": 1}}},
+                  "derived_from": {"description": "claude-0.10, neue Typen: Toolgen-Typ, von dem das vorgeschlagene Profil abgeleitet ist (nicht im Textur-Blatt)", "type": "string"}}
+  },
+  "operation": {
+   "description": "claude-0.10 (neue Waffentypen), ab claude-0.11 in allen Waffen-Specs: Bedienung wie im Blattfeld BEDIENUNG; weapon-spec.md › Bedienung",
+   "type": "object", "required": ["reload", "action", "fire", "ammo_class", "source"],
+   "properties": {"reload": {"$ref": "#/$defs/text2"}, "action": {"$ref": "#/$defs/text2"}, "fire": {"$ref": "#/$defs/text2"},
+                  "ammo_class": {"enum": ["primary", "special", "heavy"]}, "source": {"type": "string"}}
+  },
+  "skin": {
+   "description": "claude-0.3, optional (ältere Specs ohne): fünf Skins je Waffe, der erste ist der Hauptskin des Blatts; Beschreibung in weapon-spec.md › Skins",
+   "type": "object", "required": ["source", "hero", "catalog", "slots", "finishes", "space", "vocabulary", "new_pattern_types", "items"],
+   "properties": {"hero": {"type": "string"}, "catalog": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+                  "items": {"type": "array", "items": {"$ref": "#/$defs/skin"}, "minItems": 5, "maxItems": 5}}
+  },
+  "summary": {"type": "object", "required": ["parts", "parts_explicit_channel", "decals", "channels_with_other_colors"]}
+ }
+}

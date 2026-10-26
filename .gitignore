@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+out/views/
+out/sheets/
+out/previews/
+out/geo/
+out/index.html
+out/manifest.json
+out/dummy/
+out/geometry/
+release/
+out/fonts/
+out/.locks/

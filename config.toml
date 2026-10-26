@@ -1,0 +1,8 @@
+[project]
+version = "0.1.0"
+name = "Contour"
+[render]
+bg = "mid"
+width = 960
+height = 640
+supersampling = 2

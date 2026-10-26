@@ -1,0 +1,19 @@
+{
+  "name": "formgenv2",
+  "version": {
+    "file": "formgen/__init__.py",
+    "pattern": "__version__ = \"([0-9.]+)\""
+  },
+  "check": {
+    "quick": [
+      [
+        ".venv/bin/python",
+        "check"
+      ]
+    ]
+  },
+  "tools_version": {
+    "version": "0.22.0",
+    "commit": "9f1ed12072c8807d3cd0b26370e792bd4249f762"
+  }
+}

@@ -1,0 +1,238 @@
+# Spiegel von ballon basic/kit.py, SHA256 3a75f557bb3ad5328fe16e479654006cb99e4cdc21d22c5d6c9b8f51e60ec2a3
+
+[roles.shell]
+color = "#D8CCB4"
+rough = 0.55
+metal = 0.0
+de = "Lackiertes Gehäuse (Creme)"
+
+[roles.graphite]
+color = "#2C2E33"
+rough = 0.75
+metal = 0.0
+de = "Griffpolymer / Graphit"
+aaa_color = "#141518"
+spec = 0.25
+
+[roles.metal]
+color = "#8C9198"
+rough = 0.38
+metal = 0.85
+de = "Funktionsmetall"
+
+[roles.dark_metal]
+color = "#4A4E55"
+rough = 0.45
+metal = 0.8
+de = "Brüniertes Metall"
+
+[roles.accent]
+color = "#E0651E"
+rough = 0.5
+metal = 0.0
+de = "Akzent Orange (Bedienelement)"
+
+[roles.energy]
+color = "#5FD3E0"
+rough = 0.3
+metal = 0.0
+emit = 3.0
+de = "Energieanzeige (leuchtend)"
+
+[roles.glass]
+color = "#BFE3EA"
+rough = 0.0
+metal = 0.0
+alpha = 0.12
+de = "Visierglas"
+
+[roles.glass_dust]
+color = "#BFE3EA"
+rough = 0.0
+metal = 0.0
+alpha = 0.12
+glass_fx = ["dust"]
+de = "Visierglas mit Staubkörnern"
+
+[roles.glass_scratch]
+color = "#BFE3EA"
+rough = 0.0
+metal = 0.0
+alpha = 0.12
+glass_fx = ["scratch"]
+de = "Visierglas mit feinen Kratzern"
+
+[roles.glass_crack]
+color = "#BFE3EA"
+rough = 0.0
+metal = 0.0
+alpha = 0.12
+glass_fx = ["crack"]
+de = "Visierglas mit Riss in der Ecke"
+
+[roles.glass_cells]
+color = "#BFE3EA"
+rough = 0.0
+metal = 0.0
+alpha = 0.12
+glass_fx = ["cells"]
+de = "Visierglas mit Zellvergütung"
+
+[roles.glass_scope]
+color = "#BFE3EA"
+rough = 0.0
+metal = 0.0
+alpha = 0.12
+no_coat = true
+de = "Linse im Zielfernrohr (ohne Klarlack-Spiegelung)"
+
+[roles.glass_worn]
+color = "#BFE3EA"
+rough = 0.0
+metal = 0.0
+alpha = 0.12
+glass_fx = ["dust", "scratch"]
+de = "Visierglas benutzt"
+
+[roles.string]
+color = "#1E2024"
+rough = 0.6
+metal = 0.0
+de = "Sehne"
+
+[roles.rubber]
+color = "#1A1B1E"
+rough = 0.85
+metal = 0.0
+de = "Gummi mit Stippling"
+aaa_color = "#111214"
+spec = 0.2
+
+[roles.trim]
+color = "#C9CDD2"
+rough = 0.22
+metal = 1.0
+de = "Blanke Zierkante"
+aniso = 0.6
+
+[roles.anodized]
+color = "#202227"
+rough = 0.4
+metal = 0.6
+de = "Schwarz eloxiert"
+
+[roles.brass]
+color = "#B8913E"
+rough = 0.3
+metal = 1.0
+de = "Messing (Patronen)"
+
+[roles.decal]
+color = "#ECE8DF"
+rough = 0.5
+metal = 0.0
+de = "Markierung hell"
+
+[roles.reticle_cyan]
+color = "#5FD3E0"
+rough = 0.3
+metal = 0.0
+emit = 0.6
+emit_only = true
+de = "Absehen Cyan"
+
+[roles.reticle_red]
+color = "#FF3D2E"
+rough = 0.3
+metal = 0.0
+emit = 0.6
+emit_only = true
+de = "Absehen Rot"
+
+[roles.reticle_green]
+color = "#38E06E"
+rough = 0.3
+metal = 0.0
+emit = 0.6
+emit_only = true
+de = "Absehen Grün"
+
+[roles.reticle_amber]
+color = "#FFB01F"
+rough = 0.3
+metal = 0.0
+emit = 0.6
+emit_only = true
+de = "Absehen Bernstein"
+
+[roles.reticle_white]
+color = "#EEF2F5"
+rough = 0.3
+metal = 0.0
+emit = 0.5
+emit_only = true
+de = "Absehen Weiß"
+
+[skins.standard]
+de = "Standard"
+kind = "Farbe"
+[skins.standard.roles]
+
+[skins.nacht]
+de = "Nachtschicht"
+kind = "Farbe"
+wear = 1.4
+[skins.nacht.roles]
+shell = "#2B2E34"
+graphite = "#111214"
+
+[skins.polar]
+de = "Polar"
+kind = "Farbe"
+wear = 0.6
+[skins.polar.roles]
+shell = "#E8EBEE"
+graphite = "#59606A"
+anodized = "#8F959D"
+accent = "#2FA9BC"
+
+[skins.kobalt]
+de = "Kobalt"
+kind = "Farbe"
+[skins.kobalt.roles]
+shell = "#26385A"
+graphite = "#14161A"
+
+[skins.wueste]
+de = "Wüste"
+kind = "Farbe"
+[skins.wueste.roles]
+shell = "#B8A27E"
+graphite = "#3F4034"
+accent = "#B8452A"
+
+[skins.tarnung]
+de = "Tarnung"
+kind = "Textur"
+pattern = ["#6F7360", "#B8AE90", "#3E4235"]
+[skins.tarnung.roles]
+graphite = "#2B2D27"
+
+[skins.gebraucht]
+de = "Gebraucht"
+kind = "Textur"
+wear = 3.2
+grime = 2.2
+[skins.gebraucht.roles]
+shell = "#CBBFA4"
+
+[skins.eloxal]
+de = "Eloxal"
+kind = "Textur"
+metal_shell = true
+[skins.eloxal.roles]
+shell = "#5B6876"
+
+[render]
+background_mid = "#808080"
+outline = "#17191D"

@@ -1,0 +1,9 @@
+{
+  "ballon": {
+    "basic/pilot/w01_auto_rifle_v21.py": "17aba49fd9c4222ad38c33f2a98d5175376da4b30a142aadb6fc7633f081cad8",
+    "basic/weapons/w01_auto_rifle.py": "e8fff7faa7e8377e00e1973467dc542aa47b0dd38cbd2fa5e53bcdc2519acd3d",
+    "basic/common.py": "5031f28231f7ff174b574e7be205485e16a20098df5781e276fa00e6ffe59ead",
+    "basic/reticles.py": "ec1f378207874546a99958d2c365d131b1f1ac9887e884df46ec8b94b3de18c0",
+    "basic/kit.py": "3a75f557bb3ad5328fe16e479654006cb99e4cdc21d22c5d6c9b8f51e60ec2a3"
+  }
+}

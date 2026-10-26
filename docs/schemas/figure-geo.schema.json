@@ -1,0 +1,540 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cubeescape-formgen/figure-geo/1",
+  "title": "Formgen figure-geo 1",
+  "type": "object",
+  "required": [
+    "format",
+    "format_version",
+    "generator",
+    "figure",
+    "source",
+    "units",
+    "axes",
+    "origin",
+    "parts",
+    "assemblies",
+    "anchors",
+    "poses",
+    "counts"
+  ],
+  "properties": {
+    "format": {
+      "const": "cubeescape-formgen/figure-geo"
+    },
+    "format_version": {
+      "const": 1
+    },
+    "figure": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "figure"
+        }
+      }
+    },
+    "origin": {
+      "const": "author_origin"
+    },
+    "units": {
+      "type": "object",
+      "required": [
+        "length"
+      ],
+      "properties": {
+        "length": {
+          "const": "m"
+        }
+      }
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "assembly",
+          "role",
+          "mesh",
+          "bounds_m"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assembly": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "mesh": {
+            "type": "object",
+            "required": [
+              "vertices",
+              "faces",
+              "hard"
+            ],
+            "properties": {
+              "vertices": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/vec3"
+                },
+                "minItems": 3
+              },
+              "faces": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "minItems": 3
+                },
+                "minItems": 1
+              },
+              "hard": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    0,
+                    1
+                  ]
+                }
+              }
+            }
+          },
+          "bounds_m": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/vec3"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "figure_spec",
+        "model"
+      ],
+      "properties": {
+        "figure_spec": {
+          "type": "object",
+          "required": [
+            "file",
+            "format",
+            "format_version",
+            "sha256"
+          ],
+          "properties": {
+            "format": {
+              "const": "cubeescape-formgen/figure-spec"
+            },
+            "format_version": {
+              "const": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "assemblies": {
+      "type": "array",
+      "minItems": 1
+    },
+    "anchors": {
+      "type": "object"
+    },
+    "poses": {
+      "type": "object"
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "parts",
+        "vertices",
+        "faces",
+        "triangles",
+        "decals",
+        "dropped_faces",
+        "normal_fixes"
+      ],
+      "properties": {
+        "parts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "triangles": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dropped_faces": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "normal_fixes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$defs": {
+    "vec2": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "vec3": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "vec3OrNull": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "number"
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "bounds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/vec3"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "partId": {
+      "type": "string",
+      "pattern": "^[pg][0-9]{2,}$"
+    },
+    "partIdOrNull": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[pg][0-9]{2,}$"
+    },
+    "channel": {
+      "enum": [
+        "MT_Primary",
+        "MT_Secondary",
+        "MT_Accent",
+        "MT_Metal",
+        "MT_Energy",
+        "MT_Emission",
+        "MT_Detail"
+      ]
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-F]{6}$"
+    },
+    "axis": {
+      "enum": [
+        "X",
+        "Y",
+        "Z"
+      ]
+    },
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "mesh": {
+      "type": "object",
+      "required": [
+        "vertices",
+        "faces",
+        "hard"
+      ],
+      "properties": {
+        "vertices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/vec3"
+          },
+          "minItems": 3
+        },
+        "faces": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "minItems": 3
+          },
+          "minItems": 1
+        },
+        "hard": {
+          "type": "array",
+          "items": {
+            "enum": [
+              0,
+              1
+            ]
+          }
+        }
+      }
+    },
+    "primitive": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "type",
+        "axis"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "prism",
+            "cylinder",
+            "cone"
+          ]
+        },
+        "axis": {
+          "$ref": "#/$defs/axis"
+        },
+        "profile_axes": {
+          "enum": [
+            "XY",
+            "XZ",
+            "YZ"
+          ]
+        },
+        "profile_m": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/vec2"
+          },
+          "minItems": 3
+        },
+        "range_m": {
+          "$ref": "#/$defs/vec2"
+        },
+        "smooth_sides": {
+          "type": "boolean"
+        },
+        "start_m": {
+          "$ref": "#/$defs/vec3"
+        },
+        "end_m": {
+          "$ref": "#/$defs/vec3"
+        },
+        "radius_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "radius_start_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "radius_end_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "segments": {
+          "type": "integer",
+          "minimum": 3
+        },
+        "first_vertex_m": {
+          "$ref": "#/$defs/vec3"
+        }
+      }
+    },
+    "part": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "label",
+        "channel",
+        "material",
+        "toolgen_material",
+        "texture",
+        "color",
+        "emissive",
+        "glass",
+        "sight",
+        "moving",
+        "bounds_m",
+        "primitive",
+        "mesh"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/partId"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^SM_PG_[A-Za-z0-9]+_[pg][0-9]{2,}$"
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "channel": {
+          "$ref": "#/$defs/channel"
+        },
+        "material": {
+          "type": "string"
+        },
+        "toolgen_material": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "texture": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "color": {
+          "$ref": "#/$defs/hex"
+        },
+        "emissive": {
+          "type": "boolean"
+        },
+        "glass": {
+          "type": "boolean"
+        },
+        "sight": {
+          "type": "boolean"
+        },
+        "moving": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "kind",
+            "toolgen_node"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "toolgen_node": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "bounds_m": {
+          "$ref": "#/$defs/bounds"
+        },
+        "primitive": {
+          "$ref": "#/$defs/primitive"
+        },
+        "mesh": {
+          "$ref": "#/$defs/mesh"
+        }
+      }
+    },
+    "decal": {
+      "type": "object",
+      "required": [
+        "part",
+        "surface",
+        "normal",
+        "channel",
+        "color",
+        "emissive",
+        "polygon_m"
+      ],
+      "properties": {
+        "part": {
+          "$ref": "#/$defs/partId"
+        },
+        "surface": {
+          "enum": [
+            "left",
+            "right",
+            "front",
+            "back",
+            "top",
+            "bottom"
+          ]
+        },
+        "normal": {
+          "$ref": "#/$defs/vec3"
+        },
+        "channel": {
+          "$ref": "#/$defs/channel"
+        },
+        "color": {
+          "$ref": "#/$defs/hex"
+        },
+        "emissive": {
+          "type": "boolean"
+        },
+        "polygon_m": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/vec3"
+          },
+          "minItems": 3
+        }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "required": [
+        "position_m",
+        "part",
+        "source"
+      ],
+      "properties": {
+        "position_m": {
+          "$ref": "#/$defs/vec3OrNull"
+        },
+        "part": {
+          "$ref": "#/$defs/partIdOrNull"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

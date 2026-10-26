@@ -1,0 +1,431 @@
+{
+ "format": "cubeescape-design/sight-spec",
+ "format_version": 2,
+ "generator": {
+  "repo": "cubeescape-design",
+  "tool": "claude/generator/export_sight.py",
+  "claude_version": "0.6",
+  "model": "claude/generator/vsmodels.py"
+ },
+ "sheet": {
+  "id": "VS02",
+  "file": "VS02.dc.html",
+  "series": "VS",
+  "series_name_de": "Visier-Serie",
+  "number": "02"
+ },
+ "weapon": {
+  "number": 2,
+  "name_de": "Sturmgewehr",
+  "toolgen_id": "assault_rifle",
+  "weapon_spec": {
+   "format": "cubeescape-design/weapon-spec",
+   "match": "weapon.toolgen_id",
+   "sheets": [
+    "KC02",
+    "KD02",
+    "KF02",
+    "KG02",
+    "KH02",
+    "KJ02"
+   ],
+   "mount": "Socket_Mount dieses Specs liegt auf Socket_Sight des Waffen-Specs"
+  }
+ },
+ "sight": {
+  "type": "holo",
+  "type_de": "Holo-Visier",
+  "kind": "holo",
+  "kind_source": "aus type abgeleitet (export_spec.SIGHT_TYPES, claude-0.5.2)",
+  "window_kind": "glass",
+  "frame": "open",
+  "title_de": "Offenes Holo-Visier",
+  "description_de": "Offenes Holo-Visier: großer Rahmen mit Scheibe vorn, beidseitig offen, Projektor hinten im Gehäuse, Batteriefach oben.",
+  "modular": true
+ },
+ "axes": {
+  "model": {
+   "x": "vorn (Blick)",
+   "y": "unten",
+   "z": "links",
+   "unit": "mm"
+  },
+  "target": {
+   "system": "Blender",
+   "forward": "-Y",
+   "up": "+Z",
+   "left": "+X",
+   "unit": "m"
+  },
+  "matrix_model_to_target": [[0, 0, 1], [-1, 0, 0], [0, -1, 0]],
+  "model_unit_m": 0.001,
+  "origin": "Socket_Mount",
+  "formula": "p_m = model_unit_m * M · (p_model − Socket_Mount.model)"
+ },
+ "dimensions_m": {
+  "length": 0.057,
+  "height": 0.051,
+  "width": 0.039,
+  "bounds_m": [
+   [-0.0195, -0.028, -0.003],
+   [0.0195, 0.029, 0.048]
+  ],
+  "line_height_m": 0.031
+ },
+ "window": {
+  "shape": "rect",
+  "width_m": 0.034,
+  "height_m": 0.029,
+  "corner_radius_m": 0.003,
+  "center_m": [0.0, -0.018, 0.031],
+  "rear_edge_y_m": -0.005,
+  "front_edge_y_m": -0.021,
+  "view_axis_m": [0.0, -1.0, 0.0],
+  "free": true,
+  "aperture": {
+   "rays": 3795,
+   "blocked_by": [],
+   "step_m": 0.0005,
+   "margin_m": 0.0003,
+   "rule": "Strahlen parallel zur Visierlinie im Raster 0,5 mm in der freien Öffnung (Röhre: Bohrung), Rand 0,3 mm; kein undurchsichtiges Teil darf einen schneiden"
+  },
+  "note": "Maße = freie Öffnung (Innenkante Rahmen bzw. Leuchtrahmen); Röhre: Objektiv-Öffnung, die engste Stelle ist tube.bore_radius_m"
+ },
+ "frame": {
+  "type": "open",
+  "name_de": "Offen",
+  "parts": [
+   "g04"
+  ],
+  "outer_width_m": 0.039,
+  "outer_height_m": 0.034,
+  "depth_m": 0.016
+ },
+ "glass_tint": [0.2747, 0.3813, 0.4793, 0.2],
+ "glass": {
+  "id": "light",
+  "name_de": "Leicht getönt",
+  "srgb": "#8FA6B8",
+  "alpha": 0.2,
+  "space": "glass_tint: RGB linear (aus sRGB), A = Deckkraft im Spiel",
+  "parts": [
+   "g05"
+  ],
+  "catalog": {
+   "clear": {
+    "name_de": "Klar",
+    "srgb": "#E4EEF5",
+    "rgba_linear": [0.7758, 0.855, 0.9131, 0.08]
+   },
+   "light": {
+    "name_de": "Leicht getönt",
+    "srgb": "#8FA6B8",
+    "rgba_linear": [0.2747, 0.3813, 0.4793, 0.2]
+   },
+   "blue": {
+    "name_de": "Blau",
+    "srgb": "#3D9BEA",
+    "rgba_linear": [0.0467, 0.3278, 0.8228, 0.28]
+   },
+   "orange": {
+    "name_de": "Orange",
+    "srgb": "#F2A33A",
+    "rgba_linear": [0.8879, 0.3663, 0.0423, 0.28]
+   },
+   "red": {
+    "name_de": "Rot",
+    "srgb": "#E8463E",
+    "rgba_linear": [0.807, 0.0612, 0.0482, 0.26]
+   },
+   "green": {
+    "name_de": "Grün",
+    "srgb": "#3FC37A",
+    "rgba_linear": [0.0497, 0.5457, 0.1946, 0.26]
+   },
+   "purple": {
+    "name_de": "Lila",
+    "srgb": "#9B5CF0",
+    "rgba_linear": [0.3278, 0.107, 0.8714, 0.3]
+   },
+   "mirror": {
+    "name_de": "Gespiegelt",
+    "srgb": "#C3D2E0",
+    "rgba_linear": [0.5457, 0.6445, 0.7454, 0.55]
+   }
+  }
+ },
+ "tube": null,
+ "module": null,
+ "anchors": {
+  "Socket_Mount": {
+   "position_m": [0.0, 0.0, 0.0],
+   "source": "Unterkante der Halterung, Mitte in Länge und Breite = Ursprung; liegt auf Socket_Sight des Waffen-Specs (Oberkante der Visierschiene)",
+   "local_forward": "+Z",
+   "local_up": "+Y",
+   "forward": [0.0, -1.0, 0.0],
+   "up": [0.0, 0.0, 1.0],
+   "rotation_euler_deg": [90.0, 0.0, 0.0],
+   "rotation_space": "Blender (lokale Achsen des Empties vor dem Export)",
+   "note": "Verbindlich sind forward/up im Weltrahmen (Blender). Die Drehung gilt nur in Blender: der glTF-Export dreht die Achsen, in Unity entspricht „Blick +Z, +Y oben“ (Cube Escape Socket_Sight) dann der Identität. Toolgen: Anker-Drehung ist kein Vertrag, die Position schon"
+  },
+  "Socket_Sight": {
+   "position_m": [0.0, -0.005, 0.031],
+   "source": "hinterer Fensterrand auf der Visierlinie (Hinterkante des Rahmens)",
+   "local_forward": "+Z",
+   "local_up": "+Y",
+   "forward": [0.0, -1.0, 0.0],
+   "up": [0.0, 0.0, 1.0],
+   "rotation_euler_deg": [90.0, 0.0, 0.0],
+   "rotation_space": "Blender (lokale Achsen des Empties vor dem Export)",
+   "note": "Verbindlich sind forward/up im Weltrahmen (Blender). Die Drehung gilt nur in Blender: der glTF-Export dreht die Achsen, in Unity entspricht „Blick +Z, +Y oben“ (Cube Escape Socket_Sight) dann der Identität. Toolgen: Anker-Drehung ist kein Vertrag, die Position schon"
+  },
+  "Socket_Reticle": {
+   "position_m": [0.0, -0.018, 0.031],
+   "source": "Glasmitte auf der Visierlinie; Cube Escape zeichnet hier das Fadenkreuz",
+   "local_forward": "+Z",
+   "local_up": "+Y",
+   "forward": [0.0, -1.0, 0.0],
+   "up": [0.0, 0.0, 1.0],
+   "rotation_euler_deg": [90.0, 0.0, 0.0],
+   "rotation_space": "Blender (lokale Achsen des Empties vor dem Export)",
+   "note": "Verbindlich sind forward/up im Weltrahmen (Blender). Die Drehung gilt nur in Blender: der glTF-Export dreht die Achsen, in Unity entspricht „Blick +Z, +Y oben“ (Cube Escape Socket_Sight) dann der Identität. Toolgen: Anker-Drehung ist kein Vertrag, die Position schon"
+  },
+  "Socket_Eye": null
+ },
+ "sight_line": {
+  "start_m": [0.0, 0.03, 0.031],
+  "end_m": [0.0, -0.029, 0.031],
+  "clear": true,
+  "blocked_by": [],
+  "glass_crossed": [
+   "g05"
+  ],
+  "rule": "Visierlinie entlang −Y durch Socket_Sight und Socket_Reticle; keine Fläche außer Glas schneidet sie (alle Flächen geprüft, Newell-Normale)"
+ },
+ "window_geometry": {
+  "elements": [
+   {
+    "type": "part",
+    "decal": null,
+    "part": "g05",
+    "emissive": false,
+    "view_axis_m": [0.0, -1.0, 0.0],
+    "center_m": [0.0, -0.018, 0.031]
+   }
+  ],
+  "source": "Glasscheiben als Funktionsfläche (spec_checks.window_problems, Cubegen docs/DEVELOPER.md 9.17)"
+ },
+ "parts": [
+  {
+   "id": "g00",
+   "label": "Halterung",
+   "channel": "MT_Metal",
+   "material": "brushed",
+   "toolgen_material": "brushed",
+   "emissive": false,
+   "glass": false,
+   "color": "#6B7179",
+   "area_m2": 0.003905,
+   "bounds_m": [
+    [-0.011, -0.024, -0.003],
+    [0.011, 0.024, 0.006]
+   ]
+  },
+  {
+   "id": "g01",
+   "label": "Klemmschraube",
+   "channel": "MT_Accent",
+   "material": "painted",
+   "toolgen_material": "painted",
+   "emissive": false,
+   "glass": false,
+   "color": "#F28C28",
+   "area_m2": 7.4e-05,
+   "bounds_m": [
+    [0.011, -0.0024, 0.0002],
+    [0.0136, 0.0024, 0.005]
+   ]
+  },
+  {
+   "id": "g02",
+   "label": "Gehäuse",
+   "channel": "MT_Secondary",
+   "material": "painted",
+   "toolgen_material": "painted",
+   "emissive": false,
+   "glass": false,
+   "color": "#2B2E33",
+   "area_m2": 0.003899,
+   "bounds_m": [
+    [-0.012, -0.028, 0.006],
+    [0.012, 0.029, 0.014]
+   ]
+  },
+  {
+   "id": "g03",
+   "label": "Abdeckung",
+   "channel": "MT_Primary",
+   "material": "painted",
+   "toolgen_material": "painted",
+   "emissive": false,
+   "glass": false,
+   "color": "#ECE6DA",
+   "area_m2": 0.001213,
+   "bounds_m": [
+    [-0.0133, 0.004, 0.0075],
+    [0.0133, 0.028, 0.0155]
+   ]
+  },
+  {
+   "id": "g04",
+   "label": "Rahmen",
+   "channel": "MT_Accent",
+   "material": "painted",
+   "toolgen_material": "painted",
+   "emissive": false,
+   "glass": false,
+   "color": "#F28C28",
+   "area_m2": 0.00478,
+   "bounds_m": [
+    [-0.0195, -0.021, 0.014],
+    [0.0195, -0.005, 0.048]
+   ]
+  },
+  {
+   "id": "g05",
+   "label": "Glas",
+   "channel": "MT_Detail",
+   "material": "glass",
+   "toolgen_material": null,
+   "emissive": false,
+   "glass": true,
+   "color": "#8FA6B8",
+   "area_m2": 0.002105,
+   "bounds_m": [
+    [-0.0176, -0.018, 0.0159],
+    [0.0176, -0.018, 0.0461]
+   ]
+  },
+  {
+   "id": "g06",
+   "label": "Emitter",
+   "channel": "MT_Energy",
+   "material": "lit",
+   "toolgen_material": "energy_glass",
+   "emissive": true,
+   "glass": false,
+   "color": "#FF8A2A",
+   "area_m2": 0.00011,
+   "bounds_m": [
+    [-0.003, 0.001, 0.014],
+    [0.003, 0.007, 0.0156]
+   ]
+  },
+  {
+   "id": "g07",
+   "label": "Bedienknopf",
+   "channel": "MT_Accent",
+   "material": "painted",
+   "toolgen_material": "painted",
+   "emissive": false,
+   "glass": false,
+   "color": "#F28C28",
+   "area_m2": 0.000178,
+   "bounds_m": [
+    [-0.008, 0.019, 0.0155],
+    [0.008, 0.026, 0.0163]
+   ]
+  }
+ ],
+ "reticle_variants": [
+  {
+   "id": "circle",
+   "name_de": "Kreis",
+   "default": true
+  },
+  {
+   "id": "circle_cross",
+   "name_de": "Kreis-Kreuz",
+   "default": false
+  },
+  {
+   "id": "chevron",
+   "name_de": "Chevron",
+   "default": false
+  },
+  {
+   "id": "dot",
+   "name_de": "Punkt",
+   "default": false
+  }
+ ],
+ "reticle_color": "#FF8A2A",
+ "reticle_note": "nur Bild auf dem Blatt; das Fadenkreuz zeichnet Cube Escape zur Laufzeit an Socket_Reticle",
+ "variants": [
+  {
+   "id": "base",
+   "name_de": "Basis · Cube Escape",
+   "channels": {
+    "MT_Accent": "#F28C28",
+    "MT_Metal": "#6B7179",
+    "MT_Primary": "#ECE6DA",
+    "MT_Secondary": "#2B2E33"
+   },
+   "glass_tint": "light"
+  },
+  {
+   "id": "arktis",
+   "name_de": "Arktis",
+   "channels": {
+    "MT_Accent": "#22D3EE",
+    "MT_Metal": "#AEBBCA",
+    "MT_Primary": "#F3F6F9",
+    "MT_Secondary": "#3A4452"
+   },
+   "glass_tint": "clear"
+  },
+  {
+   "id": "nacht",
+   "name_de": "Nacht",
+   "channels": {
+    "MT_Accent": "#FF5A36",
+    "MT_Metal": "#2C2F35",
+    "MT_Primary": "#4A4E57",
+    "MT_Secondary": "#141518"
+   },
+   "glass_tint": "green"
+  },
+  {
+   "id": "wueste",
+   "name_de": "Wüste",
+   "channels": {
+    "MT_Accent": "#F2A93B",
+    "MT_Metal": "#917B57",
+    "MT_Primary": "#DCC8A0",
+    "MT_Secondary": "#3B3226"
+   },
+   "glass_tint": "orange"
+  }
+ ],
+ "source": {
+  "images": [
+   "Cube Escape Docs/Images/EquipmentConcepts/weapon_sights_1-9.webp (Visier je Waffe)",
+   "Cube Escape Docs/Images/EquipmentConcepts/sight_types_1-9.webp (Visiertypen)"
+  ],
+  "table": "Cube Escape Docs/EQUIPMENT.md › Visiere je Waffe",
+  "decisions": "claude/docs/ENTSCHEIDUNGEN.md (17.10.2026: Visier-Serie VS01–VS09 ist das Zielbild; Vokabular sight.type/sight.frame; Spurgewehr ohne Röhre; Lenswork-Daten im Sight-Spec)"
+ },
+ "summary": {
+  "parts": 8,
+  "channels": [
+   "MT_Accent",
+   "MT_Detail",
+   "MT_Energy",
+   "MT_Metal",
+   "MT_Primary",
+   "MT_Secondary"
+  ],
+  "glass_parts": 1,
+  "weapon_sheets": 6
+ }
+}

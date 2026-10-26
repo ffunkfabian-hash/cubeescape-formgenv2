@@ -1,0 +1,140 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "cubeescape-design/geometry-spec/1",
+ "title": "Geometrie-Spec der Konzeptblätter (format_version 1)",
+ "description": "Beschreibung: claude/docs/geometry-spec.md. Erzeugt von claude/generator/export_geo.py; geprüft von claude/generator/test_geo_spec.py (Teilmenge von JSON Schema wie test_spec.validate: type, required, properties, items, enum, const, pattern, minimum, minItems, maxItems, additionalProperties nur, wenn gesetzt). Unbekannte Felder sind erlaubt (Erweiterung innerhalb format_version 1); Indizes, Hüllquader, Anker und Normalen prüft test_geo_spec.py.",
+ "$defs": {
+  "vec2": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+  "vec3": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+  "vec3OrNull": {"type": ["array", "null"], "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+  "bounds": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 2, "maxItems": 2},
+  "partId": {"type": "string", "pattern": "^[pg][0-9]{2,}$"},
+  "partIdOrNull": {"type": ["string", "null"], "pattern": "^[pg][0-9]{2,}$"},
+  "channel": {"enum": ["MT_Primary", "MT_Secondary", "MT_Accent", "MT_Metal", "MT_Energy", "MT_Emission", "MT_Detail"]},
+  "hex": {"type": "string", "pattern": "^#[0-9A-F]{6}$"},
+  "axis": {"enum": ["X", "Y", "Z"]},
+  "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+  "mesh": {
+   "type": "object", "required": ["vertices", "faces", "hard"],
+   "properties": {
+    "vertices": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 3},
+    "faces": {"type": "array", "items": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 3}, "minItems": 1},
+    "hard": {"type": "array", "items": {"enum": [0, 1]}}
+   }
+  },
+  "primitive": {
+   "type": ["object", "null"], "required": ["type", "axis"],
+   "properties": {
+    "type": {"enum": ["prism", "cylinder", "cone"]}, "axis": {"$ref": "#/$defs/axis"},
+    "profile_axes": {"enum": ["XY", "XZ", "YZ"]}, "profile_m": {"type": "array", "items": {"$ref": "#/$defs/vec2"}, "minItems": 3},
+    "range_m": {"$ref": "#/$defs/vec2"}, "smooth_sides": {"type": "boolean"},
+    "start_m": {"$ref": "#/$defs/vec3"}, "end_m": {"$ref": "#/$defs/vec3"}, "radius_m": {"type": "number", "minimum": 0},
+    "radius_start_m": {"type": "number", "minimum": 0}, "radius_end_m": {"type": "number", "minimum": 0},
+    "segments": {"type": "integer", "minimum": 3}, "first_vertex_m": {"$ref": "#/$defs/vec3"}
+   }
+  },
+  "part": {
+   "type": "object",
+   "required": ["id", "name", "label", "channel", "material", "toolgen_material", "texture", "color", "emissive", "glass", "sight", "moving", "bounds_m", "primitive", "mesh"],
+   "properties": {
+    "id": {"$ref": "#/$defs/partId"}, "name": {"type": "string", "pattern": "^SM_PG_[A-Za-z0-9]+_[pg][0-9]{2,}$"},
+    "label": {"type": ["string", "null"]}, "channel": {"$ref": "#/$defs/channel"}, "material": {"type": "string"},
+    "toolgen_material": {"type": ["string", "null"]}, "texture": {"type": ["string", "null"]}, "color": {"$ref": "#/$defs/hex"},
+    "emissive": {"type": "boolean"}, "glass": {"type": "boolean"}, "sight": {"type": "boolean"},
+    "moving": {"type": ["object", "null"], "required": ["kind", "toolgen_node"],
+               "properties": {"kind": {"type": "string"}, "toolgen_node": {"type": ["string", "null"]}}},
+    "bounds_m": {"$ref": "#/$defs/bounds"}, "primitive": {"$ref": "#/$defs/primitive"}, "mesh": {"$ref": "#/$defs/mesh"}
+   }
+  },
+  "decal": {
+   "type": "object", "required": ["part", "surface", "normal", "channel", "color", "emissive", "polygon_m"],
+   "properties": {
+    "part": {"$ref": "#/$defs/partId"}, "surface": {"enum": ["left", "right", "front", "back", "top", "bottom"]},
+    "normal": {"$ref": "#/$defs/vec3"}, "channel": {"$ref": "#/$defs/channel"}, "color": {"$ref": "#/$defs/hex"},
+    "emissive": {"type": "boolean"}, "polygon_m": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 3}
+   }
+  },
+  "anchor": {
+   "type": "object", "required": ["position_m", "part", "source"],
+   "properties": {"position_m": {"$ref": "#/$defs/vec3OrNull"}, "part": {"$ref": "#/$defs/partIdOrNull"}, "source": {"type": "string"}}
+  }
+ },
+ "type": "object",
+ "required": ["format", "format_version", "generator", "sheet", "source", "units", "axes", "origin", "parts", "decals", "grip", "support", "sight", "anchors", "melee", "string", "checks", "counts"],
+ "properties": {
+  "format": {"const": "cubeescape-design/geometry-spec"},
+  "format_version": {"const": 1},
+  "generator": {"type": "object", "required": ["repo", "tool", "claude_version"]},
+  "sheet": {
+   "type": "object", "required": ["id", "kind", "variant", "number", "name_de", "toolgen_id"],
+   "properties": {"id": {"type": "string", "pattern": "^(K[A-Z][0-9]{2}|VS[0-9]{2})$"}, "kind": {"enum": ["weapon", "sight"]},
+                  "variant": {"type": ["string", "null"]}, "toolgen_id": {"type": ["string", "null"]}}
+  },
+  "source": {
+   "type": "object", "required": ["weapon_spec", "sight_spec", "model"],
+   "properties": {
+    "weapon_spec": {"type": ["object", "null"], "required": ["file", "format", "format_version", "sha256"],
+                    "properties": {"sha256": {"$ref": "#/$defs/sha"}, "format": {"const": "cubeescape-design/weapon-spec"}}},
+    "sight_spec": {"type": ["object", "null"], "required": ["file", "sha256"], "properties": {"sha256": {"$ref": "#/$defs/sha"}}}
+   }
+  },
+  "units": {"type": "object", "required": ["length", "digits", "model_unit_m"],
+            "properties": {"length": {"const": "m"}, "digits": {"type": "integer", "minimum": 1}, "model_unit_m": {"type": "number", "minimum": 0}}},
+  "axes": {"type": "object", "required": ["model", "target", "matrix_model_to_target"]},
+  "origin": {"enum": ["Socket_Hand", "Socket_Mount"]},
+  "parts": {"type": "array", "items": {"$ref": "#/$defs/part"}, "minItems": 1},
+  "decals": {"type": "array", "items": {"$ref": "#/$defs/decal"}},
+  "grip": {
+   "type": ["object", "null"], "required": ["part", "grip_axis_m", "grip_tilt_degrees", "trigger_m", "trigger_part", "cross_section_m", "method"],
+   "properties": {"part": {"$ref": "#/$defs/partId"}, "grip_axis_m": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 2, "maxItems": 2},
+                  "grip_tilt_degrees": {"type": "number"}, "trigger_m": {"$ref": "#/$defs/vec3OrNull"}, "trigger_part": {"$ref": "#/$defs/partIdOrNull"},
+                  "cross_section_m": {"type": "object", "required": ["depth_m", "width_m"]}}
+  },
+  "support": {
+   "type": ["object", "null"], "required": ["part", "radius_m", "reason"],
+   "properties": {"part": {"$ref": "#/$defs/partIdOrNull"},
+                  "radius_m": {"type": ["object", "null"], "required": ["half_height_m", "half_width_m"],
+                               "properties": {"half_height_m": {"type": "number", "minimum": 0}, "half_width_m": {"type": "number", "minimum": 0}}}}
+  },
+  "sight": {
+   "type": "object", "required": ["present", "kind", "type", "sight_spec", "socket_reticle_m", "socket_eye_m", "eye_radius_m", "parts"],
+   "properties": {"present": {"type": "boolean"}, "kind": {"type": ["string", "null"]}, "socket_mount_m": {"$ref": "#/$defs/vec3OrNull"},
+                  "socket_sight_rear_m": {"$ref": "#/$defs/vec3OrNull"}, "socket_reticle_m": {"$ref": "#/$defs/vec3OrNull"},
+                  "socket_eye_m": {"$ref": "#/$defs/vec3OrNull"}, "eye_radius_m": {"type": ["number", "null"], "minimum": 0},
+                  "parts": {"type": "array", "items": {"$ref": "#/$defs/partId"}}}
+  },
+  "anchors": {"type": "object", "required": ["Socket_Reticle", "Socket_Eye"]},
+  "surface": {
+   "type": ["object", "null"], "required": ["texture_profile", "wear"],
+   "properties": {"texture_profile": {"type": ["object", "null"]},
+                  "wear": {"type": ["object", "null"], "required": ["level", "width_m", "coverage", "cell_m", "bare_metal"],
+                           "properties": {"level": {"enum": ["subtle", "medium", "strong"]}, "width_m": {"type": "number", "minimum": 0},
+                                          "coverage": {"type": "number", "minimum": 0}, "cell_m": {"type": "number", "minimum": 0},
+                                          "bare_metal": {"$ref": "#/$defs/hex"}}}}
+  },
+  "melee": {"type": "null"},
+  "string": {
+   "type": ["object", "null"], "required": ["present"],
+   "properties": {"present": {"type": "boolean"}, "kind": {"enum": ["bow", "crossbow"]}, "span_axis": {"$ref": "#/$defs/axis"},
+                  "limb_tips_m": {"type": "array", "items": {"$ref": "#/$defs/vec3"}, "minItems": 2, "maxItems": 2},
+                  "limb_tip_parts": {"type": "array", "items": {"$ref": "#/$defs/partIdOrNull"}, "minItems": 2, "maxItems": 2},
+                  "nock_m": {"$ref": "#/$defs/vec3"}, "nock_source": {"type": "string"},
+                  "arrow_axis": {"type": "object", "required": ["part", "direction", "source"], "properties": {"direction": {"$ref": "#/$defs/vec3"}}},
+                  "arrow_rest_m": {"$ref": "#/$defs/vec3"}, "nock_behind_hand_m": {"type": "number"}, "string_length_m": {"type": "number", "minimum": 0},
+                  "string_parts": {"type": "array", "items": {"$ref": "#/$defs/partId"}, "minItems": 1},
+                  "limb_parts": {"type": "array", "items": {"$ref": "#/$defs/partId"}}, "riser_parts": {"type": "array", "items": {"$ref": "#/$defs/partId"}}}
+  },
+  "checks": {
+   "type": "object", "required": ["coplanar", "coplanar_rule"],
+   "properties": {"coplanar": {"type": "array", "items": {"type": "object", "required": ["parts", "distance_m", "overlap_m2", "normal", "faces", "same_look"],
+                  "properties": {"parts": {"type": "array", "items": {"$ref": "#/$defs/partId"}, "minItems": 2, "maxItems": 2},
+                                 "distance_m": {"type": "number", "minimum": 0}, "overlap_m2": {"type": "number", "minimum": 0},
+                                 "normal": {"$ref": "#/$defs/vec3"}, "faces": {"type": "integer", "minimum": 1}, "same_look": {"type": "boolean"}}}}}
+  },
+  "counts": {
+   "type": "object", "required": ["parts", "vertices", "faces", "triangles", "decals", "dropped_faces", "normal_fixes"],
+   "properties": {"parts": {"type": "integer", "minimum": 1}, "triangles": {"type": "integer", "minimum": 1}, "dropped_faces": {"type": "integer", "minimum": 0},
+                  "normal_fixes": {"type": "integer", "minimum": 0}}
+  }
+ }
+}
