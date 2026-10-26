@@ -1,131 +1,131 @@
-# Frische Sitzung: Formgen v2 fertigstellen
+# Frische Sitzung: Contour fertigstellen
 
-**Nicht fertig.** Dies ist die verbindliche Übergabe eines lokal geprüften
-technischen Zwischenstands, kein freigegebenes Modell. Ohne Verlauf/Fork starten.
+**Nicht fertig. Frisch ohne Verlauf/Fork fortsetzen.** Stand26.10.2026,23:24MEZ.
+Der Arbeitsbaum enthält bewusst noch uncommittete, geprüfte Implementierung;
+Git lesen und diese Arbeit erhalten. Nur diese Übergabe/Versionsbericht werden
+als Dokucheckpoint committet, solange der neue Bildbeleg noch aussteht.
 
-## Arbeitsort, Auftrag, Regeln
+## Ort und vollständiger Auftrag
 
-- Repo `/Users/ffunk/Claude/cubeescape-formgenv2`, Branch `codex/formgen-v2-first`.
-  Die Codex-Projektwurzel `/Users/ffunk/formgenv2` ist NICHT das Repo: Befehle
-  ausdrücklich im oben genannten Verzeichnis ausführen.
-- Globale `~/.codex/AGENTS.md`, lokale AGENTS und `docs/auftrag-codex-formgen-v2.md`
-  lesen. Auftrag stammt aus Downloads `auftrag-codex-formgen-v2_1.md`.
-- Neueste globale Nutzerregel: keine neuen Astra-Starts. Sol/high für heikle
-  Kernsysteme, Luna für Routine. Je Baugruppe separater Zuständiger; unabhängiger
-  Agent ohne Implementierung prüft vor jeder Nutzermeldung. Hauptagent committet.
-- Lokale Commits autorisiert. Kein Push/PR/Merge/Release-Upload. Schwestermodelle
-  in Ballon und Formgen v1 ausschließlich lesen. 150 Waffen+9Visiere nur via Geo.
-- Nutzer will das ganze System, nicht nur Geo-Eingang: Python-kit-Modelle,
-  Rasterizer, Blätter, Specs, Prompts, Viewer, Golden, Release und Figuren.
-- Aktuellen Bericht `docs/versions/0.1.md`, Entscheidungen, Lehren und die
-  letzten Git-Commits lesen. Status aus Git/Tests, nicht aus Behauptungen ableiten.
+- Tatsächliches Repo `/Users/ffunk/Claude/cubeescape-formgenv2`, Branch
+  `codex/formgen-v2-first`. App-Projektwurzel `/Users/ffunk/formgenv2` ist falsch.
+- `~/.codex/AGENTS.md`, Repo-AGENTS, `docs/LESSONS.md`, diese Datei,
+  `docs/versions/0.1.md` und vollständigen `docs/auftrag-codex-formgen-v2.md` lesen.
+- Lokaler Codecheckpoint vor dieser Fortsetzung84d8714. Seither WIP-Dateien
+  NIEMALS zurücksetzen oder überschreiben. Kein fremder Schreiber aktiv.
+- Sol/high für große/heikle Geometriearbeit, keine Astra-Starts. Unteragenten
+  gezielt, Baugruppen getrennt; unabhängiger Prüfer ohne Implementierung vor
+  jeder Nutzermeldung. Hauptagent hält Schnittstellen/VERSION/Commits.
+- Lokale Commits autorisiert, kein Push/PR/Merge/Upload. Ballon/v1 nur lesen,
+  159Legacy-Modelle nur Geo, keine alten Modellmodule. Gesamtsystem fertigstellen.
 
-## Unverrückbare Referenzentscheidung
+## Unveränderte Referenzregeln
 
-Originale bytegleich unter `~/Library/Caches/CubeEscapeFormgen/refs/`:
-`robot-ortho-{front,back,side-right,side-left}.png`, tatsächlich4096².
-**Gemeinsamer** Frontmaßstab1924/3653mm/px. Frontkopf223px, rechterSeitenkopf216px,
-linker218px; nur ausrichten, niemals jede Ansicht auf eigene Gesamthöhe strecken.
-Front legt Gelenkhöhen, Standbreite und Fußhöhe fest; Seiten Tiefe/Profil,
-Fußlänge/Zehenform; Rücken Rückenmodul. B nur Schalenstil, Konzeptblatt abgelöst.
-Fußsohlen Front y3876, Seiten kürzer gezeichnet. Knie710mm, Knöchel234mm,
-Hüfte1080mm, Taille1190mm, Schulter1546mm, Ellbogen1275mm, Wrist1028mm,
-Hals1690mm. Restdifferenzen dokumentiert in `docs/herkunft-roboter.md`.
-1924mm ist Entwurfsvorgabe, keine reale Bildvermessung.
-Gelenkringe dunkel, Akzent orange, kein Cyan dort; Emission bisher nur Visier.
+Vier4096²-Orthos in `~/Library/Caches/CubeEscapeFormgen/refs/`, gleicher
+Frontmaßstab1924/3653mm/px und gemeinsame Helmregistrierung. Keine einzelne
+Höhennormalisierung, kein Spiegel-/Maskenfit. Front bestimmt Gelenke/Fußhöhe/
+Standbreite, Seiten Tiefe/Profil, Rücken Rückenmodul. Quellen/Anker in
+`docs/herkunft-roboter.md` und `docs/robot-contract.md`.
+Seitenboden liegt bei gleicher Registrierung49,5/50,6mm über Frontboden;
+Frontpriorität bleibt erhalten. Rückenbeinstellung enger als Front. Nicht
+pauschal mathematische Unmöglichkeit behaupten; theoretischer Maskenkompromiss
+könnte beideIoUs bestehen, ist aber noch keine zulässige Geometrie.
 
-## Aktueller Code und offene Ziele
+## Geprüfte Implementierung im WIP
 
-Alle Module unter `formgen/`. Zentrale Versionskonstanten in `versions.py` nur
-Hauptagent ändern. `model.load` → normalisiertes Dict; `geom.evaluate` → Netze
-in Metern `(x,-f,u)`, `raster.render` → PIL mit JSON-Metadaten und zusätzlichem
-`coverage_mask`-Attribut (PIL L). Posen sind 4×4-Matrizen je Teil.
+- GEOM3: Mesh64 Ein-/Ausgabe behebt143W01-Nullflächen ursächlich. Konvexe
+  Komponenten einzeln mit2Kreisprofilsegmenten und konservativem Clamp.
+  W01:72Teile/7777Vertices/15166Dreiecke,0Nullflächen;43segmentierteFasen,
+  21konkave weiterhinungefast,8ohneFase. `requirements>=3.5.4` passendLock.
+- `formgen/curves.py`: AUTOBezier nach verifiziertem Blender5.0.1-Handlecode,
+  resolution12, in geom.tube integriert;6analytischeTests. Ringtransport und
+  Tessellation weiterhinabweichend, echte Textglyphen/Eckmiter offen.
+- R01:249Teile/18502Vertices/36060Dreiecke. UpperBody: Schulterlücke durch
+  offene6mm-Kappen/Blenden und hohlen Kragen geschlossen. Arme: Hüllen32mm
+  medial, Hände lokal1,25 inklFinger/Daumen/Frames. SOURCE-Armdicts bytegleich,
+  alle Frontgelenke unverändert. Neue Bilder NOCH NICHT ausgewertet.
+- Ready: skalierte Handdatumsabstände, GRIP[12.5,-42.665,68.75]. Fehlversuch
+  Pole-.5 verworfen, Original-.35 wiederhergestellt. Unabhängig begründeter
+  Oberarmroll5° um gleiche Knochenachse:0mm³ Kontakt/1,510532mm Abstand.
+  Alle6Posetests grün. Zweiter Korrekturdurchgang erfolgreich, kein dritter.
+- `tools/robot_evidence.py` prüft jetzt mittlere ÄUSSERE Zeilenspannweite pro
+  Band; alte Flächenquote zusätzlicheDiagnose. Neue2Tests, gleiche Grenzwerte
+  .92..1.08. Alle vier Masken unabhängig pixelgleich reproduziert, OriginalSHAs
+  bestätigt. Alte Bandwerte sind keine Breitenabnahme.
+- SPEC3: FigureGeo→Load→Spec-Roundtrip repariert; neuer Validator für bestehenden
+  FigureSpec1-Vertrag. Echte W01/R01-Roundtrips/SHA/Deepcopy unabhängiggrün.
+  Datenzweitlauf0gebaut8Treffer. Vier DatenGoldens aktualisiert, BildGoldens ALT.
+- Letztes abgeschlossenes `./check`:143Tests/134pass/9Bildskip,33,328s,
+  `/tmp/formgen-contour-refined-check.log`. Neuer eingefrorener Check inklLegacyhilfe:155Tests/146pass/9Bildskip,37,688s,
+  `/tmp/formgen-contour-handoff-check.log`. Ein anschließend ergänzter
+  Parent-Overlaytest wird durch den gezielten13Helpertests-Lauf abgedeckt.
+  Kontingent einmal23:11MEZgeprüft:Wochenrest26%, kein5h-Fenster.
 
-1. **Roboter geometrisch/visuell fertigstellen.** Neutral247Teile, fünf Module
-   unter `models/figures/r01_parts/`. Hauptmodell `r01_basic_robot.py`.
-   FrontIoU0,8817/Rücken0,8272/Seiten0,8785 und0,8753; alle vier Gesamtprüfungen
-   einschließlich Bändern noch nicht bestanden. Schulteranschlüsse, Arm-/Hand-
-   und Rückenkontur brauchen Arbeit. Keine Referenzmasken zum Bestehen verformen.
-   Innenkerne der Beine sind inzwischen unter die tatsächlichen Innenflächen
-   eingezogen (ein erfolgreicher Korrekturdurchgang), sichtbare Streifen behoben.
-2. **Ready prüfen.** `r01_poses.py` erzeugt echte starre Pose, Fingergriff,
-   Handanker und W01-Anhang. Sechs Daten-/Kontakt-/Freigangtests grün, visuelle
-   Abnahme noch offen. W01-Dokument muss dem Helper unposiert zugeführt werden;
-   build.py lädt die gecachte Anhanggeometrie und hasht sie nur für Ready.
-3. **W01-Formgleichheit vervollständigen.** Planarfase statt2segmentigerRundung,
-   konkave/mehrteiligeFasen, Bezier-Schläuche und Textglyphen noch eingeschränkt.
-   NativeMesh enthält143 Nullflächendreiecke (Fasen-Triangulator, z.B.mag_release),
-   Geoexport entfernt/zählt diese. Ursache im Geometriegenerator beheben.
-4. **Blätter/Viewer visuell abnehmen**, KG02 daneben v1 und W01 neben Ballon.
-   CUA hat lokale file-URL durch Sicherheitsrichtlinie verweigert. Nicht über
-   andere Browser/localhost die konkrete Sperre umgehen. Statische HTML-Prüfung
-   vorhanden, keine behauptete Browserabnahme. Neue sichere Möglichkeit nur
-   im Rahmen der gültigen Werkzeugrichtlinie.
-5. Registry bisherW01/KG02/VS02/R01. Alle159LegacyGeo-Daten extern vorbereitet
-   unter `~/Library/Caches/CubeEscapeFormgen/imports/v1/`, Manifest
-   `docs/v1-imports.json`; erweitern ohne vollständigen unaufgeforderten Render.
-6. Golden und Release nach wirklicher Abnahme finalisieren. Der jetzige
-   Probelauf/Golenstand ist technisch, keine Designfreigabe.
+## Neu erkannte Legacy-Darstellungslücke und klarer nächster Schritt
 
-## Cache und Verträge
+KG02v2 fehlen in BEIDEN Seiten Orangeband/Glyphen; Gegenkamera erklärt es nicht.
+Geo enthält63normaleDecals, source_spec.skin.hero zusätzliche44Glyphen und
+aufgelöste Farb-/Finish-/Musterlagen. `raster.py` ignoriert sie bisher.
+Generische Objektraumtexturen existieren, keine falsche Aussage 'gar keine'.
+Beleg aus vorhandenen Rasterpanels, ohne neuen Render:
+`~/Library/Caches/CubeEscapeFormgen/evidence/comparison/kg02-v1-v2-panels.png`,
+Quellen/SHA im dortigenJSON. BallonW01SideReferenz:
+`~/Library/Caches/CubeEscapeBallon/out/BASIC-01-v2.1/views/side_left.png`.
 
-Cachetests vor erstem Pixel unabhängig bestanden, nicht wieder bei null anfangen.
-Artefakte: geometry/views/specs/prompts/sheets/previews/geo/viewer plusFonts.
-NativeQuelle und statischeImports gehasht; Geo samtSpec-Abhängigkeiten gehasht.
-Legacy-Specs bytegleich erhalten; Prompt-Exportpfade relativ, interne Geo-Ladepfade
-bleiben absolut für Original-Spec-Lesen. Sheets-Key enthält nur tatsächlich
-verbrauchte Layoutmetadaten (PNG-Größe/Labels/Boxen/Skala), keine Pixelbytes;
-reine Farbwechsel lassen Layouts imCache, geänderteCallouts invalidieren sie.
+- Fertiger, unabhängig geprüfter Helfer `formgen/legacy_surface.py`,
+  `tests/test_legacy_surface.py` (13Tests) +Cachetest (1) grün. Noch NICHT
+  in raster.py integriert; Rasterdatei weiterhin bytegleich84d8714, RASTER4.
+- Bytegleicher v1Finishkatalog `docs/textures/catalog.json`, SHA3691845e6b1683861deb075bb6056a40c5e1f6a9457007d449f8a643dc7f8fb6,
+  ProvenienzREADME. Keine Schwesterimports/neuePipabhängigkeit/Modellimporte.
+- API: resolve(document,skin)→Surface oderNone fürnative; Surface.shade,
+  render_parts(),parents(),parent_visible(),decorations(),wear(). Quellachsen(-Y,Z,X), festeMetereinheiten, ParentIDs,
+  fünfLayerfamilien, Glyphen/Trim, Finishleitern/Wear analytischgeprüft.
+  Zwei unabhängiggefundene Brushed/Knurl-Achsenfehler sind behoben.
+- Hauptagent hat in build.view_parameters Legacy-KatalogSHA für ALLE v1Geos
+  ergänzt, auch VS02ohneSkin, Hashguard PNG+Preview. Test: Katalogänderung
+  invalidiert nurLegacyviews/previews, nichtnative oderSpecs/Prompts.
+- ALS NÄCHSTES Rasterhelfer integrieren: sichtbareWeltposition/Normal/Level/
+  Part-ID-/Geometrie-ID-Puffer, normale/Glyph-Decals mit Parent-Z-Test und
+  Normalenrichtung, keine neueDeckung außerhalb Elterngeometrie; Wear darf
+  Decalkanten nicht wie Modellkanten behandeln. NativePixelpfad erhalten.
+  Danach RASTER5 und gezieltePixeltests/KG02Vergleich unterGPU-Sperre.
 
-LegacyGeo v1 unverändert. W01 braucht `cubeescape-formgen/geometry-spec`v1,
-weil v1-Schema W01-ID nicht zulässt; KEIN Alias zu belegtemKG01. Figure eigener
-`cubeescape-formgen/figure-geo`v1. Toolgen-Produzentenabnahme fehlt; nicht behaupten.
-`geo.export(document,spec_path)`; Paket prüft echte Referenzen/Hashes inklusive
-Fonts, HTML/CSS und Zusatz-Specs. Keine externeURL oder absoluteDateipfade imZIP.
+## EIN eigener GPU-Job: erhalten und zuerst beobachten
 
-## Befehle und Belege
+Es gibt jetzt entgegen alter Übergabe EINEN wartenden eigenen Job:
+PID14579 (`heavy_lock.py`, exakteCommand mit ps prüfen), Toolsession13278.
+Er wartet auf fremden Ironsight-ExportPID11101 (NICHT anfassen).
+Command: Nexogen-ce lock gpu --what 'Formgen Contour gezielte Bildabnahme'
+→env PYTHONPATH=/Users/ffunk/Claude/cubeescape-formgenv2
+→Repo/.venv/bin/python `/tmp/formgen-contour-visual-run.py`.
+Log `/tmp/formgen-contour-visual-run.log`.
 
-```sh
-cd /Users/ffunk/Claude/cubeescape-formgenv2
-./check
-./ce check
-.venv/bin/python -m formgen.build W01 KG02 VS02 R01 --stages specs,prompts,geo
-~/Claude/cubeescape-nexogen/ce lock status
-~/Claude/cubeescape-nexogen/ce lock gpu -- env PYTHONPATH="$PWD" "$PWD/.venv/bin/python" -m formgen.build W01 KG02 VS02 R01 --jobs 2
-.venv/bin/python -m formgen.release_assets W01 KG02 VS02 R01
-```
+Das eigene Skript hat einen Mac-Spawn-Guard und führt nach Erhalt der Sperre aus:
+1. Vier registrierte R01Frames/evidence und neue IoUs/Breitenbänder.
+2. Inkrementeller vollständiger Bau NUR geänderter W01/R01, jobs2.
+3. Zwei unabhängige frische R01Front960px-Prozesse (Seeds1/42), KEIN Pixelcache,
+   Hash von RGB undDeckungsmaske; JSON unter
+   `~/Library/Caches/CubeEscapeFormgen/evidence/robot/fresh-pixel-determinism.json`.
 
-Nexogen-ce wechselt cwd; absolute Pfade/PYTHONPATH sind deshalb nötig.
-**Nie alles neu:** Quellen-/Versionen begründet ändern, nur betroffene
-Baugruppen/Ansichten bauen; kein pauschales --force.
+Bis zum Ende dieses Jobs KEINE Raster-/Modell-/Geom-/Specquellen ändern, sonst
+würden Frames und Cacheversionen inkonsistent. Keine zweite gleicheQueue.
+Legacyhilfe/Tests sind noch unintegriert und beeinflussen diesen Lauf nicht.
+Danach Farbframes/Overlays selbst und unabhängig sichten, echte neue Zahlen
+melden; vorher gelten NUR alteIoUs Front.8817/Back.8272/Seiten.8785/.8753.
 
-`tools/robot_reference_masks.py` reproduziert bytegleich Maskenrevision2;
-`tools/robot_evidence.py GROUP...` rendert vier registrierte Ansichten inkl.
-Deckungsmaske aus denselben Frames unter GPU-Lock. GanzeFigur:
-`legs lower_body upper_body head arms`. TeilbandBeine `legs --u-max 986`
-ist NICHT vollständige Baugruppenabnahme. Backspiegelung/nichtlinearerFit verboten.
+## Rest und Abschluss
 
-Externe Belege: `~/Library/Caches/CubeEscapeFormgen/evidence/robot/`, `refs/`,
-`releases/`; aktuelle Tests/Logs im Versionsbericht. Referenzmasken weiterhin
-mitOriginalen visuell gegentesten. Kein Gruppenmodul als abgenommen melden,
-solange Bild/Zahlen und unabhängige Prüfung das nicht belegen.
-
-## Technischer Abschluss dieses Checkpoints
-
-Der eigene GPU-Auftrag ist beendet, **kein wartender eigener Job** mehr.
-`/tmp/formgen-full4.log`:51gebaut31Treffer nach625sWarten. Wiederholung
-`/tmp/formgen-full4-second.log`:0gebaut82Treffer, vorab Cacheeinträge geprüft,
-Renderer zur Sicherheit mit Fehlerguard gesperrt (keine neuen Pixel).
-
-Reales Testarchiv mit4Modellen/77Dateien unter
-`~/Library/Caches/CubeEscapeFormgen/releases/formgen-v0.1.0-dry-run.zip`,
-8.639.449Bytes; `/tmp/formgen-release-real.log`. 66Golden-Hashes des jetzigen
-Entwurfs,3gezielteGolden-Testsgrün. Quick128Tests =119pass+9Bildskip,
-14,203s; `/tmp/formgen-check-final.log`.
-
-Ready-Bild `out/views/R01/ready.png`, Baugruppenbilder im gleichenOrdner;
-HTMLViewer+4Blätter vorhanden. StatischeReleaseprüfunggrün, keineBrowserabnahme.
-VorEndrelease noch eine gezielte frische Pixeldeterminismusprobe mit identischer
-Geometrie/Parametern in getrenntenProzessen (unterGPU-Lock), nichtalleModelle.
-NativeFasen und vierRoboterIoUs bleibenwieobenoffen. Beginne mit Bildbefunden und
-separatenKorrekturaufträgen; keineerneuteGrundgerüst-/Cacheimplementierung.
+- Roboter weiterhin nicht abgenommen (vierIoUs≥.90 und neueBreitenbänder).
+- W01konkaveFasen/Font/Eckmiter offen. Sinnvoller nächster Geometrieschritt:
+  fünf konstante Ringextrusionen ohneCuts statt globalemBevelneubau; Näheres
+  Versionsbericht/Runtimewarnings. Keine blindenFit-/Korrekturschleifen.
+- Viewer/HTMLBrowserabnahme fehlt: vorheriges Browserwerkzeug verweigertefileURL
+  perSicherheitsrichtlinie, keinUmgehen durchanderenBrowser/localhost.
+  StatischeLink-/Paketsichtung und Rasterpanelvergleich sind keineBrowserfreigabe.
+- Legacy159 extern vorbereitet, Registry4Pilotmodelle; nichtallesungerufenrendern.
+- Alter lokaler ZIP-Probelauf4Modelle/77Dateien und66GoldenHashes gehören zum
+  vorherigenCheckpoint, nach aktuellen Änderungen kein finalerReleasebeleg.
+- VorCodecommit neuerBildbeleg, `./check` undgezieltePrüfung; Dokumente/Version/
+  LESSONS aktuellhalten. Code bewusst WIPbisneuerBildprüfung. KeinPush/PR/Merge.
+- Alle alten Unteragenten werden an dieser Etappengrenze beendet/nichtbeobachtet;
+  frischeSitzung spawnt gezielte neue Helfer und unabhängigen Prüfer selbst.
