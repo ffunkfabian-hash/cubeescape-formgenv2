@@ -50,11 +50,22 @@ def area(part):
 
 def validate(spec):
     kind = spec['format'].rsplit('/', 1)[-1]
-    if kind not in ('weapon-spec', 'sight-spec'):
-        raise ValueError('Unbekannter v1-Abnehmervertrag')
+    if kind not in ('weapon-spec', 'sight-spec', 'figure-spec'):
+        raise ValueError('Unbekannter Spec-Vertrag')
     schema = json.loads((ROOT / 'docs/schemas' / f'{kind}.schema.json').read_text())
     jsonschema.Draft202012Validator(schema).validate(spec)
     json.dumps(spec, allow_nan=False)
+    if kind == 'figure-spec':
+        ids=[p['id'] for p in spec['parts']]
+        assemblies=[a['id'] for a in spec['assemblies']]
+        if len(set(ids)) != len(ids) or len(set(assemblies)) != len(assemblies):
+            raise ValueError('Figure-Spec: doppelte Teil-/Baugruppen-ID')
+        for part in spec['parts']:
+            if part['assembly'] not in assemblies or (part.get('parent_part') is not None and part['parent_part'] not in ids):
+                raise ValueError('Figure-Spec: unbekannte Baugruppe oder Elternteil')
+        for anchor in spec['anchors'].values():
+            if anchor.get('part') is not None and anchor['part'] not in ids:
+                raise ValueError('Figure-Spec: Anker verweist auf unbekanntes Teil')
     return spec
 
 
@@ -201,7 +212,5 @@ def build(document):
     if kind == 'weapon':
         return _weapon(document)
     if kind == 'figure':
-        result = _figure(document)
-        json.dumps(result, allow_nan=False)
-        return result
+        return validate(_figure(document))
     raise ValueError(f'Neue {kind}-Spec nicht implementiert; geprüften Geo-Import verwenden')

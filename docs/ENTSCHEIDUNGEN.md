@@ -12,3 +12,11 @@
 | 26.10.2026 | Legacy-Specs bytegleich ausgeben; interne Importpfade nur intern, exportierte Promptpfade relativ | SHA- und Paketprüfung |
 | 26.10.2026 | Einhand-Low-Ready mit W01 als starre, gesonderte Pose; neutrale Abnahmekontur unverändert | Gestaltungsannahme; [Pose](robot-pose.md) |
 | 26.10.2026 | Lokaler Checkpoint ausdrücklich nicht fertig; frische Sitzung statt Verlauf-Fork | globale Kontext-/Übergaberegel |
+| 26.10.2026 | Breitenbänder messen mittlere äußere Zeilenspannweite einschließlich Zwischenräumen, alte Flächenquote bleibt Zusatzdiagnose | unabhängiger Messfehlerbefund; [Vertrag](robot-contract.md) |
+| 26.10.2026 | Double-Präzision an beiden Manifold-Grenzen; komponentenweise Zweissegment-Fasen für konvexe Teile | 143 W01-Nullflächen durch Float32-Knotenkollaps; analytische Profil-/Solidtests; keine Blender-Gesamtparität |
+| 26.10.2026 | Lokale Handinstanz 1,25 und Oberarmhüllen 32mm medial; Quelldicts und Gelenkachsen unverändert | Frontkonturvergleich; Maße/Annahmen in arms.PROVENANCE.ortho_instance_adjustments; Bildabnahme weiterhin erforderlich |
+| 27.10.2026 | Konstante Ringextrusionen ohne Cuts mit echten Endringfasen; Bfont als statische Konturressource, Runtime ohne Fontparser/Blender | geometrische Gegenfälle und191FreeType-Datensätze geprüft; [Modellsprache](modellsprache.md), [Font](fonts/README.md) |
+| 27.10.2026 | Legacy-Skins/Decals aus erhaltenem Spec mit Parent-/Normal-/Tiefenschutz; physische Seiten statt gleicher Mündungsrichtung vergleichen |24Rastertests und unabhängige KG02-Sichtung; [Raster](raster.md) |
+| 27.10.2026 | Zusätzliche Legacy-IDs nur ausdrücklich per`--legacy-dir`; referenzierte Sight-Spec mitliefern, Standard weiterhin vier Piloten |159Datenroundtrips,0gebaut/636Treffer im zweiten Datenlauf |
+| 27.10.2026 | Gemeinsame Konturfehler geometrisch korrigieren; zusätzliche Unterarmmasse am realen Schaftfreiraum begrenzen | Front-/Rücken-/Seitenmessung, alte Armkerne/Anker/Sohlen erhalten; Schaftabstand1,5mm |
+| 27.10.2026 | Strenge vier IoUs und alle40Breitenbänder bleiben unverändert; aktueller Roboter nicht freigegeben |2/4IoUs,37/40Bänder; [Bericht](versions/0.1.md) |

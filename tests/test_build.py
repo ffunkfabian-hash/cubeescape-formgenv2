@@ -74,6 +74,33 @@ class BuildTests(unittest.TestCase):
                 resized=downstream_plan(["MINI"],self.out,"sheets",views=["front"])[0]
             self.assertNotEqual(first.key,resized.key)
 
+    def test_legacy_catalog_changes_only_imported_view_keys(self):
+        self.mini_geometry()
+        path=self.out/'geometry/MINI.json'
+        native=json.loads(path.read_text())
+        def keys():
+            return {kind:downstream_plan(['MINI'],self.out,kind,views=['front'])[0].key
+                    for kind in ('views','previews','specs','prompts')}
+        real_hash=file_hash
+        def hashes(catalog):
+            return lambda p:catalog if Path(p).name=='catalog.json' else real_hash(p)
+        with patch('formgen.build.file_hash',side_effect=hashes('a'*64)):
+            before=keys()
+        with patch('formgen.build.file_hash',side_effect=hashes('b'*64)):
+            self.assertEqual(keys(),before)
+        legacy=copy.deepcopy(native)
+        # Legacy sights have no skin block, but still use catalog materials.
+        legacy['source_geo']={'format':'cubeescape-design/geometry-spec'}
+        path.write_text(json.dumps(legacy))
+        with patch('formgen.build.file_hash',side_effect=hashes('a'*64)):
+            before=keys()
+        with patch('formgen.build.file_hash',side_effect=hashes('b'*64)):
+            after=keys()
+        self.assertNotEqual(before['views'],after['views'])
+        self.assertNotEqual(before['previews'],after['previews'])
+        self.assertEqual(before['specs'],after['specs'])
+        self.assertEqual(before['prompts'],after['prompts'])
+
     def test_view_artifacts_are_separate_and_sheet_paths_stable(self):
         self.mini_geometry()
         views = downstream_plan(["MINI"], self.out, "views", views=["front", "side_left"])

@@ -56,12 +56,35 @@ Deckkraft durch ihre Rückseite. Brechung, Fresnel und echte Reflexion sind
 nicht Teil dieses Toon-Renderers. Glas-Effekt-Varianten verwenden derzeit die
 jeweilige Grundrolle/Deckkraft, keine gesonderte Staub-/Risssimulation.
 
+## Importierte v1-Oberflächen
+
+`legacy_surface.py` wertet aufgelöste Farben, Finishleitern, fünf Farblagen-
+Familien, Glyphen, Trim und Gebrauchsspuren aus dem erhaltenen Original-Spec
+aus. Katalogherkunft: [Texturen](textures/README.md). Native Modelle behalten
+ihren bisherigen Materialpfad. Der Katalog-SHA gehört bei allen v1-Geos zu
+Ansichts- und Previewkeys, einschließlich Visieren ohne Skinblock.
+
+Flache Decals bestehen Parent-ID-, Tiefen- und Normalenprüfung. Sie können
+keine zusätzliche Geometriedeckung erzeugen. Ihre Normalen müssen zur Kamera
+zeigen und mit der sichtbaren Parentnormalen ein Skalarprodukt>0,5 bilden;
+letzteres ist eine zusätzliche v2-Schutzregel. Geometrie-IDs bleiben für
+Konturen und Wear erhalten, Annotationen werden auf den Parent zurückgeführt.
+Detailansichten verwerfen Dekorationen entfernter Parents. Der physische
+Finishmaßstab stammt aus der vollständigen Geoquelle ohne Visier; v1s genauer
+klassifizierter BODY-Rahmen fehlt im exportierten Skin und bleibt eine Näherung.
+
+Beim Blattvergleich die physische Seite über die Normale zuordnen:
+v2`side_left`(+X) entspricht v1`LEFT`(alter+z), auch wenn dabei die Mündung in
+entgegengesetzte Bildrichtungen zeigt. Gleiche Mündungsrichtung allein kann
+unterschiedliche Seiten paaren. Glyphen werden gemeinsam mit dem Mesh aus
+unveränderten Weltkoordinaten projiziert.
+
 ## Prüfung
 
 `python -m unittest tests.test_raster.CameraMaterialTests` prüft Kamerabasis,
 Maßstab, Framing, Materialauflösung, ungeschattete Energie und konkave
 Triangulation ohne Bildproduktion. Pixeltests werden ausdrücklich aktiviert:
-`ce lock gpu -- env FORMGEN_RENDER_TESTS=1 .venv/bin/python -m unittest tests.test_raster`.
+`ce lock gpu -- env FORMGEN_RENDER_TESTS=1 .venv/bin/python -m unittest tests.test_raster tests.test_legacy_raster`.
 Sie prüfen Tiefenreihenfolge, fehlende Triangulierungsnähte, Glasverdeckung,
 Glasreihenfolge, fehlenden Bloom und sichtbare Beschriftungsanker.
 Bildproduktion erst nach der separat bestätigten Cache-Abnahme.

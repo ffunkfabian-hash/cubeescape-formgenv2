@@ -16,6 +16,7 @@ from .cache import Artifact, Result, canonical, file_hash, run_artifacts
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE = Path.home() / "Library/Caches/CubeEscapeFormgen/artifacts"
+FONT_PATH = ROOT / "docs/fonts/bfont-contours.json"
 REGISTRY = {"R01": ROOT / "formgen/models/figures/r01_basic_robot.py",
             "W01": ROOT / "formgen/models/weapons/w01_auto_rifle.py",
             "KG02": ROOT / "tests/fixtures/KG02.geo.json",
@@ -251,9 +252,12 @@ def view_parameters(document: dict, name: str, *, width=None, height=None,
         camera, framing_views = "side_left", ["side_left"]
     elif name == "iso":
         dimensions = (960, 960) if is_figure else (960, 640)
-    return {"view": camera, "selection": name, "width": width or dimensions[0],
+    params = {"view": camera, "selection": name, "width": width or dimensions[0],
             "height": height or dimensions[1], "skin": skin, "bg": bg,
             "skin_sha": file_hash(ROOT / "skins.toml"), "framing_views": framing_views}
+    if document.get('source_geo', {}).get('format') == 'cubeescape-design/geometry-spec':
+        params['legacy_catalog_sha'] = file_hash(ROOT/'docs/textures/catalog.json')
+    return params
 
 
 def build_view(artifact: Artifact) -> bytes:
@@ -261,6 +265,8 @@ def build_view(artifact: Artifact) -> bytes:
     from PIL.PngImagePlugin import PngInfo
     if file_hash(ROOT / "skins.toml") != artifact.params["skin_sha"]:
         raise RuntimeError("Skin wurde während des Baus geändert; erneut starten")
+    if artifact.params.get('legacy_catalog_sha') is not None and file_hash(ROOT/'docs/textures/catalog.json') != artifact.params['legacy_catalog_sha']:
+        raise RuntimeError('Legacy-Finishkatalog wurde während des Baus geändert; erneut starten')
     document = select_document(_document(artifact), artifact.params["selection"])
     options = {key: artifact.params[key] for key in ("view", "width", "height", "skin", "bg")}
     framing = raster.framing(document, views=artifact.params["framing_views"],
@@ -281,6 +287,8 @@ def build_preview(artifact: Artifact) -> bytes:
     from . import raster
     if file_hash(ROOT / "skins.toml") != artifact.params["skin_sha"]:
         raise RuntimeError("Skin wurde während des Baus geändert; erneut starten")
+    if artifact.params.get('legacy_catalog_sha') is not None and file_hash(ROOT/'docs/textures/catalog.json') != artifact.params['legacy_catalog_sha']:
+        raise RuntimeError('Legacy-Finishkatalog wurde während des Baus geändert; erneut starten')
     document = select_document(_document(artifact), artifact.params["selection"])
     options = {key: artifact.params[key] for key in ("view", "width", "height", "skin", "bg")}
     image = raster.render(document, **options)
@@ -356,6 +364,8 @@ def geometry_plan(sources: Mapping[str, Path]) -> list[Artifact]:
     for model_id, path in sources.items():
         path = Path(path).resolve()
         hashes = source_hashes(path)
+        if path.suffix == ".py":
+            hashes[str(FONT_PATH)] = file_hash(FONT_PATH)
         # Relative dependency names make relocation of the repository harmless.
         relative = {str(Path(name).relative_to(ROOT)) if Path(name).is_relative_to(ROOT)
                     else str(Path(name).name): digest for name, digest in hashes.items()}
@@ -479,8 +489,9 @@ def summary(results: Sequence[Result]) -> str:
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("ids", nargs="*", help="Modell-IDs: W01, KG02, VS02; ohne Auswahl alle")
+    parser.add_argument("ids", nargs="*", help="Modell-IDs; ohne Auswahl die vier Piloten R01, W01, KG02, VS02")
     parser.add_argument("--dummy", action="store_true", help="Nur MINI-Cacheprobe ohne Geometrie/Bilder")
+    parser.add_argument("--legacy-dir", type=Path, help="Vorbereitete Geo-Bibliothek für zusätzliche einzelne IDs; ohne IDs bleiben die vier Piloten")
     parser.add_argument("--out", type=Path, default=ROOT / "out")
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE)
     parser.add_argument("--force", action="store_true")
@@ -496,7 +507,18 @@ def parse_args(argv=None):
     args = parser.parse_args(argv)
     if args.jobs < 1:
         parser.error("--jobs muss mindestens 1 sein")
-    available = {"MINI"} if args.dummy else set(REGISTRY)
+    args.registry = dict(REGISTRY)
+    if args.legacy_dir is not None:
+        if args.dummy:
+            parser.error("--legacy-dir und --dummy sind nicht kombinierbar")
+        if not args.legacy_dir.is_dir():
+            parser.error("--legacy-dir muss ein vorhandener Ordner sein")
+        for path in sorted(args.legacy_dir.glob("*.geo.json")):
+            model_id = path.name.removesuffix(".geo.json")
+            if model_id in ("W01", "R01"):
+                parser.error(f"Legacy-Bibliothek darf natives Modell {model_id} nicht ersetzen")
+            args.registry[model_id] = path.resolve()
+    available = {"MINI"} if args.dummy else set(args.registry)
     if any(model_id not in available for model_id in args.ids):
         parser.error(f"Unbekannte Modell-ID (verfügbar: {', '.join(sorted(available))})")
     if len(args.ids) != len(set(args.ids)):
@@ -533,8 +555,20 @@ def main(argv=None) -> int:
         results = run_artifacts(plan({"MINI": ROOT / "formgen/models/mini.py"}),
                                 args.out, args.cache, **options)
     else:
-        sources = {model_id: REGISTRY[model_id] for model_id in (args.ids or REGISTRY)}
+        sources = {model_id: args.registry[model_id] for model_id in (args.ids or REGISTRY)}
         geometry_sources=dict(sources)
+        spec_ids = list(sources)
+        if "specs" in args.stages:
+            for path in sources.values():
+                if path.name.endswith(".geo.json"):
+                    reference = json.loads(path.read_bytes()).get("source", {}).get("sight_spec") or {}
+                    if reference.get("file"):
+                        dependency = reference["file"].removesuffix(".spec.json")
+                        if dependency not in spec_ids:
+                            if dependency not in args.registry:
+                                raise ValueError(f"Visier-Spec benötigt registriertes Geo: {dependency}")
+                            geometry_sources[dependency] = args.registry[dependency]
+                            spec_ids.append(dependency)
         if "R01" in sources: geometry_sources.setdefault("W01",REGISTRY["W01"])
         results = run_artifacts(geometry_plan(geometry_sources), args.out, args.cache, **options)
         if "sheets" in args.stages:
@@ -544,7 +578,7 @@ def main(argv=None) -> int:
                 from . import viewer
                 results.extend(viewer.build(args.out,args.cache))
             elif kind != "geometry":
-                artifacts = downstream_plan(list(sources), args.out, kind, views=args.views,
+                artifacts = downstream_plan(spec_ids if kind == "specs" else list(sources), args.out, kind, views=args.views,
                                             width=args.width, height=args.height, skin=args.skin, bg=args.bg)
                 results.extend(run_artifacts(artifacts, args.out, args.cache, **options))
     print(summary(results))

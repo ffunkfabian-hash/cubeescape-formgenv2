@@ -95,3 +95,15 @@ betroffene Ansichtenschlüssel. Für den Blattcache wird ein Fingerabdruck der
 wirklich verbrauchten PNG-Abmessungen und Layoutmetadaten aufgenommen. Reine
 Rasterfarbänderungen ändern keinen Layoutschlüssel; geänderte Callouts/Skalen
 oder Abmessungen müssen das Blatt erneuern. Kein veraltetes SVG über neuem Bild.
+
+Native Geometrie bindet `docs/fonts/bfont-contours.json` in den bestehenden
+Quellfingerabdruck ein; der Worker prüft dessen SHA vor und nach dem Bau.
+Ein Fontwechsel invalidiert native Geometrie und ihre Folgeartefakte,
+importierte Legacy-Geos bleiben unberührt. Der Fontleser cached nach tatsächlichen
+Bytes und erkennt Ressourcenänderungen auch in einem langlebigen Prozess.
+Legacy-Ansichten/Previews binden separat den Texturkatalog-SHA ein.
+
+`--legacy-dir` ergänzt einzeln wählbare Geo-IDs. Eine referenzierte Visier-Spec
+wird über die bestehende Geometrie-/Specstufe mitgebaut; Bild-/Prompt-/Geo-
+Ausgaben des Visiers entstehen nur bei ausdrücklicher Auswahl. Ohne ID-Auswahl
+bleiben die vier Piloten der Standardbau.

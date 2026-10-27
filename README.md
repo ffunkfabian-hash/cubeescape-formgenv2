@@ -29,7 +29,16 @@ Viewer: `out/index.html`, Blätter: `out/sheets/`, JSON: `out/specs/`, `out/prom
 `out/geo/`. Geo/Blätter/Bilder und Release-ZIPs sind nicht Teil von Git.
 Der Releasebefehl erzeugt ausschließlich ein lokales Testarchiv, keine Veröffentlichung.
 
-Die Registry enthält vier Prüfmodelle. Weitere 157 v1-Geo-Importe sind extern
-bereitgelegt, jedoch noch nicht als vollständiger Bibliotheksbau integriert.
-W01s native Geo-Erweiterung und figure-geo1 sind ausdrücklich keine bestätigten
+Ohne ID-Auswahl werden die vier Prüfmodelle gebaut. Die vorbereiteten159
+v1-Geos können einzeln über die vorhandene Pipeline gewählt werden:
+
+```sh
+.venv/bin/python -m formgen.build KC01 --legacy-dir ~/Library/Caches/CubeEscapeFormgen/imports/v1 --stages specs,prompts,geo
+```
+
+Benötigte Visier-Specs werden mitgeliefert; zusätzliche Visierbilder entstehen
+dadurch nicht. Ohne ID-Auswahl bleibt auch mit`--legacy-dir` der Vierpilotbau.
+Der Datenprobelauf aller159 Modelle lieferte636Artefakte, danach0 gebaut/636 Treffer;
+alle159Geo-Exporte wurden wieder geladen. Die Bibliothek wurde nicht vollständig gerendert.
+W01 s native Geo-Erweiterung und figure-geo1 sind ausdrücklich keine bestätigten
 Toolgen-Abnehmerverträge. Siehe [Geo-Verträge](docs/geo-export.md).

@@ -73,11 +73,11 @@ class RobotPoseTests(unittest.TestCase):
         for i in range(4):
             for j in range(2):
                 frame=frames[f'r_f{i}_{j}']
-                endpoint=np.asarray(frame['at'])+np.asarray(frame['basis'][2])*arms.SOURCE.FINGER_LINKS[j]*arms.SOURCE.FINGER_SCALE[i]
+                endpoint=np.asarray(frame['at'])+np.asarray(frame['basis'][2])*arms.SOURCE.FINGER_LINKS[j]*arms.SOURCE.FINGER_SCALE[i]*arms.HAND_SCALE
                 np.testing.assert_allclose(endpoint,frames[f'r_f{i}_{j+1}']['at'],atol=1e-10)
         for j in range(2):
             frame=frames[f'r_t_{j}']
-            endpoint=np.asarray(frame['at'])+np.asarray(frame['basis'][2])*arms.SOURCE.THUMB_LINKS[j]
+            endpoint=np.asarray(frame['at'])+np.asarray(frame['basis'][2])*arms.SOURCE.THUMB_LINKS[j]*arms.HAND_SCALE
             np.testing.assert_allclose(endpoint,frames[f'r_t_{j+1}']['at'],atol=1e-10)
         np.testing.assert_allclose(frames['r_upper']['at'],arms.SHOULDER_R)
 
@@ -112,6 +112,13 @@ class RobotPoseTests(unittest.TestCase):
             for robot_part in protected:
                 self.assertLessEqual(intersection(weapon_part,robot_part),1e-10,
                                      (weapon_part['id'],robot_part['id']))
+        # A surface touch is fragile even if the intersection volume is zero.
+        # The revised upper-arm roll needs an actual millimetre of clearance.
+        upper=next(p for p in self.ready['parts'] if p['id']=='arms_upper_body_r')
+        stock=next(p for p in self.placed['parts'] if p['id']=='butt_pad')
+        a=geom._as_manifold(upper['mesh']['vertices'],upper['mesh']['faces'])
+        b=geom._as_manifold(stock['mesh']['vertices'],stock['mesh']['faces'])
+        self.assertGreater(a.min_gap(b,.01),.001)
 
     def test_missing_grip_datum_fails_instead_of_using_wrist(self):
         with self.assertRaisesRegex(ValueError,'Griffdatum'):

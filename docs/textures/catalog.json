@@ -1,0 +1,2521 @@
+{
+ "format": "cubeescape-design/texture-catalog",
+ "format_version": 1,
+ "generator": "docs/textures (Hand gepflegt; Swatches aus make_swatches.py)",
+ "claude_version": "0.6.1",
+ "units": {
+  "length": "mm",
+  "brightness": "Faktor auf die Grundfarbe (1 = unverändert)",
+  "relative": "Skin-Lagen: Anteile (0..1) der Waffenausdehnung am Waffenkörper, keine Längen",
+  "model_unit_m": 0.00139823,
+  "model_unit_note": "Startwert: Median von units.model_unit_m der 60 Claude-Specs (K*.spec.json, Messung 18.10.2026; Spanne 0,386–3,096 mm je Modelleinheit). Musterlängen in mm = Modelleinheiten × diesen Wert.",
+  "axes": {
+   "length": "Mündungsachse",
+   "height": "oben/unten",
+   "width": "quer"
+  },
+  "swatch_axes": "Musterbild: u = Länge (rechts), v = Höhe (oben); Muster mit Quellachsen length+width benutzen im Bild nur length"
+ },
+ "materials": [
+  {
+   "id": "painted",
+   "name": {
+    "de": "lackiert",
+    "en": "painted"
+   },
+   "toolgen_material": "painted",
+   "aliases": {
+    "claude": "lack",
+    "codex": "paint",
+    "spec": "painted"
+   },
+   "pattern": "gloss_gradient",
+   "finish": "paint",
+   "channels": [
+    "MT_Primary",
+    "MT_Accent"
+   ],
+   "assignment": {
+    "de": "Gehäuse und Hauptflächen (Standard für helle oder kräftige Farben)",
+    "en": "housings and main surfaces (default for light or saturated colors)"
+   },
+   "swatch_color": "#B8BEC6",
+   "swatch_view_mm": 480,
+   "claude_assignment": "emit → light; Beschriftung in GRIP_LABELS → rubber; in METAL_LABELS → brushed; sonst Sättigung >0,5 oder Helligkeit >0,55 → lack, >0,22 → brushed, sonst plastic (xlroles.material_of)",
+   "sheet_pattern": true,
+   "swatch": "swatches/material_painted.png"
+  },
+  {
+   "id": "brushed",
+   "name": {
+    "de": "gebürstet",
+    "en": "brushed"
+   },
+   "toolgen_material": "brushed",
+   "aliases": {
+    "claude": "brushed",
+    "codex": "metal",
+    "spec": "brushed"
+   },
+   "pattern": "brushed",
+   "finish": "paint",
+   "channels": [
+    "MT_Metal"
+   ],
+   "assignment": {
+    "de": "Metallteile (Läufe, Mündungen, Verschlüsse) und mittlere Helligkeiten",
+    "en": "metal parts (barrels, muzzles, bolts) and mid brightness"
+   },
+   "swatch_color": "#8A929C",
+   "swatch_view_mm": 32,
+   "claude_assignment": "emit → light; Beschriftung in GRIP_LABELS → rubber; in METAL_LABELS → brushed; sonst Sättigung >0,5 oder Helligkeit >0,55 → lack, >0,22 → brushed, sonst plastic (xlroles.material_of)",
+   "sheet_pattern": true,
+   "swatch": "swatches/material_brushed.png"
+  },
+  {
+   "id": "rubber",
+   "name": {
+    "de": "Gummi",
+    "en": "rubber"
+   },
+   "toolgen_material": "rubber",
+   "aliases": {
+    "claude": "rubber",
+    "codex": "rubber",
+    "spec": "rubber"
+   },
+   "pattern": "knurl",
+   "finish": "paint",
+   "channels": [
+    "MT_Detail"
+   ],
+   "assignment": {
+    "de": "Griffe, Griffschalen, Kolbenkappen",
+    "en": "grips, grip shells, butt pads"
+   },
+   "swatch_color": "#3A3F46",
+   "swatch_view_mm": 48,
+   "claude_assignment": "emit → light; Beschriftung in GRIP_LABELS → rubber; in METAL_LABELS → brushed; sonst Sättigung >0,5 oder Helligkeit >0,55 → lack, >0,22 → brushed, sonst plastic (xlroles.material_of)",
+   "sheet_pattern": true,
+   "swatch": "swatches/material_rubber.png"
+  },
+  {
+   "id": "painted_matte",
+   "name": {
+    "de": "lackiert matt",
+    "en": "matte painted"
+   },
+   "toolgen_material": "painted_matte",
+   "aliases": {
+    "claude": "plastic",
+    "codex": "plastic",
+    "spec": "matte"
+   },
+   "pattern": "grain",
+   "finish": "paint",
+   "channels": [
+    "MT_Secondary"
+   ],
+   "assignment": {
+    "de": "dunkle Kunststoffteile",
+    "en": "dark plastic parts"
+   },
+   "swatch_color": "#6E757D",
+   "swatch_view_mm": 64,
+   "claude_assignment": "emit → light; Beschriftung in GRIP_LABELS → rubber; in METAL_LABELS → brushed; sonst Sättigung >0,5 oder Helligkeit >0,55 → lack, >0,22 → brushed, sonst plastic (xlroles.material_of)",
+   "sheet_pattern": true,
+   "swatch": "swatches/material_painted_matte.png"
+  },
+  {
+   "id": "energy_glass",
+   "name": {
+    "de": "Energieglas",
+    "en": "energy glass"
+   },
+   "toolgen_material": "energy_glass",
+   "aliases": {
+    "claude": "light",
+    "codex": "light",
+    "spec": "lit"
+   },
+   "pattern": "none",
+   "finish": null,
+   "channels": [
+    "MT_Energy",
+    "MT_Emission"
+   ],
+   "assignment": {
+    "de": "Leuchtteile (emit): Kanalfarbe als Emission, kein Muster",
+    "en": "emissive parts: channel color as emission, no pattern"
+   },
+   "swatch_color": "#57C7CA",
+   "swatch_view_mm": 64,
+   "claude_assignment": "emit → light",
+   "sheet_pattern": true,
+   "swatch": "swatches/material_energy_glass.png"
+  },
+  {
+   "id": "ceramic",
+   "name": {
+    "de": "Keramik",
+    "en": "ceramic"
+   },
+   "toolgen_material": "ceramic",
+   "aliases": {},
+   "pattern": null,
+   "finish": null,
+   "channels": [],
+   "assignment": {
+    "de": "nur in Toolgen vorhanden; Blätter zeichnen es nicht",
+    "en": "Toolgen only; sheets do not draw it"
+   },
+   "sheet_pattern": false,
+   "swatch_color": null,
+   "swatch_view_mm": null,
+   "claude_assignment": null,
+   "swatch": null
+  },
+  {
+   "id": "satin",
+   "name": {
+    "de": "satiniert",
+    "en": "satin"
+   },
+   "toolgen_material": "satin",
+   "aliases": {},
+   "pattern": null,
+   "finish": null,
+   "channels": [],
+   "assignment": {
+    "de": "nur in Toolgen vorhanden; Blätter zeichnen es nicht",
+    "en": "Toolgen only; sheets do not draw it"
+   },
+   "sheet_pattern": false,
+   "swatch_color": null,
+   "swatch_view_mm": null,
+   "claude_assignment": null,
+   "swatch": null
+  },
+  {
+   "id": "polished",
+   "name": {
+    "de": "poliert",
+    "en": "polished"
+   },
+   "toolgen_material": "polished",
+   "aliases": {},
+   "pattern": null,
+   "finish": null,
+   "channels": [],
+   "assignment": {
+    "de": "nur in Toolgen vorhanden; Blätter zeichnen es nicht",
+    "en": "Toolgen only; sheets do not draw it"
+   },
+   "sheet_pattern": false,
+   "swatch_color": null,
+   "swatch_view_mm": null,
+   "claude_assignment": null,
+   "swatch": null
+  },
+  {
+   "id": "rough_cast",
+   "name": {
+    "de": "Rauguss",
+    "en": "rough cast"
+   },
+   "toolgen_material": "rough_cast",
+   "aliases": {},
+   "pattern": null,
+   "finish": null,
+   "channels": [],
+   "assignment": {
+    "de": "nur in Toolgen vorhanden; Blätter zeichnen es nicht",
+    "en": "Toolgen only; sheets do not draw it"
+   },
+   "sheet_pattern": false,
+   "swatch_color": null,
+   "swatch_view_mm": null,
+   "claude_assignment": null,
+   "swatch": null
+  }
+ ],
+ "patterns": [
+  {
+   "id": "none",
+   "name": {
+    "de": "kein Muster",
+    "en": "no pattern"
+   },
+   "toolgen_pattern": null,
+   "used_by_sheets": true,
+   "size_mm": null,
+   "direction": null,
+   "height_mm": null,
+   "contrast": null,
+   "params": {},
+   "description": {
+    "de": "glatte Fläche ohne Relief und ohne Helligkeitsmuster",
+    "en": "smooth surface, no relief, no brightness pattern"
+   },
+   "height_note": null
+  },
+  {
+   "id": "gloss_gradient",
+   "name": {
+    "de": "Glanzverlauf",
+    "en": "gloss gradient"
+   },
+   "toolgen_pattern": null,
+   "used_by_sheets": true,
+   "size_mm": 228.419,
+   "direction": "height",
+   "height_mm": null,
+   "contrast": {
+    "brightness": [
+     0.87,
+     1.13
+    ]
+   },
+   "params": {
+    "waves": [
+     {
+      "axes": [
+       "height"
+      ],
+      "wavelength_mm": 228.419,
+      "amplitude": 0.09
+     },
+     {
+      "axes": [
+       "length",
+       "width"
+      ],
+      "wavelength_mm": 483.194,
+      "amplitude": 0.04
+     }
+    ],
+    "formula": "1 + Σ amplitude · cos(2π · Σ(Achsen) / wavelength_mm)"
+   },
+   "description": {
+    "de": "weicher Glanzverlauf über die Bauteilhöhe (lackiert), kein Relief",
+    "en": "soft gloss gradient over part height (painted), no relief"
+   },
+   "source": "claude/generator/xl.py make_texture: 1+0.09·cos(WY/26)+0.04·cos((WX+WZ)/55)",
+   "height_note": "Blattmuster ist nur Helligkeit; die Reliefhöhe legt Toolgen je Waffe fest (≤ limits.max_height_mm = 0,3)"
+  },
+  {
+   "id": "brushed",
+   "name": {
+    "de": "gebürstet",
+    "en": "brushed"
+   },
+   "toolgen_pattern": "brushed",
+   "used_by_sheets": true,
+   "size_mm": 1.337,
+   "direction": "long_axis",
+   "height_mm": null,
+   "contrast": {
+    "brightness": [
+     0.87,
+     1.13
+    ]
+   },
+   "params": {
+    "amplitude": 0.13,
+    "cross": "Summe der beiden Querachsen",
+    "waves": [
+     {
+      "wavelength_mm": 3.149,
+      "phase": 0.0,
+      "weight": 0.5
+     },
+     {
+      "wavelength_mm": 1.337,
+      "phase": 1.7,
+      "weight": 0.3
+     },
+     {
+      "wavelength_mm": 0.745,
+      "phase": 0.4,
+      "weight": 0.2
+     }
+    ],
+    "formula": "1 + amplitude · Σ weight · sin(2π · quer / wavelength_mm + phase)"
+   },
+   "description": {
+    "de": "Schleifspuren entlang der Längsachse des Teils; size_mm = mittlere Spurbreite",
+    "en": "streaks along the part long axis; size_mm = mid streak width"
+   },
+   "source": "claude/generator/xl.py make_texture: drei Sinus 3,1/7,3/13,1 auf 0,9·(q1+q2), ±13 %",
+   "height_note": "Blattmuster ist nur Helligkeit; die Reliefhöhe legt Toolgen je Waffe fest (≤ limits.max_height_mm = 0,3)"
+  },
+  {
+   "id": "knurl",
+   "name": {
+    "de": "Rautenrändel",
+    "en": "diamond knurl"
+   },
+   "toolgen_pattern": "knurl",
+   "used_by_sheets": true,
+   "size_mm": 5.593,
+   "direction": "surface_diagonal",
+   "height_mm": null,
+   "contrast": {
+    "brightness": [
+     0.66,
+     1.0
+    ]
+   },
+   "params": {
+    "angle_deg": 45,
+    "darkening": 0.34,
+    "formula": "Zellen floor((u+v)/size) und floor((u−v)/size) beide gerade → Helligkeit −34 %"
+   },
+   "description": {
+    "de": "Rautenrändel in der Flächenebene, ±45°; size_mm = Teilung",
+    "en": "diamond knurl in the surface plane at ±45°; size_mm = pitch"
+   },
+   "source": "claude/generator/xl.py make_texture: Teilung 4, −34 %",
+   "height_note": "Blattmuster ist nur Helligkeit; die Reliefhöhe legt Toolgen je Waffe fest (≤ limits.max_height_mm = 0,3)"
+  },
+  {
+   "id": "grain",
+   "name": {
+    "de": "Korn",
+    "en": "grain"
+   },
+   "toolgen_pattern": "grain",
+   "used_by_sheets": true,
+   "size_mm": 1.076,
+   "direction": null,
+   "height_mm": null,
+   "contrast": {
+    "brightness": [
+     0.955,
+     1.045
+    ]
+   },
+   "params": {
+    "amplitude": 0.09,
+    "hash_coefficients": [
+     0.37,
+     1.91,
+     3.7
+    ],
+    "formula": "1 + amplitude · (hash(Zelle) − 0,5), Zellen der Kantenlänge size_mm im Objektraum"
+   },
+   "description": {
+    "de": "isotropes feines Korn, fest am Objekt; size_mm = Zellgröße",
+    "en": "isotropic fine grain fixed to the object; size_mm = cell size"
+   },
+   "source": "claude/generator/xl.py make_texture: Zelle 1/1,3, ±4,5 %",
+   "height_note": "Blattmuster ist nur Helligkeit; die Reliefhöhe legt Toolgen je Waffe fest (≤ limits.max_height_mm = 0,3)"
+  },
+  {
+   "id": "grooves",
+   "name": {
+    "de": "Rillen",
+    "en": "grooves"
+   },
+   "toolgen_pattern": "grooves",
+   "used_by_sheets": false,
+   "size_mm": null,
+   "direction": null,
+   "height_mm": null,
+   "contrast": null,
+   "params": {},
+   "description": {
+    "de": "runde Wellung quer zu direction; Maße je Waffe im Toolgen-Relief, kein Blattmuster",
+    "en": "round corrugation across direction; sizes per weapon in Toolgen relief, no sheet pattern"
+   },
+   "height_note": null
+  },
+  {
+   "id": "lamellae",
+   "name": {
+    "de": "Lamellen",
+    "en": "lamellae"
+   },
+   "toolgen_pattern": "lamellae",
+   "used_by_sheets": false,
+   "size_mm": null,
+   "direction": null,
+   "height_mm": null,
+   "contrast": null,
+   "params": {},
+   "description": {
+    "de": "flache Rippen mit Lücken entlang direction; Maße je Waffe im Toolgen-Relief, kein Blattmuster",
+    "en": "flat ribs with gaps along direction; sizes per weapon in Toolgen relief, no sheet pattern"
+   },
+   "height_note": null
+  },
+  {
+   "id": "seams",
+   "name": {
+    "de": "Fugen",
+    "en": "seams"
+   },
+   "toolgen_pattern": "seams",
+   "used_by_sheets": false,
+   "size_mm": null,
+   "direction": null,
+   "height_mm": null,
+   "contrast": null,
+   "params": {},
+   "description": {
+    "de": "eingedrückte Plattenfugen (width_mm) alle size_mm; Maße je Waffe im Toolgen-Relief, kein Blattmuster",
+    "en": "pressed-in panel joints (width_mm) every size_mm; sizes per weapon in Toolgen relief, no sheet pattern"
+   },
+   "height_note": null
+  }
+ ],
+ "finishes": [
+  {
+   "id": "paint",
+   "name": {
+    "de": "Lack",
+    "en": "paint"
+   },
+   "ladder": {
+    "kind": "levels",
+    "levels": [
+     1.28,
+     1.08,
+     0.88,
+     0.62
+    ],
+    "highlight_level": 0
+   },
+   "streak": false,
+   "emissive": false,
+   "swatch_color": "#C24A2E",
+   "source": "eng.lum, skinraster.LEVELS; Stufenfarbe = Helligkeit × Faktor (HLS)",
+   "swatch": "swatches/finish_paint.png"
+  },
+  {
+   "id": "polished_gold",
+   "name": {
+    "de": "poliertes Gold",
+    "en": "polished gold"
+   },
+   "ladder": {
+    "kind": "blends",
+    "steps": [
+     {
+      "amount": 0.35,
+      "with": "#FFF4D0"
+     },
+     {
+      "amount": 0,
+      "with": null
+     },
+     {
+      "amount": 0.45,
+      "with": "#5A3A08"
+     },
+     {
+      "amount": 0.72,
+      "with": "#2A1A04"
+     }
+    ],
+    "highlight": {
+     "amount": 0.8,
+     "with": "#FFFFFF"
+    }
+   },
+   "streak": true,
+   "emissive": false,
+   "swatch_color": "#E2B04A",
+   "source": "skinraster.tones",
+   "swatch": "swatches/finish_polished_gold.png"
+  },
+  {
+   "id": "polished_chrome",
+   "name": {
+    "de": "poliertes Chrom",
+    "en": "polished chrome"
+   },
+   "ladder": {
+    "kind": "blends",
+    "steps": [
+     {
+      "amount": 0.5,
+      "with": "#FFFFFF"
+     },
+     {
+      "amount": 0,
+      "with": null
+     },
+     {
+      "amount": 0.5,
+      "with": "#1C2128"
+     },
+     {
+      "amount": 0.8,
+      "with": "#1C2128"
+     }
+    ],
+    "highlight": {
+     "fixed": "#FFFFFF"
+    }
+   },
+   "streak": true,
+   "emissive": false,
+   "swatch_color": "#C9D2DC",
+   "source": "skinraster.tones",
+   "swatch": "swatches/finish_polished_chrome.png"
+  },
+  {
+   "id": "neon",
+   "name": {
+    "de": "Neon",
+    "en": "neon"
+   },
+   "ladder": {
+    "kind": "blends",
+    "steps": [
+     {
+      "amount": 0.25,
+      "with": "#FFFFFF"
+     },
+     {
+      "amount": 0.25,
+      "with": "#FFFFFF"
+     },
+     {
+      "amount": 0.25,
+      "with": "#FFFFFF"
+     },
+     {
+      "amount": 0.25,
+      "with": "#FFFFFF"
+     }
+    ],
+    "highlight": {
+     "amount": 0.25,
+     "with": "#FFFFFF"
+    }
+   },
+   "streak": false,
+   "emissive": true,
+   "swatch_color": "#6CF2FF",
+   "source": "skinraster.tones (alle Stufen gleich, leuchtend)",
+   "swatch": "swatches/finish_neon.png"
+  }
+ ],
+ "wear": {
+  "levels": {
+   "subtle": {
+    "toolgen": 0.2,
+    "width_rel": 0.012,
+    "coverage": 0.15
+   },
+   "medium": {
+    "toolgen": 0.5,
+    "width_rel": 0.014,
+    "coverage": 0.24
+   },
+   "strong": {
+    "toolgen": 0.8,
+    "width_rel": 0.019,
+    "coverage": 0.42
+   }
+  },
+  "bare_metal": "#9AA2AC",
+  "bare_metal_finish": "paint",
+  "cell_widths": 6.0,
+  "width_variation": [
+   0.6,
+   1.0
+  ],
+  "rule": "Blankes Metall entlang harter Geometriekanten (nicht an Aufklebern), fleckig über ein Zellrauschen im Objektraum; width_rel = Anteil der Körperhöhe, coverage = Anteil der Zellen mit Abnutzung",
+  "streak": {
+   "direction": [
+    0.55,
+    -1.0,
+    0.35
+   ],
+   "period_rel_height": 0.42,
+   "width_fraction": 0.13,
+   "applies": [
+    "polished_gold",
+    "polished_chrome"
+   ]
+  },
+  "source": "claude/generator/skinraster.py (edge_wear, streak); Stufen nach den neun Skins gruppiert: coverage ≤0,17 subtle, 0,21–0,28 medium, 0,42 strong; Toolgen-Werte aus surface_recipes.json limits.wear_levels",
+  "codex_variant": "Codex zeichnet Gold/Chrom heute mit Reflexionskeulen und Unterlack (raster._finish_surface); der Katalog führt Claudes Tonleiter, Codex gleicht in Teil C an.",
+  "swatch": "swatches/wear.png"
+ },
+ "skins": [
+  {
+   "id": "rennstreifen",
+   "name": {
+    "de": "Rennstreifen",
+    "en": "Rennstreifen"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "zwei Rennstreifen in Akzentfarbe über die Oberseite, Seitenband mit weißer Zierlinie, große schräge Segmentnummer, Läufe poliertes Chrom, leichte Kantenabnutzung",
+    "en": "two accent racing stripes over the top, side band with white pinstripe, large slanted segment number, polished chrome barrels, light edge wear"
+   },
+   "blocks": [
+    "material",
+    "streifen",
+    "glyphen"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#C9D2DC",
+     "finish": "polished_chrome"
+    },
+    "SK_Accent2": {
+     "color": "#F2F4F6",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "finish",
+     "target": "metal",
+     "slot": "SK_Accent1",
+     "block": "material"
+    },
+    {
+     "type": "bands",
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "at": 0.28,
+     "width": 0.13,
+     "period": 0.31,
+     "count": 2,
+     "slots": [
+      "MT_Accent"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "bands",
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "at": 0.36,
+     "width": 0.12,
+     "count": 1,
+     "slots": [
+      "MT_Accent"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "bands",
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "at": 0.52,
+     "width": 0.035,
+     "count": 1,
+     "slots": [
+      "SK_Accent2"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "glyphs",
+     "items": "num",
+     "height": 0.3,
+     "at": [
+      0.28,
+      0.66
+     ],
+     "slots": [
+      "SK_Accent2"
+     ],
+     "block": "glyphen"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.014,
+     "coverage": 0.17,
+     "block": "material",
+     "wear": "subtle"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_rennstreifen.png"
+  },
+  {
+   "id": "goldglyphe",
+   "name": {
+    "de": "Goldglyphe",
+    "en": "Goldglyphe"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "dunkles Gehäuse, poliertes Gold an Läufen und Mündung, goldene Runenzeile und Zierlinie, goldene Finnen, Kantenabnutzung",
+    "en": "dark body, polished gold barrels and muzzle, row of gold glyphs and gold pinstripe, gold fins, edge wear"
+   },
+   "blocks": [
+    "farbflaechen",
+    "material",
+    "streifen",
+    "glyphen",
+    "schmuck"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#E2B04A",
+     "finish": "polished_gold"
+    },
+    "SK_Accent2": {
+     "color": "#8A6420",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "side_block",
+     "poly": [
+      [
+       -0.1,
+       -0.1
+      ],
+      [
+       1.1,
+       -0.1
+      ],
+      [
+       1.1,
+       1.1
+      ],
+      [
+       -0.1,
+       1.1
+      ]
+     ],
+     "slot": "MT_Detail",
+     "block": "farbflaechen"
+    },
+    {
+     "type": "finish",
+     "target": "metal",
+     "slot": "SK_Accent1",
+     "block": "material"
+    },
+    {
+     "type": "bands",
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "at": 0.18,
+     "width": 0.03,
+     "count": 1,
+     "slots": [
+      "SK_Accent1"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "glyphs",
+     "items": "runes6",
+     "height": 0.2,
+     "at": [
+      0.55,
+      0.45
+     ],
+     "slots": [
+      "SK_Accent1"
+     ],
+     "block": "glyphen"
+    },
+    {
+     "type": "trim",
+     "kind": "fins",
+     "count": 3,
+     "slot": "SK_Accent1",
+     "at": 0.85,
+     "block": "schmuck"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.013,
+     "coverage": 0.24,
+     "block": "material",
+     "wear": "medium"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_goldglyphe.png"
+  },
+  {
+   "id": "warnblock",
+   "name": {
+    "de": "Warnblock",
+    "en": "Warnblock"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "gelb-schwarze Warnstreifen vorn, Heckblock in Zweitfarbe, Winkel-Emblem mit Nummer, starke Kantenabnutzung",
+    "en": "yellow-black hazard stripes at the front, rear block in secondary color, chevron emblem with number, heavy edge wear"
+   },
+   "blocks": [
+    "streifen",
+    "farbflaechen",
+    "glyphen",
+    "material"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#F2C230",
+     "finish": "paint"
+    },
+    "SK_Accent2": {
+     "color": "#15171A",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "bands",
+     "dir": [
+      1,
+      -1,
+      0
+     ],
+     "at": 0.0,
+     "width": 0.045,
+     "period": 0.09,
+     "count": 40,
+     "slots": [
+      "SK_Accent1",
+      "SK_Accent2"
+     ],
+     "window": [
+      [
+       0.74,
+       -0.1
+      ],
+      [
+       1.1,
+       -0.1
+      ],
+      [
+       1.1,
+       1.1
+      ],
+      [
+       0.74,
+       1.1
+      ]
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "side_block",
+     "poly": [
+      [
+       -0.1,
+       -0.1
+      ],
+      [
+       0.22,
+       -0.1
+      ],
+      [
+       0.22,
+       1.1
+      ],
+      [
+       -0.1,
+       1.1
+      ]
+     ],
+     "slot": "MT_Secondary",
+     "block": "farbflaechen"
+    },
+    {
+     "type": "glyphs",
+     "items": "chevron+num",
+     "height": 0.26,
+     "at": [
+      0.48,
+      0.55
+     ],
+     "slots": [
+      "SK_Accent2"
+     ],
+     "block": "glyphen"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.019,
+     "coverage": 0.42,
+     "block": "material",
+     "wear": "strong"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_warnblock.png"
+  },
+  {
+   "id": "zweiton",
+   "name": {
+    "de": "Zweiton-Diagonale",
+    "en": "Zweiton-Diagonale"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "diagonale Zweifarb-Teilung mit Akzentlinie, Würfel-Emblem, Chrom an Läufen",
+    "en": "diagonal two-tone split with accent line, cube emblem, chrome barrels"
+   },
+   "blocks": [
+    "farbflaechen",
+    "streifen",
+    "material",
+    "glyphen"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#C9D2DC",
+     "finish": "polished_chrome"
+    },
+    "SK_Accent2": {
+     "color": "#F2F4F6",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "side_block",
+     "poly": [
+      [
+       0.4,
+       -0.1
+      ],
+      [
+       1.1,
+       -0.1
+      ],
+      [
+       1.1,
+       1.1
+      ],
+      [
+       0.62,
+       1.1
+      ]
+     ],
+     "slot": "MT_Detail",
+     "block": "farbflaechen"
+    },
+    {
+     "type": "bands",
+     "along": [
+      [
+       0.4,
+       -0.1
+      ],
+      [
+       0.62,
+       1.1
+      ]
+     ],
+     "width": 0.025,
+     "slots": [
+      "MT_Accent"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "finish",
+     "target": "metal",
+     "slot": "SK_Accent1",
+     "block": "material"
+    },
+    {
+     "type": "glyphs",
+     "items": "cube",
+     "height": 0.36,
+     "at": [
+      0.22,
+      0.5
+     ],
+     "slots": [
+      "SK_Accent2",
+      "MT_Accent",
+      "SK_Accent1"
+     ],
+     "block": "glyphen"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.012,
+     "coverage": 0.14,
+     "block": "material",
+     "wear": "subtle"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_zweiton.png"
+  },
+  {
+   "id": "stufenblock",
+   "name": {
+    "de": "Stufenblock",
+    "en": "Stufenblock"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "gestufte Farbblöcke dunkel unter hell, Gold an Metallteilen, goldene Rippen, Segmentnummer",
+    "en": "stepped color blocks dark below light, gold metal parts, gold ribs, segment number"
+   },
+   "blocks": [
+    "farbflaechen",
+    "material",
+    "glyphen",
+    "schmuck"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#E2B04A",
+     "finish": "polished_gold"
+    },
+    "SK_Accent2": {
+     "color": "#15171A",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "side_block",
+     "poly": [
+      [
+       -0.1,
+       0.62
+      ],
+      [
+       0.34,
+       0.62
+      ],
+      [
+       0.34,
+       0.4
+      ],
+      [
+       0.68,
+       0.4
+      ],
+      [
+       0.68,
+       0.18
+      ],
+      [
+       1.1,
+       0.18
+      ],
+      [
+       1.1,
+       1.1
+      ],
+      [
+       -0.1,
+       1.1
+      ]
+     ],
+     "slot": "MT_Detail",
+     "block": "farbflaechen"
+    },
+    {
+     "type": "finish",
+     "target": "metal",
+     "slot": "SK_Accent1",
+     "block": "material"
+    },
+    {
+     "type": "glyphs",
+     "items": "num",
+     "height": 0.22,
+     "at": [
+      0.8,
+      0.62
+     ],
+     "slots": [
+      "MT_Primary"
+     ],
+     "block": "glyphen"
+    },
+    {
+     "type": "trim",
+     "kind": "ribs",
+     "count": 4,
+     "slot": "SK_Accent1",
+     "at": [
+      0.18,
+      0.35
+     ],
+     "block": "schmuck"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.013,
+     "coverage": 0.21,
+     "block": "material",
+     "wear": "medium"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_stufenblock.png"
+  },
+  {
+   "id": "zielringe",
+   "name": {
+    "de": "Zielringe",
+    "en": "Zielringe"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "konzentrische Ringe in Akzentfarbe und Weiß auf der Seite, kleine Runen, Chrom an Läufen",
+    "en": "concentric accent and white rings on the side, small glyphs, chrome barrels"
+   },
+   "blocks": [
+    "streifen",
+    "material",
+    "glyphen"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#C9D2DC",
+     "finish": "polished_chrome"
+    },
+    "SK_Accent2": {
+     "color": "#F2F4F6",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "rings",
+     "center": [
+      0.42,
+      0.48
+     ],
+     "r0": 0.1,
+     "width": 0.11,
+     "gap": 0.11,
+     "count": 4,
+     "slots": [
+      "MT_Accent",
+      "SK_Accent2"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "finish",
+     "target": "metal",
+     "slot": "SK_Accent1",
+     "block": "material"
+    },
+    {
+     "type": "glyphs",
+     "items": "runes4",
+     "height": 0.14,
+     "at": [
+      0.8,
+      0.3
+     ],
+     "slots": [
+      "MT_Accent"
+     ],
+     "block": "glyphen"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.012,
+     "coverage": 0.14,
+     "block": "material",
+     "wear": "subtle"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_zielringe.png"
+  },
+  {
+   "id": "glutverlauf",
+   "name": {
+    "de": "Glutverlauf",
+    "en": "Glutverlauf"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "gestufter Farbverlauf von der Grundfarbe zur Akzentfarbe nach vorn, zwei leuchtende Neonlinien, dunkle Chromrippen",
+    "en": "stepped color gradient from base to accent toward the muzzle, two glowing neon lines, dark chrome ribs"
+   },
+   "blocks": [
+    "streifen",
+    "schmuck",
+    "material"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#3A3F47",
+     "finish": "polished_chrome"
+    },
+    "SK_Accent2": {
+     "color": "#6CF2FF",
+     "finish": "neon"
+    }
+   },
+   "layers": [
+    {
+     "type": "gradient",
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "start": 0.3,
+     "end": 0.95,
+     "steps": 5,
+     "slots": [
+      "MT_Primary",
+      "MT_Accent"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "bands",
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "at": 0.66,
+     "width": 0.03,
+     "period": 0.07,
+     "count": 2,
+     "slots": [
+      "SK_Accent2"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "trim",
+     "kind": "ribs",
+     "count": 5,
+     "slot": "SK_Accent1",
+     "at": [
+      0.12,
+      0.4
+     ],
+     "block": "schmuck"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.012,
+     "coverage": 0.17,
+     "block": "material",
+     "wear": "subtle"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_glutverlauf.png"
+  },
+  {
+   "id": "chromrippe",
+   "name": {
+    "de": "Chromrippe",
+    "en": "Chromrippe"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "dunkles Gehäuse, Chromrippen an der Seite, Chromfinnen, Akzentband unten, Kantenabnutzung",
+    "en": "dark body, chrome side ribs, chrome fins, accent band along the bottom, edge wear"
+   },
+   "blocks": [
+    "farbflaechen",
+    "material",
+    "streifen",
+    "schmuck"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#C9D2DC",
+     "finish": "polished_chrome"
+    },
+    "SK_Accent2": {
+     "color": "#15171A",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "side_block",
+     "poly": [
+      [
+       -0.1,
+       -0.1
+      ],
+      [
+       1.1,
+       -0.1
+      ],
+      [
+       1.1,
+       1.1
+      ],
+      [
+       -0.1,
+       1.1
+      ]
+     ],
+     "slot": "MT_Detail",
+     "block": "farbflaechen"
+    },
+    {
+     "type": "finish",
+     "target": "metal",
+     "slot": "SK_Accent1",
+     "block": "material"
+    },
+    {
+     "type": "bands",
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "at": 0.84,
+     "width": 0.08,
+     "count": 1,
+     "slots": [
+      "MT_Accent"
+     ],
+     "block": "streifen"
+    },
+    {
+     "type": "trim",
+     "kind": "ribs",
+     "count": 6,
+     "slot": "SK_Accent1",
+     "at": [
+      0.45,
+      0.4
+     ],
+     "block": "schmuck"
+    },
+    {
+     "type": "trim",
+     "kind": "fins",
+     "count": 2,
+     "slot": "SK_Accent1",
+     "at": 0.85,
+     "block": "schmuck"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.016,
+     "coverage": 0.28,
+     "block": "material",
+     "wear": "medium"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_chromrippe.png"
+  },
+  {
+   "id": "glyphenband",
+   "name": {
+    "de": "Glyphenband",
+    "en": "Glyphenband"
+   },
+   "origin": "claude",
+   "description": {
+    "de": "dunkles Band mit leuchtender Neon-Runenzeile über die Seite, Chrom an Läufen",
+    "en": "dark side band with a glowing neon glyph row, chrome barrels"
+   },
+   "blocks": [
+    "material",
+    "glyphen"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#C9D2DC",
+     "finish": "polished_chrome"
+    },
+    "SK_Accent2": {
+     "color": "#6CF2FF",
+     "finish": "neon"
+    }
+   },
+   "layers": [
+    {
+     "type": "finish",
+     "target": "metal",
+     "slot": "SK_Accent1",
+     "block": "material"
+    },
+    {
+     "type": "glyphs",
+     "items": "runes7",
+     "height": 0.16,
+     "at": [
+      0.55,
+      0.42
+     ],
+     "slots": [
+      "SK_Accent2"
+     ],
+     "band": "MT_Detail",
+     "block": "glyphen"
+    },
+    {
+     "type": "edge_wear",
+     "target": "body",
+     "width": 0.012,
+     "coverage": 0.14,
+     "block": "material",
+     "wear": "subtle"
+    }
+   ],
+   "rules": {
+    "contrast": "Farben der Lagen aus den sieben MT_-Kanälen (färben mit der Variante um) plus SK_Accent1/2 (fest)",
+    "space": "Glyphen und Rippen suchen ein freies Rechteck auf einer flachen Seitenfläche, beide Seiten; ohne Platz entfällt die Lage mit Eintrag in notes; Sichtteile und Leuchtteile ohne Skin"
+   },
+   "source": "claude/generator/skins.py CATALOG, DESC",
+   "swatch": "swatches/skin_glyphenband.png"
+  },
+  {
+   "id": "circuit_bloom",
+   "name": {
+    "de": "Circuit Bloom",
+    "en": "Circuit Bloom"
+   },
+   "origin": "codex",
+   "description": {
+    "de": "Schräge Farbblöcke über Gehäusenähte, Doppelband, eigene 07-Glyphe und kleine Kühlrippen.",
+    "en": "Slanted color blocks across housing seams, double band, own 07 glyph and small cooling ribs."
+   },
+   "blocks": [
+    "farbflaechen",
+    "glyphen",
+    "schmuck"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#F0A554",
+     "finish": "paint"
+    },
+    "SK_Accent2": {
+     "color": "#8AE5DA",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.36,
+      "hi": 0.65
+     },
+     "color": "MT_Detail",
+     "finish": "paint"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.65,
+      "hi": 0.71
+     },
+     "color": "SK_Accent1",
+     "finish": "paint"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.72,
+      "hi": 0.735
+     },
+     "color": "SK_Accent2",
+     "finish": "paint",
+     "material": "brushed"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "all",
+      "of": [
+       {
+        "kind": "diagonal",
+        "k": 0.28,
+        "lo": null,
+        "hi": 0.19
+       },
+       {
+        "kind": "v",
+        "lo": null,
+        "hi": 0.6
+       }
+      ]
+     },
+     "color": "MT_Secondary",
+     "finish": "paint"
+    }
+   ],
+   "decor": {
+    "badge": {
+     "color": "#24313C"
+    },
+    "number": "07",
+    "number_slant": "Segmentziffern, Codex-Fassung (codex/fluxbloom/skins.py _DIGITS)",
+    "emblem": "split_chevron",
+    "trim": {
+     "kind": "rib",
+     "count": 3,
+     "finish": "paint"
+    }
+   },
+   "rules": {
+    "contrast": "Mindestabstand 88 im RGB gegen die Grundfarbe; sonst MT_Detail, #ECE8D9 oder #24313C (das mit dem größten Abstand)",
+    "space": "freies Rechteck auf einer sichtbaren Seitenfläche (beide Seiten, lesbar gespiegelt); ohne Platz entfällt das Emblem ausdrücklich",
+    "coordinates": "u,v,w = (Welt − Ursprung) / Ausdehnung der Waffe in Modelleinheiten; diagonal = u + k·v"
+   },
+   "source": "codex/fluxbloom/skins.py sample_surface, _attach (nur gelesen; Codex bestätigt oder ergänzt in Teil C)",
+   "swatch": "swatches/skin_circuit_bloom.png"
+  },
+  {
+   "id": "tidal_pulse",
+   "name": {
+    "de": "Tidal Pulse",
+    "en": "Tidal Pulse"
+   },
+   "origin": "codex",
+   "description": {
+    "de": "Petrolfarbener Längsverlauf, helle Zielringe und nummeriertes Seitenemblem.",
+    "en": "Teal lengthwise gradient, light target rings and a numbered side emblem."
+   },
+   "blocks": [
+    "farbflaechen",
+    "glyphen",
+    "schmuck",
+    "streifen"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#47C7C3",
+     "finish": "paint"
+    },
+    "SK_Accent2": {
+     "color": "#E9C18A",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "blend",
+     "block": "streifen",
+     "axis": "u",
+     "lo": 0.12,
+     "hi": 0.84,
+     "strength": 0.68,
+     "from": "base",
+     "to": "SK_Accent1"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "ellipse_rings",
+      "center": [
+       0.61,
+       0.43
+      ],
+      "scale": [
+       1.35,
+       0.64
+      ],
+      "ranges": [
+       [
+        0.19,
+        0.21
+       ],
+       [
+        0.25,
+        0.258
+       ]
+      ]
+     },
+     "color": "SK_Accent2",
+     "finish": "paint"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "v",
+      "lo": 0.71,
+      "hi": 0.76
+     },
+     "color": "MT_Detail",
+     "finish": "paint"
+    }
+   ],
+   "decor": {
+    "badge": {
+     "color": "#24313C"
+    },
+    "number": "18",
+    "number_slant": "Segmentziffern, Codex-Fassung (codex/fluxbloom/skins.py _DIGITS)",
+    "emblem": "split_chevron",
+    "trim": {
+     "kind": "rib",
+     "count": 3,
+     "finish": "paint"
+    }
+   },
+   "rules": {
+    "contrast": "Mindestabstand 88 im RGB gegen die Grundfarbe; sonst MT_Detail, #ECE8D9 oder #24313C (das mit dem größten Abstand)",
+    "space": "freies Rechteck auf einer sichtbaren Seitenfläche (beide Seiten, lesbar gespiegelt); ohne Platz entfällt das Emblem ausdrücklich",
+    "coordinates": "u,v,w = (Welt − Ursprung) / Ausdehnung der Waffe in Modelleinheiten; diagonal = u + k·v"
+   },
+   "source": "codex/fluxbloom/skins.py sample_surface, _attach (nur gelesen; Codex bestätigt oder ergänzt in Teil C)",
+   "swatch": "swatches/skin_tidal_pulse.png"
+  },
+  {
+   "id": "gilt_vector",
+   "name": {
+    "de": "Gilt Vector",
+    "en": "Gilt Vector"
+   },
+   "origin": "codex",
+   "description": {
+    "de": "Polierte Goldfelder, Chromkante, dunkle Winkelglyphe und dezente Kantenabnutzung.",
+    "en": "Polished gold fields, chrome edge, dark angle glyph and subtle edge wear."
+   },
+   "blocks": [
+    "farbflaechen",
+    "glyphen",
+    "schmuck",
+    "material"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#D7AE52",
+     "finish": "paint"
+    },
+    "SK_Accent2": {
+     "color": "#C0D2DA",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.19,
+      "hi": 0.62
+     },
+     "color": "SK_Accent1",
+     "finish": "polished_gold"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.62,
+      "hi": 0.66
+     },
+     "color": "SK_Accent2",
+     "finish": "polished_chrome"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.66,
+      "hi": 0.75
+     },
+     "color": "MT_Detail",
+     "finish": "paint"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "v",
+      "lo": 0.67,
+      "hi": 0.7
+     },
+     "color": "MT_Secondary",
+     "finish": "paint",
+     "material": "brushed"
+    }
+   ],
+   "decor": {
+    "badge": {
+     "color": "#24313C"
+    },
+    "number": "03",
+    "number_slant": "Segmentziffern, Codex-Fassung (codex/fluxbloom/skins.py _DIGITS)",
+    "emblem": "split_chevron",
+    "trim": {
+     "kind": "rib",
+     "count": 3,
+     "finish": "polished_gold"
+    }
+   },
+   "rules": {
+    "contrast": "Mindestabstand 88 im RGB gegen die Grundfarbe; sonst MT_Detail, #ECE8D9 oder #24313C (das mit dem größten Abstand)",
+    "space": "freies Rechteck auf einer sichtbaren Seitenfläche (beide Seiten, lesbar gespiegelt); ohne Platz entfällt das Emblem ausdrücklich",
+    "coordinates": "u,v,w = (Welt − Ursprung) / Ausdehnung der Waffe in Modelleinheiten; diagonal = u + k·v"
+   },
+   "source": "codex/fluxbloom/skins.py sample_surface, _attach (nur gelesen; Codex bestätigt oder ergänzt in Teil C)",
+   "swatch": "swatches/skin_gilt_vector.png"
+  },
+  {
+   "id": "transit_mark",
+   "name": {
+    "de": "Transit Mark",
+    "en": "Transit Mark"
+   },
+   "origin": "codex",
+   "description": {
+    "de": "Versetzte Warnbänder über Bauteilgrenzen, dunkle Nase und industrielle 23-Kennung.",
+    "en": "Offset warning bands across part borders, dark nose and an industrial 23 mark."
+   },
+   "blocks": [
+    "farbflaechen",
+    "glyphen",
+    "schmuck"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#E5A346",
+     "finish": "paint"
+    },
+    "SK_Accent2": {
+     "color": "#F1E8CF",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "u",
+      "lo": 0.67,
+      "hi": null
+     },
+     "color": "MT_Detail",
+     "finish": "paint"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "all",
+      "of": [
+       {
+        "kind": "u",
+        "lo": 0.23,
+        "hi": 0.61
+       },
+       {
+        "kind": "sawtooth",
+        "fu": 4.7,
+        "fv": 0.62,
+        "lo": 0.0,
+        "hi": 0.32
+       }
+      ]
+     },
+     "color": "SK_Accent1",
+     "finish": "paint"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "all",
+      "of": [
+       {
+        "kind": "u",
+        "lo": 0.23,
+        "hi": 0.61
+       },
+       {
+        "kind": "sawtooth",
+        "fu": 4.7,
+        "fv": 0.62,
+        "lo": 0.34,
+        "hi": 0.42
+       }
+      ]
+     },
+     "color": "SK_Accent2",
+     "finish": "paint"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "v",
+      "lo": 0.64,
+      "hi": 0.7
+     },
+     "color": "MT_Secondary",
+     "finish": "paint"
+    }
+   ],
+   "decor": {
+    "badge": {
+     "color": "#24313C"
+    },
+    "number": "23",
+    "number_slant": "Segmentziffern, Codex-Fassung (codex/fluxbloom/skins.py _DIGITS)",
+    "emblem": "split_chevron",
+    "trim": {
+     "kind": "rib",
+     "count": 3,
+     "finish": "paint"
+    }
+   },
+   "rules": {
+    "contrast": "Mindestabstand 88 im RGB gegen die Grundfarbe; sonst MT_Detail, #ECE8D9 oder #24313C (das mit dem größten Abstand)",
+    "space": "freies Rechteck auf einer sichtbaren Seitenfläche (beide Seiten, lesbar gespiegelt); ohne Platz entfällt das Emblem ausdrücklich",
+    "coordinates": "u,v,w = (Welt − Ursprung) / Ausdehnung der Waffe in Modelleinheiten; diagonal = u + k·v"
+   },
+   "source": "codex/fluxbloom/skins.py sample_surface, _attach (nur gelesen; Codex bestätigt oder ergänzt in Teil C)",
+   "swatch": "swatches/skin_transit_mark.png"
+  },
+  {
+   "id": "chrome_crest",
+   "name": {
+    "de": "Chrome Crest",
+    "en": "Chrome Crest"
+   },
+   "origin": "codex",
+   "description": {
+    "de": "Gebürstete Chromfelder, kupferfarbener Kontrast, echte Seitenrippen und Flossen.",
+    "en": "Brushed chrome fields, copper contrast, real side ribs and fins."
+   },
+   "blocks": [
+    "farbflaechen",
+    "glyphen",
+    "schmuck",
+    "material"
+   ],
+   "accents": {
+    "SK_Accent1": {
+     "color": "#B9CDDA",
+     "finish": "paint"
+    },
+    "SK_Accent2": {
+     "color": "#C97B56",
+     "finish": "paint"
+    }
+   },
+   "layers": [
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "any",
+      "of": [
+       {
+        "kind": "u",
+        "lo": null,
+        "hi": 0.35
+       },
+       {
+        "kind": "v",
+        "lo": 0.23,
+        "hi": 0.44
+       }
+      ]
+     },
+     "color": "SK_Accent1",
+     "finish": "polished_chrome"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.67,
+      "hi": 0.77
+     },
+     "color": "SK_Accent2",
+     "finish": "paint",
+     "material": "brushed"
+    },
+    {
+     "type": "region",
+     "block": "farbflaechen",
+     "mask": {
+      "kind": "diagonal",
+      "k": 0.28,
+      "lo": 0.77,
+      "hi": 0.82
+     },
+     "color": "MT_Detail",
+     "finish": "paint"
+    }
+   ],
+   "decor": {
+    "badge": {
+     "color": "#24313C"
+    },
+    "number": "08",
+    "number_slant": "Segmentziffern, Codex-Fassung (codex/fluxbloom/skins.py _DIGITS)",
+    "emblem": "split_chevron",
+    "trim": {
+     "kind": "fin",
+     "count": 5,
+     "finish": "polished_chrome"
+    }
+   },
+   "rules": {
+    "contrast": "Mindestabstand 88 im RGB gegen die Grundfarbe; sonst MT_Detail, #ECE8D9 oder #24313C (das mit dem größten Abstand)",
+    "space": "freies Rechteck auf einer sichtbaren Seitenfläche (beide Seiten, lesbar gespiegelt); ohne Platz entfällt das Emblem ausdrücklich",
+    "coordinates": "u,v,w = (Welt − Ursprung) / Ausdehnung der Waffe in Modelleinheiten; diagonal = u + k·v"
+   },
+   "source": "codex/fluxbloom/skins.py sample_surface, _attach (nur gelesen; Codex bestätigt oder ergänzt in Teil C)",
+   "swatch": "swatches/skin_chrome_crest.png"
+  }
+ ],
+ "glyphs": {
+  "slant": 0.16,
+  "thickness": 0.27,
+  "digits": {
+   "0": "abcdef",
+   "1": "bc",
+   "2": "abged",
+   "3": "abgcd",
+   "4": "fgbc",
+   "5": "afgcd",
+   "6": "afgedc",
+   "7": "abc",
+   "8": "abcdefg",
+   "9": "abcdfg"
+  },
+  "segments": {
+   "a": [
+    [
+     0.195,
+     0.135
+    ],
+    [
+     0.8049999999999999,
+     0.135
+    ]
+   ],
+   "g": [
+    [
+     0.195,
+     1
+    ],
+    [
+     0.8049999999999999,
+     1
+    ]
+   ],
+   "d": [
+    [
+     0.195,
+     1.865
+    ],
+    [
+     0.8049999999999999,
+     1.865
+    ]
+   ],
+   "f": [
+    [
+     0.135,
+     0.195
+    ],
+    [
+     0.135,
+     0.94
+    ]
+   ],
+   "b": [
+    [
+     0.865,
+     0.195
+    ],
+    [
+     0.865,
+     0.94
+    ]
+   ],
+   "e": [
+    [
+     0.135,
+     1.06
+    ],
+    [
+     0.135,
+     1.805
+    ]
+   ],
+   "c": [
+    [
+     0.865,
+     1.06
+    ],
+    [
+     0.865,
+     1.805
+    ]
+   ]
+  },
+  "runes": [
+   [
+    [
+     [
+      0.15,
+      0
+     ],
+     [
+      0.15,
+      2
+     ]
+    ],
+    [
+     [
+      0.15,
+      0.55
+     ],
+     [
+      0.9,
+      0.05
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0.5,
+      0
+     ],
+     [
+      0.5,
+      2
+     ]
+    ],
+    [
+     [
+      0.08,
+      0.7
+     ],
+     [
+      0.92,
+      0.7
+     ]
+    ],
+    [
+     [
+      0.08,
+      1.4
+     ],
+     [
+      0.92,
+      1.4
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0.1,
+      0.05
+     ],
+     [
+      0.9,
+      1
+     ]
+    ],
+    [
+     [
+      0.9,
+      1
+     ],
+     [
+      0.1,
+      1.95
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0.08,
+      0.12
+     ],
+     [
+      0.92,
+      0.12
+     ]
+    ],
+    [
+     [
+      0.5,
+      0.12
+     ],
+     [
+      0.5,
+      1.25
+     ]
+    ],
+    [
+     [
+      0.08,
+      1.95
+     ],
+     [
+      0.92,
+      1.25
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0.5,
+      0.05
+     ],
+     [
+      0.08,
+      1.0
+     ]
+    ],
+    [
+     [
+      0.5,
+      0.05
+     ],
+     [
+      0.92,
+      1.0
+     ]
+    ],
+    [
+     [
+      0.5,
+      1.25
+     ],
+     [
+      0.5,
+      2
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0.08,
+      0.3
+     ],
+     [
+      0.92,
+      0.3
+     ]
+    ],
+    [
+     [
+      0.08,
+      1.0
+     ],
+     [
+      0.92,
+      1.0
+     ]
+    ],
+    [
+     [
+      0.08,
+      1.7
+     ],
+     [
+      0.92,
+      1.7
+     ]
+    ],
+    [
+     [
+      0.5,
+      0.3
+     ],
+     [
+      0.5,
+      1.0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0.1,
+      0.05
+     ],
+     [
+      0.5,
+      1.95
+     ]
+    ],
+    [
+     [
+      0.5,
+      1.95
+     ],
+     [
+      0.9,
+      0.05
+     ]
+    ],
+    [
+     [
+      0.2,
+      0.75
+     ],
+     [
+      0.8,
+      0.75
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0.12,
+      0
+     ],
+     [
+      0.12,
+      1.3
+     ]
+    ],
+    [
+     [
+      0.12,
+      1.3
+     ],
+     [
+      0.9,
+      1.95
+     ]
+    ],
+    [
+     [
+      0.9,
+      0
+     ],
+     [
+      0.9,
+      1.0
+     ]
+    ]
+   ]
+  ],
+  "emblems": {
+   "cube": "drei Rauten (Würfel)",
+   "chevron": "drei Winkel nach vorn",
+   "ring": "Ring mit Punkt",
+   "split_chevron": "Codex-Winkelemblem"
+  },
+  "box": "Ziffern und Runen in einer Box 1×2, Embleme 2×2",
+  "source": "claude/generator/skins.py"
+ },
+ "channels": {
+  "definition": "Bedeutung wie claude/docs/weapon-spec.md › Kanäle (keine zweite Definition); material = Standard laut Toolgen surface_recipes.json",
+  "items": [
+   {
+    "id": "MT_Primary",
+    "role": {
+     "de": "Hauptfarbe (Gehäuse)",
+     "en": "primary color (housing)"
+    },
+    "material": "painted",
+    "follows_variant": true
+   },
+   {
+    "id": "MT_Secondary",
+    "role": {
+     "de": "Zweitfarbe",
+     "en": "secondary color"
+    },
+    "material": "painted_matte",
+    "follows_variant": true
+   },
+   {
+    "id": "MT_Accent",
+    "role": {
+     "de": "Akzent",
+     "en": "accent"
+    },
+    "material": "painted",
+    "follows_variant": true
+   },
+   {
+    "id": "MT_Metal",
+    "role": {
+     "de": "Metall",
+     "en": "metal"
+    },
+    "material": "brushed",
+    "follows_variant": true
+   },
+   {
+    "id": "MT_Energy",
+    "role": {
+     "de": "Energieglas",
+     "en": "energy glass"
+    },
+    "material": "energy_glass",
+    "follows_variant": true
+   },
+   {
+    "id": "MT_Emission",
+    "role": {
+     "de": "Leuchtanzeige",
+     "en": "emissive display"
+    },
+    "material": "energy_glass",
+    "follows_variant": true
+   },
+   {
+    "id": "MT_Detail",
+    "role": {
+     "de": "Gummi / Kleinteile",
+     "en": "rubber / small parts"
+    },
+    "material": "rubber",
+    "follows_variant": true
+   },
+   {
+    "id": "SK_Accent1",
+    "role": {
+     "de": "fester Skin-Akzent 1 (Farbe und Oberfläche je Skin)",
+     "en": "fixed skin accent 1 (color and finish per skin)"
+    },
+    "material": null,
+    "follows_variant": false
+   },
+   {
+    "id": "SK_Accent2",
+    "role": {
+     "de": "fester Skin-Akzent 2",
+     "en": "fixed skin accent 2"
+    },
+    "material": null,
+    "follows_variant": false
+   }
+  ]
+ },
+ "swatch_setup": {
+  "size": 512,
+  "background": "#14181E",
+  "palette": {
+   "MT_Primary": "#E3E5E8",
+   "MT_Secondary": "#4A4F57",
+   "MT_Accent": "#F28C28",
+   "MT_Metal": "#8A929C",
+   "MT_Energy": "#57C7CA",
+   "MT_Emission": "#9BE4DD",
+   "MT_Detail": "#2A2F36"
+  },
+  "lighting": {
+   "rule": "Stufe nach v: <0,12 → 0 (hell), <0,6 → 1, <0,85 → 2, sonst 3 (dunkel); Glanzstreifen für Gold/Chrom quer",
+   "v_levels": [
+    0.12,
+    0.6,
+    0.85
+   ]
+  },
+  "mock": {
+   "rect_px": [
+    32,
+    120,
+    480,
+    392
+   ],
+   "body_u_max": 0.82,
+   "barrel_v": [
+    0.42,
+    0.62
+   ],
+   "note": "Schemabild: Muster-Gehäuse mit Lauf; u 0..1 über die Breite, v 0..1 von oben. Grobe Wiedergabe der Lagen, maßgeblich sind die Parameter"
+  },
+  "skin_base": "MT_Primary",
+  "skin_barrel": "MT_Metal"
+ },
+ "swatches": {}
+}

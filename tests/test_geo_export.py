@@ -52,6 +52,22 @@ class GeoExportTests(unittest.TestCase):
         self.assertEqual(result['origin'],'Socket_Mount')
         self.assertEqual(result['parts'],document['source_geo']['parts'])
 
+    def test_figure_spec_survives_geo_roundtrip_with_validation(self):
+        source=model.load(ROOT/'formgen/models/mini.py')
+        source['info']['kind']='figure'
+        document=geom.evaluate(source)
+        expected=spec.build(document)
+        with tempfile.TemporaryDirectory() as td:
+            folder=Path(td);path=folder/'MINI.spec.json'
+            write(path,canonical(expected)+b'\n')
+            write(folder/'MINI.geo.json',canonical(geo.export(document,path))+b'\n')
+            imported=geo.load(folder/'MINI.geo.json')
+            self.assertEqual(spec.build(imported),expected)
+            imported['source_spec']['format_version']=2
+            with self.assertRaises(jsonschema.ValidationError):spec.build(imported)
+        broken=copy.deepcopy(expected);broken['anchors']['Socket_Hand']['part']='missing'
+        with self.assertRaisesRegex(ValueError,'unbekanntes Teil'):spec.validate(broken)
+
     def test_additional_import_spec_is_required_and_checked(self):
         document = geo.load(FIX/'KG02.geo.json')
         with tempfile.TemporaryDirectory() as td:

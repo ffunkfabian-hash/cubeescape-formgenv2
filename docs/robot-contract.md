@@ -26,6 +26,7 @@ Geometrie in eigenen Modulen editierbar, keine reine Mesh-Übernahme der Gesamtf
 ## Abnahme
 
 Front/Rücken/beide Seiten jeweils IoU≥0,90; zehn Höhenbänder Breitenverhältnis 0,92–1,08. Volle Silhouette erst mit allen Gruppen sinnvoll, Gruppen isoliert in ihren belegten Höhenbändern vergleichen.
+Breite ist die mittlere äußere horizontale Spannweite (rechtester bis linkester belegter Pixel, einschließlich Zwischenräumen) über dieselben fest registrierten Zeilen je Band; leere Zeilen zählen als null. Präzisierung 26.10.2026 nach unabhängigem Prüfbefund: Der bisherige Flächenquotient prüfte keine Außenbreite und bleibt nur als `occupied_area_ratio` zur Diagnose erhalten. Grenzwerte, Masken und Registrierung bleiben unverändert; alte Bandwerte sind keine Breitenabnahme.
 Referenz side-right blickt im Bild nach links → Rasterkamera side_left; side-left blickt nach rechts → Rasterkamera side_right. Das ist eine dokumentierte Namenszuordnung, kein Spiegeln der Geometrie.
 Neue Gelenklagen aus Orthos ersetzen widersprechende alte Entwurfsanker mit dokumentiertem Vergleich, niemals stumme Anpassung.
 Fertige Gruppe erst nach Bild und gemessenen Zahlen unabhängiger Prüfung melden.

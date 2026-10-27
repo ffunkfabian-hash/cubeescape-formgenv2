@@ -37,8 +37,11 @@ class RobotArmTests(unittest.TestCase):
     def test_closed_positive_meshes_and_valid_json(self):
         json.dumps(self.document,allow_nan=False)
         json.dumps(arms.SEGMENT_FRAMES,allow_nan=False)
-        self.assertEqual(len(self.document['warnings']),134)
-        self.assertTrue(all(w.endswith('Fase: echte planare Kantenfase; ballons Zweisegment-Rundung wird nicht nachgebildet') for w in self.document['warnings']))
+        for source in arms.PARTS:
+            if source['bevel'] > 0:
+                self.assertEqual(self.parts[source['id']]['bevel_status'],
+                                 'segmented_bevel',source['id'])
+        self.assertFalse(any('nicht ausgewertet' in w for w in self.document['warnings']))
         for part in self.parts.values():
             mesh = part['mesh']
             edges = Counter(tuple(sorted((a,b))) for face in mesh['faces']
@@ -79,7 +82,7 @@ class RobotArmTests(unittest.TestCase):
                 end=np.asarray(f['at'])+np.asarray(f['basis'][2])*length
                 np.testing.assert_allclose(end,arms.ANCHORS['Socket_'+dest+'_'+side.upper()]['at'])
 
-    def test_bearings_stay_round_and_hand_unscaled(self):
+    def test_bearings_stay_round_and_hand_instance_has_explicit_scale(self):
         for side in ('r','l'):
             frame=arms.SEGMENT_FRAMES[side+'_fore']
             axis=np.asarray(frame['basis'][0]); center=np.asarray(frame['at'])
@@ -89,7 +92,28 @@ class RobotArmTests(unittest.TestCase):
                 radial=delta-np.outer(delta@axis,axis)
                 np.testing.assert_allclose(np.linalg.norm(radial,axis=1),40*arms.SOURCE.ARM_BULK)
             f0=arms.SEGMENT_FRAMES[side+'_f0_0']; f1=arms.SEGMENT_FRAMES[side+'_f0_1']
-            self.assertAlmostEqual(np.linalg.norm(np.asarray(f1['at'])-f0['at']),arms.SOURCE.FINGER_LINKS[0])
+            self.assertAlmostEqual(np.linalg.norm(np.asarray(f1['at'])-f0['at']),
+                                   arms.SOURCE.FINGER_LINKS[0]*arms.HAND_SCALE)
+            hand=arms.SEGMENT_FRAMES[side+'_hand']
+            knuckle=arms._point(hand,arms.hand_offset([arms.SOURCE.FINGER_X[0],0,arms.SOURCE.KNUCKLE_Z]))
+            np.testing.assert_allclose(f0['at'],knuckle)
+            for p in arms.PARTS:
+                if p['arm_side']==side and p.get('source_id'):
+                    expected=1 if p['segment'] in ('upper','fore') else arms.HAND_SCALE
+                    self.assertEqual(p['instance_scale'],expected)
+
+    def test_upper_casing_refinement_does_not_move_depth_height_bearings_or_source_axes(self):
+        for side,sign in [('r',-1),('l',1)]:
+            frame=arms.SEGMENT_FRAMES[side+'_upper']
+            np.testing.assert_allclose(frame['at'],[-26,1546,sign*281])
+            for pid,_,segment,kind,_,parameters in arms.SOURCE.parts():
+                if segment!='upper':
+                    continue
+                raw=arms.convert(kind,parameters,frame,arms.LENGTH_SCALE[segment])
+                authored=next(p for p in arms.PARTS if p['id']==f'arms_{pid}_{side}')
+                delta=np.asarray(authored['points'])-np.asarray(raw['points'])
+                np.testing.assert_allclose(delta[:,:2],0,atol=1e-12)
+                self.assertLess(np.ptp(np.asarray(authored['points'])[:,2]),np.ptp(np.asarray(raw['points'])[:,2]))
 
 
 if __name__ == '__main__':

@@ -10,10 +10,15 @@ import math
 from .r01_parts import arms
 
 SOURCE = arms.SOURCE
-GRIP_IN_HAND = [10, -37, 55]
+# The palm grows with the measured neutral-hand instance; W01's grip stays
+# 30mm wide. Keep 14mm half-grip penetration against the scaled inner palm.
+GRIP_IN_HAND = [12.5, -(SOURCE.PALM_T*arms.HAND_SCALE/2+14), 68.75]
 READY_WEAPON_SOCKET = [500, 1320, -320]
 # Hand +X follows grip height, +Y points outwards, +Z towards the muzzle.
 READY_HAND_BASIS = [[0, 1, 0], [0, 0, -1], [1, 0, 0]]
+# Author-frame roll (physical clockwise about shoulder→elbow). Measured
+# polyhedron clearance: 0° intersects the stock by 2.061mm³, 5° leaves 1.51mm.
+READY_UPPER_ROLL_DEG = 5
 
 
 def _xyz(point):
@@ -39,7 +44,7 @@ def hand_socket():
     """Actual grip datum, distinct from the existing wrist/Kardan datum."""
     return dict(at=arms._point(arms.SEGMENT_FRAMES['r_hand'], GRIP_IN_HAND),
                 part='arms_palm_r',
-                provenance=dict(kind='Annahme', source='Griffdatum lokal [10,-37,55]mm in unveränderter rechter Hand: Palmenseite an W01-Griff (30mm Breite), Fingerreihen entlang Griffhöhe; siehe docs/robot-pose.md'))
+                provenance=dict(kind='Annahme', source='Griffdatum für Ortho-Handinstanz: x12,5/z68,75mm, y=−(skalierte halbe Handdicke+14mm); unveränderter W01-Griff30mm, 1mm nomineller Kontakt. Siehe docs/robot-pose.md'))
 
 
 def _elbow(shoulder, wrist):
@@ -63,17 +68,21 @@ def ready_frames():
     frames = dict(r_hand=hand,
         r_upper=arms._frame(arms.SHOULDER_R, arms._sub(elbow, arms.SHOULDER_R), [0,0,-1]),
         r_fore=arms._frame(elbow, arms._sub(hand['at'], elbow), [0,0,-1]))
+    upper=frames['r_upper'];x,y,z=upper['basis']
+    angle=math.radians(READY_UPPER_ROLL_DEG);c,s=math.cos(angle),math.sin(angle)
+    upper['basis']=[arms._add(arms._mul(x,c),arms._mul(y,s)),
+                    arms._add(arms._mul(x,-s),arms._mul(y,c)),z]
     grip = SOURCE.FINGER_POSES['grip']
     for i, x in enumerate(SOURCE.FINGER_X):
-        finger = arms._advance(hand, [x, 0, SOURCE.KNUCKLE_Z])
+        finger = arms._advance(hand, arms.hand_offset([x, 0, SOURCE.KNUCKLE_Z]))
         for j, length in enumerate(SOURCE.FINGER_LINKS):
             finger = arms._rotate_x(finger, grip['f'][i][j])
             frames[f'r_f{i}_{j}'] = finger
-            finger = arms._advance(finger, [0, 0, length*SOURCE.FINGER_SCALE[i]])
+            finger = arms._advance(finger, arms.hand_offset([0, 0, length*SOURCE.FINGER_SCALE[i]]))
     z = arms._unit(SOURCE.THUMB_DIR)
     y = arms._unit(arms._sub([0,1,0], arms._mul(z, arms._dot([0,1,0], z))))
     x = arms._cross(y,z)
-    thumb = dict(at=arms._point(hand, SOURCE.THUMB_BASE),
+    thumb = dict(at=arms._point(hand, arms.hand_offset(SOURCE.THUMB_BASE)),
                  basis=[arms._vector(hand,v) for v in (x,y,z)])
     # Source thumb neutral abduction is 30 degrees. Apply grip's 12 degrees
     # relative to that frame, then its three source flexion values.
@@ -83,7 +92,7 @@ def ready_frames():
     for j, length in enumerate(SOURCE.THUMB_LINKS):
         thumb = arms._rotate_x(thumb, [grip['t'][0],grip['t'][2]*.6,grip['t'][2]][j])
         frames[f'r_t_{j}'] = thumb
-        thumb = arms._advance(thumb, [0,0,length])
+        thumb = arms._advance(thumb, arms.hand_offset([0,0,length]))
     return frames
 
 

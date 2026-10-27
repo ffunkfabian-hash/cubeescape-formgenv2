@@ -27,6 +27,16 @@ PROVENANCE = {
                           'source': 'side-right Ringzentrum und Schalenprofil; Gegenansicht side-left visuell gegengeprüft'},
     'construction': {'kind': 'Annahme',
                      'source': 'Gerundete Konturstützpunkte und verdeckte Verbindungsteile; 5mm f-Wand Brust/Rücken, 6mm radial Schulter, 6mm Fugen; 24 Schultersegmente. B nur Facettierung, massfigur-v2 nur Schalenprinzip.'},
+    'shoulder_revision_1': {
+        'kind': 'gemessen',
+        'source': 'Frontmaske unverändert: y770 x1497..1672, y800 x1458..1712; y850..1060 zusammenhängender Schulter/Rumpfrand. Seitenoriginal: breite weiße Ringfläche um freie dunkle Gelenkmitte. Ein begründeter Korrekturdurchgang, kein Maskenfit.',
+        'construction': {'kind': 'Annahme',
+            'source': 'Konturstützpunkte auf gemeinsames k1924/3653 gerundet: axiale Schale185..333mm, Radius94..99mm, äußere Seitenblende48mm freie Mitte und6mm axiale Wand. Oberer Außenrand um0.35 des radialen Höhenanteils nach innen geneigt. Graphit-Anschlusskragen x173..237, Radien72/92; keine Änderung der Schulterachse.'}},
+    'surface_revision_2': {
+        'kind': 'gemessen',
+        'source': 'Gemeinsam registrierte Front-/Rückenorthos: Schulteraußenkante bei u1550 etwa x±356mm; Front u1500/1525/1575/1600 etwa x±342/355/351/328mm. Taille: zentrale Kontur bei u1220 Front±126mm, Rücken−116..125mm; u1245 etwa±112mm, u1300 etwa±127mm. Keine Änderung der Gelenke oder der Seitenregistrierung.',
+        'construction': {'kind': 'Annahme',
+            'source': 'Ein gemeinsamer räumlicher Kappenkranz mit 24mm parabolischer axialer Wölbung um die feste Achshöhe1546; Formhalbhöhe54mm und Aufwärtsneigung0.3, oberhalb der Wölbung keine Verengung der bestehenden Krone. Innerer Anschluss x185 bleibt fest, f/u-Radien und freie48mm Lageröffnung unverändert. Bauchweite119/126/112/127/123mm bei u1190/1220/1245/1306/1344; Front-/Rücktiefe bleibt erhalten, neu interpolierte Zwischenzeile f133/−52mm.'}},
     'waist': {'kind': 'Vorgabe', 'at': [45, 1190, 0],
               'source': 'Gemeinsamer unterer Rumpfanschluss docs/robot-contract.md; Socket_Waist wird vom Unterkörper exportiert'},
 }
@@ -124,10 +134,12 @@ _part('back_spine_cover', 'shell',
       'Gemessen: Rücken zentrale schmale Abdeckung. Annahme: 50mm Breite, 5mm Wand und längs gefaltetes Profil.',
       **_plate(spine, [[0, 1, 2, 5], [5, 2, 3, 4]], rear=True))
 
+ABDOMEN_ROWS = [(1190, 119, 126, -48), (1220, 126, 133, -52),
+                (1245, 112, 139, -56), (1306, 127, 145, -64),
+                (1344, 123, 150, -65)]
 abdomen = _part('abdomen_core', 'graphite',
-                'Gemessen: Front schwarze Bauchzone y≈1400..1617; Annahme: um Waist(45,1190,0) liegender Innenkörper und 6mm Plattenfugen.',
-                **_body([(1190, 82, 126, -48), (1245, 96, 139, -56),
-                         (1306, 111, 145, -64), (1344, 123, 150, -65)]))
+                'Gemessen: Front/Rücken schwarze Bauchzone und gemeinsame Konturstützen PROVENANCE.surface_revision_2. Annahme: breiterer Innenkörper um festen Waist(45,1190,0), unveränderte Seitentiefe und 6mm Plattenfugen.',
+                **_body(ABDOMEN_ROWS))
 for i, (u0, u1, width, front, back) in enumerate([
         (1195, 1232, 72, 139, -62), (1239, 1276, 83, 149, -70),
         (1283, 1323, 93, 156, -76)]):
@@ -147,6 +159,17 @@ collar = _part('neck_collar', 'graphite',
                shape='cyl', axis='u', c=[35, 0], a0=1598, a1=1630,
                r=78, r_in=53, segs=20)
 
+def _cap_axial_crown(x, radial_height):
+    """A rounded axial crown around the fixed shoulder, not a wider joint."""
+    # The old straight sloping rim was narrow at the axis yet too flared below.
+    # One smooth 3D crown adds the measured middle width and returns inward at
+    # the lower lip; the original upper crown and inner coupling stay intact.
+    bulge = 24 * (1 - (radial_height / 54)**2) + .3 * radial_height
+    if radial_height > 0:
+        bulge = max(0, bulge)
+    return x - .35 * radial_height * max(0, (x - 185) / 148) + bulge * max(0, (x - 185) / 148)
+
+
 # Wide beams connect the chest to the open shoulder cups. Actual shoulder
 # bearings and ring faces belong to arms; this assembly supplies the shells.
 for suffix, sign in [('r', -1), ('l', 1)]:
@@ -157,25 +180,34 @@ for suffix, sign in [('r', -1), ('l', 1)]:
                     [89, 1555, sign*175], [103, 1596, sign*102]],
                    [[0, 1, 2, 5], [2, 3, 4, 5]]))
 
-    # Five partial annular rings make a cap open below and at both axial ends.
-    # Radial wall does not close the visible center; arms may install its disc.
+    _part('shoulder_coupling_'+suffix, 'graphite',
+          'Gemessen: Front/Rücken y850..1060 ohne weiße Lücke zwischen Thorax und Schulter. Annahme: hohler Anschlusskragen x173..237, Radien72/92, 24 Segmente; trägt keine Gelenkscheibe und lässt den inneren Lagerraum frei.',
+          shape='cyl', axis='x', c=[-26, 1546],
+          a0=sign*205-32, a1=sign*205+32, r=92, r_in=72, segs=24)
+
+    # Sweep a closed shell section around the shoulder axis. Its outer flange
+    # remains open at the bearing and below; it is a broad white ring in side
+    # view, rather than the six-millimetre line of a bare barrel edge.
     angles = [math.radians(-129 + i*258/24) for i in range(25)]
-    rings = [(237, 95), (250, 107), (306, 108), (333, 96)]
-    outer = [[-26+r*math.sin(t), 1546+r*math.cos(t), sign*x]
-             for x, r in rings for t in angles]
-    inner = [[-26+(r-6)*math.sin(t), 1546+(r-6)*math.cos(t), sign*x]
-             for x, r in rings for t in angles]
-    n, row = len(outer), len(angles)
-    faces = [[j*row+i, j*row+i+1, (j+1)*row+i+1, (j+1)*row+i]
-             for j in range(len(rings)-1) for i in range(row-1)]
-    faces += [[n+i for i in reversed(face)] for face in faces[:]]
-    boundary = list(range(row)) + [j*row+row-1 for j in range(1,len(rings))]
-    boundary += list(range(n-2,n-row-1,-1)) + [j*row for j in range(len(rings)-2,0,-1)]
-    for a, b in zip(boundary, boundary[1:]+boundary[:1]):
-        faces.append([b, a, n+a, n+b])
+    section = [(185, 94), (210, 99), (286, 99), (315, 87),
+               (333, 78), (333, 48), (327, 48), (327, 74),
+               (309, 82), (286, 93), (210, 93), (185, 88)]
+    vertices = [[-26+r*math.sin(t), 1546+r*math.cos(t),
+                 sign*_cap_axial_crown(x, r*math.cos(t))]
+                for x, r in section for t in angles]
+    row = len(angles)
+    faces = [[j*row+i, j*row+i+1, ((j+1)%len(section))*row+i+1,
+              ((j+1)%len(section))*row+i]
+             for j in range(len(section)) for i in range(row-1)]
+    for i in (0, row-1):
+        # Pair the outer/inner wall explicitly. A triangle fan over this
+        # concave section would cross the empty bearing opening.
+        for quad in ([0, 1, 10, 11], [1, 2, 9, 10], [2, 3, 8, 9],
+                     [3, 4, 7, 8], [4, 5, 6, 7]):
+            faces.append([j*row+i for j in quad])
     shell = _part('shoulder_cap_'+suffix, 'shell',
-                  'Gemessen: Front Kappenhöhe y≈755..1110; Seite Schulterringzentrum x≈2200, Front y≈940. Annahme: offene258°-Kappe, Radien95..108, 6mm echte radiale Wand, 24 Segmente, axial x237..333.',
-                  **_closed(outer+inner, faces), wall_mm=6)
+                  'Gemessen: Front Kappenoberkante y≈755..770; Seite breite weiße Ringfläche um Gelenk, Frontachse y≈940. Annahme: unten offene258°-Kappe, max99mm Radius,6mm Schalenwand,48mm freie Ringmitte, geneigter Außenrand; Stützpunkte und axiale Kranzwölbung siehe PROVENANCE.shoulder_revision_1/surface_revision_2.',
+                  **_closed(vertices, faces), wall_mm=6)
     ANCHORS['Socket_Shoulder_'+suffix.upper()] = {
         'at': [-26, 1546, sign*281], 'part': shell,
         'source': 'Gemessen/abgeleitet: Front y940 und Kappenmitten x1515/2581, k1924/3653; Seite Ring-x2200 ergibt f−26. Gerundete verdeckte Gelenkachse.'}

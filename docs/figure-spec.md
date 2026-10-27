@@ -2,6 +2,7 @@
 
 `formgen.spec.build(document)` verarbeitet die gemeinsame ausgewertete Geometrie. `figure` liefert
 `cubeescape-formgen/figure-spec`, `format_version: 1`; keine Bildanalyse und keine automatische Größenanpassung.
+Native und aus Geo SHA-geprüft zurückgelesene FigureSpecs werden gegen `docs/schemas/figure-spec.schema.json` validiert; die importierte Spec bleibt als tiefe Kopie inhaltlich erhalten. Teil-/Baugruppen-IDs sind eindeutig, Elternteile und Anker verweisen auf vorhandene Teile. Damit funktioniert auch FigureSpec → FigureGeo → Import → FigureSpec ohne Rekonstruktion.
 
 - `figure`: vollständiges Autoren-INFO einschließlich Herkunft.
 - `units: m`, `axes`: +X links, −Y vorn, +Z oben, unveränderter Autorenursprung.

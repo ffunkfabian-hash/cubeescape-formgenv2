@@ -14,6 +14,30 @@ VIEWS={'front':('front',[0,0,CENTER_Z],0,0),'back':('back',[0,0,CENTER_Z],0,0),
        'side-right':('side_left',[0,-(2150/4-512)/SCALE,CENTER_Z],0,7),
        'side-left':('side_right',[0,(1946/4-512)/SCALE,CENTER_Z],0,5)}
 
+def band_metrics(reference, rendered, heights, u_min, u_max):
+    """Mean outer row span over the same fixed rows, including empty rows.
+
+    Width includes the gap between limbs. Occupied area remains a separate
+    diagnostic: it cannot detect limbs moving apart without changing size.
+    """
+    def spans(mask):
+        present=mask.any(axis=1)
+        left=mask.argmax(axis=1)
+        right=mask.shape[1]-1-mask[:,::-1].argmax(axis=1)
+        return np.where(present,right-left+1,0)
+    rw,mw=spans(reference),spans(rendered)
+    result=[]
+    for i in range(10):
+        lo=u_min+(u_max-u_min)*i/10;hi=u_min+(u_max-u_min)*(i+1)/10
+        rows=(heights>=lo)&(heights<hi)
+        wr=float(rw[rows].mean()) if rows.any() else 0.
+        wm=float(mw[rows].mean()) if rows.any() else 0.
+        ar=int(reference[rows].sum());am=int(rendered[rows].sum())
+        result.append({'from_bottom':i,'reference_mean_width_px':wr,
+                       'model_mean_width_px':wm,'ratio':wm/wr if wr else None,
+                       'occupied_area_ratio':am/ar if ar else None})
+    return result
+
 def document(groups):
     parts=[];anchors={};sources={}
     for group in groups:
@@ -33,7 +57,7 @@ def build_image(artifact):
 
 def evaluate(groups, u_min=0,u_max=1924):
     doc,sources=document(groups);name='-'.join(groups);out=OUT/name;out.mkdir(parents=True,exist_ok=True)
-    result={'groups':groups,'counts':doc['counts'],'sources':sources,'height_mm':1924,'scale_px_m':SCALE,'u_range_mm':[u_min,u_max],'views':{},'warnings':doc['warnings'],'mask_source':'same render frame, final part buffer, coverage >=128/255'}
+    result={'groups':groups,'counts':doc['counts'],'sources':sources,'height_mm':1924,'scale_px_m':SCALE,'u_range_mm':[u_min,u_max],'views':{},'warnings':doc['warnings'],'mask_source':'same render frame, final part buffer, coverage >=128/255','band_metric':'mean_outer_row_span_v1; fixed registered rows, empty rows included'}
     for view in VIEWS:
         a=Artifact('R01-'+name,'views',hashlib.sha256(canonical(sources)).hexdigest(),{'view':view,'registration':4,'bevels':True,'mask_source':'raster-final-part-buffer','skin_sha':file_hash(ROOT/'skins.toml')},{'GEOM':versions.GEOM,'RASTER':versions.RASTER},view+'-frame.png','tools.robot_evidence:build_image',{'groups':groups})
         run_artifacts([a],out,Path.home()/'Library/Caches/CubeEscapeFormgen/artifacts')
@@ -52,10 +76,7 @@ def evaluate(groups, u_min=0,u_max=1924):
             x=(np.arange(1024)[None,:]-512)/SCALE*1000
             if view in ('front','back'):r &= abs(x)<380
         union=(r|m).sum();iou=float((r&m).sum()/union) if union else 0
-        bands=[]
-        for i in range(10):
-            lo=u_min+(u_max-u_min)*i/10;hi=u_min+(u_max-u_min)*(i+1)/10;band=(u>=lo)&(u<hi)
-            wr=int((r&band).sum());wm=int((m&band).sum());bands.append({'from_bottom':i,'ratio':wm/wr if wr else None})
+        bands=band_metrics(r,m,u[:,0],u_min,u_max)
         overlay=np.full((1024,1024,3),238,np.uint8);overlay[r]=[220,70,80];overlay[m]=[60,130,230];overlay[r&m]=[95,80,150];Image.fromarray(overlay).save(out/(view+'-overlay.png'))
         result['views'][view]={'iou':iou,'bands':bands,'iou_pass':iou>=.9,'bands_pass':all(b['ratio'] is not None and .92<=b['ratio']<=1.08 for b in bands)}
     (out/'metrics.json').write_bytes(canonical(result)+b'\n')

@@ -64,7 +64,9 @@ class GeometryTests(unittest.TestCase):
         for shape in (dict(shape='frame',f0=0,f1=10,cu=0,ow=40,oh=50,iw=30,ih=40,r_out=4,r_in=2),dict(shape='tube',path=[[0,0,0],[10,0,0],[20,10,0]],r=2),dict(shape='xbox',f0=0,f1=5,cu=10,ww=20,hh=20)):
             self.assertSolid(evaluate(shape)['parts'][0])
         d=evaluate(dict(shape='text',text='TEST',size=10,f=0,u=0))
-        self.assertTrue(any('Ersatz' in w for w in d['warnings']))
+        self.assertSolid(d['parts'][0])
+        self.assertGreater(len(d['parts'][0]['mesh']['faces']),12)
+        self.assertFalse(any('Ersatz' in w for w in d['warnings']))
 
     def test_hull_loft_and_solid_surface(self):
         points=[[f,u,x] for f in (0,100) for u in (0,100) for x in (0,100)]
@@ -102,11 +104,55 @@ class GeometryTests(unittest.TestCase):
         d=document(dict(shape='box',f0=0,f1=100,u0=0,u1=100,w=100))
         d['parts'][0]['bevel']=5
         p=geom.evaluate(d)['parts'][0]
-        self.assertEqual(p['bevel_status'],'planar_chamfer')
+        self.assertEqual(p['bevel_status'],'segmented_bevel')
         self.assertSolid(p)
         self.assertLess(volume(p),.001)
         self.assertGreater(p['counts']['triangles'],12)
         np.testing.assert_allclose(p['bounds_m'],[[-.05,-.1,0],[.05,0,.1]],atol=1e-8)
+
+    @unittest.skipIf(geom._manifold is None,'manifold3d optional')
+    def test_segmented_bevel_retains_circular_midpoint(self):
+        d=document(dict(shape='box',f0=0,f1=100,u0=0,u1=100,w=100))
+        d['parts'][0].update(bevel=5, segs_bevel=2)
+        p=geom.evaluate(d)['parts'][0]
+        self.assertSolid(p)
+        verts=np.asarray(p['mesh']['vertices'])
+        # Middle of a long 90-degree edge: circle radius5mm, center(-5,95).
+        midpoint=np.array([.05-.005+.005/math.sqrt(2), -.005+.005/math.sqrt(2)])
+        self.assertTrue(np.any(np.linalg.norm(verts[:,:2]-midpoint,axis=1)<1e-10))
+        d['parts'][0]['segs_bevel']=1
+        chamfer=geom.evaluate(d)['parts'][0]
+        self.assertEqual(chamfer['bevel_status'],'planar_chamfer')
+        self.assertLess(volume(chamfer),volume(p))
+
+    @unittest.skipIf(geom._manifold is None,'manifold3d optional')
+    def test_disconnected_bevel_preserves_parts_and_gap(self):
+        boxes=[dict(shape='box',f0=f,f1=f+20,u0=0,u1=20,w=20) for f in (0,60)]
+        d=document(dict(shape='multi',items=boxes));d['parts'][0]['bevel']=2
+        p=geom.evaluate(d)['parts'][0]
+        self.assertEqual(p['bevel_status'],'segmented_bevel')
+        self.assertSolid(p)
+        components=list(geom._mesh_components(p['mesh']['vertices'],p['mesh']['faces']))
+        self.assertEqual(len(components),2)
+        self.assertTrue(all(geom._volume(v,f)>0 for v,f in components))
+        self.assertFalse(any(-.06<y<-.02 for _,y,_ in p['mesh']['vertices']))
+
+    @unittest.skipIf(geom._manifold is None,'manifold3d optional')
+    def test_bevel_clamp_preserves_thin_box(self):
+        d=document(dict(shape='box',f0=0,f1=20,u0=0,u1=20,w=1))
+        d['parts'][0]['bevel']=10
+        p=geom.evaluate(d)['parts'][0]
+        self.assertSolid(p)
+        self.assertGreater(volume(p),.02*.02*.001*.1)
+        self.assertEqual(p['bevel_status'],'segmented_bevel')
+
+    @unittest.skipIf(geom._manifold is None,'manifold3d optional')
+    def test_concave_bevel_remains_explicitly_unsupported(self):
+        d=document(dict(shape='prof',pts=[[0,0],[30,0],[30,10],[10,10],[10,30],[0,30]],w=10))
+        d['parts'][0]['bevel']=1
+        p=geom.evaluate(d)['parts'][0]
+        self.assertEqual(p['bevel_status'],'unsupported')
+        self.assertSolid(p,500*10/1e9)
 
     def test_pilot_every_part_evaluates(self):
         d=geom.evaluate(model.load('formgen/models/weapons/w01_auto_rifle.py'))
@@ -115,4 +161,10 @@ class GeometryTests(unittest.TestCase):
         for p in d['parts']:
             self.assertEqual(len(p['mesh']['hard']),len(p['mesh']['faces']))
             self.assertTrue(np.isfinite(p['mesh']['vertices']).all())
+            vertices=np.asarray(p['mesh']['vertices'])
+            faces=np.asarray(p['mesh']['faces'])
+            areas2=np.linalg.norm(np.cross(vertices[faces[:,1]]-vertices[faces[:,0]],
+                                          vertices[faces[:,2]]-vertices[faces[:,0]]),axis=1)
+            self.assertTrue(np.all(areas2>1e-16),p['id'])
+            self.assertSolid(p)
         json.dumps(d,allow_nan=False)

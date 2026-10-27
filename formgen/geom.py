@@ -12,6 +12,7 @@ import numpy as np
 from scipy.spatial import ConvexHull, QhullError
 
 from .model import normalize, ModelError
+from .curves import auto_bezier_points
 from .versions import GEOM as VERSION
 
 try:
@@ -253,8 +254,8 @@ def _shape(p, warnings):
         v,f = _orient([to_xyz(pt) for pt in p['vertices']],p['faces'],outward=False)
         return _solidify(v,f,p['thickness']/1000) if p.get('thickness') else (v,f)
     if k == 'tube':
-        warnings.append('tube: paralleler Ringtransport entlang der Polylinie; Blender-AUTO-Bezier wird nicht nachgebildet')
-        points = np.asarray([to_xyz(pt) for pt in p['path']])
+        warnings.append('tube: AUTO-Bezier-Mittellinie nach Blender5.0.1, Auflösung12; paralleler Ringtransport statt vollständiger Blender-Tessellation')
+        points = auto_bezier_points([to_xyz(pt) for pt in p['path']])
         tangents = np.empty_like(points)
         tangents[0],tangents[-1] = points[1]-points[0],points[-1]-points[-2]
         tangents[1:-1] = points[2:]-points[:-2]
@@ -272,15 +273,8 @@ def _shape(p, warnings):
             rings.append([point+p['r']/1000*(normal*math.cos(a)+second*math.sin(a)) for a in np.linspace(0,2*math.pi,p.get('segs',16),endpoint=False)])
         return _loft(rings)
     if k == 'text':
-        warnings.append(f"text {p['text']!r}: sichtbare Texttafel als Ersatz, keine Blender-Schriftkontur")
-        width,height = max(len(p['text']),1)*p['size']*.6,p['size']
-        side,depth = p.get('side',1),p.get('depth',.15)
-        origin = np.asarray(to_xyz((p['f'],p['u'],p.get('x',0))))
-        align = {'LEFT':0,'CENTER':-.5,'RIGHT':-1}.get(p.get('align','LEFT'),0)*width
-        a = np.array((0,side,0)) if side else np.array((0,-1,0))
-        b = np.array((0,0,1)) if side else np.array((1,0,0))
-        normal = np.cross(a,b)
-        return _loft([[origin+(a*x+b*y+normal*z)/1000 for x,y in ((align,0),(align+width,0),(align+width,height),(align,height))] for z in (0,max(depth,.01))])
+        from .text import text_mesh
+        return text_mesh(p)
     if k == 'prism2':
         if _manifold is None:
             raise GeometryError('prism2 benötigt manifold3d für den exakten Profilschnitt')
@@ -306,7 +300,10 @@ def _ring_shell(outer,inner):
 def _as_manifold(vertices, faces):
     if _manifold is None:
         raise GeometryError('manifold3d fehlt')
-    mesh = _manifold.Mesh(np.asarray(vertices,dtype=np.float32),np.asarray(_triangulate(vertices,faces),dtype=np.uint32))
+    # Plane trimming works in double precision internally. A float32 boundary
+    # rounds distinct bevel vertices onto each other, creating zero-area faces
+    # even though the manifold itself is valid. Preserve precision both ways.
+    mesh = _manifold.Mesh64(np.asarray(vertices,dtype=np.float64),np.asarray(_triangulate(vertices,faces),dtype=np.uint64))
     solid = _manifold.Manifold(mesh)
     if str(solid.status()) != 'Error.NoError':
         raise GeometryError(f'Boolean-Eingang nicht geschlossen/mannigfaltig: {solid.status()}')
@@ -316,21 +313,48 @@ def _as_manifold(vertices, faces):
 def _from_manifold(solid):
     if str(solid.status()) != 'Error.NoError' or solid.is_empty():
         raise GeometryError(f'Leeres/ungültiges Boolean-Ergebnis: {solid.status()}')
-    mesh = solid.to_mesh()
+    mesh = solid.to_mesh64()
     return np.asarray(mesh.vert_properties)[:,:3].astype(float).tolist(), np.asarray(mesh.tri_verts).astype(int).tolist()
 
 
-def _bevel(vertices,faces,radius):
-    """Real planar convex-edge chamfers, clipped through manifold3d.
+def _mesh_components(vertices, faces):
+    """Split joined kit primitives without a convex hull across their gap."""
+    by_vertex = defaultdict(list)
+    for i, face in enumerate(faces):
+        for vertex in face:
+            by_vertex[vertex].append(i)
+    visited = set()
+    for seed in range(len(faces)):
+        if seed in visited:
+            continue
+        visited.add(seed)
+        queue, selected = [seed], []
+        while queue:
+            i = queue.pop()
+            selected.append(faces[i])
+            for vertex in faces[i]:
+                for neighbor in by_vertex[vertex]:
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        queue.append(neighbor)
+        ids = sorted({i for face in selected for i in face})
+        remap = {old: new for new, old in enumerate(ids)}
+        yield [vertices[i] for i in ids], [[remap[i] for i in face] for face in selected]
 
-    Radius is the edge setback, not a smoothing strength. Concave solids are
-    deliberately rejected; global clipping would erase unrelated geometry.
+
+def _convex_bevel(vertices, faces, radius, segments):
+    """Convex edge offset with a sampled circular profile and local clamp.
+
+    ``radius`` follows kit/Blender's offset width: distance along either face
+    from the original edge. At one segment this is a planar chamfer. Multiple
+    segments use supporting planes of the circular edge profile. Their vertex
+    intersections are deterministic, but do not claim Blender's corner miters.
     """
     v = np.asarray(vertices)
     hull = ConvexHull(v)
     volume = abs(_volume(v,faces))
     if abs(hull.volume-volume)>max(hull.volume*1e-5,1e-12):
-        raise GeometryError('Fasen für konkave/mehrteilige Netze noch nicht implementiert')
+        raise GeometryError('Fasen für konkave Netzkomponenten noch nicht implementiert')
     triangles = _triangulate(v,faces)
     edges = defaultdict(list)
     for face in triangles:
@@ -339,22 +363,159 @@ def _bevel(vertices,faces,radius):
         normal /= np.linalg.norm(normal)
         for a,b in zip(face,face[1:]+face[:1]):
             edges[tuple(sorted((a,b)))].append(normal)
-    solid = _as_manifold(vertices,faces)
-    used = set()
+    features = []
+    incident_lengths = defaultdict(list)
     for (a,b),normals in edges.items():
         if len(normals)!=2:
             raise GeometryError('Fase benötigt geschlossenes Netz')
         cosine = float(np.clip(np.dot(*normals),-1,1))
         if cosine >= math.cos(math.radians(30)) - 1e-8:
             continue
-        normal = normals[0]+normals[1]
-        normal /= np.linalg.norm(normal)
-        offset = np.dot(normal,v[a])-radius*math.sqrt((1-cosine)/2)
-        key = tuple(np.round(np.r_[normal,offset],10))
-        if key not in used:
-            solid = solid.trim_by_plane((-normal).tolist(),float(-offset))
-            used.add(key)
+        length = float(np.linalg.norm(v[b]-v[a]))
+        incident_lengths[a].append(length)
+        incident_lengths[b].append(length)
+        features.append((a, b, normals, math.acos(cosine)))
+    solid = _as_manifold(vertices,faces)
+    used = set()
+    for a, b, normals, angle in features:
+        # Conservative endpoint clamp prevents opposite bevel strips from
+        # consuming thin faces. Only feature edges count, not cap diagonals.
+        setback = min(radius, .49*min(incident_lengths[a]+incident_lengths[b]))
+        bisector = (normals[0]+normals[1])/(2*math.cos(angle/2))
+        center = v[a]-bisector*(setback/math.sin(angle/2))
+        rolling_radius = setback/math.tan(angle/2)
+        for i in range(segments):
+            t = (i+.5)/segments
+            normal = (math.sin((1-t)*angle)*normals[0]
+                      +math.sin(t*angle)*normals[1])/math.sin(angle)
+            offset = np.dot(normal,center)+rolling_radius*math.cos(angle/(2*segments))
+            key = tuple(np.round(np.r_[normal,offset],12))
+            if key not in used:
+                solid = solid.trim_by_plane((-normal).tolist(),float(-offset))
+                used.add(key)
     return _from_manifold(solid)
+
+
+def _constant_ring(part):
+    if not part or part.get('cuts'):
+        return False
+    if part.get('shape') == 'cyl':
+        return bool(part.get('r_in')) and math.isclose(part.get('r1', part['r']), part['r'], rel_tol=0, abs_tol=1e-12)
+    return part.get('shape') == 'frame' and part.get('iw', 0) > 0 and part.get('ih', 0) > 0
+
+
+def _convex_profile(points):
+    """CCW convex profile's outward normals, supports and offset directions."""
+    edge = np.roll(points, -1, axis=0)-points
+    lengths = np.linalg.norm(edge, axis=1)
+    if np.any(lengths < 1e-12):
+        raise GeometryError('Endringfase: doppelte Profilpunkte')
+    tangent = edge/lengths[:, None]
+    previous = np.roll(tangent, 1, axis=0)
+    turn = previous[:, 0]*tangent[:, 1]-previous[:, 1]*tangent[:, 0]
+    cosine = np.clip(np.sum(previous*tangent, axis=1), -1, 1)
+    if np.any(turn < -1e-10) or np.any(cosine < math.cos(math.radians(30))-1e-10):
+        raise GeometryError('Endringfase: konkaves Profil oder Längskante über 30 Grad')
+    normal = np.column_stack([tangent[:, 1], -tangent[:, 0]])
+    prior = np.roll(normal, 1, axis=0)
+    displacement = (prior+normal)/(1+cosine[:, None])
+    support = np.sum(normal*points, axis=1)
+    if np.any(points@normal.T > support[None, :]+1e-10):
+        raise GeometryError('Endringfase: Profil nicht konvex')
+    return normal, support, displacement
+
+
+def _ring_bevel(vertices, faces, radius, segments=2):
+    """Bevel only end rims of an untouched _ring_shell mesh.
+
+    Source layout: outer start/end, inner start/end, equal point counts. A
+    positive offset shrinks the outer profile and enlarges the inner profile.
+    All allowed radii preserve convex offsets and strictly positive cap walls.
+    """
+    if not isinstance(segments, int) or isinstance(segments, bool) or segments < 1:
+        raise GeometryError('segs_bevel muss eine positive ganze Zahl sein')
+    if not np.isfinite(radius) or radius <= 0:
+        raise GeometryError('Endringfase benötigt positive endliche Breite')
+    v = np.asarray(vertices, dtype=float)
+    if v.ndim != 2 or v.shape[1] != 3 or len(v) < 12 or len(v) % 4:
+        raise GeometryError('Endringfase benötigt vier gleichlange Profilringe')
+    n = len(v)//4
+    outer0, outer1, inner0, inner1 = v.reshape((4, n, 3))
+    delta = outer1[0]-outer0[0]
+    length = float(np.linalg.norm(delta))
+    if length < 1e-12:
+        raise GeometryError('Endringfase benötigt positive Extrusionslänge')
+    axis = delta/length
+    if not np.allclose(outer1-outer0, delta, atol=1e-12, rtol=0) or not np.allclose(inner1-inner0, delta, atol=1e-12, rtol=0):
+        raise GeometryError('Endringfase unterstützt keine Taperprofile')
+    origin = outer0[0]
+    if np.max(np.abs((np.vstack([outer0, inner0])-origin)@axis)) > 1e-12:
+        raise GeometryError('Endringfase benötigt planare Endprofile')
+    first = outer0[1]-outer0[0]
+    first /= np.linalg.norm(first)
+    basis = np.stack([first, np.cross(axis, first)])
+    outer = (outer0-origin)@basis.T
+    inner = (inner0-origin)@basis.T
+    area = np.sum(outer[:, 0]*np.roll(outer[:, 1], -1)-outer[:, 1]*np.roll(outer[:, 0], -1))
+    if area < 0:
+        outer, inner = outer[::-1].copy(), inner[::-1].copy()
+    normals, supports, outer_offset = _convex_profile(outer)
+    _, _, inner_offset = _convex_profile(inner)
+    # Every enlarged inner vertex must stay inside every shrunken outer edge.
+    # These linear inequalities provide the actual wall-clamp limit; unlike
+    # an edge-length clamp, harmless short rim segments do not reduce width.
+    gaps = supports[None, :]-inner@normals.T
+    slopes = 1+inner_offset@normals.T
+    if np.any(gaps <= 1e-12):
+        raise GeometryError('Endringfase benötigt strikt getrennte Innen-/Außenprofile')
+    limits = gaps[slopes > 1e-12]/slopes[slopes > 1e-12]
+    setback = min(float(radius), .49*length, .98*float(limits.min()))
+    if setback < 1e-12:
+        raise GeometryError('Endringfase: kein positiver Clampbereich')
+    # Convex outer profile must retain its original edge topology at the cap.
+    cap_outer = outer-setback*outer_offset
+    edge = np.roll(cap_outer, -1, axis=0)-cap_outer
+    original_edge = np.roll(outer, -1, axis=0)-outer
+    if np.any(np.sum(edge*original_edge, axis=1) <= 1e-20):
+        raise GeometryError('Endringfase: Außenoffset kollabiert vor Wandclamp')
+    if np.any(cap_outer@normals.T > supports[None, :]-setback+1e-10):
+        raise GeometryError('Endringfase: Außenoffset nicht konvex')
+    theta = np.linspace(0, math.pi/2, segments+1)
+    distances = setback*(1-np.cos(theta))
+    offsets = setback*(1-np.sin(theta))
+    # Keep endpoint coordinates exact and avoid tiny positive floating offsets.
+    distances[0], distances[-1] = 0., setback
+    offsets[0], offsets[-1] = setback, 0.
+    stations = list(zip(distances, offsets))+list(zip(length-distances[::-1], offsets[::-1]))
+    out_rings, in_rings = [], []
+    for station, offset in stations:
+        out_rings.append(origin+(outer-offset*outer_offset)@basis+station*axis)
+        in_rings.append(origin+(inner+offset*inner_offset)@basis+station*axis)
+    count = len(stations)
+    points = np.concatenate(out_rings+in_rings)
+    result = []
+    def idx(inner_ring, ring, point):
+        return (int(inner_ring)*count+ring)*n+point
+    for ring in range(count-1):
+        for j in range(n):
+            k = (j+1) % n
+            for inside in (False, True):
+                result.append([idx(inside, ring, j), idx(inside, ring, k), idx(inside, ring+1, k), idx(inside, ring+1, j)])
+    for ring in (0, count-1):
+        for j in range(n):
+            k = (j+1) % n
+            result.append([idx(False, ring, j), idx(False, ring, k), idx(True, ring, k), idx(True, ring, j)])
+    return _orient(points, result)
+
+
+
+def _bevel(vertices, faces, radius, segments=2, *, part=None):
+    if not isinstance(segments, int) or segments < 1:
+        raise GeometryError('segs_bevel muss eine positive ganze Zahl sein')
+    if _constant_ring(part):
+        return _ring_bevel(vertices, faces, radius, segments)
+    return _concat([_convex_bevel(v, f, radius, segments)
+                    for v, f in _mesh_components(vertices, faces)])
 
 
 def _fallback_cut(vertices, cut_vertices):
@@ -402,9 +563,13 @@ def evaluate(model, *, booleans=True, bevels=True):
             if radius > 0:
                 if bevels and _manifold is not None:
                     try:
-                        vertices,faces = _bevel(vertices,faces,radius/1000)
-                        part['bevel_status'] = 'planar_chamfer'
-                        local.append('Fase: echte planare Kantenfase; ballons Zweisegment-Rundung wird nicht nachgebildet')
+                        segments = part.get('segs_bevel', 2)
+                        vertices,faces = _bevel(vertices,faces,radius/1000,segments,part=part)
+                        part['bevel_status'] = 'segmented_bevel' if segments > 1 else 'planar_chamfer'
+                        if _constant_ring(part):
+                            local.append(f'Fase: {segments} Kreisprofilsegment(e), nur Endringkanten; Wand-/Längenclamp, Längskanten unverändert, keine Blender-Eckmiterparität')
+                        else:
+                            local.append(f'Fase: {segments} Kreisprofilsegment(e), komponentenweise konvex; konservativer Kantenclamp, keine Blender-Eckmiterparität')
                     except (GeometryError,QhullError) as e:
                         part['bevel_status'] = 'unsupported'
                         local.append(f'Fase nicht ausgewertet: {e}')

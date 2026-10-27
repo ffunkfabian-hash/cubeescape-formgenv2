@@ -54,7 +54,22 @@ class UpperBodyGeometryTests(unittest.TestCase):
                 continue
             vertices = np.asarray(part['vertices'])
             radial = np.linalg.norm(vertices[:, :2]-[-26, 1546], axis=1)
-            # No disk closes the joint center and there is a lower arm opening.
-            self.assertGreater(radial.min(), 85)
+            # The outer white flange surrounds a 48mm open bearing. Neither
+            # that flange nor the barrel may turn into a disk over the joint.
+            self.assertAlmostEqual(radial.min(), 48)
+            self.assertAlmostEqual(radial.max(), 99)
             self.assertGreater(vertices[:, 1].min(), 1470)
             self.assertEqual(part['wall_mm'], 6)
+
+    def test_shoulder_coupling_bridges_shells_without_closing_bearing(self):
+        parts = {p['id']: p for p in upper.PARTS}
+        for suffix, sign in [('r', -1), ('l', 1)]:
+            coupling = parts['upper_body_shoulder_coupling_'+suffix]
+            self.assertEqual(coupling['c'], [-26, 1546])
+            self.assertGreater(coupling['r_in'], 70)
+            self.assertLess(coupling['r'], 99)
+            vertices = np.asarray(parts['upper_body_shoulder_cap_'+suffix]['vertices'])
+            # Front references show the cap overlapping the torso coupling;
+            # the former x237 inner edge left a visible daylight gap.
+            self.assertLessEqual((sign*vertices[:, 2]).min(), 185)
+            self.assertLess(vertices[:, 1].max(), 1646)

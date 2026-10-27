@@ -27,14 +27,20 @@ Autorenmaß mm: f nach vorn, u nach oben, x nach links. Gemeinsamer Ausgaberaum 
 | frame | f0 f1 cu ow oh iw ih r_out r_in cx |
 | xbox | f0 f1 cu ww hh cx |
 | multi | items: Formen; ein logisches Teil |
-| tube | path: (f,u,x), r |
-| text | text, size, f u x, side; Text wird als Geometrie oder sichtbare dokumentierte Ersatzdarstellung behandelt |
+| tube | path: (f,u,x), r; offene AUTO-Bezier-Mittellinie, Auflösung12 nach Blender5.0.1; Ringtransport/Tessellation weiterhin abweichend |
+| text | text, size, f u x, side, depth, align; echte Bfont-Konturen aus statischer Ressource, eine Zeile ASCII/Latin-1, Standardabstände; optionale v2-Tessellation resolution=12 |
 | hull | points: (f,u,x), konvexe Hülle |
 | loft | rings: gleich lange Punktlisten (f,u,x), thickness optional, caps=True |
 | surface | vertices: (f,u,x), faces: Indizes, thickness optional (Innenversatz) |
 | prism2 | side: (f,u), front: (x,u), Schnitt beider extrudierter Profile |
 
-`cuts` subtrahiert kit-Formen. `bevel` ist Radius in mm. manifold3d ist bevorzugt; fehlende echte Booleans/Fasen dürfen nie stillschweigend als vollständig gelten. Ersatz-Cuts sind sichtbar gekennzeichnete Decal-Flächen. Kein Renderer wird vor Cache-Abnahme ausgeführt.
+`cuts` subtrahiert kit-Formen. `bevel` ist die Fasenbreite als Rücksprung entlang der angrenzenden Flächen in mm (Blender-Offset), kein allgemeiner Rundungsradius. `segs_bevel=2` entspricht dem Kit-Standard: konvexe zusammenhängende Komponenten erhalten einzeln ein segmentiertes Kreisprofil; ein konservativer Kantenclamp schützt dünne Flächen. `segs_bevel=1` erzeugt eine planare Fase. Konstante Hohlzylinder/Rahmen ohne Cuts erhalten zusätzlich Endringfasen, wenn ihre Profilwinkel höchstens30° betragen; Wand-/Längenclamp, unverändertes Mittelstück und offene Löcher sind geprüft. Andere konkave Komponenten bleiben mit ausdrücklicher Warnung ungefast; die Blender-Eckmiter und dessen exakter Überlappungsclamp sind noch nicht deckungsgleich. Mesh64-Ein-/Ausgabe bewahrt die Genauigkeit von Boolean- und Fasenknoten (manifold3d ≥3.5.4). Fehlende echte Booleans/Fasen dürfen nie stillschweigend als vollständig gelten. Ersatz-Cuts sind sichtbar gekennzeichnete Decal-Flächen. Kein Renderer wird vor Cache-Abnahme ausgeführt.
+
+Schriftgröße folgt Blenders Bfont-Metriken, die Grundlinie bleibt der Ursprung.
+Die Extrusion reicht symmetrisch von−depth bis+depth; Ausrichtung berücksichtigt
+den gesamten Zeichenfortschritt einschließlich Leerzeichen. Nicht unterstützte
+Zeichen und Layoutvarianten erzeugen einen ausdrücklichen Fehler. Herkunft,
+Grenzen und Prüfmethode: [Bfont-Ressource](fonts/README.md).
 
 ## Abnehmer und Cache
 

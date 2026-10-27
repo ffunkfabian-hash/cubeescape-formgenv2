@@ -8,3 +8,8 @@
 - Ein grüner Fixture-Release-Test ersetzt keinen Probelauf mit echten Artefakten: Schriften, verschachtelte Specs und absolute Pfade separat prüfen. [Geo](geo-export.md)
 - Antialiasing-Tests prüfen die erwartete Sampleabdeckung, nicht willkürlich einen dunklen Einzelpixel. [Rastertest](../tests/test_raster.py)
 - Layoutcache darf Rasterversion ignorieren, muss aber tatsächlich verwendete PNG-Größe/Callouts/Skalierung hashen; sonst bleiben Beschriftungen nach Größenwechsel veraltet. [Cache](cache.md)
+- Manifold-Doppelknoten an dünnen Fasen können erst beim Float32-Export zusammenfallen; Double-Präzision an beiden Netzgrenzen behebt die Ursache statt Nullflächen nachträglich zu filtern. [Modellsprache](modellsprache.md)
+- Belegte Fläche pro Höhenband prüft keine äußere Breite: auseinandergerückte Glieder können denselben Flächenquotienten behalten. Registrierung, Zeilenspannweite und Flächenquote getrennt ausweisen. [Vertrag](robot-contract.md)
+- Detailansichten müssen Dekorationen entfernter Elternteile verwerfen und physische Texturmaßstäbe aus der vollständigen Quelle behalten. [Bericht](versions/0.1.md)
+- Blattseiten über Flächennormalen statt Mündungsrichtung vergleichen; v1/v2 können dieselbe physische Seite entgegengesetzt abbilden. [Rastervertrag](raster.md)
+- Nach einer Konturverbreiterung die bestehende Griffpose erneut prüfen; eine konvexe Freiraumfacette kann neues Material begrenzen und den ursprünglichen Armkern erhalten. [Bericht](versions/0.1.md)

@@ -14,6 +14,7 @@ from PIL import Image
 from scipy import ndimage
 
 from .versions import RASTER as VERSION
+from . import legacy_surface
 
 SS = 2
 SOURCE_SHA256 = '7ab4863e8eb4e4fe21fdfdf5fb3cf84dc0b0075b29cd010d3b0b47daea240057'
@@ -325,13 +326,15 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
             raise ValueError('scale muss positiv und endlich sein (px/m)')
         frame['scale'] = float(scale)
     data = palette()
-    render_parts = list(document['parts'])
+    surface = legacy_surface.resolve(document, skin)
+    render_parts = surface.render_parts() if surface else list(document['parts'])
     for part in document['parts']:
         for index, mesh in enumerate(part.get('decal_meshes', [])):
             render_parts.append({'id': f"{part['id']}/decal/{index}",
                                  'role': mesh.get('role', 'graphite'),
                                  'mesh': mesh, '_annotation': False})
-    materials = [material(p, skin, data) for p in render_parts]
+    materials = [material(p, surface.material_skin if surface else skin, data) for p in render_parts]
+    parents = surface.parents(render_parts) if surface else None
     w, h = width*SS, height*SS
     zbuf = np.full((h, w), -np.inf)
     ids = np.full((h, w), -1, dtype=np.int32)
@@ -340,9 +343,19 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
     if bg is not None and bg != 'transparent':
         rgba[..., :3] = _rgb(data['render']['background_mid'] if bg == 'mid' else bg)
         rgba[..., 3] = 255
+    if surface:
+        positions = np.zeros((h, w, 3), dtype=np.float32)
+        normals = np.zeros((h, w, 3), dtype=np.float32)
+        levels = np.zeros((h, w), dtype=np.uint8)
     transparent = []
     next_id = 0
     for pi, (part, mat) in enumerate(zip(render_parts, materials)):
+        decal_normal = None
+        if surface and part.get('_surface_parent'):
+            decal_normal = np.asarray(part['_decal_normal'], dtype=float)
+            decal_normal /= np.linalg.norm(decal_normal)
+            if decal_normal @ camera(view)[2] <= 1e-4:
+                continue
         mesh = part['mesh']
         vertices = np.asarray(mesh['vertices'], dtype=float)
         if not len(vertices):
@@ -375,19 +388,41 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
                 sl, hit, depth, position = fragments
                 target = glass_z if alpha < 1 else zbuf
                 ok = hit & (depth >= target[sl]-1e-9)
+                if decal_normal is not None:
+                    ok &= surface.parent_visible(part, parts[sl], parents, render_parts)
+                    # New v2 protection: a decal must face its visible parent
+                    # within 60 degrees, as well as face the camera.
+                    ok &= (normals[sl] @ decal_normal) > .5
                 if not ok.any():
                     continue
-                target[sl][ok] = depth[ok]
-                color = _shade(mat, normal, position[ok])
+                if decal_normal is None:
+                    target[sl][ok] = depth[ok]
+                if surface:
+                    light = np.array([-.4, -.6, 1.])
+                    light /= np.linalg.norm(light)
+                    diffuse = max(0., float(normal @ light))
+                    level = 3 if mat['unlit'] else min(3, int(np.clip(
+                        diffuse + mat.get('metal', 0)*.10, 0, .9999)*4))
+                    color = surface.shade(part, mat['rgb'], normal, position[ok], level, TOON)
+                else:
+                    color = _shade(mat, normal, position[ok])
                 if alpha < 1:
                     glass_rgb[sl][ok] = color
                 else:
                     rgba[sl][..., :3][ok] = color
                     rgba[sl][..., 3][ok] = 255
-                    ids[sl][ok] = fid
+                    if decal_normal is None:
+                        ids[sl][ok] = fid
+                        if surface:
+                            positions[sl][ok] = position[ok]
+                            normals[sl][ok] = normal
+                            levels[sl][ok] = level
                     parts[sl][ok] = pi
         if alpha < 1:
             transparent.append((glass_z, glass_rgb, alpha, pi))
+    if surface:
+        rgba[..., :3] = surface.wear(rgba[..., :3], ids, parts, positions,
+                                    levels, render_parts, frame['scale']*SS, TOON)
     inner, silhouette = _edges(ids, split=True)
     line = inner | silhouette
     outline = _rgb(data['render']['outline'])
@@ -412,12 +447,13 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
                 rgba[ok, :3] = (color[ok]*alpha+rgba[ok, :3]*(a*(1-alpha))[:, None])/out_a[:, None]
                 rgba[ok, 3] = out_a*255
                 parts[ok] = pi
+    annotation_parts = parents[np.where(parts >= 0, parts, len(render_parts))] if surface else parts
     anchors, boxes = {}, {}
     for pi, part in enumerate(render_parts):
         if not part.get('_annotation', True):
             continue
         label = part.get('label') or part['id']
-        visible = parts == pi
+        visible = annotation_parts == pi
         if not visible.any():
             continue
         yy, xx = np.nonzero(visible)

@@ -1,131 +1,130 @@
-# Frische Sitzung: Contour fertigstellen
+# Frische Fortsetzung: Contour fertigstellen
 
-**Nicht fertig. Frisch ohne Verlauf/Fork fortsetzen.** Stand26.10.2026,23:24MEZ.
-Der Arbeitsbaum enthält bewusst noch uncommittete, geprüfte Implementierung;
-Git lesen und diese Arbeit erhalten. Nur diese Übergabe/Versionsbericht werden
-als Dokucheckpoint committet, solange der neue Bildbeleg noch aussteht.
+**Nicht fertig. Frisch ohne Verlauf/Fork fortsetzen.** Stand27.10.2026.
+Diese Etappe wird als geprüfter technischer Codecheckpoint lokal committet.
+Aktuellen HEAD/Status aus Git lesen; keinen alten Checkpoint zurückspielen.
 
-## Ort und vollständiger Auftrag
+## Einstieg und Grenzen
 
 - Tatsächliches Repo `/Users/ffunk/Claude/cubeescape-formgenv2`, Branch
   `codex/formgen-v2-first`. App-Projektwurzel `/Users/ffunk/formgenv2` ist falsch.
-- `~/.codex/AGENTS.md`, Repo-AGENTS, `docs/LESSONS.md`, diese Datei,
-  `docs/versions/0.1.md` und vollständigen `docs/auftrag-codex-formgen-v2.md` lesen.
-- Lokaler Codecheckpoint vor dieser Fortsetzung84d8714. Seither WIP-Dateien
-  NIEMALS zurücksetzen oder überschreiben. Kein fremder Schreiber aktiv.
-- Sol/high für große/heikle Geometriearbeit, keine Astra-Starts. Unteragenten
-  gezielt, Baugruppen getrennt; unabhängiger Prüfer ohne Implementierung vor
-  jeder Nutzermeldung. Hauptagent hält Schnittstellen/VERSION/Commits.
-- Lokale Commits autorisiert, kein Push/PR/Merge/Upload. Ballon/v1 nur lesen,
-  159Legacy-Modelle nur Geo, keine alten Modellmodule. Gesamtsystem fertigstellen.
+- Zuerst `~/.codex/AGENTS.md`, Repo-AGENTS, `docs/LESSONS.md`, diese Datei,
+  `docs/versions/0.1.md`, vollständigen `docs/auftrag-codex-formgen-v2.md` lesen.
+- Sol/high für große/heikle Geometrie, Luna für Routine; keine Astra-Starts.
+  Unteragenten gezielt und dateigetrennt, unabhängiger Prüfer ohne Umsetzung.
+  Hauptagent hält Schnittstellen, Versionen und Commits.
+- Lokale Commits autorisiert; kein Push/PR/Merge/Upload. v1/Ballon nur lesen,
+  keine alten Modellmodule/eng-Sprache übernehmen, keine neuen Pipabhängigkeiten,
+  kein Cache-/Pipelinegerüst neu bauen.
+- Zwei verbleibende Hauptziele: W01-Geometrieparität und R01-/Systemabnahme.
+  Gesamtsystem weiter autonom fertigstellen; technischen Checkpoint nicht
+  als Zielerfüllung oder freigegebenen Roboter ausgeben.
 
-## Unveränderte Referenzregeln
+## Aktueller implementierter Stand
 
-Vier4096²-Orthos in `~/Library/Caches/CubeEscapeFormgen/refs/`, gleicher
-Frontmaßstab1924/3653mm/px und gemeinsame Helmregistrierung. Keine einzelne
-Höhennormalisierung, kein Spiegel-/Maskenfit. Front bestimmt Gelenke/Fußhöhe/
-Standbreite, Seiten Tiefe/Profil, Rücken Rückenmodul. Quellen/Anker in
-`docs/herkunft-roboter.md` und `docs/robot-contract.md`.
-Seitenboden liegt bei gleicher Registrierung49,5/50,6mm über Frontboden;
-Frontpriorität bleibt erhalten. Rückenbeinstellung enger als Front. Nicht
-pauschal mathematische Unmöglichkeit behaupten; theoretischer Maskenkompromiss
-könnte beideIoUs bestehen, ist aber noch keine zulässige Geometrie.
+- GEOM4/RASTER5, SPEC3. Mesh64 behebt143W01-Nullflächen. Konvexe Komponenten
+  mit Zweissegmentfasen; vier konstante Ringextrusionen mit echten Endringfasen.
+  AUTO-Bezier-Mittellinien resolution12; Ringtransport/Tessellation abweichend.
+- W01:72 Teile/9605 Vertices/18810 Dreiecke,0 Nullflächen;47 segmentierteFasen,
+  17weiterhinungefast,8ohneFase. Echte Bfont-Schrift ersetzt Rechtecktafel.
+  Statische191ASCII-/Latin1-Zeichen,189sichtbar; Runtime JSON/numpy/manifold3d.
+  Herkunft/Scope/PFB-Notice=null: `docs/fonts/README.md`. Font-SHA wird in
+  nativer Geometrieplanung und Worker-Guards berücksichtigt; Ressourcencache
+  aktualisiert sich bei geänderten Bytes auch im selben Prozess.
+- Legacy-Oberflächen sind JETZT integriert und bildgeprüft, kein Helfer-TODO:
+  aufgelöste Hero-Lagen, normale Decals/Glyphen/Trim/Wear, Parent-/Tiefen-/
+  Normalenschutz, keine neue flache Geometriedeckung, Parent-Annotationen.
+  Detailauswahl filtert entfernte Parents. Normale muss zur Kamera und mit
+  dot>0,5 zur Parentnormalen zeigen (neue v2-Schutzregel). Katalog-SHA in
+  allen Legacy-Ansichts-/Previewkeys, auch VS02ohneSkin.
+- KG02Orangeband undGlyphen aufBEIDENphysischenSeiten/Hero vorhanden. Gleiche
+  Mündungsrichtung v1/v2 kann physische Seiten vertauschen! v2side_left(+X)
+  entspricht v1LEFT(old+z), auch bei entgegengesetzter Bildhändigkeit.
+  KeineGlyphenspiegelung zum Screenshotfit einbauen.
+- Alle159 Legacy-Geos über `--legacy-dir ~/Library/Caches/CubeEscapeFormgen/imports/v1`
+  einzeln perID wählbar. Benötigte Sight-Specs kommen über vorhandene Stufen
+  mit, ohne zusätzliche Visierbilder/Geo. Ohne IDs bleiben vier Piloten.
+  Alle159Datenbau/Geo-Roundtrips geprüft:636 gebaut, danach0 gebaut/636 Treffer.
+- FigureGeo→Spec-Roundtrip/Validator repariert; Legacy-Specbytes unverändert.
+  NativeW01-/Figure-Geos sind eigene Namespaces, Toolgen-Abnahme noch offen.
 
-## Geprüfte Implementierung im WIP
+## W01-Restgeometrie
 
-- GEOM3: Mesh64 Ein-/Ausgabe behebt143W01-Nullflächen ursächlich. Konvexe
-  Komponenten einzeln mit2Kreisprofilsegmenten und konservativem Clamp.
-  W01:72Teile/7777Vertices/15166Dreiecke,0Nullflächen;43segmentierteFasen,
-  21konkave weiterhinungefast,8ohneFase. `requirements>=3.5.4` passendLock.
-- `formgen/curves.py`: AUTOBezier nach verifiziertem Blender5.0.1-Handlecode,
-  resolution12, in geom.tube integriert;6analytischeTests. Ringtransport und
-  Tessellation weiterhinabweichend, echte Textglyphen/Eckmiter offen.
-- R01:249Teile/18502Vertices/36060Dreiecke. UpperBody: Schulterlücke durch
-  offene6mm-Kappen/Blenden und hohlen Kragen geschlossen. Arme: Hüllen32mm
-  medial, Hände lokal1,25 inklFinger/Daumen/Frames. SOURCE-Armdicts bytegleich,
-  alle Frontgelenke unverändert. Neue Bilder NOCH NICHT ausgewertet.
-- Ready: skalierte Handdatumsabstände, GRIP[12.5,-42.665,68.75]. Fehlversuch
-  Pole-.5 verworfen, Original-.35 wiederhergestellt. Unabhängig begründeter
-  Oberarmroll5° um gleiche Knochenachse:0mm³ Kontakt/1,510532mm Abstand.
-  Alle6Posetests grün. Zweiter Korrekturdurchgang erfolgreich, kein dritter.
-- `tools/robot_evidence.py` prüft jetzt mittlere ÄUSSERE Zeilenspannweite pro
-  Band; alte Flächenquote zusätzlicheDiagnose. Neue2Tests, gleiche Grenzwerte
-  .92..1.08. Alle vier Masken unabhängig pixelgleich reproduziert, OriginalSHAs
-  bestätigt. Alte Bandwerte sind keine Breitenabnahme.
-- SPEC3: FigureGeo→Load→Spec-Roundtrip repariert; neuer Validator für bestehenden
-  FigureSpec1-Vertrag. Echte W01/R01-Roundtrips/SHA/Deepcopy unabhängiggrün.
-  Datenzweitlauf0gebaut8Treffer. Vier DatenGoldens aktualisiert, BildGoldens ALT.
-- Letztes abgeschlossenes `./check`:143Tests/134pass/9Bildskip,33,328s,
-  `/tmp/formgen-contour-refined-check.log`. Neuer eingefrorener Check inklLegacyhilfe:155Tests/146pass/9Bildskip,37,688s,
-  `/tmp/formgen-contour-handoff-check.log`. Ein anschließend ergänzter
-  Parent-Overlaytest wird durch den gezielten13Helpertests-Lauf abgedeckt.
-  Kontingent einmal23:11MEZgeprüft:Wochenrest26%, kein5h-Fenster.
+Ungefasste IDs/Grundform/Cutanzahl:
+`upper prof8`, `lower prof4`, `top_shroud prof4`, `bolt_carrier box1`,
+`rail box7`, `sight_body prof0`, `grip prof0`, `trigger prof0`,
+`trigger_guard prof0`, `magazine prof7`, `handguard plan7`, `barrel cyl4`,
+`muzzle cyl8`, `muzzle_crown cyl0`, `stock_spine box3`, `stock prof1`,
+`butt_pad prof6`.
+Vier sichere Endringteile sind erledigt, NICHT erneut als TODO behandeln:
+shroud_bracket/core_ring/sight_frame_trim/handguard_cap. Muzzle_crown ist
+achteckig mit45°-Längskanten und benötigt zusätzliche Längsfasen/Eckmiter.
+Allgemeine konkave Fasen nicht durch konvexe Hülle/Flächenlöschen vortäuschen.
+Vor neuem Algorithmus gezielt Quelle/Tests lesen, analytisch prüfen, dann nur
+betroffene W01-Ansichten unter Ressourcensperre bauen. Keine pauschalen Render.
 
-## Neu erkannte Legacy-Darstellungslücke und klarer nächster Schritt
+## R01: neuer tatsächlicher Bildstand
 
-KG02v2 fehlen in BEIDEN Seiten Orangeband/Glyphen; Gegenkamera erklärt es nicht.
-Geo enthält63normaleDecals, source_spec.skin.hero zusätzliche44Glyphen und
-aufgelöste Farb-/Finish-/Musterlagen. `raster.py` ignoriert sie bisher.
-Generische Objektraumtexturen existieren, keine falsche Aussage 'gar keine'.
-Beleg aus vorhandenen Rasterpanels, ohne neuen Render:
-`~/Library/Caches/CubeEscapeFormgen/evidence/comparison/kg02-v1-v2-panels.png`,
-Quellen/SHA im dortigenJSON. BallonW01SideReferenz:
-`~/Library/Caches/CubeEscapeBallon/out/BASIC-01-v2.1/views/side_left.png`.
+251 Teile/18872 Vertices/36792 Dreiecke. Vier4096²-Orthos in
+`~/Library/Caches/CubeEscapeFormgen/refs/`, gemeinsamer Frontmaßstab1924/3653 mm/px,
+Helmregistrierung. Front legt Gelenke, Standbreite und Fußhöhe fest; Seiten
+Tiefe/Profil, Rücken Rückenmodul. Keine Einzelbildnormalisierung/Maskenfits.
 
-- Fertiger, unabhängig geprüfter Helfer `formgen/legacy_surface.py`,
-  `tests/test_legacy_surface.py` (13Tests) +Cachetest (1) grün. Noch NICHT
-  in raster.py integriert; Rasterdatei weiterhin bytegleich84d8714, RASTER4.
-- Bytegleicher v1Finishkatalog `docs/textures/catalog.json`, SHA3691845e6b1683861deb075bb6056a40c5e1f6a9457007d449f8a643dc7f8fb6,
-  ProvenienzREADME. Keine Schwesterimports/neuePipabhängigkeit/Modellimporte.
-- API: resolve(document,skin)→Surface oderNone fürnative; Surface.shade,
-  render_parts(),parents(),parent_visible(),decorations(),wear(). Quellachsen(-Y,Z,X), festeMetereinheiten, ParentIDs,
-  fünfLayerfamilien, Glyphen/Trim, Finishleitern/Wear analytischgeprüft.
-  Zwei unabhängiggefundene Brushed/Knurl-Achsenfehler sind behoben.
-- Hauptagent hat in build.view_parameters Legacy-KatalogSHA für ALLE v1Geos
-  ergänzt, auch VS02ohneSkin, Hashguard PNG+Preview. Test: Katalogänderung
-  invalidiert nurLegacyviews/previews, nichtnative oderSpecs/Prompts.
-- ALS NÄCHSTES Rasterhelfer integrieren: sichtbareWeltposition/Normal/Level/
-  Part-ID-/Geometrie-ID-Puffer, normale/Glyph-Decals mit Parent-Z-Test und
-  Normalenrichtung, keine neueDeckung außerhalb Elterngeometrie; Wear darf
-  Decalkanten nicht wie Modellkanten behandeln. NativePixelpfad erhalten.
-  Danach RASTER5 und gezieltePixeltests/KG02Vergleich unterGPU-Sperre.
+Aktuelle unabhängige Werte aus denselben Farb-/Deckungsframes:
+Front0,9350187; Rücken0,8811756; SeiteR0,9024968; SeiteL0,8998656.
+**2/4 IoUs und37/40 Breitenbänder bestanden.** SeiteL nicht auf0,90aufrunden.
+NurBand0(0..192,4 mm)rot: Rücken1,097089, Seiten1,424522/1,431769.
+Alle übrigen37 Bänder bestanden. Bilder/Overlays/metrics.json:
+`~/Library/Caches/CubeEscapeFormgen/evidence/robot/legs-lower_body-upper_body-head-arms/`.
+Kontaktbogen `evidence/robot/registered-geometry4-raster5-contact.png`.
 
-## EIN eigener GPU-Job: erhalten und zuerst beobachten
+Erledigte, gemessene Korrekturen dieser Etappe:
+- Schulterkappen bäuchiger Verlauf statt pauschaler Verbreiterung; Taille
+  beiu1220halbbreit126 mm. Anschluss/Kragen, F/U-Profile/Anker erhalten.
+- Oberarmhüllen X0,79 um bestehende mediale Hüllenachse; unveränderte F/U.
+  ForeCore bis20 mm medial ergänzt, alte24Punkte/Außen-/Seitenprojektion erhalten.
+- Knie hinten echte5 mm-Schale, vorderer Knieschild ergänzt; Fußrücken/Zehen nach
+  beiden Seiten erweitert,3 mm-Spannbelag folgt echter Oberfläche. Frontkontur
+  der Beine an4608Höhen analytisch identisch; Gelenke und Sohlen unverändert.
+- Handmaßstab1,25, Source-Dicts/SHA d713339e… und Frontachsen unverändert.
+  Ready-Pole−0,35 und5°Oberarmroll erhalten. Neue ForeCore-Masse berührte den
+  Schaft; durch unabhängig gemessene konvexe Freiraumfacette NUR drei neue
+  Stützpunkte begrenzt. Alle Originalpunkte bleiben; Schnitt gegen alle
+  W01-Teile0, Schaftabstand1,5 mm, Kappe3,133 mm. Keine neue Rollkorrektur!
 
-Es gibt jetzt entgegen alter Übergabe EINEN wartenden eigenen Job:
-PID14579 (`heavy_lock.py`, exakteCommand mit ps prüfen), Toolsession13278.
-Er wartet auf fremden Ironsight-ExportPID11101 (NICHT anfassen).
-Command: Nexogen-ce lock gpu --what 'Formgen Contour gezielte Bildabnahme'
-→env PYTHONPATH=/Users/ffunk/Claude/cubeescape-formgenv2
-→Repo/.venv/bin/python `/tmp/formgen-contour-visual-run.py`.
-Log `/tmp/formgen-contour-visual-run.log`.
+Wichtiger Restbefund, nicht blind korrigieren:
+Seitenboden liegt bei Helmregistrierung rund50 mm über Frontboden. Oberhalb
+beider Bodenlinien ist die Fußbreite nun fast gleich(.9924/.9788); der große
+Band0-Wert entsteht vorwiegend durch3415/3562Modellpixel unter Referenzboden.
+Pauschal Fuß verkleinern ist dadurch NICHT begründet. Rücken zeichnet Beine/
+Füße enger; Front-/Back-Modellmasken sind korrekt gespiegelt exaktgleich,
+Zielmasken untereinanderIoU.897458. Noch4068fehlende und3973überschüssigePixel
+gegenBEIDEReferenzen zeigen gemeinsame geometrische Verbesserungsmöglichkeiten.
+Keine mathematische Unmöglichkeit behaupten; ein theoretischer Maskenkompromiss
+ist noch keine zulässige Geometrie. Keine künstlichen Sohlen/Fahnen zum Bandfit.
 
-Das eigene Skript hat einen Mac-Spawn-Guard und führt nach Erhalt der Sperre aus:
-1. Vier registrierte R01Frames/evidence und neue IoUs/Breitenbänder.
-2. Inkrementeller vollständiger Bau NUR geänderter W01/R01, jobs2.
-3. Zwei unabhängige frische R01Front960px-Prozesse (Seeds1/42), KEIN Pixelcache,
-   Hash von RGB undDeckungsmaske; JSON unter
-   `~/Library/Caches/CubeEscapeFormgen/evidence/robot/fresh-pixel-determinism.json`.
+## Prüfstand und Belege
 
-Bis zum Ende dieses Jobs KEINE Raster-/Modell-/Geom-/Specquellen ändern, sonst
-würden Frames und Cacheversionen inkonsistent. Keine zweite gleicheQueue.
-Legacyhilfe/Tests sind noch unintegriert und beeinflussen diesen Lauf nicht.
-Danach Farbframes/Overlays selbst und unabhängig sichten, echte neue Zahlen
-melden; vorher gelten NUR alteIoUs Front.8817/Back.8272/Seiten.8785/.8753.
+- `./check`:202 Tests/185pass/17 Bildskips,39,796 s,
+  `/tmp/formgen-geometry4-raster5-check.log`.
+- Tatsächliche24 Rastertests(8 Kamera/Material,16Pixel)grün unter GPU-Lock. Vollständiger Vierpilotbau
+  62 gebaut/20 Treffer, Wiederholung0 gebaut/82 Treffer.
+- Abschlussrecord `~/Library/Caches/CubeEscapeFormgen/evidence/integrated-geometry4-raster5.json`.
+  Drei angeforderteKG02PNG sindpixelgleich zum unabhängig gesichteten Prototyp.
+  Ein Prüfskript erwartete fälschlich optionalesiso.png im Standardblatt;
+  Dateivergleich korrigiert, kein vollständiger Neu-/Doppelrender nötig.
+- 66 Golden-Hashes aktualisiert als technischer Entwurf, keine Designabnahme.
+- Lokales ZIP4 Modelle/77 Nutzdateien+Manifest,7634889 Bytes,
+  SHA42f6026eb315273ff6a081c992ec884ab882a2ba1e23b756a0cbe97ee4cc568b.
+  Pfad `~/Library/Caches/CubeEscapeFormgen/releases/formgen-v0.1.0-dry-run.zip`.
+- Cachefreie R01-Pixelprobe zwei frische Prozesse Seeds1/42 vor der letzten
+  Modellkorrektur gleich; nicht als neuen Nachweis des letzten Modells ausgeben.
+- Keine eigenen GPU-Jobs mehr. Fremde Ironsight-Aufträge nicht anfassen;
+  vor neuen Bildjobs echten`ce lock status` lesen. Keine Queue duplizieren.
+- Browserabnahme offen: früherefile-URL-Sicherheitsverweigerung, keineUmgehung
+  durchanderenBrowser/localhost. StatischePaket-/LinkprüfungistkeineFreigabe.
+- Kontingent zuVersionsbeginn bereitsgeprüft(26%Wochenrest); nicht routinemäßig
+  erneutprüfen. VorMerge weiterhin vorgeschriebenenexternenJudge fahren.
 
-## Rest und Abschluss
-
-- Roboter weiterhin nicht abgenommen (vierIoUs≥.90 und neueBreitenbänder).
-- W01konkaveFasen/Font/Eckmiter offen. Sinnvoller nächster Geometrieschritt:
-  fünf konstante Ringextrusionen ohneCuts statt globalemBevelneubau; Näheres
-  Versionsbericht/Runtimewarnings. Keine blindenFit-/Korrekturschleifen.
-- Viewer/HTMLBrowserabnahme fehlt: vorheriges Browserwerkzeug verweigertefileURL
-  perSicherheitsrichtlinie, keinUmgehen durchanderenBrowser/localhost.
-  StatischeLink-/Paketsichtung und Rasterpanelvergleich sind keineBrowserfreigabe.
-- Legacy159 extern vorbereitet, Registry4Pilotmodelle; nichtallesungerufenrendern.
-- Alter lokaler ZIP-Probelauf4Modelle/77Dateien und66GoldenHashes gehören zum
-  vorherigenCheckpoint, nach aktuellen Änderungen kein finalerReleasebeleg.
-- VorCodecommit neuerBildbeleg, `./check` undgezieltePrüfung; Dokumente/Version/
-  LESSONS aktuellhalten. Code bewusst WIPbisneuerBildprüfung. KeinPush/PR/Merge.
-- Alle alten Unteragenten werden an dieser Etappengrenze beendet/nichtbeobachtet;
-  frischeSitzung spawnt gezielte neue Helfer und unabhängigen Prüfer selbst.
+Alle bisherigen Unteragenten beendet, keine weiteren Schreiber. Die abgebende
+Sitzung beobachtet die Fortsetzung nicht. Fortsetzung frisch, nie Fork/Verlauf.

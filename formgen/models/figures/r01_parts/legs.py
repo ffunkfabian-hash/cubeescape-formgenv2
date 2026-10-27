@@ -28,6 +28,20 @@ PROVENANCE = {
     'shell_design': 'Annahme: 5mm f-Innenversatz, 3mm seitlicher Innenversatz, 10mm Teilungsfuge; Prinzip massfigur-v2 bauteile.py:116-145; Facettierung B.',
     'hidden_geometry': 'Annahme: Innenkerne, Achslängen, Hüft-f45, Profilinterpolation; verdeckte Außenkanten werden aus sichtbaren Nachbarhöhen interpoliert.',
     'core_fit': 'Annahme/Korrektur: Kerne folgen denselben Höhenreihen und Faltflächen wie die Schaleninnenhaut; 6% radialer Abstand zur Innenhaut verhindert Durchdringungen. Knie-Untersteg und Knöchel-Fuß-Link beginnen am jeweiligen oberen Schalenrand. Schalen-Außenkonturen, Wandstärken, Frontanker und Fußhöhe unverändert.',
+    'profile_refinement': {
+        'source': 'Gemessen 27.10.2026 an beiden unveränderten Ortho-Masken, nach Sichtung beider Farboriginale und GPUJob14579-Overlays. k=1924/3653; y_front=3876-u/k; y_right=y_front-7, y_left=y_front-5. f_right=(2150-x)*k; f_left=(x-1946)*k.',
+        'knee_back_samples_mm': {'u': [620,625,643,660,680,710,750,772],
+                                'right': [-52.7,-34.8,-32.1,-45.3,-51.1,-45.8,-16.9,-20.5],
+                                'left': [-53.2,-34.8,-31.1,-44.8,-51.1,-45.8,-17.4,-20.5]},
+        'knee_cap_front_samples_mm': {'u': [625,643], 'right': [132.2,140.1], 'left': [132.2,139.6]},
+        'foot_samples_mm': {'u': [62,100,120,145,178],
+                            'right_front': [185.4,174.9,148.5,91.6,66.9],
+                            'left_front': [185.9,175.9,150.1,92.7,68.5],
+                            'right_back': [-125.9,-117.5,-114.3,-107.4,-91.1],
+                            'left_back': [-126.9,-119.6,-114.3,-108.5,-92.2]},
+        'design': 'Annahme: gerundete gemeinsame f-Profile mit linearer Interpolation; echte 5mm-Knie-Rückschale, unveränderte x/u-Gliederkonturen, Gelenke und Sohle. Fuß u120 interpoliert die bisherige Frontkontur exakt. Knöchel-Fuß-Link f45 bei u178 liegt innerhalb der neuen Fußöffnung; f-2 bei u234 bleibt. Dunkler 3mm-Spannbelag folgt der gefalteten Schalenoberfläche.',
+        'limit': 'Frontboden u0 bleibt trotz Referenz-Seitenboden u49.5/50.6 bestehen; oberes Zehenvolumen kann deshalb das gesamte unterste Breitenband vergrößern. Kein bestandenes Bildkriterium behauptet.',
+    },
 }
 PARTS = []
 ANCHORS = {}
@@ -145,10 +159,37 @@ SHIN_ROWS = [
     (620,193,77,130,-52),
 ]
 FOOT_ROWS = [
-    (30,259,108,184,-123),(62,258,108,170,-115),
-    (100,255,102,91,-110),(145,251,94,57,-90),
-    (178,246,78,5,-78),
+    (30,259,108,184,-123),(62,258,108,185,-126),
+    (100,255,102,175,-119),
+    (120,255-4*20/45,102-8*20/45,149,-114),
+    (145,251,94,92,-108),(178,246,78,68,-92),
 ]
+KNEE_REAR_ROWS = [
+    (620,194,50,0,-52),(625,194,50,0,-35),
+    (643,194,53,0,-32),(660,194,53,0,-45),
+    (680,194,53,0,-51),(710,194,50,0,-46),
+    (750,192,48,0,-18),(772,180,50,0,-21),
+]
+
+
+def _foot_instep(sign):
+    """Three-mm patch seated on the folded toe, rather than a floating plate."""
+    rows = [(64,258,62,0,-1),(100,255,65,0,-1),
+            (120,255-4*20/45,65-16*20/45,0,-1),(145,251,49,0,-1)]
+    patch = _shell(rows,sign,wall=3)
+    n = len(rows)*5
+    for i, v in enumerate(patch['vertices']):
+        u = v[1]
+        a,b = next((a,b) for a,b in zip(FOOT_ROWS,FOOT_ROWS[1:]) if a[0]<=u<=b[0])
+        t = (u-a[0])/(b[0]-a[0])
+        _,xc,hw,front,back = [va+(vb-va)*t for va,vb in zip(a,b)]
+        seam = (front+back)/2+5
+        cheek = front-(front-seam)*.24
+        dx = abs(sign*v[2]-xc)
+        f = (front+(cheek-front)*dx/(.72*hw) if dx<=.72*hw
+             else cheek+(seam-cheek)*(dx-.72*hw)/(.28*hw))
+        v[0] = f+(3 if i<n else 0)
+    return {key:patch[key] for key in ('shape','vertices','faces')}
 
 for side, sign in (('r',-1),('l',1)):
     hip = _axle('hip_axis',side,sign,45,1080,142,60,72)
@@ -163,11 +204,14 @@ for side, sign in (('r',-1),('l',1)):
     for edge in (-1,1):
         _axle('knee_ring_'+str(edge),side,sign,35,710,194+edge*77,6,58,'dark_metal',43)
         _axle('knee_disc_'+str(edge),side,sign,35,710,194+edge*84,3,41,'anodized')
-    _part('knee_cap',side,'shell','Gemessen: Front Knieschild u625..770, Breite≈130mm; Annahme Facetten und f115..145.',
-          **_core([(625,194,45,113,72),(643,194,56,130,68),
+    _part('knee_cap',side,'shell','Gemessen: Front Knieschild u625..770, Breite≈130mm; beide Seiten unterer Schildrand f132 bei u625 und f140 bei u643, PROVENANCE.profile_refinement. Annahme: Facetten und interpolierter oberer Übergang unverändert.',
+          **_core([(625,194,45,132,72),(643,194,56,140,68),
                    (705,194,66,145,67),(766,190,53,129,69)],sign))
     _part('knee_lower_link',side,'graphite','Annahme: innerer Verbindungssteg oberhalb der Schienbeinschale u620..695; verdeckte Fortsetzung übernimmt der eingepasste Schienbeinkern. '+PROVENANCE['core_fit'],
           **_core([(620,194,53,105,-10),(640,194,53,105,-10),(695,194,49,93,-8)],sign))
+    _part('knee_rear_shell',side,'graphite',
+          'Gemessen: hintere Kniekontur beider registrierter Seiten; PROVENANCE.profile_refinement. Annahme: 5mm-Rückschale mit gerundeten Messwerten, innerhalb bestehender Frontkontur, unveränderte Gelenkachse.',
+          **_shell(KNEE_REAR_ROWS,sign,rear=True))
     _part('shin_core',side,'graphite',PROVENANCE['core_fit'],
           **_fitted_core(SHIN_ROWS,sign))
     for rear in (False,True):
@@ -183,7 +227,7 @@ for side, sign in (('r',-1),('l',1)):
         _axle('ankle_ring_'+str(edge),side,sign,-30,234,240+edge*71,6,43,'dark_metal',30)
         _axle('ankle_disc_'+str(edge),side,sign,-30,234,240+edge*78,3,29,'anodized')
     _part('ankle_link',side,'graphite','Annahme: Knöchel-Fuß-Link oberhalb des Fußschalenrandes u178..234; unterhalb übernimmt der eingepasste Fußkern. '+PROVENANCE['core_fit'],
-          **_core([(178,244,53,-1,-66),(234,240,48,-2,-59)],sign))
+          **_core([(178,244,53,45,-66),(234,240,48,-2,-59)],sign))
     # Broad sole with independent front and side silhouettes, not a cuboid.
     _part('foot_sole',side,'graphite','Gemessen: Front Standbreite x≈147..370 je Fuß; Seite Ferse-129, Spitze191mm. Annahme: Sohlenkante.',
           shape='prism2',side=[[-123,0],[180,0],[188,18],[186,48],[167,66],[-113,66],[-129,39]],
@@ -194,7 +238,7 @@ for side, sign in (('r',-1),('l',1)):
               'Gemessen: Front Fußbreite u30..178 und Seitenprofil im gemeinsamen Pixelmaßstab. Annahme: eingefasster Fuß nach massfigur-v2; '+PROVENANCE['shell_design'],
               **_shell(FOOT_ROWS,sign,rear))
     _part('foot_instep',side,'graphite','Gemessen: dunkles mittleres Fußfeld der Front; Annahme 3mm Auflage, Kontur dem Fußrücken folgend.',
-          **_core([(64,258,62,172,169),(100,255,65,94,91),(145,251,49,60,57)],sign))
+          **_foot_instep(sign))
     for joint, at, part in [('Hip',[45,1080,sign*142],hip),('Knee',[35,710,sign*194],knee),('Ankle',[-30,234,sign*240],ankle)]:
         ANCHORS['Socket_'+joint+'_'+side.upper()] = {
             'at':at,'part':part,

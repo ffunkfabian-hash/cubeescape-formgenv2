@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cubeescape-formgen/figure-spec/1",
+  "title": "Formgen FigureSpec 1",
+  "type": "object",
+  "required": ["format", "format_version", "generator", "figure", "units", "axes", "dimensions_m", "assemblies", "parts", "anchors", "poses", "measurement_source", "source", "warnings"],
+  "properties": {
+    "format": {"const": "cubeescape-formgen/figure-spec"},
+    "format_version": {"const": 1},
+    "generator": {"type": "object"},
+    "figure": {"type": "object", "required": ["id", "kind"], "properties": {"id": {"type": "string", "minLength": 1}, "kind": {"const": "figure"}}},
+    "units": {"const": "m"},
+    "axes": {"type": "object", "required": ["forward", "up", "left", "origin"], "properties": {"forward": {"const": "-Y"}, "up": {"const": "+Z"}, "left": {"const": "+X"}, "origin": {"const": "author_origin"}}},
+    "dimensions_m": {"$ref": "#/$defs/dimensions"},
+    "assemblies": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id"], "properties": {"id": {"type": "string", "minLength": 1}}}},
+    "parts": {"type": "array", "minItems": 1, "items": {
+      "type": "object", "required": ["id", "assembly", "role", "dimensions_m", "area_m2", "provenance"],
+      "properties": {"id": {"type": "string", "minLength": 1}, "assembly": {"type": "string"}, "role": {"type": "string"}, "parent_part": {"type": ["string", "null"]}, "dimensions_m": {"$ref": "#/$defs/dimensions"}, "area_m2": {"type": "number", "exclusiveMinimum": 0}}
+    }},
+    "anchors": {"type": "object", "additionalProperties": {"type": "object", "required": ["position_m"], "properties": {"position_m": {"$ref": "#/$defs/vector"}, "part": {"type": ["string", "null"]}}}},
+    "poses": {"type": "object"}, "measurement_source": {"type": "string"},
+    "source": {"type": "object"}, "warnings": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "vector": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}},
+    "dimensions": {"type": "object", "required": ["length", "height", "width", "bounds_m", "source"], "properties": {
+      "length": {"type": "number", "minimum": 0}, "height": {"type": "number", "minimum": 0}, "width": {"type": "number", "minimum": 0},
+      "bounds_m": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/vector"}}, "source": {"type": "string"}
+    }}
+  }
+}
