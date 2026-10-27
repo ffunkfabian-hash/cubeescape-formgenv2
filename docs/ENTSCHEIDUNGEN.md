@@ -2,6 +2,12 @@
 
 | Datum | Entscheidung | Herkunft |
 |---|---|---|
+| 27.10.2026 | R02-Höhe 2000 mm (Vorgabe Nutzer); alle Bildmaße gemessen und mit einem gemeinsamen Frontmaßstab 2000/Fronthöhe-px übertragen | direkte Nutzerentscheidung „2 m ist gut“ |
+| 27.10.2026 | R02-Gelenkhöhen eigene Messung an Gelenkscheiben/Konturknicken; Front verbindlich für Höhen/Breiten, Profile für Tiefe/Fußlänge, Rücken für Rückenmodul; Abweichungen > 10 mm in [Herkunft](herkunft-r02.md); Handgelenk-Differenz 89 mm ist Markerfehler (Profilmarker auf Handmitte), keine abweichende Armhaltung | Nutzer: „wie vorgeschlagen“; Sichtprüfung Arme Front/Profil |
+| 27.10.2026 | R02-Profilseiten: Profil A (→) zeigt rechte Seite → Rasterkamera side_right; Profil B (←) linke Seite → side_left; nur Namenszuordnung, kein Spiegeln | Blickrichtung wie R01-Vertrag; Nutzer „wie vorgeschlagen“ |
+| 27.10.2026 | R02 `mask revision 1`: Vektor-Alpha > 127, Komponenten ≥ 0,2 % der größten (Hände gehören dazu), closing 2, fill; danach unveränderlich | Nutzer „wie vorgeschlagen“; Referenzprobe |
+| 27.10.2026 | Weiß/blaues Blatt gibt R02-Silhouette und Schalengestaltung vor; Leuchten: Visier plus Brustkern und Kristallfelder (Visier + zwei Funktionen) | Nutzer „wie vorgeschlagen“ |
+| 27.10.2026 | Navy/goldenes Sechs-Ansichten-Blatt nur als späterer Vergleichskandidat (`refs-r02/candidates/navygold.svg`, SHA in `SHA256SUMS`), nicht Teil von R02 | direkte Nutzerangabe |
 | 27.10.2026 | Weiß/blaues SVG-Blatt ist Vorlage für einen neuen Roboter R02 (0.2 „Frost“); erst Referenzprobe, dann [Auftrag](auftrag-r02.md) für frische Sitzung; R01 und seine Originale bleiben unverändert | direkte Nutzerentscheidung nach SVG-Vergleich |
 | 27.10.2026 | Die geprüften GEOM8-Fasen sind das akzeptierte W01-Ziel; exakte Blender-Clamp-/Miter-Parität wird für diesen Abschluss nicht verlangt | direkte Nutzeranweisung in der Abschlusssitzung |
 | 27.10.2026 | Fußkorrektur nach Ursachenprüfung gezielt fortsetzen; bisherige Silhouetten-, Breiten-, Symmetrie- und Durchdringungsprüfungen bleiben verbindlich | ausdrückliche erneute Nutzerfreigabe nach Korrekturobergrenze |

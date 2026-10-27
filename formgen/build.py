@@ -21,6 +21,8 @@ REGISTRY = {"R01": ROOT / "formgen/models/figures/r01_basic_robot.py",
             "W01": ROOT / "formgen/models/weapons/w01_auto_rifle.py",
             "KG02": ROOT / "tests/fixtures/KG02.geo.json",
             "VS02": ROOT / "tests/fixtures/VS02.geo.json"}
+# Weitere native Modelle nur auf ausdrückliche ID; Standardlauf bleibt bei den vier Piloten.
+EXPLICIT = {"R02": ROOT / "formgen/models/figures/r02_basic_robot.py"}
 VIEWS = ("side_left", "side_right", "front", "back", "top", "bottom", "iso")
 ORTHOS = VIEWS[:6]
 SKINS = ("standard", "nacht", "polar", "kobalt")
@@ -507,7 +509,7 @@ def parse_args(argv=None):
     args = parser.parse_args(argv)
     if args.jobs < 1:
         parser.error("--jobs muss mindestens 1 sein")
-    args.registry = dict(REGISTRY)
+    args.registry = {**REGISTRY, **EXPLICIT}
     if args.legacy_dir is not None:
         if args.dummy:
             parser.error("--legacy-dir und --dummy sind nicht kombinierbar")
@@ -515,7 +517,7 @@ def parse_args(argv=None):
             parser.error("--legacy-dir muss ein vorhandener Ordner sein")
         for path in sorted(args.legacy_dir.glob("*.geo.json")):
             model_id = path.name.removesuffix(".geo.json")
-            if model_id in ("W01", "R01"):
+            if model_id in ("W01", "R01", *EXPLICIT):
                 parser.error(f"Legacy-Bibliothek darf natives Modell {model_id} nicht ersetzen")
             args.registry[model_id] = path.resolve()
     available = {"MINI"} if args.dummy else set(args.registry)

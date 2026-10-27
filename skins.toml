@@ -173,6 +173,51 @@ emit = 0.5
 emit_only = true
 de = "Absehen Weiß"
 
+[roles.frost_shell]
+color = "#E2EAEE"
+rough = 0.5
+metal = 0.0
+de = "R02 Panzerschale Weiß (Blatt #E4ECEC)"
+
+[roles.frost_frame]
+color = "#262B33"
+rough = 0.7
+metal = 0.0
+de = "R02 Unterbau Dunkelgrau (Blatt #242C34)"
+
+[roles.frost_slate]
+color = "#4A5268"
+rough = 0.65
+metal = 0.0
+de = "R02 Gurte, Taschen, Kragen Schiefer (Blatt #444C64/#545C74)"
+
+[roles.frost_joint]
+color = "#3A414B"
+rough = 0.45
+metal = 0.6
+de = "R02 Gelenkscheiben (Blatt #343C44)"
+
+[roles.frost_crystal]
+color = "#A6DCF8"
+rough = 0.2
+metal = 0.0
+emit = 1.5
+de = "R02 Kristallfeld hellblau, leuchtend (Blatt #A4DCFC)"
+
+[roles.frost_core]
+color = "#8FD3F7"
+rough = 0.2
+metal = 0.0
+emit = 3.0
+de = "R02 Brustkern leuchtend"
+
+[roles.frost_visor]
+color = "#4C7C9C"
+rough = 0.1
+metal = 0.0
+emit = 2.0
+de = "R02 Visier leuchtend (Blatt #4C7C9C)"
+
 [skins.standard]
 de = "Standard"
 kind = "Farbe"
