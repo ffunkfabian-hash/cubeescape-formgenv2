@@ -8,4 +8,5 @@
 - GEOM5/SPEC4: fünf zusätzliche W01-Fasen, Spec2-konforme Flächenfarbanteile und geometrisch geprüfte Schulter-/Nacken-/Hüftkorrekturen;221Quick-Tests,33Bauten/49Treffer, danach0/82; R01nun3/4IoUs und37/40Breitenbänder, weiterhin nicht abgenommen.
 - GEOM6: vier Cut-Profilfasen und eine echte Blindtaschenfase, toleranzfeste Butt-Pad-Stationen, lokale Oberarmwange;55gezielteTests,234Quicktests mit gezielt behobenem Alt-Testfehler,31Bauten/51Treffer, danach0/82. Sieben variable Cut-Fasen und Roboter-Gesamtabnahme bleiben offen.
 - GEOM7: sieben Post-Cut-BRep-Fasen mit zwingender Selbstschnittprüfung, Kopf-Innenwände und lokale Hinterkopf-Freistellung;244Quicktests,31Bauten/51Treffer, danach0/82. Reale Blender-Abweichungen dokumentiert; R01weiter3/4IoUs und37/40Breitenbänder.
+- GEOM8: gemeinsamer konservativer BRep-Fasenclamp, alle sieben Blendervergleiche verbessert; maximale Volumendifferenz 0,499 %, Bounds 0,083772 mm. 247 Quicktests, 31 Bauten / 51 Treffer, danach 0 / 82; R01-Abnahme weiter offen.
 - Offene Modell-/Bild-/Releaseabnahme und Prüfbelege: [Versionsbericht](docs/versions/0.1.md).

@@ -3,6 +3,7 @@ import copy
 import json
 import math
 import unittest
+from unittest.mock import patch
 from collections import Counter
 
 import numpy as np
@@ -52,7 +53,7 @@ class PolyhedralBevelTests(unittest.TestCase):
                   'magazine':(444,884),'handguard':(336,672),'barrel':(384,764),'muzzle':(1320,2648)}
         for name in NAMES:
             with self.subTest(name=name):
-                p=self.parts[name];self.solid(p)
+                p=self.parts[name];self.solid(self.source_parts[name]);self.solid(p)
                 self.assertEqual(p['bevel_status'],'segmented_polyhedral_bevel')
                 self.assertEqual((len(p['mesh']['vertices']),len(p['mesh']['faces'])),expected[name])
                 old=np.asarray(self.source_parts[name]['bounds_m']);new=np.asarray(p['bounds_m'])
@@ -71,9 +72,9 @@ class PolyhedralBevelTests(unittest.TestCase):
         d=p['bevel_diagnostics']
         self.assertEqual(p['bevel'],5)
         self.assertAlmostEqual(d['minimum_setback_m'],.00036,places=14)
-        self.assertAlmostEqual(d['maximum_setback_m'],.005,places=14)
+        self.assertAlmostEqual(d['maximum_setback_m'],.00036,places=14)
         warning=' '.join(w for w in self.result['warnings'] if w.startswith('lower:'))
-        self.assertIn('0.36..5 mm',warning)
+        self.assertIn('0.36..0.36 mm',warning)
         self.assertIn('keine Blender',warning)
         self.assertIn('Clampparitaet',warning)
 
@@ -104,9 +105,16 @@ class PolyhedralBevelTests(unittest.TestCase):
         restored=(np.asarray(a)-offset)@rotation
         for point in original:self.assertLess(np.linalg.norm(restored-point,axis=1).min(),1e-11)
 
-    def test_incompatible_higher_segment_corner_is_explicitly_unsupported(self):
+    def test_higher_segment_corner_is_valid_after_global_clamp(self):
         d=copy.deepcopy(self.definition);d['parts']=[p for p in d['parts'] if p['id']=='upper'];d['parts'][0]['segs_bevel']=4;d['assemblies']=[a for a in d['assemblies'] if a['id']=='receiver'];d['anchors']={};d.pop('poses',None)
         p=geom.evaluate(d)['parts'][0]
+        self.assertEqual(p['bevel_status'],'segmented_polyhedral_bevel')
+        self.solid(p)
+
+    def test_self_intersection_gate_still_routes_failure_to_unsupported(self):
+        d=copy.deepcopy(self.definition);d['parts']=[p for p in d['parts'] if p['id']=='upper'];d['assemblies']=[a for a in d['assemblies'] if a['id']=='receiver'];d['anchors']={};d.pop('poses',None)
+        with patch('formgen.polybevel._self_intersects',return_value=True):
+            p=geom.evaluate(d)['parts'][0]
         self.assertEqual(p['bevel_status'],'unsupported')
         self.assertNotIn('bevel_diagnostics',p)
 

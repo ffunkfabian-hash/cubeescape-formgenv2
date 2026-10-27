@@ -292,9 +292,10 @@ def distance_segments(p0, p1, q0, q1):
 def bevel(vertices, faces, width, segments=2):
     """Build inset faces, circular edge strips and triangulated corner patches.
 
-    Width means setback along each incident source face. Clamps use 24% of
-    local source boundary lengths and nonincident coplanar boundary spacing; further
-    downward constraints keep shallow edges shared. This conservative margin
+    Width means setback along each incident source face. A common conservative
+    clamp uses the minimum of 24% local source boundary lengths and nonincident
+    coplanar boundary spacing over all selected edges; further local downward
+    constraints keep shallow edges shared. This conservative margin
     avoids the known mouth/outer-rim overlap without modifying source geometry.
 
     At three-plane shallow junctions both fillet cylinders are intersected
@@ -350,6 +351,12 @@ def bevel(vertices, faces, width, segments=2):
         widths[key] = min(width, 0.24 * limit)
         if widths[key] < 1e-12:
             raise geom.GeometryError('no numerically stable setback')
+
+    # Overlap clamping changes the common width, rather than independently
+    # widening distant edges that share the same bevel operation. The 24%
+    # seed remains deliberately conservative; this is not Blender parity.
+    global_setback = min((d for d in widths.values() if d), default=0.0)
+    widths = {key: global_setback if d else 0.0 for key, d in widths.items()}
 
     def corner_offset(f, source):
         for loop in loops[f]:
@@ -554,4 +561,6 @@ def bevel(vertices, faces, width, segments=2):
         raise geom.GeometryError('Polyhedral bevel has nonpositive volume')
     if _self_intersects(np.array(outv), np.array(tr)):
         raise geom.GeometryError('Polyhedral bevel corner/edge patches self-intersect')
-    return (outv, tr, dict(edges=diag, volume_m3=solid.volume(), min_double_area_m2=float(area.min())))
+    return (outv, tr, dict(edges=diag, global_conservative_setback_m=global_setback,
+        shallow_reduced_edges=int(sum(edge["width"] < global_setback-1e-12 for edge in diag)),
+        volume_m3=solid.volume(), min_double_area_m2=float(area.min())))

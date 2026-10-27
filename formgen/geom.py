@@ -953,6 +953,8 @@ def _bevel(vertices, faces, radius, segments=2, *, part=None, diagnostics=None):
                 maximum_setback_m=max(widths) if widths else 0.,
                 featured_edges=len(widths),
                 clamped_edges=int(sum(w < radius-1e-12 for w in widths)),
+                global_conservative_setback_m=detail['global_conservative_setback_m'],
+                shallow_reduced_edges=detail['shallow_reduced_edges'],
                 local_spacing_fraction=.24,
                 corner_patch='triangulated_offset_miter_with_cylindrical_intersections',
                 self_intersections=0)
@@ -1040,7 +1042,9 @@ def evaluate(model, *, booleans=True, bevels=True):
                             part['bevel_diagnostics'] = polyhedron_detail
                             lo = polyhedron_detail['minimum_setback_m']*1000
                             hi = polyhedron_detail['maximum_setback_m']*1000
-                            local.append(f'Fase: {segments} Kreisprofilsegment(e), echtes Post-Cut-Flaechen-BRep; konvexe/konkave Kanten, gemeinsame Zylinder-/Offset-Eckpatches, Selbstschnittpruefung; konservativer lokaler Abstand-/Kantenclamp auf {lo:.6g}..{hi:.6g} mm bei {radius:g} mm Vorgabe, keine Blender-Eckmiter-/Clampparitaet')
+                            common = polyhedron_detail['global_conservative_setback_m']*1000
+                            reduced = polyhedron_detail['shallow_reduced_edges']
+                            local.append(f'Fase: {segments} Kreisprofilsegment(e), echtes Post-Cut-Flaechen-BRep; konvexe/konkave Kanten, gemeinsame Zylinder-/Offset-Eckpatches, Selbstschnittpruefung; gemeinsamer konservativer Abstand-/Kantenclamp {common:.6g} mm, {reduced} lokale Reduktionen an flachen Ecken, effektiv {lo:.6g}..{hi:.6g} mm bei {radius:g} mm Vorgabe, keine Blender-Eckmiter-/Clampparitaet')
                         elif _concave_extrusion(part) or cut_profile:
                             part['bevel_status'] = 'segmented_profile_bevel' if segments > 1 else 'planar_profile_chamfer'
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), konvexe/konkave Profilkanten und Endränder; konservativer Profilclamp, Offset-Ecken statt bestätigter Blender-Eckmiterparität')
