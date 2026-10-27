@@ -931,7 +931,7 @@ def _pocket_bevel(vertices,faces,width,segments=2):
              discarded_finished_faces=0)
     return v,f,d
 
-def _bevel(vertices, faces, radius, segments=2, *, part=None):
+def _bevel(vertices, faces, radius, segments=2, *, part=None, diagnostics=None):
     if not isinstance(segments, int) or isinstance(segments, bool) or segments < 1:
         raise GeometryError('segs_bevel muss eine positive ganze Zahl sein')
     if part and part.get('cuts'):
@@ -944,6 +944,19 @@ def _bevel(vertices, faces, radius, segments=2, *, part=None):
             pass
         else:
             return _pocket_bevel(vertices, faces, radius, segments)[:2]
+        from .polybevel import bevel as polyhedron_bevel
+        v, f, detail = polyhedron_bevel(vertices, faces, radius, segments)
+        if diagnostics is not None:
+            widths = [edge['width'] for edge in detail['edges']]
+            diagnostics.update(requested_width_m=radius,
+                minimum_setback_m=min(widths) if widths else 0.,
+                maximum_setback_m=max(widths) if widths else 0.,
+                featured_edges=len(widths),
+                clamped_edges=int(sum(w < radius-1e-12 for w in widths)),
+                local_spacing_fraction=.24,
+                corner_patch='triangulated_offset_miter_with_cylindrical_intersections',
+                self_intersections=0)
+        return v, f
     if _constant_ring(part):
         if _sharp_ring_edges(vertices):
             v = np.asarray(vertices)
@@ -1011,7 +1024,8 @@ def evaluate(model, *, booleans=True, bevels=True):
                                 pass
                             else:
                                 cut_pocket = True
-                        vertices,faces = _bevel(vertices,faces,radius/1000,segments,part=part)
+                        polyhedron_detail = {}
+                        vertices,faces = _bevel(vertices,faces,radius/1000,segments,part=part,diagnostics=polyhedron_detail)
                         part['bevel_status'] = 'segmented_bevel' if segments > 1 else 'planar_chamfer'
                         if ring_profile:
                             part['bevel_status'] = 'segmented_ring_profile_bevel' if segments > 1 else 'planar_ring_profile_chamfer'
@@ -1021,6 +1035,12 @@ def evaluate(model, *, booleans=True, bevels=True):
                         elif cut_pocket:
                             part['bevel_status'] = 'segmented_pocket_bevel' if segments > 1 else 'planar_pocket_chamfer'
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), erkannte rechteckige X-Minus-Blindtasche; Außenkanten, Taschenmund, Wand- und Bodenkanten mit geschlossenen Offset-Eckpatches; lokaler Tiefenclamp, keine Blender-Eckmiterparität')
+                        elif polyhedron_detail:
+                            part['bevel_status'] = 'segmented_polyhedral_bevel' if segments > 1 else 'planar_polyhedral_chamfer'
+                            part['bevel_diagnostics'] = polyhedron_detail
+                            lo = polyhedron_detail['minimum_setback_m']*1000
+                            hi = polyhedron_detail['maximum_setback_m']*1000
+                            local.append(f'Fase: {segments} Kreisprofilsegment(e), echtes Post-Cut-Flaechen-BRep; konvexe/konkave Kanten, gemeinsame Zylinder-/Offset-Eckpatches, Selbstschnittpruefung; konservativer lokaler Abstand-/Kantenclamp auf {lo:.6g}..{hi:.6g} mm bei {radius:g} mm Vorgabe, keine Blender-Eckmiter-/Clampparitaet')
                         elif _concave_extrusion(part) or cut_profile:
                             part['bevel_status'] = 'segmented_profile_bevel' if segments > 1 else 'planar_profile_chamfer'
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), konvexe/konkave Profilkanten und Endränder; konservativer Profilclamp, Offset-Ecken statt bestätigter Blender-Eckmiterparität')

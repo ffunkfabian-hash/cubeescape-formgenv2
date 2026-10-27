@@ -56,9 +56,29 @@ Eine vollständig nachgewiesene rechteckige X-Minus-Blindtasche erhält direkte
 Außen-/Mund-/Wand-/Bodenpatches (`segmented_pocket_bevel`), mit lokalem Clamp
 auf 0,49 der Taschentiefe. W01 bolt_carrier nutzt 0,98mm bei 2mm Tiefe.
 Überlappende Taschenmund-/Außenrandfasen werden ausdrücklich abgewiesen.
-Allgemeine variable oder schräge Cut-Netze bleiben mit Warnung ungefast;
-W01 hat noch sieben solche Teile. Die Erweiterungen bestätigen weiterhin
-keine Blender-Eckmiter-/Clamp-Parität.
+GEOM7 ergänzt für variable oder schräge Cut-Netze ein direktes Flächen-/Kanten-
+BRep (`segmented_polyhedral_bevel`): wirkliche koplanare Flächen mit allen
+Löchern, Kreisprofile an konvexen/konkaven Kanten über30°, gemeinsame
+Zylinder-Schnittkurven an flachwinkligen Ecken und triangulierte Offset-Ecken.
+Keine Hülle und keine Umordnung von Primitive/Cut/Fase. Lokale Rücksprünge
+werden konservativ auf0,24der tatsächlichen Kanten-/Flächenabstände begrenzt;
+Min/Max, angeforderte Breite und Anzahl geclampter Kanten stehen in
+`bevel_diagnostics` und der Warnung. W01 lower behält seine5mm-Vorgabe und
+Taschenmaße; die äußere obere Kante nutzt0,96mm, Taschenmund/Boden0,36mm.
+Damit erhalten alle sieben bisherigen W01-Restteile bei Standard2Segmenten
+echte Fasen. Nichtpositive/offene Quellen, misslungene Ecktriangulation,
+Selbstschnitte und koplanare Überlappungen werden abgewiesen; das Teil bleibt
+ausdrücklich `unsupported`. Das gilt auch bei höheren Segmentzahlen, wenn
+deren Eckkonstruktion keine gültige Geometrie ergibt.
+
+Die Erweiterungen bestätigen weiterhin **keine Blender-Eckmiter-/Clamp-Parität**.
+Ein tatsächlicher Blender5.2.2-Bevel auf denselben sieben Post-Cut-Netzen
+zeigt0,038–2,292% symmetrische Volumendifferenz und bis0,729mm Bounds-Abweichung;
+dies ist eine konservative alternative Eck-/Clampkonstruktion. Unveränderte
+Quellbelegung fern der effektiven Kantenumgebungen und echte Taschenböden/
+Durchgänge sind separat geometrisch geprüft. Die zwingende Selbstschnittprüfung
+erhöht den einmaligen W01-Datenbau gemessen von1,125sauf6,454s; der Cache bleibt
+unverändert komponentenweise.
 
 Mesh64-Ein-/Ausgabe bewahrt die Genauigkeit von Boolean- und Fasenknoten
 (manifold3d ≥3.5.4). Fehlende echte Booleans/Fasen dürfen nie stillschweigend

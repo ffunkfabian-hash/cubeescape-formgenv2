@@ -1,149 +1,140 @@
-# Frische Fortsetzung: GEOM6 integrieren, Contour fertigstellen
+# Frische Fortsetzung: GEOM7 sichern, R01-/Systemabnahme fertigstellen
 
-**Nicht fertig. Frisch ohne Verlauf/Fork fortsetzen.** Stand27.10.2026,02:25MEZ.
-GEOM5/SPEC4 ist jetzt vollständig quick- und bildgeprüft; Code, Daten und
-26neue Bild-/Blattgoldens werden im aktuellen lokalen Checkpoint gesichert.
-Aktuellen HEAD/Status aus Git lesen. Keine älteren Checkpoints über Quellen
-kopieren, nichts zurücksetzen oder fremden WIP verwerfen.
+**Nicht fertig. Ohne Verlauf/Fork frisch fortsetzen.** Stand27.10.2026.
+GEOM7/RASTER5/SPEC4 ist vollständig quick-, golden- und bildgeprüft; alle
+folgenden Geometriepatches sind JETZT integriert. Nichts erneut anwenden,
+keine alten Checkpoints über aktuelle Quellen kopieren. HEAD/Status aus Git lesen.
 
 ## Einstieg und Grenzen
 
-- Tatsächliches Repo `/Users/ffunk/Claude/cubeescape-formgenv2`, Branch
-  `codex/formgen-v2-first`. App-Projektwurzel `/Users/ffunk/formgenv2` ist falsch;
-  dort nichts schreiben. Bei jedem Shell-/Git-Aufruf tatsächlichen Workdir setzen.
-- Zuerst globale/Repo-AGENTS, docs/LESSONS.md, diese Übergabe,
-  docs/versions/0.1.md und docs/auftrag-codex-formgen-v2.md lesen.
-- Zwei Ziele bleiben W01-Geometrieparität und R01-/Systemabnahme.
-  Gesamtsystem autonom fertigstellen; technischen Checkpoint nicht als
-  Gesamtfreigabe oder erledigten Roboter ausgeben.
-- gpt-6.1-sol/high für heikle Geometrie, Luna für Routine; keine Astra-Starts.
-  Getrennte Unteragenten und unabhängiger Prüfer sind ausdrücklich gewünscht.
-  Hauptagent hält Schnittstellen, VERSION-Konstanten, Integration und Commits.
-- Lokale Commits erlaubt; kein Push/PR/Merge/Upload. v1/Ballon nur lesen.
-  Keine neuen Pip-Abhängigkeiten, alten Modellmodule oder Cache-/Pipelinegerüste.
-- Toolgen laut Auftrag tabu. Scopefrage ist im früheren Chat
-  `01a17ac4-db0d-7610-ad7e-f2ae6fef1ec7` noch unbeantwortet; dort bei Bedarf
-  direkte Nutzerantwort lesen, nicht erneut fragen/Schweigen als Freigabe nehmen.
-  Geprüfter Vorschlag: docs/vorschlag-toolgen-native-contract.md.
-- Browser-file-URL früher sicherheitsverweigert, keine Umgehung über anderen
-  Browser/localhost. Statische Links-/Paketprüfung ist keine Browserabnahme.
-- Kontingent zu Versionsbeginn bereits26%Wochenrest geprüft, nicht wiederholen.
-  Vor Merge weiterhin externen `./ce codex judge` mit Checkliste fahren.
-
-## GEOM5-Bildlauf ERLEDIGT, Quellenfreeze beendet
-
-Der übernommene PID38556/Job `/tmp/formgen-geometry5-visual.py` ist erfolgreich
-fertig, kein wartender/laufender eigener GPU-Auftrag mehr. KEINEN zweiten
-GEOM5-Lauf starten. Nach1769sWarten lief er131,799s. Vor neuen Bildaufträgen
-aktuellen `./ce lock status` lesen; fremde Halter niemals anfassen.
-
-Record `~/Library/Caches/CubeEscapeFormgen/evidence/geometry5-spec4-visual.json`:
-33gebaut/49Cachetreffer, danach0gebaut/82Treffer. KG02/VS02-Bilder waren Cache.
-Vier registrierte R01-Farb-/Deckungsframes, zwei frische Frontprozesse Seeds1/42
-mit exakt gleichen Geometrie/RGB/Deckungshashes und identischen Standardpixeln.
-Alle34Quell-SHAs und vierOriginale/Referenzmasken bestätigt.
-ZIP `releases/geometry5-spec4/formgen-v0.1.0-dry-run.zip` unter Cache:
-4Modelle/77Nutzdateien+Manifest,7674136Bytes,
-SHA256`0cc4ca1e19dde0e7483aee033fd53bc9943ff838b64f1fb9e04d7b3c2aecbfc7`.
-Unabhängig CRC/Manifest/alleDatei-SHAs geprüft, keine Veröffentlichung.
-
-Eigene UND unabhängige Sichtung: W01 side_left/hero/detail_trigger/sight_iso
-mit freien Öffnungen und neuen Profilfasen, kein neuer sichtbarer Blocker.
-R01 vierFarbbilder UND Overlays gesichtet; Metriken exakt unabhängig aus
-Alpha derselben Frames reproduziert. **3/4IoUs und37/40Breitenbänder:**
-Front0.9388799013943456, Back0.8848502633482926,
-SeiteR0.9038583993313966, SeiteL0.9013795711982163.
-NurBand0rot: Back1.0970891339721571, R1.4245223332911552,
-L1.4317690448938063. Keine Rundung/Grenzwert-/Registrierungsänderung.
-Fuß-/Bodenkonflikt bleibt: Seitenboden rund50mm höher als Front; Front legt
-Gelenke/Fußhöhe/Standbreite fest. Keine künstlichen Sohlen/Fahnen oder
-pauschale Fußverkleinerung zum Maskenfit. Keine Unmöglichkeitsbehauptung.
-
-Belege unter Cache/evidence:
-- `formgen-independent-geometry5-visual-review.json`,
-  `formgen-geometry5-w01-visual-review.json`;
-- `robot/registered-geometry5-spec4-contact.png` (1600px Kontaktbogen);
-- `robot/legs-lower_body-upper_body-head-arms/{metrics.json,*-frame.png,*-overlay.png}`;
-- alte GEOM4-Frames unverändert in `before-geometry5-spec4/`.
-Vor Änderungen diese neue GEOM5-Bildbasis separat sichern.
+- Tatsächliches Repo`/Users/ffunk/Claude/cubeescape-formgenv2`, Branch
+  `codex/formgen-v2-first`. App-Projektwurzel`/Users/ffunk/formgenv2` ist falsch:
+  dort nichts schreiben/kein Git initialisieren. Shell/Git immer mit explizitem
+  tatsächlichem Repo-Workdir.
+- Globale/Repo-AGENTS, docs/LESSONS.md, diese Übergabe, docs/versions/0.1.md und
+  docs/auftrag-codex-formgen-v2.md zuerst lesen; vor langen Dokus suchen.
+- Zwei Hauptziele bleiben W01-Geometrieparität und R01-/Systemabnahme.
+  Gesamtsystem autonom fertigstellen, technischen Checkpoint nie als fertig melden.
+- Sol/high für heikle Geometrie, Luna Routine, keine Astra-Starts. Getrennte
+  Unteragenten und unabhängige Prüfer ausdrücklich gewünscht. Hauptagent hält
+  Schnittstellen/VERSION/Integration/Commits. Keine gleichzeitigen Schreiber.
+- Lokale Commits autorisiert; kein Push/PR/Merge/Upload. v1/Ballon nur lesen,
+  Toolgen tabu. Keine neuen Pip-Abhängigkeiten/Cachegerüste/alten Modellmodule.
+- Browser-file-URL war sicherheitsverweigert, keine Umgehung über anderen
+  Browser/localhost. Statische Paketprüfung ist keine Browserabnahme.
+- Kontingent am Versionsbeginn26%Rest bereits geprüft, nicht wiederholen.
+  Erst vor ausdrücklich beauftragtem Merge externen`./ce codex judge`+Checkliste.
 
 ## Tatsächlich integrierter Stand
 
-GEOM5/RASTER5/SPEC4, W01:72Teile/10399V/20398T,0Nullflächen.
-47segmentierteFasen,4Profilfasen(sight_body/grip/trigger/trigger_guard),
-1Ringprofilfase(muzzle_crown),12ungefassteCut-Netze,8ohneFase.
-Eigene Offset-Ecken sind KEINE bestätigte Blender-Miter-/Clamp-Parität.
-Bfont, AUTO-Bezier und vierfrühereEndringfasen sind erledigt, nicht erneutTODO.
-Legacy-Oberflächen vollständig integriert; alle159Legacy-Geos einzeln über
---legacy-dir wählbar/datengebaut/Geo-roundtripgeprüft, kein Bibliotheksrender.
-SPEC4: Zusatzfarben wieder[{color,share}], dominant nach Oberfläche, Glasfallback
-wie v1; echterToolgen-Palettenleser und159LegacySpecs geprüft.
-NativeW01/R01Geos werden vom unveränderten Toolgen ausdrücklich abgewiesen.
+GEOM7/RASTER5/SPEC4. W01:72Teile/14842V/29284T,0Nullflächen.
+47segmentierte+8Profil-+1Ringprofil-+1Taschen-+7Polyhedral-BRep-Fasen,
+8Teile ohne Fasenauftrag, KEIN unsupported im Standard2Segment-W01.
 
-R01:251Teile/18960V/36968T. Neue Schulterträgerdach-/Nackenkern-/konische
-Hüftgehäusekorrekturen jetzt bildgeprüft. Anker/Füße/Armquellen unverändert.
-Ready-Pose mit ursprünglichem Armkern und neuer konvexer ForeCore-Freiraumfacette:
-keine W01-Schnitte, Schaftabstand1,5mm/Kappe3,133mm. Pose nicht blind korrigieren.
+Die früheren externen next-cut/variable-pocket/next-arm-Patches sind schon in
+GEOM6 integriert. Jetzt zusätzlich `formgen/polybevel.py` plus geom-Routing:
+alle7variablen/schrägen PostCut-Restteile upper/lower/top_shroud/magazine/
+handguard/barrel/muzzle mit echten Flächen-/Kanten-/Eckpatches. Quellmaße/Cuts
+unverändert, keine Hülle oder fertige Nullflächenlöschung. Zwingende Gates
+auf positive geschlossene Quelle, Nullflächen, Selbstschnitt/koplanare
+Überlappung; Qhull/LinAlg gezielt GeometryError. Ungültige höhere Segmente
+bleiben ehrlich unsupported (z.B.upper3/4). Maschinenlesbare Diagnostics und
+Warnungen zeigen konservative tatsächliche Setbackspannen. lower5mm-Vorgabe
+bleibt, obere Außenkante0,96mm, Taschenmund/Boden0,36mm.
 
-Letzter eigener `./check`:221Tests/204pass/17Bildskips,17,234s,
-`/tmp/formgen-geometry5-final-check.log`. Vorheriger unabhängiger Quick grün.
-Explizite Golden-Prüfung(ohne Render):3Tests/0,273s,
-`/tmp/formgen-geometry5-golden-check.log`.26Bild-/Blattgoldens nachSichtung
-aktualisiert; die3Datengoldens waren schon im vorherigen WIP aktualisiert.
+Keine bestätigte Blender-Miter-/Clamp-Parität: echter Blender5.2.2-Kern auf
+denselben7PostCut-Netzen zeigt0,038–2,292% symm.Volumendifferenz und maximal
+0,729mmBoundsabweichung. Referenz ohne Render in eigener Hintergrundszene
+unterBlenderlock,0,031sCPU; keine .blend gespeichert. DatenbauW01 gemessen
+1,125→6,454s durch zwingendes Selbstschnittgate. Geometriecache unverändert.
 
-## Nächste konkrete Etappe: geprüfte Vorschläge integrieren
+R01:251Teile/19106V/37268T. GEOM6-Oberarmwange7aktiveStützen jeSeite,u1350/+8mm;
+Originalpunktpräfix/f-u-Hülle/medialerRand/Anker erhalten. GEOM7-Kopffix:
+_wall trianguliert Außen-/Innenflächen einmal korrespondierend; Hinterkopfplatte
+symmetrisch mit denselben9Originalpunkten/4mmf-Wand. Dunkles Housing lokal gegen
+wirkliche Panelinnenfläche ausgenommen. Frühere schwarze Insel ist verschwunden;
+12Kopfnetze geändert, Kopf-Ränder/Symmetrie/Innenwände unabhängig geprüft.
+40841innerePanelstrahlen0Verdeckung,0Schnitt;3exakteRandstrahlen tangieren
+benachbartesGehaeuse. SeitlicheFläche40,2157mm²kleiner, Front/Backmaske identisch.
 
-Alle Vorschläge sind bislang NUR extern, NICHT im Repo angewandt.
-Dauerhaft `~/Library/Caches/CubeEscapeFormgen/evidence/geometry/next-cut-proposal/`:
+Ready-Pose/Anker/Sohlen unverändert. Bestehende6Poseprüfungen grün; frühere
+tatsächlich gefaste W01-/Roboter-Kollisionsprüfung Schnitt0. Keine Pose blind
+korrigieren. Bfont/AUTO-Bezier/Legacyoberflächen/159LegacyGeos undSPEC4 sind
+bereits erledigt; nicht erneutTODO. Native Abnehmergrenze bleibt offen.
 
-1. `formgen-next-cut-integration.patch`, SHA256
-   `567a4f4d552f0469337f351b705463d04e192a4ed2dd24a7d2feff189e2a9875`:
-   beliebig viele ungleichlange signierte Konturen; konservative echtePost-Cut-
-   X-Extrusionserkennung; rail/stock_spine/stock/butt_pad mitProfilfasen.
-   Toleranzmerge behebt echten Butt-Pad-Gegenfall4,44e-16rad, keineFlächenlöschung.
-   Rücksprünge≤1e-12m ausdrücklich abgewiesen. BestehendeWrapper kompatibel.
-   40gezielteTests und unabhängige Topologie-/Loch-/Projektionsprüfung grün.
-2. DANACH `formgen-variable-pocket-integration.patch`, SHA256
-   `b6fd1bd01893c99d4c49c89ca26f49baec6c06758d5336677ac8aebe8009dfc6`:
-   echte rechteckigeX-Minus-Blindtasche inBox, nurbolt_carrier alsnativerPilot.
-   Direktverbundene Außen/Mund/Wand/Boden/Eckpatches; bei2mmTiefe lokalerClamp
-   0,98mm. NeuerStatussegmented_pocket_bevel/planar_pocket_chamfer, ehrlicheWarnung.
-   Zusammen45Tests und unabhängigeProduktionscodeprüfung bestanden.
-   Genau5weitereW01-Netze ändern sich, dann11895V/23390T; R01exaktidentisch.
-   Weitere7Cut-Netze ausdrücklichunsupported, keineBlender-Paritätbehaupten.
-   Berichte und independent-*-review/cases.json liegen imgleichen Ordner.
+## Neue Bild-/Prüfbasis, abgeschlossen
 
-Separat `evidence/robot/next-arm-proposal/`:
-`formgen-next-robot-arm-only.patch` ergänzt7aktiveHullstützen anupper_shell_*
-bei u1350/+8mm.18Originalpunkte bleiben; spiegelgleich, f/u-Hülle/medialerRand
-und Konturabu1450 erhalten. u1400-Stützen waren3D-redundant und entfallen.
-LokaleWölbung ist in Front+Backfarbreferenzen und neuenFrames begründet.
-Hauptagent hat geometrisch gleichenVorschlag nurinmemory eingesetzt:
-alle6bestehendenPose-/Kontakt-/Kollisionstests grün(1,262s), aktuelleGEOM5W01.
-BestehenderArm-Punktlistentest muss zusätzlicheStützen korrekt zulassen;
-Originalpunktpräfix und vollständige f/u-Hüllengleichheit weiter prüfen.
-Nach echterIntegration und neuerW01Geometrie gezieltePoseprüfung wiederholen.
-Kein Materialpatch anwenden: Back zeigt helleSchienbeinrückseite, Seiten dunkle
-Rückläufe. PauschalerRollenwechsel ist nichtvierfachbelegt; Materialalternative
-bleibt in eigenemBericht offen. Knieänderung war nicht begründet.
+KEIN eigener wartender/laufender GPU-/Blenderauftrag, Quellenfreeze beendet;
+vor neuem Bildjob echten`./ce lock status` lesen, fremdeJobs niemals anfassen.
+Keinen zweiten GEOM7-Bildlauf starten. Ein inkrementeller Lauf116,428s:
+31gebaut/51Treffer, danach0gebaut/82Treffer, Legacybilder gecacht.
+35Quell-SHAs unverändert;2cachefreieSeedprozesse1/42RGB/Deckung/Geometrieexaktgleich
+undStandardfront pixelidentisch. Keine Referenz-/Masken-/Registrierungsänderung.
 
-Hauptagent: beideGeom-Patches inReihenfolge prüfen/anwenden, Armpatch gezielt,
-GEOMauf6 setzen, passendeDoku nachführen. Datenbau nurvierPiloten, neueDaten-
-Goldens, Quick+gezieltePrüfung; genauEIN gezielterinkrementellerBildauftrag
-unterGPU-Sperre mitneuemQuellsnapshot. Eigene/unabhängigeBildsichtung,
-neueMaskenwerte, Bildgoldens undlokalerCommit. Nicht erneutPipelinebauen.
+R01 roheIoUs: Front0.9400816578075649, Back0.8859483142429271,
+R0.9037987025908385, L0.9013198495013238. Weiter3/4IoUs und37/40Breitenbänder.
+NurBand0rot: Back1.0970891339721571, R1.4245223332911552, L1.4317690448938063.
+Front bestimmt Gelenke/Fußhöhe/Standbreite; Seitenboden rund50mmhöher. Keine
+künstlichen Sohlen/Fahnen, Maskenfits, Rundung oder Grenzwertänderung. Keine
+mathematische Unmöglichkeit behaupten. Material-Rollenwechsel anSchienbeinrücken
+bleibt nicht vierfachbelegt; Kniekorrektur unbegründet.
 
-## Restgeometrie nicht vortäuschen
+Eigene UND unabhängige Sichtung W01siebenAnsichten/Ballonoriginale und R01vier
+Farben/Overlays/Kopfcrops abgeschlossen, keine neuen Bildblocker.22Bild-/Blatt-
+Goldens danach aktualisiert. ./check244Tests/227pass/17Bildskips72,546s,
+42gezielteTests29,092s; Golden3Tests0,254sOHNERender. Logs
+`/tmp/formgen-geometry7-{targeted,quick,visual,golden-check}.log`.
 
-lower: vierrechteckigeTaschen beidseitig sind post-Cut-exakt rekonstruiert,
-aber zweiMünder überschneiden die unveränderte5mm-Außenfase: EndcapZ81mm,
-Mundoberkante82,735mm, je35,984624mm² außerhalb; schon ungefast20mm² außerhalb.
-Pocketradius-Verkleinerung allein löst es nicht. KEINlower-Netz/Diff gebaut.
-`formgen-lower-pocket-{report.md,check.json,preflight.py}` bei next-cut-proposal.
-Echte übergreifende Ecklösung/ausdrücklichbegründeterClamp erforderlich,
-kein heimliches Modell-/Breitenändern. AndereRestteile upper/top_shroud/
-magazine/handguard/barrel/muzzle besitzen variableQuerschnitte oder schräge
-Flächen; kein einzelnes2D-Profil, keinekonvexeHülle alsFormersatz.
+Belege unter`~/Library/Caches/CubeEscapeFormgen/evidence/`:
+- geometry7-spec4-visual.json, formgen-geometry7-visual-review.json,
+  formgen-independent-geometry7-visual-review.json;
+- geometry/formgen-independent-geometry7-w01-visual-review.json,
+  geometry/formgen-independent-brep-{production-review,adversarial,edge-locality,blender-comparison}.json;
+- robot/registered-geometry7-spec4-contact.png,
+  robot/geometry7-head-comparison.png, formgen-independent-geometry7-head-frame-crops.png,
+  robot/legs-lower_body-upper_body-head-arms/{metrics.json,*-frame.png,*-overlay.png};
+- geometry/remaining-geometry-proposal/formgen-remaining-polyhedral-report.md,
+  ProduktionspatchSHAf983b22f32003a75740f675faca208f3cffed01c2a9cc1b665c6e493968ce91d
+  ist BEREITS integriert. Gegen40c169d genau7W01Netzänderungen;
+- geometry/blender-postcut-reference/{input.json,reference.json,blender_reference.py};
+- before-geometry7/44Dateien+SHAmanifest alsGEOM6Basis, before-geometry6/GEOM5Basis.
 
-Alle bisherigenUnteragenten beendet. Die abgebendeSitzung koppelt sich ab;
-keine weiterenSchreiber oderBeobachter, Fortsetzungfrisch ohneVerlauf/Fork.
+ZIP imCache`releases/geometry7-spec4/formgen-v0.1.0-dry-run.zip`:
+77Nutzdateien+Manifest/7782721Bytes,
+SHA52ede7726dae90e5e59c327849989b1420c6f9871a09104cea602889feff0a5a.
+UnabhängigCRC/alle77Manifestdatei-SHAs bestätigt. KeineVeröffentlichung.
+
+## Zwei offene Nutzerentscheidungen nicht dupliziert fragen
+
+1. Fußprototyp gemäß Korrektur-Obergrenze PAUSIERT. In abgebendemChat
+   `01a17af7-5bf7-7dd1-846e-3dad6643014f` steht asynchroneFrage: nach unabhängiger
+   Ursachenprüfung ausnahmsweise mitSol/xhigh gezieltfortsetzen oder vorerst
+   zurückstellen. Vor abhängigemFußcode direkteNutzerantwort dort lesen,
+   keineAntwortistKEINEFreigabe. Astra bleibtgesperrt. Frage nichtduplizieren.
+2. ToolgenScopefrage imfrüherenChat`01a17ac4-db0d-7610-ad7e-f2ae6fef1ec7` noch
+   unbeantwortet. BeiBedarf direkteAntwortlesen, Toolgennichtanfassen.
+   docs/vorschlag-toolgen-native-contract.md istechtergeprüfterAbnehmervorschlag:
+   W01/R01Namespacesverweigert, LegacyWeld/Doppelbevel und optionaleAngaben
+   brauchenMigration. Kein bloßesAllowlisting/ID-Umtarnen.
+
+## Fußvorschlag: echte offene Formabweichung, KEIN integrierbarer Patch
+
+BeideSeitenoriginale zeigen getrennteToe-/Spann-/Heel-Schalen, sichtbaren dunklen
+Mittelfuß unddunklesFersenmittelfeld. AktuelldurchgehendeweißeHalbschalen/glatte
+Sohle sindabweichend. Extern`robot/remaining-robot-proposal/REPORT.md` mit
+Kontaktbogen,3gesichertenQuellständen,Repro+Logs undUNACCEPTED-Patches.
+BesterPrüfstart`legs_first_complete_proposal.py`SHA
+484c74258e0eb77b2dfb3c19398d62f38082bdc74c4df7a49f2f07737c7753f4:
+58Beinteile/4488V/8760T,15/16AltTestsgrün,alle6PoseTestsgrün. ABERzusätzlicher
+neuerSpannschalentest5,848974/5,733212mm³Schnitt undechteAsymmetrie.
+NichtbloßunterschiedlicheTessellierung: _shell drehtnichtplanareQuads VORdem
+Fan/Clipping, wähltbeimSpiegeln andereDiagonalen(Quadsbis7,029mmnichtplanar).
+SpätesterStand`legs_proposal.py`enthältzusätzlichnegativeCore−0,005853874m³
+beidseitigwegenfalschemPauschalFaceReverse. NICHTblindanwenden/reparieren.
+UnabhängigerRecord`formgen-independent-geometry6-foot-rootcause-review.json`.
+Wegen3×SymmetriebefundkeinevierteRundevorNutzerentscheidung. Instep-Reimport-
+Differenzseparatbelegt: nativeCSG vsMesh64ReimportändertVolumenexaktumschädliche
+Schnittmenge; Außen/Innen-Diagonalendieser3neuenPanelswarenbereitskorrekt.
+
+AlleUnteragentenbeiÜbergabebeendet; keineweiterenSchreiber/Beobachter.
+QuellekoppeltsichnachZustellungab. NurfrischeneueSitzungohneVerlauf/Fork.

@@ -91,6 +91,53 @@ class RobotHeadTests(unittest.TestCase):
         self.assertEqual(self.parts['head_face_mask']['role'],'graphite')
         self.assertEqual(self.parts['head_occipital_shell']['role'],'shell')
 
+    @unittest.skipIf(geom._manifold is None, 'manifold3d optional')
+    def test_occipital_plate_clears_carrier_and_is_visible_over_its_full_footprint(self):
+        plate=self.parts['head_occipital_shell']['mesh']
+        carrier=self.parts['head_rear_housing']['mesh']
+        a=geom._as_manifold(plate['vertices'],plate['faces'])
+        b=geom._as_manifold(carrier['vertices'],carrier['faces'])
+        self.assertLess(abs((a^b).volume()),1e-15)
+        # Independent orthographic back rays through both old black-island
+        # regions and the entire panel, using actual triangles, no raster.
+        def back_depth(mesh,x,u):
+            tri=np.asarray(mesh['vertices'])[mesh['faces']]
+            p=tri[:,:,[0,2]];point=np.array([x,u])
+            e,f=p[:,1]-p[:,0],p[:,2]-p[:,0];q=point-p[:,0]
+            cross=lambda a,b:a[:,0]*b[:,1]-a[:,1]*b[:,0]
+            det=cross(e,f);good=abs(det)>1e-18
+            v=np.divide(cross(q,f),det,out=np.zeros_like(det),where=good)
+            w=np.divide(cross(e,q),det,out=np.zeros_like(det),where=good)
+            good&=(v>=-1e-9)&(w>=-1e-9)&(v+w<=1+1e-9)
+            depth=tri[:,0,1]+v*(tri[:,1,1]-tri[:,0,1])+w*(tri[:,2,1]-tri[:,0,1])
+            return depth[good].max() if good.any() else None
+        checked=0
+        for x in range(-80,81,4):
+            for u in range(1782,1847,2):
+                front=back_depth(plate,x/1000,u/1000)
+                behind=back_depth(carrier,x/1000,u/1000)
+                # On the exact panel outline a ray may also graze the uncut
+                # neighboring carrier; require a half-mm interior footprint.
+                interior=all(back_depth(plate,(x+dx)/1000,(u+du)/1000) is not None
+                             for dx,du in ((-.5,0),(.5,0),(0,-.5),(0,.5)))
+                if interior and front is not None and behind is not None:
+                    self.assertGreaterEqual(front-behind,.004-1e-10,(x,u))
+                    checked+=1
+        self.assertGreater(checked,500)
+
+    def test_occipital_wall_has_corresponding_symmetric_four_mm_triangles(self):
+        p=next(p for p in head.PARTS if p['id']=='head_occipital_shell')
+        outer=np.asarray(p['vertices'][:9]);inner=np.asarray(p['vertices'][9:])
+        np.testing.assert_allclose(inner-outer,np.tile([4,0,0],(9,1)),atol=1e-12)
+        faces=p['faces'];self.assertEqual(len(faces),32)
+        self.assertEqual({tuple(f) for f in faces[8:16]},
+                         {tuple(9+i for i in reversed(f)) for f in faces[:8]})
+        mirrored=outer*[1,1,-1]
+        self.assertEqual(set(map(tuple,outer)),set(map(tuple,mirrored)))
+        mirror={i:next(j for j,v in enumerate(outer) if np.array_equal(v,mirrored[i])) for i in range(9)}
+        self.assertEqual({tuple(sorted(f)) for f in faces[:8]},
+                         {tuple(sorted(mirror[i] for i in f)) for f in faces[:8]})
+
     def test_symmetry_and_single_emitter(self):
         self.assertEqual([p['id'] for p in head.PARTS if p['role']=='energy'],['head_visor'])
         for name, part in self.parts.items():

@@ -32,6 +32,9 @@ PROVENANCE = {
             'source': 'Vorhandener zusammenhängender Nackenkern statt Zusatzwand: gerundetes Rückprofil u1630/−85,1640/−75,1650/−68,1660/−40. Front und x-Halbbereite werden exakt zwischen ursprünglichen Halsringen interpoliert. Basis1598, oberer Anschluss1704, Halsanker und alle Helmteile unverändert. Gemeinsame Seitenkontur bei1630/1640 enthält auch Schultermasse; Zuordnung als enge Nackenbasis aus beiden Farboriginalen, keine Behauptung bestandener Bildabnahme.'}},
     'neck': {'kind': 'Vorgabe', 'at': [35, 1690, 0], 'collar_overlap_u_mm': [1598, 1630],
              'source': 'Shared upper_body Socket_Neck and collar contract, 26.10.2026'},
+    'occipital_clearance_revision_1': {
+        'kind': 'Annahme',
+        'source': 'GEOM6 Back-Farbframe gegen inspect-head-back.png: helle Hinterkopfplatte ohne schwarze Insel. CPU-Rayprobe zeigt bis1,075472mm dunklen Gehaeusevorstand. Unveraenderte neun Plattenpunkte und4mm f-Wand; spiegelgleiche Dreiecke innen/aussen. Nur verdecktes Gehaeuse hinter der tatsaechlichen Platteninnenflaeche ausnehmen, keine Rollen-/Referenz-/Anker- oder pauschale Tiefenaenderung.'},
 }
 PARTS = []
 ANCHORS = {}
@@ -58,6 +61,10 @@ def _closed(vertices, faces):
 
 def _wall(outer, inner, faces, wall=4):
     """Explicit interior and boundary rims; no solid proxy for a shell."""
+    # A nonplanar quad must use the SAME diagonal on both skins. Reversing
+    # the quad before fan triangulation chooses its other diagonal.
+    faces = [[face[0], face[i], face[i+1]]
+             for face in faces for i in range(1, len(face)-1)]
     n = len(outer)
     uses = {}
     for face in faces:
@@ -160,10 +167,17 @@ for suffix, sign in [('l', 1), ('r', -1)]:
 rear = [[-60,1847,-83],[-69,1847,0],[-60,1847,83],
         [-75,1800,-86],[-82,1794,0],[-75,1800,86],
         [-60,1781,-68],[-70,1788,0],[-60,1781,68]]
+rear_faces = [[0,1,4],[0,4,3],[2,4,1],[2,5,4],
+              [3,4,7],[3,7,6],[5,7,4],[5,8,7]]
 _part('occipital_shell', 'shell',
-      'Gemessen: Back breite helle Hinterkopfplatte y365..512 mit nach innen gefalteter Unterkante. Annahme: f-Tiefen aus beiden Seiten; 4mm Wand.',
+      'Gemessen: Back breite helle Hinterkopfplatte y365..512 mit nach innen gefalteter Unterkante. Annahme: f-Tiefen aus beiden Seiten; 4mm f-Wand, korrespondierende spiegelgleiche Dreiecke und lokale Freistellung des verdeckten Gehaeuses.',
       **_wall(rear, [[f+4,u,x] for f,u,x in rear],
-              [[0,1,4,3],[1,2,5,4],[3,4,7,6],[4,5,8,7]]))
+              rear_faces))
+# Cut only the volume outward of the actual panel INNER surface. The panel
+# keeps its source dimensions; the hidden carrier cannot pierce either skin.
+next(p for p in PARTS if p['id']=='head_rear_housing')['cuts'] = [
+    _wall([[f+4,u,x] for f,u,x in rear],
+          [[-400,u,x] for f,u,x in rear], rear_faces)]
 
 # The single emissive head feature follows the round black face, not ear joints.
 visor_outer = []

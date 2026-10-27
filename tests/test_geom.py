@@ -157,13 +157,15 @@ class GeometryTests(unittest.TestCase):
         self.assertLess(volume(p),500*10/1e9)
 
     @unittest.skipIf(geom._manifold is None,'manifold3d optional')
-    def test_blind_pocket_bevel_remains_explicitly_unsupported(self):
+    def test_blind_x_plus_pocket_gets_explicit_polyhedral_bevel(self):
         d=document(dict(shape='box',f0=0,f1=30,u0=0,u1=30,w=10,
                         cuts=[dict(shape='box',f0=10,f1=20,u0=10,u1=20,w=8,x=4)]))
         d['parts'][0]['bevel']=1
         p=geom.evaluate(d)['parts'][0]
-        self.assertEqual(p['bevel_status'],'unsupported')
-        self.assertSolid(p,(900*10-100*5)/1e9)
+        self.assertEqual(p['bevel_status'],'segmented_polyhedral_bevel')
+        self.assertSolid(p)
+        self.assertLess(volume(p),(900*10-100*5)/1e9)
+        self.assertGreater(p['bevel_diagnostics']['minimum_setback_m'],0)
 
     def test_pilot_every_part_evaluates(self):
         d=geom.evaluate(model.load('formgen/models/weapons/w01_auto_rifle.py'))

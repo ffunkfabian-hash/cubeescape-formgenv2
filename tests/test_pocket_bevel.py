@@ -71,10 +71,10 @@ class PocketBevelTests(unittest.TestCase):
                  [-.010+r,y0+r*a,z0+r*a],[-.006-r*a,y0+r/2,z0+r/2]]
         for point in targets:self.assertLess(np.linalg.norm(v-point,axis=1).min(),1e-14)
 
-    def test_other_seven_variable_parts_stay_explicitly_unsupported(self):
+    def test_other_seven_variable_parts_get_explicit_polyhedral_status(self):
         d=geom.evaluate(model.load(w01_auto_rifle.__file__));parts={p['id']:p for p in d['parts']}
         for name in ['upper','lower','top_shroud','magazine','handguard','barrel','muzzle']:
-            with self.subTest(name=name):self.assertEqual(parts[name]['bevel_status'],'unsupported')
+            with self.subTest(name=name):self.assertEqual(parts[name]['bevel_status'],'segmented_polyhedral_bevel')
 
     def test_fully_enclosed_void_cannot_be_mistaken_for_open_blind_pocket(self):
         d=fixture();d['parts'][0]['cuts'][0].update(w=4,x=0)
