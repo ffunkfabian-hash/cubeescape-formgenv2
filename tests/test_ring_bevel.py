@@ -116,11 +116,35 @@ class RingBevelTests(unittest.TestCase):
         geom._ring_bevel(v, f, .0015, 2)
         self.assertEqual(p, before); self.assertEqual(v, oldv); self.assertEqual(f, oldf)
 
-    def test_octagonal_muzzle_and_sharp_frame_rejected(self):
-        with self.assertRaisesRegex(geom.GeometryError, '30 Grad'):
-            beveled(PARTS['muzzle_crown'])
-        with self.assertRaisesRegex(geom.GeometryError, '30 Grad'):
-            beveled(dict(shape='frame', f0=0, f1=10, cu=0, ow=40, oh=40, iw=20, ih=20, r_out=0, r_in=0, bevel=1))
+    def test_octagonal_muzzle_and_sharp_frame_receive_longitudinal_fillet(self):
+        frame = dict(shape='frame', f0=0, f1=10, cu=0, ow=40, oh=40, iw=20, ih=20, r_out=0, r_in=0, bevel=1)
+        for p in (PARTS['muzzle_crown'], frame):
+            with self.subTest(shape=p['shape']):
+                v, f = beveled(p)
+                self.solid(v, f)
+                original, original_faces = geom._shape(p, [])
+                self.assertTrue(geom._sharp_ring_edges(original))
+                self.assertLess(geom._volume(v, f), geom._volume(original, original_faces))
+                self.assertEqual(ray_hits(v, f, np.array([0., 1., p.get('c', [0])[0]/1000]), np.array([0., -1., 0.])), [])
+
+    def test_octagonal_long_edge_uses_requested_offset_on_outer_and_inner(self):
+        p = PARTS['muzzle_crown']; v, f = beveled(p); v = np.asarray(v)
+        self.solid(v, f)
+        # At the middle's start, radial corner midpoint has the analytic
+        # 45-degree rolling-circle setback; the bore's corner gains material.
+        b = p['bevel']/1000
+        rolling = b/math.tan(math.pi/8)
+        decrease = rolling*(1/math.cos(math.pi/8)-1)
+        middle = v[np.abs(v[:, 1]+(p['a0']/1000+b)) < 1e-12]
+        radii = np.linalg.norm(middle[:, [0, 2]]-[0, p['c'][0]/1000], axis=1)
+        for radius in (p['r']/1000-decrease, p['r_in']/1000-decrease):
+            self.assertLess(np.abs(radii-radius).min(), 1e-12)
+
+    def test_sharp_ring_large_width_clamps_and_keeps_bore_open(self):
+        p = dict(shape='cyl', axis='u', c=[0, 0], a0=0, a1=1, r=10, r_in=9, segs=8, bevel=20)
+        v, f = beveled(p)
+        self.solid(v, f)
+        self.assertEqual(ray_hits(v, f, np.array([0., 0., -.1]), np.array([0., 0., 1.])), [])
 
     def test_cuts_taper_solid_and_invalid_segments_rejected(self):
         base = dict(shape='cyl', axis='f', c=[0, 0], a0=0, a1=100, r=30, r_in=20, segs=24, bevel=2)

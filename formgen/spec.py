@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 import tomllib
 
@@ -55,6 +56,18 @@ def validate(spec):
     schema = json.loads((ROOT / 'docs/schemas' / f'{kind}.schema.json').read_text())
     jsonschema.Draft202012Validator(schema).validate(spec)
     json.dumps(spec, allow_nan=False)
+    if kind == 'weapon-spec':
+        for palette in spec['palette']:
+            for channel, colors in palette['other_colors'].items():
+                if channel not in CHANNELS or not isinstance(colors, list):
+                    raise ValueError('Weapon-Spec: other_colors benötigt Kanal → Liste aus color/share')
+                for color in colors:
+                    if (not isinstance(color, dict) or not isinstance(color.get('color'), str)
+                            or not re.fullmatch(r'#[0-9A-Fa-f]{6}', color['color'])
+                            or isinstance(color.get('share'), bool)
+                            or not isinstance(color.get('share'), (int, float))
+                            or not 0 <= color['share'] <= 1):
+                        raise ValueError('Weapon-Spec: ungültiger color/share-Eintrag in other_colors')
     if kind == 'figure-spec':
         ids=[p['id'] for p in spec['parts']]
         assemblies=[a['id'] for a in spec['assemblies']]
@@ -154,13 +167,23 @@ def _weapon(document):
     for pid, skin in [('base', None), ('standard', 'standard'), ('arktis', 'polar'), ('nacht', 'nacht')]:
         overrides = skins['skins'][skin].get('roles', {}) if skin else {}
         channels, other = {c: None for c in CHANNELS}, {}
+        areas = {c: {} for c in CHANNELS}
+        glass_areas = {c: {} for c in CHANNELS}
         for p in parts:
             color = overrides.get(p['role'], skins['roles'][p['role']]['color']).upper()
             channel = p['channel']
-            if channels[channel] is None:
-                channels[channel] = color
-            elif channels[channel] != color:
-                other.setdefault(channel, {})[p['id']] = color
+            pool = glass_areas[channel] if p['role'].startswith('glass') else areas[channel]
+            pool[color] = pool.get(color, 0.) + p['area_m2']
+        for channel, colors_by_area in areas.items():
+            colors_by_area = colors_by_area or glass_areas[channel]
+            if not colors_by_area:
+                continue
+            ordered = sorted(colors_by_area.items(), key=lambda item: (-item[1], item[0]))
+            channels[channel] = ordered[0][0]
+            if len(ordered) > 1:
+                total = sum(colors_by_area.values())
+                other[channel] = [dict(color=color, share=round(surface/total, 3))
+                                  for color, surface in ordered[1:]]
         swatches = [overrides.get(role, skins['roles'][role]['color']).upper() for role in ('shell', 'graphite', 'accent', 'metal')]
         palette.append(dict(id=pid, name=skins['skins'][skin]['de'] if skin else 'Basis',
                             swatches=swatches, channels=channels, other_colors=other, on_sheet=pid == 'standard',

@@ -148,7 +148,8 @@ class GeometryTests(unittest.TestCase):
 
     @unittest.skipIf(geom._manifold is None,'manifold3d optional')
     def test_concave_bevel_remains_explicitly_unsupported(self):
-        d=document(dict(shape='prof',pts=[[0,0],[30,0],[30,10],[10,10],[10,30],[0,30]],w=10))
+        d=document(dict(shape='box',f0=0,f1=30,u0=0,u1=30,w=10,
+                        cuts=[dict(shape='box',f0=10,f1=40,u0=10,u1=40,w=20)]))
         d['parts'][0]['bevel']=1
         p=geom.evaluate(d)['parts'][0]
         self.assertEqual(p['bevel_status'],'unsupported')

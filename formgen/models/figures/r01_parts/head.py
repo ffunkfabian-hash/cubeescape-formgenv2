@@ -25,6 +25,11 @@ PROVENANCE = {
                     'source': 'side-right silhouette/profile; opposite view checked at same scale'},
     'construction': {'kind': 'Annahme',
                      'source': 'Rounded profile interpolation; 4mm shell radial/f/x wall offsets, 2° face seam; 24 angular facets. Hidden neck/hinge geometry; dark joint roles override cyan image markers. B supplies only shell language; massfigur-v2 only separated shell principles.'},
+    'nape_profile_revision_1': {
+        'kind': 'gemessen',
+        'source': 'Beide unveränderten4096px-Farborthos zeigen die dunkle gefaltete Nackenbasis zwischen Helm und Schulterring; k1924/3653, nur Helmregistrierung. Seitenmasken: u1630 R(y774,x2313)/L(y776,x1783), f−85.85/−85.85; u1640 R(755,2291)/L(757,1804), f−74.26/−74.79; u1650 R(736,2279)/L(738,1818), f−67.94/−67.42; u1660 R(717,2227)/L(719,1870), f−40.56/−40.03mm.',
+        'construction': {'kind': 'Annahme',
+            'source': 'Vorhandener zusammenhängender Nackenkern statt Zusatzwand: gerundetes Rückprofil u1630/−85,1640/−75,1650/−68,1660/−40. Front und x-Halbbereite werden exakt zwischen ursprünglichen Halsringen interpoliert. Basis1598, oberer Anschluss1704, Halsanker und alle Helmteile unverändert. Gemeinsame Seitenkontur bei1630/1640 enthält auch Schultermasse; Zuordnung als enge Nackenbasis aus beiden Farboriginalen, keine Behauptung bestandener Bildabnahme.'}},
     'neck': {'kind': 'Vorgabe', 'at': [35, 1690, 0], 'collar_overlap_u_mm': [1598, 1630],
              'source': 'Shared upper_body Socket_Neck and collar contract, 26.10.2026'},
 }
@@ -177,11 +182,14 @@ _part('visor', 'energy',
 
 # Neck enters the upper-body collar at1598 and overlaps the helmet below1690.
 neck = _part('neck_core', 'graphite',
-             'Vorgabe: Socket_Neck f35/u1690/x0 und Kragen1598..1630. Gemessen: Hals Front x≈1905..2195. Annahme: verdeckter Lastkern und schraeges Halsprofil.',
+             'Vorgabe: Socket_Neck f35/u1690/x0 und Kragen1598..1630. Gemessen: Hals Front x≈1905..2195 und gemeinsame hintere Nackenbasis PROVENANCE.nape_profile_revision_1. Annahme: bestehender Lastkern mit gerundetem Rückprofil, unveränderte Front-/Breiteninterpolation.',
              shape='loft', rings=[[[f,u,x] for f,x in
                  [(front,-.7*w),(front,.7*w),(front-12,w),(back+12,w),
                   (back,.7*w),(back,-.7*w),(back+12,-w),(front-12,-w)]]
-                 for u,w,front,back in [(1598,61,75,-30),(1630,64,79,-28),
+                 for u,w,front,back in [(1598,61,75,-30),(1630,64,79,-85),
+                                         (1640,64+3*10/35,79+6*10/35,-75),
+                                         (1650,64+3*20/35,79+6*20/35,-68),
+                                         (1660,64+3*30/35,79+6*30/35,-40),
                                          (1665,67,85,-33),(1704,60,83,-29)]])
 for suffix, sign in [('l', 1), ('r', -1)]:
     _part('neck_strut_'+suffix, 'dark_metal',

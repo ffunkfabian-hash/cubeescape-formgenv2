@@ -37,6 +37,11 @@ PROVENANCE = {
         'source': 'Gemeinsam registrierte Front-/Rückenorthos: Schulteraußenkante bei u1550 etwa x±356mm; Front u1500/1525/1575/1600 etwa x±342/355/351/328mm. Taille: zentrale Kontur bei u1220 Front±126mm, Rücken−116..125mm; u1245 etwa±112mm, u1300 etwa±127mm. Keine Änderung der Gelenke oder der Seitenregistrierung.',
         'construction': {'kind': 'Annahme',
             'source': 'Ein gemeinsamer räumlicher Kappenkranz mit 24mm parabolischer axialer Wölbung um die feste Achshöhe1546; Formhalbhöhe54mm und Aufwärtsneigung0.3, oberhalb der Wölbung keine Verengung der bestehenden Krone. Innerer Anschluss x185 bleibt fest, f/u-Radien und freie48mm Lageröffnung unverändert. Bauchweite119/126/112/127/123mm bei u1190/1220/1245/1306/1344; Front-/Rücktiefe bleibt erhalten, neu interpolierte Zwischenzeile f133/−52mm.'}},
+    'carrier_roof_revision_3': {
+        'kind': 'gemessen',
+        'source': 'Unveränderte registrierte Front-/Rückenmasken, GEOM4/RASTER5: bei x80mm obere Kontur u1641/1639, x100 u1643/1645, x110 u1645/1643; Modell zuvor1624/1631/1635mm. Bei x−170 Referenzen1603/1605, Modell1633mm. Gespiegelter Rücken, gemeinsamer Maßstab; keine Kamera-/Maskenanpassung.',
+        'construction': {'kind': 'Annahme',
+            'source': 'Gerundetes gemeinsames Trägerdach: medialer bestehender Punkt x65/f88 von u1617 auf1640, lateraler Punkt x176/f48 von u1632 auf1615. Gerade Dachsegmente zum unveränderten x125/u1640 und x210/u1582. Alle f/x-Werte, drei unteren Punkte, 5mm-Wand, Kappen, Kragen und Anker unverändert; neue Bildabnahme separat erforderlich.'}},
     'waist': {'kind': 'Vorgabe', 'at': [45, 1190, 0],
               'source': 'Gemeinsamer unterer Rumpfanschluss docs/robot-contract.md; Socket_Waist wird vom Unterkörper exportiert'},
 }
@@ -174,9 +179,9 @@ def _cap_axial_crown(x, radial_height):
 # bearings and ring faces belong to arms; this assembly supplies the shells.
 for suffix, sign in [('r', -1), ('l', 1)]:
     _part('shoulder_carrier_'+suffix, 'graphite',
-          'Gemessen: Front dunkle breite Träger über Brust, y≈755..940. Annahme: gefalteter Hohlträger, 5mm Wand; Achsanschluss x281.',
-          **_plate([[88, 1617, sign*65], [68, 1640, sign*125],
-                    [48, 1632, sign*176], [45, 1582, sign*210],
+          'Gemessen: Front/Rücken dunkle breite Träger über Brust; gemeinsame Dachkontur PROVENANCE.carrier_roof_revision_3. Annahme: gefalteter Hohlträger, 5mm Wand; unveränderte Anbindung und Achsanschluss x281.',
+          **_plate([[88, 1640, sign*65], [68, 1640, sign*125],
+                    [48, 1615, sign*176], [45, 1582, sign*210],
                     [89, 1555, sign*175], [103, 1596, sign*102]],
                    [[0, 1, 2, 5], [2, 3, 4, 5]]))
 

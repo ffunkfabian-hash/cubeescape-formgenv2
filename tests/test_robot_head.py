@@ -40,6 +40,45 @@ class RobotHeadTests(unittest.TestCase):
         self.assertGreater(neck[:,2].max(),1690)
         self.assertGreaterEqual(neck[:,0].max(),60)
 
+    def test_nape_profile_preserves_front_width_and_original_collar_entry(self):
+        neck = next(p for p in head.PARTS if p['id'] == 'head_neck_core')
+        original = np.asarray([(1598,61,75,-30), (1630,64,79,-28),
+                               (1665,67,85,-33), (1704,60,83,-29)], float)
+        rows = np.asarray([[ring[0][1], max(abs(p[2]) for p in ring),
+                            max(p[0] for p in ring), min(p[0] for p in ring)]
+                           for ring in neck['rings']])
+        for column in (1, 2):
+            np.testing.assert_allclose(rows[:, column],
+                                       np.interp(rows[:, 0], original[:, 0], original[:, column]),
+                                       rtol=0, atol=1e-12)
+        np.testing.assert_array_equal(rows[0], original[0])
+        np.testing.assert_array_equal(rows[-1], original[-1])
+        # Independently digitized rear contour of both color references,
+        # rounded to author millimetres; no free widening of the neck.
+        for height, bounds in ((1630, (-87, -84)), (1640, (-76, -73)),
+                               (1650, (-70, -66)), (1660, (-42, -39))):
+            back = rows[rows[:, 0] == height, 3].item()
+            self.assertTrue(bounds[0] <= back <= bounds[1])
+        self.assertEqual(head.ANCHORS['Socket_Neck']['at'], [35,1690,0])
+        self.assertEqual(head.ANCHORS['Socket_Head']['at'], [35,1690,0])
+
+    @unittest.skipIf(geom._manifold is None, 'manifold3d optional')
+    def test_nape_remains_closed_and_physically_connected_to_collar(self):
+        from formgen.models.figures.r01_parts import upper_body
+        neck = next(p for p in head.PARTS if p['id'] == 'head_neck_core')
+        collar = next(p for p in upper_body.PARTS if p['id'] == 'upper_body_neck_collar')
+        nv, nf = geom._shape(neck, [])
+        cv, cf = geom._shape(collar, [])
+        solid = geom._as_manifold(nv, nf)
+        self.assertEqual(str(solid.status()), 'Error.NoError')
+        self.assertGreater(solid.volume(), 0)
+        overlap = solid ^ geom._as_manifold(cv, cf)
+        self.assertGreater(overlap.volume(), 1e-10)
+        triangles = np.asarray(nv)[geom._triangulate(nv, nf)]
+        area2 = np.linalg.norm(np.cross(triangles[:, 1]-triangles[:, 0],
+                                        triangles[:, 2]-triangles[:, 0]), axis=1)
+        self.assertTrue(np.all(area2 > 1e-16))
+
     def test_real_shells_and_separate_face(self):
         for name in ['head_face_mask','head_rear_housing','head_crown_shell_l',
                      'head_crown_shell_r','head_ear_shell_l','head_ear_shell_r']:

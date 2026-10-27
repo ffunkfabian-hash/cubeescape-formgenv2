@@ -509,11 +509,208 @@ def _ring_bevel(vertices, faces, radius, segments=2):
 
 
 
+def _concave_extrusion(part):
+    """Only untouched prof/plan meshes have the two-ring topology below."""
+    if not part or part.get('cuts') or part.get('shape') not in ('prof', 'plan'):
+        return False
+    p = np.asarray(part['pts'], dtype=float)
+    edge = np.roll(p, -1, axis=0)-p
+    following = np.roll(edge, -1, axis=0)
+    turn = edge[:, 0]*following[:, 1]-edge[:, 1]*following[:, 0]
+    return bool(np.any(turn*_area(p) < -1e-12))
+
+
+def _simple_profile(points):
+    """Reject crossed/overlapping non-neighbouring edges before making a mesh."""
+    p = np.asarray(points)
+    n = len(p)
+    def cross(a, b):
+        return float(a[0]*b[1]-a[1]*b[0])
+    for i in range(n):
+        a, b = p[i], p[(i+1) % n]
+        for j in range(i+2, n):
+            if i == 0 and j == n-1:
+                continue
+            c, d = p[j], p[(j+1) % n]
+            if np.any(np.maximum(a, b) < np.minimum(c, d)-1e-13) or np.any(np.maximum(c, d) < np.minimum(a, b)-1e-13):
+                continue
+            r, s = b-a, d-c
+            denominator = cross(r, s)
+            if abs(denominator) <= 1e-20:
+                if abs(cross(c-a, r)) < 1e-20:
+                    return False
+                continue
+            t, u = cross(c-a, s)/denominator, cross(c-a, r)/denominator
+            if -1e-10 <= t <= 1+1e-10 and -1e-10 <= u <= 1+1e-10:
+                return False
+    return n >= 3 and _area(p) > 1e-16
+
+
+def _sharp_ring_edges(vertices):
+    v = np.asarray(vertices, dtype=float)
+    outer = v[:len(v)//4]
+    edge = np.roll(outer, -1, axis=0)-outer
+    tangent = edge/np.linalg.norm(edge, axis=1)[:, None]
+    return bool(np.any(np.sum(tangent*np.roll(tangent, 1, axis=0), axis=1)
+                       < math.cos(math.radians(30))-1e-10))
+
+
+def _extrusion_bevel(vertices, faces, radius, segments=2, *, inner=None):
+    """Analytic concave-profile fillets and rounded cap rims.
+
+    Longitudinal edges above kit's 30-degree angle limit use the requested
+    offset width, on convex AND re-entrant corners. Cap rims follow inward
+    offsets of that profile, sampled on a quarter circle. A shrinking convex
+    arc collapses to a single topological vertex, rather than leaving duplicate
+    vertices/zero-area triangles. This is a documented offset-surface corner
+    construction, not a claim of Blender's corner-miter topology or clamp.
+    """
+    if not np.isfinite(radius) or radius <= 0:
+        raise GeometryError('Profilfase benötigt positive endliche Breite')
+    v = np.asarray(vertices, dtype=float)
+    if len(v) % 2 or len(v) < 6:
+        raise GeometryError('Profilfase benötigt zwei gleichlange Profilringe')
+    n = len(v)//2
+    delta = v[n]-v[0]
+    length = float(np.linalg.norm(delta))
+    if length <= 1e-12 or not np.allclose(v[n:]-v[:n], delta, atol=1e-12, rtol=0):
+        raise GeometryError('Profilfase benötigt eine konstante Extrusion')
+    axis = delta/length
+    origin = v[0]
+    if np.max(np.abs((v[:n]-origin)@axis)) > 1e-12:
+        raise GeometryError('Profilfase benötigt planare Endprofile')
+    first = v[1]-v[0]
+    first /= np.linalg.norm(first)
+    basis = np.stack([first, np.cross(axis, first)])
+    profile = (v[:n]-origin)@basis.T
+    if _area(profile) < 0:
+        profile = profile[::-1].copy()
+    profiles = [profile]
+    if inner is not None:
+        inner = np.asarray(inner, dtype=float)
+        if inner.shape != v.shape or not np.allclose(inner[n:]-inner[:n], delta, atol=1e-12, rtol=0):
+            raise GeometryError('Profilfase benötigt eine konstante innere Extrusion')
+        if np.max(np.abs((inner[:n]-origin)@axis)) > 1e-12:
+            raise GeometryError('Profilfase benötigt koplanare Innen-/Außenprofile')
+        hole = (inner[:n]-origin)@basis.T
+        if _area(hole) > 0:
+            hole = hole[::-1].copy()
+        profiles.append(hole)
+    if any(not _simple_profile(p if i == 0 else p[::-1]) for i, p in enumerate(profiles)):
+        raise GeometryError('Profilfase benötigt einfache Profilkonturen')
+    profile = np.concatenate(profiles)
+    edge = np.concatenate([np.roll(p, -1, axis=0)-p for p in profiles])
+    lengths = np.linalg.norm(edge, axis=1)
+    if np.any(lengths <= 1e-12):
+        raise GeometryError('Profilfase: doppelte Profilpunkte')
+    tangent = edge/lengths[:, None]
+    normal = np.column_stack([tangent[:, 1], -tangent[:, 0]])
+    prior = np.concatenate([np.roll(p, 1, axis=0) for p in np.split(normal, len(profiles))])
+    cosine = np.clip(np.sum(prior*normal, axis=1), -1, 1)
+    turn = prior[:, 0]*normal[:, 1]-prior[:, 1]*normal[:, 0]
+    angles = np.arctan2(turn, cosine)
+    if np.any(cosine <= -1+1e-10):
+        raise GeometryError('Profilfase: umkehrendes Profil')
+    miter = (prior+normal)/(1+cosine[:, None])
+    selected = np.abs(angles) > math.radians(30)+1e-10
+    setback = min(float(radius), .49*length, .49*float(lengths.min()))
+
+    def ring(offset, signed_radii):
+        points = []
+        for i in range(len(profile)):
+            sharp = profile[i]-offset*miter[i]
+            effective = signed_radii[i]-offset
+            if not selected[i] or (signed_radii[i] > 0 and effective <= 1e-13):
+                points.extend([sharp]*(segments+1))
+                continue
+            center = profile[i]-signed_radii[i]*miter[i]
+            start = math.atan2(prior[i, 1], prior[i, 0])
+            for t in np.linspace(0, 1, segments+1):
+                angle = start+t*angles[i]
+                points.append(center+effective*np.array([math.cos(angle), math.sin(angle)]))
+        return np.asarray(points)
+
+    def unique(p):
+        # Arc collapse is part of the construction. Consecutive sample slots
+        # share one vertex when the exact offset radius reaches zero.
+        out, ids = [], []
+        for point in p:
+            if out and np.linalg.norm(point-out[-1]) <= 1e-13:
+                ids.append(len(out)-1)
+            else:
+                ids.append(len(out)); out.append(point)
+        if len(out) > 1 and np.linalg.norm(out[0]-out[-1]) <= 1e-13:
+            last = len(out)-1
+            ids = [0 if i == last else i for i in ids]
+            out.pop()
+        return np.asarray(out), ids
+
+    # Nonlocal narrow features can collide before any individual short edge.
+    # A conservative common clamp retains every contour/corner; no polygon
+    # union, hull, trimming, or discarded invalid faces conceal such collisions.
+    for _ in range(24):
+        signed_radii = np.zeros(len(profile))
+        signed_radii[selected] = setback/np.tan(angles[selected]/2)
+        theta = list(np.linspace(0, math.pi/2, segments+1))
+        for r in signed_radii[selected]:
+            if 1e-13 < r < setback-1e-13:
+                theta.append(math.asin(1-r/setback))
+        theta = sorted(set(theta))
+        stations = [(setback*(1-math.cos(t)), setback*(1-math.sin(t))) for t in theta]
+        stations[0] = (0., setback)
+        stations[-1] = (setback, 0.)
+        stations += [(length-z, d) for z, d in stations[::-1]]
+        rings = [[unique(p) for p in np.split(ring(d, signed_radii), len(profiles))] for _, d in stations]
+        if all(_simple_profile(p if i == 0 else p[::-1]) for r in rings for i, (p, _) in enumerate(r)):
+            # Every inward offset must remain inside the middle section. The
+            # CrossSection difference is validation only, never replacement.
+            # CrossSection uses a fixed coordinate grid. Validate in micrometres
+            # so that its area rounding cannot spuriously shrink a mm bevel.
+            scale = 1e6
+            sections = [_manifold.CrossSection([p*scale for p, _ in r]) for r in rings]
+            middle = sections[len(theta)-1]
+            if all(abs(s.area()/scale**2-sum(_area(p) for p, _ in r)) < 1e-14
+                   and (s-middle).area()/scale**2 < 1e-14 for s, r in zip(sections, rings)):
+                break
+        setback *= .5
+    else:
+        raise GeometryError('Profilfase: kein kollisionsfreier Offsetbereich')
+    points, maps, boundaries = [], [], []
+    for (station, _), r in zip(stations, rings):
+        section_maps, section_boundaries = [], []
+        for p, ids in r:
+            start = len(points)
+            points.extend(origin+p@basis+station*axis)
+            section_maps.append([start+i for i in ids])
+            section_boundaries.extend(range(start, start+len(p)))
+        maps.append(section_maps)
+        boundaries.append(section_boundaries)
+    result = []
+    count = n*(segments+1)
+    for before, after in zip(maps, maps[1:]):
+        for left, right in zip(before, after):
+            for j in range(count):
+                k = (j+1) % count
+                face = [left[j], left[k], right[k], right[j]]
+                face = [a for i, a in enumerate(face) if a != face[i-1]]
+                if len(face) >= 3:
+                    result.append(face)
+    for i in (0, -1):
+        cap = _manifold.triangulate([p for p, _ in rings[i]])
+        result.extend([[boundaries[i][j] for j in tri] for tri in cap])
+    return _orient(points, result)
+
+
 def _bevel(vertices, faces, radius, segments=2, *, part=None):
-    if not isinstance(segments, int) or segments < 1:
+    if not isinstance(segments, int) or isinstance(segments, bool) or segments < 1:
         raise GeometryError('segs_bevel muss eine positive ganze Zahl sein')
     if _constant_ring(part):
+        if _sharp_ring_edges(vertices):
+            v = np.asarray(vertices)
+            return _extrusion_bevel(v[:len(v)//2], faces, radius, segments, inner=v[len(v)//2:])
         return _ring_bevel(vertices, faces, radius, segments)
+    if _concave_extrusion(part):
+        return _extrusion_bevel(vertices, faces, radius, segments)
     return _concat([_convex_bevel(v, f, radius, segments)
                     for v, f in _mesh_components(vertices, faces)])
 
@@ -564,10 +761,17 @@ def evaluate(model, *, booleans=True, bevels=True):
                 if bevels and _manifold is not None:
                     try:
                         segments = part.get('segs_bevel', 2)
+                        ring_profile = _constant_ring(part) and _sharp_ring_edges(vertices)
                         vertices,faces = _bevel(vertices,faces,radius/1000,segments,part=part)
                         part['bevel_status'] = 'segmented_bevel' if segments > 1 else 'planar_chamfer'
-                        if _constant_ring(part):
+                        if ring_profile:
+                            part['bevel_status'] = 'segmented_ring_profile_bevel' if segments > 1 else 'planar_ring_profile_chamfer'
+                            local.append(f'Fase: {segments} Kreisprofilsegment(e), äußere/innere Profilkanten und Endränder; konservativer Profilclamp, Offset-Ecken statt bestätigter Blender-Eckmiterparität')
+                        elif _constant_ring(part):
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), nur Endringkanten; Wand-/Längenclamp, Längskanten unverändert, keine Blender-Eckmiterparität')
+                        elif _concave_extrusion(part):
+                            part['bevel_status'] = 'segmented_profile_bevel' if segments > 1 else 'planar_profile_chamfer'
+                            local.append(f'Fase: {segments} Kreisprofilsegment(e), konvexe/konkave Profilkanten und Endränder; konservativer Profilclamp, Offset-Ecken statt bestätigter Blender-Eckmiterparität')
                         else:
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), komponentenweise konvex; konservativer Kantenclamp, keine Blender-Eckmiterparität')
                     except (GeometryError,QhullError) as e:

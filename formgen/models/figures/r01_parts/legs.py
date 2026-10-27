@@ -18,6 +18,8 @@ Schalenprinzip (explizite Außen-/Innenflächen, getrennte Rückschale, Fuge,
 eingefasste Füße): massfigur-v2/bauteile.py:116-145. Keine Mesh-Übernahme.
 """
 
+import math
+
 PROVENANCE = {
     'kind': 'gemessen',
     'source': 'robot-ortho-front/back/side-right/side-left.png; Pixelanteile bei Vorgabehöhe1924mm; refs/ortho-measurements.json',
@@ -28,6 +30,11 @@ PROVENANCE = {
     'shell_design': 'Annahme: 5mm f-Innenversatz, 3mm seitlicher Innenversatz, 10mm Teilungsfuge; Prinzip massfigur-v2 bauteile.py:116-145; Facettierung B.',
     'hidden_geometry': 'Annahme: Innenkerne, Achslängen, Hüft-f45, Profilinterpolation; verdeckte Außenkanten werden aus sichtbaren Nachbarhöhen interpoliert.',
     'core_fit': 'Annahme/Korrektur: Kerne folgen denselben Höhenreihen und Faltflächen wie die Schaleninnenhaut; 6% radialer Abstand zur Innenhaut verhindert Durchdringungen. Knie-Untersteg und Knöchel-Fuß-Link beginnen am jeweiligen oberen Schalenrand. Schalen-Außenkonturen, Wandstärken, Frontanker und Fußhöhe unverändert.',
+    'hip_housing_revision_1': {
+        'kind': 'gemessen',
+        'source': 'Beide4096px-Farborthos zeigen schräg/gerundet zulaufende obere dunkle Hüftgehäuse statt Rechteckblöcke. Unveränderter Frontmaßstab1924/3653 und gespiegelter Rücken: u1120(y1750) Front198.6..200.1/Back189.6..199.1; u1130(y1731)179.1..180.7/169.6..178.5; u1140(y1712)168.5..169.1/160.6..168.5; u1150(y1693)157..157/154.8..161.7mm äußere Halbbreite. Vorherige gerade Zylinder standen bisu1148 aufx212 und bis1152 aufx202.',
+        'construction': {'kind': 'Annahme',
+            'source': 'Bestehende Hüftteile erhalten stabile IDs und gemeinsame Achse f45/u1080. Zylindrischer Innenanschlussx82..160 mitr72, äußere45°-Gehäusefase bisx212/r20; Profilx82/r72,x160/r72,x212/r20 erhält alteGesamtausladung, f/u-Kreisprojektion undAnkerx142. Ringöffnungr45 undAußenradius68 erhalten; echte8mm-Wand normal zur konischenFacette, mittig aufx+r232 montiert. AxialerHalbversatz4*sqrt(1+sec(pi/32)^2) berücksichtigt32Facetten und ursprünglicheZylinderphase. Alle neuen Übergangsmaße sind Konstruktionsannahmen, keinePixeloptimierung. Seitenprojektion, andereGelenke, Schalen undFüße bleiben erhalten; neueBildabnahme separat erforderlich.'}},
     'profile_refinement': {
         'source': 'Gemessen 27.10.2026 an beiden unveränderten Ortho-Masken, nach Sichtung beider Farboriginale und GPUJob14579-Overlays. k=1924/3653; y_front=3876-u/k; y_right=y_front-7, y_left=y_front-5. f_right=(2150-x)*k; f_left=(x-1946)*k.',
         'knee_back_samples_mm': {'u': [620,625,643,660,680,710,750,772],
@@ -145,6 +152,40 @@ def _axle(name, side, sign, f,u,xc,half_width,r,role='graphite',r_in=None):
     return _part(name,side,role,'Gemessen: Front Gelenkzentren und Außenbreite; Annahme: runde Achse32 Segmente und Tiefe.',**options)
 
 
+def _hip_joint(side, sign):
+    """Existing bearing with a broad conical outer housing, not a flat block."""
+    n = 32
+
+    def ring(x, radius):
+        return [[45+radius*math.cos(math.tau*i/n+math.pi/n),
+                 1080+radius*math.sin(math.tau*i/n+math.pi/n), sign*x]
+                for i in range(n)]
+
+    source = 'Gemessen: gemeinsame Front-/Rücken-Hüftkontur; Konstruktion PROVENANCE.hip_housing_revision_1.'
+    axis = _part('hip_axis', side, 'graphite', source, shape='loft',
+                 rings=[ring(x, radius) for x, radius in ((82,72),(160,72),(212,20))])
+    # Parallel conical faces have eight millimetres normal separation.
+    # The regular32-gon facet has radial coefficient sec(pi/32), not1.
+    half_axial = 4*math.sqrt(1+1/math.cos(math.pi/n)**2)
+    section = ((45, half_axial), (68, half_axial),
+               (68, -half_axial), (45, -half_axial))
+    vertices = [point for radius, offset in section
+                for point in ring(232-radius+offset, radius)]
+    faces = [[j*n+i,j*n+(i+1)%n,((j+1)%4)*n+(i+1)%n,((j+1)%4)*n+i]
+             for j in range(4) for i in range(n)]
+    def det(a,b,c):
+        return (a[0]*(b[1]*c[2]-b[2]*c[1])
+                -a[1]*(b[0]*c[2]-b[2]*c[0])
+                +a[2]*(b[0]*c[1]-b[1]*c[0]))
+    volume = sum(det(vertices[f[0]],vertices[f[i]],vertices[f[i+1]])
+                 for f in faces for i in range(1,len(f)-1))
+    if volume > 0:  # Author→world reverses orientation.
+        faces = [list(reversed(face)) for face in faces]
+    _part('hip_socket', side, 'dark_metal', source, shape='surface',
+          vertices=vertices, faces=faces, wall_mm=8)
+    return axis
+
+
 # Digitized front envelope (rounded mm), side profile adjusted only where
 # hands occlude the thigh. These are authoring parameters, not image masks.
 THIGH_ROWS = [
@@ -192,8 +233,7 @@ def _foot_instep(sign):
     return {key:patch[key] for key in ('shape','vertices','faces')}
 
 for side, sign in (('r',-1),('l',1)):
-    hip = _axle('hip_axis',side,sign,45,1080,142,60,72)
-    _axle('hip_socket',side,sign,45,1080,204,8,68,'dark_metal',45)
+    hip = _hip_joint(side,sign)
     _part('thigh_core',side,'graphite',PROVENANCE['core_fit'],
           **_fitted_core(THIGH_ROWS,sign))
     for rear in (False,True):

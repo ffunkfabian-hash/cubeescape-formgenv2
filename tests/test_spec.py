@@ -91,6 +91,46 @@ class SpecTests(unittest.TestCase):
         self.assertIn('mesh.vertices', result['measurement_source'])
         json.dumps(result, allow_nan=False)
 
+    def test_channel_palette_uses_surface_shares_in_spec2_format(self):
+        document = model.load(ROOT / 'formgen/models/mini.py')
+        small = dict(document['parts'][0], role='metal', f1=10, u1=10, w=10)
+        large = dict(small, id='grip', role='trim', f1=20, u1=20, w=20)
+        document['parts'] = [small, large]
+        document = geom.evaluate(document)
+        result = spec.build(document)
+        base = result['palette'][0]
+        with (ROOT / 'skins.toml').open('rb') as stream:
+            colors = tomllib.load(stream)['roles']
+        # Cubes with side lengths 10/20 mm have a surface ratio of 1:4.
+        self.assertEqual(base['channels']['MT_Metal'], colors['trim']['color'].upper())
+        self.assertEqual(base['other_colors']['MT_Metal'],
+                         [dict(color=colors['metal']['color'].upper(), share=.2)])
+        document['parts'].reverse()
+        self.assertEqual(spec.build(document)['palette'], result['palette'])
+
+    def test_invalid_palette_mapping_or_share_is_rejected(self):
+        for colors in ({'p01': '#123456'}, [dict(color='#123456', share=1.1)],
+                       [dict(color='p01', share=.1)], [dict(color='#123456', share=True)]):
+            value = copy.deepcopy(self.weapon)
+            value['palette'][0]['other_colors'] = {'MT_Metal': colors}
+            with self.assertRaisesRegex(ValueError, 'other_colors'):
+                spec.validate(value)
+
+    def test_glass_is_only_a_fallback_for_an_empty_opaque_channel(self):
+        document = model.load(ROOT / 'formgen/models/mini.py')
+        small = dict(document['parts'][0], role='anodized', f1=10, u1=10, w=10)
+        large = dict(small, id='grip', role='glass', f1=100, u1=100, w=100)
+        document['parts'] = [large, small]
+        with (ROOT / 'skins.toml').open('rb') as stream:
+            colors = tomllib.load(stream)['roles']
+        palette = spec.build(geom.evaluate(document))['palette'][0]
+        self.assertEqual(palette['channels']['MT_Detail'], colors['anodized']['color'].upper())
+        self.assertNotIn('MT_Detail', palette['other_colors'])
+        document['parts'] = [large]
+        palette = spec.build(geom.evaluate(document))['palette'][0]
+        self.assertEqual(palette['channels']['MT_Detail'], colors['glass']['color'].upper())
+        self.assertNotIn('MT_Detail', palette['other_colors'])
+
     def test_prompts_grounded_in_shared_geometry(self):
         before = copy.deepcopy(self.w01)
         result = prompts.build(self.w01)

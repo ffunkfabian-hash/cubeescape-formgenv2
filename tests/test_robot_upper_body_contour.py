@@ -39,6 +39,32 @@ class UpperBodyContourTests(unittest.TestCase):
         self.assertEqual(upper.ANCHORS['Socket_Shoulder_L']['at'], [-26, 1546, 281])
         self.assertEqual(upper.ANCHORS['Socket_Neck']['at'], [35, 1690, 0])
 
+    def test_carrier_roof_follows_shared_contour_without_moving_attachment(self):
+        for suffix in ('r', 'l'):
+            carrier = next(p for p in upper.PARTS
+                           if p['id'] == 'upper_body_shoulder_carrier_'+suffix)
+            vertices = np.asarray(carrier['vertices'], float)
+            # Fixed measured stations distinguish a raised medial roof and a
+            # falling lateral roof from a translation of the whole carrier.
+            for width, limits in ((80, (1638, 1645)), (110, (1640, 1646)),
+                                  (170, (1615, 1622))):
+                crossings = []
+                for face in carrier['faces']:
+                    for ia, ib in zip(face, face[1:]+face[:1]):
+                        a, b = vertices[ia], vertices[ib]
+                        xa, xb = abs(a[2]), abs(b[2])
+                        if min(xa, xb) <= width <= max(xa, xb) and abs(xa-xb) > 1e-10:
+                            t = (width-xa)/(xb-xa)
+                            crossings.append(a[1]+t*(b[1]-a[1]))
+                self.assertTrue(limits[0] <= max(crossings) <= limits[1])
+            # The carrier still reaches its original lower connections and
+            # has the same nominal f-wall, rather than gaining a solid fill.
+            outer, inner = vertices[:6], vertices[6:]
+            self.assertEqual(outer[:, 0].tolist(), [88, 68, 48, 45, 89, 103])
+            self.assertEqual(np.abs(outer[:, 2]).tolist(), [65, 125, 176, 210, 175, 102])
+            self.assertEqual(outer[3:, 1].tolist(), [1582, 1555, 1596])
+            np.testing.assert_allclose(outer-inner, [[5, 0, 0]]*6)
+
     def test_abdomen_width_follows_common_contour_with_existing_side_depth(self):
         abdomen = next(p for p in upper.PARTS if p['id'] == 'upper_body_abdomen_core')
         for ring, expected in zip(abdomen['rings'], upper.ABDOMEN_ROWS):
@@ -56,7 +82,8 @@ class UpperBodyContourTests(unittest.TestCase):
 
     @unittest.skipIf(geom._manifold is None, 'manifold3d optional')
     def test_corrected_meshes_remain_closed_positive_manifold_with_no_null_faces(self):
-        selected = [p for p in upper.PARTS if 'shoulder_cap_' in p['id'] or p['id'] == 'upper_body_abdomen_core']
+        selected = [p for p in upper.PARTS if 'shoulder_cap_' in p['id'] or 'shoulder_carrier_' in p['id']
+                    or p['id'] == 'upper_body_abdomen_core']
         for part in selected:
             v, f = geom._shape(part, [])
             triangles = geom._triangulate(v, f)
