@@ -1,10 +1,10 @@
-"""R02 Kopf: Hals, Helm, Gesichtsplatte, Visier, Ohrkapseln.
+"""R02 Kopf: Helm, Gesichtsplatte, Visier, Ohrkapseln.
 
 Front gemessen (±85..±115). Profil A und B sind am Kopf um 12 mm gegeneinander
 verschoben (A −110..152, B −98..165 bei u1870, gleiche Tiefe 262 mm):
 gemittelt, Abweichung ±6 mm in herkunft-r02.md ausgewiesen.
 """
-from formgen.models.figures.r02_parts.common import PROVENANCE as COMMON, rows_loft, mirror, disc
+from formgen.models.figures.r02_parts.common import PROVENANCE as COMMON, rows_loft, mirror, disc, face_panel
 
 PROVENANCE = {
     **COMMON,
@@ -26,7 +26,6 @@ def _sym(rows, cx=.3, cf=.3):
     return rows_loft([(u, -w, w, fb, ff) for u, w, fb, ff in rows], cx, cf)
 
 
-_part('neck', 'frost_frame', 'Annahme: verdeckter Hals unter Schal, r≈60', _sym([(1740, 62, -70, 60), (1800, 58, -66, 60)]))
 HELMET = [(1785, 90, -72, 120), (1800, 102, -71, 128), (1820, 106, -85, 135), (1840, 113, -98, 140),
           (1860, 113, -103, 141), (1890, 113, -104, 141), (1895, 111, -103, 150), (1900, 109, -102, 157),
           (1910, 101, -95, 155), (1920, 100, -93, 152), (1930, 99, -90, 149), (1940, 97, -85, 144),
@@ -40,4 +39,9 @@ _part('visor', 'frost_visor', PROVENANCE['visor']['source'],
       _sym([(1838, 100, 60, 157), (1860, 104, 60, 158), (1885, 104, 60, 157), (1895, 98, 60, 150)], .25, .15))
 _part('ear', 'frost_shell', 'Front Ohrkapseln ±115 u1840..1890; Profil Ohrscheibe Mitte f≈5', disc('x', (5, 1865), 100, 116, 34, 24), sides=True)
 
-ANCHORS['Socket_Neck'] = dict(at=[0, 1760, 0], part='head_neck', source='gemessen: Schaloberkante u≈1760')
+HELMET_ROWS = [(u, -w, w, fb, ff) for u, w, fb, ff in HELMET]
+for face in ('front', 'back'):
+    _part(f'helmet_crystal_{face}', 'frost_crystal', 'Front/Rücken: zwei hellblaue Helmstreifen oben u≈1935..1990',
+          face_panel(HELMET_ROWS, face, [(1935, .7), (1935, .95), (1988, .95), (1988, .7)], cx=.3, cf=.3), sides=True)
+
+ANCHORS['Socket_Neck'] = dict(at=[0, 1760, 0], part='head_face_plate', source='gemessen: Schaloberkante u≈1760; Hals verdeckt im Schal (kein eigenes Teil)')

@@ -103,3 +103,91 @@ def disc(axis, center, a0, a1, r, segs=24):
     faces = [[i, (i+1) % segs, segs+(i+1) % segs, segs+i] for i in range(segs)]
     faces += [list(range(segs-1, -1, -1)), list(range(segs, 2*segs))]
     return closed(pts, faces)
+
+
+def _row_at(rows, u):
+    for a, b in zip(rows, rows[1:]):
+        if a[0] <= u <= b[0]:
+            t = (u - a[0]) / (b[0] - a[0]) if b[0] > a[0] else 0
+            return [p + (q - p) * t for p, q in zip(a, b)]
+    raise ValueError(f'Panel ausserhalb der Zeilen: u{u}')
+
+
+def _face_point(rows, face, u, s, off, cx, cf):
+    _, xl, xr, fb, ff = _row_at(rows, u)
+    dx, df = cx * (xr - xl), cf * (ff - fb)
+    if face in ('front', 'back'):
+        x = xl + dx + (xr - xl - 2*dx) * s
+        return [ff + off if face == 'front' else fb - off, u, x]
+    f = fb + df + (ff - fb - 2*df) * s
+    return [f, u, xr + off if face == 'outer' else xl - off]
+
+
+def _clip(poly, lo, hi):
+    """Convex (u,s) polygon clipped to lo<=u<=hi (Sutherland–Hodgman, stable)."""
+    for bound, keep in ((lo, lambda p: p[0] >= lo), (hi, lambda p: p[0] <= hi)):
+        out = []
+        for a, b in zip(poly, poly[1:] + poly[:1]):
+            if keep(a):
+                out.append(a)
+            if keep(a) != keep(b):
+                # Same edge orientation on both neighbouring strips -> identical points.
+                p, q = (a, b) if a < b else (b, a)
+                t = (bound - p[0]) / (q[0] - p[0])
+                out.append((bound, p[1] + (q[1] - p[1]) * t))
+        poly = out
+        if not poly:
+            return []
+    return poly
+
+
+def _hull(points):
+    """Counter-clockwise convex hull in (u,s) (monotone chain)."""
+    pts = sorted(set(points))
+    def half(seq):
+        out = []
+        for p in seq:
+            while len(out) > 1 and ((out[-1][0]-out[-2][0])*(p[1]-out[-2][1])
+                                    - (out[-1][1]-out[-2][1])*(p[0]-out[-2][0])) <= 0:
+                out.pop()
+            out.append(p)
+        return out[:-1]
+    return half(pts) + half(pts[::-1])
+
+
+def face_panel(rows, face, poly, off=1.2, depth=3, cx=.22, cf=.22):
+    """Thin panel lying on one planar loft face per ring interval.
+
+    rows as for rows_loft; face front/back/outer/inner; poly (u, s) → convex hull
+    with s 0..1 across the face (front/back: x low→high, sides: f back→front).
+    Each ring interval is triangulated separately, so the panel stays parallel
+    to the loft face at constant offset (no chord dipping into the body).
+    """
+    levels = [r[0] for r in rows]
+    poly = _hull(poly)
+    keys, verts, front = {}, [], []
+
+    def vid(p, layer):
+        key = (round(p[0], 6), round(p[1], 6), layer)
+        if key not in keys:
+            keys[key] = len(verts)
+            verts.append(_face_point(rows, face, p[0], p[1], off if layer else off - depth, cx, cf))
+        return keys[key]
+    for lo, hi in zip(levels, levels[1:]):
+        strip = _clip(list(poly), lo, hi)
+        if len(strip) < 3:
+            continue
+        ids = [vid(p, 1) for p in strip]
+        ids = [i for k, i in enumerate(ids) if i != ids[k-1]]
+        front += [[ids[0], ids[i], ids[i+1]] for i in range(1, len(ids)-1)]
+    uses = {}
+    for a, b, c in front:
+        for e in ((a, b), (b, c), (c, a)):
+            uses.setdefault(tuple(sorted(e)), []).append(e)
+    back = {i: vid(k[:2], 0) for k, i in list(keys.items()) if k[2] == 1}
+    faces = [list(t) for t in front] + [[back[a], back[c], back[b]] for a, b, c in front]
+    for pair in uses.values():
+        if len(pair) == 1:
+            a, b = pair[0]
+            faces += [[b, a, back[a]], [b, back[a], back[b]]]
+    return closed(verts, faces)

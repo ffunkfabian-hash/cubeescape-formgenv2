@@ -1,6 +1,6 @@
 [project]
-version = "0.1.0"
-name = "Contour"
+version = "0.2.0"
+name = "Frost"
 [render]
 bg = "mid"
 width = 960

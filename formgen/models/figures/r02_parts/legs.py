@@ -8,15 +8,17 @@ damit keine koplanaren Deckel entstehen. Beide Beine decken sich im Profil; jede
 Profillauf. Oberhalb u980 verschmelzen Beine und Becken in der Front:
 Außenkante dort gemessen, Innenkante Annahme (verdeckt hinter Becken).
 """
-from formgen.models.figures.r02_parts.common import PROVENANCE as COMMON, rows_loft, mirror
+from formgen.models.figures.r02_parts.common import PROVENANCE as COMMON, rows_loft, mirror, face_panel, disc
 
 PROVENANCE = {
     **COMMON,
     'joints': {'kind': 'gemessen',
                'knee_u': 675, 'knee_f': 0,
                'source': 'Kniescheibe Profil A/B Ringschwerpunkt y2602,3 → u675 (Front: Knieblock u600..760, Mitte ≈ 680)'},
-    'ankle': {'kind': 'gemessen', 'u': 190,
-              'source': 'Profil A1/A2-Scheiben u≈217/163 (Codex-Marker), schmalste Profilzeile u190; Annahme gemeinsame Achse u190'},
+    'ankle': {'kind': 'gemessen', 'u': 169, 'f': -22,
+              'source': 'Profil A/B untere Knöchelscheibe (A2), Ringschwerpunkt u168,5 f−21..−24; obere Scheibe A1 (Codex u229) nur Gestaltung, nicht gebaut'},
+    'hip': {'kind': 'Annahme', 'u': 1060,
+            'source': 'Hüftgelenk verdeckt: zwischen Schritt u975 und Oberschenkel-Außenoberkante u≈1090 (Frontfarbbild); Codex-Schätzungen Front1099/Rücken1060/Profil1093'},
     'hidden': {'kind': 'Annahme',
                'source': 'Oberschenkel-Innenkante oberhalb u980 und alle Kerntiefen hinter den Schalen; Sohlenbogen nach Profil u10 (getrennte Läufe)'},
 }
@@ -70,5 +72,27 @@ _pair('thigh_shell', 'frost_shell', 'Front/Profil u760..975; u1000/1040 Außenka
 
 ANCHORS['Socket_Knee_L'] = dict(at=[0, 675, 170], part='legs_knee_core_l', source='gemessen: Kniescheibe Profil, Front-Knieblockmitte x≈170')
 ANCHORS['Socket_Knee_R'] = dict(at=[0, 675, -170], part='legs_knee_core_r', source='gespiegelt')
-ANCHORS['Socket_Hip_L'] = dict(at=[15, 1040, 135], part='legs_thigh_shell_l', source='Annahme: Oberschenkelkopf hinter Becken, Mitte der Oberkante')
-ANCHORS['Socket_Hip_R'] = dict(at=[15, 1040, -135], part='legs_thigh_shell_r', source='gespiegelt')
+ANCHORS['Socket_Hip_L'] = dict(at=[15, 1060, 135], part='legs_thigh_shell_l', source=PROVENANCE['hip']['source'])
+ANCHORS['Socket_Hip_R'] = dict(at=[15, 1060, -135], part='legs_thigh_shell_r', source='gespiegelt')
+ANCHORS['Socket_Ankle_L'] = dict(at=[-22, 169, 225], part='legs_ankle_core_l', source=PROVENANCE['ankle']['source'])
+ANCHORS['Socket_Ankle_R'] = dict(at=[-22, 169, -225], part='legs_ankle_core_r', source='gespiegelt')
+
+# Gestaltung (Frontfarbbild, Rücken, Profil): Platten liegen 1,2 mm auf den
+# Loftflächen und ändern die gemessene Kontur nicht (Annahme Plattenstärke 3 mm).
+_pair('shin_crystal', 'frost_crystal', 'Front: großes Kristallfeld Schienbein u≈330..560',
+      face_panel(SHIN, 'front', [(335, .3), (345, .78), (470, .95), (555, .85), (555, .15), (470, .05)]))
+_pair('shin_slot', 'frost_frame', 'Front: dunkler Schlitz im Kristallfeld u≈335..435',
+      face_panel(SHIN, 'front', [(340, .42), (340, .6), (432, .6), (432, .42)], off=2.4, depth=2))
+_pair('calf_plate', 'frost_slate', 'Rücken: schiefergraue Wade u≈235..470 unter weißer Wadenplatte',
+      face_panel(SHIN, 'back', [(240, .08), (240, .92), (468, .92), (468, .08)]))
+_pair('thigh_crystal', 'frost_crystal', 'Front/Rücken/Profil: Kristallstreifen an der Oberschenkelaußenseite u≈850..1000',
+      face_panel(THIGH, 'outer', [(850, .45), (860, .9), (1000, .92), (1000, .5)]))
+_pair('thigh_crystal_top', 'frost_crystal', 'Front: kleines Kristallfeld oben innen u≈965..1030',
+      face_panel(THIGH, 'front', [(965, .12), (970, .3), (1030, .32), (1030, .08)]))
+_pair('kneecap', 'frost_shell', 'Front: weiße Kniescheibe u≈625..745 vor dunklem Gelenk',
+      face_panel(KNEE, 'front', [(625, .18), (625, .82), (700, .92), (745, .85), (745, .15), (700, .08)], off=1.5, depth=4))
+_pair('knee_disc', 'frost_joint', 'Profil: Kniescheibe Mitte u675 f0 (Ring r≈40)', disc('x', (0, 675), 238, 252.5, 40))
+_pair('ankle_disc', 'frost_joint', PROVENANCE['ankle']['source'], disc('x', (-22, 169), 280, 294, 26))
+for face in ('outer', 'inner'):
+    _pair('foot_band_'+face, 'frost_slate', 'Profil/Front: dunkler Mittelfuß zwischen weißer Zehen- und Fersenschale',
+          face_panel(FOOT, face, [(52, .32), (52, .6), (140, .66), (140, .3)]))

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0 Frost — R02 nach weiß/blauem Blatt, lokal, nicht gemergt
+
+- Maskenwerkzeug und Belegskript für R02 verallgemeinert (mask revision 1, Vektor-Alpha, Höhe 2000 mm); R01 bleibt bytegleich (Regressionstest).
+- R02 „Frost“ aus gemessenen Konturzeilen in fünf Baugruppen mit 91 Teilen; alle vier IoUs 0,963–0,978, 40/40 Breitenbänder im Ziel.
+- R02 lässt sich per ID bauen (`formgen.build R02`), der Standardlauf bleibt bei vier Piloten; neue Rollen `frost_*` in `skins.toml`. Details im [Versionsbericht](docs/versions/0.2.md).
+
 ## 0.1.0 Contour — technischer Zwischenstand, nicht abgenommen
 
 - Kit-Modelle, manifold3d-Geometrie, eigener Rasterizer und Artefaktcache; Legacy-Geo bleibt separat kompatibel.
