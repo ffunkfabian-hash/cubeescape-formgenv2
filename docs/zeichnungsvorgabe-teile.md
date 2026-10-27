@@ -94,3 +94,6 @@ Ein zweiter Lauf ist bytegleich. `--only kopf,arm` baut nur einzelne Teile.
 Kopf-Probe 27.10.2026 (Codex gpt-6-luna, älterer Prompt ohne Maßangaben): Ansichten untereinander konsistent (Höhe 1,5 %,
 Breite 3,7 %, Tiefe 4,7 %). Das Bild ist zu schmal und zu flach (Breite 0,91, Tiefe 0,87). IoU rahmen-eingepasst 0,89–0,92,
 Urteil „tauglich“, Blender-Skalierung x 1,10 und f 1,15. Abgelegt unter `part-generations/kopf/a-blatt/4fb623f7ab66`.
+
+**Ohne Meshy:** `tools/r02_part_hull.py <ablage>` baut aus derselben Ablage eine deterministische, maßhaltige Silhouettenhülle
+(GLB/OBJ, Modus `schnitt` oder `loft`), siehe [r02-silhouettenhuelle.md](r02-silhouettenhuelle.md).
