@@ -7,8 +7,9 @@ Rumpfsilhouette und sind nach dem Profil-Farbbild abgelesen (Annahme).
 Hängende Pose: Handflächen zum Oberschenkel, Ellbogen hinter, Hand vor der
 Körpermitte (Profil: Ellbogenscheibe f−76/u1331, Hand f−44..+93).
 """
-from formgen.models.figures.r02_parts.common import PROVENANCE as COMMON, mirror, projected
+from formgen.models.figures.r02_parts.common import PROVENANCE as COMMON, mirror, plate_span, projected
 from formgen.models.figures.r02_parts.arms_regions import REGIONS
+from formgen.models.figures.r02_parts.arms_sections import SECTIONS
 
 PROVENANCE = {
     **COMMON,
@@ -56,9 +57,16 @@ SEGMENTS = [('shoulder_pad', PAD, .2, .3, 'Front Panzer außen u1470..1735; Prof
             ('hand_palm', PALM, .22, .22, 'Front Hand u940..1040; Profil Hand −44..+93 (Farbbild)'),
             ('hand_fingers', FINGERS, .22, .22, 'Front Finger u860..940 (Lauf außen); Profil Fingerbreite'),
             ('hand_thumb', THUMB, .22, .22, 'Front Daumenlauf u920..960 x414..446; Profil vorn')]
+# Gestapelte Segmente: Platten enden ≥ 0,55 mm vor dem eingesetzten Nachbarn
+# (Rastermitte, common.plate_span); die Fuge zeigt den dunklen Kern wie die
+# Tuschelinie des Blatts. Nachbarn: (unten, oben) als erste/letzte Zeile.
+STACK = {'hand_fingers': (None, PALM[0][0]), 'hand_thumb': (None, PALM[0][0]),
+         'hand_palm': (FINGERS[-1][0], FOREARM[0][0]), 'forearm': (PALM[-1][0], ELBOW[0][0]),
+         'elbow': (FOREARM[-1][0], UPPER[0][0]), 'upper_arm': (ELBOW[-1][0], PAD[0][0])}
 for name, rows, cx, cf, source in SEGMENTS:
-    core, plates = projected(rows, DRAWING, ('front', 'back', 'outer'), cx=cx, cf=cf)
-    _pair(name+'_core', 'frost_frame', source+'; Kern 4 mm unter der Hülle (Annahme), sichtbar in den Fugen', core)
+    clip = plate_span(rows[0][0], rows[-1][0], *STACK.get(name, (None, None)))
+    core, plates = projected(rows, DRAWING, ('front', 'back', 'outer'), cx=cx, cf=cf, sections=SECTIONS[name], clip=clip)
+    _pair(name+'_core', 'frost_frame', source+'; Querschnitt gemessen an KI-Referenz (arms_sections.py), eingepasst auf die Blattzeilen; Kern 4 mm unter der Hülle (Annahme), sichtbar in den Fugen', core)
     for role, shape in plates.items():
         _pair(name+'_'+role.removeprefix('frost_'), role,
               'gemessen: Farbregionen Front/Rücken/Profil B (tools/r02_regions.py) auf der 4-mm-Außenschicht von '+name, shape)

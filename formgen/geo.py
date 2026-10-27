@@ -196,9 +196,49 @@ def _coplanar(parts):
     """Measured same-facing triangle overlap, <0.5 mm, >=1 mm², normals <=1°.
 
     Only native evaluated triangles enter here; imported polygon meshes retain
-    their producer's checks verbatim. Sweep windows and normal bins avoid a
-    quadratic scan over every face in the model.
+    their producer's checks verbatim. A vectorised pre-pass keeps only faces
+    with a candidate partner in another part (same normal, plane distance and
+    box tests as the scan); the scan then measures exactly as before, so the
+    findings and their order are unchanged.
     """
+    import numpy as np
+    limit, cosine = .0005, math.cos(math.radians(1))
+    data = []
+    for part in parts:
+        vertices = np.asarray(part['mesh']['vertices'], dtype=float)
+        if any(len(face) != 3 for face in part['mesh']['faces']): raise ValueError('Native Koplanarprüfung benötigt Dreiecke')
+        tri = vertices[np.asarray(part['mesh']['faces'], dtype=np.int64).reshape(-1, 3)]
+        normal = np.cross(tri[:, 1]-tri[:, 0], tri[:, 2]-tri[:, 0])
+        length = np.linalg.norm(normal, axis=1)
+        if np.any(length <= 1e-16): raise ValueError(f'{part["id"]}: degeneriertes Dreieck')
+        data.append((tri, normal/length[:, None], tri.min(axis=1), tri.max(axis=1)))
+    keep = [np.zeros(len(d[0]), dtype=bool) for d in data]
+    for i, j in itertools.combinations(range(len(data)), 2):
+        (ta, na, la, ha), (tb, nb, lb, hb) = data[i], data[j]
+        if not len(ta) or not len(tb): continue
+        if np.any(ha.max(0)+limit < lb.min(0)) or np.any(hb.max(0)+limit < la.min(0)): continue
+        ia = np.flatnonzero(np.all(ha+limit >= lb.min(0), axis=1) & np.all(hb.max(0)+limit >= la, axis=1))
+        ib = np.flatnonzero(np.all(hb+limit >= la.min(0), axis=1) & np.all(ha.max(0)+limit >= lb, axis=1))
+        for start in range(0, len(ia), 256):
+            a = ia[start:start+256]
+            near = (np.all(ha[a, None]+limit >= lb[None, ib], axis=2) & np.all(hb[None, ib]+limit >= la[a, None], axis=2)
+                    & (na[a] @ nb[ib].T >= cosine))
+            r, c = np.nonzero(near)
+            if not len(r): continue
+            delta = tb[ib[c], 0]-ta[a[r], 0]
+            d = np.maximum(np.abs((na[a[r]]*delta).sum(1)), np.abs((nb[ib[c]]*delta).sum(1)))
+            hit = d < limit
+            keep[i][a[r[hit]]] = True
+            keep[j][ib[c[hit]]] = True
+    reduced = []
+    for part, mask in zip(parts, keep):
+        faces = part['mesh']['faces']
+        reduced.append(dict(part, mesh=dict(vertices=part['mesh']['vertices'], faces=[faces[k] for k in np.flatnonzero(mask)])))
+    return _coplanar_scan(reduced)
+
+
+def _coplanar_scan(parts):
+    """Normal-binned sweep over all given faces (reference measurement)."""
     import numpy as np
     limit, minimum, cosine = .0005, 1e-6, math.cos(math.radians(1))
     groups, looks = {}, {}

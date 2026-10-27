@@ -8,6 +8,7 @@ import unittest
 import zipfile
 
 import jsonschema
+import numpy as np
 from formgen import geo, geom, model, release_assets, spec
 from formgen.cache import canonical
 
@@ -182,6 +183,21 @@ class GeoExportTests(unittest.TestCase):
         self.assertTrue(findings[0]['same_look'])
         self.assertEqual(geo._coplanar([a,triangle('p01',.0007)]),[])
         self.assertEqual(geo._coplanar([a,triangle('p01',0,True)]),[])
+
+    def test_coplanar_prefilter_matches_full_scan(self):
+        """Pre-pass must not change findings, order or measured values."""
+        rng = np.random.default_rng(7)
+        def part(pid,count):
+            v,f = [],[]
+            for _ in range(count):
+                base = rng.uniform(-.05,.05,3)*[1,1,.02];n = rng.normal(size=3)*[.01,.01,1]
+                tri = base+rng.uniform(-.02,.02,(3,3))*[1,1,0]+rng.normal(size=(3,1))*.0002*n
+                f.append([len(v),len(v)+1,len(v)+2]);v += tri.tolist()
+            return dict(id=pid,channel='MT',material='m',emissive=False,glass=False,mesh=dict(vertices=v,faces=f))
+        parts = [part(f'p{i}',60) for i in range(4)]
+        full = geo._coplanar_scan(parts)
+        self.assertGreater(len(full),0)
+        self.assertEqual(geo._coplanar(parts),full)
 
 
 class ReleaseTests(unittest.TestCase):
