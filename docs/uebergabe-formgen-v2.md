@@ -1,4 +1,5 @@
 **Aktuelle Übergabe an Claude:** [Abschlussstand vom 27.10.2026](uebergabe-claude-abschluss.md). Diese neue Datei hat Vorrang; unten stehen ältere Prüfstände.
+**Nächste Version:** [Auftrag R02 „Frost“](auftrag-r02.md) für eine frische Sitzung.
 
 # Formgen v2: GEOM8 und offene Gesamtabnahme
 
