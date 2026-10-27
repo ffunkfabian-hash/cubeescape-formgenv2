@@ -4,6 +4,7 @@
 
 - Maskenwerkzeug und Belegskript für R02 verallgemeinert (mask revision 1, Vektor-Alpha, Höhe 2000 mm); R01 bleibt bytegleich (Regressionstest).
 - R02 „Frost“ aus gemessenen Konturzeilen in fünf Baugruppen mit 91 Teilen; alle vier IoUs 0,963–0,978, 40/40 Breitenbänder im Ziel.
+- Optionaler Formweg ohne Meshy: `tools/r02_part_hull.py` baut aus einem abgelegten Teilbild eine maßhaltige Silhouettenhülle (Schnitt oder Loft), bytegleich reproduzierbar ([Bericht](docs/r02-silhouettenhuelle.md)).
 - R02 lässt sich per ID bauen (`formgen.build R02`), der Standardlauf bleibt bei vier Piloten; neue Rollen `frost_*` in `skins.toml`. Details im [Versionsbericht](docs/versions/0.2.md).
 
 ## 0.1.0 Contour — technischer Zwischenstand, nicht abgenommen

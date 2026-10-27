@@ -6,11 +6,11 @@ größte Komponente → Polygon (Zeilenläufe vereinigt, vereinfacht mit TOL_MM)
 Front (x,u) wird entlang f, Seite (f,u) entlang x und Draufsicht (x,f) entlang u extrudiert; die Hülle ist der Schnitt
 (wie prism2 in docs/modellsprache.md, um die Draufsicht erweitert). Die Rückansicht baut nicht mit, sie ist die Gegenprobe.
 
-Ablage: <ablage>/hull/ (andere Parameter: hull-<schlüssel8>/) mit hull.glb, hull.obj, hull.json, contact.png.
+Ablage: <ablage>/hull/ (andere Parameter sprechend: hull-loft, hull-tol1, hull-front+side …) mit hull.glb, hull.obj, hull.json, contact.png.
 Achsen: intern Blender-mm (X=x anatomisch links, Y=−f, Z=u); GLB/OBJ in Metern Y-oben (x,u,f) wie der Blender-Import erwartet.
 Ohne --force wird nur gebaut, wenn Eingaben, Parameter oder Werkzeugversion sich geändert haben. Zweiter Lauf bytegleich.
 
-Aufruf: python tools/r02_part_hull.py ABLAGE [--tol-mm 0.5] [--views front,side,top] [--force]
+Aufruf: python tools/r02_part_hull.py ABLAGE [--modus schnitt|loft] [--tol-mm 0.5] [--views front,side,top] [--force]
         (ABLAGE z. B. refs-r02/part-generations/kopf/a-blatt/4fb623f7ab66)
 """
 import argparse,hashlib,json,struct,sys
@@ -52,9 +52,8 @@ def view_map(view,box,part):
     return (ha,va),axis(*R[ha],hd,bw),axis(*R[va],vd,bh)
 
 
-def silhouette(rgb,box):
-    """Vordergrundmaske im Quadranten: Abstand > 40 zur Eckfarbe (wie r02_part_check), Löcher gefüllt, größte Komponente."""
-    a=rgb.astype(int);fg=np.abs(a-a[2,2]).max(2)>40
+def silhouette(fg,box):
+    """Vordergrundmaske im Quadranten (fg aus r02_part_check.quadrant_boxes), Löcher gefüllt, größte Komponente."""
     sub=ndimage.binary_fill_holes(fg[box[1]:box[3],box[0]:box[2]]);lab,n=ndimage.label(sub)
     if n>1:sub=lab==(np.argmax(np.bincount(lab.ravel())[1:])+1)
     return sub
@@ -112,14 +111,14 @@ def loft(sections,R):
 
 
 def build(rgb,boxes,part,tol=TOL_MM,views=BUILD_VIEWS,modus='schnitt'):
-    R=ranges(part);masks,maps,sections={},{},{}
+    R=ranges(part);masks,maps,sections={},{},{};fg=pc.quadrant_boxes(rgb)[0]  # gleiche Vordergrundregel wie die Ablage
     for view in VIEWS:
-        maps[view]=view_map(view,boxes[view],part);masks[view]=silhouette(rgb,boxes[view])
+        maps[view]=view_map(view,boxes[view],part);masks[view]=silhouette(fg,boxes[view])
         (ha,_),(va,_)=VIEWS[view];sections[view]=mask_section(masks[view],maps[view],tol,(R[ha],R[va]))
     solids=[extrude(sections[v],v,R) for v in views]
     if modus=='loft':solids.append(loft(sections,R))
     solid=mf.Manifold.batch_boolean(solids,mf.OpType.Intersect)
-    if str(solid.status())!='Error.NoError' or solid.is_empty():raise ValueError(f'Hülle leer/ungültig: {solid.status()}')
+    if solid.status()!=mf.Error.NoError or solid.is_empty():raise ValueError(f'Hülle leer/ungültig: {solid.status()}')
     v,t=canonical(solid)
     return {'solid':solid,'vertices':v,'triangles':t,'masks':masks,'maps':maps,'sections':sections,'views':tuple(views),'modus':modus}
 
@@ -171,7 +170,7 @@ def measure(res,part,record):
                'baut_mit':view in res['views']}
         if view!='top':
             entry['iou_kontur_huelle']=pc.contour_iou(hm,(0,0,m.shape[1],m.shape[0]),part,view)
-            entry['iou_kontur_quelle']=record['messung']['iou_kontur'][view]['rahmen_eingepasst']
+            entry['iou_kontur_quelle']=record['messung']['iou_kontur'].get(view,{}).get('rahmen_eingepasst')
         out['ansichten'][view]=entry
     lo,hi=v.min(0),v.max(0);solid=res['solid']
     out['rahmen_abweichung_mm']={a:[round(float(lo[i]-R[a][0]),3),round(float(hi[i]-R[a][1]),3)] for i,a in enumerate(AX)}
@@ -280,8 +279,10 @@ def run(ablage,manifest,tol=TOL_MM,views=BUILD_VIEWS,modus='schnitt',force=False
     ablage=Path(ablage);record=json.loads((ablage/'record.json').read_text());man=json.loads(Path(manifest).read_text())
     part=man['parts'][record['teil']];src=(ablage/'source.png').read_bytes()
     key=params_key(tol,views,modus);out=ablage/out_name(tol,views,modus)
-    inputs={'bild_sha256':sha(src),'record_quadranten_px':record['quadranten_px'],
-            'teil_sha256':sha(json.dumps(part,sort_keys=True).encode()),'parameter_sha256':key}
+    color=pt.tomllib.loads((ROOT/'skins.toml').read_text())['roles']['frost_shell']['color']
+    inputs={'bild_sha256':sha(src),'record_sha256':sha(json.dumps(record,sort_keys=True).encode()),
+            'teil_sha256':sha(json.dumps(part,sort_keys=True).encode()),'parameter_sha256':key,'farbe_frost_shell':color,
+            'manifold3d':getattr(mf,'__version__',None)}
     old=out/'hull.json'
     if not force and old.exists():
         prev=json.loads(old.read_text())
@@ -291,7 +292,6 @@ def run(ablage,manifest,tol=TOL_MM,views=BUILD_VIEWS,modus='schnitt',force=False
     boxes={k:tuple(b) for k,b in record['quadranten_px'].items()}
     res=build(rgb,boxes,part,tol,views,modus)
     meas,_=measure(res,part,record);name=f"r02-{record['teil']}-{record['variante']}-{record['bild_sha256'][:12]}-hull"
-    color=pt.tomllib.loads((ROOT/'skins.toml').read_text())['roles']['frost_shell']['color']
     files={'hull.glb':glb_bytes(res['vertices'],res['triangles'],name,color),'hull.obj':obj_bytes(res['vertices'],res['triangles'],name)}
     title=(f"{record['teil']}/{record['variante']}/{record['bild_sha256'][:12]} · Silhouettenhülle v{VERSION} ({modus}) · "
            f"tol {tol} mm · {meas['netz']['dreiecke']} Dreiecke · {meas['netz']['volumen_l']} l")

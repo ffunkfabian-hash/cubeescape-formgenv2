@@ -68,11 +68,60 @@ class PartHullTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             t=Path(tmp);self.img.save(t/'source.png');(t/'record.json').write_text(json.dumps(self.record))
             (t/'manifest.json').write_text(json.dumps({'parts':{'kugel':self.part}}))
-            first=ph.run(t,t/'manifest.json');files={n:(t/'hull'/n).read_bytes() for n in first['dateien']}
+            first=ph.run(t,t/'manifest.json');names=[*first['dateien'],'hull.json']
+            files={n:(t/'hull'/n).read_bytes() for n in names};stamps={n:(t/'hull'/n).stat().st_mtime_ns for n in names}
             self.assertEqual(ph.run(t,t/'manifest.json'),first)
+            self.assertEqual({n:(t/'hull'/n).stat().st_mtime_ns for n in names},stamps,'ohne --force nichts neu schreiben')
             ph.run(t,t/'manifest.json',force=True)
-            self.assertEqual({n:(t/'hull'/n).read_bytes() for n in files},files)
+            self.assertEqual({n:(t/'hull'/n).read_bytes() for n in names},files)
+            part=json.loads(json.dumps(self.part));part['frame_mm']['front']['x']=[-R,R+10]  # geänderte Eingabe → Neubau
+            (t/'manifest.json').write_text(json.dumps({'parts':{'kugel':part}}))
+            self.assertNotEqual(ph.run(t,t/'manifest.json')['eingaben'],first['eingaben'])
+            self.assertNotEqual((t/'hull'/'hull.glb').read_bytes(),files['hull.glb'])
             self.assertEqual(ph.out_name(1.0,ph.BUILD_VIEWS,'loft'),'hull-loft-tol1')
 
+
+def glb_positions(glb):
+    """POSITION-Accessor eines GLB von glb_bytes lesen → (n,3) in Metern (x,u,f)."""
+    n=struct.unpack('<I',glb[12:16])[0];doc=json.loads(glb[20:20+n]);binary=glb[20+n+8:];view=doc['bufferViews'][0]
+    return np.frombuffer(binary[view['byteOffset']:view['byteOffset']+view['byteLength']],'<f4').reshape(-1,3)*1000
+
+
+class PartHullAxisTests(unittest.TestCase):
+    """Asymmetrisches Teil: Kugel + Nase vorn (+f) + Ohr links (+x). Gezeichnet nach docs/zeichnungsvorgabe-teile.md,
+    unabhängig von ph.VIEWS: Front x→rechts, Seite von links vorn→links, Draufsicht vorn→unten, Rücken x→links.
+    Eine gespiegelte Achse im Werkzeug lässt Nase oder Ohr verschwinden oder auf die falsche Seite wandern."""
+    NOSE=((-20,20),(F0+80,F0+130),(U0-10,U0+30));EAR=((80,125),(F0-20,F0+20),(U0-20,U0+20))  # (x,f,u) mm
+    SCALE={'front':(1.3,1.45),'side':(1.35,1.2),'top':(1.4,1.25),'back':(1.2,1.4)}  # px/mm je Bildachse, bewusst anisotrop
+    ORIGIN={'front':(30,40),'side':(430,60),'top':(40,440),'back':(450,420)}
+
+    def image(self):
+        img=Image.new('RGB',(800,800),(128,128,128));d=ImageDraw.Draw(img);a=np.linspace(0,2*math.pi,256,endpoint=False)
+        X,Fr,U=(-100,125),(F0-100,F0+130),(U0-100,U0+100)
+        proj={'front':lambda x,f,u:(x-X[0],U[1]-u),'side':lambda x,f,u:(Fr[1]-f,U[1]-u),
+              'top':lambda x,f,u:(x-X[0],f-Fr[0]),'back':lambda x,f,u:(X[1]-x,U[1]-u)}
+        for view,p in proj.items():
+            (sh,sv),(ox,oy)=self.SCALE[view],self.ORIGIN[view];px=lambda q:(ox+q[0]*sh,oy+q[1]*sv)
+            circle={'front':[(R*math.cos(t),F0,U0+R*math.sin(t)) for t in a],'back':[(R*math.cos(t),F0,U0+R*math.sin(t)) for t in a],
+                    'side':[(0,F0+R*math.cos(t),U0+R*math.sin(t)) for t in a],'top':[(R*math.cos(t),F0+R*math.sin(t),U0) for t in a]}[view]
+            d.polygon([px(p(*q)) for q in circle],fill=(38,43,51))
+            for (x0,x1),(f0,f1),(u0,u1) in (self.NOSE,self.EAR):
+                corners=[px(p(x,f,u)) for x in (x0,x1) for f in (f0,f1) for u in (u0,u1)];xs,ys=zip(*corners)
+                d.rectangle((min(xs),min(ys),max(xs),max(ys)),fill=(38,43,51))
+        return img
+
+    def test_features_land_on_their_axes(self):
+        img=self.image();_,boxes=pc.quadrant_boxes(np.asarray(img))
+        part={'u_mm':[U0-R,U0+R],'frame_mm':{'front':{'x':[-100,125]},'side':{'f':[F0-100,F0+130]}},'joints':[]}
+        for modus in ph.MODI:
+            res=ph.build(np.asarray(img),boxes,part,modus=modus);p=glb_positions(ph.glb_bytes(res['vertices'],res['triangles'],'achsen','#E2EAEE'))
+            x,u,f=p[:,0],p[:,1],p[:,2]
+            self.assertAlmostEqual(float(f.max()),F0+130,delta=0.5,msg=modus);self.assertAlmostEqual(float(x.max()),125,delta=0.5,msg=modus)
+            nose=f>F0+110;ear=x>110
+            self.assertTrue(nose.any() and ear.any(),modus)
+            self.assertLessEqual(float(abs(x[nose]).max()),20.6,modus);self.assertTrue(((u[nose]>U0-10.6)&(u[nose]<U0+30.6)).all(),modus)
+            self.assertLessEqual(float(abs(f[ear]-F0).max()),20.6,modus);self.assertLessEqual(float(abs(u[ear]-U0).max()),20.6,modus)
+            back=ph.measure(res,part|{'contour_mm':{'front':[],'back':[],'side':[]}},{'messung':{'iou_kontur':{}}})[0]['ansichten']['back']
+            self.assertGreater(back['iou_huelle_gegen_quelle'],0.98,modus)  # Rücken bestätigt die x-Richtung der Front
 
 if __name__=='__main__':unittest.main()

@@ -17,7 +17,8 @@ Kein Modul unter `formgen/` liest es, und kein Standardbau hängt davon ab.
    Front-Breite und Seiten-Tiefe dieser Höhe skaliert.
 4. **Ablage** `part-generations/<teil>/<variante>/<bild-sha12>/hull[-loft…]/`: `hull.glb` und `hull.obj` (Meter, Y oben,
    Blender-Import ergibt X = x, Y = −f, Z = u), `hull.json` (Eingabe-SHAs, Parameter, Messung, Profilpolygone in mm) und `contact.png`.
-   Die Rückansicht baut nicht mit, sie dient als unabhängige Gegenprobe.
+   Die Rückansicht baut nicht mit, sie dient als Gegenprobe für die Übereinstimmung von Front und Rücken. Achsvorzeichen prüft sie
+   nicht, weil IoU-Werte gegen Spiegelungen blind sind. Das übernimmt der asymmetrische Achsentest.
 
 ## Messung Kopf `kopf/a-blatt/4fb623f7ab66`
 
@@ -34,13 +35,17 @@ Kein Modul unter `formgen/` liest es, und kein Standardbau hängt davon ab.
 | Laufzeit | 0,9 s | 6 s |
 
 - **Toleranz:** Vorgegeben sind 0,5 mm. Gemessen weicht das Polygon um höchstens 0,74 mm (≈ 1,5 px) von der Pixelkante ab.
-  Ein Bildpixel entspricht 0,44–0,52 mm. Polygon-IoU gegen die Maske ≥ 0,996.
+  Ein Bildpixel entspricht 0,44–0,52 mm. Polygon-IoU gegen die Maske ≥ 0,996. Gemessen wird pixelgenau: Abweichungen unter ½ px
+  zählen als 0, umgerechnet wird mit dem größeren mm/px-Wert.
 - **Blender 5.2.2 Import** (GLB und OBJ): Ausdehnung x −116,2…121,1, Y −159,0…121,0 (= −f), Z 1760…2000 mm. Das Volumen ist positiv
   (Normalen außen), es gibt 0 nicht-mannigfaltige Kanten.
 - **Reproduzierbar:** Ein zweiter Lauf mit `--force` ist bytegleich (GLB, OBJ, JSON, PNG). Ohne `--force` meldet das Werkzeug
   „aktuell“, wenn Bild-SHA, Quadranten, Teil-Manifest, Parameter und `VERSION` gleich sind.
 - **Synthetische Prüfung** (`tests/test_r02_part_hull.py`): Eine Kugel ist in jedem Quadranten mit anderem Pixelmaß gezeichnet.
-  Der Schnitt trifft das Tricylinder-Volumen 8(2−√2)·r³ auf 0,999, der Loft das Kugelvolumen auf 1,000.
+  Der Schnitt trifft das Tricylinder-Volumen 8(2−√2)·r³ auf 0,999, der Loft das Kugelvolumen auf 1,000. Ein asymmetrisches Teil
+  (Kugel, Nase bei +f, Ohr bei +x) ist unabhängig vom Werkzeug nach dieser Vorgabe gezeichnet. Nase und Ohr müssen im GLB an ihrer
+  Stelle liegen. Gegenprobe: Jede gespiegelte Front-, Seiten-, Draufsicht- oder Rückenachse lässt den Test scheitern. Der Cache-Test
+  prüft, dass ein Lauf ohne `--force` nichts schreibt, eine geänderte Eingabe neu baut und `--force` bytegleich ist.
 - **Beleg:** `~/Library/Caches/CubeEscapeFormgen/refs-r02/part-generations/kopf/a-blatt/4fb623f7ab66/hull/contact.png` und
   `…/hull-loft/contact.png`. Oben stehen die Quellquadranten, unten die Hüllen-Orthos im Quellraster mit der Quellkontur in Gelb
   und eine 3/4-Ansicht.
@@ -54,7 +59,8 @@ Kein Modul unter `formgen/` liest es, und kein Standardbau hängt davon ab.
 - **Reproduzierbar und billig:** Es gibt keine Zufallsquelle, und ein Lauf dauert unter einer Sekunde. Varianten sind entweder
   andere abgelegte Bilder (`teil/variante/bild-sha12`) oder andere Parameter (`--modus`, `--tol-mm`, `--views`), die in eigenen
   Ordnern mit sprechendem Namen liegen.
-- **Prüft das Bild:** Die Rücken-Gegenprobe (0,958) misst, wie gut Front und Rücken des Generators zusammenpassen. Der Hals-Schnitt
+- **Prüft das Bild:** Die Rücken-Gegenprobe (0,958) misst, wie gut Front und Rücken des Generators zusammenpassen.
+  Die IoU-Werte der mitbauenden Ansichten bestätigen dagegen sich selbst (≈ 0,995), weil die Hülle aus genau diesen Umrissen entsteht. Der Hals-Schnitt
   zeigt, dass das Bild am Anschluss schmaler und tiefer ist als der Ø 163.
 
 ## Was sie nicht kann
@@ -84,5 +90,9 @@ Kein Modul unter `formgen/` liest es, und kein Standardbau hängt davon ab.
    Damit bleibt das Meshy-Ergebnis maßhaltig.
 
 Nicht empfohlen ist es, die Hülle unverändert als fertiges Teil zu verwenden: Ohne Mulden und Fugen bleibt sie ein Grobkörper.
+Einstufung: Der Diff liegt mit rund 600 Zeilen über der Patch-Grenze. Er gehört zur R02-Version 0.2.0 „Frost“ und braucht vor einem
+Merge dort die Codex-Prüfung. Die Opus-Prüfung (ce-judge) hat die Achsen am echten Netz nachgemessen. Den fehlenden Achsentest
+hat sie beanstandet, er ist nachgebessert.
+
 Offene Entscheidung für den Nutzer: ob `hull3` in die Modellsprache aufgenommen wird. Das wäre eine Formatänderung unter
 `formgen/` und damit eine eigene Version.
