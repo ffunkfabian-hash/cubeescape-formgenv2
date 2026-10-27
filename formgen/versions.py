@@ -1,6 +1,6 @@
 """Komponentenversionen: ausschließlich vom Hauptagenten ändern."""
 MODEL = 2
-GEOM = 5
+GEOM = 6
 GEO = 2
 RASTER = 5
 SHEET = 2

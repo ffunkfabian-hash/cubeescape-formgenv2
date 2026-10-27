@@ -111,7 +111,9 @@ class RobotArmTests(unittest.TestCase):
                     continue
                 raw=arms.convert(kind,parameters,frame,arms.LENGTH_SCALE[segment])
                 authored=next(p for p in arms.PARTS if p['id']==f'arms_{pid}_{side}')
-                delta=np.asarray(authored['points'])-np.asarray(raw['points'])
+                # Cheek supports extend the hull; original source stations stay
+                # at the prefix. Their complete f/u hull is checked separately.
+                delta=np.asarray(authored['points'])[:len(raw['points'])]-np.asarray(raw['points'])
                 np.testing.assert_allclose(delta[:,:2],0,atol=1e-12)
                 self.assertLess(np.ptp(np.asarray(authored['points'])[:,2]),np.ptp(np.asarray(raw['points'])[:,2]))
 

@@ -598,6 +598,19 @@ def _extrusion_bevel(vertices, faces, radius, segments=2, *, inner=None):
         profiles.append(hole)
     if any(not _simple_profile(p if i == 0 else p[::-1]) for i, p in enumerate(profiles)):
         raise GeometryError('Profilfase benötigt einfache Profilkonturen')
+    return _contour_extrusion_bevel(profiles, origin, axis, basis, length, radius, segments)
+
+def _contour_extrusion_bevel(profiles, origin, axis, basis, length, radius, segments):
+    """All signed contours retain independent lengths; no contour union/hull."""
+    if not isinstance(segments, int) or isinstance(segments, bool) or segments < 1:
+        raise GeometryError('segs_bevel muss eine positive ganze Zahl sein')
+    if not np.isfinite(radius) or radius <= 0 or not np.isfinite(length) or length <= 1e-12:
+        raise GeometryError('Profilfase benötigt positive endliche Breite/Länge')
+    profiles = [np.asarray(p, dtype=float) for p in profiles]
+    if not profiles or any(p.ndim != 2 or p.shape[1] != 2 or not np.all(np.isfinite(p))
+                           or not _simple_profile(p if _area(p)>0 else p[::-1]) for p in profiles):
+        raise GeometryError('Profilfase benötigt einfache endliche Profilkonturen')
+    cuts = np.cumsum([len(p) for p in profiles])[:-1]
     profile = np.concatenate(profiles)
     edge = np.concatenate([np.roll(p, -1, axis=0)-p for p in profiles])
     lengths = np.linalg.norm(edge, axis=1)
@@ -605,7 +618,7 @@ def _extrusion_bevel(vertices, faces, radius, segments=2, *, inner=None):
         raise GeometryError('Profilfase: doppelte Profilpunkte')
     tangent = edge/lengths[:, None]
     normal = np.column_stack([tangent[:, 1], -tangent[:, 0]])
-    prior = np.concatenate([np.roll(p, 1, axis=0) for p in np.split(normal, len(profiles))])
+    prior = np.concatenate([np.roll(p, 1, axis=0) for p in np.split(normal, cuts)])
     cosine = np.clip(np.sum(prior*normal, axis=1), -1, 1)
     turn = prior[:, 0]*normal[:, 1]-prior[:, 1]*normal[:, 0]
     angles = np.arctan2(turn, cosine)
@@ -648,20 +661,30 @@ def _extrusion_bevel(vertices, faces, radius, segments=2, *, inner=None):
     # Nonlocal narrow features can collide before any individual short edge.
     # A conservative common clamp retains every contour/corner; no polygon
     # union, hull, trimming, or discarded invalid faces conceal such collisions.
-    for _ in range(24):
+    for clamp_attempt in range(24):
+        if setback <= 1e-12:
+            raise GeometryError('Profilfase: kein numerisch stabiler Clampbereich')
         signed_radii = np.zeros(len(profile))
         signed_radii[selected] = setback/np.tan(angles[selected]/2)
         theta = list(np.linspace(0, math.pi/2, segments+1))
         for r in signed_radii[selected]:
             if 1e-13 < r < setback-1e-13:
                 theta.append(math.asin(1-r/setback))
-        theta = sorted(set(theta))
+        raw_theta = sorted(theta)
+        # Below the existing arc-collapse precision; keep every distinct event.
+        angle_tol = max(64*np.finfo(float).eps, 1e-13/setback)
+        theta = [raw_theta[0]]
+        for t in raw_theta[1:]:
+            if t-theta[-1] > angle_tol:
+                theta.append(t)
+            elif abs(t-math.pi/2) < 64*np.finfo(float).eps:
+                theta[-1] = math.pi/2
         stations = [(setback*(1-math.cos(t)), setback*(1-math.sin(t))) for t in theta]
         stations[0] = (0., setback)
         stations[-1] = (setback, 0.)
         stations += [(length-z, d) for z, d in stations[::-1]]
-        rings = [[unique(p) for p in np.split(ring(d, signed_radii), len(profiles))] for _, d in stations]
-        if all(_simple_profile(p if i == 0 else p[::-1]) for r in rings for i, (p, _) in enumerate(r)):
+        rings = [[unique(p) for p in np.split(ring(d, signed_radii), cuts*(segments+1))] for _, d in stations]
+        if all(_simple_profile(p if _area(profiles[i]) > 0 else p[::-1]) for r in rings for i, (p, _) in enumerate(r)):
             # Every inward offset must remain inside the middle section. The
             # CrossSection difference is validation only, never replacement.
             # CrossSection uses a fixed coordinate grid. Validate in micrometres
@@ -686,11 +709,10 @@ def _extrusion_bevel(vertices, faces, radius, segments=2, *, inner=None):
         maps.append(section_maps)
         boundaries.append(section_boundaries)
     result = []
-    count = n*(segments+1)
     for before, after in zip(maps, maps[1:]):
         for left, right in zip(before, after):
-            for j in range(count):
-                k = (j+1) % count
+            for j in range(len(left)):
+                k = (j+1) % len(left)
                 face = [left[j], left[k], right[k], right[j]]
                 face = [a for i, a in enumerate(face) if a != face[i-1]]
                 if len(face) >= 3:
@@ -700,10 +722,228 @@ def _extrusion_bevel(vertices, faces, radius, segments=2, *, inner=None):
         result.extend([[boundaries[i][j] for j in tri] for tri in cap])
     return _orient(points, result)
 
+def _constant_x_cut_profile(vertices, faces):
+    """Prove an actual post-Cut mesh is a constant X extrusion, or return None.
+
+    Internal caps, slopes, missing/branching cap loops, unequal sections and a
+    nonzero solid symmetric difference reject. Boolean output is never replaced
+    by a hull, a 2D projection, or merely equivalent end silhouettes.
+    """
+    v = np.asarray(vertices, dtype=float)
+    tri = np.asarray(_triangulate(v, faces), dtype=int)
+    lo, hi = float(v[:, 0].min()), float(v[:, 0].max())
+    if hi-lo <= 1e-12:
+        return None
+    xyz = v[tri]
+    normal = np.cross(xyz[:, 1]-xyz[:, 0], xyz[:, 2]-xyz[:, 0])
+    norm = np.linalg.norm(normal, axis=1)
+    if np.any(norm <= 1e-14):
+        return None
+    nx = np.abs(normal[:, 0]/norm)
+    low = np.max(np.abs(xyz[:, :, 0]-lo), axis=1) < 1e-11
+    high = np.max(np.abs(xyz[:, :, 0]-hi), axis=1) < 1e-11
+    if np.any(~((nx < 1e-9) | ((nx > 1-1e-9) & (low | high)))):
+        return None
+
+    def loops(mask, reverse=False):
+        edges = defaultdict(int)
+        for face in tri[mask].tolist():
+            for a,b in zip(face,face[1:]+face[:1]):
+                edges[a,b] += 1
+        boundary = [(a,b) for a,b in edges if (b,a) not in edges]
+        following = defaultdict(list)
+        incoming = defaultdict(int)
+        for a,b in boundary:
+            following[a].append(b)
+            incoming[b] += 1
+        if not boundary or any(len(bs) != 1 or incoming[a] != 1 for a,bs in following.items()):
+            return None
+        used, result = set(), []
+        for a,b in boundary:
+            if a in used:
+                continue
+            chain, cur = [], a
+            while cur not in used:
+                if cur not in following:
+                    return None
+                used.add(cur); chain.append(cur); cur = following[cur][0]
+            if cur != a or len(chain) < 3:
+                return None
+            result.append(v[chain[::-1] if reverse else chain][:,1:])
+        return result
+
+    before, after = loops(low, True), loops(high)
+    if before is None or after is None:
+        return None
+    # Validate in mm: CrossSection's fixed coordinate grid must not round away
+    # a thin mm-scale cut at its metre-coordinate boundary.
+    scale = 1000.
+    a = _manifold.CrossSection([p*scale for p in before])
+    b = _manifold.CrossSection([p*scale for p in after])
+    if abs(a.area()/scale**2-sum(_area(p) for p in before)) > 1e-12:
+        return None
+    if (a-b).area()+(b-a).area() > max(1e-8, a.area()*1e-10):
+        return None
+    source = _as_manifold(v*scale, tri.tolist())
+    extruded = a.extrude((hi-lo)*scale).transform([[0,0,1,lo*scale],[1,0,0,0],[0,1,0,0]])
+    delta = (source-extruded).volume()+(extruded-source).volume()
+    if delta > max(1e-8,source.volume()*1e-9):
+        return None
+    positives = [p for p in before if _area(p)>0]
+    if not positives:
+        return None
+    p = max(positives,key=_area)
+    origin = np.r_[lo,p[0]]
+    axis = np.array([1.,0.,0.])
+    first = np.r_[0.,p[1]-p[0]]
+    first /= np.linalg.norm(first)
+    basis = np.stack([first,np.cross(axis,first)])
+    profiles = [(np.column_stack([np.full(len(p),lo),p])-origin)@basis.T for p in before]
+    return profiles,origin,axis,basis,hi-lo
+
+
+
+
+def _rectangular_x_pocket(vertices,faces):
+    v=np.asarray(vertices,dtype=float)
+    t=np.asarray(_triangulate(v,faces),dtype=int)
+    n=np.cross(v[t[:,1]]-v[t[:,0]],v[t[:,2]]-v[t[:,0]])
+    lengths=np.linalg.norm(n,axis=1)
+    if np.any(lengths<=1e-14): raise GeometryError('Degenerate input')
+    n=np.abs(n/lengths[:,None])
+    if np.any(np.max(n,axis=1)<1-1e-10):
+        raise GeometryError('Only orthogonal planar pocket recognized')
+    coordinates=[np.unique(np.round(v[:,i],12)) for i in range(3)]
+    if list(map(len,coordinates)) != [3,4,4]:
+        raise GeometryError('Need one simple rectangular X-minus blind pocket')
+    xx,yy,zz=coordinates
+    low=np.array([xx[0],yy[0],zz[0]]);high=np.array([xx[-1],yy[-1],zz[-1]])
+    floor=xx[1]
+    pocket=np.array([[yy[1],zz[1]],[yy[2],zz[2]]])
+    body=_manifold.Manifold.cube(high-low).translate(low)
+    plow=np.array([xx[0]-(floor-xx[0]),yy[1],zz[1]])
+    phigh=np.array([floor,yy[2],zz[2]])
+    void=_manifold.Manifold.cube(phigh-plow).translate(plow)
+    source=_as_manifold(v,t.tolist())
+    candidate=body-void
+    symmetric=abs((source-candidate).volume())+abs((candidate-source).volume())
+    if symmetric>max(1e-15,source.volume()*1e-10):
+        raise GeometryError('Post-Cut net is not the recognized blind-pocket BRep')
+    return dict(low=low,high=high,floor=float(floor),pocket=pocket,
+                recognition_symmetric_difference_m3=float(symmetric),source_volume_m3=source.volume())
+
+
+def _pocket_rectangle(low,high,corner_radius,effective_radius,segments):
+    """Same corner centers for all offsets; effective radius zero collapses arcs."""
+    y0,z0=low;y1,z1=high;r=corner_radius
+    centers=[(y0+r,z0+r),(y1-r,z0+r),(y1-r,z1-r),(y0+r,z1-r)]
+    points=[];slots=[]
+    for center,start in zip(centers,[-math.pi,-math.pi/2,0.,math.pi/2]):
+        for theta in np.linspace(start,start+math.pi/2,segments+1):
+            p=np.array(center)+effective_radius*np.array([math.cos(theta),math.sin(theta)])
+            if points and np.linalg.norm(p-points[-1])<=1e-13:
+                slots.append(len(points)-1)
+            else:
+                slots.append(len(points));points.append(p)
+    if len(points)>1 and np.linalg.norm(points[0]-points[-1])<=1e-13:
+        last=len(points)-1;slots=[0 if i==last else i for i in slots];points.pop()
+    return np.array(points),slots
+
+
+def _pocket_stations(width,segments):
+    theta=np.linspace(0,math.pi/2,segments+1)
+    x=width*(1-np.cos(theta));offset=width*(1-np.sin(theta))
+    x[0],x[-1]=0.,width;offset[0],offset[-1]=width,0.
+    return list(zip(x,offset))
+
+
+def _pocket_loft_volume(low,high,radius,stations,segments):
+    """Independent analytic integral for corresponding fixed-center profiles.
+
+    A(rho)=W*H+2*(W+H)*rho+2*s*sin(pi/(2*s))*rho**2.
+    On a straight loft segment rho varies linearly, so integrate exactly.
+    """
+    w,h=np.array(high)-np.array(low)-2*radius
+    a,b,c=w*h,2*(w+h),2*segments*math.sin(math.pi/(2*segments))
+    volume=0.
+    for (x0,r0),(x1,r1) in zip(stations,stations[1:]):
+        volume+=(x1-x0)*(a+b*(r0+r1)/2+c*(r0*r0+r0*r1+r1*r1)/3)
+    return float(volume)
+
+
+def _pocket_bevel(vertices,faces,width,segments=2):
+    if not isinstance(segments,int) or isinstance(segments,bool) or segments<1:
+        raise GeometryError('Positive integral segment count required')
+    if not np.isfinite(width) or width<=1e-12:
+        raise GeometryError('Positive numerically stable bevel width required')
+    d=_rectangular_x_pocket(vertices,faces)
+    low,high,floor,pocket=d['low'],d['high'],d['floor'],d['pocket']
+    # All feature edges are actual orthogonal source edges (90deg >30deg).
+    outer_r=min(width,.49*float(np.min(high-low)))
+    depth=floor-low[0]
+    pocket_r=min(width,.49*depth,.49*float(np.min(pocket[1]-pocket[0])))
+    if min(outer_r,pocket_r)<=1e-12:raise GeometryError('No stable local width')
+    q=_pocket_stations(outer_r,segments)
+    outer_stations=[(low[0]+x,outer_r-o) for x,o in q]
+    outer_stations += [(high[0]-x,outer_r-o) for x,o in q[::-1]]
+    q=_pocket_stations(pocket_r,segments)
+    # Convex mouth removes material: outward offset. Concave floor adds material:
+    # inward offset. The four rounded longitudinal wall corners join both caps.
+    pocket_stations=[(low[0]+x,pocket_r+o) for x,o in q]
+    pocket_stations += [(floor-x,pocket_r-o) for x,o in q[::-1]]
+    # Nonlocal mouth/rim collisions reject instead of changing the source shape.
+    outer_cap,_=_pocket_rectangle(low[1:],high[1:],outer_r,0.,segments)
+    mouth,_=_pocket_rectangle(pocket[0],pocket[1],pocket_r,2*pocket_r,segments)
+    ca=_manifold.CrossSection([outer_cap*1e6])
+    cb=_manifold.CrossSection([mouth*1e6])
+    if (cb-ca).area()>1e-8 or np.any(mouth.min(axis=0)<=outer_cap.min(axis=0)+1e-12) or np.any(mouth.max(axis=0)>=outer_cap.max(axis=0)-1e-12):
+        raise GeometryError('Pocket mouth and outer end rim collide')
+    points=[];result=[]
+    def rings(bounds,radius,stations):
+        maps=[];indices=[];contours=[]
+        for x,rho in stations:
+            p,ids=_pocket_rectangle(*bounds,radius,rho,segments)
+            start=len(points);points.extend(np.column_stack([np.full(len(p),x),p]))
+            maps.append([start+i for i in ids]);indices.append(list(range(start,start+len(p))));contours.append(p)
+        # The same analytic slots give triangles at exact corner-arc collapse.
+        # Collapsed two-vertex slots never define a face in the BRep.
+        for before,after in zip(maps,maps[1:]):
+            for j in range(len(before)):
+                k=(j+1)%len(before)
+                face=[before[j],before[k],after[k],after[j]]
+                face=[a for i,a in enumerate(face) if a!=face[i-1]]
+                if len(face)>=3:result.append(face)
+        return indices,contours
+    oi,oc=rings((low[1:],high[1:]),outer_r,outer_stations)
+    pi,pc=rings(pocket,pocket_r,pocket_stations)
+    # One shared front cap WITH actual pocket hole; no pre-existing cap is cut
+    # out or deleted. Rear body and pocket floor are solid caps.
+    cap=_manifold.triangulate([oc[0],pc[0][::-1]])
+    capids=oi[0]+pi[0][::-1]
+    result.extend([[capids[i] for i in tri] for tri in cap])
+    result.append(oi[-1]);result.append(pi[-1])
+    v,f=_orient(points,result)
+    expected_outer=_pocket_loft_volume(low[1:],high[1:],outer_r,outer_stations,segments)
+    expected_void=_pocket_loft_volume(pocket[0],pocket[1],pocket_r,pocket_stations,segments)
+    d.update(outer_width_m=outer_r,pocket_width_m=pocket_r,outer_stations=outer_stations,
+             pocket_stations=pocket_stations,analytic_outer_volume_m3=expected_outer,
+             analytic_pocket_volume_m3=expected_void,analytic_volume_m3=expected_outer-expected_void,
+             discarded_finished_faces=0)
+    return v,f,d
 
 def _bevel(vertices, faces, radius, segments=2, *, part=None):
     if not isinstance(segments, int) or isinstance(segments, bool) or segments < 1:
         raise GeometryError('segs_bevel muss eine positive ganze Zahl sein')
+    if part and part.get('cuts'):
+        section = _constant_x_cut_profile(vertices, faces)
+        if section is not None:
+            return _contour_extrusion_bevel(*section, radius, segments)
+        try:
+            _rectangular_x_pocket(vertices, faces)
+        except GeometryError:
+            pass
+        else:
+            return _pocket_bevel(vertices, faces, radius, segments)[:2]
     if _constant_ring(part):
         if _sharp_ring_edges(vertices):
             v = np.asarray(vertices)
@@ -762,6 +1002,15 @@ def evaluate(model, *, booleans=True, bevels=True):
                     try:
                         segments = part.get('segs_bevel', 2)
                         ring_profile = _constant_ring(part) and _sharp_ring_edges(vertices)
+                        cut_profile = bool(part.get('cuts')) and _constant_x_cut_profile(vertices,faces) is not None
+                        cut_pocket = False
+                        if part.get('cuts') and not cut_profile:
+                            try:
+                                _rectangular_x_pocket(vertices,faces)
+                            except GeometryError:
+                                pass
+                            else:
+                                cut_pocket = True
                         vertices,faces = _bevel(vertices,faces,radius/1000,segments,part=part)
                         part['bevel_status'] = 'segmented_bevel' if segments > 1 else 'planar_chamfer'
                         if ring_profile:
@@ -769,7 +1018,10 @@ def evaluate(model, *, booleans=True, bevels=True):
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), äußere/innere Profilkanten und Endränder; konservativer Profilclamp, Offset-Ecken statt bestätigter Blender-Eckmiterparität')
                         elif _constant_ring(part):
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), nur Endringkanten; Wand-/Längenclamp, Längskanten unverändert, keine Blender-Eckmiterparität')
-                        elif _concave_extrusion(part):
+                        elif cut_pocket:
+                            part['bevel_status'] = 'segmented_pocket_bevel' if segments > 1 else 'planar_pocket_chamfer'
+                            local.append(f'Fase: {segments} Kreisprofilsegment(e), erkannte rechteckige X-Minus-Blindtasche; Außenkanten, Taschenmund, Wand- und Bodenkanten mit geschlossenen Offset-Eckpatches; lokaler Tiefenclamp, keine Blender-Eckmiterparität')
+                        elif _concave_extrusion(part) or cut_profile:
                             part['bevel_status'] = 'segmented_profile_bevel' if segments > 1 else 'planar_profile_chamfer'
                             local.append(f'Fase: {segments} Kreisprofilsegment(e), konvexe/konkave Profilkanten und Endränder; konservativer Profilclamp, Offset-Ecken statt bestätigter Blender-Eckmiterparität')
                         else:

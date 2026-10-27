@@ -46,8 +46,19 @@ konservative Wand-/Längen-/Profilclamps und nicht gefüllte tiefe Einschnitte
 sind analytisch geprüft. Kollabierende Kreisbogensamples werden bereits bei
 der Konstruktion als ein gemeinsamer topologischer Knoten angelegt.
 Die Endübergänge verwenden eigene Offset-Ecken; das ist **keine bestätigte
-Blender-Eckmiter- oder Clamp-Parität**. Allgemeine konkave Netze nach Cuts
-bleiben mit ausdrücklicher Warnung ungefast. W01 hat damit noch zwölf solche Teile.
+Blender-Eckmiter- oder Clamp-Parität**.
+
+GEOM6 erkennt konstante X-Extrusionen nach Cuts anhand sämtlicher Flächen,
+beider Endkonturen und der symmetrischen Volumendifferenz zur rekonstruierten
+Extrusion. Beliebig viele unterschiedlich lange Außen-/Lochkonturen bleiben
+getrennt erhalten; W01 nutzt dies für rail, stock_spine, stock und butt_pad.
+Eine vollständig nachgewiesene rechteckige X-Minus-Blindtasche erhält direkte
+Außen-/Mund-/Wand-/Bodenpatches (`segmented_pocket_bevel`), mit lokalem Clamp
+auf 0,49 der Taschentiefe. W01 bolt_carrier nutzt 0,98mm bei 2mm Tiefe.
+Überlappende Taschenmund-/Außenrandfasen werden ausdrücklich abgewiesen.
+Allgemeine variable oder schräge Cut-Netze bleiben mit Warnung ungefast;
+W01 hat noch sieben solche Teile. Die Erweiterungen bestätigen weiterhin
+keine Blender-Eckmiter-/Clamp-Parität.
 
 Mesh64-Ein-/Ausgabe bewahrt die Genauigkeit von Boolean- und Fasenknoten
 (manifold3d ≥3.5.4). Fehlende echte Booleans/Fasen dürfen nie stillschweigend

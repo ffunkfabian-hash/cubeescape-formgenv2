@@ -69,6 +69,9 @@ PROVENANCE = {
         'kind': 'gemessen', 'upper_casing_x_scale': UPPER_CASING_X_SCALE,
         'fore_core_medial_mm': FORE_CORE_MEDIAL_MM,
         'source': 'Registrierte Front/Rücken-Frames GEOM3/RASTER4: u1450 Oberarmbreite151,7mm gegenüber120,1/118,0mm, Mittelpunkt nahezu richtig; gerundetes lokales X-Verhältnis0,79 um bestehende Hüllenachse. Unterarm u1100..1250 medial in Front17..21mm, Rücken21..30mm zu schmal, außen Front0..4mm passend. Konservativ20mm mediale Verstärkung ausschließlich des Graphitkerns; Originalpunkte und Außenkontur bleiben erhalten. Keine Änderung von f/u-Projektion, Gelenken, Lagerdurchmessern, Fingern oder Quellen-Dicts.'},
+    'upper_shell_cheek_revision_1': {
+        'kind': 'Annahme',
+        'source': 'GEOM4-Farbbefund: beide Orthos zeigen eine vollere mittlere/untere Oberarmwange. Front/Ruecken/Modell-Aussenkante beiu1350 ca386/379/369mm, beiu1400 ca367/360/356mm. Lokale Stuetzkontur u1350/+8mm; konvexe Querschnittshuelle ohne unveraenderten Medialpunkt. Der zusaetzlich untersuchte u1400/+2mm-Querschnitt ist innerhalb dieser3D-Huelle und entfaellt geometrisch wirkungslos; Originalpunkte, medialer Rand und f/u-Projektion bleiben erhalten. Neue GEOM5-Baseline und Bild-/Kollisionspruefung sind Voraussetzung.'},
     'fore_stock_clearance': {
         'kind': 'gemessen', 'right_author_plane': FORE_STOCK_PLANE_R,
         'clearance_mm': 1.5,
@@ -237,6 +240,41 @@ def _upper_casing_width(points, sign):
     return result
 
 
+def _upper_shell_cheek(points, sign):
+    """Add outer cheek supports; retain source points and their f/u hull."""
+    def cross(a, b, c):
+        return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+
+    def contour(section):
+        ordered = sorted(set(section))
+        lower, upper = [], []
+        for sequence, chain in ((ordered, lower), (reversed(ordered), upper)):
+            for point in sequence:
+                while len(chain) >= 2 and cross(chain[-2], chain[-1], point) <= 1e-8:
+                    chain.pop()
+                chain.append(point)
+        return lower[:-1]+upper[:-1]
+
+    result = [p[:] for p in points]
+    for height, extra in ((1350., 8.),):
+        section = []
+        for i, a in enumerate(points):
+            if abs(a[1]-height) < 1e-9:
+                section.append((a[0], sign*a[2]))
+            for b in points[i+1:]:
+                if (a[1]-height)*(b[1]-height) < 0:
+                    t = (height-a[1])/(b[1]-a[1])
+                    section.append((a[0]+t*(b[0]-a[0]),
+                                    sign*(a[2]+t*(b[2]-a[2]))))
+        outline = contour(section)
+        inner, outer = min(x for _, x in outline), max(x for _, x in outline)
+        for f, x in outline:
+            weight = (x-inner)/(outer-inner)
+            if weight > 1e-9:
+                result.append([f, height, sign*(x+extra*weight)])
+    return result
+
+
 def _medial_core_extension(points, sign):
     """Keep the complete old core and add medial supports to its convex hull.
 
@@ -277,6 +315,8 @@ for suffix, sign in [('r',-1),('l',1)]:
             for point in geometry['points']:
                 point[2] -= sign*UPPER_CASING_MEDIAL_MM
             geometry['points'] = _upper_casing_width(geometry['points'],sign)
+            if pid == 'upper_shell':
+                geometry['points'] = _upper_shell_cheek(geometry['points'],sign)
         elif segment == 'fore' and pid == 'fore_body':
             geometry['points'] = _medial_core_extension(geometry['points'],sign)
         PARTS.append(dict(id='arms_'+pid+'_'+suffix, assembly='arms', label=label,

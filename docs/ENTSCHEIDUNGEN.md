@@ -22,3 +22,4 @@
 | 27.10.2026 | Strenge vier IoUs und alle40Breitenbänder bleiben unverändert; aktueller Roboter nicht freigegeben |2/4IoUs,37/40Bänder; [Bericht](versions/0.1.md) |
 | 27.10.2026 | SPEC4 verwendet Spec2-Zusatzfarben als color/share-Listen, flächengewichtete Dominanz und Glasfallback wie v1 | echter Toolgen-Palettenleser und analytischer Würfeltest; [Spec](figure-spec.md) |
 | 27.10.2026 | Native Toolgen-Abnahme benötigt eine separate Abnehmeränderung; Formate und fehlende semantische Angaben nicht tarnen | unveränderter echter Abnehmer verweigert W01-/R01-Geos; Legacy-Weld beschädigt zwei native Netze; [Vorschlag](vorschlag-toolgen-native-contract.md) |
+| 27.10.2026 | GEOM6 rekonstruiert nur nachgewiesene konstante Post-Cut-X-Extrusionen sowie eine rechteckige X-Minus-Blindtasche; andere variable Netze bleiben ausdrücklich unsupported | echte Volumendifferenz-, Topologie-, Loch-/Blindbodenprüfungen; lokale Offset-Ecken ohne bestätigte Blender-Miterparität |
