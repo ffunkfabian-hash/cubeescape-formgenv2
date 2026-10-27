@@ -46,6 +46,11 @@ class PartTemplateTests(unittest.TestCase):
             for view,c in cells.items():
                 self.assertLessEqual(c['ox']+c['w_px'],pt.CANVAS);self.assertLessEqual(c['oy']+c['h_px'],pt.CANVAS-500)
         # Stichproben gegen herkunft-r02.md / Konturzeilen
+        self.assertEqual({p['id']:self.build(p['id'])[3] for p in pt.PARTS},
+                         {'kopf':4,'oberkoerper':2,'becken':2,'schulterpolster':4,'arm':2,'hand':4,'bein':2,'fuss':4})
+        self.assertEqual(sorted(self.build('fuss')[5]),['back','front','side','top'])
+        self.assertNotIn('top',self.build('bein')[5])
+        self.assertIn(f'stroke="{pt.ASSUME_C}"'.encode(),self.build('arm')[0])
         arm=self.build('arm');self.assertAlmostEqual(arm[1]['x'][1],520.6,delta=1)
         knee=next(j for j in self.build('bein')[2] if j['id']=='knie');self.assertAlmostEqual(knee['x'],170,delta=3)
 

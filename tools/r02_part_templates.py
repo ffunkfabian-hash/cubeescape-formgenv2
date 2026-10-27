@@ -1,7 +1,7 @@
 """R02 „Frost“: maßhaltige Einzelteil-Schablonen für Bildgenerator → Meshy → Blender.
 
 Je Teil ein SVG (4000×4000 px) mit Front, Seite (von links, wie Profil B), Rücken und Draufsicht
-(vorn = unten) in einem gemeinsamen Maßstab je Blatt, dazu PNG mit und ohne Unterlage und ein
+(vorn = unten) in einer von zwei Maßstabsklassen (2 oder 4 px/mm), dazu PNG mit und ohne Unterlage und ein
 manifest.json. Ebenen/Gruppen: underlay, frame, markers, swatches. Regeln: docs/zeichnungsvorgabe-teile.md.
 
 Herkunft: Hüllrahmen und Konturen aus tools/r02_measure.py (mask revision 1, 5-mm-Zeilen), Front
@@ -29,7 +29,17 @@ STEP=5
 MARGIN=25  # mm Luft um den Hüllrahmen je Ansicht
 ROLES=['frost_shell','frost_frame','frost_slate','frost_joint','frost_crystal','frost_core','frost_visor']
 # Konstruktionsfarben: kommen in skins.toml nicht vor und dürfen nicht ins Konzeptbild.
-BG,FRAME_C,MARK_C,TEXT_C='#808080','#FFD400','#FF00FF','#111111'
+BG,FRAME_C,MARK_C,TEXT_C,ASSUME_C='#808080','#FFD400','#FF00FF','#111111','#FF8C00'
+# Zwei feste Maßstabsklassen (Verhältnis 1:2) statt freiem Maßstab je Blatt: große Teile 2, kleine 4 px/mm.
+SCALES=(4.0,2.0)
+# Formhinweis Draufsicht: Draufsicht/Untersicht des Blatts sind perspektivisch (Hände erscheinen ~350 mm vor dem
+# Rumpf, Profil: f≈+25) und nicht maßhaltig. Nur der Umriss wird anisotrop in den gemessenen Rahmen eingepasst.
+# Rahmen in Blattpixeln (x0,y0,x1,y1), abgetastet an Alpha/dunklen Trennbändern; flip = Untersicht (vorn oben).
+PLAN={'kopf':((8463,919,8920,1383),False,'Draufsicht: Helm innerhalb des Kragenrings (Abtastung dunkler Ring)'),
+      'oberkoerper':((8320,776,9070,1553),False,'Draufsicht: Rumpfblock zwischen den dunklen Trennbändern zu den Polstern'),
+      'schulterpolster':((9120,880,9528,1385),False,'Draufsicht: linkes Polster (Bild rechts), Trennband bis Spitze'),
+      'hand':((9230,1660,9483,1908),False,'Draufsicht: linke Faust (Bild rechts) ab Stulpe'),
+      'fuss':((8870,2785,9345,3706),True,'Untersicht: linke Sohle (Bild rechts), vertikal gespiegelt')}
 FONT='Helvetica, Arial, sans-serif'
 
 A=lambda value,source:{'kind':'Annahme','value':value,'source':source}
@@ -78,6 +88,7 @@ PARTS=[
     dict(id='schulterpolster',de='Schulterpolster',side='links',u=(1470,1745),mu=(1470,1745),
          sel=('clip',(204,430)),fu=(1480,1700),fb=P('Profil-Rückenkante (Polster bildet die Silhouette)'),
          ff=A(87,SRC_ARM_FRONT),side_contour=False,joints=['schulter'],
+         x_assumed={'lo':'Annahme: Innenkante = Brustkante x204 (verdeckt)'},
          note='Innenkante x204 = Brustkante (Annahme). Polster sitzt über der Schulterachse.'),
     dict(id='arm',de='Arm (Oberarm bis Unterarm)',side='links',u=(1036,1560),mu=(1036,1475),
          sel=('center',(205,540)),fu=(1060,1460),fb=P('Profil-Rückenkante (Ellbogen/Unterarm)'),
@@ -154,17 +165,18 @@ def joints_of(part,rows):
 
 
 def layout(m):
-    """Gemeinsamer Maßstab je Blatt (Viertel-px/mm). Draufsicht stets unter der Front (x fluchtet).
+    """Maßstabsklasse aus SCALES (größte, die passt). Draufsicht stets unter der Front (x fluchtet).
     Reihe: Front|Seite|Rücken über der Draufsicht; Raster: Front|Seite über Draufsicht|Rücken.
-    Gewählt wird die Anordnung mit dem größeren Maßstab (bei Gleichstand Reihe)."""
+    Gewählt wird die Anordnung mit mehr Platz (bei Gleichstand Reihe)."""
     (x0,x1),(fb,ff)=m['x'],m['f'];u0,u1=m['u']
     wf,ws,h1,h2=x1-x0+2*MARGIN,ff-fb+2*MARGIN,u1-u0+2*MARGIN,ff-fb+2*MARGIN
     left,label,gap,top,bottom,title=140,420,110,330,620,70
     ah=CANVAS-top-bottom-2*title-gap
-    q=lambda v:math.floor(v*4)/4
-    s_row=q(min((CANVAS-2*left-label-2*gap)/(2*wf+ws),ah/(h1+h2)))
-    s_grid=q(min((CANVAS-2*left-label-gap)/(wf+max(ws,wf)),ah/(h1+max(h1,h2))))
-    grid=s_grid>s_row;s=s_grid if grid else s_row
+    s_row=min((CANVAS-2*left-label-2*gap)/(2*wf+ws),ah/(h1+h2))
+    s_grid=min((CANVAS-2*left-label-gap)/(wf+max(ws,wf)),ah/(h1+max(h1,h2)))
+    grid=s_grid>s_row
+    s=next((c for c in SCALES if c<=max(s_row,s_grid)),None)
+    if s is None:raise ValueError(f'Teil passt in keine Maßstabsklasse {SCALES}')
     used=((wf+max(ws,wf))*s+gap if grid else (2*wf+ws)*s+2*gap)+label;ox=left+(CANVAS-2*left-used)/2+label
     yr1=top+title;yr2=yr1+h1*s+gap+title;c2=ox+wf*s+gap
     cells={'front':(ox,yr1,wf,h1),'side':(c2,yr1,ws,h1),'top':(ox,yr2,wf,h2),
@@ -200,6 +212,15 @@ def underlay_png(sheet,prov,view,c,s):
                 crop_px=[px0,py0,px1,py1],source=f'r02-sheet-9803.png Ansicht {key}')
 
 
+def underlay_top(sheet,pid,m):
+    if pid not in PLAN:return None
+    box,flip,src=PLAN[pid];img=sheet.crop(box)
+    if flip:img=img.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+    buf=io.BytesIO();img.save(buf,'PNG',compress_level=9);(x0,x1),(fb,ff)=m['x'],m['f']
+    return dict(h=x0,v=-fb,w=x1-x0,hgt=ff-fb,png=buf.getvalue(),crop_px=list(box),
+                source=f'r02-sheet-9803.png {src}; Formhinweis, anisotrop auf den Rahmen eingepasst (nicht maßhaltig)')
+
+
 def text(x,y,t,size=34,anchor='start',weight='normal',fill=TEXT_C):
     return (f'<text x="{n(round(x,2))}" y="{n(round(y,2))}" font-family="{FONT}" font-size="{size}" '
             f'font-weight="{weight}" text-anchor="{anchor}" fill="{fill}">{escape(t)}</text>')
@@ -231,11 +252,17 @@ def build_svg(part,m,joints,skins,s,cells,unders):
     o.append(text(140,262,part['note'],34))
     titles={'front':'FRONT','side':'SEITE (von links)','back':'RÜCKEN','top':'DRAUFSICHT (vorn = unten)'}
     rects={'front':((x0,u1),(x1,u0)),'back':((-x1,u1),(-x0,u0)),'side':((-ff,u1),(-fb,u0)),'top':((x0,-fb),(x1,-ff))}
+    # Kanten links, rechts, oben, unten: True = Annahme (verdeckt) → orange gestrichelt, Form dort frei bis zum Rahmen.
+    xa_=part.get('x_assumed',{});lo,hi='lo' in xa_,'hi' in xa_
+    ab,af=part['fb']['kind']=='Annahme',part['ff']['kind']=='Annahme'
+    edges={'front':(lo,hi,False,False),'back':(hi,lo,False,False),'side':(af,ab,False,False),'top':(lo,hi,ab,af)}
     for view,c in cells.items():
         o.append(text(c['ox'],c['oy']-22,titles[view],40,weight='bold'))
         (ha,va),(hb,vb)=rects[view];pa,pb=to_px(view,cells,s,ha,va),to_px(view,cells,s,hb,vb)
-        o.append(f'<rect x="{n(round(pa[0],2))}" y="{n(round(pa[1],2))}" width="{n(round(pb[0]-pa[0],2))}" '
-                 f'height="{n(round(pb[1]-pa[1],2))}" fill="none" stroke="{FRAME_C}" stroke-width="5"/>')
+        for (xa,ya,xb,yb),kind in zip(((pa[0],pa[1],pa[0],pb[1]),(pb[0],pa[1],pb[0],pb[1]),(pa[0],pa[1],pb[0],pa[1]),
+                                       (pa[0],pb[1],pb[0],pb[1])),edges[view]):
+            style=f'stroke="{ASSUME_C}" stroke-width="6" stroke-dasharray="30 14"' if kind else f'stroke="{FRAME_C}" stroke-width="5"'
+            o.append(f'<line x1="{n(round(xa,2))}" y1="{n(round(ya,2))}" x2="{n(round(xb,2))}" y2="{n(round(yb,2))}" {style}/>')
         wmm,hmm=abs(hb-ha),abs(vb-va)
         o.append(text((pa[0]+pb[0])/2,pb[1]+44,f'{n(round(wmm,1))} mm',30,'middle',fill=FRAME_C))
         o.append(text(pb[0]+12,(pa[1]+pb[1])/2,f'{n(round(hmm,1))}',30,fill=FRAME_C))
@@ -254,7 +281,7 @@ def build_svg(part,m,joints,skins,s,cells,unders):
         tx=round(bx+t*s,2);hh=40 if t%50==0 else 24
         o.append(f'<line x1="{n(tx)}" y1="{by}" x2="{n(tx)}" y2="{by-hh}" stroke="{TEXT_C}" stroke-width="3"/>')
     o.append(text(bx,by-52,'0',30,'middle'));o.append(text(bx+bar*s,by-52,f'{bar} mm',30,'middle'))
-    o.append(text(bx+bar*s,by+62,'gelb = Hüllrahmen/Kontur (Masterblatt) · magenta = Gelenk, Kreis = Anschluss-Ø',28,'end'))
+    o.append(text(bx+bar*s,by+62,'gelb = Hüllrahmen/Kontur gemessen · orange gestrichelt = Annahme (verdeckt) · magenta = Gelenk/Anschluss-Ø',28,'end'))
     o.append('</g>')
     # markers
     o.append(layer('markers'))
@@ -315,6 +342,7 @@ def contact(out,ids):
 def build_part(part,rows,sheet,prov,skins):
     m=measure_part(part,rows);m['u']=list(part['u']);joints=joints_of(part,rows)
     s,cells=layout(m);unders={v:underlay_png(sheet,prov,v,cells[v],s) for v in ('front','side','back')}
+    if (top:=underlay_top(sheet,part['id'],m)):unders['top']=top
     return build_svg(part,m,joints,skins,s,cells,unders),m,joints,s,cells,unders
 
 
@@ -348,6 +376,8 @@ def main(argv=None):
                                        'f_rows_u':list(part['fu'])},
                         joints=joints,scale_px_per_mm=s,views={k:{**c,'axes':VIEW_AXES[k]} for k,c in cells.items()},
                         underlay={v:{'crop_px':u['crop_px'],'source':u['source'],'opacity':0.35} for v,u in unders.items()},
+                        assumed_edges={k:v['source'] for k,v in (('f_back',part['fb']),('f_front',part['ff'])) if v['kind']=='Annahme'}
+                                      |{f'x_{k}':v for k,v in part.get('x_assumed',{}).items()},
                         contour_mm=m['contour'],files={k:{'name':f,'sha256':sha(a.out/f)} for k,f in files.items()})
         print(f"{pid:16s} 1 mm = {n(s)} px  x {m['x']}  f {m['f']}  u {m['u']}  {'neu' if changed else 'unverändert'}")
     contact(a.out,[p['id'] for p in PARTS if (a.out/f"{p['id']}.png").exists()])
