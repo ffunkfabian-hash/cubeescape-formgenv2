@@ -4,7 +4,7 @@ Externe Referenzen (refs-r02) fehlen in frischen Checkouts; dann wird übersprun
 """
 import json,shutil,tempfile,tomllib,unittest
 from pathlib import Path
-from PIL import Image
+from PIL import Image,ImageDraw
 
 from tools import r02_part_templates as pt
 
@@ -63,6 +63,33 @@ class PartTemplateTests(unittest.TestCase):
             self.assertEqual(first,second)
             with Image.open(out/'hand.png') as im:self.assertEqual(im.size,(4000,4000))
             man=json.loads((out/'manifest.json').read_text());self.assertEqual(list(man['parts']),['hand'])
+
+
+class PartPromptTests(unittest.TestCase):
+    """Prompts aus varianten.toml + Manifestmaßen; Prüfwerkzeug an einem synthetischen 2×2-Bild."""
+    PART={'u_mm':[0,200],'side':'links','joints':[{'id':'knoechel','de':'Knöchel','u':200,'diameter_mm':120.0}],
+          'frame_mm':{'front':{'x':[100.0,200.0]},'side':{'f':[-50.0,150.0]}},'assumed_edges':{'f_front':'Annahme'},
+          'files':{'png':{'sha256':'0'*64}},'contour_mm':{'front':[[0,100.0,200.0],[200,100.0,200.0]],'back':[],'side':[]}}
+
+    def test_prompts_deterministic_with_measures(self):
+        skins=tomllib.loads((ROOT/'skins.toml').read_text())
+        a=pt.build_prompts({'fuss':self.PART},skins,'x');b=pt.build_prompts({'fuss':self.PART},skins,'x')
+        self.assertEqual(a,b)
+        spec=tomllib.loads(pt.VARIANTS.read_text());self.assertEqual(list(a['prompts']['fuss']),[v['id'] for v in spec['variante']])
+        text=a['prompts']['fuss']['a-blatt']['text']
+        for s in ('100 mm wide','200 mm deep','200 mm tall','0.50 : 1.00 : 1','Ankle joint at the top edge','diameter 120 mm',
+                  'the front face',"LEFT one",skins['roles']['frost_shell']['color']):self.assertIn(s,text)
+        self.assertNotIn('{',text)
+
+    def test_check_measures_synthetic_quadrants(self):
+        from tools import r02_part_check as ck
+        img=Image.new('RGB',(1000,1000),(128,128,128));d=ImageDraw.Draw(img);s=1.5  # px/mm, Bild halb so breit/tief
+        for (qx,qy),(w,h) in {(0,0):(50,200),(500,0):(100,200),(0,500):(50,100),(500,500):(50,200)}.items():
+            d.rectangle([qx+100,qy+50,qx+100+w*s-1,qy+50+h*s-1],fill=(226,234,238))
+        res,boxes=ck.measure(img,self.PART,tomllib.loads((ROOT/'skins.toml').read_text()))
+        self.assertEqual(res['blender_skalierung']['x'],2.0);self.assertEqual(res['blender_skalierung']['f'],2.0)
+        self.assertEqual(res['blender_skalierung']['u'],1.0);self.assertEqual(res['konsistenz_spanne']['hoehe'],0.0)
+        self.assertGreater(res['iou_kontur']['front']['rahmen_eingepasst'],0.98);self.assertEqual(res['urteil'],'tauglich')
 
 
 if __name__=='__main__':unittest.main()

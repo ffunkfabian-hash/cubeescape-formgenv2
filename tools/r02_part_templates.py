@@ -346,6 +346,52 @@ def build_part(part,rows,sheet,prov,skins):
     return build_svg(part,m,joints,skins,s,cells,unders),m,joints,s,cells,unders
 
 
+VARIANTS=ROOT/'docs/r02-teile/varianten.toml'
+PROMPTS=ROOT/'docs/r02-teile/prompts.json'
+HIDDEN_EN={'f_back':'the back face','f_front':'the front face','x_lo':'the inner side towards the body','x_hi':'the outer side'}
+
+
+def joints_en(p):
+    u0,u1=p['u_mm'];out=[]
+    for j in p['joints']:
+        if j['id'].endswith('_r'):continue
+        rel=(j['u']-u0)/(u1-u0)
+        at='at the bottom edge' if rel<=0 else 'at the top edge' if rel>=1 else f'at {round(rel*100)} % of the height from the bottom'
+        both=any(k['id']==j['id']+'_r' for k in p['joints'])
+        out.append(f"{JOINT_EN[j['id']]} {at}{' on both sides' if both else ''} "
+                   f"(round, diameter {round(j['diameter_mm'])} mm{' each' if both else ''})")
+    return '; '.join(out)[:1].upper()+'; '.join(out)[1:]+'.'
+
+
+JOINT_EN={'hals':'neck joint','taille':'waist joint','schulter':'shoulder joint','ellbogen':'elbow joint',
+          'handgelenk':'wrist joint','huefte':'hip joint','knie':'knee joint','knoechel':'ankle joint'}
+
+
+def build_prompts(parts,skins,manifest_sha):
+    """Deterministische Prompts je Teil und Variante aus varianten.toml, Manifestmaßen und skins.toml."""
+    spec=tomllib.loads(VARIANTS.read_text());stage=spec['stufe']['form']
+    col={k:skins['roles'][r]['color'] for k,r in stage['roles'].items()}
+    out={}
+    for pid,p in parts.items():
+        (x0,x1),(fb,ff),(u0,u1)=p['frame_mm']['front']['x'],p['frame_mm']['side']['f'],p['u_mm']
+        W,D,H=round(x1-x0),round(ff-fb),round(u1-u0)
+        hidden=[HIDDEN_EN[k] for k in sorted(p['assumed_edges'])]
+        fields=dict(part_en=spec['teil'][pid]['en'],W=W,D=D,H=H,ratio=f'{W/H:.2f} : {D/H:.2f} : 1',
+                    r_front=f'{W/H:.2f}',r_side=f'{D/H:.2f}',r_top=f'{W/D:.2f}',joints_en=joints_en(p),
+                    side_en='centre part, symmetric left/right' if p['side']=='mitte' else
+                            "the robot's LEFT one; the side view shows its outer face, the right one is mirrored later",
+                    hidden_en=(f"Areas hidden on the master sheet ({', '.join(hidden)}) must be invented as simple, plausible armor "
+                               'that reaches the envelope. ') if hidden else '',**col)
+        out[pid]={}
+        for v in spec['variante']:
+            text=stage['template'].strip().format(**fields,variant_en=v['en'])+'\n'
+            out[pid][v['id']]={'de':v['de'],'sha256':hashlib.sha256(text.encode()).hexdigest(),'text':text}
+    return {'format':'cubeescape-formgenv2/r02-part-prompts','version':1,'stage':'form',
+            'inputs':'Bild 1: <teil>.png (Schablone), Bild 2: r02-sheet-9803.png (Masterblatt) aus refs-r02',
+            'sources':{'docs/r02-teile/varianten.toml':sha(VARIANTS),'skins.toml':sha(ROOT/'skins.toml'),'manifest.json':manifest_sha},
+            'template_png_sha256':{pid:p['files']['png']['sha256'] for pid,p in parts.items()},'prompts':out}
+
+
 def main(argv=None):
     ap=argparse.ArgumentParser();ap.add_argument('--out',type=Path,default=OUT);ap.add_argument('--only')
     ap.add_argument('--force',action='store_true');a=ap.parse_args(argv)
@@ -396,6 +442,12 @@ def main(argv=None):
               'parts':{p['id']:parts[p['id']] for p in PARTS if p['id'] in parts},
               'contact':{'name':'contact.png','sha256':sha(a.out/'contact.png')}}
     manifest_path.write_text(json.dumps(manifest,ensure_ascii=False,indent=1)+'\n')
+    if len(manifest['parts'])==len(PARTS):
+        pr=build_prompts(manifest['parts'],skins,sha(manifest_path))
+        PROMPTS.write_text(json.dumps(pr,ensure_ascii=False,indent=1)+'\n');(a.out/'prompts').mkdir(exist_ok=True)
+        for pid,vs in pr['prompts'].items():
+            for vid,v in vs.items():(a.out/'prompts'/f'{pid}--{vid}.txt').write_text(v['text'])
+        print(f"{sum(len(v) for v in pr['prompts'].values())} Prompts → {PROMPTS.relative_to(ROOT)}")
     print(f'{len(parts)} Schablonen → {a.out}')
 
 

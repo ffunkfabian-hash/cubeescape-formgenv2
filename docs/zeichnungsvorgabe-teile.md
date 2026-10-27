@@ -70,43 +70,27 @@ Ein zweiter Lauf ist bytegleich. `--only kopf,arm` baut nur einzelne Teile.
 9. **Benennung:** Datei und Ebene heißen wie das Teil (`arm`, `arm-front`, `arm-seite` …), die Zeichnungsebene heißt `art`.
    Die Ebenen der Schablone behalten ihre Namen.
 
-## Prompt-Baustein Form (Englisch, Stufe 1)
+## Prompts und Varianten (reproduzierbar)
 
-Die Schablone (`<teil>.png`) und das Masterblatt `refs-r02/r02-sheet-9803.png` als Bildreferenzen mitgeben, `<PART>` ersetzen:
+- **Quelle:** [r02-teile/varianten.toml](r02-teile/varianten.toml) enthält Vorlage, Teilbeschreibungen und Varianten. Die Varianten sind
+  `a-blatt` (nah am Blatt), `b-kantig`, `c-glatt` und `d-schwer`. Neue Varianten bekommen eine neue, stabile `id`.
+- **Erzeugt:** `tools/r02_part_templates.py` schreibt deterministisch [r02-teile/prompts.json](r02-teile/prompts.json) (8 Teile × 4 Varianten,
+  je Prompt ein SHA256) und Kopien zum Einfügen unter `part-templates/prompts/<teil>--<variante>.txt`. Jeder Prompt nennt Breite,
+  Tiefe und Höhe in mm, die Seitenverhältnisse je Ansicht, die Gelenke mit Lage und Ø, die verdeckten Flächen und das feste
+  2×2-Layout (Front | Seite von links / Draufsicht | Rücken). Farben kommen aus `skins.toml`.
+- **Bildreferenzen:** Bild 1 ist die Schablone `<teil>.png`, Bild 2 das Masterblatt `r02-sheet-9803.png`. Der Generator übernimmt die
+  Positionen der Schablone nicht (Kopf-Probe 27.10.2026). Deshalb verlangt der Prompt nur das feste 2×2-Layout im gemeinsamen
+  Maßstab, und das Prüfwerkzeug sucht die Ansichten selbst.
+- **Ablegen und prüfen:** `python tools/r02_part_check.py BILD --part kopf --variant a-blatt --generator "…" [--prompt-file …] [--seed …]`.
+  Das Werkzeug misst die Ansichten (Konsistenz, Proportionen, IoU gegen die Kontur) und legt sie unter
+  `refs-r02/part-generations/<teil>/<variante>/<bild-sha12>/` ab: `source.png`, Meshy-Einzelansichten `front|side|back|top.png` (1024²),
+  `prompt.txt` und `record.json` mit Bild-SHA, Prompt-SHA, Generator, Seed, Urteil und `blender_skalierung`. `index.json` listet alle Ablagen.
+- **Reproduzierbarkeit:** Bildgeneratoren sind nicht deterministisch. Reproduzierbar ist deshalb die Kette aus Prompt-SHA,
+  Schablonen-SHA, abgelegtem Bild-SHA und Messung. Formgen v2 und Blender verwenden immer ein abgelegtes Bild oder Netz und
+  generieren nie neu. Eine Variante ist durch `teil/variante/bild-sha12` eindeutig benannt. Der Standardbau hängt davon nicht ab.
+- **Meshy → Blender:** In Meshy die Ansichten Front, Seite und Rücken als Multi-View-Eingabe verwenden, die Draufsicht nur zur Kontrolle.
+  Das Netz danach mit `blender_skalierung` (x/f/u) auf `frame_mm` bringen und an den Gelenkmitten aus `joints` ausrichten.
 
-```text
-Orthographic shape study of a single robot part: <PART> of the robot "Frost". Purpose: clean geometry for
-image-to-3D, not a finished illustration. Use the attached master sheet only as shape reference (plate language,
-proportions) and the attached template as exact layout: draw the part inside the yellow and orange bounding boxes in
-all four views (front, left side, back, top), aligned to the magenta joint lines, ending at each joint with a
-cross-section matching the magenta bar/circle. Orange dashed edges mark hidden areas: invent a simple, plausible
-continuation of the armor that reaches the box edge. Strict orthographic projection, no perspective, no
-foreshortening. Two flat tones only: light grey-white armor plates (#E2EAEE) and dark graphite frame and joints
-(#262B33); ice crystal panels as separate closed plates in flat light blue (#A6DCF8) without facet lines. Every plate
-is a closed shape with one uniform dark outline of constant width. No shading, no shadows, no gradients, no glow, no
-texture, no decals, no text, no dimension lines. Simplify small details, keep the silhouette and plate breaks clear.
-Show surfaces hidden on the master sheet fully modeled. Do not draw beyond the joint lines and no other body parts.
-Neutral mid-grey background (#808080).
-```
-
-## Prompt-Baustein Farbe (Englisch, Stufe 2)
-
-Wie oben, `<PART>` und `<VIEWS>` ersetzen:
-
-```text
-Orthographic technical concept sheet of a single robot part: <PART> of the robot "Frost" (white armor plates,
-dark graphite frame, slate-blue straps, light-blue faceted ice crystals). Use the attached master sheet ONLY as
-style reference (shapes, plate language, crystal panels) and the attached template as exact layout: draw the part
-inside the yellow bounding boxes in all four views (front, left side, back, top), aligned to the magenta joint lines,
-ending at each joint with a cross-section matching the magenta bar/circle. Strict orthographic projection, no
-perspective, no foreshortening. Flat cel colors only, one solid color per material from these swatches:
-#E2EAEE white shell, #262B33 dark frame, #4A5268 slate, #3A414B joint metal, #A6DCF8 ice crystal, #8FD3F7 core glow,
-#4C7C9C visor. No gradients, no shading, no shadows, no glow, no bloom, no texture noise. Every armor plate is a closed
-shape with one uniform dark outline of constant width. Show surfaces that are hidden on the master sheet (inner sides,
-areas under the arms, connection faces) fully modeled. Do not draw beyond the joint lines, no other body parts,
-no background objects, no text, no dimension lines. Neutral mid-grey background (#808080). <VIEWS>
-```
-
-Für Meshy (Bild zu 3D) nur eine Ansicht je Bild exportieren, zuerst die Front, dann die Seite; Draufsicht und Rücken dienen zur Kontrolle.
-Das Netz in Blender mit `manifest.json` (`frame_mm`, `joints`) auf mm und die Gelenkmitten setzen (vgl. `tools/meshy_prepare.py`
-auf Branch `claude/hungry-hertz-e30abc`).
+Kopf-Probe 27.10.2026 (Codex gpt-6-luna, älterer Prompt ohne Maßangaben): Ansichten untereinander konsistent (Höhe 1,5 %,
+Breite 3,7 %, Tiefe 4,7 %). Das Bild ist zu schmal und zu flach (Breite 0,91, Tiefe 0,87). IoU rahmen-eingepasst 0,89–0,92,
+Urteil „tauglich“, Blender-Skalierung x 1,10 und f 1,15. Abgelegt unter `part-generations/kopf/a-blatt/4fb623f7ab66`.

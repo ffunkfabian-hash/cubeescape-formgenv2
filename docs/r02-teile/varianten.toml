@@ -1,0 +1,58 @@
+# R02-Teilbilder: Prompt-Vorlage, Teilbeschreibungen und Gestaltungsvarianten (Quelle der Prompts).
+# tools/r02_part_templates.py setzt daraus mit den gemessenen Maßen deterministisch docs/r02-teile/prompts.json zusammen.
+# Farben kommen aus skins.toml (Rollen in `stufe.*.roles`), Maße aus dem Schablonen-Manifest. Varianten-IDs sind stabil:
+# Sie benennen Ordner der registrierten Ergebnisse (tools/r02_part_check.py). Eine Textänderung ändert den Prompt-SHA.
+
+[stufe.form]
+de = "Stufe 1: nur Form (Meshy-Geometrie)"
+roles = { shell = "frost_shell", frame = "frost_frame", crystal = "frost_crystal" }
+template = """
+Orthographic shape study of ONE robot part: {part_en} of the robot "Frost" ({side_en}). Purpose: clean geometry for multi-view image-to-3D, not a finished illustration.
+
+LAYOUT: one square image split into a 2x2 grid of equal quadrants: top-left FRONT view, top-right LEFT SIDE view (front of the part points to image-left), bottom-left TOP view (front points down), bottom-right BACK view. Strict orthographic projection, no perspective, no foreshortening, no 3/4 views.
+
+SIZE AND PROPORTIONS (all views at ONE common scale, each view centred in its quadrant and about 75 % of the quadrant in its larger dimension): the part measures {W} mm wide, {D} mm deep and {H} mm tall (width : depth : height = {ratio}). Front and back views are {W} x {H} (width : height = {r_front}); the side view is {D} x {H} (depth : height = {r_side}); the top view is {W} x {D} (width : depth = {r_top}). Front, side and back views have the same height; front, back and top views have the same width; side and top views have the same depth. Fill these envelopes: the silhouette touches all four sides of each envelope.
+
+JOINTS: {joints_en} At a joint on the top or bottom edge the part ends with a flat, round connection face of that diameter; joints in between belong to this part. Do not draw anything beyond the end joints and no other body parts.
+
+DESIGN: use the attached master sheet only as shape reference (plate language, silhouette, proportions); the attached template shows the measured envelopes (yellow boxes) and joints (magenta). {hidden_en}{variant_en}
+
+STYLE: flat cel colours only, three tones: light grey-white armor plates ({shell}), dark graphite frame, joints and recesses ({frame}), ice crystal panels and visor glass as separate closed plates in flat light blue ({crystal}) without facet lines. Every plate is a closed shape with one uniform dark outline of constant width. No shading, no shadows, no gradients, no glow, no texture, no decals, no text, no labels, no dimension lines, no grid lines. Neutral mid-grey background (#808080).
+"""
+
+[teil.kopf]
+en = "the head: closed helmet with wide visor, side ear discs and a short neck ring at the bottom"
+[teil.oberkoerper]
+en = "the upper torso (chest and abdomen) without arms, shoulder pads or head, with the scarf-like collar around the neck opening"
+[teil.becken]
+en = "the pelvis with belt, belt pouches and groin plate, without legs"
+[teil.schulterpolster]
+en = "one shoulder pad: a large curved armor shell with a crystal panel, worn over the shoulder joint"
+[teil.arm]
+en = "one arm from the shoulder joint to the wrist: upper arm, elbow joint and forearm guard, without hand and without shoulder pad"
+[teil.hand]
+en = "one robotic hand from the wrist: back-of-hand plate, palm and four fingers plus thumb, relaxed open pose"
+[teil.bein]
+en = "one leg from the hip joint to the ankle: thigh, knee joint with kneecap and shin/calf guard, without foot"
+[teil.fuss]
+en = "one foot from the ankle joint: armored boot with toe cap, heel and separate heel and ball sole parts"
+
+[[variante]]
+id = "a-blatt"
+de = "nah am Masterblatt"
+en = "Stay close to the master sheet: same plate breaks and silhouette, small details simplified."
+
+[[variante]]
+id = "b-kantig"
+de = "kantiger, gefaste Platten"
+en = "Variant: same envelope but more angular: flat plates, straight edges and crisp 30-45 degree chamfers instead of curves."
+
+[[variante]]
+id = "c-glatt"
+de = "ruhiger, wenige große Platten"
+en = "Variant: same envelope but calmer: fewer, larger plates with softly rounded edges and minimal seams."
+
+[[variante]]
+id = "d-schwer"
+de = "schwerer, gestufte Panzerung"
+en = "Variant: same envelope but heavier: thicker layered plates with visible stepped overlaps and sturdier joints, staying inside the envelope."
