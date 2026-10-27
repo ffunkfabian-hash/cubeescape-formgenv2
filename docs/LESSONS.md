@@ -16,3 +16,4 @@
 - Ein durchlässiges JSON-Schema beweist keine Abnehmersemantik: Spec2-Zusatzfarben als echte color/share-Listen prüfen, native Netze nicht durch Legacy-Weld und erneute Fasen verändern. [Vertragsbefund](vorschlag-toolgen-native-contract.md)
 - Nichtplanare Quads vor Spiegelung oder Innenwandumkehr einmal kanonisch triangulieren; umgekehrte Quad-Fans wechseln die Diagonale und damit Fläche, Wandstärke und sichtbare Tiefe. [Kopfkorrektur](versions/0.1.md)
 - Fasenclamps auf gleicher Ausgangsgeometrie vergleichen: Blender begrenzt den Auftrag gemeinsam; unabhängige lokale Grenzen verändern auch weit entfernte Kanten. [Modellsprache](modellsprache.md)
+- Benachbarte Panzerfelder vor dem Schalenabschluss konform zerlegen: positive Volumen und Kanteninzidenz zwei schließen überlagerte innere Abschlusswände nicht aus; koplanare Dreiecksüberdeckungen separat prüfen. [Fußabnahme](versions/0.1.md)

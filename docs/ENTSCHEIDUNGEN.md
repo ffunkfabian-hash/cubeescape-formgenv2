@@ -2,6 +2,10 @@
 
 | Datum | Entscheidung | Herkunft |
 |---|---|---|
+| 27.10.2026 | Die geprüften GEOM8-Fasen sind das akzeptierte W01-Ziel; exakte Blender-Clamp-/Miter-Parität wird für diesen Abschluss nicht verlangt | direkte Nutzeranweisung in der Abschlusssitzung |
+| 27.10.2026 | Fußkorrektur nach Ursachenprüfung gezielt fortsetzen; bisherige Silhouetten-, Breiten-, Symmetrie- und Durchdringungsprüfungen bleiben verbindlich | ausdrückliche erneute Nutzerfreigabe nach Korrekturobergrenze |
+| 27.10.2026 | Native Toolgen-Anpassung zurückgestellt und aus dieser Gesamtabnahme ausgeklammert; vorhandene Legacy-Kompatibilität erhalten | direkte Nutzeranweisung; keine Änderungen an Toolgen |
+| 27.10.2026 | Gesamtabnahme lokal fertigstellen und lokale Commits sichern; kein Push, PR, Merge, Upload oder veröffentlichter Release | direkte Nutzeranweisung und fortgeltende Branchfreigabe |
 | 26.10.2026 | Eigenes Formgen-v2-Repo, Pythonmodelle in kit-Sprache und v1-Geo-Eingang | direkter Nutzerauftrag und [Auftrag](auftrag-codex-formgen-v2.md) |
 | 26.10.2026 | Cache-Abnahme vor jedem ersten Rendering; Bild-, Layout- und Datenartefakte getrennt | Nutzerauftrag |
 | 26.10.2026 | Lokaler Branch statt Remote-Reservierung, weil diese pushen würde | ausdrückliche Grenze kein Push/PR |

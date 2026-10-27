@@ -42,3 +42,11 @@ Der Datenprobelauf aller159 Modelle lieferte636Artefakte, danach0 gebaut/636 Tre
 alle159Geo-Exporte wurden wieder geladen. Die Bibliothek wurde nicht vollständig gerendert.
 W01 s native Geo-Erweiterung und figure-geo1 sind ausdrücklich keine bestätigten
 Toolgen-Abnehmerverträge. Siehe [Geo-Verträge](docs/geo-export.md).
+
+Seit der Nutzerentscheidung vom 27.10.2026 sind die geprüften GEOM8-Fasen
+das akzeptierte W01-Ziel. Die native Toolgen-Anpassung ist zurückgestellt;
+die lokale Roboterabnahme bleibt davon unabhängig erforderlich.
+
+Lokale Fußabnahme vom 27.10.2026: Fußkorrektur, Bild-, Golden- und Paketprüfung
+abgeschlossen; Rücken-IoU (0,8859) und Fußband 0 in Rücken/Seiten scheitern an
+Referenzkonflikten. Keine Gesamtfreigabe, siehe [Bericht](docs/versions/0.1.md).

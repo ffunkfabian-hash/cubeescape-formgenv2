@@ -19,6 +19,7 @@ eingefasste Füße): massfigur-v2/bauteile.py:116-145. Keine Mesh-Übernahme.
 """
 
 import math
+from collections import defaultdict
 
 PROVENANCE = {
     'kind': 'gemessen',
@@ -30,6 +31,7 @@ PROVENANCE = {
     'shell_design': 'Annahme: 5mm f-Innenversatz, 3mm seitlicher Innenversatz, 10mm Teilungsfuge; Prinzip massfigur-v2 bauteile.py:116-145; Facettierung B.',
     'hidden_geometry': 'Annahme: Innenkerne, Achslängen, Hüft-f45, Profilinterpolation; verdeckte Außenkanten werden aus sichtbaren Nachbarhöhen interpoliert.',
     'core_fit': 'Annahme/Korrektur: Kerne folgen denselben Höhenreihen und Faltflächen wie die Schaleninnenhaut; 6% radialer Abstand zur Innenhaut verhindert Durchdringungen. Knie-Untersteg und Knöchel-Fuß-Link beginnen am jeweiligen oberen Schalenrand. Schalen-Außenkonturen, Wandstärken, Frontanker und Fußhöhe unverändert.',
+    'foot_shell_revision': 'Gemessen: beide Seitenoriginale zeigen getrennte helle Zehen-, Spann- und Fersenschalen mit dunklem Mittelfuß/Fersenmittelfeld; Front setzt Fußhöhe und Standbreite. Annahme: vorhandene FOOT_ROWS-Außenhaut wird entlang f95/u133 (Zehe), f20..90/u127 (Spann) und f-18/u145 (Ferse) geteilt; 5mm f-Wand, 0.25mm umlaufender Montageabstand zum direkt konstruierten Kern. Spann f20 liegt vor der maximalen Seitennaht f15.36 bei u127 und lässt deren Struktursteg frei; Abweichung von gemessenen f8.43 rechts/f10.01 links somit11.57/9.99mm, ausdrücklich Montageannahme. Mittleres Fersenfenster folgt vorhandener Spannfeldbreite62..49. Kanonische Dreiecke vor Spiegelung/Innenumkehr; kein CSG-Rückimport, keine dunkle Auflage über Weißhaut. Sohle, FOOT_ROWS und Frontanker unverändert. Alle Teilungs-/Montagemaße sind Konstruktion, keine Bildabnahme.',
     'hip_housing_revision_1': {
         'kind': 'gemessen',
         'source': 'Beide4096px-Farborthos zeigen schräg/gerundet zulaufende obere dunkle Hüftgehäuse statt Rechteckblöcke. Unveränderter Frontmaßstab1924/3653 und gespiegelter Rücken: u1120(y1750) Front198.6..200.1/Back189.6..199.1; u1130(y1731)179.1..180.7/169.6..178.5; u1140(y1712)168.5..169.1/160.6..168.5; u1150(y1693)157..157/154.8..161.7mm äußere Halbbreite. Vorherige gerade Zylinder standen bisu1148 aufx212 und bis1152 aufx202.',
@@ -46,7 +48,7 @@ PROVENANCE = {
                             'left_front': [185.9,175.9,150.1,92.7,68.5],
                             'right_back': [-125.9,-117.5,-114.3,-107.4,-91.1],
                             'left_back': [-126.9,-119.6,-114.3,-108.5,-92.2]},
-        'design': 'Annahme: gerundete gemeinsame f-Profile mit linearer Interpolation; echte 5mm-Knie-Rückschale, unveränderte x/u-Gliederkonturen, Gelenke und Sohle. Fuß u120 interpoliert die bisherige Frontkontur exakt. Knöchel-Fuß-Link f45 bei u178 liegt innerhalb der neuen Fußöffnung; f-2 bei u234 bleibt. Dunkler 3mm-Spannbelag folgt der gefalteten Schalenoberfläche.',
+        'design': 'Annahme: gerundete gemeinsame f-Profile mit linearer Interpolation; echte 5mm-Knie-Rückschale, unveränderte x/u-Gliederkonturen, Gelenke und Sohle. Fuß u120 interpoliert die bisherige Frontkontur exakt. Knöchel-Fuß-Link f45 bei u178 liegt innerhalb der neuen Fußöffnung; f-2 bei u234 bleibt. Ehemaliger dunkler3mm-Spannbelag durch echten sichtbaren Kern ersetzt, siehe foot_shell_revision.',
         'limit': 'Frontboden u0 bleibt trotz Referenz-Seitenboden u49.5/50.6 bestehen; oberes Zehenvolumen kann deshalb das gesamte unterste Breitenband vergrößern. Kein bestandenes Bildkriterium behauptet.',
     },
 }
@@ -213,24 +215,242 @@ KNEE_REAR_ROWS = [
 ]
 
 
-def _foot_instep(sign):
-    """Three-mm patch seated on the folded toe, rather than a floating plate."""
-    rows = [(64,258,62,0,-1),(100,255,65,0,-1),
-            (120,255-4*20/45,65-16*20/45,0,-1),(145,251,49,0,-1)]
-    patch = _shell(rows,sign,wall=3)
-    n = len(rows)*5
-    for i, v in enumerate(patch['vertices']):
-        u = v[1]
-        a,b = next((a,b) for a,b in zip(FOOT_ROWS,FOOT_ROWS[1:]) if a[0]<=u<=b[0])
-        t = (u-a[0])/(b[0]-a[0])
-        _,xc,hw,front,back = [va+(vb-va)*t for va,vb in zip(a,b)]
-        seam = (front+back)/2+5
-        cheek = front-(front-seam)*.24
-        dx = abs(sign*v[2]-xc)
-        f = (front+(cheek-front)*dx/(.72*hw) if dx<=.72*hw
-             else cheek+(seam-cheek)*(dx-.72*hw)/(.28*hw))
-        v[0] = f+(3 if i<n else 0)
-    return {key:patch[key] for key in ('shape','vertices','faces')}
+def _foot_surface(vertices, faces, sign, wall=None):
+    """Fix physical diagonals first, then reflect and orient the complete solid."""
+    faces = [[face[0], face[i], face[i+1]]
+             for face in faces for i in range(1, len(face)-1)]
+    vertices = [[f,u,sign*x] for f,u,x in vertices]
+    def det(a,b,c):
+        return (a[0]*(b[1]*c[2]-b[2]*c[1])
+                -a[1]*(b[0]*c[2]-b[2]*c[0])
+                +a[2]*(b[0]*c[1]-b[1]*c[0]))
+    # Author -> world reverses handedness; derive rather than assume winding.
+    if sum(det(vertices[a],vertices[b],vertices[c]) for a,b,c in faces) > 0:
+        faces = [list(reversed(face)) for face in faces]
+    result = dict(shape='surface', vertices=vertices, faces=faces)
+    if wall is not None:
+        result['wall_mm'] = wall
+    return result
+
+
+def _foot_domains():
+    """Disjoint armor fields on the canonical +x skin: a*f+b*u+c*x+d >= 0."""
+    lower = (251-49-(259-62))/115
+    upper = (251+49-(259+62))/115
+    li, ui = 259-62-lower*30, 259+62-upper*30
+    return (
+        [[(1,0,0,-95),(0,-1,0,133)]],
+        [[(-1,0,0,-18),(0,1,0,-145)],
+         [(-1,0,0,-18),(0,-1,0,145),(0,lower,-1,li)],
+         [(-1,0,0,-18),(0,-1,0,145),(0,-upper,1,-ui)]],
+        [[(1,0,0,-20),(-1,0,0,90),(0,1,0,-127)]],
+    )
+
+
+def _foot_distance(point, plane):
+    return sum(a*b for a,b in zip(point,plane[:3]))+plane[3]
+
+
+def _foot_clip(polygon, plane, positive=True):
+    result = []
+    for a,b in zip(polygon,polygon[1:]+polygon[:1]):
+        da, db = _foot_distance(a,plane), _foot_distance(b,plane)
+        if not positive:
+            da, db = -da, -db
+        if da >= -1e-8:
+            result.append(a)
+        if (da < -1e-8) != (db < -1e-8):
+            t = da/(da-db)
+            result.append([x+t*(y-x) for x,y in zip(a,b)])
+    clean = []
+    for point in result:
+        if not clean or max(abs(a-b) for a,b in zip(point,clean[-1])) > 1e-8:
+            clean.append(point)
+    if len(clean)>1 and max(abs(a-b) for a,b in zip(clean[0],clean[-1]))<1e-8:
+        clean.pop()
+    if len(clean)<3:
+        return []
+    normal = [sum(a[(i+1)%3]*b[(i+2)%3]-a[(i+2)%3]*b[(i+1)%3]
+                  for a,b in zip(clean,clean[1:]+clean[:1])) for i in range(3)]
+    return clean if math.sqrt(sum(v*v for v in normal)) >= 1e-8 else []
+
+
+def _foot_index(point, vertices, lookup):
+    key = tuple(round(v,10) for v in point)
+    if key not in lookup:
+        lookup[key] = len(vertices)
+        vertices.append(list(key))
+    return lookup[key]
+
+
+def _foot_skin(rear=False):
+    # Only positions come from _shell: its side-specific quad winding must
+    # never choose the diagonal of the nonplanar foot skin.
+    vertices = _shell(FOOT_ROWS,1,rear)['vertices'][:len(FOOT_ROWS)*5]
+    triangles = [[a,a+1,a+6] if k==0 else [a,a+6,a+5]
+                 for j in range(len(FOOT_ROWS)-1) for i in range(4)
+                 for a in [j*5+i] for k in range(2)]
+    return vertices, triangles
+
+
+def _foot_panel(sign, rear, domains):
+    source, triangles = _foot_skin(rear)
+    vertices, faces, lookup = [], [], {}
+    for triangle in triangles:
+        if len(domains)>1:
+            # Adjacent heel fields form one plate. Split every source triangle
+            # by every union plane first, so the u145 join and window corners
+            # share identical edge subdivisions on both sides of the join.
+            polygons = [[source[i] for i in triangle]]
+            for plane in dict.fromkeys(p for domain in domains for p in domain):
+                divided = []
+                for polygon in polygons:
+                    distances = [_foot_distance(v,plane) for v in polygon]
+                    if min(distances)<-1e-8 and max(distances)>1e-8:
+                        divided += [piece for positive in (True,False)
+                                    if (piece:=_foot_clip(polygon,plane,positive))]
+                    else:
+                        divided.append(polygon)
+                polygons = divided
+            selected = []
+            for polygon in polygons:
+                center = [sum(v[i] for v in polygon)/len(polygon) for i in range(3)]
+                if any(all(_foot_distance(center,p)>=-1e-7 for p in domain)
+                       for domain in domains):
+                    selected.append(polygon)
+        else:
+            polygon = [source[i] for i in triangle]
+            for plane in domains[0]:
+                polygon = _foot_clip(polygon,plane) if polygon else []
+            selected = [polygon]
+        for polygon in selected:
+            ids = [_foot_index(p,vertices,lookup) for p in polygon]
+            faces += [[ids[0],ids[i],ids[i+1]] for i in range(1,len(ids)-1)]
+    n = len(vertices)
+    vertices += [[f+(5 if rear else -5),u,x] for f,u,x in vertices[:]]
+    outer = faces[:]
+    faces += [[n+i for i in reversed(face)] for face in outer]
+    edges = defaultdict(list)
+    for face in outer:
+        for a,b in zip(face,face[1:]+face[:1]):
+            edges[tuple(sorted((a,b)))].append((a,b))
+    for uses in edges.values():
+        if len(uses)==1:
+            a,b = uses[0]
+            faces.append([b,a,n+a,n+b])
+    return _foot_surface(vertices,faces,sign,wall=5)
+
+
+def _foot_armor(sign):
+    toe, heel, instep = _foot_domains()
+    return (_foot_panel(sign,False,toe), _foot_panel(sign,True,heel),
+            _foot_panel(sign,False,instep))
+
+
+def _foot_cap(vertices, face):
+    """Ear-clip a horizontal cap, retaining all shared boundary vertices."""
+    points = [(vertices[i][0],vertices[i][2]) for i in face]
+    area = sum(a[0]*b[1]-a[1]*b[0] for a,b in zip(points,points[1:]+points[:1]))
+    orientation = 1 if area>0 else -1
+    def cross(a,b,c):
+        return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+    def tolerance(a,b):
+        # Rounded shared vertices can perturb a straight cap edge by ~1e-10mm.
+        # Use the same linear precision as clipping, rather than treating that
+        # perturbation as a physical ear and emitting a collapsed triangle.
+        return 1e-8*max(1,math.hypot(b[0]-a[0],b[1]-a[1]))
+    remaining, triangles = list(range(len(face))), []
+    while len(remaining)>3:
+        for at,i in enumerate(remaining):
+            j,k = remaining[at-1],remaining[(at+1)%len(remaining)]
+            if orientation*cross(points[j],points[i],points[k]) <= tolerance(points[j],points[k]):
+                continue
+            if any(all(orientation*cross(points[a],points[b],points[t])>=-tolerance(points[a],points[b])
+                       for a,b in ((j,i),(i,k),(k,j)))
+                   for t in remaining if t not in (j,i,k)):
+                continue
+            triangles.append([face[j],face[i],face[k]])
+            remaining.pop(at)
+            break
+        else:
+            raise ValueError('Fußkappe ist degeneriert oder selbstüberschneidend')
+    return triangles+[[face[t] for t in remaining]]
+
+
+def _foot_structure(sign):
+    """Construct the recessed core boundary directly, without Boolean cuts.
+
+    All skin triangles are partitioned by the same planes. Armor cells move
+    5.25mm inward, adjacent dark cells stay on the original outside skin;
+    explicit step walls connect their shared edges. Expanded armor domains
+    leave a real .25mm assembly gap at the panel boundaries as well.
+    """
+    front, ft = _foot_skin()
+    back, bt = _foot_skin(True)
+    n = len(front)
+    source = front+back
+    faces = ft+[[n+i for i in reversed(t)] for t in bt]
+    skin_count = len(ft)
+    for j in range(len(FOOT_ROWS)-1):
+        a,b = j*5,(j+1)*5
+        faces += [[a,b,b+n],[a,b+n,a+n],
+                  [a+4,a+n+4,b+n+4],[a+4,b+n+4,b+4]]
+    toe, heel, instep = _foot_domains()
+    domains = toe+instep+heel
+    domains = [[(a,b,c,d+.25*math.sqrt(a*a+b*b+c*c)) for a,b,c,d in domain]
+               for domain in domains]
+    planes = list(dict.fromkeys(p for domain in domains for p in domain))
+    vertices, lookup, original, original_lookup, cells = [], {}, [], {}, []
+    for at, triangle in enumerate(faces):
+        polygons = [[source[i] for i in triangle]]
+        for plane in planes:
+            divided = []
+            for polygon in polygons:
+                distances = [_foot_distance(v,plane) for v in polygon]
+                if min(distances)<-1e-8 and max(distances)>1e-8:
+                    divided += [piece for positive in (True,False)
+                                if (piece:=_foot_clip(polygon,plane,positive))]
+                else:
+                    divided.append(polygon)
+            polygons = divided
+        for polygon in polygons:
+            center = [sum(v[i] for v in polygon)/len(polygon) for i in range(3)]
+            active = (domains[:2] if at<skin_count else
+                      domains[2:] if at<2*skin_count else [])
+            armored = any(all(_foot_distance(center,p)>=-1e-7 for p in domain)
+                          for domain in active)
+            offset = (-5.25 if at<skin_count else 5.25) if armored else 0
+            oi = [_foot_index(v,original,original_lookup) for v in polygon]
+            pi = [_foot_index([f+offset,u,x],vertices,lookup) for f,u,x in polygon]
+            cells.append((oi,pi))
+    edges, faces = defaultdict(list), []
+    for original_ids, physical_ids in cells:
+        faces += [[physical_ids[0],physical_ids[i],physical_ids[i+1]]
+                  for i in range(1,len(physical_ids)-1)]
+        for i in range(len(physical_ids)):
+            j = (i+1)%len(physical_ids)
+            edges[tuple(sorted((original_ids[i],original_ids[j])))].append(
+                (physical_ids[i],physical_ids[j]))
+    for uses in edges.values():
+        if len(uses)==2:
+            (a,b),(c,d) = uses
+            if a!=d or b!=c:
+                faces += [[b,a,d],[b,d,c]]
+        elif len(uses)!=1:
+            raise ValueError('Fußkern hat eine nichtmannigfaltige Teilungskante')
+    physical_edges = defaultdict(list)
+    for face in faces:
+        for a,b in zip(face,face[1:]+face[:1]):
+            physical_edges[tuple(sorted((a,b)))].append((a,b))
+    boundary = {a:b for uses in physical_edges.values() if len(uses)==1 for a,b in uses}
+    while boundary:
+        a = next(iter(boundary))
+        loop, b = [a], boundary.pop(a)
+        while b!=a:
+            loop.append(b)
+            b = boundary.pop(b)
+        faces += _foot_cap(vertices,list(reversed(loop)))
+    return _foot_surface(vertices,faces,sign)
 
 for side, sign in (('r',-1),('l',1)):
     hip = _hip_joint(side,sign)
@@ -272,13 +492,10 @@ for side, sign in (('r',-1),('l',1)):
     _part('foot_sole',side,'graphite','Gemessen: Front Standbreite x≈147..370 je Fuß; Seite Ferse-129, Spitze191mm. Annahme: Sohlenkante.',
           shape='prism2',side=[[-123,0],[180,0],[188,18],[186,48],[167,66],[-113,66],[-129,39]],
           front=[[sign*x,u] for x,u in [(177,0),(339,0),(368,19),(370,49),(361,68),(155,68),(148,42),(151,18)]])
-    _part('foot_core',side,'graphite',PROVENANCE['core_fit'],**_fitted_core(FOOT_ROWS,sign))
-    for rear in (False,True):
-        _part('foot_'+('heel' if rear else 'toe')+'_shell',side,'shell',
-              'Gemessen: Front Fußbreite u30..178 und Seitenprofil im gemeinsamen Pixelmaßstab. Annahme: eingefasster Fuß nach massfigur-v2; '+PROVENANCE['shell_design'],
-              **_shell(FOOT_ROWS,sign,rear))
-    _part('foot_instep',side,'graphite','Gemessen: dunkles mittleres Fußfeld der Front; Annahme 3mm Auflage, Kontur dem Fußrücken folgend.',
-          **_foot_instep(sign))
+    _part('foot_core',side,'graphite',PROVENANCE['foot_shell_revision'],
+          **_foot_structure(sign))
+    for name, panel in zip(('toe','heel','instep'),_foot_armor(sign)):
+        _part('foot_'+name+'_shell',side,'shell',PROVENANCE['foot_shell_revision'],**panel)
     for joint, at, part in [('Hip',[45,1080,sign*142],hip),('Knee',[35,710,sign*194],knee),('Ankle',[-30,234,sign*240],ankle)]:
         ANCHORS['Socket_'+joint+'_'+side.upper()] = {
             'at':at,'part':part,

@@ -10,6 +10,8 @@
 
 Ballons `cubeescape-ballon/geo` bleibt bis zu einer echten Produzentenfixture nur ein ausdrücklich markierter Mindestvertrag im Eingang. Ein Schema allein belegt keine Abnahme in Toolgen.
 
+Nutzerentscheidung vom 27.10.2026: Die Anpassung von Toolgen für native W01-/R01-Geometrien ist zurückgestellt und gehört nicht zur aktuellen lokalen Gesamtabnahme. Toolgen bleibt unverändert; die bestehenden Legacy-Verträge gelten weiter. Der [Migrationsvorschlag](vorschlag-toolgen-native-contract.md) bleibt ein Vorschlag, keine umgesetzte Integration.
+
 ## Spec-Abhängigkeiten und Import
 
 `geo.load(path)` prüft **alle** referenzierten Spec-Hashes, auch VS02 als zusätzliche Abhängigkeit von KG02. Fehlende oder veränderte Specs sind Fehler. Die Original-Specdaten stehen als `source_spec` und `source_specs` im ausgewerteten Dokument. Es werden keine v1-Modellmodule importiert.

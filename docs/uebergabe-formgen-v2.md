@@ -1,3 +1,5 @@
+**Aktuelle Übergabe an Claude:** [Abschlussstand vom 27.10.2026](uebergabe-claude-abschluss.md). Diese neue Datei hat Vorrang; unten stehen ältere Prüfstände.
+
 # Formgen v2: GEOM8 und offene Gesamtabnahme
 
 **Nicht fertig. Stand 27.10.2026.** GEOM8/RASTER5/SPEC4 ist integriert,
@@ -11,7 +13,7 @@ Checkpoints über aktuelle Quellen kopieren. HEAD und Arbeitsbaum aus Git lesen.
   dort nichts schreiben oder initialisieren. Shell/Git immer mit explizitem Repo-Workdir.
 - Zuerst globale/Repo-AGENTS, `docs/LESSONS.md`, diese Datei,
   `docs/versions/0.1.md` und `docs/auftrag-codex-formgen-v2.md`; vor langen Dokus suchen.
-- Zwei Ziele: W01-Geometrieparität und R01-/Systemabnahme. Technischen
+- Zwei Ziele: das akzeptierte GEOM8-W01-Ziel sichern und R01-/Systemabnahme abschließen. Technischen
   Zwischenstand nicht als Gesamtfertigstellung melden.
 - Sol/high für heikle Geometrie, Luna für Routine, kein Astra. Getrennte
   Unteragenten und unabhängige Prüfer ausdrücklich gewünscht; Hauptagent hält
@@ -104,31 +106,22 @@ Seitenboden rund 50 mm höher. Keine künstlichen Sohlen/Fahnen, Maskenfits,
 Rundung/Grenzwert-/Registrierungsänderung oder Unmöglichkeitsbehauptung.
 Keine unbelegte pauschale Knie- oder Schienbeinrollenkorrektur.
 
-## Drei offene Nutzerentscheidungen nicht dupliziert fragen
+## Nutzerentscheidungen vom 27.10.2026
 
-1. W01-Fasenziel: Neue Frage im aktuellen Chat
-   `01a17b17-71c3-7283-b6f6-4a8025b372ad`: gültige geprüfte GEOM8-Fasen als
-   Ziel übernehmen oder ein geometrisch bereinigtes Blender-Ziel ausarbeiten.
-   Die gespeicherte Post-Cut-Blender-Handschutzreferenz enthält eine unabhängig
-   bestätigte echte Selbstüberschneidung (Faces 476/483, 26,433303 mm Segment,
-   Ebenendistanzen 0,05027–0,67318 mm gegenüber maximal 0,000014902 mm ULP).
-   Der tatsächliche größere Clamp kreuzt beim aktuellen BRep bereits die
-   planaren Loch-/Außenkonturen im 3-mm-Oberband um 0,36360898 mm.
-   Keine Gate- oder Delaunay-Toleranzlockerung. Keine allgemeine
-   Unmöglichkeitsbehauptung. Nachweise unter `evidence/geometry/actual-clamp-analysis/`,
-   unabhängiger Record `independent-reference-handguard-review.json`.
-   Vor abhängiger Umsetzung direkte Nutzerantwort lesen; Schweigen ist keine Freigabe.
+Die drei zuvor offenen Fragen sind in der Abschlusssitzung ausdrücklich beantwortet:
 
-2. Fußprototyp gemäß Korrektur-Obergrenze PAUSIERT. In abgebendemChat
-   `01a17af7-5bf7-7dd1-846e-3dad6643014f` steht asynchroneFrage: nach unabhängiger
-   Ursachenprüfung ausnahmsweise mitSol/xhigh gezieltfortsetzen oder vorerst
-   zurückstellen. Vor abhängigemFußcode direkteNutzerantwort dort lesen,
-   keineAntwortistKEINEFreigabe. Astra bleibtgesperrt. Frage nichtduplizieren.
-3. ToolgenScopefrage imfrüherenChat`01a17ac4-db0d-7610-ad7e-f2ae6fef1ec7` noch
-   unbeantwortet. BeiBedarf direkteAntwortlesen, Toolgennichtanfassen.
-   docs/vorschlag-toolgen-native-contract.md istechtergeprüfterAbnehmervorschlag:
-   W01/R01Namespacesverweigert, LegacyWeld/Doppelbevel und optionaleAngaben
-   brauchenMigration. Kein bloßesAllowlisting/ID-Umtarnen.
+1. Die geprüften GEOM8-Fasen sind das akzeptierte W01-Ziel. Die dokumentierten
+   Unterschiede und Selbstüberschneidungen der Blender-Referenz bleiben Belege;
+   exakte Blender-Clamp-/Miter-Parität ist keine offene Abschlussbedingung mehr.
+2. Die gezielte Fußkorrektur ist erneut freigegeben. Ursachen zuerst beheben,
+   Originale und unveränderte Geometrie-/Bildgates prüfen. Frühere UNACCEPTED-
+   Patches bleiben ungeprüft und dürfen nicht blind integriert werden.
+3. Toolgen bleibt unverändert. Die native Abnehmeranpassung ist zurückgestellt,
+   kein Blocker dieser lokalen Gesamtabnahme. Native Kompatibilität nicht behaupten.
+
+Gesamtabnahme lokal fertigstellen; lokale Commits bleiben autorisiert.
+Kein Push, PR, Merge, Upload oder veröffentlichter Release. Quellen und
+Grenzwerte der Roboterabnahme bleiben unverändert.
 
 ## Fußvorschlag: echte offene Formabweichung, KEIN integrierbarer Patch
 
@@ -145,9 +138,10 @@ Fan/Clipping, wähltbeimSpiegeln andereDiagonalen(Quadsbis7,029mmnichtplanar).
 SpätesterStand`legs_proposal.py`enthältzusätzlichnegativeCore−0,005853874m³
 beidseitigwegenfalschemPauschalFaceReverse. NICHTblindanwenden/reparieren.
 UnabhängigerRecord`formgen-independent-geometry6-foot-rootcause-review.json`.
-Wegen3×SymmetriebefundkeinevierteRundevorNutzerentscheidung. Instep-Reimport-
+Historisch nach3×Symmetriebefund pausiert; gezielte Fortsetzung inzwischen ausdrücklich freigegeben. Instep-Reimport-
 Differenzseparatbelegt: nativeCSG vsMesh64ReimportändertVolumenexaktumschädliche
 Schnittmenge; Außen/Innen-Diagonalendieser3neuenPanelswarenbereitskorrekt.
 
-AlleUnteragentenbeiÜbergabebeendet; keineweiterenSchreiber/Beobachter.
-QuellekoppeltsichnachZustellungab. NurfrischeneueSitzungohneVerlauf/Fork.
+Die frühere Übergabe ist abgeschlossen. Die aktuelle Abschlusssitzung koordiniert
+die erneut freigegebene Fußkorrektur und eine unabhängige Prüfung.
+Bei einer späteren Übergabe gilt weiterhin: frische Sitzung ohne Verlauf/Fork.
