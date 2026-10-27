@@ -30,6 +30,8 @@ _ALIASES = {'left': 'side_left', 'right': 'side_right', 'side': 'side_left',
             'rear': 'back', 'oblique': 'iso', 'threequarter': 'iso'}
 # Studio ambient keeps dark kit roles readable without altering their palette.
 TOON = np.array([.72, .82, .92, 1.0])
+# Zeichenstil 'ink' (opt-in): flachere Bänder wie das kolorierte Vorlagenblatt.
+INK_TOON = np.array([.84, .93, .98, 1.0])
 
 
 def camera(view='side_left'):
@@ -275,7 +277,8 @@ def _shade(mat, normal, world):
     diffuse = max(0., float(normal @ light))
     # Four lighting bands; metallic roles reach the brightest band sooner.
     level = min(3, int(np.clip(diffuse + mat.get('metal', 0)*.10, 0, .9999)*4))
-    rgb *= TOON[level]
+    toon = mat.get('toon', TOON)
+    rgb *= toon[level]
     style, role = mat['style'], mat['role']
     # World/object coordinates, never image coordinates: pattern stays attached.
     x, y, z = np.moveaxis(world, -1, 0)
@@ -283,7 +286,7 @@ def _shade(mat, normal, world):
     if style.get('pattern') and role == 'shell':
         colors = np.array([_rgb(c) for c in style['pattern']])
         idx = np.clip(((wave+2)/4*len(colors)).astype(int), 0, len(colors)-1)
-        rgb = colors[idx]*TOON[level]
+        rgb = colors[idx]*toon[level]
     grain = np.sin(1703*x+1031*y+1279*z)*np.sin(911*x-1741*y+613*z)
     amplitude = .008 + .025*float(mat.get('rough', .5))
     if role in ('rubber', 'graphite'):
@@ -334,6 +337,9 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
                                  'role': mesh.get('role', 'graphite'),
                                  'mesh': mesh, '_annotation': False})
     materials = [material(p, surface.material_skin if surface else skin, data) for p in render_parts]
+    if document.get('info', {}).get('line_style') == 'ink' and not surface:
+        for mat in materials:
+            mat['toon'] = INK_TOON
     parents = surface.parents(render_parts) if surface else None
     w, h = width*SS, height*SS
     zbuf = np.full((h, w), -np.inf)
@@ -424,6 +430,7 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
         rgba[..., :3] = surface.wear(rgba[..., :3], ids, parts, positions,
                                     levels, render_parts, frame['scale']*SS, TOON)
     inner, silhouette = _edges(ids, split=True)
+    flat = rgba[..., :3].copy()
     line = inner | silhouette
     outline = _rgb(data['render']['outline'])
     # Dark-on-dark outlines disappear. Lift only interior edges, deriving the
@@ -431,6 +438,21 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
     dark_inner = inner & (np.max(rgba[..., :3], axis=-1) < 64)
     rgba[dark_inner, :3] = np.clip(rgba[dark_inner, :3]*1.8 + outline*.35, 0, 255)
     rgba[line & ~dark_inner, :3] = outline
+    if document.get('info', {}).get('line_style') == 'ink':
+        # Opt-in Zeichenstil (R02): kräftiger Umriss wie im Vorlagenblatt,
+        # feine Linien nur an Teilgrenzen; Facettenknicke innerhalb eines
+        # Teils bleiben ohne Linie (Fugen zeichnet der dunkle Kern).
+        # Ohne line_style bleibt jedes bisherige Bild bytegleich.
+        pad = np.pad(parts, 1, constant_values=-1)
+        seam = np.zeros_like(silhouette)
+        for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            other = pad[1+dy:1+dy+h, 1+dx:1+dx+w]
+            seam |= (parts >= 0) & (other >= 0) & (parts != other)
+        foreground = ids >= 0
+        crease = inner & ~seam
+        rgba[crease, :3] = flat[crease]
+        ink = (seam | ndimage.binary_dilation(silhouette, iterations=SS)) & foreground
+        rgba[ink, :3] = outline
     # Nearest surface per transparent part. Composite per-pixel back to front,
     # including crossing glass parts; opaque Z rejects hidden glass fragments.
     if transparent:

@@ -2,7 +2,7 @@
 MODEL = 2
 GEOM = 8
 GEO = 2
-RASTER = 5
+RASTER = 6
 SHEET = 2
 SPEC = 4
 PROMPTS = 2

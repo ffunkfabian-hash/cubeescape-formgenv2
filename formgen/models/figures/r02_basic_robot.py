@@ -9,7 +9,7 @@ from copy import deepcopy
 from formgen.models.figures.r02_parts import legs, lower_body, upper_body, head, arms
 
 INFO = dict(id='R02', kind='figure', name_de='Frost Roboter', variant='Blatt weiß/blau',
-            status='draft_not_accepted',
+            status='draft_not_accepted', line_style='ink',
             provenance=dict(kind='Vorgabe', source='Höhe 2000mm Nutzervorgabe; weiß/blaues Sechs-Ansichten-Blatt, Frontpriorität gemäß docs/herkunft-r02.md'),
             sources={name: module.PROVENANCE for name, module in
                      [('legs', legs), ('lower_body', lower_body), ('upper_body', upper_body), ('head', head), ('arms', arms)]})

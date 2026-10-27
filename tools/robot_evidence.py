@@ -11,6 +11,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 import numpy as np
 from PIL import Image
 from formgen import geom,model,raster,versions
+from formgen.build import source_hashes
 from formgen.cache import Artifact,canonical,file_hash,run_artifacts
 CACHE=Path.home()/'Library/Caches/CubeEscapeFormgen'
 REF=CACHE/'refs'
@@ -30,7 +31,7 @@ def _r02():
     return dict(id='R02',ref=ref,out=CACHE/'evidence/robot-r02',height_mm=2000,scale=scale,floor_px=floor,views=views,
                 package='formgen.models.figures.r02_parts.',registration='r02-1',legs_half_width=None,
                 mask=lambda view:ref/f'ortho-{view}-mask.png',canvas=4096,mask_sha={v:r['mask_sha256'] for v,r in prov['views'].items()},
-                info={'id':'R02','kind':'figure','name_de':'Frost Roboter','provenance':{'kind':'Vorgabe','source':'Weiß/blaues Blatt; Höhe 2000mm Nutzervorgabe; Details siehe docs/herkunft-r02.md'}})
+                info=None,assembly='formgen.models.figures.r02_basic_robot')
 
 ROBOTS={'R01':lambda:dict(id='R01',ref=REF,out=OUT,height_mm=1924,scale=SCALE,floor_px=3876,views=VIEWS,
                           package='formgen.models.figures.r01_parts.',registration=4,legs_half_width=380,
@@ -66,8 +67,11 @@ def document(groups,robot='R01'):
     cfg=ROBOTS[robot]();parts=[];anchors={};sources={}
     for group in groups:
         name=cfg['package']+group;m=importlib.import_module(name)
-        parts+=m.PARTS;anchors.update(m.ANCHORS);sources[group]=file_hash(Path(m.__file__))
-    d={'INFO':cfg['info'],'PARTS':parts,'ASSEMBLIES':[{'id':g,'de':g} for g in groups],'ANCHORS':anchors}
+        parts+=m.PARTS;anchors.update(m.ANCHORS)
+        # R02-Gruppen importieren common/Regionen: alle statischen Importe hashen.
+        sources[group]=file_hash(Path(m.__file__)) if robot=='R01' else {str(Path(k).relative_to(ROOT)):v for k,v in sorted(source_hashes(Path(m.__file__)).items())}
+    info=cfg['info'] if cfg['info'] else importlib.import_module(cfg['assembly']).INFO
+    d={'INFO':info,'PARTS':parts,'ASSEMBLIES':[{'id':g,'de':g} for g in groups],'ANCHORS':anchors}
     # Gruppenanker dürfen auf Teile verweisen, die erst Montage liefert.
     pids={p['id'] for p in parts};d['ANCHORS']={k:v for k,v in anchors.items() if v.get('part') in pids}
     return geom.evaluate(model.normalize(d),bevels=True),sources
@@ -104,14 +108,14 @@ def view_metrics(r,m,groups,view,cfg,u_min,u_max):
     bands=band_metrics(r,m,u[:,0],u_min,u_max)
     return r,m,{'iou':iou,'bands':bands,'iou_pass':iou>=.9,'bands_pass':all(b['ratio'] is not None and .92<=b['ratio']<=1.08 for b in bands)}
 
-def evaluate(groups, u_min=0,u_max=None,robot='R01'):
+def evaluate(groups, u_min=0,u_max=None,robot='R01',force=False):
     cfg=ROBOTS[robot]();u_max=cfg['height_mm'] if u_max is None else u_max
     doc,sources=document(groups,robot);name='-'.join(groups);out=cfg['out']/name;out.mkdir(parents=True,exist_ok=True)
     result={'groups':groups,'counts':doc['counts'],'sources':sources,'height_mm':cfg['height_mm'],'scale_px_m':cfg['scale'],'u_range_mm':[u_min,u_max],'views':{},'warnings':doc['warnings'],'mask_source':'same render frame, final part buffer, coverage >=128/255','band_metric':'mean_outer_row_span_v1; fixed registered rows, empty rows included'}
     for view in cfg['views']:
         inputs={'groups':groups} if robot=='R01' else {'groups':groups,'robot':robot}
         a=Artifact(robot+'-'+name,'views',hashlib.sha256(canonical(sources)).hexdigest(),{'view':view,'registration':cfg['registration'],'bevels':True,'mask_source':'raster-final-part-buffer','skin_sha':file_hash(ROOT/'skins.toml')},{'GEOM':versions.GEOM,'RASTER':versions.RASTER},view+'-frame.png','tools.robot_evidence:build_image',inputs)
-        run_artifacts([a],out,CACHE/'artifacts')
+        run_artifacts([a],out,CACHE/'artifacts',force=force)
         frame=Image.open(out/(view+'-frame.png')).convert('RGBA')
         mask=frame.getchannel('A');mask.save(out/(view+'-mask.png'));m=np.asarray(mask)>127
         background=Image.new('RGBA',frame.size,raster.palette()['render']['background_mid'])
@@ -123,4 +127,4 @@ def evaluate(groups, u_min=0,u_max=None,robot='R01'):
     print(name,doc['counts'], {v:round(d['iou'],4) for v,d in result['views'].items()})
     return result
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('groups',nargs='+');p.add_argument('--robot',default='R01',choices=sorted(ROBOTS));p.add_argument('--u-min',type=float,default=0);p.add_argument('--u-max',type=float);a=p.parse_args();evaluate(a.groups,a.u_min,a.u_max,a.robot)
+ p=argparse.ArgumentParser();p.add_argument('groups',nargs='+');p.add_argument('--robot',default='R01',choices=sorted(ROBOTS));p.add_argument('--u-min',type=float,default=0);p.add_argument('--u-max',type=float);p.add_argument('--force',action='store_true',help='Belegframes trotz Cachetreffer neu rendern');a=p.parse_args();evaluate(a.groups,a.u_min,a.u_max,a.robot,a.force)

@@ -191,3 +191,76 @@ def face_panel(rows, face, poly, off=1.2, depth=3, cx=.22, cf=.22):
             a, b = pair[0]
             faces += [[b, a, back[a]], [b, back[a], back[b]]]
     return closed(verts, faces)
+
+
+# --- Projizierte Platten (Pilot 0.2: Arme) ---------------------------------
+# Eine Hülle (rows) wird in eine dunkle Kernschicht (um SKIN mm eingerückt)
+# und eine Außenschicht geteilt. Farbregionen des Blatts werden entlang ihrer
+# Blickrichtung extrudiert und mit der Außenschicht im Sektor dieser Ansicht
+# geschnitten: Platten tragen den Zeichnungsumriss, die schwarzen Zeichen-
+# linien bleiben als vertiefte Fugen im Kern sichtbar.
+SKIN = 4
+_SECTOR = {'front': ((1, -1), (1, 1)), 'back': ((-1, 1), (-1, -1)), 'outer': ((1, 1), (-1, 1))}
+
+
+def _world(v):
+    return [[x, -f, u] for f, u, x in v]
+
+
+def _solid(shape):
+    import manifold3d as mf
+    import numpy as np
+    return mf.Manifold(mf.Mesh64(np.asarray(_world(shape['vertices']), dtype=np.float64),
+                                 np.asarray(shape['faces'], dtype=np.uint64)))
+
+
+def _shape_of(solid):
+    import numpy as np
+    # Boolesche Schnitte hinterlassen Splitterdreiecke (<1e-5 mm²); Kanten unter
+    # 0,01 mm zusammenfassen, Gestalt bleibt innerhalb dieser Toleranz.
+    mesh = solid.simplify(.01).to_mesh64()
+    v = np.asarray(mesh.vert_properties)[:, :3]
+    return closed([[-y, z, x] for x, y, z in v.tolist()], np.asarray(mesh.tri_verts).tolist())
+
+
+def _sector(rows, view, reach=4, margin=40):
+    """Wedge from the row centre through the rectangle corners of one view."""
+    (fa, xa), (fb_, xb) = _SECTOR[view]
+    ext = [(rows[0][0]-margin,)+tuple(rows[0][1:])] + list(rows) + [(rows[-1][0]+margin,)+tuple(rows[-1][1:])]
+    rings = []
+    for u, xl, xr, fb, ff in ext:
+        fc, xc, hd, hw = (fb+ff)/2, (xl+xr)/2, reach*(ff-fb)/2, reach*(xr-xl)/2
+        rings.append([[fc, u, xc], [fc+fa*hd, u, xc+xa*hw], [fc+fb_*hd, u, xc+xb*hw]])
+    return loft(rings)
+
+
+def _extrusion(contours, view):
+    import manifold3d as mf
+    section = mf.CrossSection([[tuple(p) for p in c] for c in contours])
+    solid = section.extrude(2000)
+    if view == 'outer':      # (f,u) → X=1000−z, Y=−f, Z=u
+        m = [[0, 0, -1, 1000], [-1, 0, 0, 0], [0, 1, 0, 0]]
+    else:                    # (x,u) → X=x, Y=1000−z, Z=u
+        m = [[1, 0, 0, 0], [0, 0, -1, 1000], [0, 1, 0, 0]]
+    return solid.transform(m)
+
+
+def projected(rows, regions, views, skin=SKIN, cx=.22, cf=.22):
+    """Core shape plus {role: shape} plates for one hull and drawing regions.
+
+    regions: {view: [{'role', 'contours'}]} with view in front/back/outer.
+    """
+    import manifold3d as mf
+    inner = [(u, xl+skin, xr-skin, fb+skin, ff-skin) for u, xl, xr, fb, ff in rows]
+    hull, core = _solid(rows_loft(rows, cx, cf)), _solid(rows_loft(inner, cx, cf))
+    layer = hull - core
+    plates = {}
+    for view in views:
+        zone = layer ^ _solid(_sector(rows, view))
+        for region in regions.get(view, []):
+            piece = zone ^ _extrusion(region['contours'], view)
+            if piece.volume() > 1:
+                plates.setdefault(region['role'], []).append(piece)
+    shapes = {role: _shape_of(mf.Manifold.batch_boolean(pieces, mf.OpType.Add))
+              for role, pieces in sorted(plates.items())}
+    return rows_loft(inner, cx, cf), shapes
