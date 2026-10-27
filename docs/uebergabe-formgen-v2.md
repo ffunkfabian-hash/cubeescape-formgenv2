@@ -1,8 +1,105 @@
-# Frische Fortsetzung: Contour fertigstellen
+# Frische Fortsetzung: GEOM5-Bildabnahme und Contour fertigstellen
 
-**Nicht fertig. Frisch ohne Verlauf/Fork fortsetzen.** Stand27.10.2026.
-Diese Etappe wird als geprüfter technischer Codecheckpoint lokal committet.
-Aktuellen HEAD/Status aus Git lesen; keinen alten Checkpoint zurückspielen.
+**Nicht fertig. Frisch ohne Verlauf/Fork fortsetzen.** Stand27.10.2026,01:55MEZ.
+GEOM5/SPEC4-Code liegt als vollständig quickgeprüfter WIP im Arbeitsbaum;
+noch KEIN Codecommit, da der neue Bildbeleg erst auf die GPU-Sperre wartet.
+Codebasis20f3b04, nachfolgender Dokucommit ist KEIN Ersatz für den WIP.
+Aktuellen HEAD/Status aus Git lesen; nichts zurücksetzen oder wegwerfen.
+
+## Sofort übernehmen: genau ein vorhandener Bildauftrag
+
+- Tatsächliches Repo weiterhin `/Users/ffunk/Claude/cubeescape-formgenv2`.
+  App-Projektwurzel `/Users/ffunk/formgenv2` ist falsch, dort nichts schreiben.
+- Eigener bereits wartender GPU-Lockprozess **PID38556**, Start27.10.01:47:47MEZ,
+  aufgerufen als `./ce lock gpu -- .venv/bin/python /tmp/formgen-geometry5-visual.py`.
+  Unified-Exec-Session96139 gehört zur abgebenden Sitzung; bei fehlendem Zugriff
+  OS-Prozess und Log lesen, KEINEN zweiten Auftrag starten.
+  Log `/tmp/formgen-geometry5-visual.log`.
+- Letzter bekannter fremder Halter: Ironsight Export,PID32642, seit00:57:39MEZ.
+  Echten Lockstatus lesen; Fremdes nie anfassen/abbrechen. Die Sperre wird NICHT umgangen.
+- Läufer `/tmp/formgen-geometry5-visual.py`, Quell-SHA-Snapshot
+  `/tmp/formgen-geometry5-visual-sources.json`. Code vor dessen Ende nicht ändern:
+  SHA-Prüfung vor/nach Bildlauf, sonst absichtlicher Abbruch. Dokuänderungen gehen.
+- Der eine Lauf baut vier Piloten inkrementell, verlangt unveränderte Legacy-Bilder
+  als Cachetreffer, wiederholt mit0gebaut, erstellt vier registrierte R01-Frames,
+  zwei cachefreie R01-Frontprozesse(Seeds1/42) samt Vergleich zum Standardframe
+  und einen lokalen ZIP-Probelauf. Kein Bibliotheksrender, kein `--force`.
+  Erwarteter Abschlussrecord `evidence/geometry5-spec4-visual.json` unter Cache;
+  neues ZIP unter `releases/geometry5-spec4/`.
+- Danach zuerst neue W01-/R01-Farbbilder UND Overlays selbst und durch einen
+  unabhängigen Prüfer sichten, IoUs/Bänder ohne Rundung neu lesen. Erst dann
+  Bild-Goldens aktualisieren, Bericht/Übergabe nachführen und Code lokal committen.
+  Vorherige Frames/Metriken unverändert gesichert unter
+  `evidence/before-geometry5-spec4/{views,robot}/`.
+- Browserabnahme bleibt nach früherer Sicherheitsverweigerung offen; keine Umgehung.
+- Nutzerfrage zur ausdrücklichen Toolgen-Sperre ist im abgebenden Chat
+  `01a17ac4-db0d-7610-ad7e-f2ae6fef1ec7` offen. Kein Schweigen als Freigabe.
+  Gegebenenfalls dort direkte Nutzerantwort lesen; nicht einfach erneut fragen.
+  Konkreter geprüfter Vorschlag: `docs/vorschlag-toolgen-native-contract.md`.
+
+## Neuer geprüfter WIP GEOM5/SPEC4
+
+- W01:72Teile/10399Vertices/20398Dreiecke,0Nullflächen.47segmentierteFasen,
+  4Profilfasen(sight_body/grip/trigger/trigger_guard),1Ringprofilfase(muzzle_crown),
+  12ungefassteCut-Netze,8ohneFase. Genau5Meshänderungen gegenüber20f3b04.
+  Analytische konvexe/konkave Längsfasen, echte Endränder/offeneBohrung,
+  topologische Bogenkollapse; eigene Offset-Ecken bleiben ausdrücklich keine
+  bestätigte Blender-Miter-/Clamp-Parität.33Gezielttests, unabhängig geprüft.
+  Der Algorithmus verändert R01 beim selben Modellsnapshot überhaupt nicht.
+- SPEC4: dominante Kanalfarbe nach Netzoberfläche; Zusatzfarben als
+  `[{color,share}]` statt falschem pNN-Dict; Glasfallback wiev1.10Spec-Tests,
+  echter Toolgen-Palettenleser und159alteSpecs erfolgreich geprüft. Native
+  W01-/R01-Geos bleiben im unveränderten Toolgen ausdrücklich abgewiesen.
+  Weitere Diagnose: Legacy-10µm-Weld beschädigt p28/p31, doppelte Fasen,
+  fehlende nullable-Socket-/Griffsemantik; Einzelheiten im Vorschlag.
+- R01 nun251Teile/18960Vertices/36968Dreiecke. Lokale Änderungen mit Herkunft:
+  shoulder_carrier-Dach medial u1640/lateral1615 statt1617/1632;
+  neck_core-Rückprofil1630/−85,1640/−75,1650/−68,1660/−40;
+  hip_axis/socket als echte konische Gehäuse-/8mmNormalwand-Ringe.
+  Schulter/Front-/Rückenkontur und Nacken/Hüfte aus Farboriginalen begründet;
+  alleAnker/Füße/Armquellen erhalten, Nackenfront/-breite und Hüft-f/u-Projektion
+  unverändert. Jeweils unabhängig geometrisch geprüft. KEINE neue IoU behaupten!
+- `./check`:221Tests/204bestanden/17planmäßigeBildskips,38,862s,
+  `/tmp/formgen-geometry5-spec4-check.log`; unabhängig ebenfalls grün39,358s,
+  `/tmp/formgen-geometry5-spec4-independent-check.log`. Alle4echten
+  Geo→Spec-Roundtrips validiert,0verworfeneFlächen. SPEC4-Abnehmerrecord
+  `evidence/toolgen-consumer-2026-10-27.json` enthält alten und neuen Stand.
+- Datenbau W01 zuerst4gebaut/0Treffer, danach vierPiloten8gebaut/8Treffer.
+  Nur3Daten-Goldens geändert: W01.spec/W01.prompts/R01.spec. Bild-Goldens
+  noch unverändert. Source-Snapshot schützt die finale Bildkopie.
+- Keine weitere Modellkorrektur vor dem neuen Bildbefund. Unteragenten schreiben
+  nicht mehr; abgebende Sitzung koppelt sich nach frischer Zustellung ab.
+
+## Lesender Befund für die nächste Geometrieetappe
+
+Alle zwölf Restteile wurden NACH echten Cuts auf konstante Extrusion geprüft.
+Vier bleiben konstant inX: `rail`(22mm,1Außenkontur/30Punkte),
+`stock_spine`(28mm,Außen4Punkte+3Löcherje16),
+`stock`(36mm,Außen6+Loch5),`butt_pad`(40mm,Außen30).
+Vollständige Facetten-/Caploop-Prüfung und Boolean-Symmetriedifferenz:
+rail/stock/butt_pad exakt0mm³,spine5,62e−6mm³ bzw9,94e−11relativ.
+Prototyp `rail`:472V/940T,manifold/0Nullflächen, NICHT integriert.
+Stock/Spine benötigen ein Interface für beliebig viele ungleichlange Konturen.
+
+**Konkreter noch zu behebender numerischer Gegenfall:** Bei butt_pad behalten
+`sorted(set(theta))` zwei Winkelstationen mit nur4,44e−16rad Differenz;
+deren axiale Koordinaten runden identisch und erzeugen Nullflächen.
+Vor Wiederverwendung toleranzbasiert Stationen vereinigen und Regressionstest
+ergänzen, keine Flächen löschen. Aktuelle fünf GEOM5-W01-Netze sind unabhängig
+nullflächenfrei geprüft; butt_pad bleibt derzeit ausdrücklich ungefast.
+Wegen eingefrorenem Bildauftrag noch NICHT im Repo geändert.
+Rechenbelege `/tmp/formgen-cut-extrusions.json` und
+`/tmp/formgen-cut-profile-probe.json`, geom-SHA
+`ab1d710280d39f9d029e8ec9b1db201bd71c06bcaae97443ffe999d3abb0e174`.
+
+Die übrigen acht Teile sind keine konstanten Extrusionen: upper/lower haben
+Seitentaschen, top_shroud Teilbreitenausschnitte, bolt_carrier eine Blindtasche,
+magazine seitliche Nuten, handguard wechselnden Innenquerschnitt,
+barrel lokale Längsnuten und muzzle lokale Ports/Ringnuten. Nicht als 2D-Profil
+oder konvexe Hülle tarnen. Alle Unteragenten sind nach diesem Befund beendet.
+
+Die folgenden Abschnitte dokumentieren den vorherigen GEOM4/RASTER5-Stand;
+dessen Pixelwerte/ZIP sind keine Abnahme der neuen GEOM5-Modelle.
 
 ## Einstieg und Grenzen
 

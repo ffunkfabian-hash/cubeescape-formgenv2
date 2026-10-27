@@ -20,3 +20,5 @@
 | 27.10.2026 | Zusätzliche Legacy-IDs nur ausdrücklich per`--legacy-dir`; referenzierte Sight-Spec mitliefern, Standard weiterhin vier Piloten |159Datenroundtrips,0gebaut/636Treffer im zweiten Datenlauf |
 | 27.10.2026 | Gemeinsame Konturfehler geometrisch korrigieren; zusätzliche Unterarmmasse am realen Schaftfreiraum begrenzen | Front-/Rücken-/Seitenmessung, alte Armkerne/Anker/Sohlen erhalten; Schaftabstand1,5mm |
 | 27.10.2026 | Strenge vier IoUs und alle40Breitenbänder bleiben unverändert; aktueller Roboter nicht freigegeben |2/4IoUs,37/40Bänder; [Bericht](versions/0.1.md) |
+| 27.10.2026 | SPEC4 verwendet Spec2-Zusatzfarben als color/share-Listen, flächengewichtete Dominanz und Glasfallback wie v1 | echter Toolgen-Palettenleser und analytischer Würfeltest; [Spec](figure-spec.md) |
+| 27.10.2026 | Native Toolgen-Abnahme benötigt eine separate Abnehmeränderung; Formate und fehlende semantische Angaben nicht tarnen | unveränderter echter Abnehmer verweigert W01-/R01-Geos; Legacy-Weld beschädigt zwei native Netze; [Vorschlag](vorschlag-toolgen-native-contract.md) |

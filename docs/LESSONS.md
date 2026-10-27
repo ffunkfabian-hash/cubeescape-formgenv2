@@ -13,3 +13,4 @@
 - Detailansichten müssen Dekorationen entfernter Elternteile verwerfen und physische Texturmaßstäbe aus der vollständigen Quelle behalten. [Bericht](versions/0.1.md)
 - Blattseiten über Flächennormalen statt Mündungsrichtung vergleichen; v1/v2 können dieselbe physische Seite entgegengesetzt abbilden. [Rastervertrag](raster.md)
 - Nach einer Konturverbreiterung die bestehende Griffpose erneut prüfen; eine konvexe Freiraumfacette kann neues Material begrenzen und den ursprünglichen Armkern erhalten. [Bericht](versions/0.1.md)
+- Ein durchlässiges JSON-Schema beweist keine Abnehmersemantik: Spec2-Zusatzfarben als echte color/share-Listen prüfen, native Netze nicht durch Legacy-Weld und erneute Fasen verändern. [Vertragsbefund](vorschlag-toolgen-native-contract.md)

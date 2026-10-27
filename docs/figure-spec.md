@@ -34,7 +34,12 @@ Unbekannte Anker bleiben null; insbesondere wird kein Schwerpunkt aus einer erfu
 `author_move` bewahrt Bewegungsdeklarationen in Autorenkoordinaten, ohne Toolgen-Bewegungsclips zu behaupten.
 
 Pflichtpaletten kommen ausschließlich aus `skins.toml`: base=Rollenbasis, standard=standard,
-arktis=polar, nacht=nacht. Kanalzusatzfarben werden pro pNN in `other_colors` ausgewiesen.
+arktis=polar, nacht=nacht. Je Kanal wird wie in v1 die Farbe mit der größten
+Netzoberfläche gewählt; weitere Farben stehen als `[{color, share}]` in
+`other_colors`, mit auf drei Dezimalstellen gerundetem Anteil an der Kanalfläche.
+Gleichstände werden nach Hexfarbe sortiert. Die Rollenfarbe je Teil bleibt in
+`parts[].color`; ein pNN-zu-Farbe-Dictionary ist kein gültiges `other_colors`.
+Glasfarben werden wie in v1 nur berücksichtigt, wenn im Kanal keine opake Fläche liegt.
 Materialrollen werden ausdrücklich auf erlaubte Toolgen-Kanäle und -Materialklassen abgebildet.
 Texturmuster, Sichtfenstertyp und Waffen-Element bleiben unbestimmt, solange keine Autorenangabe vorliegt.
 Die Schema-Prüfung bestätigt die Datenstruktur; sie ersetzt keinen Importtest im Toolgen-Abnehmer.

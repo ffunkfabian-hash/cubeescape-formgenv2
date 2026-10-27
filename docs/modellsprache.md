@@ -34,7 +34,25 @@ Autorenmaß mm: f nach vorn, u nach oben, x nach links. Gemeinsamer Ausgaberaum 
 | surface | vertices: (f,u,x), faces: Indizes, thickness optional (Innenversatz) |
 | prism2 | side: (f,u), front: (x,u), Schnitt beider extrudierter Profile |
 
-`cuts` subtrahiert kit-Formen. `bevel` ist die Fasenbreite als Rücksprung entlang der angrenzenden Flächen in mm (Blender-Offset), kein allgemeiner Rundungsradius. `segs_bevel=2` entspricht dem Kit-Standard: konvexe zusammenhängende Komponenten erhalten einzeln ein segmentiertes Kreisprofil; ein konservativer Kantenclamp schützt dünne Flächen. `segs_bevel=1` erzeugt eine planare Fase. Konstante Hohlzylinder/Rahmen ohne Cuts erhalten zusätzlich Endringfasen, wenn ihre Profilwinkel höchstens30° betragen; Wand-/Längenclamp, unverändertes Mittelstück und offene Löcher sind geprüft. Andere konkave Komponenten bleiben mit ausdrücklicher Warnung ungefast; die Blender-Eckmiter und dessen exakter Überlappungsclamp sind noch nicht deckungsgleich. Mesh64-Ein-/Ausgabe bewahrt die Genauigkeit von Boolean- und Fasenknoten (manifold3d ≥3.5.4). Fehlende echte Booleans/Fasen dürfen nie stillschweigend als vollständig gelten. Ersatz-Cuts sind sichtbar gekennzeichnete Decal-Flächen. Kein Renderer wird vor Cache-Abnahme ausgeführt.
+`cuts` subtrahiert kit-Formen. `bevel` ist die Fasenbreite als Rücksprung entlang der angrenzenden Flächen in mm (Blender-Offset), kein allgemeiner Rundungsradius. `segs_bevel=2` entspricht dem Kit-Standard: konvexe zusammenhängende Komponenten erhalten einzeln ein segmentiertes Kreisprofil; ein konservativer Kantenclamp schützt dünne Flächen. `segs_bevel=1` erzeugt eine planare Fase.
+
+Unveränderte konkave `prof`-/`plan`-Extrusionen ohne Cuts erhalten zusätzlich
+analytische Längsfasen an konvexen und einspringenden Kanten über30° sowie
+Endrandfasen (`segmented_profile_bevel`). Konstante Hohlzylinder/Rahmen ohne
+Cuts bekommen Endringfasen; bei scharfen Profilkanten über30° werden außerdem
+äußere und innere Längskanten berücksichtigt (`segmented_ring_profile_bevel`).
+Offene Bohrungen bleiben erhalten. Kreisprofil, positive geschlossene Netze,
+konservative Wand-/Längen-/Profilclamps und nicht gefüllte tiefe Einschnitte
+sind analytisch geprüft. Kollabierende Kreisbogensamples werden bereits bei
+der Konstruktion als ein gemeinsamer topologischer Knoten angelegt.
+Die Endübergänge verwenden eigene Offset-Ecken; das ist **keine bestätigte
+Blender-Eckmiter- oder Clamp-Parität**. Allgemeine konkave Netze nach Cuts
+bleiben mit ausdrücklicher Warnung ungefast. W01 hat damit noch zwölf solche Teile.
+
+Mesh64-Ein-/Ausgabe bewahrt die Genauigkeit von Boolean- und Fasenknoten
+(manifold3d ≥3.5.4). Fehlende echte Booleans/Fasen dürfen nie stillschweigend
+als vollständig gelten. Ersatz-Cuts sind sichtbar gekennzeichnete Decal-Flächen.
+Kein Renderer wird vor Cache-Abnahme ausgeführt.
 
 Schriftgröße folgt Blenders Bfont-Metriken, die Grundlinie bleibt der Ursprung.
 Die Extrusion reicht symmetrisch von−depth bis+depth; Ausrichtung berücksichtigt
