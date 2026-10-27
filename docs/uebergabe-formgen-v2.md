@@ -104,14 +104,27 @@ Seitenboden rund 50 mm höher. Keine künstlichen Sohlen/Fahnen, Maskenfits,
 Rundung/Grenzwert-/Registrierungsänderung oder Unmöglichkeitsbehauptung.
 Keine unbelegte pauschale Knie- oder Schienbeinrollenkorrektur.
 
-## Zwei offene Nutzerentscheidungen nicht dupliziert fragen
+## Drei offene Nutzerentscheidungen nicht dupliziert fragen
 
-1. Fußprototyp gemäß Korrektur-Obergrenze PAUSIERT. In abgebendemChat
+1. W01-Fasenziel: Neue Frage im aktuellen Chat
+   `01a17b17-71c3-7283-b6f6-4a8025b372ad`: gültige geprüfte GEOM8-Fasen als
+   Ziel übernehmen oder ein geometrisch bereinigtes Blender-Ziel ausarbeiten.
+   Die gespeicherte Post-Cut-Blender-Handschutzreferenz enthält eine unabhängig
+   bestätigte echte Selbstüberschneidung (Faces 476/483, 26,433303 mm Segment,
+   Ebenendistanzen 0,05027–0,67318 mm gegenüber maximal 0,000014902 mm ULP).
+   Der tatsächliche größere Clamp kreuzt beim aktuellen BRep bereits die
+   planaren Loch-/Außenkonturen im 3-mm-Oberband um 0,36360898 mm.
+   Keine Gate- oder Delaunay-Toleranzlockerung. Keine allgemeine
+   Unmöglichkeitsbehauptung. Nachweise unter `evidence/geometry/actual-clamp-analysis/`,
+   unabhängiger Record `independent-reference-handguard-review.json`.
+   Vor abhängiger Umsetzung direkte Nutzerantwort lesen; Schweigen ist keine Freigabe.
+
+2. Fußprototyp gemäß Korrektur-Obergrenze PAUSIERT. In abgebendemChat
    `01a17af7-5bf7-7dd1-846e-3dad6643014f` steht asynchroneFrage: nach unabhängiger
    Ursachenprüfung ausnahmsweise mitSol/xhigh gezieltfortsetzen oder vorerst
    zurückstellen. Vor abhängigemFußcode direkteNutzerantwort dort lesen,
    keineAntwortistKEINEFreigabe. Astra bleibtgesperrt. Frage nichtduplizieren.
-2. ToolgenScopefrage imfrüherenChat`01a17ac4-db0d-7610-ad7e-f2ae6fef1ec7` noch
+3. ToolgenScopefrage imfrüherenChat`01a17ac4-db0d-7610-ad7e-f2ae6fef1ec7` noch
    unbeantwortet. BeiBedarf direkteAntwortlesen, Toolgennichtanfassen.
    docs/vorschlag-toolgen-native-contract.md istechtergeprüfterAbnehmervorschlag:
    W01/R01Namespacesverweigert, LegacyWeld/Doppelbevel und optionaleAngaben
