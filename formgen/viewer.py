@@ -8,6 +8,7 @@ import argparse, hashlib, html, json
 from pathlib import Path
 from .versions import VIEWER as VERSION
 from .cache import Artifact,canonical,run_artifacts
+from . import wspec
 
 CSS = ('*{box-sizing:border-box}body{margin:0;background:#171c22;color:#eee9df;font:16px system-ui}'
        'header{padding:44px 6vw 28px;border-bottom:1px solid #3c424a}h1{font-size:42px;margin:0 0 8px}header p{color:#aab3bd;margin:8px 0}'
@@ -55,7 +56,8 @@ def items(out):
         if not (out/'previews'/f'{sid}.webp').exists():
             continue
         sp = out/'specs'/f'{sid}.spec.json'; s = json.loads(sp.read_text()) if sp.exists() else {}
-        if s.get('format') == 'formgenv2/weapon-sheet-spec':
+        if s.get('format') == wspec.FORMAT:
+            s = wspec.migrate(s)   # unbekannte oder neuere Versionen brechen ab statt still angenommen zu werden
             t, v = s['type'], s['variant']
             result.append({'id': sid, 'name': s['name_de'], 'variant': v['letter'], 'variant_name': v['name'],
                            'group': f"BASIC-{t['num']} · {t['type_de']} ({t['type_en']})",

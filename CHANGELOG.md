@@ -5,7 +5,7 @@
 - Neuaufbau nach v1-Prinzip: Variantenregister (A Baseline, B Long Reach, C Close Quarters) × 17 BALLON-Typen = 51 Blätter mit Spec, Prompts, Ansichten, Vorschau, Viewer und Release-Probelauf.
 - Grundform je Typ ist BALLONs Modell per Quellhash (gepinnter Commit, `git archive`, nur gelesen); Generator ändert nur über Parameter (front/rear/drop/Skin). Baseline gegen BALLONs GLB: Seiten-IoU ≥ 0,985, Maße auf 0,01 mm (außer drei Zielfernrohr-Höhen, BALLON-Kegeldefekt).
 - Stufen-Cache mit Quellen-Closure des Stufencodes und Umgebung im Schlüssel; Manifest gebündelt, warmer Lauf aller 51 Blätter 3,2 s. Blatt-Spec `formgenv2/weapon-sheet-spec` v1 mit Schema und Migrationspflicht.
-- Entscheid 234 A: R01-Ausnahmen je Referenzmaske, Contour 0.1 abgenommen. Bericht: [0.2](docs/versions/0.2.md).
+- Entscheid 234 A: R01-Rücken-Ausnahme je Referenzmaske (IoU ≥ 0,88, Band 0 ≤ 1,10); Seiten-Band 0 (1,42) bleibt Entscheidung. Bericht: [0.2](docs/versions/0.2.md).
 
 ## 0.1.0 Contour — technischer Zwischenstand, nicht abgenommen
 

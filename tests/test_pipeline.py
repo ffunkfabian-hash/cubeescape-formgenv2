@@ -156,6 +156,17 @@ class SpecMigrationTests(unittest.TestCase):
             self.assertEqual(wspec.migrate(self.minimal())["format_version"], 3)
         self.assertEqual(calls, [1, 2])
 
+    def test_viewer_rejects_unknown_spec_version(self):
+        from formgen import viewer
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            for d in ("sheets", "previews", "specs"):
+                (out / d).mkdir()
+            (out / "sheets/BA01.dc.html").write_text("x"); (out / "previews/BA01.webp").write_bytes(b"x")
+            (out / "specs/BA01.spec.json").write_text(json.dumps({"format": wspec.FORMAT, "format_version": 9}))
+            with self.assertRaises(wspec.SpecError):
+                viewer.items(out)
+
     def test_schema_requires_ballon_hashes(self):
         schema = wspec.schema()
         self.assertIn("ballon", schema["required"])

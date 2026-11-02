@@ -1,38 +1,32 @@
 {
   "schema": "formgenv2-acceptance-exceptions/1",
-  "general": {"iou_min": 0.90, "band_ratio_min": 0.92, "band_ratio_max": 1.08},
+  "general": {
+    "iou_min": 0.9,
+    "band_ratio_min": 0.92,
+    "band_ratio_max": 1.08
+  },
   "exceptions": [
     {
-      "figure": "R01", "view": "back",
+      "figure": "R01",
+      "view": "back",
       "reference_mask_sha256": "5f87122f314c0a572edc52015703d2af4f91730caf9a11aad5a3991aef5f7ce4",
-      "metric": "iou", "iou_min": 0.88,
+      "metric": "iou",
+      "iou_min": 0.88,
       "measured": 0.8859483142429271,
       "reason": "Originale widersprechen sich: ein perfekt zur Front passendes symmetrisches Modell erreicht am Rücken nur ≈0,90 (Front↔gespiegelter Rücken 0,9007).",
       "source": "Nutzerentscheid 234 A, 02.11.2026 (Postfach #16); Probe docs/auftrag-r02.md › Probe-Ergebnisse"
     },
     {
-      "figure": "R01", "view": "back",
+      "figure": "R01",
+      "view": "back",
       "reference_mask_sha256": "5f87122f314c0a572edc52015703d2af4f91730caf9a11aad5a3991aef5f7ce4",
-      "metric": "band", "band": 0, "band_ratio_min": 0.92, "band_ratio_max": 1.10,
+      "metric": "band",
+      "band": 0,
+      "band_ratio_min": 0.92,
+      "band_ratio_max": 1.1,
       "measured": 1.0970891339721571,
       "reason": "Rücken-Band 0 ist im Original schmaler als Front-Band 0; Front ist verbindlich (Front↔Rücken 9/10 Bänder im Original).",
       "source": "Nutzerentscheid 234 A, 02.11.2026; docs/versions/0.1.md › Fußabnahme"
-    },
-    {
-      "figure": "R01", "view": "side-right",
-      "reference_mask_sha256": "777de0821e8b544de3318fe4e7a5cdb10c0e19725287bf0e6d4583137b51fb90",
-      "metric": "band", "band": 0, "band_ratio_min": 0.92, "band_ratio_max": 1.45,
-      "measured": 1.417,
-      "reason": "Seitlicher Originalboden liegt bei gemeinsamer Registrierung ≈53 mm über dem verbindlichen Frontboden.",
-      "source": "Nutzerentscheid 234 A, 02.11.2026 (Band 0 Seiten 1,42 im Antrag genannt); docs/uebergabe-claude-abschluss.md"
-    },
-    {
-      "figure": "R01", "view": "side-left",
-      "reference_mask_sha256": "c34f0692d0f42c5565c4364e29a2f0162545e4011408a023b34bfacb31dc6a75",
-      "metric": "band", "band": 0, "band_ratio_min": 0.92, "band_ratio_max": 1.45,
-      "measured": 1.425,
-      "reason": "Seitlicher Originalboden liegt bei gemeinsamer Registrierung ≈53 mm über dem verbindlichen Frontboden.",
-      "source": "Nutzerentscheid 234 A, 02.11.2026 (Band 0 Seiten 1,42 im Antrag genannt); docs/uebergabe-claude-abschluss.md"
     }
   ]
 }

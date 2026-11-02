@@ -24,8 +24,8 @@ Zeiten je Stufe: `out/timing.json`. Messwerkzeuge: `tools/measure_v1.py`, `tools
 ## Contour-Bestand (0.1)
 
 Roboter R01 und die Contour-Piloten (W01, KG02/VS02 als v1-Geo-Prüfeingänge) bauen weiter über `formgen.build`;
-sie sind nicht Teil der Waffen-Pipeline. R01 gilt mit Entscheid 234 A als abgenommen
-([Ausnahmen je Referenz](docs/acceptance-exceptions.json)); Roboterarbeit ruht auf Nutzerwunsch.
+sie sind nicht Teil der Waffen-Pipeline. Entscheid 234 A deckt den R01-Rücken ([Ausnahmen je Referenz](docs/acceptance-exceptions.json));
+Seiten-Band 0 (1,42) wartet auf eine Nutzerentscheidung. Roboterarbeit ruht auf Nutzerwunsch.
 
 ```sh
 .venv/bin/python -m formgen.build --dummy
@@ -66,5 +66,5 @@ das akzeptierte W01-Ziel. Die native Toolgen-Anpassung ist zurückgestellt;
 die lokale Roboterabnahme bleibt davon unabhängig erforderlich.
 
 Lokale Fußabnahme vom 27.10.2026: Rücken-IoU 0,8859 und Fußband 0 in Rücken/Seiten scheiterten an
-Referenzkonflikten der Originale; mit Entscheid 234 A (02.11.2026) gelten begründete Ausnahmen nur für diese
-R01-Referenzmasken, allgemeine Grenzen unverändert ([Bericht 0.1](docs/versions/0.1.md), [0.2](docs/versions/0.2.md)).
+Referenzkonflikten der Originale; mit Entscheid 234 A (02.11.2026) gilt eine begründete Ausnahme nur für die
+R01-Rückenmaske, allgemeine Grenzen unverändert; Seiten-Band 0 offen ([Bericht 0.1](docs/versions/0.1.md), [0.2](docs/versions/0.2.md)).

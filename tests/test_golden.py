@@ -21,18 +21,16 @@ class GoldenTests(unittest.TestCase):
         self.assertEqual(*values)
     @unittest.skipUnless(os.environ.get('FORMGEN_GOLDEN_IMAGES')=='1','explizite Bildstufe')
     def test_image_hashes(self):
-        # Bildstufe je Worktree: geprüft werden die Modelle mit Blatt in out/sheets – für jedes davon müssen ALLE
-        # Golden-Bilder vorhanden und gleich sein; Modelle ohne Blatt werden ausdrücklich als nicht geprüft gemeldet.
+        # Prüfumfang ausdrücklich: FORMGEN_GOLDEN_MODELS=BA01,BB01,… (sonst ALLE Golden-Modelle). Für jedes Modell im Umfang
+        # müssen alle Golden-Dateien (Specs, Prompts, Ansichten, Blätter) vorhanden und gleich sein, und es darf nichts
+        # Ungolden-Gebautes geben. Die Gesamtabnahme läuft ohne Umfang.
         expected=json.loads(GOLDEN.read_text());actual=collect(images=True)
         model=lambda k:k.split('/')[2].split('.')[0]
-        built={p.name.removesuffix('.dc.html') for p in (ROOT/'out/sheets').glob('*.dc.html')}
-        self.assertTrue(built,'Keine Blätter gebaut')
-        images=lambda d:{k:v for k,v in d.items() if ('/views/' in k or '/sheets/' in k) and model(k) in built}
-        self.assertEqual(images(expected),images(actual))
-        self.assertEqual({k:v for k,v in expected.items() if '/specs/' in k or '/prompts/' in k},
-                         {k:v for k,v in actual.items() if '/specs/' in k or '/prompts/' in k})
-        skipped=sorted({model(k) for k in expected if '/views/' in k or '/sheets/' in k}-built)
-        if skipped:print('Bild-Golden nicht geprüft (nicht gebaut):',', '.join(skipped))
+        scope=set(filter(None,os.environ.get('FORMGEN_GOLDEN_MODELS','').split(','))) or {model(k) for k in expected}
+        unknown=scope-{model(k) for k in expected}
+        self.assertFalse(unknown,f'Umfang enthält Modelle ohne Golden: {sorted(unknown)}')
+        pick=lambda d:{k:v for k,v in d.items() if model(k) in scope}
+        self.assertEqual(pick(expected),pick(actual))
 
 if __name__=='__main__':
     if '--update' in sys.argv:

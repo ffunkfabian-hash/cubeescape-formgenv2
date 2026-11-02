@@ -43,6 +43,12 @@ class AcceptanceExceptionTests(unittest.TestCase):
         v=acceptance.judge('R01','back',.8859,bands(1.097),'0'*64,self.doc)
         self.assertFalse(v['iou_pass']);self.assertFalse(v['bands_pass']);self.assertEqual(v['exceptions_used'],[])
 
+    def test_side_band_zero_has_no_exception(self):
+        """Freigabe 234 A gilt nur für den R01-Rücken; Seiten-Band 0 (1,42) bleibt offen."""
+        v=acceptance.judge('R01','side-right',.9038,bands(1.417),RIGHT,self.doc)
+        self.assertTrue(v['iou_pass']);self.assertFalse(v['bands_pass'])
+        self.assertEqual({e['view'] for e in self.doc['exceptions']},{'back'})
+
     def test_no_exception_reported_when_general_limit_holds(self):
         v=acceptance.judge('R01','back',.95,bands(1.0),BACK,self.doc)
         self.assertEqual(v['exceptions_used'],[])
