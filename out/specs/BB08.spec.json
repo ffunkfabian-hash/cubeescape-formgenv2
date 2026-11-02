@@ -100,16 +100,40 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w08_shotgun.py": "c11be4cf73b177eabeb62063d8b242fc084486ee7621f84ae5fbc2f43cb0c354"
   },
-  "source_sha256": "f8f4ff3b5d1e4ae0f1fc24299dc43efecd2f9b053cd99a6ff2d7e138f90356fe",
+  "source_sha256": "fe289c5014b987397c4e2e52f9a49903ed40471f7b514dea529d22e46bc0b763",
   "spec_sha256": "80b95ff8c25b8abfa65a7ebe0d27016b9f493b7f7fe5c1d2d3db7538828307cc"
  },
  "ballon_dimensions_mm": {
   "height": 244.0,
   "length": 881.9,
   "width": 46.4
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Einzelne Schrotpatrone (beim Laden sichtbar)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 63.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Einzelne Schrotpatrone (beim Laden sichtbar)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 63.0
+  }
  },
  "counts": {
   "assemblies": 7,
@@ -122,7 +146,7 @@
   "width": 46.4
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [
    {
@@ -175,6 +199,11 @@
      "stock"
     ],
     "wanted_mm": 17.877
+   },
+   {
+    "factor": 1.12,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -785,7 +814,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-08 (Quellhash f8f4ff3b5d1e); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-08 Standardmodul (Quellhash fe289c5014b9); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-08",
@@ -797,15 +826,26 @@
   "type_en": "Shotgun"
  },
  "variant": {
+  "base": "standard",
   "idea": "Gestreckte Vorderpartie und etwas längerer Schaft für Distanz; helle Polar-Lackierung",
   "letter": "B",
   "name": "Long Reach",
   "params": {
    "front": 1.15,
+   "limbs": 1.12,
    "rear": 1.06
   },
   "since": "0.2",
   "skin": "polar"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "c857a03a00386f01",
+  "values": {
+   "front": 1.15,
+   "limbs": 1.12,
+   "rear": 1.06
+  }
  },
  "warnings": []
 }

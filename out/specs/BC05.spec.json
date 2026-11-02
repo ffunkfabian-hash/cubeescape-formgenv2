@@ -71,16 +71,40 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w05_sidearm.py": "44a542b489e24ebf98c38a7601ac63bb8ce1b9803bfc67e31092b8fe119828f2"
   },
-  "source_sha256": "5b9bef93dbde29f3ba87c7fb646077eb3497a26d5fd41b24d3f42df9ff8aa7f9",
+  "source_sha256": "7a6e8b94f3400a2ac030bced0fc1bcaadc28e19bdd5fb3937efc211ac21aad81",
   "spec_sha256": "3b9d48e5a947f64ee2ca20cf2a88de60efc28459c0b262aaa6d878d83975ffc5"
  },
  "ballon_dimensions_mm": {
   "height": 156.0,
   "length": 224.0,
   "width": 30.5
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Hält den Schlitten nach dem letzten Schuss offen",
+    "Löst das Magazin"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite"
+   },
+   "sight_line_mm": 22
+  },
+  "variant": {
+   "accent_functions": [
+    "Hält den Schlitten nach dem letzten Schuss offen",
+    "Löst das Magazin"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite"
+   },
+   "sight_line_mm": 22
+  }
  },
  "counts": {
   "assemblies": 6,
@@ -93,7 +117,7 @@
   "width": 30.5
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -129,6 +153,11 @@
     "factor": 0.9,
     "op": "rear",
     "skipped": "keine Baugruppe stock (kein Schaft)"
+   },
+   {
+    "factor": 0.88,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -451,7 +480,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-05 (Quellhash 5b9bef93dbde); Variante C „Close Quarters“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-05 Standardmodul (Quellhash 7a6e8b94f340); Variante C „Close Quarters“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-05",
@@ -463,6 +492,7 @@
   "type_en": "Sidearm"
  },
  "variant": {
+  "base": "standard",
   "idea": "Verkürzte Vorderpartie, kürzerer Schaft, ohne Lüftungsschlitze; dunkle Nachtschicht",
   "letter": "C",
   "name": "Close Quarters",
@@ -471,10 +501,23 @@
     "vent_*"
    ],
    "front": 0.86,
+   "limbs": 0.88,
    "rear": 0.9
   },
   "since": "0.2",
   "skin": "nacht"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "e85b4e8e2964342a",
+  "values": {
+   "drop": [
+    "vent_*"
+   ],
+   "front": 0.86,
+   "limbs": 0.88,
+   "rear": 0.9
+  }
  },
  "warnings": []
 }

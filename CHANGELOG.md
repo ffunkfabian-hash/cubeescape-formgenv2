@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 Mosaic — Variantenbaukasten
+
+- Acht Linien × 17 Typen = 136 Blätter: neu D Refit, E Lantern, F Heavy Frame, G Skeleton, H Long Watch; B/C erhalten Wurfarmlänge (Bogen war formgleich). Alle acht BALLON-Skins im Einsatz.
+- Baukasten aus BALLON-Bausteinen: Visiertausch (Visier-Baukasten v3, Zielfernrohr nur 03/09/11), Schaft S1/S2, Griff v2.1, Magazin, Mündung, Leuchtstreifen, Wurfarme; v2.1-Piloten als zweite Grundform (`base = "v21"`), dafür Form `xprof`.
+- Gesteuerter Zufall: Bereiche je Linie, Seed aus Blatt-ID + Linie, bitgleich mit PYTHONHASHSEED 1/42; Blatt-Spec v2 mit Migration aus v1. Vielfaltstest (IoU ≤ 0,98, gemessen ≤ 0,973) und Designvertrag-Prüfung. Bericht: [0.4](docs/versions/0.4.md).
+
 ## 0.2.0 Anvil — Waffen-Pipeline auf BALLON-Basis
 
 - Neuaufbau nach v1-Prinzip: Variantenregister (A Baseline, B Long Reach, C Close Quarters) × 17 BALLON-Typen = 51 Blätter mit Spec, Prompts, Ansichten, Vorschau, Viewer und Release-Probelauf.

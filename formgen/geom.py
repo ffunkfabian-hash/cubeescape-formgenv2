@@ -238,6 +238,9 @@ def _shape(p, warnings):
         if p['iw'] >= p['ow'] or p['ih'] >= p['oh']:
             raise GeometryError('Rahmenöffnung muss kleiner als Außenprofil sein')
         return _ring_shell(outer,rings(p['iw'],p['ih'],p['r_in']))
+    if k == 'xprof':
+        # Querprofil (x, u relativ zu cu) entlang f extrudiert, wie BALLON kit.mesh_xprof (Visier-Baukasten v3)
+        return _loft([[to_xyz((f,p['cu']+u,p.get('cx',0)+x)) for x,u in p['pts']] for f in (p['f0'],p['f1'])])
     if k == 'multi':
         return _concat([_shape(q,warnings) for q in p['items']])
     if k == 'hull':

@@ -1,6 +1,7 @@
 """Abgleich Baseline (BAnn) gegen BALLONs exportiertes GLB: Silhouetten-IoU in drei Orthos, Maße, Dreiecke.
 
   python tools/ballon_compare.py [--glb-dir ~/Library/Caches/CubeEscapeBallon/out] [--out <json>] [--sheet <png>]
+  python tools/ballon_compare.py --base v21     # v2.1-Piloten (BASIC-NN-v2.1.glb) gegen die v2-Auswertung der Grundform (xprof)
 
 Nur gelesen: BALLONs GLB (Blender-Export, glTF Y oben) und out/geometry/BAnn.json (v2, Meter, Z oben, −Y vorn).
 Gilt nur, wenn BALLONs Spec neben dem GLB bytegleich zum gepinnten Spec ist (sonst „veraltet“).
@@ -13,7 +14,7 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from formgen import ballon  # noqa: E402
+from formgen import ballon, generator, geom, model  # noqa: E402
 
 MM_PX = 0.5
 VIEWS = {"side": (1, 2), "top": (1, 0), "front": (0, 2)}   # Achsen (Blender-Rahmen): Seite = Y/Z, oben = Y/X, vorn = X/Z
@@ -84,8 +85,16 @@ def mask(tris, axes, lo, shape):
     return np.asarray(im, bool)
 
 
+def evaluated_base(snap, num, base):
+    """Baseline-Geometrie der Grundform `base` frisch ausgewertet (mit Booleans und Fasen wie die Pipeline)."""
+    author, _ = generator.build({"letter": "A", "name": "Baseline", "idea": "Bezug", "since": "0.2", "skin": "standard",
+                                 "base": base, "params": {}}, num, snap)
+    doc = geom.evaluate(model.normalize(author))
+    return np.concatenate([np.asarray(p["mesh"]["vertices"], float)[np.asarray(p["mesh"]["faces"])] for p in doc["parts"]]), doc
+
+
 def compare(glb, geometry):
-    a, names = load_glb(glb); b, doc = load_v2(geometry)
+    a, names = load_glb(glb); b, doc = load_v2(geometry) if isinstance(geometry, (str, Path)) else geometry
     result = {"triangles": {"ballon": int(len(a)), "v2": int(len(b))}, "views": {},
               "dims_mm": {}, "ballon_objects": len(names)}
     for k, i in (("length", 1), ("height", 2), ("width", 0)):
@@ -112,20 +121,28 @@ def main(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument("--glb-dir", type=Path, default=Path.home() / "Library/Caches/CubeEscapeBallon/out")
     p.add_argument("--out-dir", type=Path, default=ROOT / "out"); p.add_argument("--out", type=Path); p.add_argument("--sheet", type=Path)
+    p.add_argument("--base", choices=("standard", "v21"), default="standard")
+    p.add_argument("--allow-stale", action="store_true", help="auch vergleichen, wenn BALLONs Spec neben dem GLB abweicht (Status nennt die Felder)")
     a = p.parse_args(argv)
+    suffix = "-v2.1" if a.base == "v21" else ""
     snap = ballon.snapshot(); report = {"ballon_commit": ballon.config()["commit"], "mm_per_px": MM_PX, "types": {}}
     rows = []
     for num in ballon.TYPES:
-        folder = a.glb_dir / f"BASIC-{num}"
-        glb, spec = folder / f"BASIC-{num}.glb", folder / f"BASIC-{num}.spec.json"
+        folder = a.glb_dir / f"BASIC-{num}{suffix}"
+        glb, spec = folder / f"BASIC-{num}{suffix}.glb", folder / f"BASIC-{num}{suffix}.spec.json"
         entry = {}
+        if a.base == "v21" and not ballon.has_base(snap, num, "v21"):
+            continue
         if not glb.exists():
             entry["status"] = "GLB fehlt"
-        elif hashlib.sha256(spec.read_bytes()).hexdigest() != ballon.source(snap, num)["spec_sha256"]:
+        elif hashlib.sha256(spec.read_bytes()).hexdigest() != ballon.source(snap, num, a.base)["spec_sha256"] and not a.allow_stale:
             entry["status"] = "veraltet (Spec neben GLB ≠ gepinnter Spec)"
         else:
-            res, masks = compare(glb, a.out_dir / f"geometry/BA{num}.json")
-            entry = {"status": "verglichen", **res}
+            pinned, beside = ballon.load_spec(snap, num, a.base), json.loads(spec.read_text())
+            stale = sorted(k for k in set(pinned) | set(beside) if pinned.get(k) != beside.get(k))
+            source = a.out_dir / f"geometry/BA{num}.json" if a.base == "standard" else evaluated_base(snap, num, a.base)
+            res, masks = compare(glb, source)
+            entry = {"status": "verglichen" + (f" (GLB-Spec weicht ab: {', '.join(stale)})" if stale else ""), **res}
             rows.append((num, masks))
         report["types"][num] = entry
         v = entry.get("views", {})

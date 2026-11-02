@@ -21,3 +21,6 @@
 - Stufen-Closure am Ort des Builders messen: liegt der Builder in einem Sammelmodul, fehlen Geometrie-Imports im Schlüssel; Test prüft, dass geom/model in der Closure stehen. [Generator](generator.md)
 - BALLON-Geometrie nicht blind übernehmen: Hohlkegel mit r_in ≥ r stülpen sich um und verfälschen BALLONs gemessene Maße; Anpassung als Annahme im Spec ausweisen und melden. [Generator](generator.md)
 - Bei Variantenstreckung zuerst wenige gedehnte Teile wählen, sonst verzerren Leitmerkmale (Glefen-Schildflügel); Stauchen nur bis zur freien Zone hinter dem Schnitt. [Generator](generator.md)
+- Zufall für reproduzierbare Varianten je Parameter aus einem Inhaltshash ziehen, nicht aus einem gemeinsamen RNG-Strom: ein neuer Parameter verschiebt sonst alle späteren Ziehungen. [Generator](generator.md)
+- Eine statische Import-Closure findet auch lazy Importe in Funktionen; ein erweiterter Snapshot ändert daher Quellhashes aller Typen, die das Modul importieren – Snapshot-Ordner an die Pfadliste binden. [Generator](generator.md)
+- Ein Vielfaltsmaß gegen die Baseline deckt formgleiche Linien auf, die nur die Farbe wechseln (Bogen in B/C); Front-IoU allein taugt nicht, Langwaffen sind von vorn fast gleich. [Generator](generator.md)

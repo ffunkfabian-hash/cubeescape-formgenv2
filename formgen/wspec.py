@@ -1,7 +1,8 @@
-"""Blatt-Spec Formgen v2 (Format `formgenv2/weapon-sheet-spec`, Version 1) aus dem ausgewerteten Geometriedokument.
+"""Blatt-Spec Formgen v2 (Format `formgenv2/weapon-sheet-spec`, Version 2) aus dem ausgewerteten Geometriedokument.
 
 Ab Version 1 gilt: jede Formatänderung erhöht FORMAT_VERSION, bekommt eine Migration in MIGRATIONS (alte Version →
-nächste) und einen Test. Schema: docs/schemas/weapon-sheet-spec-1.schema.json. Keine Netze, keine Pfade, keine Zeiten.
+nächste) und einen Test. Schema: docs/schemas/weapon-sheet-spec-2.schema.json. Keine Netze, keine Pfade, keine Zeiten.
+Version 2 (0.4): Grundform `base`, gesteuerter Zufall `variation` (Seed, Ziehungen), Designvertrag `contract`.
 """
 from __future__ import annotations
 
@@ -10,9 +11,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FORMAT = "formgenv2/weapon-sheet-spec"
-FORMAT_VERSION = 1
-SCHEMA = ROOT / "docs/schemas/weapon-sheet-spec-1.schema.json"
-MIGRATIONS: dict = {}   # {von_version: funktion(doc) -> doc der nächsten Version}
+FORMAT_VERSION = 2
+SCHEMA = ROOT / "docs/schemas/weapon-sheet-spec-2.schema.json"
 
 
 class SpecError(ValueError):
@@ -54,7 +54,8 @@ def build(document: dict) -> dict:
     doc = {
         "format": FORMAT, "format_version": FORMAT_VERSION,
         "id": info["id"], "name_de": info["name_de"], "name_en": info["name_en"],
-        "variant": gen["variant"], "type": gen["type"],
+        "variant": gen["variant"], "type": gen["type"], "base": gen["base"], "variation": gen["variation"],
+        "contract": gen["contract"],
         "ballon": {k: gen["ballon"][k] for k in ("commit", "basic_id", "source_sha256", "spec_sha256", "files")},
         "generator": {"ops": gen["ops"], "adaptations": gen["adaptations"]},
         "dimensions_mm": {"length": _r((hi[1] - lo[1]) * 1000), "height": _r((hi[2] - lo[2]) * 1000),
@@ -69,6 +70,18 @@ def build(document: dict) -> dict:
     }
     validate(doc)
     return doc
+
+
+def _from_1(doc: dict) -> dict:
+    """1 → 2: Linien vor 0.4 kannten nur feste Parameter auf dem Standardmodul; Seed ist aus der Blatt-ID bestimmt,
+    der Designvertrag wurde nicht gemessen (null)."""
+    from .variants import seed
+    doc = dict(doc, format_version=2, variant=dict(doc["variant"], base="standard"), base="standard",
+               variation={"seed": seed(doc["id"]), "draws": {}, "values": dict(doc["variant"]["params"])}, contract=None)
+    return doc
+
+
+MIGRATIONS = {1: _from_1}   # {von_version: funktion(doc) -> doc der nächsten Version}
 
 
 def schema() -> dict:

@@ -1,0 +1,455 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade_core",
+   "position_mm": [
+    667.06,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "blade_edge",
+   "position_mm": [
+    1117.06,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "grip",
+   "position_mm": [
+    -104.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Parierblock",
+   "en": "Guard",
+   "id": "guard"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-16",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w16_sword.py": "0511a334f84d7b85744b5f70398d43b0eeff8c93d20fb8809e3b8abf503578cb"
+  },
+  "source_sha256": "62a793a33059f606a1ecc302247dd0e5b071702deba511bdc4376e7e9a57916b",
+  "spec_sha256": "a79bc592d71507dcd29a57546745499d7c6f714115c4abf5749c7697460a8ee0"
+ },
+ "ballon_dimensions_mm": {
+  "height": 76.0,
+  "length": 1193.6,
+  "width": 96.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
+ },
+ "counts": {
+  "assemblies": 3,
+  "parts": 9,
+  "triangles": 968
+ },
+ "dimensions_mm": {
+  "height": 76.0,
+  "length": 1300.37,
+  "width": 96.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 2,
+ "generator": {
+  "adaptations": [],
+  "ops": [
+   {
+    "kind": "d_linse",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "kind": "S2",
+    "op": "stock",
+    "scale": 1.156,
+    "skipped": "kein Schaft S1/S2 (eigener oder kein Schaft)"
+   },
+   {
+    "factor": 1.249,
+    "op": "mag",
+    "skipped": "kein entnehmbares Stangenmagazin"
+   },
+   {
+    "factor": 1.897,
+    "op": "muzzle",
+    "radius": 1.158,
+    "skipped": "kein Mündungsteil `muzzle` entlang der Laufachse"
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 505.0,
+    "delta_mm": 107.06,
+    "factor": 1.106,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "blade_core",
+     "blade_edge",
+     "blade_spine"
+    ],
+    "translated": [],
+    "wanted_mm": 107.06
+   },
+   {
+    "factor": 0.872,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   }
+  ]
+ },
+ "id": "BF16",
+ "name_de": "Schwert · Heavy Frame",
+ "name_en": "Sword · Heavy Frame",
+ "parts": [
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     96.0,
+     1105.84
+    ],
+    "u": [
+     -17.99,
+     23.99
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade_core",
+   "moving": false,
+   "name_de": "Klingenkern",
+   "name_en": "Blade core",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 88
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     104.0,
+     1005.69
+    ],
+    "u": [
+     12.01,
+     26.99
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "blade_spine",
+   "moving": false,
+   "name_de": "Klingenrücken",
+   "name_en": "Blade spine",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     100.0,
+     1116.37
+    ],
+    "u": [
+     -34.0,
+     -0.14
+    ],
+    "x": [
+     -2.5,
+     2.5
+    ]
+   },
+   "id": "blade_edge",
+   "moving": false,
+   "name_de": "Schneide",
+   "name_en": "Edge",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     54.0,
+     104.0
+    ],
+    "u": [
+     -36.0,
+     40.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "guard",
+   "moving": false,
+   "name_de": "Parierblock",
+   "name_en": "Guard block",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     44.0,
+     58.0
+    ],
+    "u": [
+     -30.0,
+     34.0
+    ],
+    "x": [
+     -48.0,
+     48.0
+    ]
+   },
+   "id": "crossguard",
+   "moving": false,
+   "name_de": "Parierstange",
+   "name_en": "Crossguard",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     66.0,
+     92.0
+    ],
+    "u": [
+     4.0,
+     14.0
+    ],
+    "x": [
+     22.7,
+     23.7
+    ]
+   },
+   "id": "charge_window",
+   "moving": true,
+   "name_de": "Ladeanzeige",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -150.0,
+     44.0
+    ],
+    "u": [
+     -15.45,
+     15.45
+    ],
+    "x": [
+     -15.45,
+     15.45
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griff",
+   "name_en": "Grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     -52.0
+    ],
+    "u": [
+     -16.9,
+     16.9
+    ],
+    "x": [
+     -16.9,
+     16.9
+    ]
+   },
+   "id": "grip_ring",
+   "moving": false,
+   "name_de": "Griffring",
+   "name_en": "Grip ring",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -184.0,
+     -148.0
+    ],
+    "u": [
+     -20.33,
+     20.33
+    ],
+    "x": [
+     -20.33,
+     20.33
+    ]
+   },
+   "id": "pommel",
+   "moving": false,
+   "name_de": "Knauf",
+   "name_en": "Pommel",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-16 Standardmodul (Quellhash 62a793a33059); Variante F „Heavy Frame“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-16",
+  "name": "Klingenlauf",
+  "nick": "Standard",
+  "num": "16",
+  "type": "sword",
+  "type_de": "Schwert",
+  "type_en": "Sword"
+ },
+ "variant": {
+  "base": "standard",
+  "idea": "Schwere Werferoptik, Schaft S2, langes Magazin und breite Mündung; Wüstenlack",
+  "letter": "F",
+  "name": "Heavy Frame",
+  "params": {
+   "front": [
+    1.06,
+    1.12
+   ],
+   "limbs": [
+    0.84,
+    0.9
+   ],
+   "mag": [
+    1.2,
+    1.4
+   ],
+   "muzzle": [
+    1.5,
+    1.9
+   ],
+   "muzzle_r": [
+    1.1,
+    1.25
+   ],
+   "sight": [
+    "achteck",
+    "entfernung",
+    "d_linse",
+    "lang"
+   ],
+   "stock": "S2",
+   "stock_scale": [
+    1.05,
+    1.2
+   ]
+  },
+  "since": "0.4",
+  "skin": "wueste"
+ },
+ "variation": {
+  "draws": {
+   "front": 1.106,
+   "limbs": 0.872,
+   "mag": 1.249,
+   "muzzle": 1.897,
+   "muzzle_r": 1.158,
+   "sight": "d_linse",
+   "stock_scale": 1.156
+  },
+  "seed": "d10509050017a879",
+  "values": {
+   "front": 1.106,
+   "limbs": 0.872,
+   "mag": 1.249,
+   "muzzle": 1.897,
+   "muzzle_r": 1.158,
+   "sight": "d_linse",
+   "stock": "S2",
+   "stock_scale": 1.156
+  }
+ },
+ "warnings": []
+}
