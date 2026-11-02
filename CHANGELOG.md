@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 Forge — Machbarkeitsnachweis Asset-Backend (BALLON-Kit)
+
+- Waffen-GLB je Blatt-ID über BALLONs unverändertes `tools/blender_build.py` (gepinnter Schnappschuss, Blender 5.2.2 headless): `python -m formgen.asset BA01 …` → `out/assets/<ID>.glb` mit Cache und SHA-Index; noch keine Pipeline-Stufe (nach 0.4).
+- BA01 bytegleich zu BALLONs Neubau am Pin, dreiecks- und materialgleich zu BALLONs Cache-GLB (`tools/ballon_compare.py --asset`); BB01/BC01 gebaut; Kit baut `xprof` (16/16 Piloten objektgleich zum Unity-Export). Spielpaket (FBX, AAA-Atlas) als Probe. Bericht: [0.3](docs/versions/0.3.md).
+
 ## 0.2.0 Anvil — Waffen-Pipeline auf BALLON-Basis
 
 - Neuaufbau nach v1-Prinzip: Variantenregister (A Baseline, B Long Reach, C Close Quarters) × 17 BALLON-Typen = 51 Blätter mit Spec, Prompts, Ansichten, Vorschau, Viewer und Release-Probelauf.

@@ -1,6 +1,11 @@
 """Abgleich Baseline (BAnn) gegen BALLONs exportiertes GLB: Silhouetten-IoU in drei Orthos, Maße, Dreiecke.
 
   python tools/ballon_compare.py [--glb-dir ~/Library/Caches/CubeEscapeBallon/out] [--out <json>] [--sheet <png>]
+  python tools/ballon_compare.py --asset BA01 [--glb <BALLON-GLB>] [--out <json>]     # 0.3: Kit-Asset gegen BALLON
+
+--asset (0.3 „Forge“) vergleicht out/assets/<ID>.glb (BALLONs Kit über formgen.asset) mit einer BALLON-GLB: Netze und Dreiecke je
+Netz, Materialien samt PBR-Werten, Leerknoten (Baugruppen, Anker), Dreieckspositionen in Weltkoordinaten (µm, Windung erhalten)
+und Bytegleichheit; Vertexzahlen nur als Information (Normalen-Splits hängen an BALLONs Kit-Stand der Referenz).
 
 Nur gelesen: BALLONs GLB (Blender-Export, glTF Y oben) und out/geometry/BAnn.json (v2, Meter, Z oben, −Y vorn).
 Gilt nur, wenn BALLONs Spec neben dem GLB bytegleich zum gepinnten Spec ist (sonst „veraltet“).
@@ -108,11 +113,63 @@ def overlay(ma, mb, height=150):
     return im.resize((max(1, round(im.width * height / im.height)), height), Image.LANCZOS)
 
 
+def triangle_set(tris):
+    """Weltdreiecke als sortierte Liste ganzzahliger µm-Tupel; jedes Dreieck zyklisch auf die kleinste Ecke gedreht (Windung bleibt)."""
+    t = np.round(np.asarray(tris) * 1e6).astype(np.int64)
+    out = []
+    for tri in t:
+        k = min(range(3), key=lambda i: tuple(tri[i]))
+        out.append(tuple(map(tuple, np.roll(tri, -k, axis=0))))
+    return sorted(out)
+
+
+def compare_asset(asset_glb, ballon_glb):
+    """Kit-Asset gegen BALLON-GLB: dreiecks- und materialgleich heißt gleiche Netze mit gleichen Dreiecken je Netz und Material,
+    gleiche Materialien (Name, PBR) und gleiche Dreiecke im Raum."""
+    from formgen import asset
+    a, b = asset.glb_info(asset_glb), asset.glb_info(ballon_glb)
+    tris = lambda info: {k: [(x["triangles"], x["material"]) for x in v] for k, v in info["meshes"].items()}   # noqa: E731
+    ta, tb = tris(a), tris(b)
+    ma, mb = a["materials"], b["materials"]
+    sa, sb = triangle_set(load_glb(asset_glb)[0]), triangle_set(load_glb(ballon_glb)[0])
+    verts = {k: (sum(x["vertices"] for x in a["meshes"][k]), sum(x["vertices"] for x in b["meshes"][k]))
+             for k in a["meshes"] if k in b["meshes"]}
+    result = {
+        "triangles": {"asset": a["triangles"], "ballon": b["triangles"]},
+        "meshes_equal": ta == tb, "meshes_differing": sorted(k for k in set(ta) | set(tb) if ta.get(k) != tb.get(k)),
+        "materials_equal": ma == mb, "materials_differing": sorted(k for k in set(ma) | set(mb) if ma.get(k) != mb.get(k)),
+        "empties_equal": a["empties"] == b["empties"],
+        "positions_equal": sa == sb,
+        "bytes_equal": Path(asset_glb).read_bytes() == Path(ballon_glb).read_bytes(),
+        "vertices": {"asset": sum(v[0] for v in verts.values()), "ballon": sum(v[1] for v in verts.values()),
+                     "meshes_differing": sum(v[0] != v[1] for v in verts.values())},
+    }
+    result["equal"] = all(result[k] for k in ("meshes_equal", "materials_equal", "empties_equal", "positions_equal"))
+    return result
+
+
+def main_asset(a):
+    report = {}
+    for sid in a.asset.split(","):
+        glb = a.glb or Path.home() / f"Library/Caches/CubeEscapeBallon/out/BASIC-{sid[2:]}/BASIC-{sid[2:]}.glb"
+        report[sid] = {"ballon_glb": str(glb), **compare_asset(a.out_dir / f"assets/{sid}.glb", glb)}
+        r = report[sid]
+        print(sid, "gleich" if r["equal"] else "UNGLEICH", r["triangles"], "Bytes gleich" if r["bytes_equal"] else
+              f"Vertices {r['vertices']['asset']}/{r['vertices']['ballon']}")
+    if a.out:
+        a.out.parent.mkdir(parents=True, exist_ok=True); a.out.write_text(json.dumps(report, indent=1, ensure_ascii=False) + "\n")
+    return 0 if all(r["equal"] for r in report.values()) else 1
+
+
 def main(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument("--glb-dir", type=Path, default=Path.home() / "Library/Caches/CubeEscapeBallon/out")
     p.add_argument("--out-dir", type=Path, default=ROOT / "out"); p.add_argument("--out", type=Path); p.add_argument("--sheet", type=Path)
+    p.add_argument("--asset", help="Blatt-IDs (kommagetrennt): out/assets/<ID>.glb gegen BALLON-GLB (Standard BASIC-NN im --glb-dir)")
+    p.add_argument("--glb", type=Path, help="BALLON-GLB für --asset statt des Standardpfads")
     a = p.parse_args(argv)
+    if a.asset:
+        return main_asset(a)
     snap = ballon.snapshot(); report = {"ballon_commit": ballon.config()["commit"], "mm_per_px": MM_PX, "types": {}}
     rows = []
     for num in ballon.TYPES:
@@ -145,4 +202,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

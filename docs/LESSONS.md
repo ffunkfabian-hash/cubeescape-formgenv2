@@ -21,3 +21,5 @@
 - Stufen-Closure am Ort des Builders messen: liegt der Builder in einem Sammelmodul, fehlen Geometrie-Imports im Schlüssel; Test prüft, dass geom/model in der Closure stehen. [Generator](generator.md)
 - BALLON-Geometrie nicht blind übernehmen: Hohlkegel mit r_in ≥ r stülpen sich um und verfälschen BALLONs gemessene Maße; Anpassung als Annahme im Spec ausweisen und melden. [Generator](generator.md)
 - Bei Variantenstreckung zuerst wenige gedehnte Teile wählen, sonst verzerren Leitmerkmale (Glefen-Schildflügel); Stauchen nur bis zur freien Zone hinter dem Schnitt. [Generator](generator.md)
+- Eine ältere Referenz-GLB kann bei gleicher Geometrie andere Vertexzahlen haben (Normalen-Splits nach Kit-Updates): Dreiecke je Netz, Materialien und Weltdreiecke vergleichen; Bytegleichheit nur gegen einen Neubau am Pin erwarten. [Bericht](versions/0.3.md)
+- Fremde Werkzeuge ohne Datenschnittstelle nicht nachbauen: den erzeugten Datensatz nur für den Lauf als Modul einhängen und das unveränderte Werkzeug aufrufen; Baseline muss dann bytegleich sein. [Bericht](versions/0.3.md)
