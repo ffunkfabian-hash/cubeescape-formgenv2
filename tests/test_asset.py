@@ -154,6 +154,42 @@ class BuiltAssetTests(unittest.TestCase):
         self.assertTrue(r["equal"], r)
         self.assertEqual(r["triangles"]["asset"], r["triangles"]["ballon"])
 
+    def test_moved_anchor_is_detected(self):
+        import struct
+        import sys
+        sys.path.insert(0, str(asset.ROOT / "tools"))
+        import ballon_compare
+        data = (OUT / "assets/BA01.glb").read_bytes()
+        n = struct.unpack_from("<I", data, 12)[0]
+        g = json.loads(data[20:20 + n])
+        node = next(x for x in g["nodes"] if x.get("name") == "Socket_Muzzle")
+        node["translation"] = [v + (0.002 if i == 1 else 0.0) for i, v in enumerate(node.get("translation", [0, 0, 0]))]
+        chunk = json.dumps(g).encode()
+        chunk += b" " * (-len(chunk) % 4)
+        rest = data[20 + n:]
+        body = struct.pack("<II", len(chunk), 0x4E4F534A) + chunk + rest
+        with tempfile.TemporaryDirectory() as tmp:
+            moved = Path(tmp) / "moved.glb"
+            moved.write_bytes(b"glTF" + struct.pack("<II", 2, 12 + len(body)) + body)
+            r = ballon_compare.compare_asset(moved, OUT / "assets/BA01.glb")
+        self.assertTrue(r["meshes_equal"] and r["positions_equal"])
+        self.assertFalse(r["nodes_equal"])
+        self.assertEqual(r["nodes_differing"], ["Socket_Muzzle"])
+        self.assertFalse(r["equal"])
+
+    def test_asset_reference_follows_glb_dir(self):
+        import sys
+        sys.path.insert(0, str(asset.ROOT / "tools"))
+        import ballon_compare
+        with tempfile.TemporaryDirectory() as tmp:
+            ref = Path(tmp) / "BASIC-01"
+            ref.mkdir()
+            shutil.copyfile(OUT / "assets/BA01.glb", ref / "BASIC-01.glb")
+            report = Path(tmp) / "r.json"
+            code = ballon_compare.main(["--asset", "BA01", "--glb-dir", tmp, "--out", str(report)])
+            self.assertEqual(code, 0)
+            self.assertEqual(json.loads(report.read_text())["BA01"]["ballon_glb"], str(ref / "BASIC-01.glb"))
+
     def test_index_matches_files(self):
         index = json.loads((OUT / "assets/index.json").read_text())
         for sid, entry in index["assets"].items():

@@ -5,7 +5,7 @@
 
 --asset (0.3 „Forge“) vergleicht out/assets/<ID>.glb (BALLONs Kit über formgen.asset) mit einer BALLON-GLB: Netze und Dreiecke je
 Netz, Materialien samt PBR-Werten, Leerknoten (Baugruppen, Anker), Dreieckspositionen in Weltkoordinaten (µm, Windung erhalten)
-und Bytegleichheit; Vertexzahlen nur als Information (Normalen-Splits hängen an BALLONs Kit-Stand der Referenz).
+Knotenbaum (Eltern und Weltlage jedes Knotens, auch Anker) und Bytegleichheit; Vertexzahlen nur als Information (Normalen-Splits hängen an BALLONs Kit-Stand der Referenz).
 
 Nur gelesen: BALLONs GLB (Blender-Export, glTF Y oben) und out/geometry/BAnn.json (v2, Meter, Z oben, −Y vorn).
 Gilt nur, wenn BALLONs Spec neben dem GLB bytegleich zum gepinnten Spec ist (sonst „veraltet“).
@@ -123,6 +123,26 @@ def triangle_set(tris):
     return sorted(out)
 
 
+def node_tree(path):
+    """Alle Knoten: Name → (Elternname, Weltmatrix auf µm bzw. 1e-6 gerundet) – Hierarchie und Lage von Baugruppen und Ankern."""
+    data = Path(path).read_bytes()
+    n = struct.unpack_from("<I", data, 12)[0]
+    gltf = json.loads(data[20:20 + n])
+    found = {}
+
+    def walk(i, parent, m):
+        node = gltf["nodes"][i]
+        world = m @ _matrix(node)
+        name = node.get("name", str(i))
+        found[name] = (parent, tuple(int(round(float(x) * 1e6)) for x in world.reshape(-1)))
+        for c in node.get("children", []):
+            walk(c, name, world)
+
+    for root in gltf["scenes"][gltf.get("scene", 0)]["nodes"]:
+        walk(root, None, np.eye(4))
+    return found
+
+
 def compare_asset(asset_glb, ballon_glb):
     """Kit-Asset gegen BALLON-GLB: dreiecks- und materialgleich heißt gleiche Netze mit gleichen Dreiecken je Netz und Material,
     gleiche Materialien (Name, PBR) und gleiche Dreiecke im Raum."""
@@ -132,6 +152,7 @@ def compare_asset(asset_glb, ballon_glb):
     ta, tb = tris(a), tris(b)
     ma, mb = a["materials"], b["materials"]
     sa, sb = triangle_set(load_glb(asset_glb)[0]), triangle_set(load_glb(ballon_glb)[0])
+    na, nb = node_tree(asset_glb), node_tree(ballon_glb)
     verts = {k: (sum(x["vertices"] for x in a["meshes"][k]), sum(x["vertices"] for x in b["meshes"][k]))
              for k in a["meshes"] if k in b["meshes"]}
     result = {
@@ -139,19 +160,20 @@ def compare_asset(asset_glb, ballon_glb):
         "meshes_equal": ta == tb, "meshes_differing": sorted(k for k in set(ta) | set(tb) if ta.get(k) != tb.get(k)),
         "materials_equal": ma == mb, "materials_differing": sorted(k for k in set(ma) | set(mb) if ma.get(k) != mb.get(k)),
         "empties_equal": a["empties"] == b["empties"],
+        "nodes_equal": na == nb, "nodes_differing": sorted(k for k in set(na) | set(nb) if na.get(k) != nb.get(k))[:20],
         "positions_equal": sa == sb,
         "bytes_equal": Path(asset_glb).read_bytes() == Path(ballon_glb).read_bytes(),
         "vertices": {"asset": sum(v[0] for v in verts.values()), "ballon": sum(v[1] for v in verts.values()),
                      "meshes_differing": sum(v[0] != v[1] for v in verts.values())},
     }
-    result["equal"] = all(result[k] for k in ("meshes_equal", "materials_equal", "empties_equal", "positions_equal"))
+    result["equal"] = all(result[k] for k in ("meshes_equal", "materials_equal", "empties_equal", "nodes_equal", "positions_equal"))
     return result
 
 
 def main_asset(a):
     report = {}
     for sid in a.asset.split(","):
-        glb = a.glb or Path.home() / f"Library/Caches/CubeEscapeBallon/out/BASIC-{sid[2:]}/BASIC-{sid[2:]}.glb"
+        glb = a.glb or a.glb_dir / f"BASIC-{sid[2:]}/BASIC-{sid[2:]}.glb"
         report[sid] = {"ballon_glb": str(glb), **compare_asset(a.out_dir / f"assets/{sid}.glb", glb)}
         r = report[sid]
         print(sid, "gleich" if r["equal"] else "UNGLEICH", r["triangles"], "Bytes gleich" if r["bytes_equal"] else
