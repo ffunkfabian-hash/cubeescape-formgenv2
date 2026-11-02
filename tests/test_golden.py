@@ -25,5 +25,10 @@ class GoldenTests(unittest.TestCase):
 
 if __name__=='__main__':
     if '--update' in sys.argv:
-        data=collect(images='--images' in sys.argv);GOLDEN.write_text(json.dumps(data,indent=2)+'\n');print(len(data),'Golden-Hashes geschrieben')
+        images='--images' in sys.argv;data=collect(images=images)
+        # Einträge behalten, deren Datei hier nicht gebaut wurde (z. B. Bildstufe anderer Modelle); Gebautes neu setzen
+        old=json.loads(GOLDEN.read_text())
+        keep={k:v for k,v in old.items() if not (ROOT/k).exists() or (not images and '/specs/' not in k and '/prompts/' not in k)}
+        data={**keep,**data}
+        GOLDEN.write_text(json.dumps(dict(sorted(data.items())),indent=2)+'\n');print(len(data),'Golden-Hashes geschrieben')
     else:unittest.main()

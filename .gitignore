@@ -13,3 +13,4 @@ out/geometry/
 release/
 out/fonts/
 out/.locks/
+out/timing.json

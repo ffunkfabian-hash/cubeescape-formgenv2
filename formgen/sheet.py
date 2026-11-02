@@ -125,6 +125,7 @@ def header(document, kind):
     provenance = info.get('provenance', {})
     if isinstance(provenance, dict) and provenance.get('kind'):
         facts.append(('Entwurfsmaße', provenance['kind']))
+    facts += [tuple(fact) for fact in info.get('facts', [])]
     return (f'<div class="topline"><span class="eyebrow">Formgen · Design Collection</span><span class="eyebrow">{esc(kind)}</span></div>'
             f'<header class="masthead"><div><h1>{esc(title)}</h1><p class="subtitle">{esc(subtitle)}</p></div>'
             f'<div class="model-id">{esc(info["id"])}</div></header><dl class="facts">'

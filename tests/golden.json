@@ -1,4 +1,7 @@
 {
+  "out/prompts/BA01.prompts.json": "ff567bdeb134d79b120717b93e36ea9f77ff439376305c96862b9b7580981bde",
+  "out/prompts/BB01.prompts.json": "823ae55bc1b9145a344068bf5fdf546de97834418cecad36b80d70b332d5dc93",
+  "out/prompts/BC01.prompts.json": "ba67a513d7d34f0135c4c88bf4047cc2bdd864213943b5320f46fccf03c8fc41",
   "out/prompts/KG02.prompts.json": "1c672339d0465c5317173588ff8866855f30fe4721d101e454a3e722f3e4ac74",
   "out/prompts/R01.prompts.json": "97ac922d0cc16dd96e183d3fc14d3f50ad6637c9cd9bbf46d232bf221c2223a9",
   "out/prompts/VS02.prompts.json": "fbb870889b4891a8ee3f4a3efcb697a2d3b0f146c8b951775096beb5b31ba458",
@@ -7,6 +10,9 @@
   "out/sheets/R01.dc.html": "b25433a595d24cab112011721c5553b83c3643f1eae5bf40aa04c786255245c7",
   "out/sheets/VS02.dc.html": "d1554a379907a357dafa3cd93b9fa77786f92bb8e3701b53072f184e088a8d9c",
   "out/sheets/W01.dc.html": "b09de4a8aea76cb98103252a4bf6b6b5e6482af960df263be0a8a3b9402ea7ce",
+  "out/specs/BA01.spec.json": "2414b5a91925fb7830a60efa7dbbb770c58427204f6f71c3a853bd9117b50e01",
+  "out/specs/BB01.spec.json": "4da3b367d072c72fa4be39d86ab3ebec798aa72295a2d88e3fa0b561578f7cf2",
+  "out/specs/BC01.spec.json": "85eb4dc64fc5e44252a3070538994fbabf8fd12dd16911805d14441ad9215b0e",
   "out/specs/KG02.spec.json": "21c559ab2c6bbc6e35c86cb9a42b5a078bdaeeb54218c88281f1598fcc1ee8c0",
   "out/specs/R01.spec.json": "89daff9c27526c7a51d31c74e2c58e159042ce1c669fc095f41f9a34cbbe3b60",
   "out/specs/VS02.spec.json": "b1e2c8e66ded5d7fed3ee63218adbf52bdbb24dcb0f60cffca4eb39fd2daf352",
