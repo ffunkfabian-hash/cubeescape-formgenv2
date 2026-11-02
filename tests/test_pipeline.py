@@ -59,6 +59,14 @@ class RegisterTests(unittest.TestCase):
         with self.assertRaises(variants.VariantError):
             variants.parse_sheet("BI01")
 
+    def test_new_escapes_multiline_and_quotes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "variants.toml"
+            shutil.copy(variants.REGISTRY, path)
+            idea = 'Zeile eins\nZeile "zwei" \\ Ende\tTab'
+            variants.new("D", "Glass Fang", idea, "0.2", path=path)
+            self.assertEqual(variants.load(path)[-1]["idea"], idea)
+
 
 @unittest.skipIf(SNAP is None, REASON)
 class PipelineCacheTests(unittest.TestCase):

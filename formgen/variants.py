@@ -10,6 +10,7 @@ Buchstaben nicht doppelt, I und O nie. Blatt-ID = "B" + Buchstabe + BASIC-Nummer
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 import tomllib
@@ -94,7 +95,7 @@ def parse_sheet(sid: str) -> tuple[str, str]:
 
 def _toml(value):
     if isinstance(value, str):
-        return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+        return json.dumps(value, ensure_ascii=False)   # JSON-Escapes (\n, \", \uXXXX) sind gültige TOML-Basic-Strings
     if isinstance(value, list):
         return "[" + ", ".join(_toml(x) for x in value) + "]"
     return repr(value)
@@ -108,8 +109,10 @@ def new(letter, name, idea, since, skin="standard", params=None, path: Path = RE
     block = (f'\n[[variants]]\nletter = {_toml(letter)}\nname = {_toml(name)}\nidea = {_toml(idea)}\n'
              f'since = {_toml(since)}\nskin = {_toml(skin)}\n[variants.params]\n'
              + "".join(f"{k} = {_toml(v)}\n" for k, v in (params or {}).items()))
-    Path(path).write_text(text.rstrip("\n") + "\n" + block)
-    load(path)
+    candidate = text.rstrip("\n") + "\n" + block
+    parsed = tomllib.loads(candidate)   # erst prüfen, dann schreiben: ein Fehler lässt das Register unverändert
+    check(parsed.get("variants", []), _skins())
+    Path(path).write_text(candidate)
     return entry
 
 
