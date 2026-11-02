@@ -1,0 +1,742 @@
+{
+ "anchors": {
+  "Socket_Cell": {
+   "part": "energy_cell",
+   "position_mm": [
+    -82.0,
+    36.0,
+    0.0
+   ]
+  },
+  "Socket_Eye": {
+   "part": "sight_frame",
+   "position_mm": [
+    8.0,
+    175.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "emitter",
+   "position_mm": [
+    500.0,
+    100.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    14.0,
+    175.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_body",
+   "position_mm": [
+    -29.0,
+    175.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "capacitor_housing",
+   "position_mm": [
+    345.0,
+    80.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Schaft",
+   "en": "Stock",
+   "id": "stock"
+  },
+  {
+   "de": "Kühlung",
+   "en": "Cooling",
+   "id": "cooling"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-10",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w10_fusion_rifle.py": "fdf9db6ab35d090886af453b008833162c878967842317cf18923c2e04116caa"
+  },
+  "source_sha256": "0599109d52fdc5751e72c7d0829e061899950fd4aaccd44dd18d24306b233e40",
+  "spec_sha256": "1b6570b39875fb6ede20f97c4523b105f76a27592e9a457856b0f5e028ece838"
+ },
+ "ballon_dimensions_mm": {
+  "height": 256.0,
+  "length": 801.5,
+  "width": 60.0
+ },
+ "counts": {
+  "assemblies": 7,
+  "parts": 24,
+  "triangles": 4604
+ },
+ "dimensions_mm": {
+  "height": 256.0,
+  "length": 801.5,
+  "width": 60.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 1,
+ "generator": {
+  "adaptations": [
+   {
+    "field": "assemblies",
+    "kind": "Annahme",
+    "reason": "leere Baugruppe ohne Teile (in BALLON nur deklariert)",
+    "removed": [
+     "support"
+    ]
+   }
+  ],
+  "ops": []
+ },
+ "id": "BA10",
+ "name_de": "Fusionsgewehr · Baseline",
+ "name_en": "Fusion Rifle · Baseline",
+ "parts": [
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -140.0,
+     190.0
+    ],
+    "u": [
+     46.0,
+     138.0
+    ],
+    "x": [
+     -25.0,
+     25.0
+    ]
+   },
+   "id": "receiver",
+   "moving": false,
+   "name_de": "Gehäuse",
+   "name_en": "Receiver",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     191.0,
+     470.0
+    ],
+    "u": [
+     62.0,
+     136.0
+    ],
+    "x": [
+     -26.0,
+     26.0
+    ]
+   },
+   "id": "capacitor_housing",
+   "moving": false,
+   "name_de": "Kondensatorgehäuse",
+   "name_en": "Capacitor housing",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 108
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     470.0,
+     500.0
+    ],
+    "u": [
+     78.0,
+     122.0
+    ],
+    "x": [
+     -30.0,
+     30.0
+    ]
+   },
+   "id": "emitter",
+   "moving": false,
+   "name_de": "Schlitz-Emitter",
+   "name_en": "Slit emitter",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     474.0,
+     476.0
+    ],
+    "u": [
+     95.0,
+     105.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "emitter_lens",
+   "moving": true,
+   "name_de": "Emitterlinse",
+   "name_en": "Emitter lens",
+   "role": "energy",
+   "shape": "xbox",
+   "triangles": 12
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     240.0,
+     254.0
+    ],
+    "u": [
+     59.0,
+     139.0
+    ],
+    "x": [
+     -30.0,
+     30.0
+    ]
+   },
+   "id": "coil_1",
+   "moving": false,
+   "name_de": "Spulenring 1",
+   "name_en": "Coil ring 1",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     264.0,
+     292.0
+    ],
+    "u": [
+     118.0,
+     126.0
+    ],
+    "x": [
+     25.7,
+     26.7
+    ]
+   },
+   "id": "charge_1",
+   "moving": true,
+   "name_de": "Ladeanzeige 1",
+   "name_en": "Charge pip 1",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     310.0,
+     324.0
+    ],
+    "u": [
+     59.0,
+     139.0
+    ],
+    "x": [
+     -30.0,
+     30.0
+    ]
+   },
+   "id": "coil_2",
+   "moving": false,
+   "name_de": "Spulenring 2",
+   "name_en": "Coil ring 2",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     334.0,
+     362.0
+    ],
+    "u": [
+     118.0,
+     126.0
+    ],
+    "x": [
+     25.7,
+     26.7
+    ]
+   },
+   "id": "charge_2",
+   "moving": true,
+   "name_de": "Ladeanzeige 2",
+   "name_en": "Charge pip 2",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     380.0,
+     394.0
+    ],
+    "u": [
+     59.0,
+     139.0
+    ],
+    "x": [
+     -30.0,
+     30.0
+    ]
+   },
+   "id": "coil_3",
+   "moving": false,
+   "name_de": "Spulenring 3",
+   "name_en": "Coil ring 3",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     404.0,
+     432.0
+    ],
+    "u": [
+     118.0,
+     126.0
+    ],
+    "x": [
+     25.7,
+     26.7
+    ]
+   },
+   "id": "charge_3",
+   "moving": true,
+   "name_de": "Ladeanzeige 3",
+   "name_en": "Charge pip 3",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -124.0,
+     -40.0
+    ],
+    "u": [
+     22.0,
+     50.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -103.0,
+     -61.0
+    ],
+    "u": [
+     34.0,
+     38.0
+    ],
+    "x": [
+     19.7,
+     20.7
+    ]
+   },
+   "id": "energy_cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -120.0,
+     160.0
+    ],
+    "u": [
+     137.5,
+     146.0
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "rail",
+   "moving": false,
+   "name_de": "Schiene",
+   "name_en": "Top rail",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -30.0,
+     20.0
+    ],
+    "u": [
+     146.5,
+     154.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_mount",
+   "moving": true,
+   "name_de": "Visier-Klemmfuß",
+   "name_en": "Sight mount",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -10.39,
+     0.39
+    ],
+    "u": [
+     144.61,
+     155.39
+    ],
+    "x": [
+     13.0,
+     19.0
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmschraube",
+   "name_en": "Clamp screw",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -29.0,
+     20.0
+    ],
+    "u": [
+     153.5,
+     162.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_body",
+   "moving": false,
+   "name_de": "Visiergehäuse",
+   "name_en": "Sight housing",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 180
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     8.0,
+     20.0
+    ],
+    "u": [
+     158.0,
+     192.0
+    ],
+    "x": [
+     -21.0,
+     21.0
+    ]
+   },
+   "id": "sight_frame",
+   "moving": false,
+   "name_de": "Haubenrahmen",
+   "name_en": "Sight hood frame",
+   "role": "graphite",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     13.5,
+     14.5
+    ],
+    "u": [
+     162.5,
+     187.5
+    ],
+    "x": [
+     -16.5,
+     16.5
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Visierglas",
+   "name_en": "Sight glass",
+   "role": "glass",
+   "shape": "xbox",
+   "triangles": 12
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -14.5,
+     -12.5
+    ],
+    "u": [
+     159.2,
+     161.4
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "sight_emitter",
+   "moving": false,
+   "name_de": "Emitter",
+   "name_en": "Reticle emitter",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.84,
+     32.29
+    ],
+    "u": [
+     -64.0,
+     46.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 300
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     44.49,
+     52.33
+    ],
+    "u": [
+     19.19,
+     45.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     26.74,
+     84.33
+    ],
+    "u": [
+     12.0,
+     47.0
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "trigger_guard",
+   "moving": false,
+   "name_de": "Abzugsbügel",
+   "name_en": "Trigger guard",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 244
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -290.1,
+     -138.0
+    ],
+    "u": [
+     25.06,
+     126.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "stock",
+   "moving": false,
+   "name_de": "Schulterstütze S2",
+   "name_en": "Stock S2",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 236
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -301.5,
+     -289.15
+    ],
+    "u": [
+     22.56,
+     122.93
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "butt_pad",
+   "moving": false,
+   "name_de": "Schaftkappe",
+   "name_en": "Butt pad",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 108
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-10 (Quellhash 0599109d52fd); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-10",
+  "name": "Glutkern",
+  "nick": "Standard",
+  "num": "10",
+  "type": "fusion_rifle",
+  "type_de": "Fusionsgewehr",
+  "type_en": "Fusion Rifle"
+ },
+ "variant": {
+  "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
+  "letter": "A",
+  "name": "Baseline",
+  "params": {},
+  "since": "0.2",
+  "skin": "standard"
+ },
+ "warnings": []
+}

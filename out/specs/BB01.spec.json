@@ -162,18 +162,18 @@
     "anchors": [
      "Socket_Hand"
     ],
-    "cut_f_mm": -209.0,
+    "cut_f_mm": -200.0,
     "delta_mm": 17.94,
     "factor": 1.06,
     "limited": false,
     "op": "rear",
     "stretched": [
-     "cheek_rest",
-     "stock",
      "stock_spine"
     ],
     "translated": [
-     "butt_pad"
+     "butt_pad",
+     "cheek_rest",
+     "stock"
     ],
     "wanted_mm": 17.94
    }
@@ -1028,11 +1028,11 @@
    "extent_mm": {
     "f": [
      -301.94,
-     -206.0
+     -223.94
     ],
     "u": [
-     23.48,
-     129.89
+     23.63,
+     129.86
     ],
     "x": [
      -18.0,
@@ -1076,7 +1076,7 @@
    "extent_mm": {
     "f": [
      -283.94,
-     -200.0
+     -217.94
     ],
     "u": [
      126.0,

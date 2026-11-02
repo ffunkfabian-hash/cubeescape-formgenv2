@@ -1,0 +1,357 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade_core",
+   "position_mm": [
+    711.5,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "blade_edge",
+   "position_mm": [
+    1161.5,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "grip",
+   "position_mm": [
+    -104.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Parierblock",
+   "en": "Guard",
+   "id": "guard"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-16",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w16_sword.py": "0511a334f84d7b85744b5f70398d43b0eeff8c93d20fb8809e3b8abf503578cb"
+  },
+  "source_sha256": "90143acef91581d93a79a32896a65aae9fac7c6c38306829be0ad01491719eda",
+  "spec_sha256": "a79bc592d71507dcd29a57546745499d7c6f714115c4abf5749c7697460a8ee0"
+ },
+ "ballon_dimensions_mm": {
+  "height": 76.0,
+  "length": 1193.6,
+  "width": 96.0
+ },
+ "counts": {
+  "assemblies": 3,
+  "parts": 9,
+  "triangles": 968
+ },
+ "dimensions_mm": {
+  "height": 76.0,
+  "length": 1344.81,
+  "width": 96.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 1,
+ "generator": {
+  "adaptations": [],
+  "ops": [
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 505.0,
+    "delta_mm": 151.5,
+    "factor": 1.15,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "blade_core",
+     "blade_edge",
+     "blade_spine"
+    ],
+    "translated": [],
+    "wanted_mm": 151.5
+   },
+   {
+    "factor": 1.06,
+    "op": "rear",
+    "skipped": "keine Baugruppe stock (kein Schaft)"
+   }
+  ]
+ },
+ "id": "BB16",
+ "name_de": "Schwert · Long Reach",
+ "name_en": "Sword · Long Reach",
+ "parts": [
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     96.0,
+     1150.28
+    ],
+    "u": [
+     -17.99,
+     23.99
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade_core",
+   "moving": false,
+   "name_de": "Klingenkern",
+   "name_en": "Blade core",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 88
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     104.0,
+     1050.13
+    ],
+    "u": [
+     12.01,
+     26.99
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "blade_spine",
+   "moving": false,
+   "name_de": "Klingenrücken",
+   "name_en": "Blade spine",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     100.0,
+     1160.81
+    ],
+    "u": [
+     -34.0,
+     -0.14
+    ],
+    "x": [
+     -2.5,
+     2.5
+    ]
+   },
+   "id": "blade_edge",
+   "moving": false,
+   "name_de": "Schneide",
+   "name_en": "Edge",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     54.0,
+     104.0
+    ],
+    "u": [
+     -36.0,
+     40.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "guard",
+   "moving": false,
+   "name_de": "Parierblock",
+   "name_en": "Guard block",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     44.0,
+     58.0
+    ],
+    "u": [
+     -30.0,
+     34.0
+    ],
+    "x": [
+     -48.0,
+     48.0
+    ]
+   },
+   "id": "crossguard",
+   "moving": false,
+   "name_de": "Parierstange",
+   "name_en": "Crossguard",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     66.0,
+     92.0
+    ],
+    "u": [
+     4.0,
+     14.0
+    ],
+    "x": [
+     22.7,
+     23.7
+    ]
+   },
+   "id": "charge_window",
+   "moving": true,
+   "name_de": "Ladeanzeige",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -150.0,
+     44.0
+    ],
+    "u": [
+     -15.45,
+     15.45
+    ],
+    "x": [
+     -15.45,
+     15.45
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griff",
+   "name_en": "Grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     -52.0
+    ],
+    "u": [
+     -16.9,
+     16.9
+    ],
+    "x": [
+     -16.9,
+     16.9
+    ]
+   },
+   "id": "grip_ring",
+   "moving": false,
+   "name_de": "Griffring",
+   "name_en": "Grip ring",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -184.0,
+     -148.0
+    ],
+    "u": [
+     -20.33,
+     20.33
+    ],
+    "x": [
+     -20.33,
+     20.33
+    ]
+   },
+   "id": "pommel",
+   "moving": false,
+   "name_de": "Knauf",
+   "name_en": "Pommel",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-16 (Quellhash 90143acef915); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-16",
+  "name": "Klingenlauf",
+  "nick": "Standard",
+  "num": "16",
+  "type": "sword",
+  "type_de": "Schwert",
+  "type_en": "Sword"
+ },
+ "variant": {
+  "idea": "Gestreckte Vorderpartie und etwas längerer Schaft für Distanz; helle Polar-Lackierung",
+  "letter": "B",
+  "name": "Long Reach",
+  "params": {
+   "front": 1.15,
+   "rear": 1.06
+  },
+  "since": "0.2",
+  "skin": "polar"
+ },
+ "warnings": []
+}

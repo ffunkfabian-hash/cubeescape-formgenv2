@@ -94,14 +94,16 @@ def _room(parts, at):
 
 
 def _choose_cut(parts, lo, hi, shortening):
-    """Cut in [lo, hi] that crosses the fewest short parts; for shortening prefer the most free room."""
+    """Cut in [lo, hi]: no short part crossed, fewest parts stretched, most free room when shortening, then centred."""
     best = None
     steps = 48
     for i in range(steps + 1):
         at = lo + (hi - lo) * i / steps
-        bad = sum(1 for p in parts if _extent(p)[0] < at < _extent(p)[1] and _extent(p)[1] - _extent(p)[0] < SHORT_MM)
+        crossed = [p for p in parts if _extent(p)[0] < at < _extent(p)[1]]
+        bad = sum(1 for p in crossed if _extent(p)[1] - _extent(p)[0] < SHORT_MM)
         room = _room(parts, at) if shortening else 0.0
-        score = (bad, -room, abs(at - (lo + hi) / 2))
+        # erst keine kurzen Teile kreuzen, dann möglichst wenige Teile dehnen (Leitmerkmale wie Schildflügel bleiben), dann Platz
+        score = (bad, len(crossed), -room, abs(at - (lo + hi) / 2))
         if best is None or score < best[0]:
             best = (score, at, room)
     return best[1], best[2]

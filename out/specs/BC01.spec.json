@@ -127,7 +127,7 @@
  "counts": {
   "assemblies": 8,
   "parts": 31,
-  "triangles": 4512
+  "triangles": 4520
  },
  "dimensions_mm": {
   "height": 268.55,
@@ -179,17 +179,18 @@
     "anchors": [
      "Socket_Hand"
     ],
-    "cut_f_mm": -213.5,
+    "cut_f_mm": -155.0,
     "delta_mm": -29.9,
     "factor": 0.9,
     "limited": false,
     "op": "rear",
     "stretched": [
-     "cheek_rest",
-     "stock"
+     "stock_spine"
     ],
     "translated": [
-     "butt_pad"
+     "butt_pad",
+     "cheek_rest",
+     "stock"
     ],
     "wanted_mm": -29.9
    }
@@ -827,7 +828,7 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -212.0,
+     -182.1,
      -130.0
     ],
     "u": [
@@ -852,11 +853,11 @@
    "extent_mm": {
     "f": [
      -254.1,
-     -206.0
+     -176.1
     ],
     "u": [
-     23.95,
-     129.76
+     23.63,
+     129.86
     ],
     "x": [
      -18.0,
@@ -869,7 +870,7 @@
    "name_en": "Buttstock",
    "role": "shell",
    "shape": "prof",
-   "triangles": 124
+   "triangles": 132
   },
   {
    "assembly": "stock",
@@ -900,7 +901,7 @@
    "extent_mm": {
     "f": [
      -236.1,
-     -200.0
+     -170.1
     ],
     "u": [
      126.0,

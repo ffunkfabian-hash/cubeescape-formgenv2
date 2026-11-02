@@ -1,0 +1,566 @@
+{
+ "anchors": {
+  "Socket_Eye": {
+   "part": "rear_sight_l",
+   "position_mm": [
+    -180.0,
+    92.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "muzzle",
+   "position_mm": [
+    287.5,
+    64.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "rear_sight_l",
+   "position_mm": [
+    -22.0,
+    92.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Bewegliche Mechanik",
+   "en": "Moving mechanism",
+   "id": "mechanism"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-04",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w04_hand_cannon.py": "ae205a2df26fb13dca2eebbfbc5fd7e4b611b2050e0d8d61f6f93d7d2615b4b5"
+  },
+  "source_sha256": "21262188b3fc98e374f177b8a513b80fd7fe4c8a40856be78fe433ae84e8c6e4",
+  "spec_sha256": "6c9ce550e2ec60d4306c8a9bad31bcd936ce13a4cb1758c54a5a12e2ece86be4"
+ },
+ "ballon_dimensions_mm": {
+  "height": 167.7,
+  "length": 297.8,
+  "width": 42.5
+ },
+ "counts": {
+  "assemblies": 6,
+  "parts": 17,
+  "triangles": 2344
+ },
+ "dimensions_mm": {
+  "height": 167.68,
+  "length": 335.26,
+  "width": 42.5
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 1,
+ "generator": {
+  "adaptations": [],
+  "ops": [
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle"
+    ],
+    "cut_f_mm": 125.0,
+    "delta_mm": 37.5,
+    "factor": 1.15,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "barrel",
+     "barrel_rib",
+     "underlug"
+    ],
+    "translated": [
+     "front_sight",
+     "muzzle"
+    ],
+    "wanted_mm": 37.5
+   },
+   {
+    "factor": 1.06,
+    "op": "rear",
+    "skipped": "keine Baugruppe stock (kein Schaft)"
+   }
+  ]
+ },
+ "id": "BB04",
+ "name_de": "Handfeuerwaffe · Long Reach",
+ "name_en": "Hand Cannon · Long Reach",
+ "parts": [
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -38.0,
+     14.0
+    ],
+    "u": [
+     26.0,
+     87.5
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "frame_rear",
+   "moving": false,
+   "name_de": "Rahmen hinten",
+   "name_en": "Rear frame",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 88
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     12.0,
+     82.0
+    ],
+    "u": [
+     78.0,
+     88.0
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "top_strap",
+   "moving": false,
+   "name_de": "Oberbrücke",
+   "name_en": "Top strap",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     80.0,
+     96.0
+    ],
+    "u": [
+     22.0,
+     88.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "frame_front",
+   "moving": false,
+   "name_de": "Laufaufnahme",
+   "name_en": "Barrel lug",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 60
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     14.0,
+     82.0
+    ],
+    "u": [
+     22.14,
+     29.86
+    ],
+    "x": [
+     13.14,
+     20.86
+    ]
+   },
+   "id": "crane",
+   "moving": true,
+   "name_de": "Kran",
+   "name_en": "Crane",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     16.0,
+     80.0
+    ],
+    "u": [
+     30.75,
+     73.25
+    ],
+    "x": [
+     -21.25,
+     21.25
+    ]
+   },
+   "id": "cylinder",
+   "moving": true,
+   "name_de": "Trommel",
+   "name_en": "Cylinder",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     94.0,
+     273.5
+    ],
+    "u": [
+     55.11,
+     72.89
+    ],
+    "x": [
+     -8.89,
+     8.89
+    ]
+   },
+   "id": "barrel",
+   "moving": false,
+   "name_de": "Lauf",
+   "name_en": "Barrel",
+   "role": "metal",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     94.0,
+     273.5
+    ],
+    "u": [
+     68.0,
+     76.0
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "barrel_rib",
+   "moving": false,
+   "name_de": "Laufschiene",
+   "name_en": "Barrel rib",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     94.0,
+     263.5
+    ],
+    "u": [
+     40.0,
+     58.0
+    ],
+    "x": [
+     -9.0,
+     9.0
+    ]
+   },
+   "id": "underlug",
+   "moving": false,
+   "name_de": "Unterlauf",
+   "name_en": "Underlug",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     271.5,
+     287.5
+    ],
+    "u": [
+     53.37,
+     74.63
+    ],
+    "x": [
+     -10.63,
+     10.63
+    ]
+   },
+   "id": "muzzle",
+   "moving": false,
+   "name_de": "Mündung",
+   "name_en": "Muzzle",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 288
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     -47.76,
+     -28.09
+    ],
+    "u": [
+     72.0,
+     97.68
+    ],
+    "x": [
+     -4.0,
+     4.0
+    ]
+   },
+   "id": "hammer",
+   "moving": true,
+   "name_de": "Hahn",
+   "name_en": "Hammer",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 268
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -43.2,
+     24.08
+    ],
+    "u": [
+     -70.0,
+     26.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griff",
+   "name_en": "Grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 120
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     22.17,
+     30.88
+    ],
+    "u": [
+     2.25,
+     26.0
+    ],
+    "x": [
+     -3.0,
+     3.0
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 236
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     12.0,
+     58.0
+    ],
+    "u": [
+     -6.0,
+     24.0
+    ],
+    "x": [
+     -5.0,
+     5.0
+    ]
+   },
+   "id": "trigger_guard",
+   "moving": false,
+   "name_de": "Abzugsbügel",
+   "name_en": "Trigger guard",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -2.41,
+     6.41
+    ],
+    "u": [
+     55.59,
+     64.41
+    ],
+    "x": [
+     14.0,
+     18.0
+    ]
+   },
+   "id": "cylinder_latch",
+   "moving": true,
+   "name_de": "Trommelriegel",
+   "name_en": "Cylinder latch",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -21.83,
+     -12.0
+    ],
+    "u": [
+     87.0,
+     96.0
+    ],
+    "x": [
+     2.0,
+     8.0
+    ]
+   },
+   "id": "rear_sight_l",
+   "moving": false,
+   "name_de": "Kimme links",
+   "name_en": "Rear sight left",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -21.83,
+     -12.0
+    ],
+    "u": [
+     87.0,
+     96.0
+    ],
+    "x": [
+     -8.0,
+     -2.0
+    ]
+   },
+   "id": "rear_sight_r",
+   "moving": false,
+   "name_de": "Kimme rechts",
+   "name_en": "Rear sight right",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     259.67,
+     267.33
+    ],
+    "u": [
+     75.0,
+     84.0
+    ],
+    "x": [
+     -1.5,
+     1.5
+    ]
+   },
+   "id": "front_sight",
+   "moving": false,
+   "name_de": "Korn",
+   "name_en": "Front sight",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 84
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-04 (Quellhash 21262188b3fc); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-04",
+  "name": "Trommel",
+  "nick": "Standard",
+  "num": "04",
+  "type": "hand_cannon",
+  "type_de": "Handfeuerwaffe",
+  "type_en": "Hand Cannon"
+ },
+ "variant": {
+  "idea": "Gestreckte Vorderpartie und etwas längerer Schaft für Distanz; helle Polar-Lackierung",
+  "letter": "B",
+  "name": "Long Reach",
+  "params": {
+   "front": 1.15,
+   "rear": 1.06
+  },
+  "since": "0.2",
+  "skin": "polar"
+ },
+ "warnings": []
+}
