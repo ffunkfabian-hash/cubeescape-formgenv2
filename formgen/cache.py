@@ -113,7 +113,14 @@ def valid_entry(entry: Path, key: str) -> bool:
 
 
 def _record(out: Path, artifact: Artifact, result: Result, meta: dict) -> None:
-    with _lock(out / ".locks" / "manifest.lock"):
+    _record_many(out, [(artifact, result, meta)])
+
+
+def _record_many(out: Path, entries) -> None:
+    """One manifest update per batch (per-artefact rewrites were quadratic: 14 s of a 22 s warm run)."""
+    if not entries:
+        return
+    with _lock(Path(out).resolve() / ".locks" / "manifest.lock"):
         path = out / "manifest.json"
         try:
             manifest = json.loads(path.read_text(encoding="utf-8"))
@@ -121,17 +128,31 @@ def _record(out: Path, artifact: Artifact, result: Result, meta: dict) -> None:
                 raise ValueError("Ungültiges Manifest")
         except (OSError, ValueError):
             manifest = {"format": VERSION, "artifacts": {}}
-        manifest["artifacts"][artifact.output] = {
-            "model": artifact.model_id, "kind": artifact.kind, "key": result.key,
-            "source": artifact.source, "params": artifact.params, "versions": artifact.versions,
-            "sha256": meta["sha256"], "size": meta["size"],
-            "status": "built" if result.built else "cached", "reason": result.reason,
-        }
+        for artifact, result, meta in entries:
+            # Ein paralleler Lauf kann denselben Ausgabepfad inzwischen mit anderem Schlüssel veröffentlicht haben:
+            # nur eintragen, was jetzt wirklich auf der Platte liegt (unter Manifestsperre geprüft).
+            try:
+                if file_hash(Path(out).resolve() / _relative(artifact.output)) != meta["sha256"]:
+                    continue
+            except OSError:
+                continue
+            manifest["artifacts"][artifact.output] = {
+                "model": artifact.model_id, "kind": artifact.kind, "key": result.key,
+                "source": artifact.source, "params": artifact.params, "versions": artifact.versions,
+                "sha256": meta["sha256"], "size": meta["size"],
+                "status": "built" if result.built else "cached", "reason": result.reason,
+            }
         atomic_write(path, canonical(manifest) + b"\n")
 
 
 def build_one(artifact: Artifact, out: Path, cache: Path, force: bool = False) -> Result:
     """Build one byte artefact or restore it; a failure never publishes partial data."""
+    result, meta = _build(artifact, out, cache, force)
+    _record(Path(out).resolve(), artifact, result, meta)
+    return result
+
+
+def _build(artifact: Artifact, out: Path, cache: Path, force: bool = False):
     out, cache = Path(out).resolve(), Path(cache).resolve()
     relative = _relative(artifact.output)
     destination = out / relative
@@ -176,13 +197,11 @@ def build_one(artifact: Artifact, out: Path, cache: Path, force: bool = False) -
             if not built:
                 reason = "restored_corrupt_output" if destination.exists() else "restored_missing_output"
             atomic_write(destination, (entry / "artifact").read_bytes())
-        result = Result(artifact.output, key, built, reason)
-        _record(out, artifact, result, meta)
-        return result
+        return Result(artifact.output, key, built, reason), meta
 
 
 def _worker(args):
-    return build_one(*args)
+    return _build(*args)
 
 
 def run_artifacts(artifacts: Iterable[Artifact], out: Path, cache: Path, *, jobs: int = 1,
@@ -198,7 +217,10 @@ def run_artifacts(artifacts: Iterable[Artifact], out: Path, cache: Path, *, jobs
         _relative(output)
     selected = set(force_kinds)
     args = [(artifact, out, cache, force or artifact.kind in selected) for artifact in artifacts]
-    if jobs == 1:
-        return [_worker(arg) for arg in args]
-    with ProcessPoolExecutor(max_workers=jobs) as executor:
-        return list(executor.map(_worker, args))
+    if jobs == 1 or len(args) < 2:
+        pairs = [_worker(arg) for arg in args]
+    else:
+        with ProcessPoolExecutor(max_workers=jobs) as executor:
+            pairs = list(executor.map(_worker, args))
+    _record_many(out, [(artifact, result, meta) for artifact, (result, meta) in zip(artifacts, pairs)])
+    return [result for result, _ in pairs]

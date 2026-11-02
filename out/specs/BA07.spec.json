@@ -1,0 +1,696 @@
+{
+ "anchors": {
+  "Socket_ArrowTip": {
+   "part": "arrow_head",
+   "position_mm": [
+    616.0,
+    46.0,
+    0.0
+   ]
+  },
+  "Socket_Eye": {
+   "part": "sight_ring",
+   "position_mm": [
+    -470.0,
+    70.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "arrow_rest",
+   "position_mm": [
+    8.0,
+    46.0,
+    0.0
+   ]
+  },
+  "Socket_Nock": {
+   "part": "string_top",
+   "position_mm": [
+    -60.0,
+    46.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_ring",
+   "position_mm": [
+    54.0,
+    64.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Mittelstück",
+   "en": "Riser",
+   "id": "riser"
+  },
+  {
+   "de": "Wurfarme",
+   "en": "Limbs",
+   "id": "limbs"
+  },
+  {
+   "de": "Sehne",
+   "en": "String",
+   "id": "string"
+  },
+  {
+   "de": "Pfeil",
+   "en": "Arrow",
+   "id": "arrow"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-07",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w07_combat_bow.py": "0b84c66bccb8681d45f18e73bf19b174628a9dfe6430331d1b37a68a70b30f25"
+  },
+  "source_sha256": "d3ad9f3008926c16f4a1edbc3c57b4d39838adb215eb57ceb8289b81d3a247e0",
+  "spec_sha256": "183ce091b2461e3b9038daf373028348fee6b3aed3cac65a8426e30c4c373ad1"
+ },
+ "ballon_dimensions_mm": {
+  "height": 1029.6,
+  "length": 685.8,
+  "width": 38.0
+ },
+ "counts": {
+  "assemblies": 6,
+  "parts": 23,
+  "triangles": 3356
+ },
+ "dimensions_mm": {
+  "height": 1029.62,
+  "length": 685.81,
+  "width": 38.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 1,
+ "generator": {
+  "adaptations": [],
+  "ops": []
+ },
+ "id": "BA07",
+ "name_de": "Bogen · Baseline",
+ "name_en": "Combat Bow · Baseline",
+ "parts": [
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -25.0,
+     26.0
+    ],
+    "u": [
+     -42.0,
+     30.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griff",
+   "name_en": "Grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 100
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -17.88,
+     50.0
+    ],
+    "u": [
+     -246.0,
+     -38.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "riser_lower",
+   "moving": false,
+   "name_de": "Mittelstück unten",
+   "name_en": "Lower riser",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 276
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -13.86,
+     50.0
+    ],
+    "u": [
+     68.0,
+     246.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "riser_upper",
+   "moving": false,
+   "name_de": "Mittelstück oben",
+   "name_en": "Upper riser",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 276
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -12.0,
+     30.0
+    ],
+    "u": [
+     24.0,
+     74.0
+    ],
+    "x": [
+     6.0,
+     16.0
+    ]
+   },
+   "id": "riser_bridge",
+   "moving": false,
+   "name_de": "Fensterbrücke",
+   "name_en": "Window bridge",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -2.0,
+     16.0
+    ],
+    "u": [
+     38.0,
+     42.0
+    ],
+    "x": [
+     -4.0,
+     6.0
+    ]
+   },
+   "id": "arrow_rest",
+   "moving": false,
+   "name_de": "Pfeilauflage",
+   "name_en": "Arrow rest",
+   "role": "accent",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -12.0,
+     42.0
+    ],
+    "u": [
+     238.0,
+     258.0
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "pocket_top",
+   "moving": false,
+   "name_de": "Wurfarmaufnahme oben",
+   "name_en": "Upper limb pocket",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -12.0,
+     42.0
+    ],
+    "u": [
+     -258.0,
+     -238.0
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "pocket_bottom",
+   "moving": false,
+   "name_de": "Wurfarmaufnahme unten",
+   "name_en": "Lower limb pocket",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -61.83,
+     42.0
+    ],
+    "u": [
+     248.04,
+     508.41
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "limb_top",
+   "moving": false,
+   "name_de": "Wurfarm oben",
+   "name_en": "Upper limb",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 316
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -61.83,
+     42.0
+    ],
+    "u": [
+     -508.41,
+     -248.04
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "limb_bottom",
+   "moving": false,
+   "name_de": "Wurfarm unten",
+   "name_en": "Lower limb",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 316
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -69.81,
+     -50.19
+    ],
+    "u": [
+     495.19,
+     514.81
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "cam_top",
+   "moving": false,
+   "name_de": "Rolle oben",
+   "name_en": "Upper cam",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -69.81,
+     -50.19
+    ],
+    "u": [
+     -514.81,
+     -495.19
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "cam_bottom",
+   "moving": false,
+   "name_de": "Rolle unten",
+   "name_en": "Lower cam",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "string",
+   "extent_mm": {
+    "f": [
+     -61.66,
+     -58.34
+    ],
+    "u": [
+     46.0,
+     505.0
+    ],
+    "x": [
+     -1.66,
+     1.66
+    ]
+   },
+   "id": "string_top",
+   "moving": true,
+   "name_de": "Sehne oben",
+   "name_en": "Upper string",
+   "role": "string",
+   "shape": "cyl",
+   "triangles": 28
+  },
+  {
+   "assembly": "string",
+   "extent_mm": {
+    "f": [
+     -61.66,
+     -58.34
+    ],
+    "u": [
+     -505.0,
+     46.0
+    ],
+    "x": [
+     -1.66,
+     1.66
+    ]
+   },
+   "id": "string_bottom",
+   "moving": true,
+   "name_de": "Sehne unten",
+   "name_en": "Lower string",
+   "role": "string",
+   "shape": "cyl",
+   "triangles": 28
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     560.0
+    ],
+    "u": [
+     42.67,
+     49.33
+    ],
+    "x": [
+     -3.37,
+     3.37
+    ]
+   },
+   "id": "arrow_shaft",
+   "moving": true,
+   "name_de": "Pfeilschaft",
+   "name_en": "Arrow shaft",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 196
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     556.0,
+     616.0
+    ],
+    "u": [
+     40.01,
+     51.99
+    ],
+    "x": [
+     -6.85,
+     6.85
+    ]
+   },
+   "id": "arrow_head",
+   "moving": false,
+   "name_de": "Pfeilspitze",
+   "name_en": "Arrow head",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 116
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -66.0,
+     -54.0
+    ],
+    "u": [
+     41.72,
+     50.28
+    ],
+    "x": [
+     -4.37,
+     4.37
+    ]
+   },
+   "id": "arrow_nock",
+   "moving": false,
+   "name_de": "Nocke",
+   "name_en": "Nock",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 196
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -45.85,
+     15.87
+    ],
+    "u": [
+     46.0,
+     58.99
+    ],
+    "x": [
+     -0.6,
+     0.6
+    ]
+   },
+   "id": "fletch_top",
+   "moving": false,
+   "name_de": "Befiederung oben",
+   "name_en": "Top vane",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -45.84,
+     15.86
+    ],
+    "u": [
+     45.4,
+     46.6
+    ],
+    "x": [
+     2.0,
+     13.99
+    ]
+   },
+   "id": "fletch_l",
+   "moving": false,
+   "name_de": "Befiederung links",
+   "name_en": "Left vane",
+   "role": "graphite",
+   "shape": "plan",
+   "triangles": 76
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -45.84,
+     15.86
+    ],
+    "u": [
+     45.4,
+     46.6
+    ],
+    "x": [
+     -13.99,
+     -2.0
+    ]
+   },
+   "id": "fletch_r",
+   "moving": false,
+   "name_de": "Befiederung rechts",
+   "name_en": "Right vane",
+   "role": "graphite",
+   "shape": "plan",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     26.0,
+     60.0
+    ],
+    "u": [
+     78.0,
+     84.0
+    ],
+    "x": [
+     -3.0,
+     3.0
+    ]
+   },
+   "id": "sight_arm",
+   "moving": false,
+   "name_de": "Visierarm",
+   "name_en": "Sight arm",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     54.0,
+     60.0
+    ],
+    "u": [
+     51.0,
+     77.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_ring",
+   "moving": false,
+   "name_de": "Visierring",
+   "name_en": "Sight ring",
+   "role": "graphite",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     56.0,
+     58.0
+    ],
+    "u": [
+     63.0,
+     66.0
+    ],
+    "x": [
+     -0.8,
+     0.8
+    ]
+   },
+   "id": "sight_pin",
+   "moving": false,
+   "name_de": "Leuchtpin",
+   "name_en": "Sight pin",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     56.0,
+     58.0
+    ],
+    "u": [
+     54.0,
+     63.0
+    ],
+    "x": [
+     -0.6,
+     0.6
+    ]
+   },
+   "id": "sight_pin_post",
+   "moving": false,
+   "name_de": "Pinträger",
+   "name_en": "Pin post",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-07 (Quellhash d3ad9f300892); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-07",
+  "name": "Sehnenzug",
+  "nick": "Standard",
+  "num": "07",
+  "type": "combat_bow",
+  "type_de": "Bogen",
+  "type_en": "Combat Bow"
+ },
+ "variant": {
+  "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
+  "letter": "A",
+  "name": "Baseline",
+  "params": {},
+  "since": "0.2",
+  "skin": "standard"
+ },
+ "warnings": []
+}

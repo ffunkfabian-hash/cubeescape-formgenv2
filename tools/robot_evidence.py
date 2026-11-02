@@ -6,9 +6,12 @@ import numpy as np
 from PIL import Image
 from formgen import geom,model,raster,versions
 from formgen.cache import Artifact,canonical,file_hash,run_artifacts
+from tools import acceptance
 REF=Path.home()/'Library/Caches/CubeEscapeFormgen/refs'
 OUT=Path.home()/'Library/Caches/CubeEscapeFormgen/evidence/robot'
 SCALE=3653/1.924/4
+# Ausnahmen je Referenz gelten nur für die volle Figur (alle fünf Baugruppen).
+FULL={'head','upper_body','arms','lower_body','legs'}
 CENTER_Z=(3876/4-512)/SCALE
 VIEWS={'front':('front',[0,0,CENTER_Z],0,0),'back':('back',[0,0,CENTER_Z],0,0),
        'side-right':('side_left',[0,-(2150/4-512)/SCALE,CENTER_Z],0,7),
@@ -78,7 +81,9 @@ def evaluate(groups, u_min=0,u_max=1924):
         union=(r|m).sum();iou=float((r&m).sum()/union) if union else 0
         bands=band_metrics(r,m,u[:,0],u_min,u_max)
         overlay=np.full((1024,1024,3),238,np.uint8);overlay[r]=[220,70,80];overlay[m]=[60,130,230];overlay[r&m]=[95,80,150];Image.fromarray(overlay).save(out/(view+'-overlay.png'))
-        result['views'][view]={'iou':iou,'bands':bands,'iou_pass':iou>=.9,'bands_pass':all(b['ratio'] is not None and .92<=b['ratio']<=1.08 for b in bands)}
+        mask_sha=hashlib.sha256((REF/f'ortho-{view}-mask.png').read_bytes()).hexdigest()
+        verdict=acceptance.judge('R01',view,iou,bands,mask_sha) if set(groups)==FULL else {'iou_pass':iou>=.9,'bands_pass':all(b['ratio'] is not None and .92<=b['ratio']<=1.08 for b in bands)}
+        result['views'][view]={'iou':iou,'bands':bands,**verdict}
     (out/'metrics.json').write_bytes(canonical(result)+b'\n')
     print(name,doc['counts'], {v:round(d['iou'],4) for v,d in result['views'].items()})
     return result

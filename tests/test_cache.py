@@ -1,5 +1,6 @@
 """Cache acceptance without images: real files, subprocesses and deliberately bad bytes."""
 from dataclasses import replace
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -207,3 +208,19 @@ class CacheTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ManifestRaceTests(unittest.TestCase):
+    def test_stale_run_does_not_overwrite_newer_manifest_entry(self):
+        import tempfile
+        from formgen import cache
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out"; (out / "data").mkdir(parents=True)
+            a = cache.Artifact("M", "k", "s", {"v": 1}, {}, "data/x.txt", "x:y", {})
+            b = cache.Artifact("M", "k", "s", {"v": 2}, {}, "data/x.txt", "x:y", {})
+            new = b"neuer Stand"; (out / "data/x.txt").write_bytes(new)
+            meta = lambda raw: {"sha256": hashlib.sha256(raw).hexdigest(), "size": len(raw)}
+            cache._record_many(out, [(b, cache.Result(b.output, b.key, True, "built"), meta(new))])
+            cache._record_many(out, [(a, cache.Result(a.output, a.key, True, "built"), meta(b"alter Stand"))])
+            entry = json.loads((out / "manifest.json").read_text())["artifacts"]["data/x.txt"]
+            self.assertEqual(entry["key"], b.key)

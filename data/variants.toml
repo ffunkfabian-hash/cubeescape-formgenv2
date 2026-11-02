@@ -1,0 +1,34 @@
+# Variantenregister Formgen v2 (einzige Eintragsstelle; Prinzip aus Formgen v1 variants.py).
+# Eine Variante ist eine Gestaltungslinie über alle 17 BALLON-Typen: Blatt-ID = "B" + Buchstabe + BASIC-Nummer (BA01 … BA17).
+# IDs und Namen sind ab Vergabe ewig. Neue Variante nur über `python -m formgen.variants new …` (prüft die Namensregel).
+# Parameter sind Vorgaben (Herkunft „Vorgabe Variantenregister“); Werkzeuge und Grenzen: docs/generator.md.
+schema = 1
+
+[[variants]]
+letter = "A"
+name = "Baseline"
+idea = "BALLON-Grundform unverändert; Bezug für alle weiteren Linien"
+since = "0.2"
+skin = "standard"
+[variants.params]
+
+[[variants]]
+letter = "B"
+name = "Long Reach"
+idea = "Gestreckte Vorderpartie und etwas längerer Schaft für Distanz; helle Polar-Lackierung"
+since = "0.2"
+skin = "polar"
+[variants.params]
+front = 1.15
+rear = 1.06
+
+[[variants]]
+letter = "C"
+name = "Close Quarters"
+idea = "Verkürzte Vorderpartie, kürzerer Schaft, ohne Lüftungsschlitze; dunkle Nachtschicht"
+since = "0.2"
+skin = "nacht"
+[variants.params]
+front = 0.86
+rear = 0.9
+drop = ["vent_*"]

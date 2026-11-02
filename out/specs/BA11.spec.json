@@ -1,0 +1,902 @@
+{
+ "anchors": {
+  "Socket_Cell": {
+   "part": "energy_cell",
+   "position_mm": [
+    -90.0,
+    38.0,
+    0.0
+   ]
+  },
+  "Socket_Eye": {
+   "part": "scope_eyepiece",
+   "position_mm": [
+    -160.0,
+    188.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "muzzle",
+   "position_mm": [
+    852.0,
+    100.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "scope_glass",
+   "position_mm": [
+    124.5,
+    188.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "scope_eyepiece",
+   "position_mm": [
+    -90.0,
+    188.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "support_grip",
+   "position_mm": [
+    330.0,
+    52.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Schaft",
+   "en": "Stock",
+   "id": "stock"
+  },
+  {
+   "de": "Kühlung",
+   "en": "Cooling",
+   "id": "cooling"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-11",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w11_linear_fusion_rifle.py": "058aadaa215dfa5c738c5e614be83c2d0ceb93fc0d371bd7a286d2505ce239c4"
+  },
+  "source_sha256": "7cd98d9277dda000bbae20bd2d27391c0221bee7a24e8f29d0f4391bfaf9aab4",
+  "spec_sha256": "1a1a9509035f896b7b6e8cd1119cf42ca2f36392743608afb8216eda263e7a22"
+ },
+ "ballon_dimensions_mm": {
+  "height": 280.6,
+  "length": 1216.8,
+  "width": 57.1
+ },
+ "counts": {
+  "assemblies": 8,
+  "parts": 30,
+  "triangles": 5532
+ },
+ "dimensions_mm": {
+  "height": 273.0,
+  "length": 1216.8,
+  "width": 48.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 1,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": 13,
+    "field": "r_in",
+    "kind": "Annahme",
+    "part": "scope_eyepiece",
+    "reason": "BALLON-Hohlkegel mit r_in ≥ Außenradius stülpt die Wand um; r_in auf das große Ende bezogen",
+    "v2": 10.5625
+   },
+   {
+    "ballon": 18,
+    "field": "r_in",
+    "kind": "Annahme",
+    "part": "scope_objective",
+    "reason": "BALLON-Hohlkegel mit r_in ≥ Außenradius stülpt die Wand um; r_in auf das große Ende bezogen",
+    "v2": 11.142857
+   }
+  ],
+  "ops": []
+ },
+ "id": "BA11",
+ "name_de": "Lineares Fusionsgewehr · Baseline",
+ "name_en": "Linear Fusion Rifle · Baseline",
+ "parts": [
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -150.0,
+     222.0
+    ],
+    "u": [
+     48.0,
+     142.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "receiver",
+   "moving": false,
+   "name_de": "Gehäuse",
+   "name_en": "Receiver",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     222.0,
+     820.0
+    ],
+    "u": [
+     122.0,
+     136.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "rail_top",
+   "moving": false,
+   "name_de": "Beschleunigerschiene oben",
+   "name_en": "Upper accelerator rail",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     222.0,
+     800.0
+    ],
+    "u": [
+     64.0,
+     78.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "rail_bottom",
+   "moving": false,
+   "name_de": "Beschleunigerschiene unten",
+   "name_en": "Lower accelerator rail",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     222.0,
+     812.0
+    ],
+    "u": [
+     95.17,
+     104.83
+    ],
+    "x": [
+     -4.83,
+     4.83
+    ]
+   },
+   "id": "linear_core",
+   "moving": true,
+   "name_de": "Linearkern",
+   "name_en": "Linear core",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 44
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     812.0,
+     852.0
+    ],
+    "u": [
+     84.55,
+     115.45
+    ],
+    "x": [
+     -15.45,
+     15.45
+    ]
+   },
+   "id": "muzzle",
+   "moving": false,
+   "name_de": "Fokusmündung",
+   "name_en": "Focus muzzle",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 288
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     796.0,
+     812.0
+    ],
+    "u": [
+     64.0,
+     136.0
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "muzzle_bridge",
+   "moving": false,
+   "name_de": "Mündungsbrücke",
+   "name_en": "Muzzle bridge",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     272.16,
+     388.14
+    ],
+    "u": [
+     40.0,
+     65.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "support_grip",
+   "moving": false,
+   "name_de": "Stützgriff",
+   "name_en": "Support grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     300.0,
+     316.0
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_1",
+   "moving": false,
+   "name_de": "Spulenring 1",
+   "name_en": "Coil ring 1",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     430.0,
+     446.0
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_2",
+   "moving": false,
+   "name_de": "Spulenring 2",
+   "name_en": "Coil ring 2",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     560.0,
+     576.0
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_3",
+   "moving": false,
+   "name_de": "Spulenring 3",
+   "name_en": "Coil ring 3",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     690.0,
+     706.0
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_4",
+   "moving": false,
+   "name_de": "Spulenring 4",
+   "name_en": "Coil ring 4",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -134.0,
+     -46.0
+    ],
+    "u": [
+     24.0,
+     52.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -112.0,
+     -68.0
+    ],
+    "u": [
+     36.0,
+     40.0
+    ],
+    "x": [
+     19.7,
+     20.7
+    ]
+   },
+   "id": "energy_cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -130.0,
+     190.0
+    ],
+    "u": [
+     141.5,
+     150.0
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "rail",
+   "moving": false,
+   "name_de": "Schiene",
+   "name_en": "Top rail",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -50.0,
+     -28.0
+    ],
+    "u": [
+     150.5,
+     177.0
+    ],
+    "x": [
+     -12.0,
+     12.0
+    ]
+   },
+   "id": "scope_mount_r",
+   "moving": true,
+   "name_de": "Zielfernrohr-Ring hinten",
+   "name_en": "Scope ring rear",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     58.0,
+     80.0
+    ],
+    "u": [
+     150.5,
+     177.0
+    ],
+    "x": [
+     -12.0,
+     12.0
+    ]
+   },
+   "id": "scope_mount_f",
+   "moving": false,
+   "name_de": "Zielfernrohr-Ring vorn",
+   "name_en": "Scope ring front",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     90.0
+    ],
+    "u": [
+     176.06,
+     199.94
+    ],
+    "x": [
+     -11.94,
+     11.94
+    ]
+   },
+   "id": "scope_tube",
+   "moving": false,
+   "name_de": "Mittelrohr",
+   "name_en": "Scope tube",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 380
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -90.0,
+     -58.0
+    ],
+    "u": [
+     172.08,
+     203.92
+    ],
+    "x": [
+     -15.92,
+     15.92
+    ]
+   },
+   "id": "scope_eyepiece",
+   "moving": false,
+   "name_de": "Okular",
+   "name_en": "Eyepiece",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 256
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.0,
+     130.0
+    ],
+    "u": [
+     167.1,
+     208.9
+    ],
+    "x": [
+     -20.9,
+     20.9
+    ]
+   },
+   "id": "scope_objective",
+   "moving": false,
+   "name_de": "Objektiv",
+   "name_en": "Objective bell",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 256
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     2.07,
+     17.93
+    ],
+    "u": [
+     198.0,
+     209.0
+    ],
+    "x": [
+     -7.93,
+     7.93
+    ]
+   },
+   "id": "scope_turret",
+   "moving": false,
+   "name_de": "Verstellturm",
+   "name_en": "Elevation turret",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 284
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     124.0,
+     125.0
+    ],
+    "u": [
+     170.09,
+     205.91
+    ],
+    "x": [
+     -17.91,
+     17.91
+    ]
+   },
+   "id": "scope_glass",
+   "moving": false,
+   "name_de": "Objektivglas",
+   "name_en": "Objective lens",
+   "role": "glass",
+   "shape": "cyl",
+   "triangles": 124
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -86.0,
+     -85.0
+    ],
+    "u": [
+     175.06,
+     200.94
+    ],
+    "x": [
+     -12.94,
+     12.94
+    ]
+   },
+   "id": "scope_ocular_glass",
+   "moving": false,
+   "name_de": "Okularglas",
+   "name_en": "Ocular lens",
+   "role": "glass",
+   "shape": "cyl",
+   "triangles": 124
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.84,
+     32.83
+    ],
+    "u": [
+     -64.0,
+     48.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 300
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     45.03,
+     52.86
+    ],
+    "u": [
+     21.19,
+     47.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     27.27,
+     84.86
+    ],
+    "u": [
+     14.0,
+     49.0
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "trigger_guard",
+   "moving": false,
+   "name_de": "Abzugsbügel",
+   "name_en": "Trigger guard",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 244
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -161.0,
+     -149.0
+    ],
+    "u": [
+     78.0,
+     120.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "stock_joint",
+   "moving": false,
+   "name_de": "Schaftverbindung",
+   "name_en": "Stock joint",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -260.4,
+     -160.0
+    ],
+    "u": [
+     88.0,
+     116.0
+    ],
+    "x": [
+     -14.0,
+     14.0
+    ]
+   },
+   "id": "stock_spine",
+   "moving": false,
+   "name_de": "Schaftrohr",
+   "name_en": "Stock spine",
+   "role": "graphite",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -346.8,
+     -253.2
+    ],
+    "u": [
+     17.42,
+     123.88
+    ],
+    "x": [
+     -18.0,
+     18.0
+    ]
+   },
+   "id": "stock",
+   "moving": false,
+   "name_de": "Schulterstütze",
+   "name_en": "Buttstock",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 116
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -364.8,
+     -345.6
+    ],
+    "u": [
+     12.38,
+     127.62
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "butt_pad",
+   "moving": false,
+   "name_de": "Schaftkappe",
+   "name_en": "Butt pad",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 116
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -325.2,
+     -246.0
+    ],
+    "u": [
+     120.0,
+     130.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "cheek_rest",
+   "moving": false,
+   "name_de": "Wangenauflage",
+   "name_en": "Cheek rest",
+   "role": "graphite",
+   "shape": "box",
+   "triangles": 60
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-11 (Quellhash 7cd98d9277dd); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-11",
+  "name": "Schienenlicht",
+  "nick": "Standard",
+  "num": "11",
+  "type": "linear_fusion_rifle",
+  "type_de": "Lineares Fusionsgewehr",
+  "type_en": "Linear Fusion Rifle"
+ },
+ "variant": {
+  "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
+  "letter": "A",
+  "name": "Baseline",
+  "params": {},
+  "since": "0.2",
+  "skin": "standard"
+ },
+ "warnings": [
+  "scope_eyepiece: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_objective: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert"
+ ]
+}

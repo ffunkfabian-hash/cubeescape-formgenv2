@@ -1,0 +1,885 @@
+{
+ "anchors": {
+  "Socket_Eye": {
+   "part": "sight_frame",
+   "position_mm": [
+    24.0,
+    172.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_MagWell": {
+   "part": "mag_well",
+   "position_mm": [
+    99.0,
+    62.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "muzzle",
+   "position_mm": [
+    445.96,
+    100.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    30.0,
+    172.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_body",
+   "position_mm": [
+    -13.0,
+    172.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "handguard",
+   "position_mm": [
+    270.0,
+    82.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Schaft",
+   "en": "Stock",
+   "id": "stock"
+  },
+  {
+   "de": "Bewegliche Mechanik",
+   "en": "Moving mechanism",
+   "id": "mechanism"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-02",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w02_pulse_rifle.py": "a8fdd2f1c65150800773e8815c67bf640eb757eef92fb682a49365f1242af4d3"
+  },
+  "source_sha256": "17bc4792686d4737eecf71a222c99995e09b81f279c7fae4ee670fbb95ad6d6f",
+  "spec_sha256": "b05797f365685a7adf9bba706320e9a40ce49d84e4d1f34939403feb48794e6e"
+ },
+ "ballon_dimensions_mm": {
+  "height": 255.0,
+  "length": 797.0,
+  "width": 50.4
+ },
+ "counts": {
+  "assemblies": 8,
+  "parts": 28,
+  "triangles": 4192
+ },
+ "dimensions_mm": {
+  "height": 255.0,
+  "length": 713.26,
+  "width": 50.4
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 1,
+ "generator": {
+  "adaptations": [],
+  "ops": [
+   {
+    "dropped": [],
+    "op": "drop",
+    "patterns": [
+     "vent_*"
+    ],
+    "protected": []
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 408.958,
+    "delta_mm": -54.042,
+    "factor": 0.86,
+    "limited": true,
+    "op": "front",
+    "stretched": [
+     "barrel"
+    ],
+    "translated": [
+     "muzzle"
+    ],
+    "wanted_mm": -70.0
+   },
+   {
+    "anchors": [
+     "Socket_Hand"
+    ],
+    "cut_f_mm": -176.513,
+    "delta_mm": -29.7,
+    "factor": 0.9,
+    "limited": false,
+    "op": "rear",
+    "stretched": [
+     "stock"
+    ],
+    "translated": [
+     "butt_pad"
+    ],
+    "wanted_mm": -29.7
+   }
+  ]
+ },
+ "id": "BC02",
+ "name_de": "Impulsgewehr · Close Quarters",
+ "name_en": "Pulse Rifle · Close Quarters",
+ "parts": [
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -110.0,
+     150.0
+    ],
+    "u": [
+     82.0,
+     133.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "upper",
+   "moving": false,
+   "name_de": "Oberes Gehäuse",
+   "name_en": "Upper receiver",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 108
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -110.0,
+     140.0
+    ],
+    "u": [
+     38.0,
+     81.0
+    ],
+    "x": [
+     -21.0,
+     21.0
+    ]
+   },
+   "id": "lower",
+   "moving": false,
+   "name_de": "Unteres Gehäuse",
+   "name_en": "Lower receiver",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 100
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     76.0,
+     122.0
+    ],
+    "u": [
+     26.0,
+     40.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "mag_well",
+   "moving": false,
+   "name_de": "Magazinschacht",
+   "name_en": "Magazine well",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     151.0,
+     408.0
+    ],
+    "u": [
+     99.0,
+     131.0
+    ],
+    "x": [
+     -21.0,
+     21.0
+    ]
+   },
+   "id": "pulse_chamber",
+   "moving": false,
+   "name_de": "Impulskammer",
+   "name_en": "Pulse chamber",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 100
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     151.0,
+     378.0
+    ],
+    "u": [
+     64.0,
+     98.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "handguard",
+   "moving": false,
+   "name_de": "Handschutz",
+   "name_en": "Handguard",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     250.0,
+     266.0
+    ],
+    "u": [
+     112.0,
+     120.0
+    ],
+    "x": [
+     20.9,
+     21.9
+    ]
+   },
+   "id": "burst_1",
+   "moving": true,
+   "name_de": "Salvenanzeige 1",
+   "name_en": "Burst pip 1",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     272.0,
+     288.0
+    ],
+    "u": [
+     112.0,
+     120.0
+    ],
+    "x": [
+     20.9,
+     21.9
+    ]
+   },
+   "id": "burst_2",
+   "moving": true,
+   "name_de": "Salvenanzeige 2",
+   "name_en": "Burst pip 2",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     294.0,
+     310.0
+    ],
+    "u": [
+     112.0,
+     120.0
+    ],
+    "x": [
+     20.9,
+     21.9
+    ]
+   },
+   "id": "burst_3",
+   "moving": true,
+   "name_de": "Salvenanzeige 3",
+   "name_en": "Burst pip 3",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     30.0,
+     84.0
+    ],
+    "u": [
+     92.0,
+     116.0
+    ],
+    "x": [
+     -23.4,
+     -21.8
+    ]
+   },
+   "id": "port_cover",
+   "moving": true,
+   "name_de": "Auswurfklappe",
+   "name_en": "Ejection port cover",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     400.0,
+     413.96
+    ],
+    "u": [
+     91.08,
+     108.92
+    ],
+    "x": [
+     -8.92,
+     8.92
+    ]
+   },
+   "id": "barrel",
+   "moving": false,
+   "name_de": "Lauf",
+   "name_en": "Barrel",
+   "role": "metal",
+   "shape": "cyl",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     409.96,
+     445.96
+    ],
+    "u": [
+     87.99,
+     112.01
+    ],
+    "x": [
+     -12.01,
+     12.01
+    ]
+   },
+   "id": "muzzle",
+   "moving": false,
+   "name_de": "Mündungsbremse",
+   "name_en": "Muzzle brake",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 576
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -90.0,
+     140.0
+    ],
+    "u": [
+     132.5,
+     141.0
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "rail",
+   "moving": false,
+   "name_de": "Schiene",
+   "name_en": "Top rail",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -14.0,
+     36.0
+    ],
+    "u": [
+     141.5,
+     149.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_mount",
+   "moving": true,
+   "name_de": "Visier-Klemmfuß",
+   "name_en": "Sight mount",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     5.61,
+     16.39
+    ],
+    "u": [
+     139.61,
+     150.39
+    ],
+    "x": [
+     13.0,
+     19.0
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmschraube",
+   "name_en": "Clamp screw",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -13.0,
+     36.0
+    ],
+    "u": [
+     148.5,
+     157.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_body",
+   "moving": false,
+   "name_de": "Visiergehäuse",
+   "name_en": "Sight housing",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 180
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     24.0,
+     36.0
+    ],
+    "u": [
+     153.0,
+     191.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "sight_frame",
+   "moving": false,
+   "name_de": "Haubenrahmen",
+   "name_en": "Sight hood frame",
+   "role": "graphite",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     29.5,
+     30.5
+    ],
+    "u": [
+     157.5,
+     186.5
+    ],
+    "x": [
+     -17.5,
+     17.5
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Visierglas",
+   "name_en": "Sight glass",
+   "role": "glass",
+   "shape": "xbox",
+   "triangles": 12
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     1.5,
+     3.5
+    ],
+    "u": [
+     154.2,
+     156.4
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "sight_emitter",
+   "moving": false,
+   "name_de": "Emitter",
+   "name_en": "Reticle emitter",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.84,
+     30.67
+    ],
+    "u": [
+     -64.0,
+     40.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 300
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     42.89,
+     50.72
+    ],
+    "u": [
+     13.19,
+     39.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     25.13,
+     82.72
+    ],
+    "u": [
+     6.0,
+     41.0
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "trigger_guard",
+   "moving": false,
+   "name_de": "Abzugsbügel",
+   "name_en": "Trigger guard",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 244
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -0.0,
+     20.0
+    ],
+    "u": [
+     60.0,
+     68.0
+    ],
+    "x": [
+     21.0,
+     24.0
+    ]
+   },
+   "id": "selector",
+   "moving": true,
+   "name_de": "Feuerwahlhebel",
+   "name_en": "Fire selector",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 92
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     80.0,
+     118.0
+    ],
+    "u": [
+     -42.0,
+     62.0
+    ],
+    "x": [
+     -12.0,
+     12.0
+    ]
+   },
+   "id": "magazine",
+   "moving": true,
+   "name_de": "Magazin",
+   "name_en": "Magazine",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     78.0,
+     120.0
+    ],
+    "u": [
+     -51.0,
+     -41.5
+    ],
+    "x": [
+     -13.5,
+     13.5
+    ]
+   },
+   "id": "magazine_base",
+   "moving": false,
+   "name_de": "Magazinboden",
+   "name_en": "Magazine base plate",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     84.0,
+     112.0
+    ],
+    "u": [
+     60.59,
+     69.41
+    ],
+    "x": [
+     -4.41,
+     4.41
+    ]
+   },
+   "id": "magazine_round",
+   "moving": false,
+   "name_de": "Oberste Patrone",
+   "name_en": "Top round",
+   "role": "metal",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -254.1,
+     -108.0
+    ],
+    "u": [
+     25.09,
+     126.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "stock",
+   "moving": false,
+   "name_de": "Schulterstütze S2",
+   "name_en": "Stock S2",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 236
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -267.3,
+     -253.0
+    ],
+    "u": [
+     22.49,
+     123.06
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "butt_pad",
+   "moving": false,
+   "name_de": "Schaftkappe",
+   "name_en": "Butt pad",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 108
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     -86.0,
+     -56.0
+    ],
+    "u": [
+     112.0,
+     124.0
+    ],
+    "x": [
+     18.0,
+     27.0
+    ]
+   },
+   "id": "charging_handle",
+   "moving": true,
+   "name_de": "Ladehebel",
+   "name_en": "Charging handle",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 108
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-02 (Quellhash 17bc4792686d); Variante C „Close Quarters“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-02",
+  "name": "Impuls",
+  "nick": "Standard",
+  "num": "02",
+  "type": "pulse_rifle",
+  "type_de": "Impulsgewehr",
+  "type_en": "Pulse Rifle"
+ },
+ "variant": {
+  "idea": "Verkürzte Vorderpartie, kürzerer Schaft, ohne Lüftungsschlitze; dunkle Nachtschicht",
+  "letter": "C",
+  "name": "Close Quarters",
+  "params": {
+   "drop": [
+    "vent_*"
+   ],
+   "front": 0.86,
+   "rear": 0.9
+  },
+  "since": "0.2",
+  "skin": "nacht"
+ },
+ "warnings": []
+}

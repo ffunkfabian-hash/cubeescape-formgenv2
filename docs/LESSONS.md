@@ -17,3 +17,7 @@
 - Nichtplanare Quads vor Spiegelung oder Innenwandumkehr einmal kanonisch triangulieren; umgekehrte Quad-Fans wechseln die Diagonale und damit Fläche, Wandstärke und sichtbare Tiefe. [Kopfkorrektur](versions/0.1.md)
 - Fasenclamps auf gleicher Ausgangsgeometrie vergleichen: Blender begrenzt den Auftrag gemeinsam; unabhängige lokale Grenzen verändern auch weit entfernte Kanten. [Modellsprache](modellsprache.md)
 - Benachbarte Panzerfelder vor dem Schalenabschluss konform zerlegen: positive Volumen und Kanteninzidenz zwei schließen überlagerte innere Abschlusswände nicht aus; koplanare Dreiecksüberdeckungen separat prüfen. [Fußabnahme](versions/0.1.md)
+- Manifest nicht je Artefakt neu schreiben: bei ~1000 Treffern wurde der warme Lauf quadratisch (21,6 s → 3,2 s nach Bündelung je Stufe). [Generator](generator.md)
+- Stufen-Closure am Ort des Builders messen: liegt der Builder in einem Sammelmodul, fehlen Geometrie-Imports im Schlüssel; Test prüft, dass geom/model in der Closure stehen. [Generator](generator.md)
+- BALLON-Geometrie nicht blind übernehmen: Hohlkegel mit r_in ≥ r stülpen sich um und verfälschen BALLONs gemessene Maße; Anpassung als Annahme im Spec ausweisen und melden. [Generator](generator.md)
+- Bei Variantenstreckung zuerst wenige gedehnte Teile wählen, sonst verzerren Leitmerkmale (Glefen-Schildflügel); Stauchen nur bis zur freien Zone hinter dem Schnitt. [Generator](generator.md)
