@@ -126,10 +126,13 @@ def select(ids=(), letters=None, types=None, entries=None):
             if (not letters or e["variant"]["letter"] in letters) and (not types or e["num"] in types)}
 
 
-def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print):
+def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, snap=None, commit=None):
+    """Build the selection stage by stage; `snap`/`commit` override the pinned BALLON snapshot (measurements, tests)."""
     out, cache = Path(out), Path(cache)
     cfg = ballon.config()
-    snap = ballon.snapshot(cfg["commit"], cfg["repo"])
+    if commit:
+        cfg["commit"] = commit
+    snap = Path(snap) if snap else ballon.snapshot(cfg["commit"], cfg["repo"])
     ids = list(selection)
     timing = {"ballon_commit": cfg["commit"], "sheets": len(ids), "jobs": jobs, "force": force,
               "env": environment(), "stages": {}}

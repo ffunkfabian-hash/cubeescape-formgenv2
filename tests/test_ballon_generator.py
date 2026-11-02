@@ -147,3 +147,35 @@ class GeneratorTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+GLB = Path.home() / "Library/Caches/CubeEscapeBallon/out"
+
+
+@unittest.skipIf(SNAP is None or not GLB.is_dir(), REASON or "BALLON-GLB-Exporte fehlen (nur Mac)")
+class BallonGlbParityTests(unittest.TestCase):
+    """Baseline gegen BALLONs eigenes GLB (gleicher Stand, Spec bytegleich): Silhouetten und Maße."""
+
+    def test_baseline_silhouettes_match_ballon_export(self):
+        import hashlib, json
+        from formgen.cache import canonical
+        from tools import ballon_compare
+        base = {"letter": "A", "name": "Baseline", "idea": "x", "since": "0.2", "skin": "standard", "params": {}}
+        checked = 0
+        with tempfile.TemporaryDirectory() as tmp:
+            for num in ballon.TYPES:
+                folder = GLB / f"BASIC-{num}"
+                spec = folder / f"BASIC-{num}.spec.json"
+                if not spec.exists() or hashlib.sha256(spec.read_bytes()).hexdigest() != ballon.source(SNAP, num)["spec_sha256"]:
+                    continue
+                author, report = generator.build(base, num, SNAP)
+                path = Path(tmp) / f"BA{num}.json"
+                path.write_bytes(canonical(evaluated(author)))
+                result, _ = ballon_compare.compare(folder / f"BASIC-{num}.glb", path)
+                scope_defect = any(n.get("field") == "r_in" for n in report["adaptations"])
+                for view, value in result["views"].items():
+                    floor = 0.85 if scope_defect and view == "front" else 0.965
+                    self.assertGreaterEqual(value["iou"], floor, f"BASIC-{num} {view}")
+                self.assertAlmostEqual(result["dims_mm"]["length"]["v2"], result["dims_mm"]["length"]["ballon"], delta=0.5)
+                checked += 1
+        self.assertGreater(checked, 0, "kein GLB mit gepinntem Spec gefunden")

@@ -21,7 +21,9 @@ class GoldenTests(unittest.TestCase):
         self.assertEqual(*values)
     @unittest.skipUnless(os.environ.get('FORMGEN_GOLDEN_IMAGES')=='1','explizite Bildstufe')
     def test_image_hashes(self):
-        expected=json.loads(GOLDEN.read_text());self.assertEqual(expected,collect(images=True))
+        # Bildstufe je Worktree nur für gebaute Modelle: vorhandene Dateien müssen exakt passen, nichts Ungolden-Gebautes
+        expected=json.loads(GOLDEN.read_text());actual=collect(images=True)
+        self.assertEqual({k:v for k,v in expected.items() if (ROOT/k).exists()},actual)
 
 if __name__=='__main__':
     if '--update' in sys.argv:

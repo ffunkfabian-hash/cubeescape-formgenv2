@@ -11,7 +11,7 @@ from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit
 
-from . import __version__, geo, spec
+from . import __version__, geo, spec, wspec
 from .cache import canonical
 
 
@@ -78,6 +78,9 @@ def _dependencies(name, raw):
     elif name.startswith('specs/'):
         if data.get('format') in ('cubeescape-design/weapon-spec','cubeescape-design/sight-spec'):
             spec.validate(data)
+        elif data.get('format') == wspec.FORMAT:
+            wspec.migrate(data)
+            return refs
         elif data.get('format') != 'cubeescape-formgen/figure-spec':
             raise ValueError(f'Unbekannter Spec-Vertrag: {name}')
         sheet_file = data.get('sheet',{}).get('file')
@@ -99,6 +102,13 @@ def _verify(files, ids):
     if viewer_models != set(ids):
         raise ValueError('Viewer-Modellauswahl stimmt nicht mit Release überein')
     for sid in ids:
+        if f'geo/{sid}.geo.json' not in files:   # Waffenblatt (BALLON-Variante): Blatt-Spec statt Geo-Vertrag
+            specification = json.loads(files[f'specs/{sid}.spec.json'])
+            if specification.get('format') != wspec.FORMAT or specification.get('id') != sid:
+                raise ValueError(f'Waffenblatt-Spec widerspricht Modell-ID: {sid}')
+            if f'sheets/{sid}.dc.html' not in links or f'previews/{sid}.webp' not in links:
+                raise ValueError(f'Viewer enthält Modell nicht vollständig: {sid}')
+            continue
         geometry = json.loads(files[f'geo/{sid}.geo.json'])
         model_info = geometry.get('sheet',geometry.get('figure',{}))
         if model_info.get('id') != sid: raise ValueError(f'Geo-Modell-ID widerspricht Dateiname: {sid}')
@@ -119,8 +129,9 @@ def package(out, destination, ids=None):
     pending = ['index.html']
     for sid in ids:
         if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*',sid): raise ValueError('Ungültige Modell-ID')
-        pending += [f'specs/{sid}.spec.json',f'prompts/{sid}.prompts.json',f'sheets/{sid}.dc.html',
-                    f'previews/{sid}.webp',f'geo/{sid}.geo.json']
+        pending += [f'specs/{sid}.spec.json',f'prompts/{sid}.prompts.json',f'sheets/{sid}.dc.html',f'previews/{sid}.webp']
+        if not re.fullmatch(r'B[A-Z]\d\d',sid):   # Waffenblätter liefern Spec statt Geo
+            pending.append(f'geo/{sid}.geo.json')
         pending += [p.relative_to(out).as_posix() for p in sorted((out/'views'/sid).glob('*.png'))]
     files = {}
     while pending:

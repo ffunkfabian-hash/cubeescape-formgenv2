@@ -395,7 +395,8 @@ def downstream_plan(ids: Sequence[str], out: Path, kind: str, *, views=None,
                 paths={ref["model"]:{"path":str(Path(out).resolve()/"geometry"/(ref["model"]+".json")),
                                      "sha256":file_hash(Path(out)/"geometry"/(ref["model"]+".json"))}
                        for ref in references}
-                view_document=_attachments(copy.deepcopy(document),paths)
+                # Kopie nur mit Anhängen nötig (Posen); sonst liest view_parameters nur Kopfdaten
+                view_document=_attachments(copy.deepcopy(document),paths) if paths else document
                 params = view_parameters(view_document, view, width=width, height=height, skin=skin, bg=bg)
                 if paths:
                     view_inputs["attachment_paths"]=paths

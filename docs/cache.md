@@ -75,6 +75,7 @@ verifizierten Cache restauriert, ohne Builderaufruf. Ein fehlender oder beschäd
 Eine nach der Planung geänderte Dummy-Quelle bricht vor der Veröffentlichung ab.
 
 POSIX-Dateisperren koordinieren Ausgabepfad, Cache-Schlüssel und Manifest über Prozesse hinweg.
+`run_artifacts` schreibt das Manifest einmal je Stufe (gebündelt); `build_one` einzeln wie zuvor.
 Gleichzeitige Erstbauten desselben Artefakts führen genau einen Builder aus; Wartende erhalten den Cachetreffer.
 Dateien werden im Zielverzeichnis geschrieben, synchronisiert und mit `os.replace` veröffentlicht.
 Ein Cacheeintrag wird vollständig in einem temporären Verzeichnis vorbereitet und unter Schlüsselsperre ersetzt.
