@@ -8,6 +8,17 @@ def collect(images=False):
     if images:files+=list((ROOT/'out/views').glob('*/*.png'))+list((ROOT/'out/sheets').glob('*.html'))
     return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}
 
+def model(path):
+    return path.split('/')[2].split('.')[0]
+
+def select(expected,actual,scope):
+    """Volle Dicts ohne Umfang; sonst nur die Modelle im Umfang (müssen Golden besitzen)."""
+    if not scope:return expected,actual
+    unknown=scope-{model(k) for k in expected}
+    assert not unknown,f'Umfang enthält Modelle ohne Golden: {sorted(unknown)}'
+    pick=lambda d:{k:v for k,v in d.items() if model(k) in scope}
+    return pick(expected),pick(actual)
+
 class GoldenTests(unittest.TestCase):
     def test_data_hashes(self):
         expected=json.loads(GOLDEN.read_text())
@@ -21,16 +32,18 @@ class GoldenTests(unittest.TestCase):
         self.assertEqual(*values)
     @unittest.skipUnless(os.environ.get('FORMGEN_GOLDEN_IMAGES')=='1','explizite Bildstufe')
     def test_image_hashes(self):
-        # Prüfumfang ausdrücklich: FORMGEN_GOLDEN_MODELS=BA01,BB01,… (sonst ALLE Golden-Modelle). Für jedes Modell im Umfang
-        # müssen alle Golden-Dateien (Specs, Prompts, Ansichten, Blätter) vorhanden und gleich sein, und es darf nichts
-        # Ungolden-Gebautes geben. Die Gesamtabnahme läuft ohne Umfang.
+        # Ohne FORMGEN_GOLDEN_MODELS: voller Vergleich (Gesamtabnahme, auch neue ungegoldete Dateien fallen auf).
+        # Mit Umfang (BA01,BB01,…): genau diese Modelle vollständig.
         expected=json.loads(GOLDEN.read_text());actual=collect(images=True)
-        model=lambda k:k.split('/')[2].split('.')[0]
-        scope=set(filter(None,os.environ.get('FORMGEN_GOLDEN_MODELS','').split(','))) or {model(k) for k in expected}
-        unknown=scope-{model(k) for k in expected}
-        self.assertFalse(unknown,f'Umfang enthält Modelle ohne Golden: {sorted(unknown)}')
-        pick=lambda d:{k:v for k,v in d.items() if model(k) in scope}
-        self.assertEqual(pick(expected),pick(actual))
+        scope=set(filter(None,os.environ.get('FORMGEN_GOLDEN_MODELS','').split(',')))
+        self.assertEqual(*select(expected,actual,scope))
+    def test_scope_selection(self):
+        golden={'out/views/BA01/hero.png':'a','out/specs/BA01.spec.json':'b'}
+        built={**golden,'out/views/BZ01/hero.png':'c'}   # neues, ungegoldetes Modell
+        e,a=select(golden,built,set());self.assertNotEqual(e,a)
+        e,a=select(golden,built,{'BA01'});self.assertEqual(e,a)
+        e,a=select(golden,{'out/specs/BA01.spec.json':'b'},{'BA01'});self.assertNotEqual(e,a)   # fehlendes Bild
+        with self.assertRaises(AssertionError):select(golden,built,{'BQ01'})
 
 if __name__=='__main__':
     if '--update' in sys.argv:
