@@ -95,3 +95,8 @@ das Blatt-Spec nicht (Geo-Vertrag bleibt Contour, [geo-export.md](geo-export.md)
 1. `common.scope()`: Objektiv `r=r_tube+1`, `r1=r_obj`, `r_in=r_obj−3` – `r_in` > `r` stülpt die Kegelwand um (BASIC-03/09/11);
    BALLONs Spec-Maße Höhe/Breite enthalten dadurch 2–9 mm Innenmantel.
 2. BASIC-08 und BASIC-10 deklarieren die Baugruppe `support` ohne Teile.
+
+## Golden
+
+`FORMGEN_GOLDEN_IMAGES=1 python -m unittest tests.test_golden` ist die **Gesamtabnahme** (voller Vergleich aller Golden-Dateien,
+`FORMGEN_GOLDEN_MODELS` nicht setzen). `FORMGEN_GOLDEN_MODELS=BA01,…` ist eine ausdrücklich benannte Teilabnahme; im Bericht nennen.
