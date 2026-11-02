@@ -63,15 +63,17 @@ def geometry_plan(selection, snap, commit):
     artifacts = []
     for sid, entry in selection.items():
         variant, num = entry["variant"], entry["num"]
-        src = ballon.source(snap, num)
-        record = {k: variant[k] for k in ("letter", "name", "idea", "since", "skin", "params")}
+        wanted = variant.get("base", "standard")
+        base = wanted if ballon.has_base(snap, num, wanted) else "standard"   # v2.1-Pilot fehlt (16, 17): Standardmodul
+        src = ballon.source(snap, num, base)
+        record = {k: variant[k] for k in ("letter", "name", "idea", "since", "skin", "params")} | {"base": wanted}
         source = hashlib.sha256(canonical({"ballon": src["source_sha256"], "ballon_spec": src["spec_sha256"],
-                                           "variant": record, "num": num})).hexdigest()
+                                           "variant": record, "num": num, "base": base})).hexdigest()
         params = {"booleans": True, "bevels": True, "code": code_hash(CODE["geometry"])}
         artifacts.append(Artifact(sid, "geometry", source, params, {"MODEL": versions.MODEL, "GEOM": versions.GEOM},
                                   f"geometry/{sid}.json", "formgen.pipeline:build_geometry",
-                                  {"snapshot": str(snap), "num": num, "variant": record, "source": src,
-                                   "ballon_dims": _ballon_dims(ballon.load_spec(snap, num))}))
+                                  {"snapshot": str(snap), "num": num, "variant": record, "source": src, "base": base,
+                                   "ballon_dims": _ballon_dims(ballon.load_spec(snap, num, base))}))
     return artifacts
 
 
@@ -79,10 +81,12 @@ def build_geometry(artifact: Artifact) -> bytes:
     from . import generator
     inputs = artifact.inputs
     snap = Path(inputs["snapshot"])
-    if ballon.source(snap, inputs["num"]) != inputs["source"]:
+    base = inputs["base"]
+    if ballon.source(snap, inputs["num"], base) != inputs["source"]:
         raise RuntimeError("BALLON-Snapshot weicht vom geplanten Quellhash ab")
-    document = generator.evaluate(ballon.load(snap, inputs["num"]), inputs["variant"], inputs["num"], inputs["source"],
-                                  inputs["ballon_dims"], **{k: artifact.params[k] for k in ("booleans", "bevels")})
+    document = generator.evaluate(ballon.load(snap, inputs["num"], base), inputs["variant"], inputs["num"], inputs["source"],
+                                  inputs["ballon_dims"], snap=snap, base=base,
+                                  **{k: artifact.params[k] for k in ("booleans", "bevels")})
     if document["info"]["id"] != artifact.model_id:
         raise ValueError("Blatt-ID widerspricht dem Plan")
     return canonical(document) + b"\n"

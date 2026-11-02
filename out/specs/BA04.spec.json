@@ -71,16 +71,38 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w04_hand_cannon.py": "ae205a2df26fb13dca2eebbfbc5fd7e4b611b2050e0d8d61f6f93d7d2615b4b5"
   },
-  "source_sha256": "21262188b3fc98e374f177b8a513b80fd7fe4c8a40856be78fe433ae84e8c6e4",
+  "source_sha256": "928bc043e87b7e53359551757a3a86baa93095feb09e1840c96152720077655f",
   "spec_sha256": "6c9ce550e2ec60d4306c8a9bad31bcd936ce13a4cb1758c54a5a12e2ece86be4"
  },
  "ballon_dimensions_mm": {
   "height": 167.7,
   "length": 297.8,
   "width": 42.5
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Gibt den Kran frei (Daumen)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite"
+   },
+   "sight_line_mm": 28
+  },
+  "variant": {
+   "accent_functions": [
+    "Gibt den Kran frei (Daumen)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite"
+   },
+   "sight_line_mm": 28
+  }
  },
  "counts": {
   "assemblies": 6,
@@ -93,7 +115,7 @@
   "width": 42.5
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [],
   "ops": []
@@ -513,7 +535,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-04 (Quellhash 21262188b3fc); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-04 Standardmodul (Quellhash 928bc043e87b); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-04",
@@ -525,12 +547,18 @@
   "type_en": "Hand Cannon"
  },
  "variant": {
+  "base": "standard",
   "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
   "letter": "A",
   "name": "Baseline",
   "params": {},
   "since": "0.2",
   "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "5a728c3420fdf465",
+  "values": {}
  },
  "warnings": []
 }

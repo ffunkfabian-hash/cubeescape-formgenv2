@@ -28,8 +28,11 @@ def dims(doc):
 class BallonSourceTests(unittest.TestCase):
     def test_closure_covers_module_common_and_packages(self):
         files = ballon.closure(SNAP, "01")
-        self.assertEqual(set(files), {"basic/__init__.py", "basic/weapons/__init__.py", "basic/common.py",
-                                      "basic/weapons/w01_auto_rifle.py"})
+        self.assertEqual(set(files), {"basic/__init__.py", "basic/weapons/__init__.py", "basic/common.py", "basic/reticles.py",
+                                      "basic/weapons/w01_auto_rifle.py"})   # reticles: lazy Import der Visierbausteine v3
+        pilot = ballon.closure(SNAP, "10", "v21")
+        self.assertTrue({"basic/pilot/w10_fusion_rifle_v21.py", "basic/pilot/__init__.py", "basic/pilot/energy_roles.py",
+                         "basic/weapons/w10_fusion_rifle.py", "basic/common.py"} <= set(pilot), pilot)
 
     def test_all_seventeen_types_load_without_bpy(self):
         for num in ballon.TYPES:

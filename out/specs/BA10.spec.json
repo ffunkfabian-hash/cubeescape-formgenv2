@@ -100,16 +100,36 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w10_fusion_rifle.py": "fdf9db6ab35d090886af453b008833162c878967842317cf18923c2e04116caa"
   },
-  "source_sha256": "0599109d52fdc5751e72c7d0829e061899950fd4aaccd44dd18d24306b233e40",
+  "source_sha256": "e1d177022a3fbd8c6ae08b4599d170d1c82c1beb301c3d015579558fe0621dfd",
   "spec_sha256": "1b6570b39875fb6ede20f97c4523b105f76a27592e9a457856b0f5e028ece838"
  },
  "ballon_dimensions_mm": {
   "height": 256.0,
   "length": 801.5,
   "width": 60.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 75.0
+  },
+  "variant": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 75.0
+  }
  },
  "counts": {
   "assemblies": 7,
@@ -122,7 +142,7 @@
   "width": 60.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [
    {
@@ -719,7 +739,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-10 (Quellhash 0599109d52fd); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-10 Standardmodul (Quellhash e1d177022a3f); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-10",
@@ -731,12 +751,18 @@
   "type_en": "Fusion Rifle"
  },
  "variant": {
+  "base": "standard",
   "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
   "letter": "A",
   "name": "Baseline",
   "params": {},
   "since": "0.2",
   "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "901e823327b8dc37",
+  "values": {}
  },
  "warnings": []
 }

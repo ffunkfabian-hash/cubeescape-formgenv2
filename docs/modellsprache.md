@@ -33,6 +33,7 @@ Autorenmaß mm: f nach vorn, u nach oben, x nach links. Gemeinsamer Ausgaberaum 
 | loft | rings: gleich lange Punktlisten (f,u,x), thickness optional, caps=True |
 | surface | vertices: (f,u,x), faces: Indizes, thickness optional (Innenversatz) |
 | prism2 | side: (f,u), front: (x,u), Schnitt beider extrudierter Profile |
+| xprof | f0 f1 cu pts: (x,u) relativ zu cu, cx=0; Querprofil quer zur Laufachse, entlang f0..f1 extrudiert (seit 0.4, wie BALLON `kit.mesh_xprof`); Löcher als `cuts` gleicher Form (BALLON `common.xprof(holes=…)`) |
 
 `cuts` subtrahiert kit-Formen. `bevel` ist die Fasenbreite als Rücksprung entlang der angrenzenden Flächen in mm (Blender-Offset), kein allgemeiner Rundungsradius. `segs_bevel=2` entspricht dem Kit-Standard: konvexe zusammenhängende Komponenten erhalten einzeln ein segmentiertes Kreisprofil; ein konservativer Kantenclamp schützt dünne Flächen. `segs_bevel=1` erzeugt eine planare Fase.
 

@@ -1,10 +1,11 @@
-# Formgen v2 · Anvil
+# Formgen v2 · Mosaic
 
-0.2.0 – **Waffen-Pipeline nach v1-Prinzip auf den 17 BALLON-Grundformen.** Drei Variantenlinien × 17 Typen = 51 Konzeptblätter
-mit Spec, Prompts, Ansichten, Vorschau und Viewer; jede Stufe inhaltsadressiert gecacht. Formgen v1 bleibt eingefrorenes Archiv.
+0.4.0 – **Reproduzierbare Vielfalt auf den 17 BALLON-Grundformen.** Acht Variantenlinien × 17 Typen = 136 Konzeptblätter
+aus BALLON-Bausteinen (Visier v3, Schaft S1/S2, Griff v2.1, Längen, Leuchtstreifen, v2.1-Pilot als Grundform) mit gesteuertem
+Zufall (Seed je Blatt), Spec, Prompts, Ansichten, Vorschau und Viewer; jede Stufe inhaltsadressiert gecacht. Formgen v1 bleibt eingefrorenes Archiv.
 
 Einstieg: [Regeln](AGENTS.md), [Generator und Pipeline](docs/generator.md), [Cache](docs/cache.md),
-[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.2](docs/versions/0.2.md).
+[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.4](docs/versions/0.4.md).
 
 ```sh
 python3 -m venv .venv
@@ -17,7 +18,8 @@ python3 -m venv .venv
 ```
 
 Grundlage: BALLON-Commit aus `config.toml › [ballon]` (nur gelesen, `git archive`). Neue Variante:
-`python -m formgen.variants new <Buchstabe> "<English Name>" "<Idee>" --skin … --front … --rear … --drop …`.
+`python -m formgen.variants new <Buchstabe> "<English Name>" "<Idee>" --skin … [--base v21] --param front=[1.0,1.1] --param 'sight=["zinken"]' …`.
+Vielfalt messen: `python -m formgen.variety` (Silhouetten-IoU jeder Linie gegen die Baseline).
 Viewer `out/index.html`, Blätter `out/sheets/`, im Repo nur `out/specs/` und `out/prompts/` (Golden in `tests/golden.json`).
 Zeiten je Stufe: `out/timing.json`. Messwerkzeuge: `tools/measure_v1.py`, `tools/measure_v2.py`, `tools/ballon_compare.py`.
 

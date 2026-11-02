@@ -56,16 +56,40 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w16_sword.py": "0511a334f84d7b85744b5f70398d43b0eeff8c93d20fb8809e3b8abf503578cb"
   },
-  "source_sha256": "90143acef91581d93a79a32896a65aae9fac7c6c38306829be0ad01491719eda",
+  "source_sha256": "62a793a33059f606a1ecc302247dd0e5b071702deba511bdc4376e7e9a57916b",
   "spec_sha256": "a79bc592d71507dcd29a57546745499d7c6f714115c4abf5749c7697460a8ee0"
  },
  "ballon_dimensions_mm": {
   "height": 76.0,
   "length": 1193.6,
   "width": 96.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
  },
  "counts": {
   "assemblies": 3,
@@ -78,7 +102,7 @@
   "width": 96.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -105,6 +129,11 @@
     "factor": 1.06,
     "op": "rear",
     "skipped": "keine Baugruppe stock (kein Schaft)"
+   },
+   {
+    "factor": 1.12,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -331,7 +360,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-16 (Quellhash 90143acef915); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-16 Standardmodul (Quellhash 62a793a33059); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-16",
@@ -343,15 +372,26 @@
   "type_en": "Sword"
  },
  "variant": {
+  "base": "standard",
   "idea": "Gestreckte Vorderpartie und etwas längerer Schaft für Distanz; helle Polar-Lackierung",
   "letter": "B",
   "name": "Long Reach",
   "params": {
    "front": 1.15,
+   "limbs": 1.12,
    "rear": 1.06
   },
   "since": "0.2",
   "skin": "polar"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "b695535dceea402f",
+  "values": {
+   "front": 1.15,
+   "limbs": 1.12,
+   "rear": 1.06
+  }
  },
  "warnings": []
 }
