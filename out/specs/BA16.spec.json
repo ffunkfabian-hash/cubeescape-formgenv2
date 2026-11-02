@@ -102,9 +102,17 @@
   "width": 96.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
-  "adaptations": [],
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-16; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
   "ops": []
  },
  "id": "BA16",
@@ -328,9 +336,10 @@
    "triangles": 156
   }
  ],
+ "pilot": null,
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-16 Standardmodul (Quellhash 62a793a33059); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-16 Formstudie (Quellhash 62a793a33059); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-16",
@@ -342,8 +351,8 @@
   "type_en": "Sword"
  },
  "variant": {
-  "base": "standard",
-  "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
+  "base": "pilot",
+  "idea": "BALLON-Spielpilot unverändert; Bezug für alle weiteren Linien",
   "letter": "A",
   "name": "Baseline",
   "params": {},

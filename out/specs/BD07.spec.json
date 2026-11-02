@@ -157,12 +157,12 @@
   "triangles": 14268
  },
  "dimensions_mm": {
-  "height": 1015.67,
+  "height": 1054.31,
   "length": 733.0,
   "width": 68.77
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -175,6 +175,42 @@
     "factor": 1.051,
     "op": "front",
     "skipped": "keine Längsachse (Socket_Muzzle < 100 mm vor Socket_Hand)"
+   },
+   {
+    "factor": 1.064,
+    "op": "limbs",
+    "sides": [
+     {
+      "cut_u_mm": 356.918,
+      "delta_mm": 19.317,
+      "limited": false,
+      "side": "oben",
+      "stretched": [
+       "cam_axles",
+       "limb_top",
+       "string_top"
+      ],
+      "translated": [
+       "cam_top"
+      ],
+      "wanted_mm": 19.317
+     },
+     {
+      "cut_u_mm": -356.918,
+      "delta_mm": 19.317,
+      "limited": false,
+      "side": "unten",
+      "stretched": [
+       "cam_axles",
+       "limb_bottom",
+       "string_bottom"
+      ],
+      "translated": [
+       "cam_bottom"
+      ],
+      "wanted_mm": 19.317
+     }
+    ]
    }
   ]
  },
@@ -834,12 +870,12 @@
    "assembly": "limbs",
    "extent_mm": {
     "f": [
-     -162.51,
-     28.98
+     -162.54,
+     28.99
     ],
     "u": [
-     217.65,
-     485.45
+     217.64,
+     504.79
     ],
     "x": [
      -17.0,
@@ -858,12 +894,12 @@
    "assembly": "limbs",
    "extent_mm": {
     "f": [
-     -162.51,
-     28.98
+     -162.54,
+     28.99
     ],
     "u": [
-     -485.45,
-     -217.65
+     -504.79,
+     -217.64
     ],
     "x": [
      -17.0,
@@ -886,8 +922,8 @@
      -120.0
     ],
     "u": [
-     448.16,
-     507.84
+     467.48,
+     527.15
     ],
     "x": [
      -4.0,
@@ -910,8 +946,8 @@
      -120.0
     ],
     "u": [
-     -507.84,
-     -448.16
+     -527.15,
+     -467.48
     ],
     "x": [
      -4.0,
@@ -934,8 +970,8 @@
      -145.56
     ],
     "u": [
-     -482.44,
-     482.44
+     -501.76,
+     501.76
     ],
     "x": [
      -19.0,
@@ -959,7 +995,7 @@
     ],
     "u": [
      46.0,
-     478.0
+     497.32
     ],
     "x": [
      -1.48,
@@ -982,7 +1018,7 @@
      -148.52
     ],
     "u": [
-     -478.0,
+     -497.32,
      46.0
     ],
     "x": [
@@ -1167,6 +1203,10 @@
    "triangles": 76
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w07_combat_bow_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
   "source": "BALLON BASIC-07 v2.1-Pilot (Quellhash 789757515da0); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
@@ -1181,8 +1221,8 @@
   "type_en": "Combat Bow"
  },
  "variant": {
-  "base": "v21",
-  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, Eloxal",
+  "base": "pilot",
+  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, längere Wurfarme, Eloxal",
   "letter": "D",
   "name": "Refit",
   "params": {
@@ -1190,19 +1230,25 @@
     1.04,
     1.1
    ],
-   "glow": 1
+   "glow": 1,
+   "limbs": [
+    1.06,
+    1.12
+   ]
   },
   "since": "0.4",
   "skin": "eloxal"
  },
  "variation": {
   "draws": {
-   "front": 1.051
+   "front": 1.051,
+   "limbs": 1.064
   },
   "seed": "c6cba735da8ba7eb",
   "values": {
    "front": 1.051,
-   "glow": 1
+   "glow": 1,
+   "limbs": 1.064
   }
  },
  "warnings": [

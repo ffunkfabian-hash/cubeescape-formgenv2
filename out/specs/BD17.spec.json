@@ -118,14 +118,14 @@
   "width": 53.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [
    {
-    "ballon": "v21",
+    "ballon": "pilot",
     "field": "base",
     "kind": "Annahme",
-    "reason": "kein BALLON-Modul der Grundform v21 für BASIC-17; Standardmodul",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
     "v2": "standard"
    }
   ],
@@ -164,6 +164,11 @@
      "emitter"
     ],
     "wanted_mm": 38.76
+   },
+   {
+    "factor": 1.063,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -508,9 +513,10 @@
    "triangles": 60
   }
  ],
+ "pilot": null,
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-17 Standardmodul (Quellhash 8153dcc17637); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-17",
@@ -522,8 +528,8 @@
   "type_en": "Glaive"
  },
  "variant": {
-  "base": "v21",
-  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, Eloxal",
+  "base": "pilot",
+  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, längere Wurfarme, Eloxal",
   "letter": "D",
   "name": "Refit",
   "params": {
@@ -531,19 +537,25 @@
     1.04,
     1.1
    ],
-   "glow": 1
+   "glow": 1,
+   "limbs": [
+    1.06,
+    1.12
+   ]
   },
   "since": "0.4",
   "skin": "eloxal"
  },
  "variation": {
   "draws": {
-   "front": 1.051
+   "front": 1.051,
+   "limbs": 1.063
   },
   "seed": "908c6be17c39eadc",
   "values": {
    "front": 1.051,
-   "glow": 1
+   "glow": 1,
+   "limbs": 1.063
   }
  },
  "warnings": []

@@ -1,6 +1,6 @@
 [project]
-version = "0.5.0"
-name = "Forge"
+version = "0.6.0"
+name = "Hangar"
 [render]
 bg = "mid"
 width = 960

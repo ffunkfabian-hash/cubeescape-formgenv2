@@ -34,7 +34,7 @@ HOLO = ("reflex_sight_v21", "holo_kasten", "holo_pille", "zinken", "boegen", "ac
 SCOPES = ("scope_tropfen", "gabel", "lang")
 PRECISION = ("03", "09", "11")   # Vorgabe Auftrag 0.4: Zielfernrohr nur an Scout, Scharfschütze, lineare Fusion
 CHOICES = {"sight": HOLO + SCOPES, "stock": ("S1", "S2"), "grip": ("v21",)}
-BASES = ("standard", "v21")
+BASES = ("pilot", "standard", "v21")   # pilot (0.6, Nutzerentscheid 242): neuester BALLON-Spielpilot, sonst Formstudie
 SCHEMA = 2
 TYPES = tuple(f"{n:02d}" for n in range(1, 18))
 
@@ -175,7 +175,7 @@ def _toml(value):
     return repr(value)
 
 
-def new(letter, name, idea, since, skin="standard", params=None, path: Path = REGISTRY, base="standard") -> dict:
+def new(letter, name, idea, since, skin="standard", params=None, path: Path = REGISTRY, base="pilot") -> dict:
     entries = load(path)
     entry = {"letter": letter, "name": name, "idea": idea, "since": since, "skin": skin, "base": base, "params": params or {}}
     check(entries + [entry], _skins())
@@ -198,7 +198,7 @@ def main(argv=None) -> int:
     n = sub.add_parser("new")
     n.add_argument("letter"); n.add_argument("name"); n.add_argument("idea")
     n.add_argument("--since", default=None); n.add_argument("--skin", default="standard")
-    n.add_argument("--base", default="standard", choices=BASES)
+    n.add_argument("--base", default="pilot", choices=BASES)
     n.add_argument("--param", action="append", default=[], metavar="KEY=JSON", help="z. B. front=1.1, mag=[0.8,0.9], sight='[\"zinken\"]'")
     a = p.parse_args(argv)
     if a.cmd == "list":

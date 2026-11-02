@@ -166,7 +166,7 @@
   "width": 50.02
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -208,6 +208,11 @@
      "muzzle_crown"
     ],
     "wanted_mm": 67.797
+   },
+   {
+    "factor": 1.111,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -1512,6 +1517,10 @@
    "triangles": 60
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w11_linear_fusion_rifle_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
   "source": "BALLON BASIC-11 v2.1-Pilot (Quellhash 38bb5aac3320); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
@@ -1526,8 +1535,8 @@
   "type_en": "Linear Fusion Rifle"
  },
  "variant": {
-  "base": "v21",
-  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, Eloxal",
+  "base": "pilot",
+  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, längere Wurfarme, Eloxal",
   "letter": "D",
   "name": "Refit",
   "params": {
@@ -1535,19 +1544,25 @@
     1.04,
     1.1
    ],
-   "glow": 1
+   "glow": 1,
+   "limbs": [
+    1.06,
+    1.12
+   ]
   },
   "since": "0.4",
   "skin": "eloxal"
  },
  "variation": {
   "draws": {
-   "front": 1.093
+   "front": 1.093,
+   "limbs": 1.111
   },
   "seed": "d8e95910b4fd5ed6",
   "values": {
    "front": 1.093,
-   "glow": 1
+   "glow": 1,
+   "limbs": 1.111
   }
  },
  "warnings": [

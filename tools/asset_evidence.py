@@ -3,7 +3,7 @@ Hintergrund mittelgrau, ohne Bloom), je Waffe die Haltungen Hüfte und Zielen au
 
   ~/Claude/cubeescape-nexogen/ce lock gpu -- .venv/bin/python tools/asset_evidence.py BB01 BC01 [--samples 96] [--out <ordner>]
 
-Bezug ist BALLONs unverändertes Modul der Grundform (Formstudie basic/weapons/wNN_*.py, gleich BAnn). Die Varianten laufen mit ihrem Generatormodell und Skin
+Bezug ist BALLONs unverändertes Modul der Grundform (ab 0.6 der neueste Pilot, ohne Piloten die Formstudie; gleich BAnn). Die Varianten laufen mit ihrem Generatormodell und Skin
 durch dieselbe Szene (Modul wird nur für den Lauf unter `basic.formgen_<ID>` eingehängt). Ausgabe außerhalb des Repos:
 <out>/<ID>/ego/stills/*.png und <out>/ego_contact.png (Kontaktbogen).
 """
@@ -100,14 +100,14 @@ def main(argv=None):
     p.add_argument("ids", nargs="+")
     p.add_argument("--samples", type=int, default=96)
     p.add_argument("--cpu", action="store_true")
-    p.add_argument("--out", type=Path, default=Path.home() / "Library/Caches/CubeEscapeFormgen2/0.5/belege")
+    p.add_argument("--out", type=Path, default=asset.EVIDENCE / "belege")
     p.add_argument("--sheet-only", action="store_true", help="nur den Kontaktbogen aus vorhandenen Bildern neu setzen")
     a = p.parse_args(argv)
     cfg = asset.settings()
     snap = ballon_kit.snapshot()
     sheets = variants.sheets()
     selection = {i: sheets[i] for i in a.ids}
-    plans = {x.model_id: x for x in asset.plan(a.ids, snap, ballon.snapshot(), cfg)}
+    plans = {x.model_id: x for x in asset.plan(selection, snap, ballon.snapshot(), cfg)}
     nums = sorted({e["num"] for e in selection.values()})
     rows = []
     if a.sheet_only:
@@ -116,7 +116,8 @@ def main(argv=None):
         render_job = render
     with tempfile.TemporaryDirectory(prefix="formgen-evidence-") as tmp:
         for num in nums:
-            module = ballon_kit.module_name(snap, ballon.module_file(snap, num))
+            base = next(plans[sid].inputs["base"] for sid, e in selection.items() if e["num"] == num)   # Grundform der Linien
+            module = ballon_kit.module_name(snap, ballon.module_file(snap, num, base))
             out = a.out / f"BALLON-{num}"
             render_job(dict(id=f"BALLON-{num}", snapshot=str(snap), module=module, model=None, skin="standard", samples=a.samples,
                         gpu=not a.cpu, out=str(out)), cfg["blender"], Path(tmp))
@@ -128,7 +129,7 @@ def main(argv=None):
                 out = a.out / sid
                 render_job(dict(id=sid, snapshot=str(snap), module=x.inputs["module"], model=x.inputs["model"], skin=x.inputs["skin"],
                             samples=a.samples, gpu=not a.cpu, out=str(out)), cfg["blender"], Path(tmp))
-                rows.append((f"{sid} {e['variant']['name']}\nSkin {e['variant']['skin']}\nFormgen v2 0.3", out))
+                rows.append((f"{sid} {e['variant']['name']}\nSkin {e['variant']['skin']}\nFormgen v2 0.6", out))
     sheet = a.out / "ego_contact.png"
     contact(rows, sheet)
     print(sheet)

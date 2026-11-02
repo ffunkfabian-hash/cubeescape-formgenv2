@@ -11,7 +11,6 @@ import ast
 import hashlib
 import os
 from pathlib import Path
-import re
 import shutil
 import subprocess
 import tempfile
@@ -93,12 +92,8 @@ def backend_hash(snap: Path) -> str:
 
 def pilot_file(snap: Path, num: str) -> Path | None:
     """Neuester Spiel-Pilot eines Typs: basic/pilot/wNN_*_vK.py mit der höchsten Fassung K (v21 = 2.1 > v2), sonst None."""
-    found = []
-    for path in (Path(snap) / "basic/pilot").glob(f"w{num}_*_v*.py"):
-        m = re.fullmatch(rf"w{num}_[a-z0-9_]+_v(\d+)", path.stem)
-        if m:
-            found.append((tuple(int(c) for c in m.group(1)), path))
-    return max(found)[1] if found else None
+    base = ballon.resolve_base(snap, num, "pilot")
+    return None if base == "standard" else ballon.module_file(snap, num, base)
 
 
 def module_name(snap: Path, path: Path) -> str:

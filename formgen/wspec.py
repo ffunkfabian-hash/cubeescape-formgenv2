@@ -1,18 +1,20 @@
-"""Blatt-Spec Formgen v2 (Format `formgenv2/weapon-sheet-spec`, Version 2) aus dem ausgewerteten Geometriedokument.
+"""Blatt-Spec Formgen v2 (Format `formgenv2/weapon-sheet-spec`, Version 3) aus dem ausgewerteten Geometriedokument.
 
 Ab Version 1 gilt: jede Formatänderung erhöht FORMAT_VERSION, bekommt eine Migration in MIGRATIONS (alte Version →
-nächste) und einen Test. Schema: docs/schemas/weapon-sheet-spec-2.schema.json. Keine Netze, keine Pfade, keine Zeiten.
+nächste) und einen Test. Schema: docs/schemas/weapon-sheet-spec-3.schema.json. Keine Netze, keine Pfade, keine Zeiten.
 Version 2 (0.4): Grundform `base`, gesteuerter Zufall `variation` (Seed, Ziehungen), Designvertrag `contract`.
+Version 3 (0.6): Registerwert `variant.base = "pilot"`, `base` jede Pilotfassung `vK`, Spielpilot `pilot` (Modul, Fassung; null = Formstudie).
 """
 from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 FORMAT = "formgenv2/weapon-sheet-spec"
-FORMAT_VERSION = 2
-SCHEMA = ROOT / "docs/schemas/weapon-sheet-spec-2.schema.json"
+FORMAT_VERSION = 3
+SCHEMA = ROOT / "docs/schemas/weapon-sheet-spec-3.schema.json"
 
 
 class SpecError(ValueError):
@@ -35,6 +37,16 @@ def _mm_fux(point_m):
     return [_r(-y * 1000), _r(z * 1000), _r(x * 1000)]
 
 
+def pilot(base: str, files: dict) -> dict | None:
+    """Spielpilot aus der tatsächlichen Grundform und BALLONs Quell-Closure (Modulpfad); Formstudie → None."""
+    if not re.fullmatch(r"v\d+", base):
+        return None
+    found = [f for f in files if re.fullmatch(rf"basic/pilot/w\d\d_[a-z0-9_]+_{base}\.py", f)]
+    if len(found) != 1:
+        raise SpecError(f"Pilotmodul der Grundform {base} nicht eindeutig in der BALLON-Closure: {found}")
+    return {"module": found[0], "version": ".".join(base[1:])}
+
+
 def build(document: dict) -> dict:
     gen = document["generator"]
     info = document["info"]
@@ -54,7 +66,8 @@ def build(document: dict) -> dict:
     doc = {
         "format": FORMAT, "format_version": FORMAT_VERSION,
         "id": info["id"], "name_de": info["name_de"], "name_en": info["name_en"],
-        "variant": gen["variant"], "type": gen["type"], "base": gen["base"], "variation": gen["variation"],
+        "variant": gen["variant"], "type": gen["type"], "base": gen["base"], "pilot": pilot(gen["base"], gen["ballon"]["files"]),
+        "variation": gen["variation"],
         "contract": gen["contract"],
         "ballon": {k: gen["ballon"][k] for k in ("commit", "basic_id", "source_sha256", "spec_sha256", "files")},
         "generator": {"ops": gen["ops"], "adaptations": gen["adaptations"]},
@@ -81,7 +94,12 @@ def _from_1(doc: dict) -> dict:
     return doc
 
 
-MIGRATIONS = {1: _from_1}   # {von_version: funktion(doc) -> doc der nächsten Version}
+def _from_2(doc: dict) -> dict:
+    """2 → 3: Spielpilot aus Grundform und Quell-Closure (beides schon in Version 2); Registerwert und Grundform unverändert."""
+    return dict(doc, format_version=3, pilot=pilot(doc["base"], doc["ballon"]["files"]))
+
+
+MIGRATIONS = {1: _from_1, 2: _from_2}   # {von_version: funktion(doc) -> doc der nächsten Version}
 
 
 def schema() -> dict:

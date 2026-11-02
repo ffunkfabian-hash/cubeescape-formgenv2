@@ -187,10 +187,19 @@ def compare_asset(asset_glb, ballon_glb):
     return result
 
 
+def reference_id(sid):
+    """BALLON-ID der Grundform eines Blatts (0.6: Pilot BASIC-NN-v2.1, ohne Piloten BASIC-NN)."""
+    from formgen import variants
+    entry = variants.sheets()[sid]
+    version = ballon.pilot_version(ballon.resolve_base(ballon.snapshot(), entry["num"], entry["variant"].get("base", "standard")))
+    return f"BASIC-{entry['num']}" + (f"-v{version}" if version else "")
+
+
 def main_asset(a):
     report = {}
     for sid in a.asset.split(","):
-        glb = a.glb or a.glb_dir / f"BASIC-{sid[2:]}/BASIC-{sid[2:]}.glb"
+        wid = reference_id(sid)
+        glb = a.glb or a.glb_dir / f"{wid}/{wid}.glb"
         report[sid] = {"ballon_glb": str(glb), **compare_asset(a.out_dir / f"assets/{sid}.glb", glb)}
         r = report[sid]
         print(sid, "gleich" if r["equal"] else "UNGLEICH", r["triangles"], "Bytes gleich" if r["bytes_equal"] else
@@ -204,7 +213,7 @@ def main(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument("--glb-dir", type=Path, default=Path.home() / "Library/Caches/CubeEscapeBallon/out")
     p.add_argument("--out-dir", type=Path, default=ROOT / "out"); p.add_argument("--out", type=Path); p.add_argument("--sheet", type=Path)
-    p.add_argument("--asset", help="Blatt-IDs (kommagetrennt): out/assets/<ID>.glb gegen BALLON-GLB (Standard BASIC-NN im --glb-dir)")
+    p.add_argument("--asset", help="Blatt-IDs (kommagetrennt): out/assets/<ID>.glb gegen BALLON-GLB (Standard: Grundform der Linie im --glb-dir)")
     p.add_argument("--glb", type=Path, help="BALLON-GLB für --asset statt des Standardpfads")
     p.add_argument("--base", choices=("standard", "v21"), default="standard")
     p.add_argument("--allow-stale", action="store_true", help="auch vergleichen, wenn BALLONs Spec neben dem GLB abweicht (Status nennt die Felder)")

@@ -118,10 +118,29 @@
   "width": 53.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
-  "adaptations": [],
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
   "ops": [
+   {
+    "factor": 0.8,
+    "op": "mag",
+    "skipped": "kein entnehmbares Stangenmagazin"
+   },
+   {
+    "factor": 0.7,
+    "op": "muzzle",
+    "radius": 1.0,
+    "skipped": "kein Mündungsteil `muzzle` entlang der Laufachse"
+   },
    {
     "dropped": [],
     "op": "drop",
@@ -479,9 +498,10 @@
    "triangles": 204
   }
  ],
+ "pilot": null,
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-17 Standardmodul (Quellhash 8153dcc17637); Variante C „Close Quarters“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante C „Close Quarters“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-17",
@@ -493,8 +513,8 @@
   "type_en": "Glaive"
  },
  "variant": {
-  "base": "standard",
-  "idea": "Verkürzte Vorderpartie, kürzerer Schaft, ohne Lüftungsschlitze; dunkle Nachtschicht",
+  "base": "pilot",
+  "idea": "Verkürzte Vorderpartie, kürzerer Schaft, kurze Mündung und Magazin, ohne Lüftungsschlitze; dunkle Nachtschicht",
   "letter": "C",
   "name": "Close Quarters",
   "params": {
@@ -503,6 +523,8 @@
    ],
    "front": 0.86,
    "limbs": 0.88,
+   "mag": 0.8,
+   "muzzle": 0.7,
    "rear": 0.9
   },
   "since": "0.2",
@@ -517,6 +539,8 @@
    ],
    "front": 0.86,
    "limbs": 0.88,
+   "mag": 0.8,
+   "muzzle": 0.7,
    "rear": 0.9
   }
  },

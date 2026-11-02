@@ -1,8 +1,12 @@
-"""Waffen-Pipeline Formgen v2: BALLON-Grundform → Variante → Geometrie → Spec/Prompts → Ansichten → Blatt → Vorschau → Viewer.
+"""Waffen-Pipeline Formgen v2: BALLON-Grundform → Variante → Geometrie → Asset (GLB) → Spec/Prompts → Ansichten → Blatt →
+Vorschau → Viewer.
 
   python -m formgen.pipeline                       # alle registrierten Blätter (Variante × 17 Typen)
   python -m formgen.pipeline BA01 BB01             # einzelne Blätter
   python -m formgen.pipeline --variants A --types 01,02 --stages geometry,specs
+  python -m formgen.pipeline --bake BA01,BD01      # zusätzlich AAA-Bake (nur unter `ce lock gpu`, ≈ 4 min je Blatt)
+
+Stufe `asset` (0.6): GLB je Blatt über BALLONs Blender-Kit (formgen/asset.py), braucht Blender; ohne Blender `--stages` ohne asset.
 
 Jede Stufe ist ein eigener Cacheeintrag (formgen/cache.py). Schlüssel nur aus Inhalten: BALLON-Quellhash und Spec-Hash
 des Typs, Registereintrag, Quellen-Closure des Stufencodes, Komponentenversionen, Render-Einstellungen und Umgebung
@@ -25,7 +29,7 @@ from . import ballon, build, variants, versions
 from .cache import Artifact, canonical, file_hash, run_artifacts
 
 ROOT = build.ROOT
-STAGES = ("geometry", "specs", "prompts", "views", "sheets", "previews", "viewer")
+STAGES = ("geometry", "asset", "specs", "prompts", "views", "sheets", "previews", "viewer")
 CODE = {"geometry": "formgen/generator.py", "specs": "formgen/wspec.py", "prompts": "formgen/prompts.py",
         "views": "formgen/raster.py", "sheets": "formgen/sheet.py", "previews": "formgen/raster.py",
         "viewer": "formgen/viewer.py"}
@@ -64,7 +68,7 @@ def geometry_plan(selection, snap, commit):
     for sid, entry in selection.items():
         variant, num = entry["variant"], entry["num"]
         wanted = variant.get("base", "standard")
-        base = wanted if ballon.has_base(snap, num, wanted) else "standard"   # v2.1-Pilot fehlt (16, 17): Standardmodul
+        base = ballon.resolve_base(snap, num, wanted)   # neuester Pilot; ohne Piloten (16, 17) Formstudie
         src = ballon.source(snap, num, base)
         record = {k: variant[k] for k in ("letter", "name", "idea", "since", "skin", "params")} | {"base": wanted}
         source = hashlib.sha256(canonical({"ballon": src["source_sha256"], "ballon_spec": src["spec_sha256"],
@@ -136,8 +140,10 @@ def select(ids=(), letters=None, types=None, entries=None):
             if (not letters or e["variant"]["letter"] in letters) and (not types or e["num"] in types)}
 
 
-def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, snap=None, commit=None):
-    """Build the selection stage by stage; `snap`/`commit` override the pinned BALLON snapshot (measurements, tests)."""
+def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, snap=None, commit=None, bake=(), kit=None,
+        gpu=True):
+    """Build the selection stage by stage; `snap`/`commit` override the pinned BALLON snapshot (measurements, tests).
+    `bake`: sheet IDs of the selection for the AAA bake (stage `bake`, needs `ce lock gpu`); `kit` overrides the kit snapshot."""
     out, cache = Path(out), Path(cache)
     cfg = ballon.config()
     if commit:
@@ -149,7 +155,7 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
     results = []
     t_all = time.perf_counter()
 
-    def stage(name, artifacts):
+    def stage(name, artifacts, jobs=jobs):
         t = time.perf_counter()
         res = run_artifacts(artifacts, out, cache, jobs=jobs, force=force)
         dt = time.perf_counter() - t
@@ -159,6 +165,22 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
         results.extend(res)
 
     stage("geometry", geometry_plan(selection, snap, cfg["commit"]))
+    if "asset" in stages or bake:
+        from . import asset, ballon_kit
+        kit = Path(kit) if kit else ballon_kit.snapshot(cfg["commit"], cfg["repo"])
+        settings = asset.settings()
+        glb = asset.plan(selection, kit, snap, settings)
+        n0 = len(results)
+        stage("asset", glb, jobs=min(jobs, settings["jobs"]))
+        indexed = list(glb)
+        if bake:
+            unknown = sorted(set(bake) - set(selection))
+            if unknown:
+                raise SystemExit(f"--bake außerhalb der Auswahl: {', '.join(unknown)}")
+            baking = asset.bake_plan([a for a in glb if a.model_id in set(bake)], settings, gpu)
+            stage("bake", baking, jobs=1)                  # eine GPU: nacheinander
+            indexed += baking
+        asset.write_index(out, indexed, results[n0:])
     if "specs" in stages:
         stage("specs", spec_plan(ids, out, cfg["commit"]))
     if "prompts" in stages:
@@ -196,6 +218,8 @@ def main(argv=None) -> int:
     p.add_argument("--cache", type=Path, default=build.DEFAULT_CACHE)
     p.add_argument("--jobs", type=int, default=max(1, min(8, (os.cpu_count() or 2) - 2)))
     p.add_argument("--force", action="store_true", help="ausgewählte Artefakte neu bauen (Cache wird erneuert)")
+    p.add_argument("--bake", default="", help="Blatt-IDs für den AAA-Bake, kommagetrennt (nur unter `ce lock gpu`)")
+    p.add_argument("--cpu", action="store_true", help="AAA-Bake auf der CPU (eigener Cacheschlüssel, ohne GPU-Sperre)")
     a = p.parse_args(argv)
     stages = a.stages.split(",") if a.stages else list(STAGES)
     if any(s not in STAGES for s in stages):
@@ -203,7 +227,7 @@ def main(argv=None) -> int:
     selection = select(a.ids, a.variants and a.variants.split(","), a.types and a.types.split(","))
     if not selection:
         p.error("Auswahl ist leer")
-    run(selection, a.out, a.cache, stages, a.jobs, a.force)
+    run(selection, a.out, a.cache, stages, a.jobs, a.force, bake=[b for b in a.bake.split(",") if b], gpu=not a.cpu)
     return 0
 
 

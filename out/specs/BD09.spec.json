@@ -172,7 +172,7 @@
   "width": 71.77
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -209,6 +209,11 @@
      "muzzle_crown"
     ],
     "wanted_mm": 35.508
+   },
+   {
+    "factor": 1.103,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -1369,6 +1374,10 @@
    "triangles": 62
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w09_sniper_rifle_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
   "source": "BALLON BASIC-09 v2.1-Pilot (Quellhash f20b5cc860dd); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
@@ -1383,8 +1392,8 @@
   "type_en": "Sniper Rifle"
  },
  "variant": {
-  "base": "v21",
-  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, Eloxal",
+  "base": "pilot",
+  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, längere Wurfarme, Eloxal",
   "letter": "D",
   "name": "Refit",
   "params": {
@@ -1392,19 +1401,25 @@
     1.04,
     1.1
    ],
-   "glow": 1
+   "glow": 1,
+   "limbs": [
+    1.06,
+    1.12
+   ]
   },
   "since": "0.4",
   "skin": "eloxal"
  },
  "variation": {
   "draws": {
-   "front": 1.044
+   "front": 1.044,
+   "limbs": 1.103
   },
   "seed": "ebfb53b5064d2f7b",
   "values": {
    "front": 1.044,
-   "glow": 1
+   "glow": 1,
+   "limbs": 1.103
   }
  },
  "warnings": [

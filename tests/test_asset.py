@@ -1,17 +1,21 @@
-"""0.5 „Forge“: Waffen-Assets über BALLONs Blender-Kit (Machbarkeitsnachweis).
+"""Waffen-Assets über BALLONs Blender-Kit: 0.5 „Forge“ (Machbarkeitsnachweis), 0.6 „Hangar“ (Stufe asset, Bake, Piloten).
 
-Ohne Blender: Rückführung des Generators auf BALLONs Datensatz, Schlüssel, Kit-Schnappschuss, GLB-Index.
-Mit vorhandenen Ergebnissen (Mac, nach `python -m formgen.asset BA01 …`): BA01 dreiecks- und materialgleich zu BALLONs GLB.
+Ohne Blender: Kitmodell aus `generator.vary`, Schlüssel, Kit-Schnappschuss, Asset-Cache Treffer/Fehltreffer (Blender ersetzt),
+Bake-Schlüssel, GPU-Sperre, ZIP. Mit vorhandenen Ergebnissen (Mac, nach `pipeline` und `tools/line_a_parity.py`): Linie A
+bytegleich zu BALLONs Neubau am Pin.
 """
+import io
 import json
 import os
 import shutil
+import struct
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 from unittest import mock
 
-from formgen import asset, ballon, ballon_kit, generator, variants
+from formgen import asset, ballon, ballon_kit, generator, pipeline, variants
 from formgen.cache import canonical
 
 try:
@@ -21,50 +25,75 @@ except ballon.BallonError as error:   # z. B. Cloud ohne BALLON-Checkout
 else:
     REASON = ""
 OUT = asset.ROOT / "out"
-BALLON_GLB = Path.home() / "Library/Caches/CubeEscapeBallon/out/BASIC-01/BASIC-01.glb"
+PARITY = asset.EVIDENCE / "belege/line_a_parity.json"
 
 
 def kit_model(sid):
     entry = variants.sheets()[sid]
-    data = ballon.load(SNAP, entry["num"])
-    author, report = generator.generate(data, entry["variant"], entry["num"], ballon.source(SNAP, entry["num"]))
-    return data, asset.kit_model(data, author, report)
+    model, run, base = asset.variant_model(entry, SNAP)
+    return ballon.load(SNAP, entry["num"], base), model
+
+
+def fake_glb(payload: dict) -> bytes:
+    """Minimale GLB (nur JSON-Chunk) – reicht für glb_info/Index."""
+    chunk = json.dumps({"asset": {"version": "2.0"}, "nodes": [{"name": "Root"}], "extras": payload}).encode()
+    chunk += b" " * (-len(chunk) % 4)
+    body = struct.pack("<II", len(chunk), 0x4E4F534A) + chunk
+    return b"glTF" + struct.pack("<II", 2, 12 + len(body)) + body
 
 
 @unittest.skipIf(SNAP is None, REASON)
 class KitModelTests(unittest.TestCase):
     def test_baseline_is_ballons_dataset_for_all_types(self):
-        # Baseline = BALLONs Modul bit für bit (inkl. r_in der Zielfernrohre und leerer Baugruppe support)
+        # Linie A = BALLONs Grundmodul bit für bit (Pilot bzw. Formstudie; inkl. r_in der Zielfernrohre, Baugruppen wie deklariert)
         for num in ballon.TYPES:
             with self.subTest(num=num):
                 data, model = kit_model(f"BA{num}")
                 for key in ("META", "PARTS", "ASSEMBLIES", "ANCHORS", "ACTIONS"):
                     self.assertEqual(canonical(model[key]), canonical(data[key] or {}), key)
+                self.assertEqual(data["META"].get("variant") == "v2.1", num not in ("16", "17"))
 
     def test_variant_keeps_metadata_and_filters_actions(self):
-        data, model = kit_model("BC01")
+        data, model = kit_model("BC08")                      # Pilot BASIC-08 führt `vent_rib` als Teil
         ids = {p["id"] for p in model["PARTS"]}
-        self.assertFalse(any(i.startswith("vent_") for i in ids))
-        self.assertEqual(len(ids), len(data["PARTS"]) - 8)
+        dropped = {p["id"] for p in data["PARTS"]} - ids
+        self.assertTrue(dropped and all(i.startswith("vent_") for i in dropped), dropped)
         original = {p["id"]: p for p in data["PARTS"]}
         for p in model["PARTS"]:
             self.assertNotIn("name_en", p)
             for key in ("de", "en", "func", "attach", "mat", "asm"):
                 self.assertEqual(p.get(key), original[p["id"]].get(key))
         for action in model["ACTIONS"].values():
-            self.assertLessEqual(set(action["keys"]), ids)
+            self.assertLessEqual(set(action.get("keys") or {}), ids)
         self.assertEqual(model["ASSEMBLIES"], data["ASSEMBLIES"])
+
+    def test_block_parts_carry_ballon_metadata(self):
+        # Bausteinteile (Visier, Schaft S2, Leuchtlinie) kommen aus common.py mit de/en/func/attach – write_spec braucht sie
+        for sid in ("BD01", "BF01", "BG02", "BH02"):
+            with self.subTest(sid=sid):
+                data, model = kit_model(sid)
+                added = [p for p in model["PARTS"] if p["id"] not in {q["id"] for q in data["PARTS"]}]
+                self.assertTrue(added)
+                for p in added:
+                    self.assertTrue(all(k in p for k in ("de", "en", "func", "attach", "mat", "asm", "shape")), p["id"])
 
     def test_only_r_in_adaptations_are_reverted(self):
         data = ballon.load(SNAP, "01")
-        author = {"PARTS": [dict(p) for p in data["PARTS"]], "ANCHORS": data["ANCHORS"]}
+        model = {"PARTS": [dict(p) for p in data["PARTS"]], "ANCHORS": data["ANCHORS"]}
         part = data["PARTS"][0]["id"]
-        author["PARTS"][0]["mat"] = "sight_anod"                                             # Gestaltung der Variante (0.4)
-        report = {"adaptations": [{"part": part, "kind": "Annahme", "field": "mat", "ballon": data["PARTS"][0]["mat"],
-                                   "v2": "sight_anod"},
-                                  {"kind": "Annahme", "field": "base", "ballon": "v21", "v2": "standard"}]}
-        model = asset.kit_model(data, author, report)
-        self.assertEqual(model["PARTS"][0]["mat"], "sight_anod")
+        model["PARTS"][0]["mat"] = "sight_anod"                                              # Gestaltung der Variante (0.4)
+        model["PARTS"][0]["r_in"] = 1.0
+        run = {"notes": [{"part": part, "kind": "Annahme", "field": "mat", "ballon": data["PARTS"][0]["mat"], "v2": "sight_anod"},
+                         {"part": part, "kind": "Annahme", "field": "r_in", "ballon": 2.5, "v2": 1.0},
+                         {"kind": "Annahme", "field": "base", "ballon": "pilot", "v2": "standard"}]}
+        out = asset.kit_model(data, model, run)
+        self.assertEqual((out["PARTS"][0]["mat"], out["PARTS"][0]["r_in"]), ("sight_anod", 2.5))
+
+    def test_undeclared_assembly_is_an_error(self):
+        data = ballon.load(SNAP, "01")
+        model = {"PARTS": [dict(data["PARTS"][0], asm="erfunden")], "ANCHORS": {}}
+        with self.assertRaises(ValueError):
+            asset.kit_model(data, model, {"notes": []})
 
     def test_variant_changes_geometry(self):
         _, a = kit_model("BA01")
@@ -77,19 +106,20 @@ class KitModelTests(unittest.TestCase):
 class PlanTests(unittest.TestCase):
     def plan(self, ids, **cfg):
         with mock.patch.object(asset, "blender_version", lambda binary: "Blender 5.2.2 LTS"):
-            return asset.plan(ids, KIT, SNAP, {**asset.DEFAULTS, **cfg})
+            return asset.plan(asset.select(ids), KIT, SNAP, {**asset.DEFAULTS, **cfg})
 
     def test_keys_are_stable_and_per_sheet(self):
         a, b = self.plan(["BA01", "BB01"]), self.plan(["BA01", "BB01"])
         self.assertEqual([x.key for x in a], [x.key for x in b])
         self.assertNotEqual(a[0].key, a[1].key)
         self.assertEqual([x.output for x in a], ["assets/BA01.glb", "assets/BB01.glb"])
-        self.assertEqual(a[0].inputs["module"], "basic.weapons.w01_auto_rifle")
+        self.assertEqual((a[0].inputs["module"], a[0].inputs["base"]), ("basic.pilot.w01_auto_rifle_v21", "v21"))
+        self.assertEqual(self.plan(["BA16"])[0].inputs["module"], "basic.weapons.w16_sword")
 
     def test_key_follows_blender_version_and_code(self):
         base = self.plan(["BA01"])[0]
         with mock.patch.object(asset, "blender_version", lambda binary: "Blender 5.3.0"):
-            other = asset.plan(["BA01"], KIT, SNAP, dict(asset.DEFAULTS))[0]
+            other = asset.plan(asset.select(["BA01"]), KIT, SNAP, dict(asset.DEFAULTS))[0]
         self.assertNotEqual(base.key, other.key)
         self.assertEqual(base.source, other.source)
         asset.code_hash.cache_clear()
@@ -128,42 +158,128 @@ class ToolSafetyTests(unittest.TestCase):
         self.assertEqual(K.verdict({"pilots": {"A": good, "B": {"built": True, "ego_json": "keine Referenz"}}}), 1)
         self.assertEqual(K.verdict({"pilots": {"A": {"built": False, "error": "x"}}}), 1)
 
-    def test_package_refuses_foreign_folder_and_keeps_old_on_failure(self):
-        art = mock.Mock(model_id="BX01", inputs={"snapshot": "", "module": "", "model": {}, "skin": "standard", "blender": "b"})
-        cfg = dict(asset.DEFAULTS)
+    def test_unpack_refuses_foreign_folder_and_replaces_own(self):
         with tempfile.TemporaryDirectory() as tmp:
-            foreign = Path(tmp) / "BX01"
-            foreign.mkdir()
+            src = Path(tmp) / "src"
+            (src / "textures").mkdir(parents=True)
+            (src / "BX01.package.json").write_text('{"neu": 1}')
+            (src / "textures/a.png").write_bytes(b"png")
+            zpath = Path(tmp) / "BX01.bake.zip"
+            zpath.write_bytes(asset.zip_folder(src))
+            dest = Path(tmp) / "pakete"
+            foreign = dest / "BX01"
+            foreign.mkdir(parents=True)
             (foreign / "notiz.txt").write_text("fremd")
-            with mock.patch.object(asset, "run_blender") as run:
-                with self.assertRaises(RuntimeError):
-                    asset.build_package(art, Path(tmp), cfg)
-                run.assert_not_called()
+            with self.assertRaises(RuntimeError):
+                asset.unpack(zpath, dest)
             self.assertTrue((foreign / "notiz.txt").is_file())
             (foreign / "notiz.txt").unlink()
             (foreign / "BX01.package.json").write_text("{}")                                   # eigenes altes Paket
-            with mock.patch.object(asset, "run_blender", side_effect=RuntimeError("Blender")):
-                with self.assertRaises(RuntimeError):
-                    asset.build_package(art, Path(tmp), cfg)
-            self.assertTrue((foreign / "BX01.package.json").is_file())                       # bleibt bei Fehlschlag
-            def fake(job, blender):
-                Path(job["out"], "BX01.package.json").write_text('{"neu": 1}')
-            with mock.patch.object(asset, "run_blender", side_effect=fake):
-                asset.build_package(art, Path(tmp), cfg)
+            asset.unpack(zpath, dest)
             self.assertEqual(json.loads((foreign / "BX01.package.json").read_text()), {"neu": 1})
-            self.assertEqual(sorted(p.name for p in Path(tmp).iterdir()), ["BX01"])          # kein Temp-Rest
+            self.assertEqual(sorted(p.name for p in dest.iterdir()), ["BX01"])               # kein Temp-Rest
+
+    def test_zip_is_deterministic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            a, b = Path(tmp) / "a", Path(tmp) / "b"
+            for folder, order in ((a, ("x", "y/z")), (b, ("y/z", "x"))):
+                for name in order:
+                    (folder / name).parent.mkdir(parents=True, exist_ok=True)
+                    (folder / name).write_bytes(name.encode())
+            os.utime(a / "x", (1, 1))
+            self.assertEqual(asset.zip_folder(a), asset.zip_folder(b))
+            self.assertEqual(zipfile.ZipFile(io.BytesIO(asset.zip_folder(a))).namelist(), ["x", "y/z"])
+
+    def test_bake_needs_gpu_lock(self):
+        self.assertTrue(asset.gpu_locked({"CE_HEAVY_HELD": "blender,1"}))
+        self.assertTrue(asset.gpu_locked({"CE_HEAVY_HELD": "gpu"}))
+        self.assertFalse(asset.gpu_locked({"CE_HEAVY_HELD": "blender"}))
+        self.assertFalse(asset.gpu_locked({}))
+        art = asset.Artifact("BX01", "asset_bake", "s", {"blender": "B"}, {}, "assets/BX01.bake.zip", "", {"blender": "b", "gpu": True})
+        with mock.patch.object(asset, "blender_version", lambda binary: "B"), mock.patch.dict(os.environ, {"CE_HEAVY_HELD": ""}), \
+                mock.patch.object(asset, "run_blender") as run:
+            with self.assertRaises(RuntimeError):
+                asset.build_bake(art)
+            run.assert_not_called()
 
 
-@unittest.skipUnless((OUT / "assets/BA01.glb").is_file() and BALLON_GLB.is_file(),
-                     "Ergebnisse fehlen (Mac: ce lock blender -- python -m formgen.asset BA01 BB01 BC01)")
+@unittest.skipIf(SNAP is None, REASON)
+class AssetCacheTests(unittest.TestCase):
+    """Stufe asset in der Pipeline: Treffer/Fehltreffer nur aus Inhalten; Blender durch eine Attrappe ersetzt."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.out, self.cache = Path(self.tmp.name) / "out", Path(self.tmp.name) / "cache"
+        self.calls = []
+        patches = [mock.patch.object(asset, "blender_version", lambda binary: "Blender 5.2.2 LTS"),
+                   mock.patch.object(asset, "run_blender", self.blender)]
+        for patch in patches:
+            patch.start()
+            self.addCleanup(patch.stop)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def blender(self, job, binary):
+        self.calls.append((job["id"], bool(job.get("package"))))
+        if job.get("package"):
+            Path(job["out"], f"{job['id']}.package.json").write_text(json.dumps({"skin": job["skin"], "atlas": job["atlas"]}))
+        else:
+            Path(job["out"], f"{job['id']}.glb").write_bytes(fake_glb({"id": job["id"], "model": canonical(job["model"]).decode()}))
+        return ""
+
+    def run_pipeline(self, ids, entries=None, **kw):
+        selection = pipeline.select(ids, entries=entries)
+        res, _ = pipeline.run(selection, self.out, self.cache, ("geometry", "asset"), log=lambda _: 0, **kw)
+        return {r.output: r.built for r in res if r.output.startswith("assets/")}
+
+    def test_second_run_hits_and_parameter_change_misses_only_that_sheet(self):
+        first = self.run_pipeline(["BA01", "BB01"])
+        self.assertEqual(first, {"assets/BA01.glb": True, "assets/BB01.glb": True})
+        self.assertEqual(self.run_pipeline(["BA01", "BB01"]), {"assets/BA01.glb": False, "assets/BB01.glb": False})
+        entries = variants.load()
+        next(v for v in entries if v["letter"] == "B")["params"]["front"] = 1.2
+        self.assertEqual(self.run_pipeline(["BA01", "BB01"], entries), {"assets/BA01.glb": False, "assets/BB01.glb": True})
+        index = json.loads((self.out / "assets/index.json").read_text())
+        self.assertEqual(set(index["assets"]), {"BA01", "BB01"})
+        self.assertEqual(index["assets"]["BA01"]["base"], "v21")
+        self.assertEqual([c for c in self.calls if c[1]], [])                                 # ohne --bake kein Bake
+
+    def test_bake_only_on_request_and_cached(self):
+        with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": "1"}):
+            built = self.run_pipeline(["BA01", "BD01"], bake=["BD01"])
+            again = self.run_pipeline(["BA01", "BD01"], bake=["BD01"])
+        self.assertEqual(built, {"assets/BA01.glb": True, "assets/BD01.glb": True, "assets/BD01.bake.zip": True})
+        self.assertEqual(set(again.values()), {False})
+        self.assertEqual(sorted(c for c in self.calls if c[1]), [("BD01", True)])
+        index = json.loads((self.out / "assets/index.json").read_text())
+        self.assertEqual(index["assets"]["BD01"]["bake"]["skin"], "eloxal")
+        self.assertNotIn("bake", index["assets"]["BA01"])
+        with zipfile.ZipFile(self.out / "assets/BD01.bake.zip") as archive:
+            self.assertEqual(json.loads(archive.read("BD01.package.json"))["atlas"], 4096)
+
+    def test_bake_key_follows_device_and_atlas_not_source(self):
+        glb = asset.plan(asset.select(["BA01"]), KIT, SNAP, dict(asset.DEFAULTS))
+        gpu = asset.bake_plan(glb, dict(asset.DEFAULTS))[0]
+        cpu = asset.bake_plan(glb, dict(asset.DEFAULTS), gpu=False)[0]
+        small = asset.bake_plan(glb, dict(asset.DEFAULTS, atlas=1024))[0]
+        self.assertEqual({gpu.source, cpu.source, small.source}, {glb[0].source})
+        self.assertEqual(len({gpu.key, cpu.key, small.key, glb[0].key}), 4)
+
+
+@unittest.skipUnless((OUT / "assets/BA01.glb").is_file() and PARITY.is_file(),
+                     "Ergebnisse fehlen (Mac: ce lock blender -- python -m formgen.pipeline --stages geometry,asset; "
+                     "tools/line_a_parity.py)")
 class BuiltAssetTests(unittest.TestCase):
-    def test_ba01_triangle_and_material_equal_to_ballon(self):
-        import sys
-        sys.path.insert(0, str(asset.ROOT / "tools"))
-        import ballon_compare
-        r = ballon_compare.compare_asset(OUT / "assets/BA01.glb", BALLON_GLB)
-        self.assertTrue(r["equal"], r)
-        self.assertEqual(r["triangles"]["asset"], r["triangles"]["ballon"])
+    def test_line_a_byte_equal_to_ballon_rebuild(self):
+        # Linie A jedes Typs bytegleich zu BALLONs eigenem Bau des unveränderten Grundmoduls am Pin (tools/line_a_parity.py)
+        report = json.loads(PARITY.read_text())
+        self.assertEqual(report["ballon_commit"], ballon.config()["commit"])
+        self.assertEqual(sorted(report["types"]), list(ballon.TYPES))
+        for num, entry in report["types"].items():
+            with self.subTest(num=num):
+                self.assertTrue(entry["bytes_equal"] and entry["equal"] and entry["spec_equal"], entry)
+                self.assertEqual(asset.file_hash(OUT / f"assets/BA{num}.glb"), asset.file_hash(Path(entry["rebuild"])))
 
     def test_moved_anchor_is_detected(self):
         import struct
@@ -226,20 +342,23 @@ class BuiltAssetTests(unittest.TestCase):
         sys.path.insert(0, str(asset.ROOT / "tools"))
         import ballon_compare
         with tempfile.TemporaryDirectory() as tmp:
-            ref = Path(tmp) / "BASIC-01"
+            ref = Path(tmp) / "BASIC-01-v2.1"                                                # Linie A steht auf dem Piloten
             ref.mkdir()
-            shutil.copyfile(OUT / "assets/BA01.glb", ref / "BASIC-01.glb")
+            shutil.copyfile(OUT / "assets/BA01.glb", ref / "BASIC-01-v2.1.glb")
             report = Path(tmp) / "r.json"
             code = ballon_compare.main(["--asset", "BA01", "--glb-dir", tmp, "--out", str(report)])
             self.assertEqual(code, 0)
-            self.assertEqual(json.loads(report.read_text())["BA01"]["ballon_glb"], str(ref / "BASIC-01.glb"))
+            self.assertEqual(json.loads(report.read_text())["BA01"]["ballon_glb"], str(ref / "BASIC-01-v2.1.glb"))
 
     def test_index_matches_files(self):
         index = json.loads((OUT / "assets/index.json").read_text())
+        self.assertEqual(index["format_version"], 2)
         for sid, entry in index["assets"].items():
             glb = OUT / "assets" / entry["glb"]
             self.assertEqual(asset.file_hash(glb), entry["sha256"], sid)
             self.assertEqual(asset.glb_info(glb)["triangles"], entry["triangles"], sid)
+            if "bake" in entry:
+                self.assertEqual(asset.file_hash(OUT / "assets" / entry["bake"]["zip"]), entry["bake"]["sha256"], sid)
 
 
 if __name__ == "__main__":
