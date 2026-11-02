@@ -1,0 +1,655 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "formgenv2/weapon-sheet-spec/2",
+ "title": "Formgen v2 Blatt-Spec (Waffenvariante auf BALLON-Grundform), Version 2",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "format",
+  "format_version",
+  "id",
+  "name_de",
+  "name_en",
+  "variant",
+  "type",
+  "ballon",
+  "generator",
+  "dimensions_mm",
+  "ballon_dimensions_mm",
+  "counts",
+  "assemblies",
+  "parts",
+  "anchors",
+  "provenance",
+  "warnings",
+  "base",
+  "variation",
+  "contract"
+ ],
+ "$defs": {
+  "sha": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{64}$"
+  },
+  "range": {
+   "type": "array",
+   "items": {
+    "type": "number"
+   },
+   "minItems": 2,
+   "maxItems": 2
+  },
+  "dims": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "length",
+    "height",
+    "width"
+   ],
+   "properties": {
+    "length": {
+     "type": "number",
+     "exclusiveMinimum": 0
+    },
+    "height": {
+     "type": "number",
+     "exclusiveMinimum": 0
+    },
+    "width": {
+     "type": "number",
+     "exclusiveMinimum": 0
+    }
+   }
+  }
+ },
+ "properties": {
+  "format": {
+   "const": "formgenv2/weapon-sheet-spec"
+  },
+  "format_version": {
+   "const": 2
+  },
+  "id": {
+   "type": "string",
+   "pattern": "^B[A-HJ-NP-Z](0[1-9]|1[0-7])$"
+  },
+  "name_de": {
+   "type": "string",
+   "minLength": 1
+  },
+  "name_en": {
+   "type": "string",
+   "minLength": 1
+  },
+  "variant": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "letter",
+    "name",
+    "idea",
+    "since",
+    "skin",
+    "params",
+    "base"
+   ],
+   "properties": {
+    "letter": {
+     "type": "string",
+     "pattern": "^[A-HJ-NP-Z]$"
+    },
+    "name": {
+     "type": "string",
+     "pattern": "^[A-Z][a-z]+( [A-Z][a-z]+){0,2}$",
+     "maxLength": 16
+    },
+    "idea": {
+     "type": "string",
+     "minLength": 1
+    },
+    "since": {
+     "type": "string"
+    },
+    "skin": {
+     "type": "string"
+    },
+    "params": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "front": {
+       "oneOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "rear": {
+       "oneOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "limbs": {
+       "oneOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "mag": {
+       "oneOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "muzzle": {
+       "oneOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "muzzle_r": {
+       "oneOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "stock_scale": {
+       "oneOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "glow": {
+       "oneOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "integer"
+         },
+         "minItems": 2,
+         "maxItems": 2
+        }
+       ]
+      },
+      "drop": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "sight": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "string"
+         },
+         "minItems": 1
+        }
+       ]
+      },
+      "stock": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "string"
+         },
+         "minItems": 1
+        }
+       ]
+      },
+      "grip": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "array",
+         "items": {
+          "type": "string"
+         },
+         "minItems": 1
+        }
+       ]
+      }
+     }
+    },
+    "base": {
+     "enum": [
+      "standard",
+      "v21"
+     ]
+    }
+   }
+  },
+  "type": {
+   "type": "object",
+   "required": [
+    "id",
+    "num",
+    "type",
+    "type_de",
+    "type_en",
+    "name"
+   ],
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^BASIC-(0[1-9]|1[0-7])$"
+    },
+    "num": {
+     "type": "string"
+    }
+   }
+  },
+  "ballon": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "commit",
+    "basic_id",
+    "source_sha256",
+    "spec_sha256",
+    "files"
+   ],
+   "properties": {
+    "commit": {
+     "type": "string",
+     "pattern": "^[0-9a-f]{40}$"
+    },
+    "basic_id": {
+     "type": "string"
+    },
+    "source_sha256": {
+     "$ref": "#/$defs/sha"
+    },
+    "spec_sha256": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/sha"
+      },
+      {
+       "const": "missing"
+      }
+     ]
+    },
+    "files": {
+     "type": "object",
+     "minProperties": 1,
+     "additionalProperties": {
+      "$ref": "#/$defs/sha"
+     }
+    }
+   }
+  },
+  "generator": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "ops",
+    "adaptations"
+   ],
+   "properties": {
+    "ops": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "op"
+      ],
+      "properties": {
+       "op": {
+        "enum": [
+         "front",
+         "rear",
+         "drop",
+         "sight",
+         "stock",
+         "grip",
+         "mag",
+         "muzzle",
+         "glow",
+         "limbs"
+        ]
+       }
+      }
+     }
+    },
+    "adaptations": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "kind",
+       "reason"
+      ]
+     }
+    }
+   }
+  },
+  "dimensions_mm": {
+   "$ref": "#/$defs/dims"
+  },
+  "ballon_dimensions_mm": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/dims"
+    },
+    {
+     "type": "null"
+    }
+   ]
+  },
+  "counts": {
+   "type": "object",
+   "required": [
+    "parts",
+    "assemblies",
+    "triangles"
+   ]
+  },
+  "assemblies": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "required": [
+     "id"
+    ]
+   }
+  },
+  "parts": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "assembly",
+     "role",
+     "shape",
+     "extent_mm",
+     "triangles",
+     "moving"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "assembly": {
+      "type": "string"
+     },
+     "role": {
+      "type": "string"
+     },
+     "shape": {
+      "type": "string"
+     },
+     "name_de": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "name_en": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "extent_mm": {
+      "type": "object",
+      "required": [
+       "f",
+       "u",
+       "x"
+      ],
+      "properties": {
+       "f": {
+        "$ref": "#/$defs/range"
+       },
+       "u": {
+        "$ref": "#/$defs/range"
+       },
+       "x": {
+        "$ref": "#/$defs/range"
+       }
+      }
+     },
+     "triangles": {
+      "type": "integer",
+      "minimum": 1
+     },
+     "moving": {
+      "type": "boolean"
+     }
+    }
+   }
+  },
+  "anchors": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "required": [
+     "part",
+     "position_mm"
+    ],
+    "properties": {
+     "part": {
+      "type": "string"
+     },
+     "position_mm": {
+      "type": "array",
+      "items": {
+       "type": "number"
+      },
+      "minItems": 3,
+      "maxItems": 3
+     }
+    }
+   }
+  },
+  "provenance": {
+   "type": "object",
+   "required": [
+    "kind",
+    "source"
+   ],
+   "properties": {
+    "kind": {
+     "enum": [
+      "Vorgabe",
+      "gemessen",
+      "Annahme"
+     ]
+    }
+   }
+  },
+  "warnings": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "base": {
+   "enum": [
+    "standard",
+    "v21"
+   ],
+   "description": "tatsächlich verwendete BALLON-Grundform (v21 = basic/pilot/wNN_*_v21.py)"
+  },
+  "variation": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "seed",
+    "draws",
+    "values"
+   ],
+   "description": "Gesteuerter Zufall: Seed aus Blatt-ID und Linie; draws = gezogene Bereichswerte; values = wirksame Parameter",
+   "properties": {
+    "seed": {
+     "type": "string",
+     "pattern": "^[0-9a-f]{16}$"
+    },
+    "draws": {
+     "type": "object"
+    },
+    "values": {
+     "type": "object"
+    }
+   }
+  },
+  "contract": {
+   "description": "Designvertrag gemessen am Autorenmodell (Grundform und Variante); null nach Migration aus Version 1",
+   "oneOf": [
+    {
+     "type": "null"
+    },
+    {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "base",
+      "variant"
+     ],
+     "properties": {
+      "base": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "sight_line_mm",
+        "accent_functions",
+        "hand_roles"
+       ],
+       "properties": {
+        "sight_line_mm": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "accent_functions": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "hand_roles": {
+         "type": "object",
+         "additionalProperties": {
+          "type": "string"
+         }
+        }
+       }
+      },
+      "variant": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "sight_line_mm",
+        "accent_functions",
+        "hand_roles"
+       ],
+       "properties": {
+        "sight_line_mm": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "accent_functions": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "hand_roles": {
+         "type": "object",
+         "additionalProperties": {
+          "type": "string"
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ }
+}

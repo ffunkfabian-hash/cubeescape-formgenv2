@@ -1,0 +1,588 @@
+{
+ "anchors": {
+  "Socket_Eye": {
+   "part": "rear_sight_l",
+   "position_mm": [
+    -200.0,
+    80.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "barrel",
+   "position_mm": [
+    145.99,
+    58.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "rear_sight_l",
+   "position_mm": [
+    -42.0,
+    80.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Bewegliche Mechanik",
+   "en": "Moving mechanism",
+   "id": "mechanism"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-05",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w05_sidearm.py": "44a542b489e24ebf98c38a7601ac63bb8ce1b9803bfc67e31092b8fe119828f2"
+  },
+  "source_sha256": "7a6e8b94f3400a2ac030bced0fc1bcaadc28e19bdd5fb3937efc211ac21aad81",
+  "spec_sha256": "3b9d48e5a947f64ee2ca20cf2a88de60efc28459c0b262aaa6d878d83975ffc5"
+ },
+ "ballon_dimensions_mm": {
+  "height": 156.0,
+  "length": 224.0,
+  "width": 30.5
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Hält den Schlitten nach dem letzten Schuss offen",
+    "Löst das Magazin"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite"
+   },
+   "sight_line_mm": 22
+  },
+  "variant": {
+   "accent_functions": [
+    "Hält den Schlitten nach dem letzten Schuss offen",
+    "Löst das Magazin"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite"
+   },
+   "sight_line_mm": 22
+  }
+ },
+ "counts": {
+  "assemblies": 6,
+  "parts": 13,
+  "triangles": 1840
+ },
+ "dimensions_mm": {
+  "height": 147.0,
+  "length": 195.99,
+  "width": 30.5
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 2,
+ "generator": {
+  "adaptations": [],
+  "ops": [
+   {
+    "kind": "holo_kasten",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "kind": "S1",
+    "op": "stock",
+    "scale": 0.888,
+    "skipped": "kein Schaft S1/S2 (eigener oder kein Schaft)"
+   },
+   {
+    "cut_mm": 3.927,
+    "delta_mm": -18.453,
+    "direction": [
+     -0.309218,
+     -0.950991
+    ],
+    "factor": 0.812,
+    "length_mm": 98.156,
+    "op": "mag",
+    "parts": [
+     "magazine",
+     "magazine_base"
+    ]
+   },
+   {
+    "factor": 0.747,
+    "op": "muzzle",
+    "radius": 1.0,
+    "skipped": "kein Mündungsteil `muzzle` entlang der Laufachse"
+   },
+   {
+    "dropped": [],
+    "op": "drop",
+    "patterns": [
+     "vent_*",
+     "cheek_rest"
+    ],
+    "protected": []
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle"
+    ],
+    "cut_f_mm": 70.688,
+    "delta_mm": -28.014,
+    "factor": 0.839,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "frame",
+     "slide"
+    ],
+    "translated": [
+     "barrel",
+     "front_sight"
+    ],
+    "wanted_mm": -28.014
+   },
+   {
+    "factor": 1.282,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   }
+  ]
+ },
+ "id": "BG05",
+ "name_de": "Pistole · Skeleton",
+ "name_en": "Sidearm · Skeleton",
+ "parts": [
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -36.79,
+     127.99
+    ],
+    "u": [
+     30.0,
+     46.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "frame",
+   "moving": false,
+   "name_de": "Rahmen",
+   "name_en": "Frame",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 112
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     -50.0,
+     141.99
+    ],
+    "u": [
+     46.0,
+     74.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "slide",
+   "moving": true,
+   "name_de": "Schlitten",
+   "name_en": "Slide",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 160
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     91.99,
+     145.99
+    ],
+    "u": [
+     52.12,
+     63.88
+    ],
+    "x": [
+     -5.88,
+     5.88
+    ]
+   },
+   "id": "barrel",
+   "moving": false,
+   "name_de": "Lauf",
+   "name_en": "Barrel",
+   "role": "metal",
+   "shape": "cyl",
+   "triangles": 384
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.85,
+     25.85
+    ],
+    "u": [
+     -66.0,
+     32.0
+    ],
+    "x": [
+     -14.0,
+     14.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griff",
+   "name_en": "Grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 120
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -29.77,
+     15.53
+    ],
+    "u": [
+     -48.45,
+     20.0
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "magazine",
+   "moving": true,
+   "name_de": "Magazin",
+   "name_en": "Magazine",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -40.2,
+     -0.2
+    ],
+    "u": [
+     -57.45,
+     -48.45
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "magazine_base",
+   "moving": false,
+   "name_de": "Magazinboden",
+   "name_en": "Magazine base plate",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     30.13,
+     38.0
+    ],
+    "u": [
+     6.25,
+     30.0
+    ],
+    "x": [
+     -3.0,
+     3.0
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     14.0,
+     68.0
+    ],
+    "u": [
+     -2.0,
+     31.0
+    ],
+    "x": [
+     -7.0,
+     7.0
+    ]
+   },
+   "id": "trigger_guard",
+   "moving": false,
+   "name_de": "Abzugsbügel",
+   "name_en": "Trigger guard",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 216
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     46.0,
+     70.0
+    ],
+    "u": [
+     42.0,
+     47.0
+    ],
+    "x": [
+     12.6,
+     15.0
+    ]
+   },
+   "id": "slide_stop",
+   "moving": false,
+   "name_de": "Schlittenfang",
+   "name_en": "Slide stop",
+   "role": "accent",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     12.08,
+     19.92
+    ],
+    "u": [
+     32.08,
+     39.92
+    ],
+    "x": [
+     12.0,
+     15.5
+    ]
+   },
+   "id": "mag_release",
+   "moving": true,
+   "name_de": "Magazinhalter",
+   "name_en": "Magazine release",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -41.81,
+     -32.0
+    ],
+    "u": [
+     73.0,
+     81.0
+    ],
+    "x": [
+     2.0,
+     8.0
+    ]
+   },
+   "id": "rear_sight_l",
+   "moving": false,
+   "name_de": "Kimme links",
+   "name_en": "Rear sight left",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -41.81,
+     -32.0
+    ],
+    "u": [
+     73.0,
+     81.0
+    ],
+    "x": [
+     -8.0,
+     -2.0
+    ]
+   },
+   "id": "rear_sight_r",
+   "moving": false,
+   "name_de": "Kimme rechts",
+   "name_en": "Rear sight right",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     124.18,
+     131.79
+    ],
+    "u": [
+     73.0,
+     81.0
+    ],
+    "x": [
+     -1.5,
+     1.5
+    ]
+   },
+   "id": "front_sight",
+   "moving": false,
+   "name_de": "Korn",
+   "name_en": "Front sight",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 84
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-05 Standardmodul (Quellhash 7a6e8b94f340); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-05",
+  "name": "Seitenwaffe",
+  "nick": "Standard",
+  "num": "05",
+  "type": "sidearm",
+  "type_de": "Pistole",
+  "type_en": "Sidearm"
+ },
+ "variant": {
+  "base": "standard",
+  "idea": "Abgespeckt: kurzer Schaft S1, kurzes Magazin, knappe Mündung, ohne Lüftung und Wangenauflage; Tarnmuster",
+  "letter": "G",
+  "name": "Skeleton",
+  "params": {
+   "drop": [
+    "vent_*",
+    "cheek_rest"
+   ],
+   "front": [
+    0.82,
+    0.9
+   ],
+   "limbs": [
+    1.22,
+    1.3
+   ],
+   "mag": [
+    0.72,
+    0.82
+   ],
+   "muzzle": [
+    0.6,
+    0.75
+   ],
+   "sight": [
+    "reflex_sight_v21",
+    "holo_kasten",
+    "zinken",
+    "scope_tropfen"
+   ],
+   "stock": "S1",
+   "stock_scale": [
+    0.8,
+    0.9
+   ]
+  },
+  "since": "0.4",
+  "skin": "tarnung"
+ },
+ "variation": {
+  "draws": {
+   "front": 0.839,
+   "limbs": 1.282,
+   "mag": 0.812,
+   "muzzle": 0.747,
+   "sight": "holo_kasten",
+   "stock_scale": 0.888
+  },
+  "seed": "2c149ab79ea43a98",
+  "values": {
+   "drop": [
+    "vent_*",
+    "cheek_rest"
+   ],
+   "front": 0.839,
+   "limbs": 1.282,
+   "mag": 0.812,
+   "muzzle": 0.747,
+   "sight": "holo_kasten",
+   "stock": "S1",
+   "stock_scale": 0.888
+  }
+ },
+ "warnings": []
+}

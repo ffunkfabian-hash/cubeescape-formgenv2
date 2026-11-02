@@ -1,0 +1,1365 @@
+{
+ "anchors": {
+  "Socket_Cell": {
+   "part": "energy_cell",
+   "position_mm": [
+    -90.0,
+    38.0,
+    0.0
+   ]
+  },
+  "Socket_Eye": {
+   "part": "scope_objective",
+   "position_mm": [
+    -16.0,
+    166.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "muzzle",
+   "position_mm": [
+    776.17,
+    100.0,
+    0.0
+   ]
+  },
+  "Socket_Objective": {
+   "part": "scope_rim",
+   "position_mm": [
+    74.0,
+    166.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "scope_glass",
+   "position_mm": [
+    69.5,
+    166.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "scope_eyepiece",
+   "position_mm": [
+    -46.0,
+    166.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "support_grip",
+   "position_mm": [
+    330.0,
+    52.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Schaft",
+   "en": "Stock",
+   "id": "stock"
+  },
+  {
+   "de": "Kühlung",
+   "en": "Cooling",
+   "id": "cooling"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-11",
+  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w11_linear_fusion_rifle.py": "058aadaa215dfa5c738c5e614be83c2d0ceb93fc0d371bd7a286d2505ce239c4"
+  },
+  "source_sha256": "64e4bcc680c45b1fe1f1331598040c53de242e32b9f22a6d352c4bd783865a3f",
+  "spec_sha256": "1a1a9509035f896b7b6e8cd1119cf42ca2f36392743608afb8216eda263e7a22"
+ },
+ "ballon_dimensions_mm": {
+  "height": 280.6,
+  "length": 1216.8,
+  "width": 57.1
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Höhenverstellung (Akzent, Bedienelement)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 88
+  },
+  "variant": {
+   "accent_functions": [
+    "Höhenverstellung (Bedienelement)",
+    "Spannt den Klemmfuß werkzeuglos"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 66.0
+  }
+ },
+ "counts": {
+  "assemblies": 8,
+  "parts": 42,
+  "triangles": 12524
+ },
+ "dimensions_mm": {
+  "height": 263.99,
+  "length": 1140.97,
+  "width": 48.7
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 2,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": 13,
+    "field": "r_in",
+    "kind": "Annahme",
+    "part": "scope_eyepiece",
+    "reason": "BALLON-Hohlkegel mit r_in ≥ Außenradius stülpt die Wand um; r_in auf das große Ende bezogen",
+    "v2": 10.5625
+   },
+   {
+    "ballon": 18,
+    "field": "r_in",
+    "kind": "Annahme",
+    "part": "scope_objective",
+    "reason": "BALLON-Hohlkegel mit r_in ≥ Außenradius stülpt die Wand um; r_in auf das große Ende bezogen",
+    "v2": 11.142857
+   }
+  ],
+  "ops": [
+   {
+    "added": [
+     "scope_mount_r",
+     "scope_strap",
+     "scope_tube",
+     "scope_eyepiece",
+     "scope_eye_trim",
+     "scope_ocular_glass",
+     "scope_turret",
+     "scope_turret_w",
+     "scope_glass",
+     "scope_objective",
+     "scope_step",
+     "scope_objective_b",
+     "scope_rim",
+     "scope_crown",
+     "scope_mount_f",
+     "sight_clamp",
+     "scope_keel",
+     "sight_reticle"
+    ],
+    "anchors_replaced": [],
+    "f_mm": 74.0,
+    "kind": "scope_tropfen",
+    "op": "sight",
+    "removed": [
+     "scope_eyepiece",
+     "scope_glass",
+     "scope_mount_f",
+     "scope_mount_r",
+     "scope_objective",
+     "scope_ocular_glass",
+     "scope_tube",
+     "scope_turret"
+    ],
+    "sight_line_mm": {
+     "after": 66.0,
+     "before": 88
+    }
+   },
+   {
+    "added": [
+     "grip",
+     "trigger",
+     "trigger_guard",
+     "grip_cap"
+    ],
+    "kind": "v21",
+    "op": "grip",
+    "removed": [
+     "grip",
+     "trigger",
+     "trigger_guard"
+    ],
+    "top_mm": 48
+   },
+   {
+    "added": [
+     "glow_line_1"
+    ],
+    "count": 1,
+    "f_mm": [
+     -38.4,
+     110.4
+    ],
+    "on": "receiver",
+    "op": "glow",
+    "side": "links",
+    "u0_mm": 93.5
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 580.125,
+    "delta_mm": -75.828,
+    "factor": 0.911,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "linear_core",
+     "rail_bottom",
+     "rail_top"
+    ],
+    "translated": [
+     "coil_4",
+     "muzzle",
+     "muzzle_bridge"
+    ],
+    "wanted_mm": -75.828
+   },
+   {
+    "factor": 1.148,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   }
+  ]
+ },
+ "id": "BE11",
+ "name_de": "Lineares Fusionsgewehr · Lantern",
+ "name_en": "Linear Fusion Rifle · Lantern",
+ "parts": [
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -150.0,
+     222.0
+    ],
+    "u": [
+     48.0,
+     142.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "receiver",
+   "moving": false,
+   "name_de": "Gehäuse",
+   "name_en": "Receiver",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     222.0,
+     744.17
+    ],
+    "u": [
+     122.0,
+     136.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "rail_top",
+   "moving": false,
+   "name_de": "Beschleunigerschiene oben",
+   "name_en": "Upper accelerator rail",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     222.0,
+     724.17
+    ],
+    "u": [
+     64.0,
+     78.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "rail_bottom",
+   "moving": false,
+   "name_de": "Beschleunigerschiene unten",
+   "name_en": "Lower accelerator rail",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     222.0,
+     736.17
+    ],
+    "u": [
+     95.17,
+     104.83
+    ],
+    "x": [
+     -4.83,
+     4.83
+    ]
+   },
+   "id": "linear_core",
+   "moving": true,
+   "name_de": "Linearkern",
+   "name_en": "Linear core",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 44
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     736.17,
+     776.17
+    ],
+    "u": [
+     84.55,
+     115.45
+    ],
+    "x": [
+     -15.45,
+     15.45
+    ]
+   },
+   "id": "muzzle",
+   "moving": false,
+   "name_de": "Fokusmündung",
+   "name_en": "Focus muzzle",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 288
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     720.17,
+     736.17
+    ],
+    "u": [
+     64.0,
+     136.0
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "muzzle_bridge",
+   "moving": false,
+   "name_de": "Mündungsbrücke",
+   "name_en": "Muzzle bridge",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     272.16,
+     388.14
+    ],
+    "u": [
+     40.0,
+     65.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "support_grip",
+   "moving": false,
+   "name_de": "Stützgriff",
+   "name_en": "Support grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     300.0,
+     316.0
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_1",
+   "moving": false,
+   "name_de": "Spulenring 1",
+   "name_en": "Coil ring 1",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     430.0,
+     446.0
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_2",
+   "moving": false,
+   "name_de": "Spulenring 2",
+   "name_en": "Coil ring 2",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     560.0,
+     576.0
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_3",
+   "moving": false,
+   "name_de": "Spulenring 3",
+   "name_en": "Coil ring 3",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     614.17,
+     630.17
+    ],
+    "u": [
+     56.0,
+     144.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "coil_4",
+   "moving": false,
+   "name_de": "Spulenring 4",
+   "name_en": "Coil ring 4",
+   "role": "dark_metal",
+   "shape": "frame",
+   "triangles": 480
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -134.0,
+     -46.0
+    ],
+    "u": [
+     24.0,
+     52.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -112.0,
+     -68.0
+    ],
+    "u": [
+     36.0,
+     40.0
+    ],
+    "x": [
+     19.7,
+     20.7
+    ]
+   },
+   "id": "energy_cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -130.0,
+     190.0
+    ],
+    "u": [
+     141.5,
+     150.0
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "rail",
+   "moving": false,
+   "name_de": "Schiene",
+   "name_en": "Top rail",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -44.0,
+     -18.0
+    ],
+    "u": [
+     142.5,
+     156.2
+    ],
+    "x": [
+     -13.6,
+     13.6
+    ]
+   },
+   "id": "scope_mount_r",
+   "moving": true,
+   "name_de": "Rohrsattel",
+   "name_en": "Scope saddle",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 196
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -40.0,
+     -30.0
+    ],
+    "u": [
+     153.61,
+     178.39
+    ],
+    "x": [
+     -12.39,
+     12.39
+    ]
+   },
+   "id": "scope_strap",
+   "moving": false,
+   "name_de": "Spannband",
+   "name_en": "Scope strap",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -26.0,
+     31.45
+    ],
+    "u": [
+     156.53,
+     175.47
+    ],
+    "x": [
+     -9.47,
+     9.47
+    ]
+   },
+   "id": "scope_tube",
+   "moving": false,
+   "name_de": "Mittelrohr",
+   "name_en": "Scope tube",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -46.0,
+     -24.0
+    ],
+    "u": [
+     155.03,
+     176.97
+    ],
+    "x": [
+     -10.97,
+     10.97
+    ]
+   },
+   "id": "scope_eyepiece",
+   "moving": false,
+   "name_de": "Okular",
+   "name_en": "Eyepiece",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 320
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -47.0,
+     -44.5
+    ],
+    "u": [
+     154.64,
+     177.36
+    ],
+    "x": [
+     -11.36,
+     11.36
+    ]
+   },
+   "id": "scope_eye_trim",
+   "moving": false,
+   "name_de": "Okularkante",
+   "name_en": "Eyepiece trim",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -43.0,
+     -42.0
+    ],
+    "u": [
+     157.03,
+     174.97
+    ],
+    "x": [
+     -8.97,
+     8.97
+    ]
+   },
+   "id": "scope_ocular_glass",
+   "moving": false,
+   "name_de": "Okularlinse",
+   "name_en": "Ocular lens",
+   "role": "glass_scope",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -3.25,
+     6.7
+    ],
+    "u": [
+     173.5,
+     180.5
+    ],
+    "x": [
+     -4.98,
+     4.98
+    ]
+   },
+   "id": "scope_turret",
+   "moving": false,
+   "name_de": "Höhenturm",
+   "name_en": "Elevation turret",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 380
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -2.26,
+     5.7
+    ],
+    "u": [
+     162.02,
+     169.98
+    ],
+    "x": [
+     -13.5,
+     -7.5
+    ]
+   },
+   "id": "scope_turret_w",
+   "moving": false,
+   "name_de": "Seitenturm",
+   "name_en": "Windage turret",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 380
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     69.5,
+     70.0
+    ],
+    "u": [
+     152.03,
+     179.97
+    ],
+    "x": [
+     -13.97,
+     13.97
+    ]
+   },
+   "id": "scope_glass",
+   "moving": false,
+   "name_de": "Objektivlinse",
+   "name_en": "Objective lens",
+   "role": "glass_scope",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     29.45,
+     48.72
+    ],
+    "u": [
+     152.66,
+     179.34
+    ],
+    "x": [
+     -13.34,
+     13.34
+    ]
+   },
+   "id": "scope_objective",
+   "moving": false,
+   "name_de": "Objektiv",
+   "name_en": "Objective bell",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 384
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     48.72,
+     50.22
+    ],
+    "u": [
+     152.66,
+     179.34
+    ],
+    "x": [
+     -13.34,
+     13.34
+    ]
+   },
+   "id": "scope_step",
+   "moving": false,
+   "name_de": "Absatz",
+   "name_en": "Step",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 384
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     50.22,
+     68.0
+    ],
+    "u": [
+     148.59,
+     183.41
+    ],
+    "x": [
+     -17.41,
+     17.41
+    ]
+   },
+   "id": "scope_objective_b",
+   "moving": false,
+   "name_de": "Objektiv vorn",
+   "name_en": "Objective front",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 384
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     68.0,
+     74.0
+    ],
+    "u": [
+     147.01,
+     184.99
+    ],
+    "x": [
+     -18.99,
+     18.99
+    ]
+   },
+   "id": "scope_rim",
+   "moving": false,
+   "name_de": "Objektivring",
+   "name_en": "Objective ring",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 512
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     72.5,
+     74.1
+    ],
+    "u": [
+     150.68,
+     181.32
+    ],
+    "x": [
+     -15.32,
+     15.32
+    ]
+   },
+   "id": "scope_crown",
+   "moving": false,
+   "name_de": "Objektivkante",
+   "name_en": "Objective trim",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 1536
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     44.0,
+     74.0
+    ],
+    "u": [
+     150.5,
+     156.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "scope_mount_f",
+   "moving": false,
+   "name_de": "Klemmfuß vorn",
+   "name_en": "Front sight mount",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     48.0,
+     69.54
+    ],
+    "u": [
+     150.8,
+     153.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     58.0,
+     72.0
+    ],
+    "u": [
+     143.99,
+     153.28
+    ],
+    "x": [
+     -14.13,
+     14.13
+    ]
+   },
+   "id": "scope_keel",
+   "moving": false,
+   "name_de": "Tropfensockel",
+   "name_en": "Drop base",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 104
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     69.45,
+     69.5
+    ],
+    "u": [
+     164.38,
+     167.62
+    ],
+    "x": [
+     -1.62,
+     1.62
+    ]
+   },
+   "id": "sight_reticle",
+   "moving": false,
+   "name_de": "Absehen Fadenkreuz",
+   "name_en": "Reticle Crosshair",
+   "role": "reticle_cyan",
+   "shape": "multi",
+   "triangles": 124
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.15,
+     32.5
+    ],
+    "u": [
+     -76.0,
+     48.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 572
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     45.03,
+     52.86
+    ],
+    "u": [
+     21.19,
+     47.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     27.27,
+     84.86
+    ],
+    "u": [
+     14.0,
+     49.0
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "trigger_guard",
+   "moving": false,
+   "name_de": "Abzugsbügel",
+   "name_en": "Trigger guard",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 244
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.46,
+     3.68
+    ],
+    "u": [
+     -79.0,
+     -73.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip_cap",
+   "moving": false,
+   "name_de": "Griffboden",
+   "name_en": "Grip cap",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -161.0,
+     -149.0
+    ],
+    "u": [
+     78.0,
+     120.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "stock_joint",
+   "moving": false,
+   "name_de": "Schaftverbindung",
+   "name_en": "Stock joint",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -260.4,
+     -160.0
+    ],
+    "u": [
+     88.0,
+     116.0
+    ],
+    "x": [
+     -14.0,
+     14.0
+    ]
+   },
+   "id": "stock_spine",
+   "moving": false,
+   "name_de": "Schaftrohr",
+   "name_en": "Stock spine",
+   "role": "graphite",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -346.8,
+     -253.2
+    ],
+    "u": [
+     17.42,
+     123.88
+    ],
+    "x": [
+     -18.0,
+     18.0
+    ]
+   },
+   "id": "stock",
+   "moving": false,
+   "name_de": "Schulterstütze",
+   "name_en": "Buttstock",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 116
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -364.8,
+     -345.6
+    ],
+    "u": [
+     12.38,
+     127.62
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "butt_pad",
+   "moving": false,
+   "name_de": "Schaftkappe",
+   "name_en": "Butt pad",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 116
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -325.2,
+     -246.0
+    ],
+    "u": [
+     120.0,
+     130.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "cheek_rest",
+   "moving": false,
+   "name_de": "Wangenauflage",
+   "name_en": "Cheek rest",
+   "role": "graphite",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -38.4,
+     110.4
+    ],
+    "u": [
+     93.5,
+     96.5
+    ],
+    "x": [
+     23.7,
+     24.7
+    ]
+   },
+   "id": "glow_line_1",
+   "moving": true,
+   "name_de": "Leuchtstreifen 1",
+   "name_en": "Glow line 1",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-11 Standardmodul (Quellhash 64e4bcc680c4); Variante E „Lantern“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-11",
+  "name": "Schienenlicht",
+  "nick": "Standard",
+  "num": "11",
+  "type": "linear_fusion_rifle",
+  "type_de": "Lineares Fusionsgewehr",
+  "type_en": "Linear Fusion Rifle"
+ },
+ "variant": {
+  "base": "standard",
+  "idea": "Leuchtende Linien am Gehäuse, runde und offene Visiere, Griff v2.1; kompakt in Kobalt",
+  "letter": "E",
+  "name": "Lantern",
+  "params": {
+   "front": [
+    0.86,
+    0.94
+   ],
+   "glow": [
+    1,
+    2
+   ],
+   "grip": "v21",
+   "limbs": [
+    1.12,
+    1.22
+   ],
+   "sight": [
+    "holo_pille",
+    "boegen",
+    "zinken",
+    "scope_tropfen",
+    "gabel"
+   ]
+  },
+  "since": "0.4",
+  "skin": "kobalt"
+ },
+ "variation": {
+  "draws": {
+   "front": 0.911,
+   "glow": 1,
+   "limbs": 1.148,
+   "sight": "scope_tropfen"
+  },
+  "seed": "b07debcc7ee15366",
+  "values": {
+   "front": 0.911,
+   "glow": 1,
+   "grip": "v21",
+   "limbs": 1.148,
+   "sight": "scope_tropfen"
+  }
+ },
+ "warnings": [
+  "scope_mount_r: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_eyepiece: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_objective: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_step: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_objective_b: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_rim: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_keel: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert"
+ ]
+}

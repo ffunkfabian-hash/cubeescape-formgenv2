@@ -100,16 +100,36 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w12_trace_rifle.py": "178b6ce577ed3196ad9108a0dcaf8a4f40fa7c7e65ca5097de1f1f402b27e9c6"
   },
-  "source_sha256": "694c9ee4e935d8707a56446ae154278dd0bc929a1dfc9d0b848d3850cb68c15b",
+  "source_sha256": "51bdc2c9bb2c75dca909a99cf1345c4036a0678c52a96674d56637f63248296a",
   "spec_sha256": "b7507856a8179e436aef5d6ec0fc57c84ac286c07e759f22314f14cc17734f71"
  },
  "ballon_dimensions_mm": {
   "height": 252.0,
   "length": 871.0,
   "width": 59.5
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 74.0
+  },
+  "variant": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 74.0
+  }
  },
  "counts": {
   "assemblies": 7,
@@ -122,7 +142,7 @@
   "width": 59.49
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -162,6 +182,11 @@
      "butt_pad"
     ],
     "wanted_mm": 17.34
+   },
+   {
+    "factor": 1.12,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -700,7 +725,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-12 (Quellhash 694c9ee4e935); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-12 Standardmodul (Quellhash 51bdc2c9bb2c); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-12",
@@ -712,15 +737,26 @@
   "type_en": "Trace Rifle"
  },
  "variant": {
+  "base": "standard",
   "idea": "Gestreckte Vorderpartie und etwas längerer Schaft für Distanz; helle Polar-Lackierung",
   "letter": "B",
   "name": "Long Reach",
   "params": {
    "front": 1.15,
+   "limbs": 1.12,
    "rear": 1.06
   },
   "since": "0.2",
   "skin": "polar"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "952cd584480fda6a",
+  "values": {
+   "front": 1.15,
+   "limbs": 1.12,
+   "rear": 1.06
+  }
  },
  "warnings": []
 }

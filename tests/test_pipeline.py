@@ -1,4 +1,4 @@
-"""Variantenregister, Blatt-Spec v1 (Schema, Migration) und Stufen-Cache der Waffen-Pipeline (ohne Bilder)."""
+"""Variantenregister, Blatt-Spec v2 (Schema, Migration aus v1) und Stufen-Cache der Waffen-Pipeline (ohne Bilder)."""
 import copy
 import json
 import os
@@ -35,7 +35,9 @@ class RegisterTests(unittest.TestCase):
         bad = [dict(ENTRY, name="glass fang"), dict(ENTRY, name="Very Long Name Here"), dict(ENTRY, name="One Two Three Four"),
                dict(ENTRY, letter="I"), dict(ENTRY, letter="O"), dict(ENTRY, letter="ab"),
                dict(ENTRY, params={"front": 2.0}), dict(ENTRY, params={"shiny": 1}), dict(ENTRY, idea=""),
-               dict(ENTRY, types=["18"])]
+               dict(ENTRY, types=["18"]), dict(ENTRY, base="v3"), dict(ENTRY, params={"mag": [1.3, 1.2]}),
+               dict(ENTRY, params={"mag": [1.2]}), dict(ENTRY, params={"sight": ["holo_rund"]}), dict(ENTRY, params={"glow": 1.5}),
+               dict(ENTRY, params={"stock": ["S1", "S1"]}), dict(ENTRY, params={"muzzle": [0.5, 1.0]})]
         for entry in bad:
             with self.assertRaises(variants.VariantError, msg=entry):
                 variants.check([entry])
@@ -50,11 +52,13 @@ class RegisterTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "variants.toml"
             shutil.copy(variants.REGISTRY, path)
-            variants.new("D", "Glass Fang", "Probe", "0.2", "kobalt", {"front": 1.1, "drop": ["vent_*"]}, path)
-            self.assertEqual(variants.load(path)[-1]["params"], {"front": 1.1, "drop": ["vent_*"]})
+            variants.new("J", "Glass Fang", "Probe", "0.2", "kobalt", {"front": [1.0, 1.1], "drop": ["vent_*"], "sight": ["zinken"]}, path,
+                         base="v21")
+            self.assertEqual(variants.load(path)[-1]["params"], {"front": [1.0, 1.1], "drop": ["vent_*"], "sight": ["zinken"]})
+            self.assertEqual(variants.load(path)[-1]["base"], "v21")
             before = path.read_text()
             with self.assertRaises(variants.VariantError):
-                variants.new("E", "Glass Fang", "doppelt", "0.2", path=path)
+                variants.new("K", "Glass Fang", "doppelt", "0.2", path=path)
             self.assertEqual(path.read_text(), before)
         with self.assertRaises(variants.VariantError):
             variants.parse_sheet("BI01")
@@ -64,7 +68,7 @@ class RegisterTests(unittest.TestCase):
             path = Path(tmp) / "variants.toml"
             shutil.copy(variants.REGISTRY, path)
             idea = 'Zeile eins\nZeile "zwei" \\ Ende\tTab'
-            variants.new("D", "Glass Fang", idea, "0.2", path=path)
+            variants.new("J", "Glass Fang", idea, "0.2", path=path)
             self.assertEqual(variants.load(path)[-1]["idea"], idea)
 
 
@@ -99,7 +103,7 @@ class PipelineCacheTests(unittest.TestCase):
         commit = ballon.config()["commit"]
         key = pipeline.geometry_plan(sel, SNAP, commit)[0].key
         self.assertEqual(key, pipeline.geometry_plan(sel, SNAP, "0" * 40)[0].key)   # Commit allein ändert nichts
-        with mock.patch.object(ballon, "source", lambda s, n: dict(ballon.closure(s, n) and {
+        with mock.patch.object(ballon, "source", lambda s, n, b="standard": dict(ballon.closure(s, n, b) and {
                 "basic_id": "BASIC-05", "files": {}, "source_sha256": "f" * 64, "spec_sha256": "missing"})):
             self.assertNotEqual(key, pipeline.geometry_plan(sel, SNAP, commit)[0].key)
         pipeline.code_hash.cache_clear()
@@ -146,14 +150,24 @@ class SpecMigrationTests(unittest.TestCase):
 
     def test_unknown_versions_and_foreign_formats_fail(self):
         for doc in ({"format": "x", "format_version": 1}, dict(self.minimal(), format_version=0),
-                    dict(self.minimal(), format_version=2), dict(self.minimal(), format_version="1")):
+                    dict(self.minimal(), format_version=3), dict(self.minimal(), format_version="1")):
             with self.assertRaises(wspec.SpecError):
                 wspec.migrate(doc)
 
     def test_missing_migration_step_fails(self):
-        with mock.patch.object(wspec, "FORMAT_VERSION", 2):
+        with mock.patch.object(wspec, "FORMAT_VERSION", 3), mock.patch.dict(wspec.MIGRATIONS, {1: lambda d: dict(d, format_version=2)}):
             with self.assertRaises(wspec.SpecError):
                 wspec.migrate(self.minimal())
+
+    def test_real_v1_spec_migrates_to_valid_v2(self):
+        old = json.loads((ROOT / "tests/fixtures/BA04.spec-v1.json").read_text())   # 0.2-Blatt-Spec, unverändert
+        self.assertEqual(old["format_version"], 1)
+        new = wspec.migrate(copy.deepcopy(old))
+        self.assertEqual(new["format_version"], 2)
+        self.assertEqual((new["base"], new["variant"]["base"], new["contract"]), ("standard", "standard", None))
+        self.assertEqual(new["variation"], {"seed": variants.seed("BA04"), "draws": {}, "values": {}})
+        self.assertEqual({k: v for k, v in new.items() if k not in ("format_version", "base", "variation", "contract", "variant")},
+                         {k: v for k, v in old.items() if k not in ("format_version", "variant")})
 
     def test_migration_chain_runs_in_order(self):
         calls = []

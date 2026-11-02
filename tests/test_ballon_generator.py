@@ -28,8 +28,11 @@ def dims(doc):
 class BallonSourceTests(unittest.TestCase):
     def test_closure_covers_module_common_and_packages(self):
         files = ballon.closure(SNAP, "01")
-        self.assertEqual(set(files), {"basic/__init__.py", "basic/weapons/__init__.py", "basic/common.py",
-                                      "basic/weapons/w01_auto_rifle.py"})
+        self.assertEqual(set(files), {"basic/__init__.py", "basic/weapons/__init__.py", "basic/common.py", "basic/reticles.py",
+                                      "basic/weapons/w01_auto_rifle.py"})   # reticles: lazy Import der Visierbausteine v3
+        pilot = ballon.closure(SNAP, "10", "v21")
+        self.assertTrue({"basic/pilot/w10_fusion_rifle_v21.py", "basic/pilot/__init__.py", "basic/pilot/energy_roles.py",
+                         "basic/weapons/w10_fusion_rifle.py", "basic/common.py"} <= set(pilot), pilot)
 
     def test_all_seventeen_types_load_without_bpy(self):
         for num in ballon.TYPES:
@@ -127,7 +130,18 @@ class GeneratorTests(unittest.TestCase):
         op = report["ops"][0]
         self.assertEqual(len(op["dropped"]), 8)
         self.assertEqual(sorted(op["protected"]), ["charging_handle", "grip"])
+        self.assertEqual(op["protected_why"]["grip"], ["Anker"])
         model.normalize(author)
+
+    def test_drop_protects_moving_parts(self):
+        """Bewegte Teile (BALLON-Aktionen) bleiben, auch ohne Anker oder Kindteile."""
+        author, report = self.gen("01", drop=["port_cover", "mag_release", "selector*", "ammo_counter"])
+        op = report["ops"][0]
+        self.assertEqual(op["dropped"], ["ammo_counter"])
+        self.assertEqual(sorted(op["protected"]), ["mag_release", "port_cover", "selector", "selector_r"])
+        self.assertTrue(all(op["protected_why"][i] == ["bewegt"] for i in op["protected"]))
+        ids = {p["id"] for p in author["PARTS"]}
+        self.assertTrue({"port_cover", "mag_release", "selector", "selector_r"} <= ids and "ammo_counter" not in ids)
 
     def test_inverted_ballon_cone_wall_is_adapted_and_reported(self):
         author, report = self.gen("03")

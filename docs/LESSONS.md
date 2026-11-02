@@ -23,3 +23,6 @@
 - Bei Variantenstreckung zuerst wenige gedehnte Teile wählen, sonst verzerren Leitmerkmale (Glefen-Schildflügel); Stauchen nur bis zur freien Zone hinter dem Schnitt. [Generator](generator.md)
 - Eine ältere Referenz-GLB kann bei gleicher Geometrie andere Vertexzahlen haben (Normalen-Splits nach Kit-Updates): Dreiecke je Netz, Materialien und Weltdreiecke vergleichen; Bytegleichheit nur gegen einen Neubau am Pin erwarten. [Bericht](versions/0.3.md)
 - Fremde Werkzeuge ohne Datenschnittstelle nicht nachbauen: den erzeugten Datensatz nur für den Lauf als Modul einhängen und das unveränderte Werkzeug aufrufen; Baseline muss dann bytegleich sein. [Bericht](versions/0.3.md)
+- Zufall für reproduzierbare Varianten je Parameter aus einem Inhaltshash ziehen, nicht aus einem gemeinsamen RNG-Strom: ein neuer Parameter verschiebt sonst alle späteren Ziehungen. [Generator](generator.md)
+- Eine statische Import-Closure findet auch lazy Importe in Funktionen; ein erweiterter Snapshot ändert daher Quellhashes aller Typen, die das Modul importieren – Snapshot-Ordner an die Pfadliste binden. [Generator](generator.md)
+- Ein Vielfaltsmaß gegen die Baseline deckt formgleiche Linien auf, die nur die Farbe wechseln (Bogen in B/C); Front-IoU allein taugt nicht, Langwaffen sind von vorn fast gleich. [Generator](generator.md)

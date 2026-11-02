@@ -12,7 +12,7 @@ from types import ModuleType
 
 from .versions import MODEL as VERSION
 
-SHAPES = {'prof', 'box', 'cyl', 'plan', 'frame', 'xbox', 'multi', 'tube', 'text', 'hull', 'loft', 'surface', 'prism2'}
+SHAPES = {'prof', 'box', 'cyl', 'plan', 'frame', 'xbox', 'multi', 'tube', 'text', 'hull', 'loft', 'surface', 'prism2', 'xprof'}
 
 
 class ModelError(ValueError):
@@ -40,7 +40,7 @@ def _shape(p):
     k = p.get('shape')
     if k not in SHAPES:
         raise ModelError(f'Unbekannte Form: {k!r}')
-    required = {'box': 'f0 f1 u0 u1 w', 'prof': 'pts w', 'plan': 'pts u0 u1', 'cyl': 'axis c a0 a1 r', 'frame': 'f0 f1 cu ow oh iw ih r_out r_in', 'xbox': 'f0 f1 cu ww hh', 'multi': 'items', 'tube': 'path r', 'text': 'text size f u', 'hull': 'points', 'loft': 'rings', 'surface': 'vertices faces', 'prism2': 'side front'}[k].split()
+    required = {'box': 'f0 f1 u0 u1 w', 'prof': 'pts w', 'plan': 'pts u0 u1', 'cyl': 'axis c a0 a1 r', 'frame': 'f0 f1 cu ow oh iw ih r_out r_in', 'xbox': 'f0 f1 cu ww hh', 'multi': 'items', 'tube': 'path r', 'text': 'text size f u', 'hull': 'points', 'loft': 'rings', 'surface': 'vertices faces', 'prism2': 'side front', 'xprof': 'f0 f1 cu pts'}[k].split()
     for key in required:
         if key not in p:
             raise ModelError(f'{k}: Feld {key} fehlt')

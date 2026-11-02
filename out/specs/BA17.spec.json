@@ -76,16 +76,36 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w17_glaive.py": "0506f6b9704db6dea23b31074a7b34644bc4f656a844bf27eb0f1a5a4907046b"
   },
-  "source_sha256": "7ba0e5268430dfa4e47b18761d1a0e70daff3ff74734f755dd7689c0264f49aa",
+  "source_sha256": "8153dcc17637c734c91013187814e8a96028af7e3407b63be3a75646fb814dea",
   "spec_sha256": "006f7d818397cf07c0df38e5c0a6fa75b1514c75e40f0c9f4664569768628017"
  },
  "ballon_dimensions_mm": {
   "height": 151.9,
   "length": 1423.1,
   "width": 53.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
  },
  "counts": {
   "assemblies": 7,
@@ -98,7 +118,7 @@
   "width": 53.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [],
   "ops": []
@@ -422,7 +442,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-17 (Quellhash 7ba0e5268430); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-17 Standardmodul (Quellhash 8153dcc17637); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-17",
@@ -434,12 +454,18 @@
   "type_en": "Glaive"
  },
  "variant": {
+  "base": "standard",
   "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
   "letter": "A",
   "name": "Baseline",
   "params": {},
   "since": "0.2",
   "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "aa980ecbb4f521ca",
+  "values": {}
  },
  "warnings": []
 }

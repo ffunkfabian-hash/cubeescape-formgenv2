@@ -5,8 +5,9 @@ Die Quelle ist ein Commit aus `config.toml › [ballon]`. `snapshot()` entpackt 
 hängt nur vom Inhalt seiner Import-Closure ab (nie von Pfaden, Dateizeiten oder der Commit-ID): ein BALLON-Commit,
 der den Typ nicht berührt, behält alle Cache-Treffer.
 
-BALLON-Module sind reines Python ohne bpy (`basic/common.py`, `basic/weapons/wNN_*.py`); geladen werden nur
-Datensätze (META, PARTS, ASSEMBLIES, ANCHORS, ACTIONS), die der Generator als Grundform nutzt.
+BALLON-Module sind reines Python ohne bpy (`basic/common.py`, `basic/weapons/wNN_*.py`, v2.1-Piloten
+`basic/pilot/wNN_*_v21.py`); geladen werden nur Datensätze (META, PARTS, ASSEMBLIES, ANCHORS, ACTIONS), die der Generator
+als Grundform nutzt, und mit `call` einzelne Bausteine aus `basic/common.py` (Visier, Schaft, Griff, Leuchtfeld).
 """
 from __future__ import annotations
 
@@ -27,7 +28,9 @@ from .cache import canonical
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOTS = Path.home() / "Library/Caches/CubeEscapeFormgen2/ballon"
-PATHS = ("basic/__init__.py", "basic/common.py", "basic/weapons", "data/specs")
+# basic/reticles.py: Visier-Standard (Bausteine v3 in common.py lesen ihn lazy); basic/pilot: v2.1-Piloten als zweite Grundform (0.4)
+PATHS = ("basic/__init__.py", "basic/common.py", "basic/reticles.py", "basic/weapons", "basic/pilot", "data/specs")
+BASES = {"standard": ("basic/weapons", "w{num}_*.py"), "v21": ("basic/pilot", "w{num}_*_v21.py")}
 TYPES = tuple(f"{n:02d}" for n in range(1, 18))
 
 
@@ -48,7 +51,8 @@ def snapshot(commit: str | None = None, repo: Path | None = None, root: Path = S
     commit, repo = commit or cfg["commit"], Path(repo or cfg["repo"])
     if len(commit) != 40 or any(c not in "0123456789abcdef" for c in commit):
         raise BallonError("BALLON-Commit muss eine volle SHA-1 sein")
-    target = Path(root) / commit
+    # Ordner je Commit und Pfadliste: ein erweitertes PATHS entpackt neu, statt einen älteren Auszug unvollständig weiterzunutzen
+    target = Path(root) / f"{commit}-{hashlib.sha256(canonical(list(PATHS))).hexdigest()[:8]}"
     if (target / ".complete").is_file():
         return target
     if not (repo / ".git").exists():
@@ -74,14 +78,22 @@ def snapshot(commit: str | None = None, repo: Path | None = None, root: Path = S
     return target
 
 
-def module_file(snap: Path, num: str) -> Path:
-    found = sorted((Path(snap) / "basic/weapons").glob(f"w{num}_*.py"))
+def has_base(snap: Path, num: str, base: str = "standard") -> bool:
+    folder, pattern = BASES[base]
+    return len(sorted((Path(snap) / folder).glob(pattern.format(num=num)))) == 1
+
+
+def module_file(snap: Path, num: str, base: str = "standard") -> Path:
+    if base not in BASES:
+        raise BallonError(f"Unbekannte Grundform {base!r} (standard, v21)")
+    folder, pattern = BASES[base]
+    found = sorted((Path(snap) / folder).glob(pattern.format(num=num)))
     if len(found) != 1:
-        raise BallonError(f"BASIC-{num}: genau ein Modul basic/weapons/w{num}_*.py erwartet, gefunden {len(found)}")
+        raise BallonError(f"BASIC-{num}: genau ein Modul {folder}/{pattern.format(num=num)} erwartet, gefunden {len(found)}")
     return found[0]
 
 
-def closure(snap: Path, num: str) -> dict[str, str]:
+def closure(snap: Path, num: str, base: str = "standard") -> dict[str, str]:
     """Relative path → SHA256 of the type module and all statically imported `basic` modules."""
     snap = Path(snap)
     found: dict[str, str] = {}
@@ -110,28 +122,28 @@ def closure(snap: Path, num: str) -> dict[str, str]:
                     if package.is_file():
                         visit(package)
 
-    visit(module_file(snap, num))
+    visit(module_file(snap, num, base))
     for package in ("basic/__init__.py", "basic/weapons/__init__.py"):   # beim Import ausgeführt
         if (snap / package).is_file():
             visit(snap / package)
     return dict(sorted(found.items()))
 
 
-def spec_path(snap: Path, num: str) -> Path:
-    return Path(snap) / f"data/specs/BASIC-{num}.spec.json"
+def spec_path(snap: Path, num: str, base: str = "standard") -> Path:
+    return Path(snap) / f"data/specs/BASIC-{num}{'-v2.1' if base == 'v21' else ''}.spec.json"
 
 
-def source(snap: Path, num: str) -> dict:
+def source(snap: Path, num: str, base: str = "standard") -> dict:
     """Content identity of one BASIC type: closure hash plus hash of BALLON's exported spec."""
-    files = closure(snap, num)
-    spec = spec_path(snap, num)
+    files = closure(snap, num, base)
+    spec = spec_path(snap, num, base)
     return {"basic_id": f"BASIC-{num}", "files": files,
             "source_sha256": hashlib.sha256(canonical(files)).hexdigest(),
             "spec_sha256": hashlib.sha256(spec.read_bytes()).hexdigest() if spec.is_file() else "missing"}
 
 
-def load_spec(snap: Path, num: str) -> dict | None:
-    path = spec_path(snap, num)
+def load_spec(snap: Path, num: str, base: str = "standard") -> dict | None:
+    path = spec_path(snap, num, base)
     return json.loads(path.read_bytes()) if path.is_file() else None
 
 
@@ -140,14 +152,14 @@ def _purge():
         del sys.modules[name]
 
 
-def load(snap: Path, num: str) -> dict:
+def load(snap: Path, num: str, base: str = "standard") -> dict:
     """Import one BALLON weapon module from the snapshot and return deep-copied data only."""
     snap = Path(snap)
-    path = module_file(snap, num)
+    path = module_file(snap, num, base)
     _purge()
     sys.path.insert(0, str(snap))
     try:
-        module = importlib.import_module(f"basic.weapons.{path.stem}")
+        module = importlib.import_module(".".join(path.relative_to(snap).with_suffix("").parts))
         data = {key: copy.deepcopy(getattr(module, key, default)) for key, default in
                 (("META", None), ("PARTS", None), ("ASSEMBLIES", None), ("ANCHORS", {}), ("ACTIONS", {}))}
     finally:
@@ -158,3 +170,17 @@ def load(snap: Path, num: str) -> dict:
     if data["META"].get("id") != f"BASIC-{num}":
         raise BallonError(f"{path.name}: META.id {data['META'].get('id')} ≠ BASIC-{num}")
     return data
+
+
+def call(snap: Path, name: str, *args, **kwargs):
+    """Call one building block of the snapshot's `basic/common.py` (e.g. `holo_kasten`) and return a deep copy of its result."""
+    snap = Path(snap)
+    _purge()
+    sys.path.insert(0, str(snap))
+    try:
+        common = importlib.import_module("basic.common")
+        result = copy.deepcopy(getattr(common, name)(*args, **kwargs))
+    finally:
+        sys.path.remove(str(snap))
+        _purge()
+    return result

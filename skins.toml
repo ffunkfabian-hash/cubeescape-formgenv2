@@ -173,6 +173,52 @@ emit = 0.5
 emit_only = true
 de = "Absehen Weiß"
 
+# Rollen der BALLON-Visierbausteine v3 und v2.1-Piloten (0.4; Werte aus BALLON kit.MATERIALS, pilot/energy_roles.py,
+# pilot/metal_roles.py; `skin_as = anodized` dort = hier dieselbe Skin-Farbe wie anodized)
+[roles.sight_anod]
+color = "#202227"
+rough = 0.4
+metal = 0.6
+de = "Visier eloxiert"
+
+[roles.ring_anod]
+color = "#202227"
+rough = 0.4
+metal = 0.6
+de = "Eloxiert, rund (ohne feine Kratzer)"
+
+[roles.sight_line]
+color = "#5FD3E0"
+rough = 0.3
+metal = 0.0
+emit = 0.6
+emit_only = true
+de = "Leuchtkontur am Visier"
+
+[roles.charge_core]
+color = "#5FD3E0"
+rough = 0.3
+metal = 0.0
+emit = 0.7
+emit_only = true
+de = "Ladekern Cyan (reine Emission)"
+
+[roles.pin_glow]
+color = "#5FD3E0"
+rough = 0.3
+metal = 0.0
+emit = 0.7
+emit_only = true
+de = "Pinköpfe Cyan (reine Emission)"
+
+[roles.draw_light]
+color = "#5FD3E0"
+rough = 0.3
+metal = 0.0
+emit = 0.7
+emit_only = true
+de = "Spannlicht Cyan (reine Emission)"
+
 [skins.standard]
 de = "Standard"
 kind = "Farbe"
@@ -194,6 +240,8 @@ wear = 0.6
 shell = "#E8EBEE"
 graphite = "#59606A"
 anodized = "#8F959D"
+sight_anod = "#8F959D"
+ring_anod = "#8F959D"
 accent = "#2FA9BC"
 
 [skins.kobalt]

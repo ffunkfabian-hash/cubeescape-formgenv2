@@ -105,16 +105,40 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w14_rocket_launcher.py": "ee0a9600fd049fb2ef69717741fa2e2e9d38715279ab0df61747a7461902b971"
   },
-  "source_sha256": "5ef11e62cdbe35d6844a0f5fb94e831fd7a5236412256111f69d8bd78d8502e6",
+  "source_sha256": "3b3958e4879af741bf4d702faf586b10f83f6ce4a01047805c1084bca1febb1a",
   "spec_sha256": "1050aeb6bc9935f365dec45fc39399711e4ccd69c3d26e2aa611d6cf768ea0e8"
  },
  "ballon_dimensions_mm": {
   "height": 294.0,
   "length": 946.0,
   "width": 109.5
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Gefechtskopf"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 98.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Gefechtskopf"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 98.0
+  }
  },
  "counts": {
   "assemblies": 8,
@@ -127,7 +151,7 @@
   "width": 109.47
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 1,
+ "format_version": 2,
  "generator": {
   "adaptations": [],
   "ops": []
@@ -643,7 +667,7 @@
  ],
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-14 (Quellhash 5ef11e62cdbe); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-14 Standardmodul (Quellhash 3b3958e4879a); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-14",
@@ -655,12 +679,18 @@
   "type_en": "Rocket Launcher"
  },
  "variant": {
+  "base": "standard",
   "idea": "BALLON-Grundform unverändert; Bezug für alle weiteren Linien",
   "letter": "A",
   "name": "Baseline",
   "params": {},
   "since": "0.2",
   "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "89388c53b16f0c98",
+  "values": {}
  },
  "warnings": []
 }

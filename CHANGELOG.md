@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 Mosaic — Variantenbaukasten
+
+- Acht Linien × 17 Typen = 136 Blätter: neu D Refit, E Lantern, F Heavy Frame, G Skeleton, H Long Watch; B/C erhalten Wurfarmlänge (Bogen war formgleich). Alle acht BALLON-Skins im Einsatz.
+- Baukasten aus BALLON-Bausteinen: Visiertausch (Visier-Baukasten v3, Zielfernrohr nur 03/09/11), Schaft S1/S2, Griff v2.1, Magazin, Mündung, Leuchtstreifen, Wurfarme; v2.1-Piloten als zweite Grundform (`base = "v21"`), dafür Form `xprof`.
+- Gesteuerter Zufall: Bereiche je Linie, Seed aus Blatt-ID + Linie, bitgleich mit PYTHONHASHSEED 1/42; Blatt-Spec v2 mit Migration aus v1. Vielfaltstest (IoU ≤ 0,98, gemessen ≤ 0,973) und Designvertrag-Prüfung. Bericht: [0.4](docs/versions/0.4.md).
+
 ## 0.3.0 Forge — Machbarkeitsnachweis Asset-Backend (BALLON-Kit)
 
 - Waffen-GLB je Blatt-ID über BALLONs unverändertes `tools/blender_build.py` (gepinnter Schnappschuss, Blender 5.2.2 headless): `python -m formgen.asset BA01 …` → `out/assets/<ID>.glb` mit Cache und SHA-Index; noch keine Pipeline-Stufe (nach 0.4).
