@@ -2,6 +2,11 @@
 
   python tools/ballon_compare.py [--glb-dir ~/Library/Caches/CubeEscapeBallon/out] [--out <json>] [--sheet <png>]
   python tools/ballon_compare.py --base v21     # v2.1-Piloten (BASIC-NN-v2.1.glb) gegen die v2-Auswertung der Grundform (xprof)
+  python tools/ballon_compare.py --asset BA01 [--glb <BALLON-GLB>] [--out <json>]     # 0.3: Kit-Asset gegen BALLON
+
+--asset (0.5 „Forge“) vergleicht out/assets/<ID>.glb (BALLONs Kit über formgen.asset) mit einer BALLON-GLB: Netze und Dreiecke je
+Netz, Materialien samt PBR-Werten, Leerknoten (Baugruppen, Anker), Dreieckspositionen in Weltkoordinaten (µm, Windung erhalten)
+Knotenbaum (Eltern und Weltlage jedes Knotens, auch Anker) und Bytegleichheit; Vertexzahlen nur als Information (Normalen-Splits hängen an BALLONs Kit-Stand der Referenz).
 
 Nur gelesen: BALLONs GLB (Blender-Export, glTF Y oben) und out/geometry/BAnn.json (v2, Meter, Z oben, −Y vorn).
 Gilt nur, wenn BALLONs Spec neben dem GLB bytegleich zum gepinnten Spec ist (sonst „veraltet“).
@@ -34,8 +39,9 @@ def _matrix(node):
     return t @ r @ s
 
 
-def load_glb(path):
-    """Return world-space triangles (n,3,3) in Blender frame (X links, Y hinten, Z oben) and node names."""
+def load_glb(path, per_node=False):
+    """Return world-space triangles (n,3,3) in Blender frame (X links, Y hinten, Z oben) and node names.
+    per_node: instead {(Knotenname, Materialname): Dreiecke} je Netzknoten und Primitiv-Material."""
     data = Path(path).read_bytes()
     n = struct.unpack_from("<I", data, 12)[0]
     gltf = json.loads(data[20:20 + n]); binary = data[20 + n + 8:]
@@ -49,7 +55,7 @@ def load_glb(path):
         raw = np.frombuffer(binary, np.uint8, count=stride * (count - 1) + dtype.itemsize * size, offset=start)
         return np.lib.stride_tricks.as_strided(raw.view(np.uint8), (count, size * dtype.itemsize), (stride, 1)).copy().view(dtype).reshape(count, size)
 
-    tris, names = [], []
+    tris, names, groups = [], [], {}
 
     def walk(i, parent):
         node = gltf["nodes"][i]; m = parent @ _matrix(node)
@@ -62,13 +68,17 @@ def load_glb(path):
                 idx = accessor(prim["indices"]).reshape(-1) if "indices" in prim else np.arange(len(pos))
                 world = (np.c_[pos, np.ones(len(pos))] @ m.T)[:, :3]
                 tris.append(world[idx.reshape(-1, 3)])
+                material = gltf["materials"][prim["material"]].get("name") if "material" in prim else None
+                groups.setdefault((names[-1], material), []).append(tris[-1])
         for c in node.get("children", []):
             walk(c, m)
 
     for root in gltf["scenes"][gltf.get("scene", 0)]["nodes"]:
         walk(root, np.eye(4))
-    t = np.concatenate(tris)
-    return np.stack([t[..., 0], -t[..., 2], t[..., 1]], axis=-1), names   # glTF (x, y oben, z) → Blender (x, −z, y)
+    blender = lambda t: np.stack([t[..., 0], -t[..., 2], t[..., 1]], axis=-1)   # noqa: E731  glTF (x, y oben, z) → Blender (x, −z, y)
+    if per_node:
+        return {k: blender(np.concatenate(v)) for k, v in groups.items()}
+    return blender(np.concatenate(tris)), names
 
 
 def load_v2(path):
@@ -117,13 +127,90 @@ def overlay(ma, mb, height=150):
     return im.resize((max(1, round(im.width * height / im.height)), height), Image.LANCZOS)
 
 
+def triangle_set(tris):
+    """Weltdreiecke als sortierte Liste ganzzahliger µm-Tupel; jedes Dreieck zyklisch auf die kleinste Ecke gedreht (Windung bleibt)."""
+    t = np.round(np.asarray(tris) * 1e6).astype(np.int64)
+    out = []
+    for tri in t:
+        k = min(range(3), key=lambda i: tuple(tri[i]))
+        out.append(tuple(map(tuple, np.roll(tri, -k, axis=0))))
+    return sorted(out)
+
+
+def node_tree(path):
+    """Alle Knoten: Name → (Elternname, Weltmatrix auf µm bzw. 1e-6 gerundet) – Hierarchie und Lage von Baugruppen und Ankern."""
+    data = Path(path).read_bytes()
+    n = struct.unpack_from("<I", data, 12)[0]
+    gltf = json.loads(data[20:20 + n])
+    found = {}
+
+    def walk(i, parent, m):
+        node = gltf["nodes"][i]
+        world = m @ _matrix(node)
+        name = node.get("name", str(i))
+        found[name] = (parent, tuple(int(round(float(x) * 1e6)) for x in world.reshape(-1)))
+        for c in node.get("children", []):
+            walk(c, name, world)
+
+    for root in gltf["scenes"][gltf.get("scene", 0)]["nodes"]:
+        walk(root, None, np.eye(4))
+    return found
+
+
+def compare_asset(asset_glb, ballon_glb):
+    """Kit-Asset gegen BALLON-GLB: dreiecks- und materialgleich heißt gleiche Netze mit gleichen Dreiecken je Netz und Material,
+    gleiche Materialien (Name, PBR) und gleiche Dreiecke im Raum."""
+    from formgen import asset
+    a, b = asset.glb_info(asset_glb), asset.glb_info(ballon_glb)
+    tris = lambda info: {k: [(x["triangles"], x["material"]) for x in v] for k, v in info["meshes"].items()}   # noqa: E731
+    ta, tb = tris(a), tris(b)
+    ma, mb = a["materials"], b["materials"]
+    ga, gb = load_glb(asset_glb, per_node=True), load_glb(ballon_glb, per_node=True)     # je Netzknoten und Material
+    sa = {k: triangle_set(v) for k, v in ga.items()}
+    sb = {k: triangle_set(v) for k, v in gb.items()}
+    na, nb = node_tree(asset_glb), node_tree(ballon_glb)
+    verts = {k: (sum(x["vertices"] for x in a["meshes"][k]), sum(x["vertices"] for x in b["meshes"][k]))
+             for k in a["meshes"] if k in b["meshes"]}
+    result = {
+        "triangles": {"asset": a["triangles"], "ballon": b["triangles"]},
+        "meshes_equal": ta == tb, "meshes_differing": sorted(k for k in set(ta) | set(tb) if ta.get(k) != tb.get(k)),
+        "materials_equal": ma == mb, "materials_differing": sorted(k for k in set(ma) | set(mb) if ma.get(k) != mb.get(k)),
+        "empties_equal": a["empties"] == b["empties"],
+        "nodes_equal": na == nb, "nodes_differing": sorted(k for k in set(na) | set(nb) if na.get(k) != nb.get(k))[:20],
+        "positions_equal": sa == sb,
+        "positions_differing": sorted("/".join(map(str, k)) for k in set(sa) | set(sb) if sa.get(k) != sb.get(k))[:20],
+        "bytes_equal": Path(asset_glb).read_bytes() == Path(ballon_glb).read_bytes(),
+        "vertices": {"asset": sum(v[0] for v in verts.values()), "ballon": sum(v[1] for v in verts.values()),
+                     "meshes_differing": sum(v[0] != v[1] for v in verts.values())},
+    }
+    result["equal"] = all(result[k] for k in ("meshes_equal", "materials_equal", "empties_equal", "nodes_equal", "positions_equal"))
+    return result
+
+
+def main_asset(a):
+    report = {}
+    for sid in a.asset.split(","):
+        glb = a.glb or a.glb_dir / f"BASIC-{sid[2:]}/BASIC-{sid[2:]}.glb"
+        report[sid] = {"ballon_glb": str(glb), **compare_asset(a.out_dir / f"assets/{sid}.glb", glb)}
+        r = report[sid]
+        print(sid, "gleich" if r["equal"] else "UNGLEICH", r["triangles"], "Bytes gleich" if r["bytes_equal"] else
+              f"Vertices {r['vertices']['asset']}/{r['vertices']['ballon']}")
+    if a.out:
+        a.out.parent.mkdir(parents=True, exist_ok=True); a.out.write_text(json.dumps(report, indent=1, ensure_ascii=False) + "\n")
+    return 0 if all(r["equal"] for r in report.values()) else 1
+
+
 def main(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument("--glb-dir", type=Path, default=Path.home() / "Library/Caches/CubeEscapeBallon/out")
     p.add_argument("--out-dir", type=Path, default=ROOT / "out"); p.add_argument("--out", type=Path); p.add_argument("--sheet", type=Path)
+    p.add_argument("--asset", help="Blatt-IDs (kommagetrennt): out/assets/<ID>.glb gegen BALLON-GLB (Standard BASIC-NN im --glb-dir)")
+    p.add_argument("--glb", type=Path, help="BALLON-GLB für --asset statt des Standardpfads")
     p.add_argument("--base", choices=("standard", "v21"), default="standard")
     p.add_argument("--allow-stale", action="store_true", help="auch vergleichen, wenn BALLONs Spec neben dem GLB abweicht (Status nennt die Felder)")
     a = p.parse_args(argv)
+    if a.asset:
+        return main_asset(a)
     suffix = "-v2.1" if a.base == "v21" else ""
     snap = ballon.snapshot(); report = {"ballon_commit": ballon.config()["commit"], "mm_per_px": MM_PX, "types": {}}
     rows = []
@@ -162,4 +249,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

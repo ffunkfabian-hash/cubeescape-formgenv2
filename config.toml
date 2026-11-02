@@ -1,6 +1,6 @@
 [project]
-version = "0.4.0"
-name = "Mosaic"
+version = "0.5.0"
+name = "Forge"
 [render]
 bg = "mid"
 width = 960
