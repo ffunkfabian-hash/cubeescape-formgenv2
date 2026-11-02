@@ -172,15 +172,15 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
         glb = asset.plan(selection, kit, snap, settings)
         n0 = len(results)
         stage("asset", glb, jobs=min(jobs, settings["jobs"]))
-        indexed = list(glb)
+        asset.write_index(out, glb, results[n0:])          # sofort: ein später scheiternder Bake lässt keinen alten Index stehen
         if bake:
             unknown = sorted(set(bake) - set(selection))
             if unknown:
                 raise SystemExit(f"--bake außerhalb der Auswahl: {', '.join(unknown)}")
             baking = asset.bake_plan([a for a in glb if a.model_id in set(bake)], settings, gpu)
+            n1 = len(results)
             stage("bake", baking, jobs=1)                  # eine GPU: nacheinander
-            indexed += baking
-        asset.write_index(out, indexed, results[n0:])
+            asset.write_index(out, baking, results[n1:])
     if "specs" in stages:
         stage("specs", spec_plan(ids, out, cfg["commit"]))
     if "prompts" in stages:

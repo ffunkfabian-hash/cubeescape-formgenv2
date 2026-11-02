@@ -293,13 +293,14 @@ def run(ids, out: Path, cache: Path, bake=(), force=False, jobs=1, gpu=True, log
     ids = list(dict.fromkeys([*ids, *bake]))
     glb = plan(select(ids, entries), kit, snap, cfg)
     results = run_artifacts(glb, out, cache, jobs=jobs, force=force)
+    write_index(out, glb, results)                       # sofort: ein später scheiternder Bake lässt keinen alten Index stehen
     artifacts = list(glb)
     if bake:
         baking = bake_plan([a for a in glb if a.model_id in set(bake)], cfg, gpu)
         res = run_artifacts(baking, out, cache, jobs=1, force=force)   # eine GPU: nacheinander
         artifacts += baking
         results += res
-    write_index(out, artifacts, results)
+        write_index(out, baking, res)
     return artifacts, results
 
 

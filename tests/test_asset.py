@@ -289,6 +289,17 @@ class AssetCacheTests(unittest.TestCase):
             asset.code_hash.cache_clear()
         self.assertNotIn("bake", json.loads((self.out / "assets/index.json").read_text())["assets"]["BD01"])
 
+    def test_failed_bake_after_new_glb_leaves_no_stale_index(self):
+        with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": "1"}):
+            self.run_pipeline(["BD01"], bake=["BD01"])
+        entries = variants.load()
+        next(v for v in entries if v["letter"] == "D")["params"]["front"] = 1.2          # neue Geometrie → neue GLB
+        with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": ""}), self.assertRaises(RuntimeError):
+            self.run_pipeline(["BD01"], entries, bake=["BD01"])                        # Bake scheitert (keine GPU-Sperre)
+        entry = json.loads((self.out / "assets/index.json").read_text())["assets"]["BD01"]
+        self.assertEqual(entry["sha256"], asset.file_hash(self.out / "assets/BD01.glb"))   # Index zeigt die neue GLB
+        self.assertNotIn("bake", entry)                                                       # und keinen alten Bake
+
     def test_bake_key_follows_device_and_atlas_not_source(self):
         glb = asset.plan(asset.select(["BA01"]), KIT, SNAP, dict(asset.DEFAULTS))
         gpu = asset.bake_plan(glb, dict(asset.DEFAULTS))[0]
