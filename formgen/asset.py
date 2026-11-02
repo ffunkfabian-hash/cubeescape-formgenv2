@@ -67,7 +67,9 @@ def kit_model(data: dict, author: dict, report: dict) -> dict:
     (Hohlkegel-r_in, leere Baugruppen). Für BALLONs Baukasten gilt BALLONs Datensatz: Metadaten je Teile-ID aus BALLON,
     r_in auf BALLONs Wert, alle Baugruppen wie deklariert, ACTIONS ohne Schlüssel entfernter Teile."""
     original = {p["id"]: p for p in data["PARTS"]}
-    restore = {(a["part"], a["field"]): a["ballon"] for a in report.get("adaptations", []) if a.get("part")}
+    # nur die Netzanpassung r_in zurücknehmen; andere Anpassungen (z. B. Material der Akzentgrenze in 0.4) sind Gestaltung der Variante
+    restore = {(a["part"], a["field"]): a["ballon"] for a in report.get("adaptations", [])
+               if a.get("part") and a.get("field") == "r_in"}
     parts = []
     for q in author["PARTS"]:
         p = {k: copy.deepcopy(v) for k, v in q.items() if k != "name_en"}

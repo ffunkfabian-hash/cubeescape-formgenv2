@@ -55,6 +55,17 @@ class KitModelTests(unittest.TestCase):
             self.assertLessEqual(set(action["keys"]), ids)
         self.assertEqual(model["ASSEMBLIES"], data["ASSEMBLIES"])
 
+    def test_only_r_in_adaptations_are_reverted(self):
+        data = ballon.load(SNAP, "01")
+        author = {"PARTS": [dict(p) for p in data["PARTS"]], "ANCHORS": data["ANCHORS"]}
+        part = data["PARTS"][0]["id"]
+        author["PARTS"][0]["mat"] = "sight_anod"                                             # Gestaltung der Variante (0.4)
+        report = {"adaptations": [{"part": part, "kind": "Annahme", "field": "mat", "ballon": data["PARTS"][0]["mat"],
+                                   "v2": "sight_anod"},
+                                  {"kind": "Annahme", "field": "base", "ballon": "v21", "v2": "standard"}]}
+        model = asset.kit_model(data, author, report)
+        self.assertEqual(model["PARTS"][0]["mat"], "sight_anod")
+
     def test_variant_changes_geometry(self):
         _, a = kit_model("BA01")
         _, b = kit_model("BB01")
