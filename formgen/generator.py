@@ -8,7 +8,7 @@ Typs. Erlaubte Eingriffe (docs/generator.md), in dieser Reihenfolge:
   mag          Magazinlänge (BMW-R) entlang der Entnahmerichtung
   muzzle       Länge der Mündung (BMZ-15); muzzle_r Radiusfaktor
   glow         Leuchtstreifen (BALLON glow) auf der Gehäuseseite
-  drop         Teil-ID-Muster (fnmatch); Teile mit Ankern oder Kindteilen bleiben (Bericht nennt sie)
+  drop         Teil-ID-Muster (fnmatch); Teile mit Ankern, Kindteilen oder Bewegung bleiben (Bericht nennt sie mit Grund)
   front/rear   Faktor auf die Vorder-/Hinterlänge; Schnitt zwischen Stützhand und Mündung bzw. im Schaft
   limbs        Bogen: Faktor auf die Wurfarmlänge (oben und unten, Schnitt im Wurfarm)
 Ein Schnitt `at` trennt: Teile ganz jenseits werden verschoben, lange Teile über dem Schnitt gedehnt bzw. gestaucht, kurze
@@ -272,13 +272,22 @@ def limbs(model, factor):
 
 
 def drop(model, patterns):
-    keep_ids = {a["part"] for a in model["ANCHORS"].values()} | {p.get("parent_part") for p in model["PARTS"]}
-    dropped, protected = [], []
+    """Teile per Muster weglassen; geschützt bleiben Teile mit Anker, mit Kindteilen und bewegte Teile (`move`: Mechanik
+    der BALLON-Aktionen wie Abzug, Ladehebel, Auswurfklappe, Magazin – ohne sie liefen Aktionen ins Leere)."""
+    anchored = {a["part"] for a in model["ANCHORS"].values()}
+    parents = {p.get("parent_part") for p in model["PARTS"]}
+    dropped, protected, why = [], [], {}
     for p in list(model["PARTS"]):
         if any(fnmatch.fnmatchcase(p["id"], pat) for pat in patterns):
-            (protected if p["id"] in keep_ids else dropped).append(p["id"])
+            reasons = [r for r, hit in (("Anker", p["id"] in anchored), ("Kindteile", p["id"] in parents),
+                                        ("bewegt", bool(p.get("move")))) if hit]
+            if reasons:
+                protected.append(p["id"]); why[p["id"]] = reasons
+            else:
+                dropped.append(p["id"])
     model["PARTS"] = [p for p in model["PARTS"] if p["id"] not in set(dropped)]
-    return {"op": "drop", "patterns": list(patterns), "dropped": dropped, "protected": protected}
+    report = {"op": "drop", "patterns": list(patterns), "dropped": dropped, "protected": protected}
+    return {**report, "protected_why": why} if why else report   # ohne Schutzfall bytegleich zu 0.2
 
 
 # ------------------------------------------------------------------ Baukasten: Teile aus BALLON-Bausteinen tauschen
