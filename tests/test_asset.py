@@ -179,6 +179,18 @@ class ToolSafetyTests(unittest.TestCase):
             self.assertEqual(json.loads((foreign / "BX01.package.json").read_text()), {"neu": 1})
             self.assertEqual(sorted(p.name for p in dest.iterdir()), ["BX01"])               # kein Temp-Rest
 
+    def test_unpack_keeps_old_package_on_broken_zip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "pakete"
+            (dest / "BX01").mkdir(parents=True)
+            (dest / "BX01/BX01.package.json").write_text('{"alt": 1}')
+            broken = Path(tmp) / "BX01.bake.zip"
+            broken.write_bytes(b"PK\x03\x04kaputt")
+            with self.assertRaises(zipfile.BadZipFile):
+                asset.unpack(broken, dest)
+            self.assertEqual(json.loads((dest / "BX01/BX01.package.json").read_text()), {"alt": 1})
+            self.assertEqual(sorted(p.name for p in dest.iterdir()), ["BX01"])               # kein Temp-Rest
+
     def test_zip_is_deterministic(self):
         with tempfile.TemporaryDirectory() as tmp:
             a, b = Path(tmp) / "a", Path(tmp) / "b"
@@ -257,6 +269,25 @@ class AssetCacheTests(unittest.TestCase):
         self.assertNotIn("bake", index["assets"]["BA01"])
         with zipfile.ZipFile(self.out / "assets/BD01.bake.zip") as archive:
             self.assertEqual(json.loads(archive.read("BD01.package.json"))["atlas"], 4096)
+
+    def test_index_drops_bake_of_older_glb_or_other_skin(self):
+        with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": "1"}):
+            self.run_pipeline(["BD01"], bake=["BD01"])
+        self.assertIn("bake", json.loads((self.out / "assets/index.json").read_text())["assets"]["BD01"])
+        entries = variants.load()
+        next(v for v in entries if v["letter"] == "D")["skin"] = "nacht"                    # gleiche GLB, anderer Skin
+        self.run_pipeline(["BD01"], entries)
+        self.assertNotIn("bake", json.loads((self.out / "assets/index.json").read_text())["assets"]["BD01"])
+        with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": "1"}):
+            self.run_pipeline(["BD01"], bake=["BD01"])
+        asset.code_hash.cache_clear()                                                         # anderer Asset-Code → neue GLB
+        try:
+            with mock.patch.object(asset, "file_hash", lambda path, real=asset.file_hash: "x" if Path(path).name == "asset_build.py"
+                                   else real(path)):
+                self.run_pipeline(["BD01"])
+        finally:
+            asset.code_hash.cache_clear()
+        self.assertNotIn("bake", json.loads((self.out / "assets/index.json").read_text())["assets"]["BD01"])
 
     def test_bake_key_follows_device_and_atlas_not_source(self):
         glb = asset.plan(asset.select(["BA01"]), KIT, SNAP, dict(asset.DEFAULTS))

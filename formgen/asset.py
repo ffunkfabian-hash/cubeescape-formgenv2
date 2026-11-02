@@ -139,7 +139,7 @@ def bake_plan(glb: list[Artifact], cfg: dict | None = None, gpu: bool = True) ->
         params = {**a.params, "skin": a.inputs["skin"], "atlas": cfg["atlas"], "samples": cfg["samples"],
                   "device": "gpu" if gpu else "cpu"}
         out.append(Artifact(a.model_id, "asset_bake", a.source, params, {"ASSET": FORMAT, "BAKE": BAKE},
-                            f"assets/{a.model_id}.bake.zip", "formgen.asset:build_bake", {**a.inputs, "gpu": gpu}))
+                            f"assets/{a.model_id}.bake.zip", "formgen.asset:build_bake", {**a.inputs, "gpu": gpu, "glb_key": a.key}))
     return out
 
 
@@ -274,11 +274,13 @@ def write_index(out: Path, artifacts, results) -> Path:
             entry.update({"glb": path_out.name, "sha256": file_hash(path_out), "key": result.key, "triangles": info["triangles"],
                           "materials": sorted(info["materials"]), "skin": artifact.inputs["skin"], "base": artifact.inputs["base"],
                           "ballon_module": artifact.inputs["module"]})
-            if entry.get("bake", {}).get("source", artifact.source) != artifact.source:
-                entry.pop("bake", None)             # Bake einer älteren Geometrie gilt nicht mehr
+            bake = entry.get("bake")
+            # Bake gilt nur zur GLB dieses Laufs (Schlüssel: Kitmodell, Code, Blender) und zum Skin der Linie; sonst veraltet
+            if bake and (bake.get("glb_key") != result.key or bake.get("skin") != artifact.inputs["skin"]):
+                entry.pop("bake")
         else:
-            entry["bake"] = {"zip": path_out.name, "sha256": file_hash(path_out), "key": result.key, "source": artifact.source,
-                             **{k: artifact.params[k] for k in ("skin", "atlas", "samples", "device")}}
+            entry["bake"] = {"zip": path_out.name, "sha256": file_hash(path_out), "key": result.key,
+                             "glb_key": artifact.inputs["glb_key"], **{k: artifact.params[k] for k in ("skin", "atlas", "samples", "device")}}
     index["assets"] = dict(sorted(index["assets"].items()))
     atomic_write(path, json.dumps(index, ensure_ascii=False, indent=1).encode() + b"\n")
     return path
