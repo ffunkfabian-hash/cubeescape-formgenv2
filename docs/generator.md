@@ -81,7 +81,7 @@ dieser festen Reihenfolge:
 | Griff | `grip = "v21"` | `grip_rifle(top)` → `grip_v21(top)` (Fingerauflagen, Gummi, Griffboden); nur wenn die Griffgruppe genau `grip_rifle(top)` ist (nicht 06 mit Neigung, 17 ohne Bügel) | BALLON `grip_v21` |
 | Magazin | `mag` 0,7–1,4 | Stangenmagazin (BMW-R oder Magazin im Griff, Entnahme per translate) entlang der Entnahmerichtung: Punkte jenseits der halben Länge wandern um (Faktor − 1) · Länge | Richtung aus BALLON `move.vector_mm`; Schnitt `MAG_CUT` 0,5 (Annahme) |
 | Mündung | `muzzle` 0,6–2,0, `muzzle_r` 0,8–1,3 | Teil `muzzle` (BMZ-15) länger/kürzer, Teile davor und Socket_Muzzle verschoben; Radius × `muzzle_r` | Vorgabe Register |
-| Leuchten | `glow` 0–2 | 1–2 Leuchtstreifen (`glow`, Rolle energy, 3 mm hoch, 3 mm Abstand) auf der längsten freien Creme-Gehäuseseite, mittlere 40 %, links zuerst; übersprungen, wenn Seitenteile im Weg sind | Annahme `GLOW_*` |
+| Leuchten | `glow` 0–2 | 1–2 Leuchtstreifen (`glow`, Rolle energy, 3 mm hoch, 3 mm Abstand, ≥ 30 mm lang, 3 mm von der Profilkante, 1 mm dick, 0,2 mm vor der Fläche) auf der längsten freien Creme-Gehäuseseite, mittlere 40 %, links zuerst; übersprungen, wenn Seitenteile bis 1 mm an die Fläche reichen | BALLON `glow` (Breite, Vorgabe); übrige Annahmen `GLOW_*` |
 | Weglassen | `drop` | entfernt Teile per `fnmatch`; Teile mit Anker oder Kindteilen bleiben (Bericht `protected`) | Vorgabe Register |
 | Länge vorn | `front` 0,7–1,4 | Vorderlänge Socket_Hand → Socket_Muzzle × Faktor; Schnitt in der mittleren Hälfte zwischen Socket_SupportHand (sonst Socket_Hand) und Socket_Muzzle an der Stelle, die die wenigsten kurzen Teile kreuzt | Anker gemessen aus BALLON; Faktor Vorgabe Register |
 | Länge hinten | `rear` 0,7–1,4 | Hinterlänge (hinterstes Teil → Socket_Hand) × Faktor; Schnitt im Schaft; ohne Baugruppe `stock` übersprungen | wie oben |
@@ -155,7 +155,7 @@ Schnitt/Delta/verschobenen, gedehnten, ersetzten und hinzugefügten Teilen, Anpa
 und Variante), Maße (eigene und BALLONs), Zähler, Baugruppen, Teile mit Ausdehnung in mm (f/u/x), Anker, Herkunft, Warnungen.
 **Migration Pflicht:** `MIGRATIONS[1]` hebt 0.2-Specs auf 2 (`base` standard, Seed aus der Blatt-ID, keine Ziehungen,
 `contract` null); Test mit einem echten 0.2-Spec (`tests/fixtures/BA04.spec-v1.json`).
-Abnehmer: `formgen.viewer` und `formgen.release_assets` (prüfen über `wspec.migrate`); Toolgen liest das Blatt-Spec nicht.
+Abnehmer ab **0.4.0**: `formgen.viewer` (VIEWER 2) und `formgen.release_assets` lesen Version 2 über `wspec.migrate` (Version 1 wird migriert); Abnehmer aus 0.2.0 kennen Version 2 nicht und lehnen sie ab. Toolgen liest das Blatt-Spec nicht.
 
 ## Für Sightline (BALLON nicht geändert)
 

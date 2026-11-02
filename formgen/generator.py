@@ -38,6 +38,10 @@ EYE_RELIEF_MM = 90.0          # Vorgabe BALLON reticles.SIGHT types.scope.eye_re
 NO_SIGHT_SWAP = ("07",)       # Annahme: das Pinvisier des Bogens gehört zur Bogenform (kein Holo am Bogen)
 S1_LEN_MM, S2_LEN_MM = 179.0, 170.0   # gemessen aus BALLON stock_s1/stock_s2 bei s = 1 (Schaftkappe hinten)
 GLOW_H_MM, GLOW_GAP_MM, GLOW_SPAN = 3.0, 3.0, (0.3, 0.7)   # Annahme: Streifen 3 mm hoch, 3 mm Abstand, mittlere 40 % des Teils
+GLOW_MIN_MM = 30.0            # Annahme: kürzere Streifen lesen sich im Blatt als Punkt, nicht als Linie
+GLOW_EDGE_MM = 3.0            # Annahme: Abstand zur Profilkante (Fase R_BODY 5 mm soll den Streifen nicht anschneiden)
+GLOW_W_MM, GLOW_INSET_MM = 1.0, 0.2   # Vorgabe BALLON glow(w=1.0); Annahme Mitte 0,2 mm vor der Fläche (0,3 mm eingelassen; BALLON-Salvenanzeigen 0,1 mm)
+GLOW_TOUCH_MM = 1.0           # Annahme: Teile, die bis 1 mm an die Seitenfläche reichen, blockieren den Streifen
 ACCENT_LIMIT = 3              # Vorgabe Designvertrag: höchstens drei Akzent-Bedienfunktionen je Waffe
 ACCENT_EXEMPT = ("Munitionskennung", "Grafikelement", "Kennzeichnet")   # Designvertrag: Munitionskennung ist keine Bedienfunktion
 HAND_ROLES = ("graphite", "rubber")   # Designvertrag „Hand = Graphit“; BALLON 0.32 Softgrip: Griff der Haupthand Gummi
@@ -483,9 +487,9 @@ def add_glow(model, count, kit):
         lo, hi = _extent(p)
         f0, f1 = lo + GLOW_SPAN[0] * (hi - lo), lo + GLOW_SPAN[1] * (hi - lo)
         spans = [_span_u([tuple(q) for q in p["pts"]], f) for f in (f0, (f0 + f1) / 2, f1)]
-        if f1 - f0 < 30 or None in spans:
+        if f1 - f0 < GLOW_MIN_MM or None in spans:
             continue
-        ulo, uhi = max(s[0] for s in spans) + 3, min(s[1] for s in spans) - 3
+        ulo, uhi = max(s[0] for s in spans) + GLOW_EDGE_MM, min(s[1] for s in spans) - GLOW_EDGE_MM
         if uhi - ulo < total:
             continue
         u0 = (ulo + uhi) / 2 - total / 2
@@ -495,7 +499,7 @@ def add_glow(model, count, kit):
             blocked = []
             for q in model["PARTS"]:
                 xr = _x_range(q)
-                if q is p or xr is None or side * (xr[1] if side > 0 else xr[0]) < abs(surface) - 1.0:
+                if q is p or xr is None or side * (xr[1] if side > 0 else xr[0]) < abs(surface) - GLOW_TOUCH_MM:
                     continue
                 (qf0, qf1), (qu0, qu1) = _extent(q, 0), _extent(q, 1)
                 if any(qf0 < b[1] and qf1 > b[0] and qu0 < b[3] and qu1 > b[2] for b in boxes):
@@ -503,7 +507,7 @@ def add_glow(model, count, kit):
             if blocked:
                 continue
             parts = [kit("glow", f"glow_line_{i + 1}", f"Leuchtstreifen {i + 1}", f"Glow line {i + 1}", p["asm"], b[0], b[1], b[2], b[3],
-                         w=1.0, x=surface + side * 0.2, func="Leuchtstreifen (Ladezustand)", attach=f"in {p['id']} eingelassen",
+                         w=GLOW_W_MM, x=surface + side * GLOW_INSET_MM, func="Leuchtstreifen (Ladezustand)", attach=f"in {p['id']} eingelassen",
                          parent_part=p["id"]) for i, b in enumerate(boxes)]
             model["PARTS"] += parts
             return {**op, "on": p["id"], "side": "links" if side > 0 else "rechts", "f_mm": [round(f0, 3), round(f1, 3)],
