@@ -54,8 +54,17 @@ def stills(folder: Path) -> Path:
     return found[0]
 
 
+MARK = ".formgen-evidence"
+
+
 def render(job: dict, blender: str, work: Path):
-    shutil.rmtree(job["out"], ignore_errors=True)          # eigener Belegordner: alte Stände nicht mit in den Bogen nehmen
+    out = Path(job["out"])
+    if out.exists():                                        # alte Stände nicht mit in den Bogen nehmen – nur eigene Ordner leeren
+        if not (out / MARK).is_file():
+            raise RuntimeError(f"{out} ist kein Belegordner dieses Werkzeugs (ohne {MARK}) – nicht gelöscht")
+        shutil.rmtree(out)
+    out.mkdir(parents=True)
+    (out / MARK).write_text(job["id"] + "\n")
     script = work / "wrapper.py"
     script.write_text(WRAPPER)
     path = work / f"{job['id']}.job.json"

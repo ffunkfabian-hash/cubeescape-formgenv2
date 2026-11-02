@@ -135,15 +135,26 @@ def build_glb(artifact: Artifact) -> bytes:
 
 
 def build_package(artifact: Artifact, folder: Path, cfg: dict, gpu: bool = True) -> Path:
-    """Spielpaket (FBX, AAA-Atlas, Manifest) wie BALLONs Unity-Export – nur als Machbarkeitsnachweis, nicht im Cache."""
-    target = Path(folder) / artifact.model_id
-    shutil.rmtree(target, ignore_errors=True)
-    target.mkdir(parents=True)
+    """Spielpaket (FBX, AAA-Atlas, Manifest) wie BALLONs Unity-Export – nur als Machbarkeitsnachweis, nicht im Cache.
+
+    Gebaut wird in einem temporären Ordner neben dem Ziel; ein vorhandenes Ziel wird nur ersetzt, wenn es ein eigenes Paket ist
+    (enthält `<ID>.package.json`), und erst nach erfolgreichem Bau."""
+    folder = Path(folder)
+    target = folder / artifact.model_id
+    if target.exists() and not (target / f"{artifact.model_id}.package.json").is_file():
+        raise RuntimeError(f"{target} ist kein Formgen-Paket (ohne {artifact.model_id}.package.json) – nicht überschrieben")
+    folder.mkdir(parents=True, exist_ok=True)
     inputs = artifact.inputs
-    run_blender({"snapshot": inputs["snapshot"], "module": inputs["module"], "model": inputs["model"], "id": artifact.model_id,
-                 "out": str(target), "package": True, "skin": inputs["skin"], "atlas": cfg["atlas"], "samples": cfg["samples"],
-                 "gpu": gpu}, inputs["blender"])
-    shutil.rmtree(target / "_ballon_out", ignore_errors=True)
+    with tempfile.TemporaryDirectory(prefix=f".{artifact.model_id}-", dir=folder) as tmp:
+        work = Path(tmp) / artifact.model_id
+        work.mkdir()
+        run_blender({"snapshot": inputs["snapshot"], "module": inputs["module"], "model": inputs["model"],
+                     "id": artifact.model_id, "out": str(work), "package": True, "skin": inputs["skin"],
+                     "atlas": cfg["atlas"], "samples": cfg["samples"], "gpu": gpu}, inputs["blender"])
+        shutil.rmtree(work / "_ballon_out", ignore_errors=True)
+        if target.exists():
+            shutil.rmtree(target)
+        os.replace(work, target)
     return target
 
 

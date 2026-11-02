@@ -105,6 +105,44 @@ class PlanTests(unittest.TestCase):
         self.assertIsNone(ballon_kit.pilot_file(KIT, "16"))                                 # Schwert ohne Pilot
 
 
+class ToolSafetyTests(unittest.TestCase):
+    def test_pilot_check_verdict_fails_on_any_gap(self):
+        import sys
+        sys.path.insert(0, str(asset.ROOT / "tools"))
+        import kit_pilot_check as K
+        good = {"built": True, "equal": True}
+        self.assertEqual(K.verdict({"pilots": {"A": good, "B": good}}), 0)
+        self.assertEqual(K.verdict({"pilots": {}}), 1)                                       # leere Auswahl
+        self.assertEqual(K.verdict({"pilots": {"A": good, "B": {"built": True, "equal": False}}}), 1)
+        self.assertEqual(K.verdict({"pilots": {"A": good, "B": {"built": True, "ego_json": "keine Referenz"}}}), 1)
+        self.assertEqual(K.verdict({"pilots": {"A": {"built": False, "error": "x"}}}), 1)
+
+    def test_package_refuses_foreign_folder_and_keeps_old_on_failure(self):
+        art = mock.Mock(model_id="BX01", inputs={"snapshot": "", "module": "", "model": {}, "skin": "standard", "blender": "b"})
+        cfg = dict(asset.DEFAULTS)
+        with tempfile.TemporaryDirectory() as tmp:
+            foreign = Path(tmp) / "BX01"
+            foreign.mkdir()
+            (foreign / "notiz.txt").write_text("fremd")
+            with mock.patch.object(asset, "run_blender") as run:
+                with self.assertRaises(RuntimeError):
+                    asset.build_package(art, Path(tmp), cfg)
+                run.assert_not_called()
+            self.assertTrue((foreign / "notiz.txt").is_file())
+            (foreign / "notiz.txt").unlink()
+            (foreign / "BX01.package.json").write_text("{}")                                   # eigenes altes Paket
+            with mock.patch.object(asset, "run_blender", side_effect=RuntimeError("Blender")):
+                with self.assertRaises(RuntimeError):
+                    asset.build_package(art, Path(tmp), cfg)
+            self.assertTrue((foreign / "BX01.package.json").is_file())                       # bleibt bei Fehlschlag
+            def fake(job, blender):
+                Path(job["out"], "BX01.package.json").write_text('{"neu": 1}')
+            with mock.patch.object(asset, "run_blender", side_effect=fake):
+                asset.build_package(art, Path(tmp), cfg)
+            self.assertEqual(json.loads((foreign / "BX01.package.json").read_text()), {"neu": 1})
+            self.assertEqual(sorted(p.name for p in Path(tmp).iterdir()), ["BX01"])          # kein Temp-Rest
+
+
 @unittest.skipUnless((OUT / "assets/BA01.glb").is_file() and BALLON_GLB.is_file(),
                      "Ergebnisse fehlen (Mac: ce lock blender -- python -m formgen.asset BA01 BB01 BC01)")
 class BuiltAssetTests(unittest.TestCase):

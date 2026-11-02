@@ -74,7 +74,16 @@ def main(argv=None):
     if a.json:
         a.json.parent.mkdir(parents=True, exist_ok=True)
         a.json.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n")
+    return verdict(report)
+
+
+def verdict(report) -> int:
+    """0 nur, wenn Piloten gefunden, alle gebaut, alle mit Referenz und alle objektgleich sind."""
+    pilots = report["pilots"].values()
+    ok = bool(pilots) and all(e.get("built") and e.get("equal") is True for e in pilots)
+    print("Ergebnis:", "alle gleich" if ok else "ABWEICHUNG oder fehlende Referenz")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
