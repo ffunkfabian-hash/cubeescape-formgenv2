@@ -18,6 +18,8 @@ from . import ballon, geom, model
 SHORT_MM = 60.0     # Teile kürzer als das werden nie gedehnt (Annahme: Detailteile behalten ihre Form)
 GAP_MM = 1.0        # Restabstand beim Stauchen (SEAM aus BALLON common.SEAM)
 POINT_KEYS = ("pivot", "tip", "nock")
+FRONT_WINDOW = (0.25, 0.75)   # Annahme: Schnitt in der mittleren Hälfte Stützhand→Mündung, weg von Gehäuse- und Mündungsdetails
+STOCK_MARGIN = 0.2            # Annahme: Schnitt nicht in den äußeren 20 % des Schafts (Schulterstütze, Gehäuseanschluss)
 
 
 # ------------------------------------------------------------------ f-Koordinaten je Form
@@ -134,7 +136,7 @@ def stretch_front(model, factor):
     if muzzle - hand < 100:
         return {"op": "front", "factor": factor, "skipped": "keine Längsachse (Socket_Muzzle < 100 mm vor Socket_Hand)"}
     start = support if support is not None and hand < support < muzzle else hand
-    lo, hi = start + 0.25 * (muzzle - start), start + 0.75 * (muzzle - start)
+    lo, hi = start + FRONT_WINDOW[0] * (muzzle - start), start + FRONT_WINDOW[1] * (muzzle - start)
     want = (factor - 1.0) * (muzzle - hand)
     at, room = _choose_cut(model["PARTS"], lo, hi, want < 0)
     delta = want if want >= 0 else -min(-want, max(room, 0.0))
@@ -154,7 +156,7 @@ def stretch_rear(model, factor):
     want = (factor - 1.0) * (hand - rear)
     _mirror(model)
     try:
-        at, room = _choose_cut(model["PARTS"], -hi + 0.2 * (hi - lo), -lo - 0.2 * (hi - lo), want < 0)
+        at, room = _choose_cut(model["PARTS"], -hi + STOCK_MARGIN * (hi - lo), -lo - STOCK_MARGIN * (hi - lo), want < 0)
         delta = want if want >= 0 else -min(-want, max(room, 0.0))
         far, cross = _stretch(model, at, delta)
     finally:

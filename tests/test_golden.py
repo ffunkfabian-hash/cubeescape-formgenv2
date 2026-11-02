@@ -21,9 +21,18 @@ class GoldenTests(unittest.TestCase):
         self.assertEqual(*values)
     @unittest.skipUnless(os.environ.get('FORMGEN_GOLDEN_IMAGES')=='1','explizite Bildstufe')
     def test_image_hashes(self):
-        # Bildstufe je Worktree nur für gebaute Modelle: vorhandene Dateien müssen exakt passen, nichts Ungolden-Gebautes
+        # Bildstufe je Worktree: geprüft werden die Modelle mit Blatt in out/sheets – für jedes davon müssen ALLE
+        # Golden-Bilder vorhanden und gleich sein; Modelle ohne Blatt werden ausdrücklich als nicht geprüft gemeldet.
         expected=json.loads(GOLDEN.read_text());actual=collect(images=True)
-        self.assertEqual({k:v for k,v in expected.items() if (ROOT/k).exists()},actual)
+        model=lambda k:k.split('/')[2].split('.')[0]
+        built={p.name.removesuffix('.dc.html') for p in (ROOT/'out/sheets').glob('*.dc.html')}
+        self.assertTrue(built,'Keine Blätter gebaut')
+        images=lambda d:{k:v for k,v in d.items() if ('/views/' in k or '/sheets/' in k) and model(k) in built}
+        self.assertEqual(images(expected),images(actual))
+        self.assertEqual({k:v for k,v in expected.items() if '/specs/' in k or '/prompts/' in k},
+                         {k:v for k,v in actual.items() if '/specs/' in k or '/prompts/' in k})
+        skipped=sorted({model(k) for k in expected if '/views/' in k or '/sheets/' in k}-built)
+        if skipped:print('Bild-Golden nicht geprüft (nicht gebaut):',', '.join(skipped))
 
 if __name__=='__main__':
     if '--update' in sys.argv:

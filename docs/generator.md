@@ -51,7 +51,7 @@ Grundform ist immer das BALLON-Modell des Typs (Datensätze META/PARTS/ASSEMBLIE
 | Skin | `skins.toml` | nur Farben/Oberflächen; Form unverändert | Spiegel von BALLON `kit.SKINS` |
 
 Teile ganz jenseits des Schnitts werden verschoben, Teile über dem Schnitt mit mindestens 60 mm Länge (Annahme
-`SHORT_MM`) gedehnt oder gestaucht, kürzere nie verzerrt. Stauchen ist auf die freie Zone hinter dem Schnitt begrenzt
+`SHORT_MM`; Schnittfenster `FRONT_WINDOW` 25–75 %, Schaftrand `STOCK_MARGIN` 20 %, beide Annahmen) gedehnt oder gestaucht, kürzere nie verzerrt. Stauchen ist auf die freie Zone hinter dem Schnitt begrenzt
 (1 mm Fuge wie BALLON `SEAM`); `limited: true` im Bericht. Anker und Bewegungspunkte (`pivot`, `tip`, `nock`,
 `expect`) folgen ihrem Teil. Bögen ohne Längsachse (Socket_Muzzle < 100 mm vor Socket_Hand) überspringen `front`.
 
@@ -73,7 +73,8 @@ Teile ganz jenseits des Schnitts werden verschoben, Teile über dem Schnitt mit 
 | previews | `out/previews/<ID>.webp` | wie views (Held 720×480, Variantenskin) |
 | viewer | `out/index.html` | Liste aller Blätter mit Spec-Daten; Hash von `viewer.py`; VIEWER |
 
-Closure = SHA256 über die statisch importierten lokalen Module des Stufencodes (`build.source_hashes`), daher keine
+Closure = SHA256 über die statisch importierten lokalen Module des Stufencodes (`build.source_hashes`) plus die Dateien
+mit den Buildern selbst (`pipeline.py`, `build.py`; Richterbefund 0.2), daher keine
 handgepflegten Funktionslisten wie in v1. Umgebung = Python-Minor, numpy, Pillow. Ein geänderter Rasterizer baut nur
 Ansichten/Vorschauen; eine Geometrie, die bytegleich bleibt, behält alle nachfolgenden Treffer. Cache:
 `~/Library/Caches/CubeEscapeFormgen/artifacts` (geteilt über Worktrees, atomar, Payload-SHA geprüft, siehe
@@ -86,6 +87,8 @@ Inhalt: ID, Namen, Variante (Registereintrag), Typ (BALLON-META), BALLON-Herkunf
 Generatorschritte mit Schnitt/Delta/verschobenen und gedehnten Teilen, Anpassungen, Maße (eigene und BALLONs),
 Zähler, Baugruppen, Teile mit Ausdehnung in mm (f/u/x), Anker, Herkunft, Warnungen. **Ab Version 1 Migration Pflicht:**
 neue Version → `FORMAT_VERSION` erhöhen, `MIGRATIONS[alt]` ergänzen, Test.
+Abnehmer ab 0.2.0: `formgen.viewer` (VIEWER 2) und `formgen.release_assets` (prüfen über `wspec.migrate`); Toolgen liest
+das Blatt-Spec nicht (Geo-Vertrag bleibt Contour, [geo-export.md](geo-export.md)). Ältere Abnehmer kennen das Format nicht.
 
 ## Für Sightline (BALLON nicht geändert)
 

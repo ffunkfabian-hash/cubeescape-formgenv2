@@ -32,11 +32,17 @@ CODE = {"geometry": "formgen/generator.py", "specs": "formgen/wspec.py", "prompt
 IMAGE_STAGES = ("views", "previews")
 
 
+# Dateien mit den Builder-Funktionen selbst (build_geometry/build_spec hier, build_view/build_sheet/… in build.py).
+# Nur der Dateiinhalt zählt, nicht ihre Closure: build.py importiert lazy die ganze Engine.
+BUILDERS = ("formgen/pipeline.py", "formgen/build.py")
+
+
 @functools.lru_cache(maxsize=None)
 def code_hash(rel: str) -> str:
-    """SHA256 over the static local import closure of a stage module (relative names, content only)."""
+    """SHA256 over the stage module's static local import closure plus the builder files (relative names, content only)."""
     hashes = build.source_hashes(ROOT / rel)
     relative = {str(Path(k).relative_to(ROOT)): v for k, v in hashes.items()}
+    relative.update({f"builder:{b}": file_hash(ROOT / b) for b in BUILDERS})
     return hashlib.sha256(canonical(relative)).hexdigest()
 
 

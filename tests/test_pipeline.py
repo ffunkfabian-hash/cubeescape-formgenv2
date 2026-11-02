@@ -98,6 +98,19 @@ class PipelineCacheTests(unittest.TestCase):
         with mock.patch.object(pipeline, "code_hash", lambda rel: "0" * 64):
             self.assertNotEqual(key, pipeline.geometry_plan(sel, SNAP, commit)[0].key)
 
+    def test_builder_files_are_part_of_every_stage_key(self):
+        pipeline.code_hash.cache_clear()
+        before = {stage: pipeline.code_hash(rel) for stage, rel in pipeline.CODE.items()}
+        real = pipeline.file_hash
+        fake = lambda path: "0" * 64 if Path(path).name == "build.py" else real(path)
+        try:
+            pipeline.code_hash.cache_clear()
+            with mock.patch.object(pipeline, "file_hash", fake):
+                after = {stage: pipeline.code_hash(rel) for stage, rel in pipeline.CODE.items()}
+        finally:
+            pipeline.code_hash.cache_clear()
+        self.assertTrue(all(before[s] != after[s] for s in before), "build.py-Builder fehlen in einem Stufenschlüssel")
+
     def test_code_closure_covers_geometry_engine(self):
         files = pipeline.build.source_hashes(ROOT / pipeline.CODE["geometry"])
         names = {Path(f).name for f in files}

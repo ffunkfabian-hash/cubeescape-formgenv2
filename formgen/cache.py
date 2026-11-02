@@ -129,6 +129,13 @@ def _record_many(out: Path, entries) -> None:
         except (OSError, ValueError):
             manifest = {"format": VERSION, "artifacts": {}}
         for artifact, result, meta in entries:
+            # Ein paralleler Lauf kann denselben Ausgabepfad inzwischen mit anderem Schlüssel veröffentlicht haben:
+            # nur eintragen, was jetzt wirklich auf der Platte liegt (unter Manifestsperre geprüft).
+            try:
+                if file_hash(Path(out).resolve() / _relative(artifact.output)) != meta["sha256"]:
+                    continue
+            except OSError:
+                continue
             manifest["artifacts"][artifact.output] = {
                 "model": artifact.model_id, "kind": artifact.kind, "key": result.key,
                 "source": artifact.source, "params": artifact.params, "versions": artifact.versions,
