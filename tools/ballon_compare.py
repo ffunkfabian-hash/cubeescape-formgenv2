@@ -38,8 +38,9 @@ def _matrix(node):
     return t @ r @ s
 
 
-def load_glb(path):
-    """Return world-space triangles (n,3,3) in Blender frame (X links, Y hinten, Z oben) and node names."""
+def load_glb(path, per_node=False):
+    """Return world-space triangles (n,3,3) in Blender frame (X links, Y hinten, Z oben) and node names.
+    per_node: instead {(Knotenname, Materialname): Dreiecke} je Netzknoten und Primitiv-Material."""
     data = Path(path).read_bytes()
     n = struct.unpack_from("<I", data, 12)[0]
     gltf = json.loads(data[20:20 + n]); binary = data[20 + n + 8:]
@@ -53,7 +54,7 @@ def load_glb(path):
         raw = np.frombuffer(binary, np.uint8, count=stride * (count - 1) + dtype.itemsize * size, offset=start)
         return np.lib.stride_tricks.as_strided(raw.view(np.uint8), (count, size * dtype.itemsize), (stride, 1)).copy().view(dtype).reshape(count, size)
 
-    tris, names = [], []
+    tris, names, groups = [], [], {}
 
     def walk(i, parent):
         node = gltf["nodes"][i]; m = parent @ _matrix(node)
@@ -66,13 +67,17 @@ def load_glb(path):
                 idx = accessor(prim["indices"]).reshape(-1) if "indices" in prim else np.arange(len(pos))
                 world = (np.c_[pos, np.ones(len(pos))] @ m.T)[:, :3]
                 tris.append(world[idx.reshape(-1, 3)])
+                material = gltf["materials"][prim["material"]].get("name") if "material" in prim else None
+                groups.setdefault((names[-1], material), []).append(tris[-1])
         for c in node.get("children", []):
             walk(c, m)
 
     for root in gltf["scenes"][gltf.get("scene", 0)]["nodes"]:
         walk(root, np.eye(4))
-    t = np.concatenate(tris)
-    return np.stack([t[..., 0], -t[..., 2], t[..., 1]], axis=-1), names   # glTF (x, y oben, z) → Blender (x, −z, y)
+    blender = lambda t: np.stack([t[..., 0], -t[..., 2], t[..., 1]], axis=-1)   # noqa: E731  glTF (x, y oben, z) → Blender (x, −z, y)
+    if per_node:
+        return {k: blender(np.concatenate(v)) for k, v in groups.items()}
+    return blender(np.concatenate(tris)), names
 
 
 def load_v2(path):
@@ -151,7 +156,9 @@ def compare_asset(asset_glb, ballon_glb):
     tris = lambda info: {k: [(x["triangles"], x["material"]) for x in v] for k, v in info["meshes"].items()}   # noqa: E731
     ta, tb = tris(a), tris(b)
     ma, mb = a["materials"], b["materials"]
-    sa, sb = triangle_set(load_glb(asset_glb)[0]), triangle_set(load_glb(ballon_glb)[0])
+    ga, gb = load_glb(asset_glb, per_node=True), load_glb(ballon_glb, per_node=True)     # je Netzknoten und Material
+    sa = {k: triangle_set(v) for k, v in ga.items()}
+    sb = {k: triangle_set(v) for k, v in gb.items()}
     na, nb = node_tree(asset_glb), node_tree(ballon_glb)
     verts = {k: (sum(x["vertices"] for x in a["meshes"][k]), sum(x["vertices"] for x in b["meshes"][k]))
              for k in a["meshes"] if k in b["meshes"]}
@@ -162,6 +169,7 @@ def compare_asset(asset_glb, ballon_glb):
         "empties_equal": a["empties"] == b["empties"],
         "nodes_equal": na == nb, "nodes_differing": sorted(k for k in set(na) | set(nb) if na.get(k) != nb.get(k))[:20],
         "positions_equal": sa == sb,
+        "positions_differing": sorted("/".join(map(str, k)) for k in set(sa) | set(sb) if sa.get(k) != sb.get(k))[:20],
         "bytes_equal": Path(asset_glb).read_bytes() == Path(ballon_glb).read_bytes(),
         "vertices": {"asset": sum(v[0] for v in verts.values()), "ballon": sum(v[1] for v in verts.values()),
                      "meshes_differing": sum(v[0] != v[1] for v in verts.values())},

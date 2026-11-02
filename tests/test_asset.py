@@ -177,6 +177,39 @@ class BuiltAssetTests(unittest.TestCase):
         self.assertEqual(r["nodes_differing"], ["Socket_Muzzle"])
         self.assertFalse(r["equal"])
 
+    def test_swapped_mesh_geometry_is_detected(self):
+        # zwei Netze gleicher Dreieckszahl und gleichen Materials tauschen ihre Geometrie: global gleich, je Netz nicht
+        import struct
+        import sys
+        sys.path.insert(0, str(asset.ROOT / "tools"))
+        import ballon_compare
+        data = (OUT / "assets/BA01.glb").read_bytes()
+        n = struct.unpack_from("<I", data, 12)[0]
+        g = json.loads(data[20:20 + n])
+        nodes = {x["name"]: x for x in g["nodes"] if "mesh" in x}
+        info = asset.glb_info(OUT / "assets/BA01.glb")["meshes"]
+        pairs = {}
+        for name, prims in info.items():
+            pairs.setdefault((prims[0]["triangles"], prims[0]["material"], len(prims)), []).append(name)
+        a, b = next(v for v in pairs.values() if len(v) >= 2)[:2]
+        a_mesh, a_tr = nodes[a]["mesh"], {k: nodes[a].get(k) for k in ("translation", "rotation", "scale")}
+        nodes[a]["mesh"], nodes[b]["mesh"] = nodes[b]["mesh"], a_mesh
+        for k in ("translation", "rotation", "scale"):
+            nodes[a][k], nodes[b][k] = nodes[b].get(k), a_tr[k]
+            for x in (nodes[a], nodes[b]):
+                if x[k] is None:
+                    del x[k]
+        chunk = json.dumps(g).encode()
+        chunk += b" " * (-len(chunk) % 4)
+        body = struct.pack("<II", len(chunk), 0x4E4F534A) + chunk + data[20 + n:]
+        with tempfile.TemporaryDirectory() as tmp:
+            swapped = Path(tmp) / "swapped.glb"
+            swapped.write_bytes(b"glTF" + struct.pack("<II", 2, 12 + len(body)) + body)
+            r = ballon_compare.compare_asset(swapped, OUT / "assets/BA01.glb")
+        self.assertTrue(r["meshes_equal"], (a, b))
+        self.assertFalse(r["positions_equal"])
+        self.assertFalse(r["equal"])
+
     def test_asset_reference_follows_glb_dir(self):
         import sys
         sys.path.insert(0, str(asset.ROOT / "tools"))
