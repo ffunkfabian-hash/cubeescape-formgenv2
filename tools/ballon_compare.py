@@ -4,7 +4,7 @@
   python tools/ballon_compare.py --base v21     # v2.1-Piloten (BASIC-NN-v2.1.glb) gegen die v2-Auswertung der Grundform (xprof)
   python tools/ballon_compare.py --asset BA01 [--glb <BALLON-GLB>] [--out <json>]     # 0.3: Kit-Asset gegen BALLON
 
---asset (0.3 „Forge“) vergleicht out/assets/<ID>.glb (BALLONs Kit über formgen.asset) mit einer BALLON-GLB: Netze und Dreiecke je
+--asset (0.5 „Forge“) vergleicht out/assets/<ID>.glb (BALLONs Kit über formgen.asset) mit einer BALLON-GLB: Netze und Dreiecke je
 Netz, Materialien samt PBR-Werten, Leerknoten (Baugruppen, Anker), Dreieckspositionen in Weltkoordinaten (µm, Windung erhalten)
 Knotenbaum (Eltern und Weltlage jedes Knotens, auch Anker) und Bytegleichheit; Vertexzahlen nur als Information (Normalen-Splits hängen an BALLONs Kit-Stand der Referenz).
 

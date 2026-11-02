@@ -1,4 +1,4 @@
-"""BALLONs Blender-Baukasten als gepinnter, nur gelesener Schnappschuss (0.3 „Forge“, Machbarkeitsnachweis).
+"""BALLONs Blender-Baukasten als gepinnter, nur gelesener Schnappschuss (0.5 „Forge“, Machbarkeitsnachweis).
 
 Ergänzt `formgen/ballon.py` (Datenschnappschuss der Formstudien) um die Teile, die BALLON zum Bauen in Blender braucht:
 `basic/` (kit.py, Piloten, Arme für das Ego-Profil), `tools/` (blender_build, bake_unity, export_unity, ego_build) und BALLONs

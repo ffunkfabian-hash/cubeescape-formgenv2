@@ -1,4 +1,4 @@
-"""0.3 „Forge“: Waffen-Assets über BALLONs Blender-Kit (Machbarkeitsnachweis).
+"""0.5 „Forge“: Waffen-Assets über BALLONs Blender-Kit (Machbarkeitsnachweis).
 
 Ohne Blender: Rückführung des Generators auf BALLONs Datensatz, Schlüssel, Kit-Schnappschuss, GLB-Index.
 Mit vorhandenen Ergebnissen (Mac, nach `python -m formgen.asset BA01 …`): BA01 dreiecks- und materialgleich zu BALLONs GLB.

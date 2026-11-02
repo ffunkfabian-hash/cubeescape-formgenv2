@@ -1,6 +1,6 @@
-# Für Sightline: was Formgen v2 an BALLONs Bau- und Exportweg fehlt (0.3 „Forge“)
+# Für Sightline: was Formgen v2 an BALLONs Bau- und Exportweg fehlt (0.5 „Forge“)
 
-Status: Liste aus dem Machbarkeitsnachweis 0.3 (02.11.2026). BALLON wurde nicht geändert; gelesen am Pin
+Status: Liste aus dem Machbarkeitsnachweis 0.5 (Arbeitsnummer 0.3, 02.11.2026). BALLON wurde nicht geändert; gelesen am Pin
 `dcdda603f6567d4d62a10d968d7987e1c5292643` (`basic/kit.py`, `tools/blender_build.py`, `tools/bake_unity.py`,
 `tools/export_unity.py`, `tools/ego_build.py`, `basic/arms/ego.py`). Formgen ruft diese Dateien aus einem `git archive`-Schnappschuss
 auf (`formgen/ballon_kit.py`, `formgen/blender/asset_build.py`).

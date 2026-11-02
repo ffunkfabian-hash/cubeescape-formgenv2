@@ -1,7 +1,7 @@
 # Vorschlag an 0.4 „Mosaic“: Generator für die Formen der Spiel-Piloten
 
-Status: Vorschlag aus 0.3 „Forge“ (02.11.2026), **nicht eingecheckt** – `formgen/generator.py` gehört 0.4 (Nutzerentscheid 02.11.2026).
-Der Patch unten lief in 0.3 kurz auf allen 51 Blättern mit den v2.1-Piloten als Grundform (reines Python, ohne v2-Geometrie);
+Status: Vorschlag aus 0.5 „Forge“ (Arbeitsnummer 0.3, 02.11.2026), **nicht eingecheckt** – `formgen/generator.py` gehört 0.4 (Nutzerentscheid 02.11.2026). 0.4 hat `multi`/`xprof`/`tube`/`text`/`cuts` selbst umgesetzt und den Schutz bewegter Teile übernommen.
+Der Patch unten lief in 0.5 (Arbeitsnummer 0.3) kurz auf allen 51 Blättern mit den v2.1-Piloten als Grundform (reines Python, ohne v2-Geometrie);
 die Formstudien-Blätter bleiben damit unverändert (Formstudien haben weder `multi` noch `cuts`, `tests.test_ballon_generator`
 und `tests.test_pipeline` blieben grün).
 
@@ -11,7 +11,7 @@ Ja. `tools/kit_pilot_check.py` baut alle 16 v2.1-Piloten (BASIC-01…15, T01) un
 am Pin `dcdda60` und vergleicht je Objekt mit BALLONs Unity-Export (`unity/Assets/Ballon/Generated/ego.json`,
 `weapons[].mesh_bounds`): **16/16 gebaut, jedes Objekt dreiecksgleich** (z. B. BASIC-01-v2.1 72 Objekte, 33 450 Dreiecke).
 14 der 16 Piloten enthalten `xprof` (als Teil, in `multi` oder als Durchbruch), T01 und BASIC-05 nicht. Auch `multi`, `tube`,
-`text`, `xbox`, `frame` und `cuts` baut das Kit. Bericht: `~/Library/Caches/CubeEscapeFormgen2/0.3/belege/kit_pilot_check.json`.
+`text`, `xbox`, `frame` und `cuts` baut das Kit. Bericht: `~/Library/Caches/CubeEscapeFormgen2/0.5/belege/kit_pilot_check.json`.
 Folgerung: Für Piloten-Grundformen ist der Kit-Weg (formgen/asset.py) die Geometrie; v2s eigene Geometrie bräuchte alle diese Formen neu.
 
 ## Was der Generator für Piloten zusätzlich braucht
@@ -21,7 +21,7 @@ Folgerung: Für Piloten-Grundformen ist der Kit-Weg (formgen/asset.py) die Geome
    werden ganz nach ihrer Mitte verschoben statt verzerrt; beim Spiegeln (`_mirror`) wird jeder Punkt abgebildet (`rigid=False`).
 2. `drop` schützt zusätzlich bewegte Teile (`move`): sie tragen Mechanik, `EGO_LIVE`-Teile und Aktionen der Spielwaffe.
 3. Wahl der Grundform: neuester Pilot `basic/pilot/wNN_*_vK.py` (K als Ziffernfolge vergleichen: v21 = (2,1) > v2 = (2,), v3 > v21),
-   sonst Formstudie (BASIC-16/17) – in 0.3 als `formgen/ballon_kit.pilot_file`. Der Daten-Schnappschuss von `ballon.py`
+   sonst Formstudie (BASIC-16/17) – in 0.5 als `formgen/ballon_kit.pilot_file`. Der Daten-Schnappschuss von `ballon.py`
    (`PATHS`) enthält `basic/pilot` noch nicht.
 4. Befund mit Piloten-Grundform: Linie C `drop vent_*` trifft nur noch BASIC-08 (`vent_rib`) – die Piloten führen Lüftung als
    Durchbrüche. Stauchen ist bei 11 der 17 C-Blätter begrenzt (`limited`), weil die dichteren Piloten weniger freie Zone haben.
@@ -29,7 +29,7 @@ Folgerung: Für Piloten-Grundformen ist der Kit-Weg (formgen/asset.py) die Geome
 
 ## Patch (gegen `0b6a122`, `formgen/generator.py`)
 
-`variant_model` am Ende war der Einstieg der damaligen Asset-Stufe (BALLON-Vokabular ohne v2-Anpassungen); in 0.3 erledigt das jetzt
+`variant_model` am Ende war der Einstieg der damaligen Asset-Stufe (BALLON-Vokabular ohne v2-Anpassungen); in 0.5 erledigt das jetzt
 `formgen/asset.kit_model` aus dem Ergebnis von `generator.generate`.
 
 ```diff

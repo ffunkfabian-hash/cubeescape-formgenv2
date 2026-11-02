@@ -1,4 +1,4 @@
-"""Waffen-Assets über BALLONs Blender-Baukasten (0.3 „Forge“, Machbarkeitsnachweis; noch keine Pipeline-Stufe).
+"""Waffen-Assets über BALLONs Blender-Baukasten (0.5 „Forge“, Machbarkeitsnachweis; noch keine Pipeline-Stufe).
 
   ~/Claude/cubeescape-nexogen/ce lock blender -- .venv/bin/python -m formgen.asset BA01 BB01 BC01
   ~/Claude/cubeescape-nexogen/ce lock gpu -- .venv/bin/python -m formgen.asset BA01 --package <ordner>   # + FBX, AAA-Atlas
@@ -34,7 +34,7 @@ ROOT = build.ROOT
 FORMAT = 1                     # Cache-/Indexformat der Asset-Artefakte (eigene Konstante, versions.py gehört der Pipeline)
 BLENDER_SCRIPT = ROOT / "formgen/blender/asset_build.py"
 DEFAULTS = {"blender": "/Applications/Blender.app/Contents/MacOS/Blender", "atlas": 4096, "samples": 64}
-EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.3"
+EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.5"
 
 
 def settings(path: Path = ROOT / "config.toml") -> dict:

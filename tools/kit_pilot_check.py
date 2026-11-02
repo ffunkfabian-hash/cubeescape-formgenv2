@@ -5,7 +5,7 @@
 Frage aus 0.4: Baut das Kit `xprof` (Visiere der v2.1-Piloten), das v2s eigene Geometrie nicht kann? Referenz ist
 `unity/Assets/Ballon/Generated/ego.json` am Pin: `weapons[].mesh_bounds.objects` (Dreiecke und Grenzen je Objekt nach den
 Modifikatoren, von BALLONs export_unity gemessen). Verglichen werden Dreiecke je Netz der GLB aus tools/blender_build.py.
-Ausgabe außerhalb des Repos (Standard ~/Library/Caches/CubeEscapeFormgen2/0.3/pilots/).
+Ausgabe außerhalb des Repos (Standard ~/Library/Caches/CubeEscapeFormgen2/0.5/pilots/).
 """
 import argparse
 import collections

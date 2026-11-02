@@ -100,7 +100,7 @@ def main(argv=None):
     p.add_argument("ids", nargs="+")
     p.add_argument("--samples", type=int, default=96)
     p.add_argument("--cpu", action="store_true")
-    p.add_argument("--out", type=Path, default=Path.home() / "Library/Caches/CubeEscapeFormgen2/0.3/belege")
+    p.add_argument("--out", type=Path, default=Path.home() / "Library/Caches/CubeEscapeFormgen2/0.5/belege")
     p.add_argument("--sheet-only", action="store_true", help="nur den Kontaktbogen aus vorhandenen Bildern neu setzen")
     a = p.parse_args(argv)
     cfg = asset.settings()
