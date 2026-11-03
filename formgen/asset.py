@@ -18,6 +18,7 @@ zusätzlich Skin, Atlasgröße, Samples und Gerät. Ohne --force wird nur Fehlen
 from __future__ import annotations
 
 import argparse
+import contextlib
 import copy
 import functools
 import hashlib
@@ -258,14 +259,48 @@ def glb_info(path: Path) -> dict:
             "triangles": sum(p["triangles"] for prims in meshes.values() for p in prims)}
 
 
+def _matches(path: Path, sha: str | None) -> bool:
+    try:
+        return path.is_file() and file_hash(path) == sha
+    except OSError:
+        return False
+
+
+def reconcile(out: Path, assets: dict) -> dict:
+    """Index gegen die Dateien abgleichen: ein Eintrag, dessen GLB fehlt oder andere Bytes hat, entfällt; ein Bake, dessen ZIP
+    fehlt, andere Bytes hat oder zu einer anderen GLB gehört, ebenso. So nennt der Index nach einem abgebrochenen Stapel nie eine
+    Datei mit falschem Hash (die ersetzten Blätter fehlen dann bis zum nächsten erfolgreichen Lauf)."""
+    folder = Path(out) / "assets"
+    kept = {}
+    for sid, entry in assets.items():
+        if not _matches(folder / entry.get("glb", ""), entry.get("sha256")):
+            continue
+        bake = entry.get("bake")
+        if bake and (bake.get("glb_key") != entry.get("key") or not _matches(folder / bake.get("zip", ""), bake.get("sha256"))):
+            entry = {k: v for k, v in entry.items() if k != "bake"}
+        kept[sid] = entry
+    return kept
+
+
+@contextlib.contextmanager
+def reconciled(out: Path):
+    """Für Stufen, die Dateien in out/assets ersetzen: bricht der Stapel ab, wird der Index vor dem Weiterreichen abgeglichen."""
+    try:
+        yield
+    except BaseException:
+        write_index(out, [], [])
+        raise
+
+
 def write_index(out: Path, artifacts, results) -> Path:
-    """Index aller Asset-Artefakte (GLB und Bake) mit Inhalts-Hash und Schlüssel; Einträge anderer Läufe bleiben."""
+    """Index aller Asset-Artefakte (GLB und Bake) mit Inhalts-Hash und Schlüssel; Einträge anderer Läufe bleiben, sofern ihre
+    Dateien noch passen (`reconcile`)."""
     path = Path(out) / "assets" / "index.json"
     try:
         index = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         index = {}
-    index = {"format": "formgenv2/asset-index", "format_version": 2, "assets": index.get("assets", {})}
+    index = {"format": "formgenv2/asset-index", "format_version": 2, "assets": reconcile(out, index.get("assets", {}))}
     for artifact, result in zip(artifacts, results):
         path_out = Path(out) / result.output
         entry = index["assets"].setdefault(artifact.model_id, {})
@@ -292,12 +327,14 @@ def run(ids, out: Path, cache: Path, bake=(), force=False, jobs=1, gpu=True, log
     snap, kit = snap or ballon.snapshot(), kit or ballon_kit.snapshot()
     ids = list(dict.fromkeys([*ids, *bake]))
     glb = plan(select(ids, entries), kit, snap, cfg)
-    results = run_artifacts(glb, out, cache, jobs=jobs, force=force)
+    with reconciled(out):
+        results = run_artifacts(glb, out, cache, jobs=jobs, force=force)
     write_index(out, glb, results)                       # sofort: ein später scheiternder Bake lässt keinen alten Index stehen
     artifacts = list(glb)
     if bake:
         baking = bake_plan([a for a in glb if a.model_id in set(bake)], cfg, gpu)
-        res = run_artifacts(baking, out, cache, jobs=1, force=force)   # eine GPU: nacheinander
+        with reconciled(out):
+            res = run_artifacts(baking, out, cache, jobs=1, force=force)   # eine GPU: nacheinander
         artifacts += baking
         results += res
         write_index(out, baking, res)

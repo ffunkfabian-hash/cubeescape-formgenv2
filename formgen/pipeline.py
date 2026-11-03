@@ -171,7 +171,8 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
         settings = asset.settings()
         glb = asset.plan(selection, kit, snap, settings)
         n0 = len(results)
-        stage("asset", glb, jobs=min(jobs, settings["jobs"]))
+        with asset.reconciled(out):                        # Abbruch im Stapel: Index gegen die Dateien abgleichen
+            stage("asset", glb, jobs=min(jobs, settings["jobs"]))
         asset.write_index(out, glb, results[n0:])          # sofort: ein später scheiternder Bake lässt keinen alten Index stehen
         if bake:
             unknown = sorted(set(bake) - set(selection))
@@ -179,7 +180,8 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
                 raise SystemExit(f"--bake außerhalb der Auswahl: {', '.join(unknown)}")
             baking = asset.bake_plan([a for a in glb if a.model_id in set(bake)], settings, gpu)
             n1 = len(results)
-            stage("bake", baking, jobs=1)                  # eine GPU: nacheinander
+            with asset.reconciled(out):
+                stage("bake", baking, jobs=1)              # eine GPU: nacheinander
             asset.write_index(out, baking, results[n1:])
     if "specs" in stages:
         stage("specs", spec_plan(ids, out, cfg["commit"]))

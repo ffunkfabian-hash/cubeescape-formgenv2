@@ -300,6 +300,48 @@ class AssetCacheTests(unittest.TestCase):
         self.assertEqual(entry["sha256"], asset.file_hash(self.out / "assets/BD01.glb"))   # Index zeigt die neue GLB
         self.assertNotIn("bake", entry)                                                       # und keinen alten Bake
 
+    def test_failure_in_batch_leaves_index_true_to_files(self):
+        # Richter 0.6 Runde 3: zwei Blätter mit Bake, beide GLB neu; das erste gelingt, das zweite scheitert
+        with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": "1"}):
+            self.run_pipeline(["BA01", "BD01"], bake=["BA01", "BD01"])
+        entries = variants.load()
+        for v in entries:
+            if v["letter"] in "AD":
+                v["params"]["front"] = 1.2
+        fake = self.blender
+
+        def failing(job, binary):
+            if job["id"] == "BD01":
+                raise RuntimeError("Blender abgestürzt")
+            return fake(job, binary)
+        with mock.patch.object(asset, "run_blender", failing), self.assertRaises(RuntimeError):
+            self.run_pipeline(["BA01", "BD01"], entries)
+        index = json.loads((self.out / "assets/index.json").read_text())["assets"]
+        self.assertNotIn("BA01", index)                                    # ersetzte GLB ohne passenden Eintrag: entfällt
+        self.assertEqual(index["BD01"]["sha256"], asset.file_hash(self.out / "assets/BD01.glb"))   # alte GLB blieb
+        self.assertEqual(index["BD01"]["bake"]["sha256"], asset.file_hash(self.out / "assets/BD01.bake.zip"))
+        for sid, entry in index.items():
+            self.assertEqual(entry["sha256"], asset.file_hash(self.out / "assets" / entry["glb"]), sid)
+        self.run_pipeline(["BA01", "BD01"], entries)                       # nächster erfolgreicher Lauf ergänzt wieder
+        index = json.loads((self.out / "assets/index.json").read_text())["assets"]
+        self.assertEqual(set(index), {"BA01", "BD01"})
+        self.assertFalse(any("bake" in e for e in index.values()))         # Bakes gehörten zu den alten GLB
+
+    def test_reconcile_drops_entries_without_matching_files(self):
+        folder = self.out / "assets"
+        folder.mkdir(parents=True)
+        (folder / "BA01.glb").write_bytes(b"neu")
+        (folder / "BB01.glb").write_bytes(b"gleich")
+        (folder / "BB01.bake.zip").write_bytes(b"zip")
+        sha = asset.file_hash
+        assets = {"BA01": {"glb": "BA01.glb", "sha256": "alt", "key": "k"},
+                  "BB01": {"glb": "BB01.glb", "sha256": sha(folder / "BB01.glb"), "key": "k",
+                           "bake": {"zip": "BB01.bake.zip", "sha256": sha(folder / "BB01.bake.zip"), "glb_key": "anders"}},
+                  "BC01": {"glb": "BC01.glb", "sha256": "x", "key": "k"}}
+        kept = asset.reconcile(self.out, assets)
+        self.assertEqual(set(kept), {"BB01"})
+        self.assertNotIn("bake", kept["BB01"])
+
     def test_bake_key_follows_device_and_atlas_not_source(self):
         glb = asset.plan(asset.select(["BA01"]), KIT, SNAP, dict(asset.DEFAULTS))
         gpu = asset.bake_plan(glb, dict(asset.DEFAULTS))[0]
