@@ -220,13 +220,20 @@ def read_package(manifest: dict, sid: str | None = None) -> dict:
         raise PackageError(f"Format {manifest.get('format')}/{manifest.get('format_version')} statt {PACKAGE} {PACKAGE_VERSIONS}")
     if sid is not None and manifest.get("id") != sid:
         raise PackageError(f"Manifest-ID {manifest.get('id')} passt nicht zu {sid}")
+    if not isinstance(manifest.get("weapon"), dict) or not manifest["weapon"]:
+        # BALLONs formgen_import.load lehnt Pakete ohne weapon-Block ab und bricht dann das Einlesen aller Pakete ab
+        raise PackageError(f"ohne weapon-Block ({manifest.get('ego_profile_error') or 'kein Ego-Profil'}) – in BALLON nicht spielbar")
     out = copy.deepcopy(manifest)
     if out["format_version"] == 1:
         out["model"], out["points"] = None, "Grundform (Paket 1 ohne Datensatz)"
         return out
     model = out.get("model")
-    if not isinstance(model, dict) or not all(k in model for k in ("META", "PARTS", "ASSEMBLIES", "ANCHORS", "POINTS")):
-        raise PackageError("Paket 2 ohne vollständigen Datensatz model (META, PARTS, ASSEMBLIES, ANCHORS, POINTS)")
+    shapes = {"META": dict, "PARTS": list, "ASSEMBLIES": list, "ANCHORS": dict, "POINTS": dict}
+    if not isinstance(model, dict) or not all(isinstance(model.get(k), t) for k, t in shapes.items()):
+        raise PackageError("Paket 2 ohne vollständigen Datensatz model (META, PARTS, ASSEMBLIES als Listen, ANCHORS, POINTS)")
+    if not model["META"].get("id") or not model["PARTS"] or not model["ASSEMBLIES"] or \
+            not all(isinstance(p, dict) and p.get("id") for p in model["PARTS"]):
+        raise PackageError("Paket 2: Datensatz model leer (META.id, PARTS mit id, ASSEMBLIES)")
     ids = {p["id"] for p in model["PARTS"]}
     lost = sorted(n for n, q in model["POINTS"].items() if q.get("part") not in ids)
     if lost:

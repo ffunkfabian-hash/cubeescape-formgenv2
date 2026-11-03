@@ -49,6 +49,15 @@ def main():
     print(f"[formgen-asset] {sid}: {name} gebaut", flush=True)
 
 
+def dataset(job, W):
+    """Datensatz für Paket 2: das Generatormodell, im Modulweg (model null) die Datenfelder des Moduls selbst (POINTS leer, wenn das
+    Modul keine trägt) – ein selbst erzeugtes Paket ist so immer lesbar (formgen.asset.read_package)."""
+    if job.get('model'):
+        return job['model']
+    from basic import variant
+    return json.loads(json.dumps({k: getattr(W, k, {} if k in ('POINTS', 'ACTIONS') else None) for k in variant.DATA_FIELDS}))
+
+
 def package(job, W, bpy, kit, BB):
     from basic.arms import ego as EG
     import tools.export_unity as EU
@@ -76,7 +85,7 @@ def package(job, W, bpy, kit, BB):
         ballon=dict(module=job['module'], weapon_id=EG.weapon_id(W), parts_sha256=EU.parts_sha(W)),
         axes=EU.AXES, units='m', origin='Socket_Hand', fbx=f'{sid}.fbx', textures=tex,
         mesh_bounds=dict(objects=bounds, triangles=sum(b['tris'] for b in bounds)),
-        roles={p['id']: p['mat'] for p in W.PARTS}, weapon=weapon, ego_profile_error=ego, model=job.get('model'),
+        roles={p['id']: p['mat'] for p in W.PARTS}, weapon=weapon, ego_profile_error=ego, model=dataset(job, W),
         bake=dict(atlas=job['atlas'], samples=job['samples'], device='gpu' if job['gpu'] else 'cpu', arms=False,
                   note='tools/export_unity.bake_weapon ohne Ego-Szene, Atlas ohne Arme (BALLON 0.41)'))
     with open(os.path.join(out, f'{sid}.package.json'), 'w', encoding='utf-8') as fh:

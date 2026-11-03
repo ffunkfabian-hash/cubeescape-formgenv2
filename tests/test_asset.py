@@ -38,7 +38,7 @@ def package_manifest(version: int, sid: str = "BX01") -> dict:
     """Kleinstes Manifest wie formgen/blender/asset_build.py: Format 1 (0.6) ohne, Format 2 (0.7) mit Datensatz `model`."""
     m = {"format": asset.PACKAGE, "format_version": version, "id": sid, "skin": "standard", "weapon": {"parts": []}}
     if version >= 2:
-        m["model"] = {"META": {"id": "BASIC-01"}, "PARTS": [{"id": "grip"}], "ASSEMBLIES": [], "ANCHORS": {},
+        m["model"] = {"META": {"id": "BASIC-01"}, "PARTS": [{"id": "grip"}], "ASSEMBLIES": [{"id": "grip"}], "ANCHORS": {},
                       "POINTS": {"grip.grip": {"at": [0, 0, 0], "part": "grip"}}, "ACTIONS": {}}
     return m
 
@@ -193,7 +193,9 @@ class ToolSafetyTests(unittest.TestCase):
             dest = Path(tmp) / "pakete"
             (dest / "BX01").mkdir(parents=True)
             (dest / "BX01/BX01.package.json").write_text('{"alt": 1}')
-            for manifest in ({"neu": 1}, package_manifest(3), dict(package_manifest(2), id="BX02"), None):
+            for manifest in ({"neu": 1}, package_manifest(3), dict(package_manifest(2), id="BX02"), None,
+                             dict(package_manifest(2), weapon=None), {**package_manifest(2), "model": {**package_manifest(2)["model"],
+                                                                                                   "ASSEMBLIES": []}}):
                 src = Path(tmp) / "src"
                 shutil.rmtree(src, ignore_errors=True)
                 src.mkdir()
@@ -239,7 +241,12 @@ class ToolSafetyTests(unittest.TestCase):
                     {**package_manifest(2), "model": {k: v for k, v in package_manifest(2)["model"].items() if k != "POINTS"}},
                     {**package_manifest(2), "model": {**package_manifest(2)["model"],
                                                       "POINTS": {"grip.grip": {"at": [0, 0, 0], "part": "fehlt"}}}},
-                    dict(package_manifest(1), format="anders")):
+                    dict(package_manifest(1), format="anders"),
+                    dict(package_manifest(2), weapon=None, ego_profile_error="BASIC-16 ohne Ego-Klasse"),   # Richter 0.7 Nr. 1
+                    dict(package_manifest(1), weapon=None),
+                    {**package_manifest(2), "model": {**package_manifest(2)["model"], "PARTS": []}},
+                    {**package_manifest(2), "model": {**package_manifest(2)["model"], "PARTS": {}}},
+                    {**package_manifest(2), "model": {**package_manifest(2)["model"], "META": {}}}):
             with self.subTest(bad=bad), self.assertRaises(asset.PackageError):
                 asset.read_package(bad, "BX01")
 
