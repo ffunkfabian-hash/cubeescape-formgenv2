@@ -101,18 +101,22 @@
  ],
  "ballon": {
   "basic_id": "BASIC-10",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
    "basic/pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/pilot/energy_roles.py": "4d36c51d0a80167bfc2b52ccb74634c9bc64670e0ba7906fbd8a50f1afad8782",
-   "basic/pilot/w10_fusion_rifle_v21.py": "970be804daa5bfb3ddb9d05db7c74cbb25141d5330573a8ff85a2cb27a33fda7",
+   "basic/pilot/w10_fusion_rifle_v21.py": "3e73fb3c3b453cd7bc3d6377a9b8740d2255623d2531674a66a7ef6e46b74fa7",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w10_fusion_rifle.py": "fdf9db6ab35d090886af453b008833162c878967842317cf18923c2e04116caa"
   },
-  "source_sha256": "5a8199b5fddeca6eed437fede976513e28ed8fb64e4f85691898a0a424dfcf0e",
+  "source_sha256": "6ac0827278974e236284407412c982b954461c996a8f33741a4cbffa9290dfb5",
   "spec_sha256": "42ec45874a48078e4f312e01c94c626ea4d522dc72164aec59b5d6fd291e9872"
  },
  "ballon_dimensions_mm": {
@@ -1278,7 +1282,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-10 v2.1-Pilot (Quellhash 5a8199b5fdde); Variante F „Heavy Frame“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-10 v2.1-Pilot (Quellhash 6ac082727897); Variante F „Heavy Frame“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-10",

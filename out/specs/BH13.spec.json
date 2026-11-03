@@ -101,18 +101,22 @@
  ],
  "ballon": {
   "basic_id": "BASIC-13",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
    "basic/pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/pilot/metal_roles.py": "d801ac42b6039d62341eba199792ca86cfd89520d1ea19c011f72868ea012f52",
-   "basic/pilot/w13_grenade_launcher_v21.py": "cd9c7072582b54e6c437a350caa0cd08ca4ddc2b91e537efe4dd4dd200d7e891",
+   "basic/pilot/w13_grenade_launcher_v21.py": "9f1adf8b36ab770ac8fc8a9d724a0a6bbc9759945b217d58219d7b9bfff13ba5",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w13_grenade_launcher.py": "ffd353c516450a979d4d75290246da48f2fbc83bead1576fb8ee91500d0365d2"
   },
-  "source_sha256": "3a0fd61a97231e2d73b38b2920412597250f0fbb910b35834bd08290d5d947d2",
+  "source_sha256": "e29adc573da823bb52717d918671f9a95e51b9439a73067a29925d4d80f4025d",
   "spec_sha256": "68e0008c1194f9f3dd9aac233fb26a1c302b067499a247ccdea787c3e8a0c415"
  },
  "ballon_dimensions_mm": {
@@ -1618,7 +1622,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-13 v2.1-Pilot (Quellhash 3a0fd61a9723); Variante H „Long Watch“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-13 v2.1-Pilot (Quellhash e29adc573da8); Variante H „Long Watch“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-13",

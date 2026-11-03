@@ -1,6 +1,6 @@
 [project]
-version = "0.6.0"
-name = "Hangar"
+version = "0.7.0"
+name = "Waypoint"
 [render]
 bg = "mid"
 width = 960
@@ -9,4 +9,4 @@ supersampling = 2
 [ballon]
 # Grundlage der 17 BASIC-Waffentypen; nur gelesen (git archive). Neuer Pin = neue Eingabe-Hashes, keine Codeänderung.
 repo = "~/Claude/cubeescape-ballon"
-commit = "dcdda603f6567d4d62a10d968d7987e1c5292643"
+commit = "fe4a5dc4e026fba503bf9354da2fb055cbc7e724"

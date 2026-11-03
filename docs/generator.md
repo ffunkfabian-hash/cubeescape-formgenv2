@@ -101,6 +101,19 @@ Teile ganz jenseits eines Schnitts werden verschoben, Teile über dem Schnitt mi
 Formen der Piloten (`prof`, `box`, `cyl`, `plan`, `frame`, `xbox`, `xprof`, `multi`, `tube`, `text`, samt `cuts`); Anker und
 Bewegungspunkte (`pivot`, `tip`, `nock`, `expect`) folgen ihrem Teil. Ein übersprungener Schritt steht mit Grund im Bericht.
 
+**Weltpunkte (`POINTS`, 0.7 „Waypoint“).** BALLONs Piloten tragen ab BALLON 0.41 Hülsenauswurf (`eject`), Gurtgliederauswurf
+(`eject.links`) und alle Handkontakte (`grip.<Griff>`) als `POINTS` in der Form der Anker (`at` in mm, `part`; BALLON
+`docs/formgen-schnittstelle.md` › 2). Der Generator nimmt sie genau wie die Anker mit (`generator._located`): Teil verschoben →
+Punkt verschoben, Teil gedehnt → Punkt jenseits des Schnitts verschoben, Spiegeln (hinten, Wurfarme unten) hin und zurück,
+Magazinstreckung entlang der Entnahmerichtung (Punkte jenseits des Magazinschnitts; dort jetzt auch Anker – keiner der 17 Typen
+hat einen). Tausch (Visier, Schaft, Griff): ein Punkt eines entfernten Teils bleibt an seiner Lage und geht an das neue Teil
+gleicher ID, sonst an das nächste neue Teil (Abstand des f/u-Rahmens); Bericht `points_handed` {Punkt: [alt, neu]}. `drop`
+schützt Teile mit Weltpunkt wie Teile mit Anker (Grund „Weltpunkt“). Jeder Schritt nennt bewegte Punkte in `points_moved`
+(Versatz f/u/x in mm). Ein Punkt ohne Teil bricht ab (`_finish`). Gemessen über alle 136 Blätter: nur die Magazinstreckung bewegt
+heute Punkte (`grip.mag`, 20 Blätter der Linien C, E, F, G, H); die Schnitte vorn/hinten liegen vor bzw. hinter allen Punkten, und
+die Tauschbausteine führen dieselben Teil-IDs. Tests `tests/test_points.py` (Prüfpunkte je Anker, Teilbindung, Gegenprobe mit festen
+Punkten je Fall).
+
 **Anpassungen an BALLON-Daten** (im Spec unter `generator.adaptations`, alle als *Annahme*):
 - Hohlkegel mit `r_in ≥ r` (Objektive der Zielfernrohre BASIC-03/09/11): BALLON skaliert `r_in` mit `r1/r`, die Wand stülpt
   sich um und BALLONs gemessene Höhe/Breite enthält den umgestülpten Innenmantel (2,3/9,4/9,1 mm). v2 bezieht `r_in` auf
@@ -141,7 +154,7 @@ in BALLON (Gehäuse- und Handschutzvarianten je Familie). Vorschlag an Sightline
 |---|---|---|
 | geometry | `out/geometry/<ID>.json` | BALLON-Quellhash und Spec-Hash der tatsächlichen Grundform, Registereintrag (mit `base`), Typnummer; Closure `generator.py` (inkl. geom/model/ballon/variants); MODEL, GEOM |
 | asset | `out/assets/<ID>.glb`, Index `out/assets/index.json` | Kit-Modell der Variante (`generator.vary` → `asset.kit_model`), Grundmodul und Import-Closure des BALLON-Typs, Closure von BALLONs `kit.py`/`blender_build.py`/`bake_unity.py`/`export_unity.py`; `asset.py`, `ballon_kit.py`, `blender/asset_build.py`, Closure `generator.py`; Blender-Version; ASSET. Index wird bei jedem Schreiben und bei Abbruch gegen die Dateien abgeglichen (`asset.reconcile`) |
-| bake (nur `--bake`) | `out/assets/<ID>.bake.zip` (FBX, `textures/` Albedo/Normalen/AO/Spec, `<ID>.package.json`) | wie asset, dazu Skin, Atlas (4096²), Samples (64), Gerät gpu/cpu; ASSET, BAKE. Bau nur unter `ce lock gpu` (Prüfung über `CE_HEAVY_HELD`) |
+| bake (nur `--bake`) | `out/assets/<ID>.bake.zip` (FBX, `textures/` Albedo/Normalen/AO/Spec, `<ID>.package.json`) | wie asset, dazu Skin, Atlas (4096²), Samples (64), Gerät gpu/cpu; ASSET, BAKE. Bau nur unter `ce lock gpu` (Prüfung über `CE_HEAVY_HELD`). Paket `formgenv2/weapon-package` 2 (0.7): `model` = Kit-Modell mit `POINTS`, `ballon.parts_sha256` = `export_unity.parts_sha` dieses Datensatzes, `weapon`-Block, Atlas ohne Arme (`bake.arms` false); `asset.read_package` liest 1 und 2, `--unpack` ersetzt nur nach geprüftem Manifest |
 | specs | `out/specs/<ID>.spec.json` (im Repo) | Geometrie-Hash; Closure `wspec.py`; BALLON-Commit; WSPEC |
 | prompts | `out/prompts/<ID>.prompts.json` (im Repo) | Geometrie-Hash; Closure `prompts.py`; PROMPTS, SPEC |
 | views | `out/views/<ID>/*.png` | Geometrie-Hash; Kamera, Größe, Skin + `skins.toml`-Hash, Hintergrund; Closure `raster.py`; Umgebung; RASTER |

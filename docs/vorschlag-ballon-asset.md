@@ -1,5 +1,12 @@
 # Für Sightline: was Formgen v2 an BALLONs Bau- und Exportweg fehlt (0.5 „Forge“, aktualisiert 0.6 „Hangar“)
 
+**Stand 0.7 „Waypoint“ (03.11.2026):** BALLON 0.41 „Intake“ hat die Punkte 1, 2, 3 (Teil), 5 und Tabelle a–d umgesetzt
+(BALLON `docs/formgen-schnittstelle.md`, Postfach #16 Kommentar 6599212878). Formgen nutzt am Pin `fe4a5dc` (BALLON 0.42):
+`blender_build.main(W=…, base=…, argv=[…])` mit `basic/variant.as_module` statt eines Moduls in `sys.modules`,
+`export_unity.bake_weapon(…, arms=False)` (Waffenatlas ohne Arme, Regel beider Wege) und die Weltpunkte `POINTS`; das Paket hat
+`format_version` 2 mit Datensatz `model`. Offen bleiben e (Piloten 16/17), f (Gameplay je Variante), 6, 7, 8 und 9. Der Text unten
+ist der Stand 0.6.
+
 Status: Liste aus dem Machbarkeitsnachweis 0.5 (Arbeitsnummer 0.3, 02.11.2026), in 0.6 nachgeführt (alle Linien auf den
 v2.1-Piloten, Stufe `asset`, Bake-Probe BA01/BD01). BALLON wurde nicht geändert; gelesen am Pin
 `dcdda603f6567d4d62a10d968d7987e1c5292643` (`basic/kit.py`, `tools/blender_build.py`, `tools/bake_unity.py`,

@@ -117,16 +117,20 @@
  ],
  "ballon": {
   "basic_id": "BASIC-03",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
-   "basic/pilot/w03_scout_rifle_v21.py": "6128630ef0b45d7e0e7d5c1df7c616d747789a243c3a64802b6b48355e90ee45",
+   "basic/pilot/w03_scout_rifle_v21.py": "abe65544a905dfd5346035550e04d3e5c9e7c82819662d90893e5047fc46687a",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w03_scout_rifle.py": "9bdacceafd30058a1b55c04139a8b30fec4f05fec5bdb873b05716108b3d8b85"
   },
-  "source_sha256": "94a8a75a2d35f6489af05c4484cdbe6e0822557bae4e2adeafacf067dad9b0a8",
+  "source_sha256": "2b9001c1905a4fb7bffa808474579745602067ceaa1cd409877ad0db156a8283",
   "spec_sha256": "d5685749c4a9c77c3bf26075acf66437478ecb89d027d30fe40ef3af2e357640"
  },
  "ballon_dimensions_mm": {
@@ -1721,7 +1725,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-03 v2.1-Pilot (Quellhash 94a8a75a2d35); Variante E „Lantern“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-03 v2.1-Pilot (Quellhash 2b9001c1905a); Variante E „Lantern“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-03",

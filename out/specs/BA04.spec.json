@@ -91,16 +91,20 @@
  ],
  "ballon": {
   "basic_id": "BASIC-04",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
-   "basic/pilot/w04_hand_cannon_v21.py": "763a9691d4a6569f0124312a1742b5c82e2e9ce41a5bf950657b0c0a3340ebb4",
+   "basic/pilot/w04_hand_cannon_v21.py": "5374b12713d43f41843173abb47987bacc3cbd4ab7232a0e51b5e93e98f8837c",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w04_hand_cannon.py": "ae205a2df26fb13dca2eebbfbc5fd7e4b611b2050e0d8d61f6f93d7d2615b4b5"
   },
-  "source_sha256": "78d679fd697325d90403933db78b9d3f4c741d870fee42b122e6475dcac7966c",
+  "source_sha256": "fda8c58be8e981d6e93bc44b05bc0211e866a5e324069ae5d444e00e177e30f1",
   "spec_sha256": "0b6d1c446d32a79e25dae089a1760dcae9a71e42a3bc79f822e4bae18a22b909"
  },
  "ballon_dimensions_mm": {
@@ -640,7 +644,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-04 v2.1-Pilot (Quellhash 78d679fd6973); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-04 v2.1-Pilot (Quellhash fda8c58be8e9); Variante A „Baseline“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-04",

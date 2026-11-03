@@ -2,24 +2,23 @@
 
   blender -b --factory-startup -P formgen/blender/asset_build.py -- <job.json>
 
-job.json: snapshot (formgen.ballon_kit), module (BALLON-Grundmodul), model (META/PARTS/ASSEMBLIES/ANCHORS/ACTIONS des Generators
-oder null = Modul unverändert), id, out; optional package, skin, atlas, samples, gpu.
+job.json: snapshot (formgen.ballon_kit), module (BALLON-Grundmodul), model (META/PARTS/ASSEMBLIES/ANCHORS/POINTS/ACTIONS des
+Generators oder null = Modul unverändert), id, out; optional package, skin, atlas, samples, gpu, package_version (= formgen.asset.BAKE).
 
-Nichts hier baut Geometrie oder Materialien selbst:
+Nichts hier baut Geometrie oder Materialien selbst; alle Aufrufe sind BALLONs Schnittstellen ab 0.41 (docs/formgen-schnittstelle.md):
   1. tools/blender_build.main aus dem Schnappschuss, unverändert (kit.reset_scene, kit.build mit Fasen-Modifiern, Durchbrüchen und
-     Rollenmaterialien, write_spec, glTF-Export mit angewandten Modifikatoren). Ein Generatormodell wird dafür nur für diesen Lauf
-     als Modul `basic.weapons.formgen_<id>` eingehängt (alle übrigen Modulfelder vom Grundmodul). → <id>.glb, <id>.spec.json
-  2. nur mit package: Spielpaket wie tools/export_unity.bake_weapon (setup_render aaa/mid, Skin, kit.set_mode('aaa'),
-     bake_unity.apply_modifiers/unwrap/bake_atlas, export_unity.mesh_bounds/export_fbx/store_textures)
-     → <id>.fbx, textures/, <id>.package.json. Abweichung: ohne Ego-Arme in der Szene (BALLON backt in der Ego-Szene).
+     Rollenmaterialien, write_spec, glTF-Export mit angewandten Modifikatoren). Ein Generatormodell geht als Datensatz hinein
+     (`main(W=model, base=Grundmodul)`, intern basic/variant.as_module: übrige Modulfelder vom Grundmodul, Weltpunkte aus POINTS);
+     ohne Modell der Modulname wie auf BALLONs Kommandozeile. → <id>.glb, <id>.spec.json
+  2. nur mit package: Spielpaket über tools/export_unity.bake_weapon (Atlas ohne Arme, arms=False – Regel beider Wege ab BALLON
+     0.41; Skin der Linie als Atlasfarbe, FBX mit Standard-AAA-Materialien), export_unity.mesh_bounds/store_textures/weapon_data/
+     parts_sha → <id>.fbx, textures/, <id>.package.json (formgenv2/weapon-package 2: mit Datensatz `model`).
 """
 import importlib
 import json
 import os
 import shutil
 import sys
-import types
-
 
 def main():
     job = json.load(open(sys.argv[sys.argv.index('--') + 1], encoding='utf-8'))
@@ -27,22 +26,18 @@ def main():
     os.environ['BASIC_OUT'] = os.path.join(out, '_ballon_out')   # tools.paths: nichts landet in BALLONs Ausgabeordner
     sys.path.insert(0, job['snapshot'])
     import bpy
-    from basic import kit
+    from basic import kit, variant
     import tools.blender_build as BB
 
     base = importlib.import_module(job['module'])          # Seiteneffekte des Moduls (zusätzliche Materialrollen) wie bei BALLON
-    W = base
-    if job.get('model'):
-        W = types.ModuleType(f"basic.weapons.formgen_{sid}")
-        W.__dict__.update({k: v for k, v in vars(base).items() if not k.startswith('__')})
-        W.__file__ = base.__file__
-        for k, v in job['model'].items():
-            setattr(W, k, v)
-        sys.modules[W.__name__] = W
-    name = W.__name__.split('basic.', 1)[1]
+    name = job['module'].split('basic.', 1)[1]
     name = name.split('weapons.', 1)[1] if name.startswith('weapons.') else name
-    sys.argv = ['blender_build', '--', name]
-    BB.main()
+    if job.get('model'):
+        BB.main(W=job['model'], base=base, argv=[])
+        W = variant.as_module(job['model'], base)            # dasselbe Modul wie in BB.main, für das Paket
+    else:
+        BB.main(argv=[name])
+        W = base
     wid = W.META['id'] + (f"-{W.META['variant']}" if W.META.get('variant') else '')
     for ext in ('glb', 'spec.json'):
         shutil.copyfile(os.path.join(os.environ['BASIC_OUT'], wid, f'{wid}.{ext}'), os.path.join(out, f'{sid}.{ext}'))
@@ -51,9 +46,17 @@ def main():
     print(f"[formgen-asset] {sid}: {name} gebaut", flush=True)
 
 
+def dataset(job, W):
+    """Datensatz für Paket 2: das Generatormodell, im Modulweg (model null) die Datenfelder des Moduls selbst (POINTS leer, wenn das
+    Modul keine trägt) – ein selbst erzeugtes Paket ist so immer lesbar (formgen.asset.read_package)."""
+    if job.get('model'):
+        return job['model']
+    from basic import variant
+    return json.loads(json.dumps({k: getattr(W, k, {} if k in ('POINTS', 'ACTIONS') else None) for k in variant.DATA_FIELDS}))
+
+
 def package(job, W, bpy, kit, BB):
     from basic.arms import ego as EG
-    from tools import bake_unity as BK
     import tools.export_unity as EU
     out, sid = job['out'], job['id']
     tex_dir = os.path.join(out, 'textures')
@@ -61,36 +64,27 @@ def package(job, W, bpy, kit, BB):
     objs = {p['id']: bpy.data.objects[p['id']] for p in W.PARTS}
     root = bpy.data.objects[W.META['id']]
     BB.setup_render(854, 1, gpu=job['gpu'], aaa=True, bloom=False, bg='mid')
-    kit.SKIN['name'] = job['skin']
+    kit.SKIN['name'] = job['skin']                          # Atlasfarbe = Skin der Linie; bake_weapon setzt danach Standard (FBX)
     kit.set_mode(objs, 'aaa')
-    wobs = [root] + list(root.children_recursive)
-    meshes = [o for o in wobs if o.type == 'MESH']
-    BK.apply_modifiers(meshes)
-    BK.SKIP_ROLES |= BK._skip_roles()
-    bake = [o for o in meshes if BK.bakeable(o)]
-    BK.unwrap(bake)
-    files = BK.bake_atlas(bake, sid, job['atlas'], tex_dir, gpu=job['gpu'], samples=job['samples'])
+    tex = EU.bake_weapon(root, tex_dir, sid, fbx=os.path.join(out, f'{sid}.fbx'), skins=False, gpu=job['gpu'], arms=False,
+                         objs=objs, size=job['atlas'], samples=job['samples'])
+    S = kit.SKINS[job['skin']]
+    tex['skins'] = [dict(name=job['skin'], de=S['de'], kind=S['kind'], albedo=tex['weapon']['albedo'], spec=tex['weapon']['spec'])]
+    tex = EU.store_textures(tex, tex_dir)
     ids = set(objs)
     bounds = [b for k, b in EU.mesh_bounds().items() if k in ids]
-    kit.SKIN['name'] = 'standard'                            # wie bake_weapon: FBX mit den Standard-AAA-Materialien
-    kit.set_mode(objs, 'aaa')
-    EU.export_fbx(os.path.join(out, f'{sid}.fbx'), wobs)
-    S = kit.SKINS[job['skin']]
-    tex = EU.store_textures(dict(weapon=dict(size=job['atlas'], objects=sorted(o.name for o in bake), **files),
-                                 skins=[dict(name=job['skin'], de=S['de'], kind=S['kind'], albedo=files['albedo'], spec=files['spec'])]),
-                            tex_dir)
     try:
         weapon, ego = EU.weapon_data(W, EG.profile(W)['live']), None
     except (KeyError, ValueError) as e:      # Typ ohne Ego-Klasse (Schwert, Glefe) oder fehlende Live-Teile
         weapon, ego = None, str(e)
     manifest = dict(
-        format='formgenv2/weapon-package', format_version=1, id=sid, skin=job['skin'], blender=bpy.app.version_string,
+        format='formgenv2/weapon-package', format_version=job['package_version'], id=sid, skin=job['skin'], blender=bpy.app.version_string,
         ballon=dict(module=job['module'], weapon_id=EG.weapon_id(W), parts_sha256=EU.parts_sha(W)),
         axes=EU.AXES, units='m', origin='Socket_Hand', fbx=f'{sid}.fbx', textures=tex,
         mesh_bounds=dict(objects=bounds, triangles=sum(b['tris'] for b in bounds)),
-        roles={p['id']: p['mat'] for p in W.PARTS}, weapon=weapon, ego_profile_error=ego,
-        bake=dict(atlas=job['atlas'], samples=job['samples'], device='gpu' if job['gpu'] else 'cpu',
-                  note='ohne Ego-Arme in der Szene; sonst wie tools/export_unity.bake_weapon'))
+        roles={p['id']: p['mat'] for p in W.PARTS}, weapon=weapon, ego_profile_error=ego, model=dataset(job, W),
+        bake=dict(atlas=job['atlas'], samples=job['samples'], device='gpu' if job['gpu'] else 'cpu', arms=False,
+                  note='tools/export_unity.bake_weapon ohne Ego-Szene, Atlas ohne Arme (BALLON 0.41)'))
     with open(os.path.join(out, f'{sid}.package.json'), 'w', encoding='utf-8') as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=1, sort_keys=True)
 

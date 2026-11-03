@@ -12,7 +12,9 @@ ohne Piloten (BASIC-16/17) die Formstudie – im Blatt als „Formstudie – kei
   front/rear   Faktor auf die Vorder-/Hinterlänge; Schnitt zwischen Stützhand und Mündung bzw. im Schaft
   limbs        Bogen: Faktor auf die Wurfarmlänge (oben und unten, Schnitt im Wurfarm)
 Ein Schnitt `at` trennt: Teile ganz jenseits werden verschoben, lange Teile über dem Schnitt gedehnt bzw. gestaucht, kurze
-Teile werden nie verzerrt. Gestaucht wird höchstens bis zur freien Zone hinter dem Schnitt; Begrenzungen stehen im Bericht.
+Teile werden nie verzerrt. Weltpunkte (`POINTS`, BALLON 0.41: Auswurf, Griffkontakte; Form wie ANCHORS) folgen ihrem Teil nach
+derselben Regel wie die Anker (0.7); ein getauschtes Teil gibt seine Punkte an das neue Teil gleicher ID oder das nächste neue Teil
+weiter, beides steht im Bericht. Gestaucht wird höchstens bis zur freien Zone hinter dem Schnitt; Begrenzungen stehen im Bericht.
 Alle Zahlen in mm im BALLON-Rahmen (f vorn, u oben, x links). Bausteine liest `ballon.call` aus dem gepinnten Snapshot.
 """
 from __future__ import annotations
@@ -132,10 +134,15 @@ def _extent(p, ax=0):
     return min(v), max(v)
 
 
+def _located(model):
+    """Anker und Weltpunkte: alles mit `at` und Teilbezug, das Teilen folgt (BALLON-Regel für Generatoren, 0.41)."""
+    return [*model["ANCHORS"].values(), *model.get("POINTS", {}).values()]
+
+
 def _mirror(model, ax=0):
     for p in model["PARTS"]:
         _map(p, ax, lambda v: -v)
-    for a in model["ANCHORS"].values():
+    for a in _located(model):
         a["at"] = _set(a["at"], ax, lambda v: -v)
 
 
@@ -200,7 +207,7 @@ def _stretch(model, at, delta, ax=0, force=()):
         _map(p, ax, lambda v: v + delta)
     for p in cross:
         _map(p, ax, lambda v: v + delta if v > at else v)
-    for a in model["ANCHORS"].values():
+    for a in _located(model):
         how = moved.get(a.get("part"))
         if how == "translate" or (how == "stretch" and a["at"][ax] > at):
             a["at"] = _set(a["at"], ax, lambda v: v + delta)
@@ -272,15 +279,16 @@ def limbs(model, factor):
 
 
 def drop(model, patterns):
-    """Teile per Muster weglassen; geschützt bleiben Teile mit Anker, mit Kindteilen und bewegte Teile (`move`: Mechanik
+    """Teile per Muster weglassen; geschützt bleiben Teile mit Anker oder Weltpunkt, mit Kindteilen und bewegte Teile (`move`: Mechanik
     der BALLON-Aktionen wie Abzug, Ladehebel, Auswurfklappe, Magazin – ohne sie liefen Aktionen ins Leere)."""
     anchored = {a["part"] for a in model["ANCHORS"].values()}
+    pointed = {a["part"] for a in model.get("POINTS", {}).values()}
     parents = {p.get("parent_part") for p in model["PARTS"]}
     dropped, protected, why = [], [], {}
     for p in list(model["PARTS"]):
         if any(fnmatch.fnmatchcase(p["id"], pat) for pat in patterns):
-            reasons = [r for r, hit in (("Anker", p["id"] in anchored), ("Kindteile", p["id"] in parents),
-                                        ("bewegt", bool(p.get("move")))) if hit]
+            reasons = [r for r, hit in (("Anker", p["id"] in anchored), ("Weltpunkt", p["id"] in pointed),
+                                        ("Kindteile", p["id"] in parents), ("bewegt", bool(p.get("move")))) if hit]
             if reasons:
                 protected.append(p["id"]); why[p["id"]] = reasons
             else:
@@ -292,8 +300,17 @@ def drop(model, patterns):
 
 # ------------------------------------------------------------------ Baukasten: Teile aus BALLON-Bausteinen tauschen
 
+def _nearest(parts, at):
+    """Teil-ID des Teils mit dem kleinsten Abstand seines (f, u)-Rahmens zum Punkt (bei Gleichstand das erste)."""
+    def gap(p):
+        return math.hypot(*(max(lo - at[ax], 0.0, at[ax] - hi) for ax, (lo, hi) in enumerate((_extent(p, 0), _extent(p, 1)))))
+    return min(parts, key=gap)["id"]
+
+
 def _replace(model, remove, new_parts, new_anchors=None):
-    """Remove part IDs (with descendants), insert BALLON parts at the first removed position, update anchors."""
+    """Remove part IDs (with descendants), insert BALLON parts at the first removed position, update anchors. Weltpunkte eines
+    entfernten Teils bleiben an Ort und Stelle und gehen an das neue Teil gleicher ID, sonst an das nächste neue Teil; ohne neue
+    Teile ist das ein Fehler (Punkt ohne Teil). Rückgabe: entfernte IDs, entfallene Anker, {Punkt: [altes, neues Teil]}."""
     remove = _descendants(model["PARTS"], remove)
     keep = [p for p in model["PARTS"] if p["id"] not in remove]
     clash = sorted({p["id"] for p in new_parts} & {p["id"] for p in keep})
@@ -306,7 +323,20 @@ def _replace(model, remove, new_parts, new_anchors=None):
     for name in gone:
         del model["ANCHORS"][name]
     model["ANCHORS"].update(copy.deepcopy(new_anchors or {}))
-    return sorted(remove), gone
+    new_ids = {p["id"] for p in new_parts}
+    handed = {}
+    for name, pt in sorted(model.get("POINTS", {}).items()):
+        if pt["part"] in remove:
+            if not new_parts:
+                raise GeneratorError(f"Weltpunkt {name}: Teil {pt['part']} entfernt, kein neues Teil")
+            new = pt["part"] if pt["part"] in new_ids else _nearest(new_parts, pt["at"])
+            handed[name] = [pt["part"], new]
+            pt["part"] = new
+    return sorted(remove), gone, handed
+
+
+def _handed(handed):
+    return {"points_handed": handed} if handed else {}
 
 
 def _rails(model):
@@ -362,9 +392,9 @@ def swap_sight(model, kind, num, kit):
     before, after = _line(model), round(anchors["Socket_Eye"]["at"][1] - bore, 3)
     if not _in_band(after) and (_in_band(before) or before is None or abs(after - 70) > abs(before - 70)):
         return {**op, "skipped": f"Visierlinie {after:g} mm verletzt 60–80 mm (Grundform {before} mm)"}
-    removed, anchors_gone = _replace(model, [p["id"] for p in old], parts, anchors)
+    removed, anchors_gone, handed = _replace(model, [p["id"] for p in old], parts, anchors)
     return {**op, "removed": removed, "added": [p["id"] for p in parts], "anchors_replaced": anchors_gone,
-            "sight_line_mm": {"before": before, "after": after}}
+            "sight_line_mm": {"before": before, "after": after}, **_handed(handed)}
 
 
 def _stock_kind(model):
@@ -393,9 +423,9 @@ def swap_stock(model, kind, scale, kit):
     if pinned:
         return {**op, "skipped": f"Anker am Schaft: {pinned}"}
     parts = kit("stock_s1", f0, ua, s=s, cheek=cheek or kind != cur) if kind == "S1" else kit("stock_s2", f0, ua, s=s)
-    removed, _ = _replace(model, old, parts)
+    removed, _, handed = _replace(model, old, parts)
     return {**op, "kind": kind, "from": cur, "scale": s, "receiver_rear_f_mm": round(f0, 3), "bore_u_mm": round(ua, 3),
-            "removed": removed, "added": [p["id"] for p in parts]}
+            "removed": removed, "added": [p["id"] for p in parts], **_handed(handed)}
 
 
 def swap_grip(model, kind, kit):
@@ -411,8 +441,8 @@ def swap_grip(model, kind, kit):
     if not same:
         return {**op, "skipped": "Griffgruppe weicht von grip_rifle(top) ab (Neigung, Breite oder ohne Bügel)"}
     parts = kit("grip_v21", top=top)
-    removed, _ = _replace(model, [r["id"] for r in ref], parts)
-    return {**op, "top_mm": top, "removed": removed, "added": [p["id"] for p in parts]}
+    removed, _, handed = _replace(model, [r["id"] for r in ref], parts)
+    return {**op, "top_mm": top, "removed": removed, "added": [p["id"] for p in parts], **_handed(handed)}
 
 
 def stretch_mag(model, factor):
@@ -441,6 +471,10 @@ def stretch_mag(model, factor):
         elif side[p["id"]] == {True}:          # ganz jenseits: entlang der Entnahmerichtung verschieben
             _map(p, 0, lambda v: v + d[0] * delta)
             _map(p, 1, lambda v: v + d[1] * delta)
+    ids = {p["id"] for p in group}
+    for a in _located(model):                  # wie die Profilpunkte: jenseits des Schnitts verschoben (Griff am Magazinboden)
+        if a["part"] in ids and s(a["at"]) > cut:
+            a["at"] = (a["at"][0] + d[0] * delta, a["at"][1] + d[1] * delta, *a["at"][2:])
     return {**op, "direction": [round(d[0], 6), round(d[1], 6)], "length_mm": round(length, 3), "cut_mm": round(cut, 3),
             "delta_mm": round(delta, 3), "parts": sorted(p["id"] for p in group)}
 
@@ -554,6 +588,7 @@ def _keep_accents(model, base, added, notes):
 def adapt(data):
     """Return an editable copy plus the list of documented adaptations of BALLON data."""
     model = {k: copy.deepcopy(data[k]) for k in ("META", "PARTS", "ASSEMBLIES", "ANCHORS")}
+    model["POINTS"] = copy.deepcopy(data.get("POINTS") or {})
     notes = []
     for p in model["PARTS"]:
         if p["shape"] == "cyl" and p.get("r_in") and p["r_in"] >= min(p["r"], p.get("r1", p["r"])):
@@ -578,14 +613,21 @@ def _finish(model, notes):
     missing = sorted(n for n, a in model["ANCHORS"].items() if a["part"] not in ids)
     if missing:
         raise ValueError(f"Anker verweisen auf entfernte Teile: {missing}")
+    missing = sorted(n for n, a in model["POINTS"].items() if a["part"] not in ids)
+    if missing:
+        raise ValueError(f"Weltpunkte verweisen auf entfernte Teile: {missing}")
 
 
 def _apply(model, params, num, kit, notes):
     """Run the Baukasten steps in fixed order; returns the op reports and the IDs of parts added from BALLON blocks."""
     ops, added = [], set()
+    before = copy.deepcopy(model["POINTS"])
 
     def run(report):
-        ops.append(report)
+        moved = {n: [round(b - a, 3) for a, b in zip(before[n]["at"], q["at"])] for n, q in model["POINTS"].items()
+                 if any(abs(b - a) > 1e-9 for a, b in zip(before[n]["at"], q["at"]))}
+        before.update(copy.deepcopy(model["POINTS"]))
+        ops.append({**report, "points_moved": moved} if moved else report)
         added.update(report.get("added", []))
 
     if params.get("sight"):
