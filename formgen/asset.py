@@ -38,11 +38,13 @@ from .cache import Artifact, atomic_write, canonical, file_hash, run_artifacts
 
 ROOT = build.ROOT
 FORMAT = 1                     # Cache-/Indexformat der Asset-Artefakte
-BAKE = 1                       # Format des Bake-Pakets (ZIP: <ID>.fbx, textures/, <ID>.package.json)
+BAKE = 2                       # Format des Bake-Pakets (ZIP: <ID>.fbx, textures/, <ID>.package.json); 2 = mit Datensatz `model` (0.7)
+PACKAGE = "formgenv2/weapon-package"
+PACKAGE_VERSIONS = (1, 2)      # lesbar: 1 (0.6, ohne `model`), 2 (0.7, BALLON docs/formgen-schnittstelle.md › 4); geschrieben wird 2
 BLENDER_SCRIPT = ROOT / "formgen/blender/asset_build.py"
 # atlas/samples: Vorgabe BALLON export_unity (4096², 64); jobs: Annahme – vier Blender-Läufe zugleich (je ≈ 0,5 GB RAM, ≈ 1,2 s)
 DEFAULTS = {"blender": "/Applications/Blender.app/Contents/MacOS/Blender", "atlas": 4096, "samples": 64, "jobs": 4}
-EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.6"
+EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.7"
 
 
 def settings(path: Path = ROOT / "config.toml") -> dict:
@@ -73,7 +75,8 @@ def kit_model(data: dict, model: dict, run: dict) -> dict:
 
     `vary` liefert die Teile im BALLON-Vokabular (auch Bausteinteile aus `common.py` mit de/en/func/attach) und passt zwei Dinge
     für v2s eigenes Netz an: Hohlkegel-r_in (zurückgenommen, BALLON baut ihn selbst) und leere Baugruppen (hier wie deklariert).
-    Andere Anpassungen (z. B. Material der Akzentgrenze in 0.4) sind Gestaltung der Variante und bleiben."""
+    Andere Anpassungen (z. B. Material der Akzentgrenze in 0.4) sind Gestaltung der Variante und bleiben. `POINTS` (0.7): Weltpunkte
+    der Variante, wie der Generator sie mit den Teilen verschoben hat; BALLON übernimmt sie beim Bauen (`variant.as_module`)."""
     restore = {(a["part"], a["field"]): a["ballon"] for a in run.get("notes", []) if a.get("part") and a.get("field") == "r_in"}
     parts = []
     for q in model["PARTS"]:
@@ -92,7 +95,7 @@ def kit_model(data: dict, model: dict, run: dict) -> dict:
         if isinstance(action.get("keys"), dict):
             action["keys"] = {k: v for k, v in action["keys"].items() if k in ids}
     return {"META": copy.deepcopy(data["META"]), "PARTS": parts, "ASSEMBLIES": copy.deepcopy(data["ASSEMBLIES"]),
-            "ANCHORS": copy.deepcopy(model["ANCHORS"]), "ACTIONS": actions}
+            "ANCHORS": copy.deepcopy(model["ANCHORS"]), "POINTS": copy.deepcopy(model.get("POINTS") or {}), "ACTIONS": actions}
 
 
 def variant_model(entry: dict, data_snap: Path) -> tuple[dict, dict, str]:
@@ -205,10 +208,44 @@ def build_bake(artifact: Artifact) -> bytes:
         return zip_folder(work)
 
 
+class PackageError(ValueError):
+    pass
+
+
+def read_package(manifest: dict, sid: str | None = None) -> dict:
+    """Manifest eines Bake-Pakets prüfen und einheitlich zurückgeben. Lesbar sind Format 1 (0.6, ohne Datensatz: BALLON nimmt es nur
+    an, wenn die Teile aller Weltpunkte unverändert sind) und 2 (0.7, `model` = Kit-Modell mit POINTS). Rückgabe: Kopie mit `model`
+    (bei 1 None) und `points` (Herkunft der Weltpunkte)."""
+    if manifest.get("format") != PACKAGE or manifest.get("format_version") not in PACKAGE_VERSIONS:
+        raise PackageError(f"Format {manifest.get('format')}/{manifest.get('format_version')} statt {PACKAGE} {PACKAGE_VERSIONS}")
+    if sid is not None and manifest.get("id") != sid:
+        raise PackageError(f"Manifest-ID {manifest.get('id')} passt nicht zu {sid}")
+    out = copy.deepcopy(manifest)
+    if out["format_version"] == 1:
+        out["model"], out["points"] = None, "Grundform (Paket 1 ohne Datensatz)"
+        return out
+    model = out.get("model")
+    if not isinstance(model, dict) or not all(k in model for k in ("META", "PARTS", "ASSEMBLIES", "ANCHORS", "POINTS")):
+        raise PackageError("Paket 2 ohne vollständigen Datensatz model (META, PARTS, ASSEMBLIES, ANCHORS, POINTS)")
+    ids = {p["id"] for p in model["PARTS"]}
+    lost = sorted(n for n, q in model["POINTS"].items() if q.get("part") not in ids)
+    if lost:
+        raise PackageError(f"Weltpunkte ohne Teil im Datensatz: {lost}")
+    out["points"] = "Datensatz des Pakets (POINTS)"
+    return out
+
+
 def unpack(zip_path: Path, folder: Path) -> Path:
-    """Bake-ZIP nach `folder/<ID>` entpacken (z. B. für Unity); ersetzt nur ein eigenes Paket mit `<ID>.package.json`."""
+    """Bake-ZIP nach `folder/<ID>` entpacken (z. B. für Unity); ersetzt nur ein eigenes Paket mit `<ID>.package.json`. Das Manifest
+    im ZIP muss ein lesbares Paket dieser ID sein (`read_package`), sonst bleibt der Zielordner unberührt."""
     zip_path, folder = Path(zip_path), Path(folder)
     sid = zip_path.name.split(".")[0]
+    with zipfile.ZipFile(zip_path) as archive:
+        try:
+            manifest = json.loads(archive.read(f"{sid}.package.json"))
+        except KeyError:
+            raise PackageError(f"{zip_path}: ohne {sid}.package.json") from None
+    read_package(manifest, sid)
     target = folder / sid
     if target.exists() and not (target / f"{sid}.package.json").is_file():
         raise RuntimeError(f"{target} ist kein Formgen-Paket (ohne {sid}.package.json) – nicht überschrieben")

@@ -117,16 +117,20 @@
  ],
  "ballon": {
   "basic_id": "BASIC-15",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
-   "basic/pilot/w15_machine_gun_v21.py": "3472c79e4f24f3ecd2990e0491069a31d21224c974f1e27e40827c2a20824f9e",
+   "basic/pilot/w15_machine_gun_v21.py": "0920436268d2a82568f0416a3a182cbf94732c238af1f351cff086e3feb9e8e0",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w15_machine_gun.py": "d93de95b1ad4acf2b76853b6a4b25c0fdad428047df61e636a8c19970114ac78"
   },
-  "source_sha256": "8a3333396ab44b02b7f212544f7ec84e4dca9438308a6d4ca1b6edfb2ea74702",
+  "source_sha256": "e6076aa4c0189a79a349f39a05527c277299f25ff807ba4344aa40aa62c579a1",
   "spec_sha256": "74e0d5c5003edbed7f29b751252d935296a2c07ca5201ff434d254e989f73372"
  },
  "ballon_dimensions_mm": {
@@ -2011,7 +2015,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-15 v2.1-Pilot (Quellhash 8a3333396ab4); Variante C „Close Quarters“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-15 v2.1-Pilot (Quellhash e6076aa4c018); Variante C „Close Quarters“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-15",

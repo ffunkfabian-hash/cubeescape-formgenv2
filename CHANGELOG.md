@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0 Waypoint — BALLON 0.41/0.42 übernommen: Weltpunkte, Paket 2, neuer Pin
+
+- BALLON-Pin fe4a5dc (0.42); Bau über `blender_build.main(W, base)` (`basic/variant.as_module`) statt Modul in `sys.modules`, Bake über `export_unity.bake_weapon(arms=False)` – Waffenatlas ohne Arme, Regel beider Wege. Linie A weiter bytegleich zu BALLONs Neubau.
+- Weltpunkte `POINTS` (Auswurf, Griffkontakte) folgen im Generator ihren Teilen wie die Anker (Dehnen, Stauchen, Spiegeln, Magazin, Tausch, drop); Bake-Paket `format_version` 2 mit Datensatz `model`, Format 1 bleibt lesbar. Probe BG02 in BALLON angenommen (Unity-Tests grün), als Paket 1 abgelehnt. Bericht: [0.7](docs/versions/0.7.md).
+
 ## 0.6.0 Hangar — Alle Linien auf den Spiel-Piloten, Asset-Stufe in der Pipeline
 
 - Nutzerentscheid 242: jede Linie A–H nimmt den neuesten BALLON-Piloten (`base = "pilot"`, heute v2.1) als Grundform; BASIC-16/17 ohne Piloten bleiben auf der Formstudie, im Blatt „Formstudie – kein Pilot“. Linie A = Pilot unverändert. Vielfalt auf Pilotbasis: C/E zusätzlich kurze Mündung und Magazin, D längere Wurfarme (sonst 6 Blätter über 0,98); 119/119 ≤ 0,9752.

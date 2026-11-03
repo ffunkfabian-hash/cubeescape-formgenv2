@@ -34,6 +34,15 @@ def kit_model(sid):
     return ballon.load(SNAP, entry["num"], base), model
 
 
+def package_manifest(version: int, sid: str = "BX01") -> dict:
+    """Kleinstes Manifest wie formgen/blender/asset_build.py: Format 1 (0.6) ohne, Format 2 (0.7) mit Datensatz `model`."""
+    m = {"format": asset.PACKAGE, "format_version": version, "id": sid, "skin": "standard", "weapon": {"parts": []}}
+    if version >= 2:
+        m["model"] = {"META": {"id": "BASIC-01"}, "PARTS": [{"id": "grip"}], "ASSEMBLIES": [], "ANCHORS": {},
+                      "POINTS": {"grip.grip": {"at": [0, 0, 0], "part": "grip"}}, "ACTIONS": {}}
+    return m
+
+
 def fake_glb(payload: dict) -> bytes:
     """Minimale GLB (nur JSON-Chunk) – reicht für glb_info/Index."""
     chunk = json.dumps({"asset": {"version": "2.0"}, "nodes": [{"name": "Root"}], "extras": payload}).encode()
@@ -162,7 +171,7 @@ class ToolSafetyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             src = Path(tmp) / "src"
             (src / "textures").mkdir(parents=True)
-            (src / "BX01.package.json").write_text('{"neu": 1}')
+            (src / "BX01.package.json").write_text(json.dumps(package_manifest(2)))
             (src / "textures/a.png").write_bytes(b"png")
             zpath = Path(tmp) / "BX01.bake.zip"
             zpath.write_bytes(asset.zip_folder(src))
@@ -176,8 +185,24 @@ class ToolSafetyTests(unittest.TestCase):
             (foreign / "notiz.txt").unlink()
             (foreign / "BX01.package.json").write_text("{}")                                   # eigenes altes Paket
             asset.unpack(zpath, dest)
-            self.assertEqual(json.loads((foreign / "BX01.package.json").read_text()), {"neu": 1})
+            self.assertEqual(json.loads((foreign / "BX01.package.json").read_text()), package_manifest(2))
             self.assertEqual(sorted(p.name for p in dest.iterdir()), ["BX01"])               # kein Temp-Rest
+
+    def test_unpack_refuses_unreadable_package(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "pakete"
+            (dest / "BX01").mkdir(parents=True)
+            (dest / "BX01/BX01.package.json").write_text('{"alt": 1}')
+            for manifest in ({"neu": 1}, package_manifest(3), dict(package_manifest(2), id="BX02"), None):
+                src = Path(tmp) / "src"
+                shutil.rmtree(src, ignore_errors=True)
+                src.mkdir()
+                (src / ("BX01.package.json" if manifest is not None else "liesmich.txt")).write_text(json.dumps(manifest))
+                zpath = Path(tmp) / "BX01.bake.zip"
+                zpath.write_bytes(asset.zip_folder(src))
+                with self.subTest(manifest=manifest), self.assertRaises(asset.PackageError):
+                    asset.unpack(zpath, dest)
+                self.assertEqual(json.loads((dest / "BX01/BX01.package.json").read_text()), {"alt": 1})
 
     def test_unpack_keeps_old_package_on_broken_zip(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -201,6 +226,22 @@ class ToolSafetyTests(unittest.TestCase):
             os.utime(a / "x", (1, 1))
             self.assertEqual(asset.zip_folder(a), asset.zip_folder(b))
             self.assertEqual(zipfile.ZipFile(io.BytesIO(asset.zip_folder(a))).namelist(), ["x", "y/z"])
+
+    def test_package_formats_one_and_two_are_readable(self):
+        old = asset.read_package(package_manifest(1), "BX01")                  # 0.6: lesbar, Weltpunkte der Grundform
+        self.assertIsNone(old["model"])
+        self.assertIn("Grundform", old["points"])
+        new = asset.read_package(package_manifest(2), "BX01")
+        self.assertEqual(new["model"]["POINTS"]["grip.grip"]["part"], "grip")
+        self.assertIn("POINTS", new["points"])
+        self.assertEqual(asset.BAKE, 2)                                         # geschrieben wird 2 (eigener Cacheschlüssel)
+        for bad in (dict(package_manifest(2), model=None),
+                    {**package_manifest(2), "model": {k: v for k, v in package_manifest(2)["model"].items() if k != "POINTS"}},
+                    {**package_manifest(2), "model": {**package_manifest(2)["model"],
+                                                      "POINTS": {"grip.grip": {"at": [0, 0, 0], "part": "fehlt"}}}},
+                    dict(package_manifest(1), format="anders")):
+            with self.subTest(bad=bad), self.assertRaises(asset.PackageError):
+                asset.read_package(bad, "BX01")
 
     def test_bake_needs_gpu_lock(self):
         self.assertTrue(asset.gpu_locked({"CE_HEAVY_HELD": "blender,1"}))

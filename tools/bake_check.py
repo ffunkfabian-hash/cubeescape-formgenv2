@@ -1,4 +1,4 @@
-"""AAA-Bake gegen BALLONs Unity-Atlas von BASIC-01 (0.6 „Hangar“): Texturen vergleichen und Hero-Bilder rendern.
+"""AAA-Bake gegen BALLONs Unity-Atlas von BASIC-01 (0.6 „Hangar“, 0.7 „Waypoint“): Texturen vergleichen und Hero-Bilder rendern.
 
   ~/Claude/cubeescape-nexogen/ce lock gpu -- .venv/bin/python tools/bake_check.py BA01 BD01
 
@@ -9,6 +9,11 @@ Standardatlas entsprechen; BD01 (gestreckt, Leuchtlinie, Skin eloxal) hat eine a
 belegten Texel gegen `weapon_eloxal_*` (Farbe/Glanz) als Plausibilität. Hero-Bilder: FBX + Atlas in Blender (Cycles, AgX,
 Hintergrund mittelgrau, ohne Bloom), Vorschau-Shader aus Albedo · AO, Spiegelfarbe/Glätte und Normalen (Annäherung an URP
 Specular, nicht Unitys Shader). Ausgabe: <EVIDENCE>/belege/bake_check.json, hero_<ID>.png, hero_BALLON-BASIC-01.png, bake_hero.png.
+
+0.7: Regel ab BALLON 0.41 – Waffenatlas ohne Arme (export_unity.bake_weapon arms=False). BALLONs eingecheckte Atlanten sind noch mit Armen
+gebacken (bleiben bis zum nächsten vollen Bake). Darum zusätzlich BALLONs eigener neuer Weg als Referenz: Ego-Szene (tools/ego_build.Scene,
+Arme in der Szene), rest_pose, bake_weapon mit Standardwerten (arms=False, 64 Samples) aus dem gepinnten Kit-Schnappschuss, Ausgabe nur im
+Temp-Ordner (`vs_ballon_rebake`); `vs_ballon` bleibt der Vergleich mit dem eingecheckten Atlas (mit Armen).
 """
 import argparse
 import json
@@ -91,6 +96,38 @@ print('[bake_check] gerendert', job['png'], flush=True)
 '''
 
 
+BALLON_BAKE = r'''
+import importlib, json, os, sys
+job = json.load(open(sys.argv[sys.argv.index('--') + 1]))
+os.environ['BASIC_OUT'] = os.path.join(job['out'], '_ballon_out')       # nichts in BALLONs Ausgabeordner
+sys.path.insert(0, job['snapshot'])
+sys.argv = [sys.argv[0]]                                                 # wie export_unity.blender_main: ego_build liest nichts
+from tools import ego_build as EB
+import tools.export_unity as EU
+W = importlib.import_module('basic.' + job['module'])
+sc = EB.Scene(W, dict(stills=False, actions=[], gpu=False, samples=1, weapon=job['module'], fx=False))
+EU.rest_pose(sc)
+tex = EU.bake_weapon(sc.root, job['out'], 'ballon_ref', fbx=os.path.join(job['out'], 'ballon_ref.fbx'), skins=False, gpu=job['gpu'],
+                     objs=sc.objs, rest=lambda: EU.rest_pose(sc))
+json.dump(tex, open(os.path.join(job['out'], 'tex.json'), 'w'))
+print('[bake_check] BALLON gebacken', flush=True)
+'''
+
+
+def ballon_rebake(module: str, blender: str, tmp: Path, gpu: bool) -> dict:
+    """BALLONs neuer Bake-Weg (Ego-Szene, Arme ausgeblendet) für `module` → {albedo, spec, normal, ao: Pfad}, nur im Temp-Ordner."""
+    from formgen import ballon_kit
+    out, script, spec = tmp / "ballon_rebake", tmp / "ballon_bake.py", tmp / "ballon_bake.json"
+    out.mkdir()
+    script.write_text(BALLON_BAKE)
+    spec.write_text(json.dumps({"snapshot": str(ballon_kit.snapshot()), "module": module, "out": str(out), "gpu": gpu}))
+    run = subprocess.run([blender, "-b", "--factory-startup", "-P", str(script), "--", str(spec)], capture_output=True, text=True)
+    if run.returncode or "[bake_check] BALLON gebacken" not in run.stdout:
+        raise RuntimeError("\n".join((run.stdout + run.stderr).splitlines()[-25:]))
+    tex = json.loads((out / "tex.json").read_text())["weapon"]
+    return {"arms": tex.get("arms"), "fbx": out / "ballon_ref.fbx", **{k: out / tex[k] for k in ("albedo", "spec", "normal", "ao")}}
+
+
 def ballon_file(rel: str, folder: Path) -> Path:
     cfg = ballon.config()
     data = subprocess.run(["git", "-C", str(cfg["repo"]), "show", f"{cfg['commit']}:{UNITY}/{rel}"], capture_output=True,
@@ -156,12 +193,25 @@ def main(argv=None) -> int:
     view = {"dir": [1.0, -0.35, -0.6], "size": [1280, 720], "samples": a.samples, "gpu": not a.cpu}
     with tempfile.TemporaryDirectory(prefix="formgen-bakecheck-") as tmp:
         tmp = Path(tmp)
-        ref = {k: ballon_file(v, tmp) for k, v in REF_FILES.items()}
+        # Skin-Atlanten (weapon_eloxal_*) gibt es ab BALLON 0.42 nicht mehr eingecheckt (Skins aus Masken): nur vorhandene Dateien
+        ref = {}
+        for k, v in REF_FILES.items():
+            try:
+                ref[k] = ballon_file(v, tmp)
+            except subprocess.CalledProcessError:
+                if "_" not in k:
+                    raise
         ref_mask = used(load(ref["albedo"]))
         png = a.evidence / "hero_BALLON-BASIC-01.png"
         render({**view, "fbx": str(ref["fbx"]), "albedo": str(ref["albedo"]), "spec": str(ref["spec"]), "normal": str(ref["normal"]),
                 "ao": str(ref["ao"]), "png": str(png)}, cfg["blender"], tmp)
-        heroes.append(("BALLON BASIC-01-v2.1 · Unity-Atlas", png))
+        heroes.append(("BALLON BASIC-01-v2.1 · Unity-Atlas (mit Armen)", png))
+        rebake = ballon_rebake("pilot.w01_auto_rifle_v21", cfg["blender"], tmp, not a.cpu)
+        report["rebake"] = {"module": "pilot.w01_auto_rifle_v21", "arms": rebake["arms"],
+                            "way": "tools/ego_build.Scene + export_unity.rest_pose + bake_weapon (Standardwerte)"}
+        png = a.evidence / "hero_BALLON-BASIC-01-rebake.png"
+        render({**view, **{k: str(v) for k, v in rebake.items() if k != "arms"}, "png": str(png)}, cfg["blender"], tmp)
+        heroes.append(("BALLON BASIC-01-v2.1 · neu gebacken, ohne Arme", png))
         for sid in a.ids:
             folder = tmp / sid
             with zipfile.ZipFile(a.out_dir / f"assets/{sid}.bake.zip") as archive:
@@ -176,6 +226,10 @@ def main(argv=None) -> int:
                      "weapon_block": manifest["weapon"] is not None}
             if manifest["skin"] == "standard":
                 entry["vs_ballon"] = {k: compare(files[k], ref[k], mask) for k in ("albedo", "spec", "normal", "ao")}
+                re_mask = used(mine_albedo) & fit(used(load(rebake["albedo"])), mine_albedo.shape)
+                entry["vs_ballon_rebake"] = {k: compare(files[k], rebake[k], re_mask) for k in ("albedo", "spec", "normal", "ao")}
+                entry["rebake_vs_checked_in"] = {k: compare(rebake[k], ref[k], fit(ref_mask, load(rebake["albedo"]).shape) &
+                                                            used(load(rebake["albedo"]))) for k in ("ao",)}
             else:
                 mine_mask = used(load(files["albedo"]))
                 entry["mean_used"] = {"albedo": stats(files["albedo"], mine_mask), "spec": stats(files["spec"], mine_mask),
@@ -185,8 +239,8 @@ def main(argv=None) -> int:
             png = a.evidence / f"hero_{sid}.png"
             render({**view, "fbx": str(folder / manifest["fbx"]), **{k: str(v) for k, v in files.items()}, "png": str(png)},
                    cfg["blender"], tmp)
-            heroes.append((f"{sid} · {manifest['skin']} · Formgen v2 0.6 Bake", png))
-            print(sid, json.dumps(entry.get("vs_ballon") or entry.get("mean_used"), ensure_ascii=False))
+            heroes.append((f"{sid} · {manifest['skin']} · Formgen v2 Paket {manifest['format_version']}", png))
+            print(sid, json.dumps({k: entry[k] for k in ("vs_ballon", "vs_ballon_rebake", "mean_used") if k in entry}, ensure_ascii=False))
     tiles = [Image.open(p).convert("RGB").resize((640, 360)) for _, p in heroes]
     sheet = Image.new("RGB", (640 * len(tiles), 400), "#7a7a7a")
     d = ImageDraw.Draw(sheet)

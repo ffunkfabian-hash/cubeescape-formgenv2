@@ -28,3 +28,5 @@
 - Ein Vielfaltsmaß gegen die Baseline deckt formgleiche Linien auf, die nur die Farbe wechseln (Bogen in B/C); Front-IoU allein taugt nicht, Langwaffen sind von vorn fast gleich. [Generator](generator.md)
 - Nach einem Grundformwechsel auf dichtere Modelle Vielfalt neu messen: Stauchen hängt an freier Zone hinter dem Schnitt und fällt auf Piloten fast aus (BC05 −2,5 statt −27 mm); Linien über andere Hebel tragen. [Generator](generator.md)
 - Asset- und Blattweg müssen dieselbe Grundform-Auflösung und denselben Variantenlauf teilen (`generator.vary`): 0.5 lud für GLBs stets die Formstudie ohne Bausteine – D/H und alle Baukasten-Linien wären falsch gewesen. [Bericht](versions/0.6.md)
+- Probefall nach gemessener Wirkung wählen, nicht nach Linie: BG01 ändert keinen Weltpunkt (BASIC-01 ohne streckbares Magazin); erst die Liste `points_moved` über alle Blätter zeigte BG02. [Bericht](versions/0.7.md)
+- Für Punktregeln „wie Anker“ ist der Anker selbst das beste Orakel: je Anker einen Prüfpunkt-Zwilling in POINTS legen und nach jedem Eingriff Gleichheit fordern; Gegenprobe mit festen Punkten muss rot werden. [Tests](../tests/test_points.py)

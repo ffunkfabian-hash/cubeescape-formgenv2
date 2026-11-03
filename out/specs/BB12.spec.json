@@ -96,16 +96,20 @@
  ],
  "ballon": {
   "basic_id": "BASIC-12",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
-   "basic/pilot/w12_trace_rifle_v21.py": "edcfc56db9f783ae85d53d6a09f78d6bcfc7968f077b9fb16b7d51ec3c5e3224",
+   "basic/pilot/w12_trace_rifle_v21.py": "cdde255892bb04b582b511559afbe38593a09d2b30a2df67ce182d1f96f1ca68",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w12_trace_rifle.py": "178b6ce577ed3196ad9108a0dcaf8a4f40fa7c7e65ca5097de1f1f402b27e9c6"
   },
-  "source_sha256": "07027656faf07438002b0c19e9594ce63e09ad79997b537348524f07430fb1ca",
+  "source_sha256": "7a01bcfd2a60b27bfeadfd66275c4c82cb47c390a85bdca9273baeea9facdf63",
   "spec_sha256": "396204658ddd12f54f38f2bc9bbd53b0da23dad054e7318b8457d2fdb23a1b4e"
  },
  "ballon_dimensions_mm": {
@@ -1412,7 +1416,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-12 v2.1-Pilot (Quellhash 07027656faf0); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-12 v2.1-Pilot (Quellhash 7a01bcfd2a60); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-12",

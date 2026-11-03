@@ -7,7 +7,7 @@ der den Typ nicht berührt, behält alle Cache-Treffer.
 
 BALLON-Module sind reines Python ohne bpy (`basic/common.py`, Formstudien `basic/weapons/wNN_*.py`, Spiel-Piloten
 `basic/pilot/wNN_*_vK.py`); Grundform `pilot` (0.6) ist der neueste Pilot des Typs (K als Ziffernfolge: v21 = 2.1 > v2), ohne
-Piloten die Formstudie (`resolve_base`). Geladen werden nur Datensätze (META, PARTS, ASSEMBLIES, ANCHORS, ACTIONS), die der Generator
+Piloten die Formstudie (`resolve_base`). Geladen werden nur Datensätze (META, PARTS, ASSEMBLIES, ANCHORS, POINTS, ACTIONS), die der Generator
 als Grundform nutzt, und mit `call` einzelne Bausteine aus `basic/common.py` (Visier, Schaft, Griff, Leuchtfeld).
 """
 from __future__ import annotations
@@ -30,8 +30,10 @@ from .cache import canonical
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOTS = Path.home() / "Library/Caches/CubeEscapeFormgen2/ballon"
-# basic/reticles.py: Visier-Standard (Bausteine v3 in common.py lesen ihn lazy); basic/pilot: Spiel-Piloten, ab 0.6 Grundform aller Linien
-PATHS = ("basic/__init__.py", "basic/common.py", "basic/reticles.py", "basic/weapons", "basic/pilot", "data/specs")
+# basic/reticles.py: Visier-Standard (Bausteine v3 in common.py lesen ihn lazy); basic/pilot: Spiel-Piloten, ab 0.6 Grundform aller Linien;
+# basic/variant.py + basic/arms (0.7): Piloten schreiben ihre Weltpunkte mit variant.collect, ohne EGO_GRIPS aus arms/ego.GRIPS
+PATHS = ("basic/__init__.py", "basic/common.py", "basic/reticles.py", "basic/variant.py", "basic/arms", "basic/weapons", "basic/pilot",
+         "data/specs")
 BASES = {"standard": ("basic/weapons", "w{num}_*.py")}   # dazu jede Pilotfassung „vK“: basic/pilot/w{num}_*_vK.py
 WANTED = ("pilot", "standard", "v21")   # Registerwerte: neuester Pilot, Formstudie, fest v2.1-Pilot (0.4)
 TYPES = tuple(f"{n:02d}" for n in range(1, 18))
@@ -197,7 +199,8 @@ def load(snap: Path, num: str, base: str = "standard") -> dict:
     try:
         module = importlib.import_module(".".join(path.relative_to(snap).with_suffix("").parts))
         data = {key: copy.deepcopy(getattr(module, key, default)) for key, default in
-                (("META", None), ("PARTS", None), ("ASSEMBLIES", None), ("ANCHORS", {}), ("ACTIONS", {}))}
+                (("META", None), ("PARTS", None), ("ASSEMBLIES", None), ("ANCHORS", {}), ("POINTS", {}),
+                 ("ACTIONS", {}))}
     finally:
         sys.path.remove(str(snap))
         _purge()

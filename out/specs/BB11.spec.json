@@ -109,18 +109,22 @@
  ],
  "ballon": {
   "basic_id": "BASIC-11",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
    "basic/pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/pilot/energy_roles.py": "4d36c51d0a80167bfc2b52ccb74634c9bc64670e0ba7906fbd8a50f1afad8782",
-   "basic/pilot/w11_linear_fusion_rifle_v21.py": "ee4c45b6abbe66531c8c5e03e5220d50faa84ded2fb213ef681b48f872d285e7",
+   "basic/pilot/w11_linear_fusion_rifle_v21.py": "77b07b07e54361944c456d8b8f6bf4346a0743d88eff63ffa8f9f924c921f738",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w11_linear_fusion_rifle.py": "058aadaa215dfa5c738c5e614be83c2d0ceb93fc0d371bd7a286d2505ce239c4"
   },
-  "source_sha256": "38bb5aac33205eaec90f25308dbc8e801c183dc11b07003ce0cd8ca8157db07a",
+  "source_sha256": "f339cefcbd27944f90cb7ed338ef436bee056877eb14ef11401b3a43720f4ba0",
   "spec_sha256": "3cb30f5c6ce080c0f83179ca79d91343caa3c561c59878b11f77d9a5c91eb70f"
  },
  "ballon_dimensions_mm": {
@@ -1504,7 +1508,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-11 v2.1-Pilot (Quellhash 38bb5aac3320); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-11 v2.1-Pilot (Quellhash f339cefcbd27); Variante B „Long Reach“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-11",

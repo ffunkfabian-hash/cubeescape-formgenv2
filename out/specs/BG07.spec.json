@@ -107,18 +107,22 @@
  ],
  "ballon": {
   "basic_id": "BASIC-07",
-  "commit": "dcdda603f6567d4d62a10d968d7987e1c5292643",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
    "basic/pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/pilot/energy_roles.py": "4d36c51d0a80167bfc2b52ccb74634c9bc64670e0ba7906fbd8a50f1afad8782",
-   "basic/pilot/w07_combat_bow_v21.py": "c2840be08a4f6b76f564d563bccb2354488c47aa90e8646cc1198fb292d08585",
+   "basic/pilot/w07_combat_bow_v21.py": "2bb11194e7a07a68d0f95daf527ed9eda42ea135cd127fa5c09ae3715ce95d21",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w07_combat_bow.py": "0b84c66bccb8681d45f18e73bf19b174628a9dfe6430331d1b37a68a70b30f25"
   },
-  "source_sha256": "789757515da0d4f98bb2a7f55b06758115a14139d019fa47468e23c300d4a5cd",
+  "source_sha256": "2cb1d03f09668c18f96f8ebd37419b178512167ee3a7cdec8a5c98fc3ac059b7",
   "spec_sha256": "5bc805444acfb9afc780d1e88b00842e01aa17eb3447d57a3e6056f8e78792d1"
  },
  "ballon_dimensions_mm": {
@@ -1235,7 +1239,7 @@
  },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-07 v2.1-Pilot (Quellhash 789757515da0); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-07 v2.1-Pilot (Quellhash 2cb1d03f0966); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-07",
