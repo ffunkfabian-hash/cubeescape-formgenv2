@@ -140,7 +140,7 @@ in BALLON (Gehäuse- und Handschutzvarianten je Familie). Vorschlag an Sightline
 | Stufe | Ausgabe | Schlüssel (außer Cacheformat, Blatt-ID, Art) |
 |---|---|---|
 | geometry | `out/geometry/<ID>.json` | BALLON-Quellhash und Spec-Hash der tatsächlichen Grundform, Registereintrag (mit `base`), Typnummer; Closure `generator.py` (inkl. geom/model/ballon/variants); MODEL, GEOM |
-| asset | `out/assets/<ID>.glb`, Index `out/assets/index.json` | Kit-Modell der Variante (`generator.vary` → `asset.kit_model`), Grundmodul und Import-Closure des BALLON-Typs, Closure von BALLONs `kit.py`/`blender_build.py`/`bake_unity.py`/`export_unity.py`; `asset.py`, `ballon_kit.py`, `blender/asset_build.py`, Closure `generator.py`; Blender-Version; ASSET |
+| asset | `out/assets/<ID>.glb`, Index `out/assets/index.json` | Kit-Modell der Variante (`generator.vary` → `asset.kit_model`), Grundmodul und Import-Closure des BALLON-Typs, Closure von BALLONs `kit.py`/`blender_build.py`/`bake_unity.py`/`export_unity.py`; `asset.py`, `ballon_kit.py`, `blender/asset_build.py`, Closure `generator.py`; Blender-Version; ASSET. Index wird bei jedem Schreiben und bei Abbruch gegen die Dateien abgeglichen (`asset.reconcile`) |
 | bake (nur `--bake`) | `out/assets/<ID>.bake.zip` (FBX, `textures/` Albedo/Normalen/AO/Spec, `<ID>.package.json`) | wie asset, dazu Skin, Atlas (4096²), Samples (64), Gerät gpu/cpu; ASSET, BAKE. Bau nur unter `ce lock gpu` (Prüfung über `CE_HEAVY_HELD`) |
 | specs | `out/specs/<ID>.spec.json` (im Repo) | Geometrie-Hash; Closure `wspec.py`; BALLON-Commit; WSPEC |
 | prompts | `out/prompts/<ID>.prompts.json` (im Repo) | Geometrie-Hash; Closure `prompts.py`; PROMPTS, SPEC |
