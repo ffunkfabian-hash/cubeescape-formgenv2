@@ -179,7 +179,7 @@ def _bake(artifact: Artifact, work: Path) -> None:
     inputs = artifact.inputs
     run_blender({"snapshot": inputs["snapshot"], "module": inputs["module"], "model": inputs["model"], "id": artifact.model_id,
                  "out": str(work), "package": True, "skin": artifact.params["skin"], "atlas": artifact.params["atlas"],
-                 "samples": artifact.params["samples"], "gpu": inputs["gpu"]}, inputs["blender"])
+                 "samples": artifact.params["samples"], "gpu": inputs["gpu"], "package_version": BAKE}, inputs["blender"])
     shutil.rmtree(work / "_ballon_out", ignore_errors=True)
 
 

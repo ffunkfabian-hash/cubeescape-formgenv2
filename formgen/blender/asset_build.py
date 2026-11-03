@@ -3,7 +3,7 @@
   blender -b --factory-startup -P formgen/blender/asset_build.py -- <job.json>
 
 job.json: snapshot (formgen.ballon_kit), module (BALLON-Grundmodul), model (META/PARTS/ASSEMBLIES/ANCHORS/POINTS/ACTIONS des
-Generators oder null = Modul unverändert), id, out; optional package, skin, atlas, samples, gpu.
+Generators oder null = Modul unverändert), id, out; optional package, skin, atlas, samples, gpu, package_version (= formgen.asset.BAKE).
 
 Nichts hier baut Geometrie oder Materialien selbst; alle Aufrufe sind BALLONs Schnittstellen ab 0.41 (docs/formgen-schnittstelle.md):
   1. tools/blender_build.main aus dem Schnappschuss, unverändert (kit.reset_scene, kit.build mit Fasen-Modifiern, Durchbrüchen und
@@ -19,9 +19,6 @@ import json
 import os
 import shutil
 import sys
-
-PACKAGE_VERSION = 2   # wie formgen.asset.BAKE
-
 
 def main():
     job = json.load(open(sys.argv[sys.argv.index('--') + 1], encoding='utf-8'))
@@ -81,7 +78,7 @@ def package(job, W, bpy, kit, BB):
     except (KeyError, ValueError) as e:      # Typ ohne Ego-Klasse (Schwert, Glefe) oder fehlende Live-Teile
         weapon, ego = None, str(e)
     manifest = dict(
-        format='formgenv2/weapon-package', format_version=PACKAGE_VERSION, id=sid, skin=job['skin'], blender=bpy.app.version_string,
+        format='formgenv2/weapon-package', format_version=job['package_version'], id=sid, skin=job['skin'], blender=bpy.app.version_string,
         ballon=dict(module=job['module'], weapon_id=EG.weapon_id(W), parts_sha256=EU.parts_sha(W)),
         axes=EU.AXES, units='m', origin='Socket_Hand', fbx=f'{sid}.fbx', textures=tex,
         mesh_bounds=dict(objects=bounds, triangles=sum(b['tris'] for b in bounds)),
