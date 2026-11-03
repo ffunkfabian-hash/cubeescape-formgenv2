@@ -1,4 +1,4 @@
-# Waffen-Generator und Pipeline (0.2 „Anvil“, Baukasten seit 0.4 „Mosaic“)
+# Waffen-Generator und Pipeline (0.2 „Anvil“, Baukasten seit 0.4 „Mosaic“, Piloten und Asset-Stufe seit 0.6 „Hangar“)
 
 Formgen v2 übernimmt das **Prinzip** von Formgen v1 (Varianten aus Parametern, Variantenregister mit englischem Namen,
 Konzeptblatt je Blatt-ID, Vorschauen, Viewer, Inhalts-Cache, Golden auf eigene Ergebnisse, Release-Assets statt Commit
@@ -9,6 +9,7 @@ Inhalt sind ausschließlich die 17 BASIC-Typen aus BALLON.
 python -m formgen.pipeline                    # alle Blätter: Varianten × 17 Typen
 python -m formgen.pipeline BA01 BB01          # einzelne Blätter
 python -m formgen.pipeline --variants C --types 01,02 --stages geometry,specs
+python -m formgen.pipeline --bake BA01,BD01   # + AAA-Bake (nur unter `ce lock gpu`, ≈ 4 min je Blatt)
 python -m formgen.variants list
 python -m formgen.variants new J "Glass Fang" "Idee in einem Satz" --skin kobalt --param front=[1.0,1.1] --param 'sight=["zinken"]'
 python -m formgen.variety                     # Vielfalt: Silhouetten-IoU jeder Linie gegen die Baseline
@@ -31,9 +32,11 @@ Typ nicht berührt, ändert für ihn nichts; der Commit steht nur im Blatt-Spec 
 Bausteine (`holo_kasten`, `stock_s2`, `grip_v21`, `glow` …) ruft `ballon.call(snapshot, name, …)` aus derselben Closure auf;
 v2 kopiert keinen BALLON-Code.
 
-**Grundform.** `base = "standard"` (Vorgabe) nimmt `basic/weapons/wNN_*.py`, `base = "v21"` den v2.1-Piloten
-`basic/pilot/wNN_*_v21.py` (15 Typen; 16 Schwert und 17 Gleve haben keinen und fallen mit Anpassungsnotiz auf das
-Standardmodul zurück). Die Piloten brauchen die Form `xprof` ([modellsprache.md](modellsprache.md)); Abgleich gegen BALLONs
+**Grundform.** Ab 0.6 (Nutzerentscheid 242) stehen alle Linien auf `base = "pilot"`: der **neueste Spiel-Pilot** des Typs
+`basic/pilot/wNN_*_vK.py`, Fassung K als Ziffernfolge verglichen (v21 = 2.1 > v2, v3 > v21; `ballon.resolve_base`), heute v2.1
+für 01–15. BASIC-16 (Schwert) und 17 (Glefe) haben keinen Piloten: Formstudie `basic/weapons/wNN_*.py` mit Anpassungsnotiz und
+im Blatt sichtbar gekennzeichnet (Fakt „Grundform: … · Formstudie – kein Pilot“, Spec `pilot: null`). `standard` (Formstudie) und
+`v21` (feste Fassung, 0.4) bleiben gültige Registerwerte. Die Piloten brauchen die Form `xprof` ([modellsprache.md](modellsprache.md)); Abgleich gegen BALLONs
 GLB mit `python tools/ballon_compare.py --base v21 --allow-stale`: Silhouetten-IoU Seite/oben ≥ 0,99 bei allen Typen mit
 unverändertem BALLON-Spec (07, 13, 14, 15) und 9 der 11 übrigen; 03 (Seite 0,964) und 06 (oben 0,989, Front 0,938) weichen ab, weil BALLONs
 GLB dort neuer als der Pin ist (Maße und Baugruppen geändert), Beleg `~/Library/Caches/CubeEscapeFormgen2/0.4/belege/ballon_compare_v21.*`.
@@ -42,21 +45,25 @@ GLB dort neuer als der Pin ist (Maße und Baugruppen geändert), Beleg `~/Librar
 
 `data/variants.toml` (Schema 2) ist die einzige Eintragsstelle (Regel aus v1): Kennbuchstabe A–Z ohne I/O, englischer Name aus
 1–3 großgeschriebenen Wörtern (≤ 16 Zeichen), Name und Buchstabe nie doppelt, `idea`, `since`, `skin` aus `skins.toml`,
-optional `base` (standard/v21), `params`, `types`. **Blatt-ID = `B` + Buchstabe + BASIC-Nummer** (BA01 … BH17). Vergebene IDs sind ewig.
+`base` (pilot/standard/v21, Vorgabe für neue Linien `pilot`), `params`, `types`. **Blatt-ID = `B` + Buchstabe + BASIC-Nummer** (BA01 … BH17). Vergebene IDs sind ewig.
 
 | Linie | Name | Skin | Grundform | Formsprache (Parameter) |
 |---|---|---|---|---|
-| A | Baseline | standard | Standard | BALLON-Grundform unverändert |
-| B | Long Reach | polar | Standard | front 1,15 · rear 1,06 · limbs 1,12 (seit 0.4) |
-| C | Close Quarters | nacht | Standard | front 0,86 · rear 0,90 · drop `vent_*` · limbs 0,88 (seit 0.4) |
-| D | Refit | eloxal | v2.1 | Pilot-Formsprache (Fasen, Softgrip, Visier v3); front 1,04–1,10 · glow 1 |
-| E | Lantern | kobalt | Standard | runde/offene Visiere (`holo_pille`, `boegen`, `zinken`; Präzision `scope_tropfen`, `gabel`) · Griff v2.1 · glow 1–2 · front 0,86–0,94 · limbs 1,12–1,22 |
-| F | Heavy Frame | wueste | Standard | Werferoptik (`achteck`, `entfernung`, `d_linse`; Präzision `lang`) · Schaft S2 × 1,05–1,20 · mag 1,2–1,4 · muzzle 1,5–1,9 / r 1,10–1,25 · front 1,06–1,12 · limbs 0,84–0,90 |
-| G | Skeleton | tarnung | Standard | `reflex_sight_v21`, `holo_kasten`, `zinken` (Präzision `scope_tropfen`) · Schaft S1 × 0,8–0,9 · mag 0,72–0,82 · muzzle 0,60–0,75 · front 0,82–0,90 · drop `vent_*`, `cheek_rest` · limbs 1,22–1,30 |
-| H | Long Watch | gebraucht | v2.1 | `holo_kasten`, `achteck`, `entfernung` (Präzision `lang`, `scope_tropfen`) · front 1,15–1,30 · rear 1,04–1,12 · muzzle 1,2–1,5 · mag 1,05–1,20 · limbs 1,14–1,24 |
+| A | Baseline | standard | Pilot | BALLON-Spielpilot unverändert (Bezug; GLB bytegleich zu BALLONs Neubau) |
+| B | Long Reach | polar | Pilot | front 1,15 · rear 1,06 · limbs 1,12 (seit 0.4) |
+| C | Close Quarters | nacht | Pilot | front 0,86 · rear 0,90 · drop `vent_*` · limbs 0,88 (seit 0.4) · muzzle 0,70 · mag 0,80 (seit 0.6) |
+| D | Refit | eloxal | Pilot | Pilot-Formsprache (Fasen, Softgrip, Visier v3); front 1,04–1,10 · glow 1 · limbs 1,06–1,12 (seit 0.6) |
+| E | Lantern | kobalt | Pilot | runde/offene Visiere (`holo_pille`, `boegen`, `zinken`; Präzision `scope_tropfen`, `gabel`) · Griff v2.1 · glow 1–2 · front 0,86–0,94 · limbs 1,12–1,22 · muzzle 0,70–0,80 · mag 0,80–0,90 (seit 0.6) |
+| F | Heavy Frame | wueste | Pilot | Werferoptik (`achteck`, `entfernung`, `d_linse`; Präzision `lang`) · Schaft S2 × 1,05–1,20 · mag 1,2–1,4 · muzzle 1,5–1,9 / r 1,10–1,25 · front 1,06–1,12 · limbs 0,84–0,90 |
+| G | Skeleton | tarnung | Pilot | `reflex_sight_v21`, `holo_kasten`, `zinken` (Präzision `scope_tropfen`) · Schaft S1 × 0,8–0,9 · mag 0,72–0,82 · muzzle 0,60–0,75 · front 0,82–0,90 · drop `vent_*`, `cheek_rest` · limbs 1,22–1,30 |
+| H | Long Watch | gebraucht | Pilot | `holo_kasten`, `achteck`, `entfernung` (Präzision `lang`, `scope_tropfen`) · front 1,15–1,30 · rear 1,04–1,12 · muzzle 1,2–1,5 · mag 1,05–1,20 · limbs 1,14–1,24 |
 
 B und C bekamen in 0.4 nur `limbs`: ihre Bögen (BB07, BC07) waren bis 0.2 formgleich mit BA07 (nur Farbe); alle übrigen
 B/C-Blätter behalten ihre Parameter. Jede der acht BALLON-Skins ist einer Linie zugeordnet.
+0.6 (Grundformwechsel auf die Piloten): Auf den dichteren Piloten bleibt Stauchen oft auf wenige Millimeter begrenzt (BC05 −2,5
+statt −27 mm), und am Bogen greifen bei D weder `front` noch `glow`. Ohne Ausgleich lagen sechs Blätter über der Vielfaltsschwelle
+(BC05, BE05, BC06, BE06, BE13, BD07). C und E tragen „kompakt“ deshalb zusätzlich über kurze Mündung und kurzes Magazin, D bekommt
+längere Wurfarme; sonst unverändert.
 
 ### Gesteuerter Zufall
 
@@ -101,7 +108,7 @@ Bewegungspunkte (`pivot`, `tip`, `nock`, `expect`) folgen ihrem Teil. Ein übers
 - Deklarierte, aber leere Baugruppen (`support` in BASIC-08/10) entfallen.
 - Akzent-Grenze: bringt ein Baustein (Klemmhebel, Höhenturm) mehr als max(3, Grundform) Akzent-Bedienfunktionen, wird er
   in `sight_anod` (Visier) bzw. `graphite` entfärbt.
-- Grundform `v21` ohne Pilot (16, 17): Standardmodul.
+- Grundform `pilot`/`v21` ohne Pilot (16, 17): Formstudie, Fakt „Formstudie – kein Pilot“.
 
 ### Designvertrag
 
@@ -122,6 +129,7 @@ in Seite, Draufsicht und Front gegen BAnn; Geometrie ohne Booleans/Fasen (Außen
 Blatt zeigt eine Waffe von ~1 m auf ~900 px, also rund 1 px/mm; die gefüllte Seitenfläche liegt bei 30 000–100 000 mm².
 2 % davon sind 600–2000 px² – mindestens ein Block von etwa 25 × 25 px, im Blatt klar sichtbar. Front allein zählt nicht (die
 Stirnansicht der Langwaffen ist bei allen Linien fast gleich). Stand 0.4: alle 119 Blätter B–H ≤ 0,973 (Median 0,872, kleinster Wert 0,421 BD07).
+Stand 0.6 (Baseline = Pilot): alle 119 ≤ 0,9752 (BC05; Median 0,892, kleinster Wert 0,609 BG07).
 
 **Grenze (ehrlich):** Die Vielfalt bleibt im BALLON-Vokabular – Längen, Tausch genormter Bausteine, Leuchtlinien, Skins.
 Die v1-Linien waren je Linie von Hand modelliert (eigene Gehäusekonturen); radikal neue Silhouetten brauchen neue Bausteine
@@ -132,6 +140,8 @@ in BALLON (Gehäuse- und Handschutzvarianten je Familie). Vorschlag an Sightline
 | Stufe | Ausgabe | Schlüssel (außer Cacheformat, Blatt-ID, Art) |
 |---|---|---|
 | geometry | `out/geometry/<ID>.json` | BALLON-Quellhash und Spec-Hash der tatsächlichen Grundform, Registereintrag (mit `base`), Typnummer; Closure `generator.py` (inkl. geom/model/ballon/variants); MODEL, GEOM |
+| asset | `out/assets/<ID>.glb`, Index `out/assets/index.json` | Kit-Modell der Variante (`generator.vary` → `asset.kit_model`), Grundmodul und Import-Closure des BALLON-Typs, Closure von BALLONs `kit.py`/`blender_build.py`/`bake_unity.py`/`export_unity.py`; `asset.py`, `ballon_kit.py`, `blender/asset_build.py`, Closure `generator.py`; Blender-Version; ASSET. Index wird bei jedem Schreiben und bei Abbruch gegen die Dateien abgeglichen (`asset.reconcile`) |
+| bake (nur `--bake`) | `out/assets/<ID>.bake.zip` (FBX, `textures/` Albedo/Normalen/AO/Spec, `<ID>.package.json`) | wie asset, dazu Skin, Atlas (4096²), Samples (64), Gerät gpu/cpu; ASSET, BAKE. Bau nur unter `ce lock gpu` (Prüfung über `CE_HEAVY_HELD`) |
 | specs | `out/specs/<ID>.spec.json` (im Repo) | Geometrie-Hash; Closure `wspec.py`; BALLON-Commit; WSPEC |
 | prompts | `out/prompts/<ID>.prompts.json` (im Repo) | Geometrie-Hash; Closure `prompts.py`; PROMPTS, SPEC |
 | views | `out/views/<ID>/*.png` | Geometrie-Hash; Kamera, Größe, Skin + `skins.toml`-Hash, Hintergrund; Closure `raster.py`; Umgebung; RASTER |
@@ -146,16 +156,19 @@ Ansichten/Vorschauen; eine Geometrie, die bytegleich bleibt, behält alle nachfo
 `~/Library/Caches/CubeEscapeFormgen/artifacts` (geteilt über Worktrees, atomar, Payload-SHA geprüft, siehe
 [cache.md](cache.md)). `out/timing.json` hält Zeiten, Neubauten und Treffer je Stufe.
 
-## Spec-Format (`formgenv2/weapon-sheet-spec`, Version 2)
+## Spec-Format (`formgenv2/weapon-sheet-spec`, Version 3)
 
-Schema [weapon-sheet-spec-2.schema.json](schemas/weapon-sheet-spec-2.schema.json), Code `formgen/wspec.py`.
+Schema [weapon-sheet-spec-3.schema.json](schemas/weapon-sheet-spec-3.schema.json), Code `formgen/wspec.py`.
+Version 3 (0.6): `variant.base` kennt `pilot`, `base` jede Pilotfassung `vK` (Muster), neues Pflichtfeld `pilot`
+(`{module, version}` des Spielpiloten, `null` = Formstudie). `MIGRATIONS[2]` leitet `pilot` aus `base` und der Quell-Closure
+`ballon.files` ab (beides schon in Version 2); Test mit echten 0.4-Specs (`tests/fixtures/BD01.spec-v2.json`, `BA16.spec-v2.json`).
 Inhalt: ID, Namen, Variante (Registereintrag mit `base` und Bereichen), Typ (BALLON-META), BALLON-Herkunft (Commit, Quellhash,
 Spec-Hash, Datei-Hashes), tatsächliche Grundform `base`, `variation` (Seed, Ziehungen, wirksame Werte), Generatorschritte mit
 Schnitt/Delta/verschobenen, gedehnten, ersetzten und hinzugefügten Teilen, Anpassungen, `contract` (Designvertrag Grundform
 und Variante), Maße (eigene und BALLONs), Zähler, Baugruppen, Teile mit Ausdehnung in mm (f/u/x), Anker, Herkunft, Warnungen.
 **Migration Pflicht:** `MIGRATIONS[1]` hebt 0.2-Specs auf 2 (`base` standard, Seed aus der Blatt-ID, keine Ziehungen,
 `contract` null); Test mit einem echten 0.2-Spec (`tests/fixtures/BA04.spec-v1.json`).
-Abnehmer ab **0.4.0**: `formgen.viewer` (VIEWER 2) und `formgen.release_assets` lesen Version 2 über `wspec.migrate` (Version 1 wird migriert); Abnehmer aus 0.2.0 kennen Version 2 nicht und lehnen sie ab. Toolgen liest das Blatt-Spec nicht.
+Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Version 3 über `wspec.migrate` (1 und 2 werden migriert); Abnehmer aus 0.4/0.5 kennen Version 3 nicht und lehnen sie ab. Toolgen liest das Blatt-Spec nicht.
 
 ## Für Sightline (BALLON nicht geändert)
 

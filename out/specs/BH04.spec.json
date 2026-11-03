@@ -144,7 +144,7 @@
   "width": 44.83
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -685,6 +685,10 @@
    "triangles": 60
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w04_hand_cannon_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
   "source": "BALLON BASIC-04 v2.1-Pilot (Quellhash 78d679fd6973); Variante H „Long Watch“ aus data/variants.toml; Maße in mm wie BALLON"
@@ -699,7 +703,7 @@
   "type_en": "Hand Cannon"
  },
  "variant": {
-  "base": "v21",
+  "base": "pilot",
   "idea": "v2.1-Pilot gestreckt für Distanz: langer Lauf und Mündung, größere Optik, längeres Magazin; gebrauchte Oberfläche",
   "letter": "H",
   "name": "Long Watch",

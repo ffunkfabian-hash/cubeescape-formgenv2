@@ -118,9 +118,17 @@
   "width": 53.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
-  "adaptations": [],
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
   "ops": [
    {
     "kind": "achteck",
@@ -489,9 +497,10 @@
    "triangles": 204
   }
  ],
+ "pilot": null,
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-17 Standardmodul (Quellhash 8153dcc17637); Variante F „Heavy Frame“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante F „Heavy Frame“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-17",
@@ -503,7 +512,7 @@
   "type_en": "Glaive"
  },
  "variant": {
-  "base": "standard",
+  "base": "pilot",
   "idea": "Schwere Werferoptik, Schaft S2, langes Magazin und breite Mündung; Wüstenlack",
   "letter": "F",
   "name": "Heavy Frame",

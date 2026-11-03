@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 Hangar — Alle Linien auf den Spiel-Piloten, Asset-Stufe in der Pipeline
+
+- Nutzerentscheid 242: jede Linie A–H nimmt den neuesten BALLON-Piloten (`base = "pilot"`, heute v2.1) als Grundform; BASIC-16/17 ohne Piloten bleiben auf der Formstudie, im Blatt „Formstudie – kein Pilot“. Linie A = Pilot unverändert. Vielfalt auf Pilotbasis: C/E zusätzlich kurze Mündung und Magazin, D längere Wurfarme (sonst 6 Blätter über 0,98); 119/119 ≤ 0,9752.
+- Stufe `asset` fest nach `geometry`: GLB je Blatt über BALLONs unverändertes Kit am Pin, Stufen-Cache, Index `out/assets/index.json`; AAA-Bake nur mit `--bake <IDs>` unter `ce lock gpu`, gecacht als `out/assets/<ID>.bake.zip`. Linie A 17/17 bytegleich zu BALLONs Neubau (`tools/line_a_parity.py`). Blatt-Spec Version 3 (`pilot`) mit Migration 2→3. Bericht: [0.6](docs/versions/0.6.md).
+
 ## 0.5.0 Forge — Machbarkeitsnachweis Asset-Backend (BALLON-Kit; Arbeitsnummer 0.3, Nutzerentscheid 239)
 
 - Waffen-GLB je Blatt-ID über BALLONs unverändertes `tools/blender_build.py` (gepinnter Schnappschuss, Blender 5.2.2 headless): `python -m formgen.asset BA01 …` → `out/assets/<ID>.glb` mit Cache und SHA-Index; noch keine Pipeline-Stufe (nach 0.4).

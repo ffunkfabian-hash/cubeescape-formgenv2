@@ -150,24 +150,41 @@ class SpecMigrationTests(unittest.TestCase):
 
     def test_unknown_versions_and_foreign_formats_fail(self):
         for doc in ({"format": "x", "format_version": 1}, dict(self.minimal(), format_version=0),
-                    dict(self.minimal(), format_version=3), dict(self.minimal(), format_version="1")):
+                    dict(self.minimal(), format_version=wspec.FORMAT_VERSION + 1), dict(self.minimal(), format_version="1")):
             with self.assertRaises(wspec.SpecError):
                 wspec.migrate(doc)
 
     def test_missing_migration_step_fails(self):
-        with mock.patch.object(wspec, "FORMAT_VERSION", 3), mock.patch.dict(wspec.MIGRATIONS, {1: lambda d: dict(d, format_version=2)}):
+        with mock.patch.object(wspec, "FORMAT_VERSION", 3), \
+                mock.patch.dict(wspec.MIGRATIONS, {1: lambda d: dict(d, format_version=2)}, clear=True):
             with self.assertRaises(wspec.SpecError):
                 wspec.migrate(self.minimal())
 
-    def test_real_v1_spec_migrates_to_valid_v2(self):
+    def test_real_v1_spec_migrates_to_valid_v3(self):
         old = json.loads((ROOT / "tests/fixtures/BA04.spec-v1.json").read_text())   # 0.2-Blatt-Spec, unverändert
         self.assertEqual(old["format_version"], 1)
         new = wspec.migrate(copy.deepcopy(old))
-        self.assertEqual(new["format_version"], 2)
-        self.assertEqual((new["base"], new["variant"]["base"], new["contract"]), ("standard", "standard", None))
+        self.assertEqual(new["format_version"], 3)
+        self.assertEqual((new["base"], new["variant"]["base"], new["contract"], new["pilot"]), ("standard", "standard", None, None))
         self.assertEqual(new["variation"], {"seed": variants.seed("BA04"), "draws": {}, "values": {}})
-        self.assertEqual({k: v for k, v in new.items() if k not in ("format_version", "base", "variation", "contract", "variant")},
+        self.assertEqual({k: v for k, v in new.items() if k not in ("format_version", "base", "variation", "contract", "variant", "pilot")},
                          {k: v for k, v in old.items() if k not in ("format_version", "variant")})
+
+    def test_real_v2_specs_migrate_to_valid_v3(self):
+        # 0.4-Blatt-Specs unverändert: Pilot-Linie D (v21) und Formstudie ohne Piloten (16)
+        for name, pilot in (("BD01", {"module": "basic/pilot/w01_auto_rifle_v21.py", "version": "2.1"}), ("BA16", None)):
+            with self.subTest(name=name):
+                old = json.loads((ROOT / f"tests/fixtures/{name}.spec-v2.json").read_text())
+                self.assertEqual(old["format_version"], 2)
+                new = wspec.migrate(copy.deepcopy(old))
+                self.assertEqual((new["format_version"], new["pilot"]), (3, pilot))
+                self.assertEqual({k: v for k, v in new.items() if k not in ("format_version", "pilot")},
+                                 {k: v for k, v in old.items() if k != "format_version"})
+
+    def test_pilot_needs_unique_module_in_closure(self):
+        self.assertIsNone(wspec.pilot("standard", {"basic/pilot/w01_auto_rifle_v21.py": "x"}))
+        with self.assertRaises(wspec.SpecError):
+            wspec.pilot("v21", {"basic/weapons/w01_auto_rifle.py": "x"})
 
     def test_migration_chain_runs_in_order(self):
         calls = []

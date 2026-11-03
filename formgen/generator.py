@@ -1,7 +1,7 @@
 """Waffen-Generator: BALLON-Grundform (per Quellhash) + Variantenparameter → v2-Autorenmodell.
 
-Keine eigene Grundgeometrie. Grundform ist das BALLON-Standardmodul oder (Linie mit `base = "v21"`) der v2.1-Pilot des
-Typs. Erlaubte Eingriffe (docs/generator.md), in dieser Reihenfolge:
+Keine eigene Grundgeometrie. Grundform ist der neueste BALLON-Spielpilot des Typs (Linie mit `base = "pilot"`, ab 0.6 alle),
+ohne Piloten (BASIC-16/17) die Formstudie – im Blatt als „Formstudie – kein Pilot“ gekennzeichnet (`ballon.resolve_base`). Erlaubte Eingriffe (docs/generator.md), in dieser Reihenfolge:
   sight        Visier tauschen gegen einen Baustein aus BALLON common.py (Visier-Baukasten v3), Sitz auf der Schiene BRI-22
   stock        Schaft S1/S2 aus BALLON (stock_s1/stock_s2) an Gehäuseende und Laufachse; stock_scale = Längenfaktor s
   grip         Griffgruppe grip_rifle(top) → grip_v21(top) (BGM-1)
@@ -619,8 +619,9 @@ def _kit(snap):
     return call
 
 
-def generate(data, variant, num, source, snap=None, base="standard"):
-    """BALLON data of one type + register entry → (v2 author model, generator report). `base` = tatsächliche Grundform."""
+def vary(data, variant, num, snap=None):
+    """BALLON data + register entry → variant model in BALLON's vocabulary (parts with all metadata, before `generate`
+    strips it for the v2 author model) plus the run record; shared by `generate` (sheets) and `asset.kit_model` (GLB)."""
     model, notes = adapt(data)
     sid = variants.sheet_id(variant["letter"], num)
     params, draws = variants.resolve(variant.get("params", {}), sid)
@@ -628,19 +629,29 @@ def generate(data, variant, num, source, snap=None, base="standard"):
     ops, added = _apply(model, params, num, _kit(snap), notes)
     _keep_accents(model, before, added, notes)
     _finish(model, notes)
+    return model, {"sid": sid, "params": params, "draws": draws, "ops": ops, "notes": notes, "before": before}
+
+
+def generate(data, variant, num, source, snap=None, base="standard"):
+    """BALLON data of one type + register entry → (v2 author model, generator report). `base` = tatsächliche Grundform."""
+    model, run = vary(data, variant, num, snap)
+    sid, params, draws, ops, notes, before = (run[k] for k in ("sid", "params", "draws", "ops", "notes", "before"))
     meta = model["META"]
     wanted = variant.get("base", "standard")
-    if wanted != base:
+    version = ballon.pilot_version(base)
+    if wanted != "standard" and not version:
         notes.append({"kind": "Annahme", "field": "base", "ballon": wanted, "v2": base,
-                      "reason": f"kein BALLON-Modul der Grundform {wanted} für BASIC-{num}; Standardmodul"})
-    label = "v2.1-Pilot" if base == "v21" else "Standardmodul"
+                      "reason": f"kein BALLON-Spielpilot für BASIC-{num}; Formstudie (basic/weapons)"})
+    label = f"v{version}-Pilot" if version else "Formstudie"
+    shape = f"{meta['id']} „{meta['name']}“" + (f" · v{version}" if version else
+                                                 " · Formstudie" + (" – kein Pilot" if wanted != "standard" else ""))
     # Commit bewusst nicht im Geometriedokument: gleicher Quellhash = gleiches Ergebnis (Commit steht im Blatt-Spec)
     provenance = {"kind": "Vorgabe", "source": (
         f"BALLON {meta['id']} {label} (Quellhash {source['source_sha256'][:12]}); "
         f"Variante {variant['letter']} „{variant['name']}“ aus data/variants.toml; Maße in mm wie BALLON")}
     kit_ops = [o for o in ops if o["op"] in ("sight", "stock", "grip", "glow") and "skipped" not in o]
     facts = [["Variante", f"{variant['letter']} · {variant['name']}"],
-             ["Grundform", f"{meta['id']} „{meta['name']}“" + (" · v2.1" if base == "v21" else "")],
+             ["Grundform", shape],
              ["BALLON-Quellhash", source["source_sha256"][:12]],
              ["Skin", variant.get("skin", "standard")]]
     if kit_ops:
@@ -667,7 +678,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
 
 def build(variant, num, snap=None, source=None, base=None):
     snap = snap or ballon.snapshot()
-    base = base or (variant.get("base", "standard") if ballon.has_base(snap, num, variant.get("base", "standard")) else "standard")
+    base = base or ballon.resolve_base(snap, num, variant.get("base", "standard"))
     source = source or ballon.source(snap, num, base)
     return generate(ballon.load(snap, num, base), variant, num, source, snap, base)
 

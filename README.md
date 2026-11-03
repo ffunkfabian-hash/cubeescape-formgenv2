@@ -1,11 +1,13 @@
-# Formgen v2 · Mosaic
+# Formgen v2 · Hangar
 
-0.4.0 – **Reproduzierbare Vielfalt auf den 17 BALLON-Grundformen.** Acht Variantenlinien × 17 Typen = 136 Konzeptblätter
-aus BALLON-Bausteinen (Visier v3, Schaft S1/S2, Griff v2.1, Längen, Leuchtstreifen, v2.1-Pilot als Grundform) mit gesteuertem
-Zufall (Seed je Blatt), Spec, Prompts, Ansichten, Vorschau und Viewer; jede Stufe inhaltsadressiert gecacht. Formgen v1 bleibt eingefrorenes Archiv.
+0.6.0 – **Varianten der echten BALLON-Spielwaffen.** Acht Variantenlinien × 17 Typen = 136 Konzeptblätter auf dem neuesten
+BALLON-Spielpiloten je Typ (BASIC-16/17 ohne Piloten: Formstudie, im Blatt gekennzeichnet), aus BALLON-Bausteinen (Visier v3,
+Schaft S1/S2, Griff v2.1, Längen, Leuchtstreifen) mit gesteuertem Zufall (Seed je Blatt), Spec, Prompts, GLB über BALLONs
+Blender-Kit (Stufe `asset`, AAA-Bake auf Anforderung), Ansichten, Vorschau und Viewer; jede Stufe inhaltsadressiert gecacht.
+Formgen v1 bleibt eingefrorenes Archiv.
 
 Einstieg: [Regeln](AGENTS.md), [Generator und Pipeline](docs/generator.md), [Cache](docs/cache.md),
-[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.4](docs/versions/0.4.md).
+[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.6](docs/versions/0.6.md).
 
 ```sh
 python3 -m venv .venv
@@ -13,15 +15,17 @@ python3 -m venv .venv
 ./check
 .venv/bin/python -m formgen.variants list
 .venv/bin/python -m formgen.pipeline --stages geometry,specs,prompts      # Daten ohne Bilder
-~/Claude/cubeescape-nexogen/ce lock blender -- sh -c "cd $PWD && .venv/bin/python -m formgen.pipeline"   # alles (Mac)
+~/Claude/cubeescape-nexogen/ce lock blender -- sh -c "cd $PWD && .venv/bin/python -m formgen.pipeline"   # alles (Mac, Blender für asset)
+~/Claude/cubeescape-nexogen/ce lock gpu -- sh -c "cd $PWD && .venv/bin/python -m formgen.pipeline BA01 BD01 --bake BA01,BD01"   # AAA-Bake
 .venv/bin/python -m formgen.release_assets $(ls out/specs | grep '^B' | sed 's/.spec.json//')            # lokaler Release-Probelauf
 ```
 
 Grundlage: BALLON-Commit aus `config.toml › [ballon]` (nur gelesen, `git archive`). Neue Variante:
-`python -m formgen.variants new <Buchstabe> "<English Name>" "<Idee>" --skin … [--base v21] --param front=[1.0,1.1] --param 'sight=["zinken"]' …`.
+`python -m formgen.variants new <Buchstabe> "<English Name>" "<Idee>" --skin … [--base pilot|standard|v21] --param front=[1.0,1.1] --param 'sight=["zinken"]' …`.
 Vielfalt messen: `python -m formgen.variety` (Silhouetten-IoU jeder Linie gegen die Baseline).
 Viewer `out/index.html`, Blätter `out/sheets/`, im Repo nur `out/specs/` und `out/prompts/` (Golden in `tests/golden.json`).
-Zeiten je Stufe: `out/timing.json`. Messwerkzeuge: `tools/measure_v1.py`, `tools/measure_v2.py`, `tools/ballon_compare.py`.
+Zeiten je Stufe: `out/timing.json`. Messwerkzeuge: `tools/measure_v1.py`, `tools/measure_v2.py`, `tools/ballon_compare.py`,
+`tools/line_a_parity.py` (Linie A gegen BALLONs Neubau), `tools/bake_check.py` (Bake gegen BALLONs Unity-Atlas).
 
 ## Contour-Bestand (0.1)
 

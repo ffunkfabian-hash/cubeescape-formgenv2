@@ -166,7 +166,7 @@
   "width": 51.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -206,6 +206,11 @@
      "muzzle_tip"
     ],
     "wanted_mm": 25.6
+   },
+   {
+    "factor": 1.111,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -1606,6 +1611,10 @@
    "triangles": 60
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w02_pulse_rifle_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
   "source": "BALLON BASIC-02 v2.1-Pilot (Quellhash ddad09c8b20e); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
@@ -1620,8 +1629,8 @@
   "type_en": "Pulse Rifle"
  },
  "variant": {
-  "base": "v21",
-  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, Eloxal",
+  "base": "pilot",
+  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, längere Wurfarme, Eloxal",
   "letter": "D",
   "name": "Refit",
   "params": {
@@ -1629,19 +1638,25 @@
     1.04,
     1.1
    ],
-   "glow": 1
+   "glow": 1,
+   "limbs": [
+    1.06,
+    1.12
+   ]
   },
   "since": "0.4",
   "skin": "eloxal"
  },
  "variation": {
   "draws": {
-   "front": 1.05
+   "front": 1.05,
+   "limbs": 1.111
   },
   "seed": "03cdd917ec85e5b1",
   "values": {
    "front": 1.05,
-   "glow": 1
+   "glow": 1,
+   "limbs": 1.111
   }
  },
  "warnings": [

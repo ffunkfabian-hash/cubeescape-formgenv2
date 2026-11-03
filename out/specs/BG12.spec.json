@@ -3,16 +3,16 @@
   "Socket_Cell": {
    "part": "energy_cell",
    "position_mm": [
-    90.0,
-    93.0,
-    34.0
+    106.0,
+    20.0,
+    0.0
    ]
   },
   "Socket_Eye": {
    "part": "sight_frame",
    "position_mm": [
-    -67.6,
-    166.0,
+    -61.6,
+    162.0,
     0.0
    ]
   },
@@ -27,7 +27,7 @@
   "Socket_Muzzle": {
    "part": "focus_lens",
    "position_mm": [
-    516.0,
+    475.41,
     96.0,
     0.0
    ]
@@ -35,24 +35,24 @@
   "Socket_Reticle": {
    "part": "sight_glass",
    "position_mm": [
-    22.4,
-    166.0,
+    28.4,
+    162.0,
     0.0
    ]
   },
   "Socket_Sight": {
    "part": "sight_body",
    "position_mm": [
-    -17.0,
-    166.0,
+    -11.0,
+    162.0,
     0.0
    ]
   },
   "Socket_SupportHand": {
-   "part": "focus_tube",
+   "part": "tube_grip",
    "position_mm": [
-    320.0,
-    90.0,
+    259.0,
+    79.0,
     0.0
    ]
   }
@@ -100,51 +100,56 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/w12_trace_rifle_v21.py": "edcfc56db9f783ae85d53d6a09f78d6bcfc7968f077b9fb16b7d51ec3c5e3224",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w12_trace_rifle.py": "178b6ce577ed3196ad9108a0dcaf8a4f40fa7c7e65ca5097de1f1f402b27e9c6"
   },
-  "source_sha256": "51bdc2c9bb2c75dca909a99cf1345c4036a0678c52a96674d56637f63248296a",
-  "spec_sha256": "b7507856a8179e436aef5d6ec0fc57c84ac286c07e759f22314f14cc17734f71"
+  "source_sha256": "07027656faf07438002b0c19e9594ce63e09ad79997b537348524f07430fb1ca",
+  "spec_sha256": "396204658ddd12f54f38f2bc9bbd53b0da23dad054e7318b8457d2fdb23a1b4e"
  },
  "ballon_dimensions_mm": {
-  "height": 252.0,
-  "length": 871.0,
-  "width": 59.5
+  "height": 253.4,
+  "length": 777.0,
+  "width": 48.8
  },
- "base": "standard",
+ "base": "v21",
  "contract": {
   "base": {
-   "accent_functions": [],
-   "hand_roles": {
-    "Socket_Hand": "graphite",
-    "Socket_SupportHand": "graphite"
-   },
-   "sight_line_mm": 74.0
-  },
-  "variant": {
    "accent_functions": [
+    "Löst die Energiezelle",
     "Spannt den Klemmfuß werkzeuglos"
    ],
    "hand_roles": {
-    "Socket_Hand": "graphite",
-    "Socket_SupportHand": "graphite"
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "rubber"
    },
-   "sight_line_mm": 70.0
+   "sight_line_mm": 66.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Löst die Energiezelle",
+    "Spannt den Klemmfuß werkzeuglos"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "rubber"
+   },
+   "sight_line_mm": 66.0
   }
  },
  "counts": {
   "assemblies": 7,
-  "parts": 27,
-  "triangles": 5112
+  "parts": 47,
+  "triangles": 20752
  },
  "dimensions_mm": {
-  "height": 242.0,
-  "length": 805.0,
-  "width": 59.49
+  "height": 253.0,
+  "length": 756.41,
+  "width": 48.8
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -163,20 +168,28 @@
      "sight_battery"
     ],
     "anchors_replaced": [],
-    "f_mm": -18.0,
+    "f_mm": -12.0,
     "kind": "reflex_sight_v21",
     "op": "sight",
     "removed": [
+     "sight_base",
+     "sight_battery",
      "sight_body",
      "sight_clamp",
      "sight_emitter",
      "sight_frame",
+     "sight_frame_r",
+     "sight_frame_trim",
+     "sight_frame_trim_r",
      "sight_glass",
-     "sight_mount"
+     "sight_knob_w",
+     "sight_mount",
+     "sight_reticle",
+     "sight_status"
     ],
     "sight_line_mm": {
-     "after": 70.0,
-     "before": 74.0
+     "after": 66.0,
+     "before": 66.0
     }
    },
    {
@@ -211,19 +224,23 @@
      "Socket_Muzzle",
      "Socket_SupportHand"
     ],
-    "cut_f_mm": 451.0,
-    "delta_mm": -66.0,
+    "cut_f_mm": 424.406,
+    "delta_mm": -20.594,
     "factor": 0.851,
     "limited": true,
     "op": "front",
     "stretched": [
-     "focus_tube"
+     "focus_tube",
+     "hood",
+     "hood_screws"
     ],
     "translated": [
      "focus_cone",
-     "focus_lens"
+     "focus_crown",
+     "focus_lens",
+     "focus_tip"
     ],
-    "wanted_mm": -86.718
+    "wanted_mm": -73.904
    },
    {
     "factor": 1.271,
@@ -240,16 +257,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -120.0,
-     200.0
+     -110.0,
+     176.0
     ],
     "u": [
-     48.0,
-     132.0
+     82.0,
+     128.0
     ],
     "x": [
-     -23.0,
-     23.0
+     -22.0,
+     22.0
     ]
    },
    "id": "receiver",
@@ -258,197 +275,77 @@
    "name_en": "Receiver",
    "role": "shell",
    "shape": "prof",
-   "triangles": 124
+   "triangles": 332
   },
   {
-   "assembly": "support",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     198.0,
-     454.0
+     -110.0,
+     160.0
     ],
     "u": [
-     74.19,
-     117.81
+     20.0,
+     81.0
     ],
     "x": [
-     -21.81,
-     21.81
+     -21.0,
+     21.0
     ]
    },
-   "id": "focus_tube",
+   "id": "lower",
    "moving": false,
-   "name_de": "Fokusrohr",
-   "name_en": "Focus tube",
+   "name_de": "Unteres Gehäuse",
+   "name_en": "Lower receiver",
    "role": "graphite",
-   "shape": "cyl",
-   "triangles": 284
+   "shape": "prof",
+   "triangles": 268
   },
   {
-   "assembly": "barrel",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     452.0,
-     514.0
+     83.66,
+     131.84
     ],
     "u": [
-     72.49,
-     119.51
+     17.5,
+     21.0
     ],
     "x": [
-     -23.51,
-     23.51
+     -21.5,
+     21.5
     ]
    },
-   "id": "focus_cone",
+   "id": "cell_lip",
    "moving": false,
-   "name_de": "Fokuskegel",
-   "name_en": "Focus cone",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 284
+   "name_de": "Schachtlippe",
+   "name_en": "Cell well lip",
+   "role": "trim",
+   "shape": "prof",
+   "triangles": 84
   },
   {
-   "assembly": "barrel",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     510.0,
-     516.0
+     -90.0,
+     -12.0
     ],
     "u": [
-     88.15,
-     103.85
-    ],
-    "x": [
-     -7.85,
-     7.85
-    ]
-   },
-   "id": "focus_lens",
-   "moving": true,
-   "name_de": "Fokuslinse",
-   "name_en": "Focus lens",
-   "role": "energy",
-   "shape": "cyl",
-   "triangles": 60
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     280.0,
-     290.0
-    ],
-    "u": [
-     71.21,
-     120.79
-    ],
-    "x": [
-     -24.79,
-     24.79
-    ]
-   },
-   "id": "focus_ring_1",
-   "moving": false,
-   "name_de": "Fokusring 1",
-   "name_en": "Focus ring 1",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 284
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     360.0,
-     370.0
-    ],
-    "u": [
-     71.21,
-     120.79
-    ],
-    "x": [
-     -24.79,
-     24.79
-    ]
-   },
-   "id": "focus_ring_2",
-   "moving": false,
-   "name_de": "Fokusring 2",
-   "name_en": "Focus ring 2",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 284
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     440.0,
-     450.0
-    ],
-    "u": [
-     71.21,
-     120.79
-    ],
-    "x": [
-     -24.79,
-     24.79
-    ]
-   },
-   "id": "focus_ring_3",
-   "moving": false,
-   "name_de": "Fokusring 3",
-   "name_en": "Focus ring 3",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 284
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     30.0,
-     150.0
-    ],
-    "u": [
-     72.0,
+     94.0,
      114.0
     ],
     "x": [
-     22.0,
-     34.0
+     20.6,
+     21.8
     ]
    },
-   "id": "energy_cell",
-   "moving": true,
-   "name_de": "Energiezelle",
-   "name_en": "Energy cell",
-   "role": "dark_metal",
-   "shape": "box",
-   "triangles": 60
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     60.0,
-     120.0
-    ],
-    "u": [
-     91.0,
-     95.0
-    ],
-    "x": [
-     33.7,
-     34.7
-    ]
-   },
-   "id": "energy_cell_window",
+   "id": "side_panel_l",
    "moving": false,
-   "name_de": "Ladefenster",
-   "name_en": "Charge window",
-   "role": "energy",
+   "name_de": "Seitenpaneel links",
+   "name_en": "Side panel left",
+   "role": "anodized",
    "shape": "box",
    "triangles": 60
   },
@@ -456,12 +353,180 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -100.0,
-     170.0
+     -90.0,
+     -12.0
     ],
     "u": [
-     131.5,
-     140.0
+     94.0,
+     114.0
+    ],
+    "x": [
+     -21.8,
+     -20.6
+    ]
+   },
+   "id": "side_panel_r",
+   "moving": false,
+   "name_de": "Seitenpaneel rechts",
+   "name_en": "Side panel right",
+   "role": "anodized",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -87.55,
+     -14.45
+    ],
+    "u": [
+     96.45,
+     111.55
+    ],
+    "x": [
+     -22.6,
+     22.6
+    ]
+   },
+   "id": "panel_screws",
+   "moving": false,
+   "name_de": "Paneelschrauben",
+   "name_en": "Panel screws",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 1120
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -99.48,
+     149.48
+    ],
+    "u": [
+     70.52,
+     77.48
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "takedown_pins",
+   "moving": false,
+   "name_de": "Querbolzen",
+   "name_en": "Takedown pins",
+   "role": "metal",
+   "shape": "multi",
+   "triangles": 560
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     71.06,
+     80.94
+    ],
+    "u": [
+     49.06,
+     58.94
+    ],
+    "x": [
+     19.0,
+     23.5
+    ]
+   },
+   "id": "cell_release",
+   "moving": true,
+   "name_de": "Zellenhalter",
+   "name_en": "Cell release",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     127.04,
+     160.96
+    ],
+    "u": [
+     88.04,
+     121.96
+    ],
+    "x": [
+     -23.6,
+     23.6
+    ]
+   },
+   "id": "focus_disc",
+   "moving": false,
+   "name_de": "Fokusscheibe",
+   "name_en": "Focus disc",
+   "role": "anodized",
+   "shape": "multi",
+   "triangles": 1144
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     124.84,
+     163.16
+    ],
+    "u": [
+     85.84,
+     124.16
+    ],
+    "x": [
+     -24.4,
+     24.4
+    ]
+   },
+   "id": "focus_disc_ring",
+   "moving": false,
+   "name_de": "Scheibenring",
+   "name_en": "Disc ring",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 768
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     139.02,
+     148.98
+    ],
+    "u": [
+     100.02,
+     109.98
+    ],
+    "x": [
+     -23.9,
+     23.9
+    ]
+   },
+   "id": "disc_lens",
+   "moving": true,
+   "name_de": "Scheibenmitte",
+   "name_en": "Disc lens",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 248
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     70.0
+    ],
+    "u": [
+     127.5,
+     136.0
     ],
     "x": [
      -11.0,
@@ -472,20 +537,20 @@
    "moving": false,
    "name_de": "Schiene",
    "name_en": "Top rail",
-   "role": "dark_metal",
+   "role": "anodized",
    "shape": "box",
-   "triangles": 60
+   "triangles": 1260
   },
   {
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -18.0,
-     28.0
+     -12.0,
+     34.0
     ],
     "u": [
-     140.5,
-     146.0
+     136.5,
+     142.0
     ],
     "x": [
      -11.5,
@@ -504,12 +569,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -6.0,
-     15.54
+     -0.0,
+     21.54
     ],
     "u": [
-     140.8,
-     143.59
+     136.8,
+     139.59
     ],
     "x": [
      11.5,
@@ -528,12 +593,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -17.0,
-     12.0
+     -11.0,
+     18.0
     ],
     "u": [
-     145.5,
-     152.0
+     141.5,
+     148.0
     ],
     "x": [
      -8.0,
@@ -552,12 +617,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     11.29,
-     28.6
+     17.29,
+     34.6
     ],
     "u": [
-     145.5,
-     155.6
+     141.5,
+     151.6
     ],
     "x": [
      -14.6,
@@ -576,12 +641,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     16.04,
-     28.0
+     22.04,
+     34.0
     ],
     "u": [
-     155.1,
-     178.0
+     151.1,
+     174.0
     ],
     "x": [
      -14.6,
@@ -600,12 +665,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     27.6,
-     28.6
+     33.6,
+     34.6
     ],
     "u": [
-     154.7,
-     177.7
+     150.7,
+     173.7
     ],
     "x": [
      -14.6,
@@ -624,12 +689,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     22.0,
-     22.8
+     28.0,
+     28.8
     ],
     "u": [
-     156.0,
-     176.0
+     152.0,
+     172.0
     ],
     "x": [
      -13.0,
@@ -648,12 +713,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -2.5,
-     -0.5
+     3.5,
+     5.5
     ],
     "u": [
-     149.6,
-     151.4
+     145.6,
+     147.4
     ],
     "x": [
      -3.0,
@@ -672,12 +737,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     21.95,
-     22.0
+     27.95,
+     28.0
     ],
     "u": [
-     164.3,
-     167.7
+     160.3,
+     163.7
     ],
     "x": [
      -1.7,
@@ -696,12 +761,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     3.65,
-     8.35
+     9.65,
+     14.35
     ],
     "u": [
-     145.45,
-     150.15
+     141.45,
+     146.15
     ],
     "x": [
      -10.0,
@@ -720,12 +785,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     2.86,
-     9.14
+     8.86,
+     15.14
     ],
     "u": [
-     144.66,
-     150.94
+     140.66,
+     146.94
     ],
     "x": [
      7.5,
@@ -741,15 +806,351 @@
    "triangles": 188
   },
   {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     172.0,
+     427.41
+    ],
+    "u": [
+     80.05,
+     111.95
+    ],
+    "x": [
+     -15.95,
+     15.95
+    ]
+   },
+   "id": "focus_tube",
+   "moving": false,
+   "name_de": "Fokusrohr",
+   "name_en": "Focus tube",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 476
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     218.0,
+     300.0
+    ],
+    "u": [
+     79.05,
+     112.95
+    ],
+    "x": [
+     -16.95,
+     16.95
+    ]
+   },
+   "id": "tube_grip",
+   "moving": false,
+   "name_de": "Griffband",
+   "name_en": "Grip band",
+   "role": "rubber",
+   "shape": "cyl",
+   "triangles": 476
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     196.0,
+     206.0
+    ],
+    "u": [
+     76.06,
+     115.94
+    ],
+    "x": [
+     -19.94,
+     19.94
+    ]
+   },
+   "id": "focus_ring_1",
+   "moving": false,
+   "name_de": "Fokusring 1",
+   "name_en": "Focus ring 1",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     320.0,
+     330.0
+    ],
+    "u": [
+     76.06,
+     115.94
+    ],
+    "x": [
+     -19.94,
+     19.94
+    ]
+   },
+   "id": "focus_ring_2",
+   "moving": false,
+   "name_de": "Fokusring 2",
+   "name_en": "Focus ring 2",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     404.0,
+     414.0
+    ],
+    "u": [
+     76.06,
+     115.94
+    ],
+    "x": [
+     -19.94,
+     19.94
+    ]
+   },
+   "id": "focus_ring_3",
+   "moving": false,
+   "name_de": "Fokusring 3",
+   "name_en": "Focus ring 3",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     205.4,
+     414.6
+    ],
+    "u": [
+     75.66,
+     116.34
+    ],
+    "x": [
+     -20.34,
+     20.34
+    ]
+   },
+   "id": "ring_rims",
+   "moving": false,
+   "name_de": "Ringkanten",
+   "name_en": "Ring rims",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 960
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     90.0,
+     479.41
+    ],
+    "u": [
+     96.0,
+     138.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "hood",
+   "moving": false,
+   "name_de": "Haube",
+   "name_en": "Top hood",
+   "role": "shell",
+   "shape": "plan",
+   "triangles": 212
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     184.45,
+     454.95
+    ],
+    "u": [
+     108.45,
+     113.55
+    ],
+    "x": [
+     -16.4,
+     16.4
+    ]
+   },
+   "id": "hood_screws",
+   "moving": false,
+   "name_de": "Haubenschrauben",
+   "name_en": "Hood screws",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 560
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     404.0,
+     422.0
+    ],
+    "u": [
+     124.5,
+     137.5
+    ],
+    "x": [
+     -17.91,
+     17.91
+    ]
+   },
+   "id": "band_side",
+   "moving": false,
+   "name_de": "Schrägband",
+   "name_en": "Slanted band",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 24
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     425.41,
+     465.41
+    ],
+    "u": [
+     76.39,
+     115.61
+    ],
+    "x": [
+     -19.61,
+     19.61
+    ]
+   },
+   "id": "focus_cone",
+   "moving": false,
+   "name_de": "Fokuskegel",
+   "name_en": "Focus cone",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 476
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     464.41,
+     474.41
+    ],
+    "u": [
+     87.03,
+     104.97
+    ],
+    "x": [
+     -8.97,
+     8.97
+    ]
+   },
+   "id": "focus_tip",
+   "moving": false,
+   "name_de": "Fokusspitze",
+   "name_en": "Focus tip",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 476
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     473.41,
+     475.91
+    ],
+    "u": [
+     86.63,
+     105.37
+    ],
+    "x": [
+     -9.37,
+     9.37
+    ]
+   },
+   "id": "focus_crown",
+   "moving": false,
+   "name_de": "Fokuskrone",
+   "name_en": "Focus crown",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     472.91,
+     475.41
+    ],
+    "u": [
+     89.83,
+     102.17
+    ],
+    "x": [
+     -6.17,
+     6.17
+    ]
+   },
+   "id": "focus_lens",
+   "moving": true,
+   "name_de": "Fokuslinse",
+   "name_en": "Focus lens",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 124
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -48.5,
+     -20.38
+    ],
+    "u": [
+     65.95,
+     69.45
+    ],
+    "x": [
+     20.93,
+     21.17
+    ]
+   },
+   "id": "text_l",
+   "moving": false,
+   "name_de": "Schriftzug",
+   "name_en": "Lettering",
+   "role": "decal",
+   "shape": "text",
+   "triangles": 2136
+  },
+  {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -36.84,
-     32.83
+     -42.15,
+     30.32
     ],
     "u": [
-     -64.0,
-     48.0
+     -76.0,
+     40.0
     ],
     "x": [
      -15.0,
@@ -760,20 +1161,20 @@
    "moving": false,
    "name_de": "Pistolengriff",
    "name_en": "Pistol grip",
-   "role": "graphite",
+   "role": "rubber",
    "shape": "prof",
-   "triangles": 300
+   "triangles": 572
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     45.03,
-     52.86
+     42.89,
+     50.72
     ],
     "u": [
-     21.19,
-     47.0
+     13.19,
+     39.0
     ],
     "x": [
      -3.5,
@@ -792,12 +1193,12 @@
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     27.27,
-     84.86
+     25.13,
+     82.72
     ],
     "u": [
-     14.0,
-     49.0
+     6.0,
+     41.0
     ],
     "x": [
      -6.0,
@@ -808,20 +1209,116 @@
    "moving": false,
    "name_de": "Abzugsbügel",
    "name_en": "Trigger guard",
-   "role": "graphite",
+   "role": "anodized",
    "shape": "prof",
    "triangles": 244
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.46,
+     3.68
+    ],
+    "u": [
+     -79.0,
+     -73.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip_cap",
+   "moving": false,
+   "name_de": "Griffboden",
+   "name_en": "Grip cap",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     86.0,
+     126.0
+    ],
+    "u": [
+     -32.0,
+     60.0
+    ],
+    "x": [
+     -12.0,
+     12.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 108
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     85.4,
+     126.6
+    ],
+    "u": [
+     -24.0,
+     -20.0
+    ],
+    "x": [
+     -12.6,
+     12.6
+    ]
+   },
+   "id": "cell_band",
+   "moving": false,
+   "name_de": "Zellenband",
+   "name_en": "Cell band",
+   "role": "trim",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     114.0,
+     119.0
+    ],
+    "u": [
+     -14.0,
+     8.0
+    ],
+    "x": [
+     11.7,
+     12.7
+    ]
+   },
+   "id": "cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
   },
   {
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -274.0,
-     -121.0
+     -262.0,
+     -111.0
     ],
     "u": [
-     26.66,
-     131.86
+     20.74,
+     127.93
     ],
     "x": [
      -20.0,
@@ -834,18 +1331,18 @@
    "name_en": "Rear body",
    "role": "shell",
    "shape": "prof",
-   "triangles": 132
+   "triangles": 576
   },
   {
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -289.0,
-     -273.0
+     -277.0,
+     -261.0
     ],
     "u": [
-     22.46,
-     131.54
+     18.46,
+     121.54
     ],
     "x": [
      -21.0,
@@ -856,7 +1353,7 @@
    "moving": false,
    "name_de": "Schaftkappe",
    "name_en": "Butt pad",
-   "role": "graphite",
+   "role": "rubber",
    "shape": "prof",
    "triangles": 108
   },
@@ -864,42 +1361,46 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -240.0,
-     -150.0
+     -123.51,
+     -118.49
     ],
     "u": [
-     128.0,
-     137.0
+     63.49,
+     122.51
     ],
     "x": [
-     -13.0,
-     13.0
+     -21.4,
+     21.4
     ]
    },
-   "id": "cheek_pad",
+   "id": "stock_bolts",
    "moving": false,
-   "name_de": "Wangenpolster",
-   "name_en": "Cheek pad",
-   "role": "graphite",
-   "shape": "box",
-   "triangles": 60
+   "name_de": "Schaftbolzen",
+   "name_en": "Stock bolts",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 560
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w12_trace_rifle_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-12 Standardmodul (Quellhash 51bdc2c9bb2c); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-12 v2.1-Pilot (Quellhash 07027656faf0); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-12",
-  "name": "Leitstrahl",
-  "nick": "Standard",
+  "name": "Leitstrahl v2.1",
+  "nick": "Familie v2.1",
   "num": "12",
   "type": "trace_rifle",
   "type_de": "Spurgewehr",
   "type_en": "Trace Rifle"
  },
  "variant": {
-  "base": "standard",
+  "base": "pilot",
   "idea": "Abgespeckt: kurzer Schaft S1, kurzes Magazin, knappe Mündung, ohne Lüftung und Wangenauflage; Tarnmuster",
   "letter": "G",
   "name": "Skeleton",
@@ -963,5 +1464,9 @@
    "stock_scale": 0.86
   }
  },
- "warnings": []
+ "warnings": [
+  "focus_disc_ring: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "ring_rims: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "hood: Fase nicht ausgewertet: incompatible low-angle corner offsets"
+ ]
 }

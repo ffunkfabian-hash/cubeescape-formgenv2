@@ -102,9 +102,17 @@
   "width": 96.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
-  "adaptations": [],
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-16; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
   "ops": [
    {
     "kind": "zinken",
@@ -115,6 +123,17 @@
     "kind": "v21",
     "op": "grip",
     "skipped": "keine Griffgruppe grip_rifle (BGM-1) oder schon v2.1"
+   },
+   {
+    "factor": 0.825,
+    "op": "mag",
+    "skipped": "kein entnehmbares Stangenmagazin"
+   },
+   {
+    "factor": 0.72,
+    "op": "muzzle",
+    "radius": 1.0,
+    "skipped": "kein Mündungsteil `muzzle` entlang der Laufachse"
    },
    {
     "count": 2,
@@ -368,9 +387,10 @@
    "triangles": 156
   }
  ],
+ "pilot": null,
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-16 Standardmodul (Quellhash 62a793a33059); Variante E „Lantern“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-16 Formstudie (Quellhash 62a793a33059); Variante E „Lantern“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-16",
@@ -382,8 +402,8 @@
   "type_en": "Sword"
  },
  "variant": {
-  "base": "standard",
-  "idea": "Leuchtende Linien am Gehäuse, runde und offene Visiere, Griff v2.1; kompakt in Kobalt",
+  "base": "pilot",
+  "idea": "Leuchtende Linien am Gehäuse, runde und offene Visiere, Griff v2.1; kompakt mit kurzer Mündung und Magazin in Kobalt",
   "letter": "E",
   "name": "Lantern",
   "params": {
@@ -399,6 +419,14 @@
    "limbs": [
     1.12,
     1.22
+   ],
+   "mag": [
+    0.8,
+    0.9
+   ],
+   "muzzle": [
+    0.7,
+    0.8
    ],
    "sight": [
     "holo_pille",
@@ -416,6 +444,8 @@
    "front": 0.901,
    "glow": 2,
    "limbs": 1.193,
+   "mag": 0.825,
+   "muzzle": 0.72,
    "sight": "zinken"
   },
   "seed": "eee5d62e517b9d21",
@@ -424,6 +454,8 @@
    "glow": 2,
    "grip": "v21",
    "limbs": 1.193,
+   "mag": 0.825,
+   "muzzle": 0.72,
    "sight": "zinken"
   }
  },

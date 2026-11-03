@@ -118,9 +118,17 @@
   "width": 53.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
-  "adaptations": [],
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
   "ops": [
    {
     "kind": "reflex_sight_v21",
@@ -497,9 +505,10 @@
    "triangles": 204
   }
  ],
+ "pilot": null,
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-17 Standardmodul (Quellhash 8153dcc17637); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-17",
@@ -511,7 +520,7 @@
   "type_en": "Glaive"
  },
  "variant": {
-  "base": "standard",
+  "base": "pilot",
   "idea": "Abgespeckt: kurzer Schaft S1, kurzes Magazin, knappe Mündung, ohne Lüftung und Wangenauflage; Tarnmuster",
   "letter": "G",
   "name": "Skeleton",

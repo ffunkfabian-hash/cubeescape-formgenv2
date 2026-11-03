@@ -3,8 +3,8 @@
   "Socket_Eye": {
    "part": "sight_frame",
    "position_mm": [
-    -77.6,
-    160.0,
+    54.4,
+    154.0,
     0.0
    ]
   },
@@ -19,15 +19,15 @@
   "Socket_LoadingGate": {
    "part": "loading_gate",
    "position_mm": [
-    93.0,
-    48.0,
+    122.0,
+    32.0,
     0.0
    ]
   },
   "Socket_Muzzle": {
-   "part": "muzzle",
+   "part": "muzzle_crown",
    "position_mm": [
-    670.56,
+    682.33,
     100.0,
     0.0
    ]
@@ -35,24 +35,24 @@
   "Socket_Reticle": {
    "part": "sight_glass",
    "position_mm": [
-    12.4,
-    160.0,
+    144.4,
+    154.0,
     0.0
    ]
   },
   "Socket_Sight": {
    "part": "sight_body",
    "position_mm": [
-    -27.0,
-    160.0,
+    105.0,
+    154.0,
     0.0
    ]
   },
   "Socket_SupportHand": {
    "part": "pump",
    "position_mm": [
-    296.0,
-    70.0,
+    310.0,
+    46.0,
     0.0
    ]
   }
@@ -100,54 +100,59 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/w08_shotgun_v21.py": "a79b4cd297ce56daaaef8d22d7a37b603e3f99d13b3cbb03a3d90e5c5c0c87fd",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w08_shotgun.py": "c11be4cf73b177eabeb62063d8b242fc084486ee7621f84ae5fbc2f43cb0c354"
   },
-  "source_sha256": "fe289c5014b987397c4e2e52f9a49903ed40471f7b514dea529d22e46bc0b763",
-  "spec_sha256": "80b95ff8c25b8abfa65a7ebe0d27016b9f493b7f7fe5c1d2d3db7538828307cc"
+  "source_sha256": "e5803c265bf363678ed761143a9ace6a3bfea31d46fa31588783e8e2bf46badd",
+  "spec_sha256": "7399b904beb5aa3b20977c503c28d9b767f95d923a1a9c80835a5dd38bafed61"
  },
  "ballon_dimensions_mm": {
-  "height": 244.0,
-  "length": 881.9,
-  "width": 46.4
+  "height": 221.9,
+  "length": 868.9,
+  "width": 52.0
  },
- "base": "standard",
+ "base": "v21",
  "contract": {
   "base": {
    "accent_functions": [
-    "Einzelne Schrotpatrone (beim Laden sichtbar)"
+    "Einzelne Schrotpatrone (beim Laden sichtbar)",
+    "Gibt die Pumpe ohne Schuss frei (Daumen)",
+    "Oranger Kornkopf, Stirn flach zum Auge (Zielpunkt)",
+    "Spannt den Fuß"
    ],
    "hand_roles": {
-    "Socket_Hand": "graphite",
+    "Socket_Hand": "rubber",
     "Socket_SupportHand": "graphite"
    },
-   "sight_line_mm": 63.0
+   "sight_line_mm": 39.0
   },
   "variant": {
    "accent_functions": [
     "Einzelne Schrotpatrone (beim Laden sichtbar)",
+    "Gibt die Pumpe ohne Schuss frei (Daumen)",
     "Spannt den Klemmfuß werkzeuglos"
    ],
    "hand_roles": {
-    "Socket_Hand": "graphite",
+    "Socket_Hand": "rubber",
     "Socket_SupportHand": "graphite"
    },
-   "sight_line_mm": 60.0
+   "sight_line_mm": 54.0
   }
  },
  "counts": {
   "assemblies": 7,
-  "parts": 29,
-  "triangles": 5436
+  "parts": 41,
+  "triangles": 13820
  },
  "dimensions_mm": {
-  "height": 237.0,
-  "length": 966.2,
-  "width": 46.4
+  "height": 246.0,
+  "length": 937.97,
+  "width": 52.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [
    {
@@ -176,21 +181,23 @@
      "sight_glass",
      "sight_reticle"
     ],
-    "anchors_replaced": [],
-    "f_mm": -28.0,
+    "anchors_replaced": [
+     "Socket_Eye",
+     "Socket_Sight"
+    ],
+    "f_mm": 104.0,
     "kind": "entfernung",
     "op": "sight",
     "removed": [
-     "sight_body",
      "sight_clamp",
-     "sight_emitter",
-     "sight_frame",
+     "sight_front",
      "sight_glass",
-     "sight_mount"
+     "sight_mount",
+     "sight_rear"
     ],
     "sight_line_mm": {
-     "after": 60.0,
-     "before": 63.0
+     "after": 54.0,
+     "before": 39.0
     }
    },
    {
@@ -202,7 +209,7 @@
     "from": "S1",
     "kind": "S2",
     "op": "stock",
-    "receiver_rear_f_mm": -110,
+    "receiver_rear_f_mm": -70,
     "removed": [
      "butt_pad",
      "cheek_rest",
@@ -218,15 +225,18 @@
     "skipped": "kein entnehmbares Stangenmagazin"
    },
    {
-    "delta_mm": 32.328,
+    "delta_mm": 25.144,
     "factor": 1.898,
-    "length_mm": 36,
+    "length_mm": 28,
     "op": "muzzle",
     "radius": 1.186,
     "stretched": [
-     "muzzle"
+     "muzzle",
+     "vent_rib"
     ],
-    "translated": []
+    "translated": [
+     "muzzle_crown"
+    ]
    },
    {
     "anchors": [
@@ -234,18 +244,23 @@
      "Socket_Muzzle",
      "Socket_SupportHand"
     ],
-    "cut_f_mm": 526.236,
-    "delta_mm": 54.237,
+    "cut_f_mm": 468.572,
+    "delta_mm": 55.189,
     "factor": 1.088,
     "limited": false,
     "op": "front",
     "stretched": [
-     "barrel"
+     "barrel",
+     "tube_mag",
+     "vent_rib"
     ],
     "translated": [
-     "muzzle"
+     "barrel_clamp",
+     "muzzle",
+     "muzzle_crown",
+     "tube_cap"
     ],
-    "wanted_mm": 54.237
+    "wanted_mm": 55.189
    },
    {
     "factor": 0.855,
@@ -262,40 +277,88 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -110.0,
-     130.0
+     -58.0,
+     150.0
     ],
     "u": [
-     50.0,
-     126.0
+     32.0,
+     73.0
     ],
     "x": [
-     -23.0,
-     23.0
+     -20.0,
+     20.0
     ]
    },
-   "id": "receiver",
+   "id": "lower",
    "moving": false,
-   "name_de": "Gehäuse",
-   "name_en": "Receiver",
+   "name_de": "Unteres Gehäuse",
+   "name_en": "Lower receiver",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 404
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -70.0,
+     150.0
+    ],
+    "u": [
+     74.0,
+     120.0
+    ],
+    "x": [
+     -21.0,
+     21.0
+    ]
+   },
+   "id": "upper",
+   "moving": false,
+   "name_de": "Oberes Gehäuse",
+   "name_en": "Upper receiver",
    "role": "shell",
    "shape": "prof",
-   "triangles": 132
+   "triangles": 236
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     22.0,
+     88.0
+    ],
+    "u": [
+     88.0,
+     110.0
+    ],
+    "x": [
+     -9.0,
+     9.0
+    ]
+   },
+   "id": "bolt",
+   "moving": true,
+   "name_de": "Verschluss",
+   "name_en": "Bolt",
+   "role": "metal",
+   "shape": "box",
+   "triangles": 60
   },
   {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     64.0,
-     122.0
+     104.0,
+     140.0
     ],
     "u": [
-     47.0,
-     52.0
+     31.4,
+     33.0
     ],
     "x": [
-     -13.0,
-     13.0
+     -12.0,
+     12.0
     ]
    },
    "id": "loading_gate",
@@ -307,207 +370,135 @@
    "triangles": 60
   },
   {
-   "assembly": "mechanism",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     20.0,
-     90.0
+     104.0,
+     140.0
     ],
     "u": [
-     88.0,
-     112.0
+     46.0,
+     57.0
     ],
     "x": [
-     -23.4,
-     -22.0
+     19.4,
+     21.8
     ]
    },
-   "id": "ejection_port",
+   "id": "counter_bezel",
    "moving": false,
-   "name_de": "Auswurffenster",
-   "name_en": "Ejection port",
-   "role": "dark_metal",
+   "name_de": "Anzeigenrahmen",
+   "name_en": "Counter bezel",
+   "role": "anodized",
    "shape": "box",
    "triangles": 60
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     128.0,
-     610.24
-    ],
-    "u": [
-     86.12,
-     113.88
-    ],
-    "x": [
-     -13.88,
-     13.88
-    ]
-   },
-   "id": "barrel",
-   "moving": false,
-   "name_de": "Lauf",
-   "name_en": "Barrel",
-   "role": "metal",
-   "shape": "cyl",
-   "triangles": 284
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     602.24,
-     670.56
-    ],
-    "u": [
-     79.38,
-     120.62
-    ],
-    "x": [
-     -20.62,
-     20.62
-    ]
-   },
-   "id": "muzzle",
-   "moving": false,
-   "name_de": "Mündung",
-   "name_en": "Muzzle",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 288
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     128.0,
-     510.0
-    ],
-    "u": [
-     55.14,
-     76.86
-    ],
-    "x": [
-     -10.86,
-     10.86
-    ]
-   },
-   "id": "tube_mag",
-   "moving": false,
-   "name_de": "Röhrenmagazin",
-   "name_en": "Tube magazine",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 236
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     508.0,
-     526.0
-    ],
-    "u": [
-     53.74,
-     78.26
-    ],
-    "x": [
-     -12.26,
-     12.26
-    ]
-   },
-   "id": "tube_cap",
-   "moving": false,
-   "name_de": "Magazinkappe",
-   "name_en": "Magazine cap",
-   "role": "graphite",
-   "shape": "cyl",
-   "triangles": 188
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     470.0,
-     488.0
-    ],
-    "u": [
-     56.0,
-     114.0
-    ],
-    "x": [
-     -11.0,
-     11.0
-    ]
-   },
-   "id": "barrel_clamp",
-   "moving": false,
-   "name_de": "Laufschelle",
-   "name_en": "Barrel clamp",
-   "role": "dark_metal",
-   "shape": "box",
-   "triangles": 60
-  },
-  {
-   "assembly": "mechanism",
-   "extent_mm": {
-    "f": [
-     212.0,
-     378.0
-    ],
-    "u": [
-     48.0,
-     90.0
-    ],
-    "x": [
-     -20.0,
-     20.0
-    ]
-   },
-   "id": "pump",
-   "moving": true,
-   "name_de": "Vorderschaft (Pumpe)",
-   "name_en": "Pump fore-end",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 172
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     70.0,
-     130.0
-    ],
-    "u": [
-     54.68,
-     73.32
-    ],
-    "x": [
-     -9.32,
-     9.32
-    ]
-   },
-   "id": "shell_round",
-   "moving": true,
-   "name_de": "Patrone",
-   "name_en": "Shell",
-   "role": "accent",
-   "shape": "cyl",
-   "triangles": 188
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -90.0,
-     110.0
+     107.0,
+     137.0
     ],
     "u": [
-     125.5,
+     48.0,
+     55.0
+    ],
+    "x": [
+     21.1,
+     22.1
+    ]
+   },
+   "id": "ammo_counter",
+   "moving": false,
+   "name_de": "Munitionsanzeige",
+   "name_en": "Ammo counter",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     70.44,
+     77.56
+    ],
+    "u": [
+     58.44,
+     65.56
+    ],
+    "x": [
+     19.5,
+     22.5
+    ]
+   },
+   "id": "pump_release",
+   "moving": true,
+   "name_de": "Pumpenriegel",
+   "name_en": "Action release",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     118.0,
      134.0
+    ],
+    "u": [
+     80.0,
+     112.0
+    ],
+    "x": [
+     -21.3,
+     21.3
+    ]
+   },
+   "id": "band_side",
+   "moving": false,
+   "name_de": "Chevronband",
+   "name_en": "Chevron band",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 40
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -16.18,
+     9.66
+    ],
+    "u": [
+     78.96,
+     82.18
+    ],
+    "x": [
+     20.93,
+     21.17
+    ]
+   },
+   "id": "text_l",
+   "moving": false,
+   "name_de": "Schriftzug",
+   "name_en": "Lettering",
+   "role": "anodized",
+   "shape": "text",
+   "triangles": 3412
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -62.0,
+     150.0
+    ],
+    "u": [
+     119.5,
+     128.0
     ],
     "x": [
      -11.0,
@@ -518,332 +509,308 @@
    "moving": false,
    "name_de": "Schiene",
    "name_en": "Top rail",
-   "role": "dark_metal",
+   "role": "anodized",
    "shape": "box",
    "triangles": 60
   },
   {
-   "assembly": "sight",
+   "assembly": "barrel",
    "extent_mm": {
     "f": [
-     -28.0,
-     18.0
+     150.0,
+     637.19
     ],
     "u": [
-     134.5,
-     140.0
+     87.56,
+     112.44
     ],
     "x": [
-     -11.5,
-     11.5
+     -12.44,
+     12.44
     ]
    },
-   "id": "sight_mount",
+   "id": "barrel",
+   "moving": false,
+   "name_de": "Lauf",
+   "name_en": "Barrel",
+   "role": "metal",
+   "shape": "cyl",
+   "triangles": 380
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     150.0,
+     674.33
+    ],
+    "u": [
+     112.6,
+     128.0
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "vent_rib",
+   "moving": false,
+   "name_de": "Lüftungsschiene",
+   "name_en": "Ventilated rib",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 920
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     627.19,
+     680.33
+    ],
+    "u": [
+     82.3,
+     117.7
+    ],
+    "x": [
+     -17.7,
+     17.7
+    ]
+   },
+   "id": "muzzle",
+   "moving": false,
+   "name_de": "Mündungshülse",
+   "name_en": "Muzzle sleeve",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 1256
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     678.33,
+     682.33
+    ],
+    "u": [
+     86.07,
+     113.93
+    ],
+    "x": [
+     -13.93,
+     13.93
+    ]
+   },
+   "id": "muzzle_crown",
+   "moving": false,
+   "name_de": "Mündungskrone",
+   "name_en": "Muzzle crown",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 768
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     150.0,
+     601.19
+    ],
+    "u": [
+     58.09,
+     77.91
+    ],
+    "x": [
+     -9.91,
+     9.91
+    ]
+   },
+   "id": "tube_mag",
+   "moving": false,
+   "name_de": "Röhrenmagazin",
+   "name_en": "Tube magazine",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     599.19,
+     615.19
+    ],
+    "u": [
+     56.6,
+     79.4
+    ],
+    "x": [
+     -11.4,
+     11.4
+    ]
+   },
+   "id": "tube_cap",
+   "moving": false,
+   "name_de": "Magazinkappe",
+   "name_en": "Magazine cap",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     569.19,
+     585.19
+    ],
+    "u": [
+     56.0,
+     112.0
+    ],
+    "x": [
+     -13.5,
+     13.5
+    ]
+   },
+   "id": "barrel_clamp",
+   "moving": false,
+   "name_de": "Laufschelle",
+   "name_en": "Barrel clamp",
+   "role": "anodized",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     226.0,
+     393.97
+    ],
+    "u": [
+     38.28,
+     86.0
+    ],
+    "x": [
+     -25.0,
+     25.0
+    ]
+   },
+   "id": "pump",
    "moving": true,
-   "name_de": "Visier-Klemmfuß",
-   "name_en": "Sight mount",
-   "role": "sight_anod",
+   "name_de": "Vorderschaft (Pumpe)",
+   "name_en": "Pump fore-end",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 468
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     248.0,
+     372.0
+    ],
+    "u": [
+     54.0,
+     78.0
+    ],
+    "x": [
+     -26.0,
+     26.0
+    ]
+   },
+   "id": "pump_pad",
+   "moving": false,
+   "name_de": "Pumpenauflagen",
+   "name_en": "Pump pads",
+   "role": "rubber",
    "shape": "multi",
    "triangles": 120
   },
   {
-   "assembly": "sight",
+   "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     -16.0,
-     5.54
+     146.0,
+     234.0
     ],
     "u": [
-     134.8,
-     137.59
+     65.0,
+     71.0
     ],
     "x": [
-     11.5,
-     13.3
+     -12.7,
+     12.7
     ]
    },
-   "id": "sight_clamp",
+   "id": "action_bars",
    "moving": false,
-   "name_de": "Klemmhebel",
-   "name_en": "Clamp lever",
+   "name_de": "Führungsstangen",
+   "name_en": "Action bars",
+   "role": "metal",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     104.0,
+     148.0
+    ],
+    "u": [
+     40.62,
+     59.38
+    ],
+    "x": [
+     -9.38,
+     9.38
+    ]
+   },
+   "id": "shell_round",
+   "moving": true,
+   "name_de": "Patrone",
+   "name_en": "Shell",
    "role": "accent",
-   "shape": "prof",
-   "triangles": 76
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -27.0,
-     2.0
-    ],
-    "u": [
-     139.5,
-     146.0
-    ],
-    "x": [
-     -8.0,
-     8.0
-    ]
-   },
-   "id": "sight_body",
-   "moving": false,
-   "name_de": "Visiergehäuse",
-   "name_en": "Sight housing",
-   "role": "sight_anod",
-   "shape": "prof",
-   "triangles": 180
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     1.27,
-     18.6
-    ],
-    "u": [
-     139.5,
-     150.6
-    ],
-    "x": [
-     -15.4,
-     15.4
-    ]
-   },
-   "id": "sight_base",
-   "moving": false,
-   "name_de": "Haubensockel",
-   "name_en": "Hood base",
-   "role": "sight_anod",
-   "shape": "prof",
-   "triangles": 72
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -6.35,
-     -1.65
-    ],
-    "u": [
-     139.45,
-     144.15
-    ],
-    "x": [
-     -10.0,
-     -7.5
-    ]
-   },
-   "id": "sight_knob_w",
-   "moving": false,
-   "name_de": "Seitenverstellung",
-   "name_en": "Windage knob",
-   "role": "trim",
    "shape": "cyl",
-   "triangles": 188
+   "triangles": 236
   },
   {
-   "assembly": "sight",
+   "assembly": "ammo",
    "extent_mm": {
     "f": [
-     -7.14,
-     -0.86
+     98.0,
+     104.5
     ],
     "u": [
-     138.66,
-     144.94
+     40.32,
+     59.68
     ],
     "x": [
-     7.5,
-     10.0
+     -9.68,
+     9.68
     ]
    },
-   "id": "sight_battery",
+   "id": "shell_head",
    "moving": false,
-   "name_de": "Batteriedeckel",
-   "name_en": "Battery cap",
-   "role": "sight_anod",
+   "name_de": "Patronenboden",
+   "name_en": "Shell head",
+   "role": "brass",
    "shape": "cyl",
-   "triangles": 188
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -12.5,
-     -10.5
-    ],
-    "u": [
-     143.6,
-     145.4
-    ],
-    "x": [
-     -3.0,
-     3.0
-    ]
-   },
-   "id": "sight_emitter",
-   "moving": false,
-   "name_de": "Emitter",
-   "name_en": "Reticle emitter",
-   "role": "energy",
-   "shape": "box",
-   "triangles": 60
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     6.0,
-     18.0
-    ],
-    "u": [
-     148.6,
-     173.0
-    ],
-    "x": [
-     -15.4,
-     15.4
-    ]
-   },
-   "id": "sight_frame",
-   "moving": false,
-   "name_de": "Haube",
-   "name_en": "Sight hood",
-   "role": "sight_anod",
-   "shape": "xprof",
-   "triangles": 672
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     17.6,
-     18.6
-    ],
-    "u": [
-     148.6,
-     173.0
-    ],
-    "x": [
-     -15.4,
-     15.4
-    ]
-   },
-   "id": "sight_frame_trim",
-   "moving": false,
-   "name_de": "Stirnkante",
-   "name_en": "Hood trim",
-   "role": "trim",
-   "shape": "xprof",
-   "triangles": 672
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     18.4,
-     24.0
-    ],
-    "u": [
-     169.4,
-     173.0
-    ],
-    "x": [
-     -10.5,
-     10.5
-    ]
-   },
-   "id": "sight_roof",
-   "moving": false,
-   "name_de": "Schutzdach",
-   "name_en": "Sun roof",
-   "role": "sight_anod",
-   "shape": "xprof",
-   "triangles": 60
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     2.88,
-     3.88
-    ],
-    "u": [
-     144.1,
-     148.1
-    ],
-    "x": [
-     -6.6,
-     6.6
-    ]
-   },
-   "id": "sight_range",
-   "moving": false,
-   "name_de": "Entfernungsfeld",
-   "name_en": "Range field",
-   "role": "energy",
-   "shape": "multi",
-   "triangles": 48
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     12.0,
-     12.8
-    ],
-    "u": [
-     151.0,
-     169.0
-    ],
-    "x": [
-     -13.0,
-     13.0
-    ]
-   },
-   "id": "sight_glass",
-   "moving": false,
-   "name_de": "Visierglas",
-   "name_en": "Sight glass",
-   "role": "glass_scope",
-   "shape": "xprof",
-   "triangles": 108
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     11.95,
-     12.0
-    ],
-    "u": [
-     158.24,
-     161.76
-    ],
-    "x": [
-     -1.76,
-     1.76
-    ]
-   },
-   "id": "sight_reticle",
-   "moving": false,
-   "name_de": "Absehen Eckklammern",
-   "name_en": "Reticle Corner brackets",
-   "role": "reticle_cyan",
-   "shape": "multi",
-   "triangles": 172
+   "triangles": 236
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -36.84,
-     32.83
+     -42.15,
+     31.41
     ],
     "u": [
-     -64.0,
-     48.0
+     -76.0,
+     44.0
     ],
     "x": [
      -15.0,
@@ -854,20 +821,20 @@
    "moving": false,
    "name_de": "Pistolengriff",
    "name_en": "Pistol grip",
-   "role": "graphite",
+   "role": "rubber",
    "shape": "prof",
-   "triangles": 300
+   "triangles": 572
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     45.03,
-     52.86
+     43.96,
+     51.79
     ],
     "u": [
-     21.19,
-     47.0
+     17.19,
+     43.0
     ],
     "x": [
      -3.5,
@@ -886,12 +853,12 @@
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     27.27,
-     84.86
+     26.2,
+     83.79
     ],
     "u": [
-     14.0,
-     49.0
+     10.0,
+     45.0
     ],
     "x": [
      -6.0,
@@ -902,16 +869,40 @@
    "moving": false,
    "name_de": "Abzugsbügel",
    "name_en": "Trigger guard",
-   "role": "graphite",
+   "role": "anodized",
    "shape": "prof",
    "triangles": 244
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.46,
+     3.68
+    ],
+    "u": [
+     -79.0,
+     -73.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip_cap",
+   "moving": false,
+   "name_de": "Griffboden",
+   "name_en": "Grip cap",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 80
   },
   {
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -282.54,
-     -108.0
+     -242.54,
+     -68.0
     ],
     "u": [
      24.93,
@@ -934,8 +925,8 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -295.64,
-     -281.44
+     -255.64,
+     -241.44
     ],
     "u": [
      22.49,
@@ -953,23 +944,339 @@
    "role": "dark_metal",
    "shape": "prof",
    "triangles": 108
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     104.0,
+     150.0
+    ],
+    "u": [
+     128.5,
+     134.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": true,
+   "name_de": "Visier-Klemmfuß",
+   "name_en": "Sight mount",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     116.0,
+     137.54
+    ],
+    "u": [
+     128.8,
+     131.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     105.0,
+     134.0
+    ],
+    "u": [
+     133.5,
+     140.0
+    ],
+    "x": [
+     -8.0,
+     8.0
+    ]
+   },
+   "id": "sight_body",
+   "moving": false,
+   "name_de": "Visiergehäuse",
+   "name_en": "Sight housing",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 180
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     133.27,
+     150.6
+    ],
+    "u": [
+     133.5,
+     144.6
+    ],
+    "x": [
+     -15.4,
+     15.4
+    ]
+   },
+   "id": "sight_base",
+   "moving": false,
+   "name_de": "Haubensockel",
+   "name_en": "Hood base",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     125.65,
+     130.35
+    ],
+    "u": [
+     133.45,
+     138.15
+    ],
+    "x": [
+     -10.0,
+     -7.5
+    ]
+   },
+   "id": "sight_knob_w",
+   "moving": false,
+   "name_de": "Seitenverstellung",
+   "name_en": "Windage knob",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     124.86,
+     131.14
+    ],
+    "u": [
+     132.66,
+     138.94
+    ],
+    "x": [
+     7.5,
+     10.0
+    ]
+   },
+   "id": "sight_battery",
+   "moving": false,
+   "name_de": "Batteriedeckel",
+   "name_en": "Battery cap",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     119.5,
+     121.5
+    ],
+    "u": [
+     137.6,
+     139.4
+    ],
+    "x": [
+     -3.0,
+     3.0
+    ]
+   },
+   "id": "sight_emitter",
+   "moving": false,
+   "name_de": "Emitter",
+   "name_en": "Reticle emitter",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     138.0,
+     150.0
+    ],
+    "u": [
+     142.6,
+     167.0
+    ],
+    "x": [
+     -15.4,
+     15.4
+    ]
+   },
+   "id": "sight_frame",
+   "moving": false,
+   "name_de": "Haube",
+   "name_en": "Sight hood",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 672
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     149.6,
+     150.6
+    ],
+    "u": [
+     142.6,
+     167.0
+    ],
+    "x": [
+     -15.4,
+     15.4
+    ]
+   },
+   "id": "sight_frame_trim",
+   "moving": false,
+   "name_de": "Stirnkante",
+   "name_en": "Hood trim",
+   "role": "trim",
+   "shape": "xprof",
+   "triangles": 672
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     150.4,
+     156.0
+    ],
+    "u": [
+     163.4,
+     167.0
+    ],
+    "x": [
+     -10.5,
+     10.5
+    ]
+   },
+   "id": "sight_roof",
+   "moving": false,
+   "name_de": "Schutzdach",
+   "name_en": "Sun roof",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     134.88,
+     135.88
+    ],
+    "u": [
+     138.1,
+     142.1
+    ],
+    "x": [
+     -6.6,
+     6.6
+    ]
+   },
+   "id": "sight_range",
+   "moving": false,
+   "name_de": "Entfernungsfeld",
+   "name_en": "Range field",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 48
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     144.0,
+     144.8
+    ],
+    "u": [
+     145.0,
+     163.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Visierglas",
+   "name_en": "Sight glass",
+   "role": "glass_scope",
+   "shape": "xprof",
+   "triangles": 108
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     143.95,
+     144.0
+    ],
+    "u": [
+     152.24,
+     155.76
+    ],
+    "x": [
+     -1.76,
+     1.76
+    ]
+   },
+   "id": "sight_reticle",
+   "moving": false,
+   "name_de": "Absehen Eckklammern",
+   "name_en": "Reticle Corner brackets",
+   "role": "reticle_cyan",
+   "shape": "multi",
+   "triangles": 172
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w08_shotgun_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-08 Standardmodul (Quellhash fe289c5014b9); Variante F „Heavy Frame“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-08 v2.1-Pilot (Quellhash e5803c265bf3); Variante F „Heavy Frame“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-08",
-  "name": "Streuer",
-  "nick": "Standard",
+  "name": "Streuer v2.1",
+  "nick": "Familie v2.1",
   "num": "08",
   "type": "shotgun",
   "type_de": "Schrotflinte",
   "type_en": "Shotgun"
  },
  "variant": {
-  "base": "standard",
+  "base": "pilot",
   "idea": "Schwere Werferoptik, Schaft S2, langes Magazin und breite Mündung; Wüstenlack",
   "letter": "F",
   "name": "Heavy Frame",

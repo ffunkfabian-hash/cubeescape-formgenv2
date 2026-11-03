@@ -118,9 +118,17 @@
   "width": 53.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
-  "adaptations": [],
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
   "ops": [
    {
     "kind": "holo_pille",
@@ -131,6 +139,17 @@
     "kind": "v21",
     "op": "grip",
     "skipped": "Griffgruppe weicht von grip_rifle(top) ab (Neigung, Breite oder ohne Bügel)"
+   },
+   {
+    "factor": 0.834,
+    "op": "mag",
+    "skipped": "kein entnehmbares Stangenmagazin"
+   },
+   {
+    "factor": 0.726,
+    "op": "muzzle",
+    "radius": 1.0,
+    "skipped": "kein Mündungsteil `muzzle` entlang der Laufachse"
    },
    {
     "added": [
@@ -539,9 +558,10 @@
    "triangles": 60
   }
  ],
+ "pilot": null,
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-17 Standardmodul (Quellhash 8153dcc17637); Variante E „Lantern“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante E „Lantern“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-17",
@@ -553,8 +573,8 @@
   "type_en": "Glaive"
  },
  "variant": {
-  "base": "standard",
-  "idea": "Leuchtende Linien am Gehäuse, runde und offene Visiere, Griff v2.1; kompakt in Kobalt",
+  "base": "pilot",
+  "idea": "Leuchtende Linien am Gehäuse, runde und offene Visiere, Griff v2.1; kompakt mit kurzer Mündung und Magazin in Kobalt",
   "letter": "E",
   "name": "Lantern",
   "params": {
@@ -570,6 +590,14 @@
    "limbs": [
     1.12,
     1.22
+   ],
+   "mag": [
+    0.8,
+    0.9
+   ],
+   "muzzle": [
+    0.7,
+    0.8
    ],
    "sight": [
     "holo_pille",
@@ -587,6 +615,8 @@
    "front": 0.867,
    "glow": 2,
    "limbs": 1.196,
+   "mag": 0.834,
+   "muzzle": 0.726,
    "sight": "holo_pille"
   },
   "seed": "308ad0b92a1cfee5",
@@ -595,6 +625,8 @@
    "glow": 2,
    "grip": "v21",
    "limbs": 1.196,
+   "mag": 0.834,
+   "muzzle": 0.726,
    "sight": "holo_pille"
   }
  },

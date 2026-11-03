@@ -174,7 +174,7 @@
   "width": 47.0
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -211,6 +211,11 @@
      "muzzle_crown"
     ],
     "wanted_mm": 72.1
+   },
+   {
+    "factor": 1.105,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -1635,6 +1640,10 @@
    "triangles": 60
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w03_scout_rifle_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
   "source": "BALLON BASIC-03 v2.1-Pilot (Quellhash 94a8a75a2d35); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
@@ -1649,8 +1658,8 @@
   "type_en": "Scout Rifle"
  },
  "variant": {
-  "base": "v21",
-  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, Eloxal",
+  "base": "pilot",
+  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, längere Wurfarme, Eloxal",
   "letter": "D",
   "name": "Refit",
   "params": {
@@ -1658,19 +1667,25 @@
     1.04,
     1.1
    ],
-   "glow": 1
+   "glow": 1,
+   "limbs": [
+    1.06,
+    1.12
+   ]
   },
   "since": "0.4",
   "skin": "eloxal"
  },
  "variation": {
   "draws": {
-   "front": 1.1
+   "front": 1.1,
+   "limbs": 1.105
   },
   "seed": "b6af96bc11547f1c",
   "values": {
    "front": 1.1,
-   "glow": 1
+   "glow": 1,
+   "limbs": 1.105
   }
  },
  "warnings": [

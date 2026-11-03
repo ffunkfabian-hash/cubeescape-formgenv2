@@ -1,18 +1,10 @@
 {
  "anchors": {
-  "Socket_Breech": {
-   "part": "launch_tube",
-   "position_mm": [
-    46.0,
-    104.0,
-    0.0
-   ]
-  },
   "Socket_Eye": {
    "part": "sight_frame",
    "position_mm": [
-    -127.6,
-    168.0,
+    -109.6,
+    178.0,
     0.0
    ]
   },
@@ -24,35 +16,43 @@
     0.0
    ]
   },
-  "Socket_Muzzle": {
-   "part": "muzzle",
+  "Socket_LoadingGate": {
+   "part": "load_gate",
    "position_mm": [
-    342.8,
-    104.0,
+    83.8,
+    89.0,
+    39.84
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "muzzle_crown",
+   "position_mm": [
+    372.96,
+    112.0,
     0.0
    ]
   },
   "Socket_Reticle": {
    "part": "sight_glass",
    "position_mm": [
-    -37.6,
-    168.0,
+    -19.6,
+    178.0,
     0.0
    ]
   },
   "Socket_Sight": {
    "part": "sight_body",
    "position_mm": [
-    -77.0,
-    168.0,
+    -59.0,
+    178.0,
     0.0
    ]
   },
   "Socket_SupportHand": {
    "part": "forend",
    "position_mm": [
-    215.0,
-    66.0,
+    291.0,
+    78.0,
     0.0
    ]
   }
@@ -105,54 +105,59 @@
   "files": {
    "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/pilot/metal_roles.py": "d801ac42b6039d62341eba199792ca86cfd89520d1ea19c011f72868ea012f52",
+   "basic/pilot/w13_grenade_launcher_v21.py": "cd9c7072582b54e6c437a350caa0cd08ca4ddc2b91e537efe4dd4dd200d7e891",
    "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
    "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "basic/weapons/w13_grenade_launcher.py": "ffd353c516450a979d4d75290246da48f2fbc83bead1576fb8ee91500d0365d2"
   },
-  "source_sha256": "c709b5eeb91c0dd4c16f78a239667cf0200c1f00043929d26a82021f1a555399",
-  "spec_sha256": "7d5f93b907d33f43226147d12319e832d22504150ee1284a632561f9282e1f53"
+  "source_sha256": "3a0fd61a97231e2d73b38b2920412597250f0fbb910b35834bd08290d5d947d2",
+  "spec_sha256": "68e0008c1194f9f3dd9aac233fb26a1c302b067499a247ccdea787c3e8a0c415"
  },
  "ballon_dimensions_mm": {
-  "height": 258.0,
-  "length": 642.5,
-  "width": 65.6
+  "height": 269.1,
+  "length": 670.0,
+  "width": 141.8
  },
- "base": "standard",
+ "base": "v21",
  "contract": {
   "base": {
    "accent_functions": [
-    "Entriegelt den Kipplauf (Daumen)"
-   ],
-   "hand_roles": {
-    "Socket_Hand": "graphite",
-    "Socket_SupportHand": "graphite"
-   },
-   "sight_line_mm": 70.0
-  },
-  "variant": {
-   "accent_functions": [
-    "Entriegelt den Kipplauf (Daumen)",
+    "Entriegelt die Ladeklappe",
+    "Orange Marke mittig auf der Geraden (Schnellanschlag)",
     "Spannt den Klemmfuß werkzeuglos"
    ],
    "hand_roles": {
-    "Socket_Hand": "graphite",
+    "Socket_Hand": "rubber",
     "Socket_SupportHand": "graphite"
    },
-   "sight_line_mm": 64.0
+   "sight_line_mm": 66.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Entriegelt die Ladeklappe",
+    "Spannt den Klemmfuß werkzeuglos"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 66.0
   }
  },
  "counts": {
   "assemblies": 8,
-  "parts": 31,
-  "triangles": 5656
+  "parts": 58,
+  "triangles": 34480
  },
  "dimensions_mm": {
-  "height": 244.38,
-  "length": 597.28,
-  "width": 65.59
+  "height": 269.38,
+  "length": 637.44,
+  "width": 141.83
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -174,20 +179,27 @@
      "sight_reticle"
     ],
     "anchors_replaced": [],
-    "f_mm": -78.0,
+    "f_mm": -60.0,
     "kind": "zinken",
     "op": "sight",
     "removed": [
+     "sight_base",
+     "sight_battery",
      "sight_body",
      "sight_clamp",
      "sight_emitter",
      "sight_frame",
+     "sight_frame_trim",
      "sight_glass",
-     "sight_mount"
+     "sight_knob_w",
+     "sight_marks",
+     "sight_mount",
+     "sight_notch",
+     "sight_reticle"
     ],
     "sight_line_mm": {
-     "after": 64.0,
-     "before": 70.0
+     "after": 66.0,
+     "before": 66.0
     }
    },
    {
@@ -198,14 +210,15 @@
      "butt_pad",
      "cheek_rest"
     ],
-    "bore_u_mm": 100,
+    "bore_u_mm": 120,
     "from": "S2",
     "kind": "S1",
     "op": "stock",
-    "receiver_rear_f_mm": -100,
+    "receiver_rear_f_mm": -110,
     "removed": [
      "butt_pad",
-     "stock"
+     "stock",
+     "stock_bolts"
     ],
     "scale": 0.863
    },
@@ -221,10 +234,11 @@
     "op": "muzzle",
     "radius": 1.0,
     "stretched": [
-     "launch_tube",
      "muzzle"
     ],
-    "translated": []
+    "translated": [
+     "muzzle_crown"
+    ]
    },
    {
     "dropped": [
@@ -243,18 +257,19 @@
      "Socket_Muzzle",
      "Socket_SupportHand"
     ],
-    "cut_f_mm": 300.454,
-    "delta_mm": -46.745,
+    "cut_f_mm": 350.42,
+    "delta_mm": -8.58,
     "factor": 0.88,
-    "limited": false,
+    "limited": true,
     "op": "front",
     "stretched": [
-     "launch_tube"
+     "barrel"
     ],
     "translated": [
-     "muzzle"
+     "muzzle",
+     "muzzle_crown"
     ],
-    "wanted_mm": -46.745
+    "wanted_mm": -45.785
    },
    {
     "factor": 1.251,
@@ -264,235 +279,307 @@
   ]
  },
  "id": "BG13",
- "name_de": "Granatwerfer (Kipplauf) · Skeleton",
- "name_en": "Grenade Launcher (breech-loaded) · Skeleton",
+ "name_de": "Granatwerfer (Trommel) · Skeleton",
+ "name_en": "Grenade Launcher (drum) · Skeleton",
  "parts": [
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -100.0,
-     84.0
+     -110.0,
+     88.0
     ],
     "u": [
-     50.0,
-     134.0
+     82.0,
+     144.0
     ],
     "x": [
      -24.0,
      24.0
     ]
    },
-   "id": "frame",
+   "id": "receiver",
    "moving": false,
-   "name_de": "Rahmen",
-   "name_en": "Frame",
+   "name_de": "Gehäuse",
+   "name_en": "Receiver",
    "role": "shell",
    "shape": "prof",
-   "triangles": 252
+   "triangles": 380
   },
   {
-   "assembly": "mechanism",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     67.13,
-     80.87
+     86.0,
+     224.0
     ],
     "u": [
-     57.13,
-     70.87
-    ],
-    "x": [
-     -26.0,
-     26.0
-    ]
-   },
-   "id": "hinge_pin",
-   "moving": false,
-   "name_de": "Scharnierbolzen",
-   "name_en": "Hinge pin",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 188
-  },
-  {
-   "assembly": "mechanism",
-   "extent_mm": {
-    "f": [
-     62.0,
-     106.0
-    ],
-    "u": [
-     60.0,
-     80.0
-    ],
-    "x": [
-     -18.0,
-     18.0
-    ]
-   },
-   "id": "barrel_lug",
-   "moving": true,
-   "name_de": "Laufhaken",
-   "name_en": "Barrel lug",
-   "role": "dark_metal",
-   "shape": "box",
-   "triangles": 60
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     46.0,
-     336.8
-    ],
-    "u": [
-     74.19,
-     133.81
-    ],
-    "x": [
-     -29.81,
-     29.81
-    ]
-   },
-   "id": "launch_tube",
-   "moving": false,
-   "name_de": "Abschusslauf",
-   "name_en": "Launch tube",
-   "role": "shell",
-   "shape": "cyl",
-   "triangles": 672
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     323.25,
-     342.8
-    ],
-    "u": [
-     71.21,
-     136.79
-    ],
-    "x": [
-     -32.79,
-     32.79
-    ]
-   },
-   "id": "muzzle",
-   "moving": false,
-   "name_de": "Mündungsring",
-   "name_en": "Muzzle ring",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 672
-  },
-  {
-   "assembly": "support",
-   "extent_mm": {
-    "f": [
-     123.39,
-     300.0
-    ],
-    "u": [
-     52.0,
-     80.0
+     138.0,
+     144.0
     ],
     "x": [
      -20.0,
      20.0
     ]
    },
-   "id": "forend",
+   "id": "top_strap",
    "moving": false,
-   "name_de": "Vorderschaft",
-   "name_en": "Fore-end",
+   "name_de": "Oberbrücke",
+   "name_en": "Top strap",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     208.0,
+     224.0
+    ],
+    "u": [
+     50.0,
+     144.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "yoke",
+   "moving": false,
+   "name_de": "Joch",
+   "name_en": "Yoke",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -110.0,
+     88.0
+    ],
+    "u": [
+     40.0,
+     81.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "lower",
+   "moving": false,
+   "name_de": "Unteres Gehäuse",
+   "name_en": "Lower receiver",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 112
+   "triangles": 188
   },
   {
-   "assembly": "ammo",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     50.0,
-     140.0
+     88.0,
+     97.0
     ],
     "u": [
-     84.25,
-     123.75
+     -4.91,
+     136.91
     ],
     "x": [
-     -19.75,
-     19.75
+     -70.91,
+     70.91
     ]
    },
-   "id": "grenade",
-   "moving": true,
-   "name_de": "Granate",
-   "name_en": "Grenade",
-   "role": "dark_metal",
-   "shape": "cyl",
-   "triangles": 236
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     124.0,
-     136.0
-    ],
-    "u": [
-     83.65,
-     124.35
-    ],
-    "x": [
-     -20.35,
-     20.35
-    ]
-   },
-   "id": "grenade_band",
+   "id": "recoil_plate",
    "moving": false,
-   "name_de": "Zünderring",
-   "name_en": "Fuse band",
-   "role": "accent",
+   "name_de": "Stoßplatte",
+   "name_en": "Recoil plate",
+   "role": "graphite",
    "shape": "cyl",
-   "triangles": 236
+   "triangles": 1152
   },
   {
-   "assembly": "grip_controls",
+   "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     12.3,
-     43.6
+     87.0,
+     225.0
     ],
     "u": [
-     134.0,
-     143.89
+     57.04,
+     74.96
     ],
     "x": [
-     -5.0,
-     5.0
+     -8.96,
+     8.96
     ]
    },
-   "id": "latch",
-   "moving": true,
-   "name_de": "Verriegelungshebel",
-   "name_en": "Breech latch",
-   "role": "accent",
-   "shape": "prof",
-   "triangles": 84
+   "id": "drum_axle",
+   "moving": false,
+   "name_de": "Trommelachse",
+   "name_en": "Drum axle",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 380
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
      -90.0,
-     30.0
+     -12.0
     ],
     "u": [
-     133.5,
-     142.0
+     94.0,
+     130.0
+    ],
+    "x": [
+     22.6,
+     23.8
+    ]
+   },
+   "id": "side_panel_l",
+   "moving": false,
+   "name_de": "Seitenpaneel links",
+   "name_en": "Side panel left",
+   "role": "anodized",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -90.0,
+     -12.0
+    ],
+    "u": [
+     94.0,
+     130.0
+    ],
+    "x": [
+     -23.8,
+     -22.6
+    ]
+   },
+   "id": "side_panel_r",
+   "moving": false,
+   "name_de": "Seitenpaneel rechts",
+   "name_en": "Side panel right",
+   "role": "anodized",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -87.55,
+     -14.45
+    ],
+    "u": [
+     96.45,
+     127.55
+    ],
+    "x": [
+     -24.6,
+     24.6
+    ]
+   },
+   "id": "panel_screws",
+   "moving": false,
+   "name_de": "Paneelschrauben",
+   "name_en": "Panel screws",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 1120
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -101.48,
+     73.48
+    ],
+    "u": [
+     48.52,
+     77.48
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "takedown_pins",
+   "moving": false,
+   "name_de": "Querbolzen",
+   "name_en": "Takedown pins",
+   "role": "metal",
+   "shape": "multi",
+   "triangles": 560
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     48.0,
+     70.0
+    ],
+    "u": [
+     82.5,
+     143.5
+    ],
+    "x": [
+     -24.3,
+     -24.0
+    ]
+   },
+   "id": "band_side",
+   "moving": false,
+   "name_de": "Schrägband",
+   "name_en": "Slanted band",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 12
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -68.4,
+     -40.38
+    ],
+    "u": [
+     61.95,
+     65.45
+    ],
+    "x": [
+     21.93,
+     22.17
+    ]
+   },
+   "id": "text_l",
+   "moving": false,
+   "name_de": "Schriftzug",
+   "name_en": "Lettering",
+   "role": "decal",
+   "shape": "text",
+   "triangles": 2388
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -90.0,
+     10.0
+    ],
+    "u": [
+     143.5,
+     152.0
     ],
     "x": [
      -11.0,
@@ -503,20 +590,20 @@
    "moving": false,
    "name_de": "Schiene",
    "name_en": "Top rail",
-   "role": "dark_metal",
+   "role": "anodized",
    "shape": "box",
-   "triangles": 60
+   "triangles": 1004
   },
   {
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -78.0,
-     -32.0
+     -60.0,
+     -14.0
     ],
     "u": [
-     142.5,
-     148.0
+     152.5,
+     158.0
     ],
     "x": [
      -11.5,
@@ -535,12 +622,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -66.0,
-     -44.46
+     -48.0,
+     -26.46
     ],
     "u": [
-     142.8,
-     145.59
+     152.8,
+     155.59
     ],
     "x": [
      11.5,
@@ -559,12 +646,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -77.0,
-     -48.0
+     -59.0,
+     -30.0
     ],
     "u": [
-     147.5,
-     154.0
+     157.5,
+     164.0
     ],
     "x": [
      -8.0,
@@ -583,12 +670,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -48.72,
-     -31.4
+     -30.72,
+     -13.4
     ],
     "u": [
-     147.5,
-     158.1
+     157.5,
+     168.1
     ],
     "x": [
      -11.0,
@@ -607,12 +694,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -56.35,
-     -51.65
+     -38.35,
+     -33.65
     ],
     "u": [
-     147.45,
-     152.15
+     157.45,
+     162.15
     ],
     "x": [
      -10.0,
@@ -631,12 +718,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -57.14,
-     -50.86
+     -39.14,
+     -32.86
     ],
     "u": [
-     146.66,
-     152.94
+     156.66,
+     162.94
     ],
     "x": [
      7.5,
@@ -655,12 +742,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -62.5,
-     -60.5
+     -44.5,
+     -42.5
     ],
     "u": [
-     151.6,
-     153.4
+     161.6,
+     163.4
     ],
     "x": [
      -3.0,
@@ -679,12 +766,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -44.0,
-     -32.0
+     -26.0,
+     -14.0
     ],
     "u": [
-     158.1,
-     180.26
+     168.1,
+     190.26
     ],
     "x": [
      8.1,
@@ -703,12 +790,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -44.0,
-     -32.0
+     -26.0,
+     -14.0
     ],
     "u": [
-     158.1,
-     180.26
+     168.1,
+     190.26
     ],
     "x": [
      -15.42,
@@ -727,12 +814,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -32.4,
-     -31.4
+     -14.4,
+     -13.4
     ],
     "u": [
-     158.1,
-     180.38
+     168.1,
+     190.38
     ],
     "x": [
      8.05,
@@ -751,12 +838,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -32.4,
-     -31.4
+     -14.4,
+     -13.4
     ],
     "u": [
-     158.1,
-     180.38
+     168.1,
+     190.38
     ],
     "x": [
      -15.46,
@@ -775,12 +862,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -46.72,
-     -45.72
+     -28.72,
+     -27.72
     ],
     "u": [
-     153.72,
-     155.48
+     163.72,
+     165.48
     ],
     "x": [
      -0.88,
@@ -799,12 +886,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -38.0,
-     -37.2
+     -20.0,
+     -19.2
     ],
     "u": [
-     158.5,
-     177.5
+     168.5,
+     187.5
     ],
     "x": [
      -12.89,
@@ -823,12 +910,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -38.05,
-     -38.0
+     -20.05,
+     -20.0
     ],
     "u": [
-     166.3,
-     169.7
+     176.3,
+     179.7
     ],
     "x": [
      -1.7,
@@ -844,15 +931,567 @@
    "triangles": 700
   },
   {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     98.0,
+     206.0
+    ],
+    "u": [
+     -3.92,
+     135.92
+    ],
+    "x": [
+     -69.92,
+     69.92
+    ]
+   },
+   "id": "drum",
+   "moving": true,
+   "name_de": "Trommel",
+   "name_en": "Drum",
+   "role": "ring_anod",
+   "shape": "cyl",
+   "triangles": 5232
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     203.0,
+     206.4
+    ],
+    "u": [
+     -4.32,
+     136.32
+    ],
+    "x": [
+     -70.32,
+     70.32
+    ]
+   },
+   "id": "drum_rim",
+   "moving": false,
+   "name_de": "Trommelkante",
+   "name_en": "Drum rim",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 1536
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     83.8,
+     87.8
+    ],
+    "u": [
+     64.62,
+     113.38
+    ],
+    "x": [
+     15.46,
+     64.22
+    ]
+   },
+   "id": "load_gate",
+   "moving": true,
+   "name_de": "Ladeklappe",
+   "name_en": "Loading gate",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 380
+  },
+  {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -36.84,
-     33.37
+     29.56,
+     38.44
     ],
     "u": [
-     -64.0,
-     50.0
+     121.56,
+     130.44
+    ],
+    "x": [
+     22.0,
+     27.0
+    ]
+   },
+   "id": "gate_button",
+   "moving": true,
+   "name_de": "Klappenknopf",
+   "name_en": "Gate release",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     99.0,
+     134.0
+    ],
+    "u": [
+     -1.12,
+     133.12
+    ],
+    "x": [
+     -60.95,
+     60.95
+    ]
+   },
+   "id": "grenade_cases",
+   "moving": false,
+   "name_de": "Granathülsen",
+   "name_en": "Grenade cases",
+   "role": "brass",
+   "shape": "multi",
+   "triangles": 2840
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     133.0,
+     196.0
+    ],
+    "u": [
+     92.17,
+     131.83
+    ],
+    "x": [
+     -19.83,
+     19.83
+    ]
+   },
+   "id": "grenades",
+   "moving": false,
+   "name_de": "Granate Kammer 0",
+   "name_en": "Grenade chamber 0",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 568
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     141.0,
+     149.0
+    ],
+    "u": [
+     91.77,
+     132.23
+    ],
+    "x": [
+     -20.23,
+     20.23
+    ]
+   },
+   "id": "grenade_bands",
+   "moving": false,
+   "name_de": "Zünderring Kammer 0",
+   "name_en": "Fuse band chamber 0",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     133.0,
+     196.0
+    ],
+    "u": [
+     69.17,
+     108.83
+    ],
+    "x": [
+     -59.67,
+     -20.01
+    ]
+   },
+   "id": "grenade_k1",
+   "moving": false,
+   "name_de": "Granate Kammer 1",
+   "name_en": "Grenade chamber 1",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 568
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     141.0,
+     149.0
+    ],
+    "u": [
+     68.77,
+     109.23
+    ],
+    "x": [
+     -60.06,
+     -19.61
+    ]
+   },
+   "id": "grenade_band_k1",
+   "moving": false,
+   "name_de": "Zünderring Kammer 1",
+   "name_en": "Fuse band chamber 1",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     133.0,
+     196.0
+    ],
+    "u": [
+     23.17,
+     62.83
+    ],
+    "x": [
+     -59.67,
+     -20.01
+    ]
+   },
+   "id": "grenade_k2",
+   "moving": false,
+   "name_de": "Granate Kammer 2",
+   "name_en": "Grenade chamber 2",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 568
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     141.0,
+     149.0
+    ],
+    "u": [
+     22.77,
+     63.23
+    ],
+    "x": [
+     -60.06,
+     -19.61
+    ]
+   },
+   "id": "grenade_band_k2",
+   "moving": false,
+   "name_de": "Zünderring Kammer 2",
+   "name_en": "Fuse band chamber 2",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     133.0,
+     196.0
+    ],
+    "u": [
+     0.17,
+     39.83
+    ],
+    "x": [
+     -19.83,
+     19.83
+    ]
+   },
+   "id": "grenade_k3",
+   "moving": false,
+   "name_de": "Granate Kammer 3",
+   "name_en": "Grenade chamber 3",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 568
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     141.0,
+     149.0
+    ],
+    "u": [
+     -0.23,
+     40.23
+    ],
+    "x": [
+     -20.23,
+     20.23
+    ]
+   },
+   "id": "grenade_band_k3",
+   "moving": false,
+   "name_de": "Zünderring Kammer 3",
+   "name_en": "Fuse band chamber 3",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     133.0,
+     196.0
+    ],
+    "u": [
+     23.17,
+     62.83
+    ],
+    "x": [
+     20.01,
+     59.67
+    ]
+   },
+   "id": "grenade_k4",
+   "moving": false,
+   "name_de": "Granate Kammer 4",
+   "name_en": "Grenade chamber 4",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 568
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     141.0,
+     149.0
+    ],
+    "u": [
+     22.77,
+     63.23
+    ],
+    "x": [
+     19.61,
+     60.06
+    ]
+   },
+   "id": "grenade_band_k4",
+   "moving": false,
+   "name_de": "Zünderring Kammer 4",
+   "name_en": "Fuse band chamber 4",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     133.0,
+     196.0
+    ],
+    "u": [
+     69.17,
+     108.83
+    ],
+    "x": [
+     20.01,
+     59.67
+    ]
+   },
+   "id": "grenade",
+   "moving": true,
+   "name_de": "Ladegranate",
+   "name_en": "Loading grenade",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 568
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     99.0,
+     134.0
+    ],
+    "u": [
+     67.88,
+     110.12
+    ],
+    "x": [
+     18.72,
+     60.95
+    ]
+   },
+   "id": "grenade_case",
+   "moving": false,
+   "name_de": "Hülse der Ladegranate",
+   "name_en": "Loading grenade case",
+   "role": "brass",
+   "shape": "multi",
+   "triangles": 568
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     141.0,
+     149.0
+    ],
+    "u": [
+     68.77,
+     109.23
+    ],
+    "x": [
+     19.61,
+     60.06
+    ]
+   },
+   "id": "grenade_band",
+   "moving": false,
+   "name_de": "Zünderring der Ladegranate",
+   "name_en": "Loading grenade fuse band",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     225.0,
+     355.42
+    ],
+    "u": [
+     82.06,
+     141.94
+    ],
+    "x": [
+     -29.94,
+     29.94
+    ]
+   },
+   "id": "barrel",
+   "moving": false,
+   "name_de": "Abschusslauf",
+   "name_en": "Launch tube",
+   "role": "shell",
+   "shape": "cyl",
+   "triangles": 1152
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     230.0,
+     350.0
+    ],
+    "u": [
+     81.07,
+     142.93
+    ],
+    "x": [
+     -30.93,
+     30.93
+    ]
+   },
+   "id": "barrel_rings",
+   "moving": false,
+   "name_de": "Laufringe",
+   "name_en": "Barrel rings",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 768
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     351.42,
+     370.96
+    ],
+    "u": [
+     78.57,
+     145.43
+    ],
+    "x": [
+     -33.43,
+     33.43
+    ]
+   },
+   "id": "muzzle",
+   "moving": false,
+   "name_de": "Mündungsring",
+   "name_en": "Muzzle ring",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 1744
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     368.96,
+     372.96
+    ],
+    "u": [
+     81.07,
+     142.93
+    ],
+    "x": [
+     -30.93,
+     30.93
+    ]
+   },
+   "id": "muzzle_crown",
+   "moving": false,
+   "name_de": "Mündungskrone",
+   "name_en": "Muzzle crown",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 1152
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     246.0,
+     336.0
+    ],
+    "u": [
+     78.07,
+     118.0
+    ],
+    "x": [
+     -33.93,
+     33.93
+    ]
+   },
+   "id": "forend",
+   "moving": false,
+   "name_de": "Vorderschaft",
+   "name_en": "Fore-end",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 2900
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.15,
+     30.32
+    ],
+    "u": [
+     -76.0,
+     40.0
     ],
     "x": [
      -15.0,
@@ -863,20 +1502,20 @@
    "moving": false,
    "name_de": "Pistolengriff",
    "name_en": "Pistol grip",
-   "role": "graphite",
+   "role": "rubber",
    "shape": "prof",
-   "triangles": 300
+   "triangles": 572
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     45.57,
-     53.4
+     42.89,
+     50.72
     ],
     "u": [
-     23.19,
-     49.0
+     13.19,
+     39.0
     ],
     "x": [
      -3.5,
@@ -895,12 +1534,12 @@
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     27.81,
-     85.4
+     25.13,
+     82.72
     ],
     "u": [
-     16.0,
-     51.0
+     6.0,
+     41.0
     ],
     "x": [
      -6.0,
@@ -911,20 +1550,44 @@
    "moving": false,
    "name_de": "Abzugsbügel",
    "name_en": "Trigger guard",
-   "role": "graphite",
+   "role": "anodized",
    "shape": "prof",
    "triangles": 244
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.46,
+     3.68
+    ],
+    "u": [
+     -79.0,
+     -73.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip_cap",
+   "moving": false,
+   "name_de": "Griffboden",
+   "name_en": "Grip cap",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 80
   },
   {
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -111.0,
-     -99.0
+     -121.0,
+     -109.0
     ],
     "u": [
-     78.0,
-     120.0
+     98.0,
+     140.0
     ],
     "x": [
      -15.0,
@@ -943,12 +1606,12 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -179.4,
-     -110.0
+     -189.4,
+     -120.0
     ],
     "u": [
-     88.0,
-     116.0
+     108.0,
+     136.0
     ],
     "x": [
      -14.0,
@@ -967,12 +1630,12 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -241.53,
-     -174.22
+     -251.53,
+     -184.22
     ],
     "u": [
-     17.81,
-     123.85
+     37.81,
+     143.85
     ],
     "x": [
      -18.0,
@@ -991,12 +1654,12 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -254.48,
-     -240.67
+     -264.48,
+     -250.67
     ],
     "u": [
-     12.53,
-     127.47
+     32.53,
+     147.47
     ],
     "x": [
      -20.0,
@@ -1012,21 +1675,25 @@
    "triangles": 108
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w13_grenade_launcher_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
-  "source": "BALLON BASIC-13 Standardmodul (Quellhash c709b5eeb91c); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
+  "source": "BALLON BASIC-13 v2.1-Pilot (Quellhash 3a0fd61a9723); Variante G „Skeleton“ aus data/variants.toml; Maße in mm wie BALLON"
  },
  "type": {
   "id": "BASIC-13",
-  "name": "Kipplauf",
-  "nick": "Standard",
+  "name": "Trommel v2.1",
+  "nick": "Familie v2.1",
   "num": "13",
   "type": "grenade_launcher",
-  "type_de": "Granatwerfer (Kipplauf)",
-  "type_en": "Grenade Launcher (breech-loaded)"
+  "type_de": "Granatwerfer (Trommel)",
+  "type_en": "Grenade Launcher (drum)"
  },
  "variant": {
-  "base": "standard",
+  "base": "pilot",
   "idea": "Abgespeckt: kurzer Schaft S1, kurzes Magazin, knappe Mündung, ohne Lüftung und Wangenauflage; Tarnmuster",
   "letter": "G",
   "name": "Skeleton",
@@ -1090,5 +1757,7 @@
    "stock_scale": 0.863
   }
  },
- "warnings": []
+ "warnings": [
+  "barrel_rings: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert"
+ ]
 }

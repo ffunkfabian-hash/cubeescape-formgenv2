@@ -5,8 +5,9 @@ Die Quelle ist ein Commit aus `config.toml › [ballon]`. `snapshot()` entpackt 
 hängt nur vom Inhalt seiner Import-Closure ab (nie von Pfaden, Dateizeiten oder der Commit-ID): ein BALLON-Commit,
 der den Typ nicht berührt, behält alle Cache-Treffer.
 
-BALLON-Module sind reines Python ohne bpy (`basic/common.py`, `basic/weapons/wNN_*.py`, v2.1-Piloten
-`basic/pilot/wNN_*_v21.py`); geladen werden nur Datensätze (META, PARTS, ASSEMBLIES, ANCHORS, ACTIONS), die der Generator
+BALLON-Module sind reines Python ohne bpy (`basic/common.py`, Formstudien `basic/weapons/wNN_*.py`, Spiel-Piloten
+`basic/pilot/wNN_*_vK.py`); Grundform `pilot` (0.6) ist der neueste Pilot des Typs (K als Ziffernfolge: v21 = 2.1 > v2), ohne
+Piloten die Formstudie (`resolve_base`). Geladen werden nur Datensätze (META, PARTS, ASSEMBLIES, ANCHORS, ACTIONS), die der Generator
 als Grundform nutzt, und mit `call` einzelne Bausteine aus `basic/common.py` (Visier, Schaft, Griff, Leuchtfeld).
 """
 from __future__ import annotations
@@ -18,6 +19,7 @@ import importlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -28,9 +30,10 @@ from .cache import canonical
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOTS = Path.home() / "Library/Caches/CubeEscapeFormgen2/ballon"
-# basic/reticles.py: Visier-Standard (Bausteine v3 in common.py lesen ihn lazy); basic/pilot: v2.1-Piloten als zweite Grundform (0.4)
+# basic/reticles.py: Visier-Standard (Bausteine v3 in common.py lesen ihn lazy); basic/pilot: Spiel-Piloten, ab 0.6 Grundform aller Linien
 PATHS = ("basic/__init__.py", "basic/common.py", "basic/reticles.py", "basic/weapons", "basic/pilot", "data/specs")
-BASES = {"standard": ("basic/weapons", "w{num}_*.py"), "v21": ("basic/pilot", "w{num}_*_v21.py")}
+BASES = {"standard": ("basic/weapons", "w{num}_*.py")}   # dazu jede Pilotfassung „vK“: basic/pilot/w{num}_*_vK.py
+WANTED = ("pilot", "standard", "v21")   # Registerwerte: neuester Pilot, Formstudie, fest v2.1-Pilot (0.4)
 TYPES = tuple(f"{n:02d}" for n in range(1, 18))
 
 
@@ -78,15 +81,47 @@ def snapshot(commit: str | None = None, repo: Path | None = None, root: Path = S
     return target
 
 
+def _layout(base: str) -> tuple[str, str]:
+    if base in BASES:
+        return BASES[base]
+    if re.fullmatch(r"v\d+", base):
+        return "basic/pilot", f"w{{num}}_*_{base}.py"
+    raise BallonError(f"Unbekannte Grundform {base!r} (standard oder Pilotfassung vK)")
+
+
+def pilots(snap: Path, num: str) -> list[str]:
+    """Pilotfassungen eines Typs, aufsteigend (z. B. ["v2", "v21"]); K als Ziffernfolge verglichen (v21 = 2.1 > v2, v3 > v21)."""
+    found = set()
+    for path in (Path(snap) / "basic/pilot").glob(f"w{num}_*_v*.py"):
+        m = re.fullmatch(rf"w{num}_[a-z0-9_]+?_(v\d+)", path.stem)
+        if m:
+            found.add(m.group(1))
+    return sorted(found, key=lambda v: tuple(int(c) for c in v[1:]))
+
+
+def pilot_version(base: str) -> str | None:
+    """Pilotfassung lesbar: v21 → "2.1", v2 → "2"; Formstudie → None."""
+    return ".".join(base[1:]) if re.fullmatch(r"v\d+", base) else None
+
+
+def resolve_base(snap: Path, num: str, wanted: str = "standard") -> str:
+    """Registerwert → tatsächliche Grundform: `pilot` = neueste Pilotfassung, sonst (BASIC-16/17) Formstudie `standard`;
+    eine feste Fassung ohne Modul fällt ebenfalls auf die Formstudie zurück."""
+    if wanted not in WANTED:
+        raise BallonError(f"Unbekannte Grundform {wanted!r} ({'/'.join(WANTED)})")
+    if wanted == "pilot":
+        found = pilots(snap, num)
+        return found[-1] if found else "standard"
+    return wanted if has_base(snap, num, wanted) else "standard"
+
+
 def has_base(snap: Path, num: str, base: str = "standard") -> bool:
-    folder, pattern = BASES[base]
+    folder, pattern = _layout(base)
     return len(sorted((Path(snap) / folder).glob(pattern.format(num=num)))) == 1
 
 
 def module_file(snap: Path, num: str, base: str = "standard") -> Path:
-    if base not in BASES:
-        raise BallonError(f"Unbekannte Grundform {base!r} (standard, v21)")
-    folder, pattern = BASES[base]
+    folder, pattern = _layout(base)
     found = sorted((Path(snap) / folder).glob(pattern.format(num=num)))
     if len(found) != 1:
         raise BallonError(f"BASIC-{num}: genau ein Modul {folder}/{pattern.format(num=num)} erwartet, gefunden {len(found)}")
@@ -130,7 +165,8 @@ def closure(snap: Path, num: str, base: str = "standard") -> dict[str, str]:
 
 
 def spec_path(snap: Path, num: str, base: str = "standard") -> Path:
-    return Path(snap) / f"data/specs/BASIC-{num}{'-v2.1' if base == 'v21' else ''}.spec.json"
+    version = pilot_version(base)
+    return Path(snap) / f"data/specs/BASIC-{num}{f'-v{version}' if version else ''}.spec.json"
 
 
 def source(snap: Path, num: str, base: str = "standard") -> dict:

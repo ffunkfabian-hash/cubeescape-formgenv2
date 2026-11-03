@@ -149,7 +149,7 @@
   "width": 48.8
  },
  "format": "formgenv2/weapon-sheet-spec",
- "format_version": 2,
+ "format_version": 3,
  "generator": {
   "adaptations": [],
   "ops": [
@@ -181,6 +181,11 @@
      "focus_tip"
     ],
     "wanted_mm": 36.208
+   },
+   {
+    "factor": 1.084,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
    }
   ]
  },
@@ -1389,6 +1394,10 @@
    "triangles": 560
   }
  ],
+ "pilot": {
+  "module": "basic/pilot/w12_trace_rifle_v21.py",
+  "version": "2.1"
+ },
  "provenance": {
   "kind": "Vorgabe",
   "source": "BALLON BASIC-12 v2.1-Pilot (Quellhash 07027656faf0); Variante D „Refit“ aus data/variants.toml; Maße in mm wie BALLON"
@@ -1403,8 +1412,8 @@
   "type_en": "Trace Rifle"
  },
  "variant": {
-  "base": "v21",
-  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, Eloxal",
+  "base": "pilot",
+  "idea": "BALLON-v2.1-Pilot als Grundform: Fasen, Softgrip, Visier v3; leicht gestreckt, Leuchtlinie, längere Wurfarme, Eloxal",
   "letter": "D",
   "name": "Refit",
   "params": {
@@ -1412,19 +1421,25 @@
     1.04,
     1.1
    ],
-   "glow": 1
+   "glow": 1,
+   "limbs": [
+    1.06,
+    1.12
+   ]
   },
   "since": "0.4",
   "skin": "eloxal"
  },
  "variation": {
   "draws": {
-   "front": 1.073
+   "front": 1.073,
+   "limbs": 1.084
   },
   "seed": "5910eb2cf3be7a3e",
   "values": {
    "front": 1.073,
-   "glow": 1
+   "glow": 1,
+   "limbs": 1.084
   }
  },
  "warnings": [

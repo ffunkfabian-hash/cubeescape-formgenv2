@@ -1,4 +1,4 @@
-"""Variantenbaukasten 0.4: gesteuerter Zufall, Bausteine aus BALLON, v2.1-Grundform, Vielfalt und Designvertrag."""
+"""Variantenbaukasten 0.4: gesteuerter Zufall, Bausteine aus BALLON, v2.1-Grundform, Vielfalt und Designvertrag; 0.6 Pilot-Grundform."""
 import hashlib
 import json
 import os
@@ -161,6 +161,34 @@ class KitTests(unittest.TestCase):
         self.assertEqual(report16["base"], "standard")
         self.assertTrue(any(a.get("field") == "base" for a in report16["adaptations"]))
 
+    def test_pilot_base_takes_newest_version_and_marks_form_study(self):
+        # 0.6 (Nutzerentscheid 242): `pilot` = neueste Fassung; BASIC-01 hat v2 und v21 → v21
+        self.assertEqual(ballon.pilots(SNAP, "01"), ["v2", "v21"])
+        author, report = self.gen("01", base="pilot")
+        self.assertEqual((report["base"], report["variant"]["base"]), ("v21", "pilot"))
+        self.assertFalse(any(a.get("field") == "base" for a in report["adaptations"]))
+        self.assertIn(["Grundform", "BASIC-01 „Formstudie 01 v2.1“ · v2.1"], author["INFO"]["facts"])
+        author16, report16 = self.gen("16", base="pilot")
+        self.assertEqual(report16["base"], "standard")
+        self.assertTrue(any(a.get("field") == "base" for a in report16["adaptations"]))
+        self.assertTrue(any(k == "Grundform" and v.endswith("· Formstudie – kein Pilot") for k, v in author16["INFO"]["facts"]))
+
+    def test_resolve_base_compares_versions_as_digit_tuples(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            pilot = Path(tmp) / "basic/pilot"
+            pilot.mkdir(parents=True)
+            for name in ("w01_auto_rifle_v2.py", "w01_auto_rifle_v21.py", "w01_auto_rifle_v3.py", "w02_pulse_rifle_v21.py",
+                         "w01_auto_rifle_old.py"):
+                (pilot / name).write_text("")
+            self.assertEqual(ballon.pilots(tmp, "01"), ["v2", "v21", "v3"])
+            self.assertEqual(ballon.resolve_base(tmp, "01", "pilot"), "v3")
+            self.assertEqual(ballon.resolve_base(tmp, "01", "v21"), "v21")
+            self.assertEqual(ballon.resolve_base(tmp, "03", "pilot"), "standard")
+            self.assertEqual(ballon.spec_path(tmp, "01", "v3").name, "BASIC-01-v3.spec.json")
+            with self.assertRaises(ballon.BallonError):
+                ballon.resolve_base(tmp, "01", "v9x")
+
     def test_accent_limit_recolours_added_blocks(self):
         _, report = self.gen("01", sight="holo_kasten")          # BASIC-01 hat schon drei Akzent-Bedienfunktionen
         self.assertLessEqual(len(report["contract"]["variant"]["accent_functions"]), 3)
@@ -175,6 +203,20 @@ class RegisterVarietyTests(unittest.TestCase):
     def setUpClass(cls):
         cls.entries = variants.load()
         cls.built = {variants.sheet_id(v["letter"], n): generator.build(v, n, SNAP) for v in cls.entries for n in v["types"]}
+
+    def test_every_line_stands_on_the_newest_pilot(self):
+        # Grundform je Linie: 01–15 neuester Pilot (heute v2.1), 16/17 Formstudie mit Kennzeichnung im Blatt
+        for v in self.entries:
+            self.assertEqual(v["base"], "pilot", v["letter"])
+        for sid, (author, report) in self.built.items():
+            num = variants.parse_sheet(sid)[1]
+            shape = dict(author["INFO"]["facts"])["Grundform"]
+            if num in ("16", "17"):
+                self.assertEqual(report["base"], "standard", sid)
+                self.assertTrue(shape.endswith("· Formstudie – kein Pilot"), sid)
+            else:
+                self.assertEqual(report["base"], ballon.pilots(SNAP, num)[-1], sid)
+                self.assertTrue(shape.endswith("· v2.1"), sid)
 
     def test_six_to_eight_lines_with_frozen_ids(self):
         letters = [v["letter"] for v in self.entries]
