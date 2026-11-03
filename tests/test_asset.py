@@ -36,10 +36,28 @@ def kit_model(sid):
 
 def package_manifest(version: int, sid: str = "BX01") -> dict:
     """Kleinstes Manifest wie formgen/blender/asset_build.py: Format 1 (0.6) ohne, Format 2 (0.7) mit Datensatz `model`."""
-    m = {"format": asset.PACKAGE, "format_version": version, "id": sid, "skin": "standard", "weapon": {"parts": []}}
+    tex = {k: f"{sid}_{k}.png" for k in ("albedo", "spec", "normal", "ao")}
+    m = {"format": asset.PACKAGE, "format_version": version, "id": sid, "skin": "standard", "weapon": {"parts": []},
+         "fbx": f"{sid}.fbx", "textures": {"weapon": tex, "skins": [{"name": "standard", "albedo": tex["albedo"], "spec": tex["spec"]}]}}
     if version >= 2:
-        m["model"] = {"META": {"id": "BASIC-01"}, "PARTS": [{"id": "grip"}], "ASSEMBLIES": [{"id": "grip"}], "ANCHORS": {},
-                      "POINTS": {"grip.grip": {"at": [0, 0, 0], "part": "grip"}}, "ACTIONS": {}}
+        m["model"] = {"META": {"id": "BASIC-01"}, "PARTS": [{"id": "grip", "asm": "grip"}], "ASSEMBLIES": [{"id": "grip"}],
+                      "ANCHORS": {"Socket_Hand": {"at": [0, 0, 0], "part": "grip"}},
+                      "POINTS": {"grip.grip": {"at": [0.0, 10, -2.5], "part": "grip"}}, "ACTIONS": {}}
+    return m
+
+
+def package_folder(folder: Path, manifest: dict) -> None:
+    """Paketordner mit allen Dateien, die das Manifest nennt (Inhalt egal)."""
+    (folder / "textures").mkdir(parents=True, exist_ok=True)
+    (folder / f"{manifest['id']}.package.json").write_text(json.dumps(manifest))
+    for name in asset.package_files(manifest):
+        (folder / name).write_bytes(b"x")
+
+
+def with_model(**fields) -> dict:
+    """Paket 2 mit geänderten Feldern im Datensatz."""
+    m = package_manifest(2)
+    m["model"] = {**m["model"], **fields}
     return m
 
 
@@ -170,9 +188,7 @@ class ToolSafetyTests(unittest.TestCase):
     def test_unpack_refuses_foreign_folder_and_replaces_own(self):
         with tempfile.TemporaryDirectory() as tmp:
             src = Path(tmp) / "src"
-            (src / "textures").mkdir(parents=True)
-            (src / "BX01.package.json").write_text(json.dumps(package_manifest(2)))
-            (src / "textures/a.png").write_bytes(b"png")
+            package_folder(src, package_manifest(2))
             zpath = Path(tmp) / "BX01.bake.zip"
             zpath.write_bytes(asset.zip_folder(src))
             dest = Path(tmp) / "pakete"
@@ -193,13 +209,18 @@ class ToolSafetyTests(unittest.TestCase):
             dest = Path(tmp) / "pakete"
             (dest / "BX01").mkdir(parents=True)
             (dest / "BX01/BX01.package.json").write_text('{"alt": 1}')
-            for manifest in ({"neu": 1}, package_manifest(3), dict(package_manifest(2), id="BX02"), None,
-                             dict(package_manifest(2), weapon=None), {**package_manifest(2), "model": {**package_manifest(2)["model"],
-                                                                                                   "ASSEMBLIES": []}}):
+            broken_points = with_model(POINTS={"grip.grip": {"at": "kaputt", "part": "grip"}})
+            for manifest in ({"neu": 1}, package_manifest(3), dict(package_manifest(2), id="BX02"), None, [1, 2],
+                             dict(package_manifest(2), weapon=None), with_model(ASSEMBLIES=[]), broken_points, "ohne Dateien"):
                 src = Path(tmp) / "src"
                 shutil.rmtree(src, ignore_errors=True)
                 src.mkdir()
-                (src / ("BX01.package.json" if manifest is not None else "liesmich.txt")).write_text(json.dumps(manifest))
+                if manifest == "ohne Dateien":                                  # gültiges Manifest, aber FBX/Texturen fehlen im ZIP
+                    (src / "BX01.package.json").write_text(json.dumps(package_manifest(2)))
+                elif isinstance(manifest, dict) and manifest.get("model") is broken_points["model"]:
+                    package_folder(src, manifest)                              # Dateien vollständig, nur der Datensatz ist kaputt
+                else:
+                    (src / ("BX01.package.json" if manifest is not None else "liesmich.txt")).write_text(json.dumps(manifest))
                 zpath = Path(tmp) / "BX01.bake.zip"
                 zpath.write_bytes(asset.zip_folder(src))
                 with self.subTest(manifest=manifest), self.assertRaises(asset.PackageError):
@@ -244,9 +265,18 @@ class ToolSafetyTests(unittest.TestCase):
                     dict(package_manifest(1), format="anders"),
                     dict(package_manifest(2), weapon=None, ego_profile_error="BASIC-16 ohne Ego-Klasse"),   # Richter 0.7 Nr. 1
                     dict(package_manifest(1), weapon=None),
-                    {**package_manifest(2), "model": {**package_manifest(2)["model"], "PARTS": []}},
-                    {**package_manifest(2), "model": {**package_manifest(2)["model"], "PARTS": {}}},
-                    {**package_manifest(2), "model": {**package_manifest(2)["model"], "META": {}}}):
+                    with_model(PARTS=[]), with_model(PARTS={}), with_model(META={}),
+                    # Richter 0.7 Runde 3: Anker und Weltpunkte vollständig prüfen
+                    with_model(POINTS={"grip.grip": {"part": "grip"}}),
+                    with_model(POINTS={"grip.grip": {"at": "kaputt", "part": "grip"}}),
+                    with_model(POINTS={"grip.grip": {"at": [0, 0], "part": "grip"}}),
+                    with_model(POINTS={"grip.grip": {"at": [0, float("nan"), 0], "part": "grip"}}),
+                    with_model(POINTS={"grip.grip": {"at": [0, True, 0], "part": "grip"}}),
+                    with_model(POINTS={"grip.grip": None}),
+                    with_model(ANCHORS={"Socket_Hand": {"at": [0, 0, 0], "part": "fehlt"}}),
+                    with_model(PARTS=[{"id": "grip", "asm": "grip"}, {"id": "grip", "asm": "grip"}]),
+                    with_model(PARTS=[{"id": "grip", "asm": "anders"}]),
+                    with_model(ACTIONS=[]), "kein Objekt"):
             with self.subTest(bad=bad), self.assertRaises(asset.PackageError):
                 asset.read_package(bad, "BX01")
 

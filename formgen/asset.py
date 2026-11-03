@@ -24,6 +24,7 @@ import functools
 import hashlib
 import io
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -216,6 +217,8 @@ def read_package(manifest: dict, sid: str | None = None) -> dict:
     """Manifest eines Bake-Pakets prüfen und einheitlich zurückgeben. Lesbar sind Format 1 (0.6, ohne Datensatz: BALLON nimmt es nur
     an, wenn die Teile aller Weltpunkte unverändert sind) und 2 (0.7, `model` = Kit-Modell mit POINTS). Rückgabe: Kopie mit `model`
     (bei 1 None) und `points` (Herkunft der Weltpunkte)."""
+    if not isinstance(manifest, dict):
+        raise PackageError("Manifest ist kein Objekt")
     if manifest.get("format") != PACKAGE or manifest.get("format_version") not in PACKAGE_VERSIONS:
         raise PackageError(f"Format {manifest.get('format')}/{manifest.get('format_version')} statt {PACKAGE} {PACKAGE_VERSIONS}")
     if sid is not None and manifest.get("id") != sid:
@@ -232,14 +235,43 @@ def read_package(manifest: dict, sid: str | None = None) -> dict:
     if not isinstance(model, dict) or not all(isinstance(model.get(k), t) for k, t in shapes.items()):
         raise PackageError("Paket 2 ohne vollständigen Datensatz model (META, PARTS, ASSEMBLIES als Listen, ANCHORS, POINTS)")
     if not model["META"].get("id") or not model["PARTS"] or not model["ASSEMBLIES"] or \
-            not all(isinstance(p, dict) and p.get("id") for p in model["PARTS"]):
-        raise PackageError("Paket 2: Datensatz model leer (META.id, PARTS mit id, ASSEMBLIES)")
-    ids = {p["id"] for p in model["PARTS"]}
-    lost = sorted(n for n, q in model["POINTS"].items() if q.get("part") not in ids)
-    if lost:
-        raise PackageError(f"Weltpunkte ohne Teil im Datensatz: {lost}")
+            not all(isinstance(p, dict) and isinstance(p.get("id"), str) and p["id"] for p in model["PARTS"]) or \
+            not all(isinstance(a, dict) and isinstance(a.get("id"), str) and a["id"] for a in model["ASSEMBLIES"]):
+        raise PackageError("Paket 2: Datensatz model leer (META.id, PARTS und ASSEMBLIES mit id)")
+    ids = [p["id"] for p in model["PARTS"]]
+    if len(ids) != len(set(ids)):
+        raise PackageError(f"Paket 2: Teil-IDs doppelt: {sorted({i for i in ids if ids.count(i) > 1})}")
+    unknown = sorted({p.get("asm") for p in model["PARTS"]} - {a["id"] for a in model["ASSEMBLIES"]}, key=str)
+    if unknown:
+        raise PackageError(f"Paket 2: Teile in undeklarierten Baugruppen {unknown}")
+    if "ACTIONS" in model and not isinstance(model["ACTIONS"], dict):
+        raise PackageError("Paket 2: ACTIONS ist kein dict")
+    for field in ("ANCHORS", "POINTS"):
+        bad = sorted(n for n, q in model[field].items() if _located_problem(q, set(ids)))
+        if bad:
+            raise PackageError(f"Paket 2: {field} ungültig (at = drei endliche Zahlen in mm, part = Teil des Datensatzes): {bad}")
     out["points"] = "Datensatz des Pakets (POINTS)"
     return out
+
+
+def _located_problem(q, ids: set) -> bool:
+    """Anker/Weltpunkt ungültig: kein dict, `part` kein Teil, `at` nicht genau drei endliche Zahlen."""
+    if not isinstance(q, dict) or q.get("part") not in ids:
+        return True
+    at = q.get("at")
+    return not (isinstance(at, (list, tuple)) and len(at) == 3 and
+                all(isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) for v in at))
+
+
+def package_files(manifest: dict) -> list[str]:
+    """Dateien, die ein Paket mitbringen muss (wie BALLONs formgen_import.load): FBX, Spec, alle Texturen."""
+    T = manifest.get("textures") or {}
+    names = {T.get("weapon", {}).get(k) for k in ("albedo", "spec", "normal", "ao")}
+    for skin in T.get("skins", []):
+        names |= {skin.get("albedo"), skin.get("spec")}
+    if None in names or not manifest.get("fbx"):
+        raise PackageError("Manifest ohne FBX oder Texturnamen")
+    return [manifest["fbx"], f"{manifest['id']}.spec.json"] + [f"textures/{n}" for n in sorted(names)]
 
 
 def unpack(zip_path: Path, folder: Path) -> Path:
@@ -252,7 +284,14 @@ def unpack(zip_path: Path, folder: Path) -> Path:
             manifest = json.loads(archive.read(f"{sid}.package.json"))
         except KeyError:
             raise PackageError(f"{zip_path}: ohne {sid}.package.json") from None
-    read_package(manifest, sid)
+        except ValueError:
+            raise PackageError(f"{zip_path}: {sid}.package.json ist kein JSON") from None
+        if not isinstance(manifest, dict):
+            raise PackageError(f"{zip_path}: Manifest ist kein Objekt")
+        read_package(manifest, sid)
+        missing = sorted(set(package_files(manifest)) - set(archive.namelist()))
+        if missing:
+            raise PackageError(f"{zip_path}: Dateien fehlen: {missing}")
     target = folder / sid
     if target.exists() and not (target / f"{sid}.package.json").is_file():
         raise RuntimeError(f"{target} ist kein Formgen-Paket (ohne {sid}.package.json) – nicht überschrieben")
