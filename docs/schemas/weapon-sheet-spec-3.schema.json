@@ -286,6 +286,15 @@
          "minItems": 1
         }
        ]
+      },
+      "series": {
+       "enum": [
+        "facet",
+        "bench",
+        "block",
+        "flow"
+       ],
+       "description": "Design-Serie (0.8): eigene Verkleidung über der Grundform, formgen/series.py"
       }
      }
     },
@@ -386,7 +395,8 @@
          "mag",
          "muzzle",
          "glow",
-         "limbs"
+         "limbs",
+         "series"
         ]
        }
       }

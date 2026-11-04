@@ -1,0 +1,1033 @@
+{
+ "anchors": {
+  "Socket_Eye": {
+   "part": "sight_rear",
+   "position_mm": [
+    -70.0,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_MagWell": {
+   "part": "cylinder",
+   "position_mm": [
+    78.5,
+    57.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "muzzle_crown",
+   "position_mm": [
+    275.62,
+    71.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    262.62,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_rear",
+   "position_mm": [
+    0.0,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "grip",
+   "position_mm": [
+    -4.0,
+    -34.0,
+    17.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Bewegliche Mechanik",
+   "en": "Moving mechanism",
+   "id": "mechanism"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-04",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/w04_hand_cannon_v21.py": "5374b12713d43f41843173abb47987bacc3cbd4ab7232a0e51b5e93e98f8837c",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w04_hand_cannon.py": "ae205a2df26fb13dca2eebbfbc5fd7e4b611b2050e0d8d61f6f93d7d2615b4b5"
+  },
+  "source_sha256": "fda8c58be8e981d6e93bc44b05bc0211e866a5e324069ae5d444e00e177e30f1",
+  "spec_sha256": "0b6d1c446d32a79e25dae089a1760dcae9a71e42a3bc79f822e4bae18a22b909"
+ },
+ "ballon_dimensions_mm": {
+  "height": 184.0,
+  "length": 306.5,
+  "width": 44.8
+ },
+ "base": "v21",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Gibt den Kran frei (Daumen)",
+    "Spannt den Fuß"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "rubber"
+   },
+   "sight_line_mm": 32.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Gibt den Kran frei (Daumen)",
+    "Spannt den Fuß"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "rubber"
+   },
+   "sight_line_mm": 32.0
+  }
+ },
+ "counts": {
+  "assemblies": 6,
+  "parts": 31,
+  "triangles": 43248
+ },
+ "dimensions_mm": {
+  "height": 184.0,
+  "length": 321.08,
+  "width": 44.83
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [],
+  "ops": [
+   {
+    "kind": "holo_pille",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "kind": "v21",
+    "op": "grip",
+    "skipped": "keine Griffgruppe grip_rifle (BGM-1) oder schon v2.1"
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 130.5,
+    "delta_mm": 14.616,
+    "factor": 1.056,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "barrel",
+     "shroud"
+    ],
+    "translated": [
+     "band_side",
+     "muzzle_crown",
+     "sight_front",
+     "sight_glass",
+     "text_l"
+    ],
+    "wanted_mm": 14.616
+   },
+   {
+    "factor": 1.182,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   },
+   {
+    "added": [
+     "flow_body_top_l1",
+     "flow_body_top_l2",
+     "flow_body_top_l3",
+     "flow_body_low_l2",
+     "flow_body_glow_l1",
+     "flow_body_top_r1",
+     "flow_body_top_r2",
+     "flow_body_low_r1",
+     "flow_body_low_r2",
+     "flow_body_glow_r1",
+     "flow_body_glow_r2"
+    ],
+    "kind": "flow",
+    "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
+    "zones": [
+     "Gehäuse",
+     "Vorderteil"
+    ]
+   }
+  ]
+ },
+ "id": "BM04",
+ "name_de": "Handfeuerwaffe · Pearl Drift",
+ "name_en": "Hand Cannon · Pearl Drift",
+ "parts": [
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -29.0,
+     104.0
+    ],
+    "u": [
+     24.0,
+     85.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "frame",
+   "moving": false,
+   "name_de": "Rahmen",
+   "name_en": "Frame",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     -32.67,
+     -12.08
+    ],
+    "u": [
+     62.0,
+     93.78
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "hammer",
+   "moving": true,
+   "name_de": "Hahn",
+   "name_en": "Hammer",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 240
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -0.44,
+     8.44
+    ],
+    "u": [
+     57.56,
+     66.44
+    ],
+    "x": [
+     16.5,
+     20.0
+    ]
+   },
+   "id": "cylinder_latch",
+   "moving": true,
+   "name_de": "Trommelriegel",
+   "name_en": "Cylinder latch",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     19.5,
+     81.0
+    ],
+    "u": [
+     27.91,
+     60.0
+    ],
+    "x": [
+     -4.15,
+     17.71
+    ]
+   },
+   "id": "crane",
+   "moving": true,
+   "name_de": "Kran",
+   "name_en": "Crane",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 224
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     19.5,
+     78.5
+    ],
+    "u": [
+     34.59,
+     79.41
+    ],
+    "x": [
+     -22.41,
+     22.41
+    ]
+   },
+   "id": "cylinder",
+   "moving": true,
+   "name_de": "Trommel",
+   "name_en": "Cylinder",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 2396
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -8.0,
+     278.62
+    ],
+    "u": [
+     42.0,
+     92.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "shroud",
+   "moving": false,
+   "name_de": "Haube",
+   "name_en": "Top strap and barrel shroud",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 744
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     80.0,
+     274.62
+    ],
+    "u": [
+     61.58,
+     80.42
+    ],
+    "x": [
+     -9.42,
+     9.42
+    ]
+   },
+   "id": "barrel",
+   "moving": false,
+   "name_de": "Lauf",
+   "name_en": "Barrel",
+   "role": "metal",
+   "shape": "cyl",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     271.62,
+     275.62
+    ],
+    "u": [
+     60.59,
+     81.41
+    ],
+    "x": [
+     -10.41,
+     10.41
+    ]
+   },
+   "id": "muzzle_crown",
+   "moving": false,
+   "name_de": "Mündungskrone",
+   "name_en": "Muzzle crown",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 576
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     236.62,
+     252.62
+    ],
+    "u": [
+     43.0,
+     57.0
+    ],
+    "x": [
+     -13.3,
+     13.3
+    ]
+   },
+   "id": "band_side",
+   "moving": false,
+   "name_de": "Chevronband",
+   "name_en": "Chevron band",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 40
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     161.7,
+     186.3
+    ],
+    "u": [
+     46.96,
+     49.9
+    ],
+    "x": [
+     12.93,
+     13.17
+    ]
+   },
+   "id": "text_l",
+   "moving": false,
+   "name_de": "Schriftzug",
+   "name_en": "Lettering",
+   "role": "anodized",
+   "shape": "text",
+   "triangles": 2244
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.15,
+     25.89
+    ],
+    "u": [
+     -76.0,
+     24.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 572
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     38.6,
+     46.43
+    ],
+    "u": [
+     -2.81,
+     23.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     20.84,
+     78.43
+    ],
+    "u": [
+     -10.0,
+     25.0
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "trigger_guard",
+   "moving": false,
+   "name_de": "Abzugsbügel",
+   "name_en": "Trigger guard",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 244
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.46,
+     3.68
+    ],
+    "u": [
+     -79.0,
+     -73.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip_cap",
+   "moving": false,
+   "name_de": "Griffboden",
+   "name_en": "Grip cap",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -4.0,
+     18.0
+    ],
+    "u": [
+     91.5,
+     98.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": false,
+   "name_de": "Kimmenfuß",
+   "name_en": "Rear base",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     0.0,
+     13.77
+    ],
+    "u": [
+     92.8,
+     95.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.0,
+     7.87
+    ],
+    "u": [
+     97.5,
+     105.0
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "sight_rear",
+   "moving": false,
+   "name_de": "Kimmenblatt",
+   "name_en": "Rear blade",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.1,
+     0.3
+    ],
+    "u": [
+     99.4,
+     104.2
+    ],
+    "x": [
+     -5.25,
+     5.25
+    ]
+   },
+   "id": "sight_status",
+   "moving": false,
+   "name_de": "Leuchtklammern",
+   "name_en": "Glow brackets",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     254.62,
+     270.62
+    ],
+    "u": [
+     91.5,
+     102.2
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "sight_front",
+   "moving": false,
+   "name_de": "Korn",
+   "name_en": "Front sight",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     262.12,
+     262.72
+    ],
+    "u": [
+     100.72,
+     102.48
+    ],
+    "x": [
+     -0.88,
+     0.88
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Kornpunkt",
+   "name_en": "Front dot",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 60
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -30.26,
+     -21.46
+    ],
+    "u": [
+     68.03,
+     80.65
+    ],
+    "x": [
+     13.0,
+     21.5
+    ]
+   },
+   "id": "flow_body_top_l1",
+   "moving": false,
+   "name_de": "Glatte Schale Körper oben links 1",
+   "name_en": "Smooth shell body top left 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 388
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -9.04,
+     12.37
+    ],
+    "u": [
+     83.96,
+     94.0
+    ],
+    "x": [
+     13.0,
+     21.5
+    ]
+   },
+   "id": "flow_body_top_l2",
+   "moving": false,
+   "name_de": "Glatte Schale Körper oben links 2",
+   "name_en": "Smooth shell body top left 2",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 312
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     85.64,
+     273.61
+    ],
+    "u": [
+     50.25,
+     93.73
+    ],
+    "x": [
+     13.0,
+     21.5
+    ]
+   },
+   "id": "flow_body_top_l3",
+   "moving": false,
+   "name_de": "Glatte Schale Körper oben links 3",
+   "name_en": "Smooth shell body top left 3",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 604
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     86.5,
+     273.62
+    ],
+    "u": [
+     22.24,
+     73.9
+    ],
+    "x": [
+     13.0,
+     20.0
+    ]
+   },
+   "id": "flow_body_low_l2",
+   "moving": false,
+   "name_de": "Glatte Schale Körper unten links 2",
+   "name_en": "Smooth shell body low left 2",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 764
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     84.8,
+     270.28
+    ],
+    "u": [
+     48.16,
+     76.38
+    ],
+    "x": [
+     17.2,
+     19.2
+    ]
+   },
+   "id": "flow_body_glow_l1",
+   "moving": false,
+   "name_de": "Leuchtlinie",
+   "name_en": "Glow line",
+   "role": "energy",
+   "shape": "tube",
+   "triangles": 14620
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -30.28,
+     12.47
+    ],
+    "u": [
+     66.1,
+     93.98
+    ],
+    "x": [
+     -21.5,
+     -13.0
+    ]
+   },
+   "id": "flow_body_top_r1",
+   "moving": false,
+   "name_de": "Glatte Schale Körper oben rechts 1",
+   "name_en": "Smooth shell body top right 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 508
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     85.64,
+     273.61
+    ],
+    "u": [
+     50.25,
+     93.73
+    ],
+    "x": [
+     -21.5,
+     -13.0
+    ]
+   },
+   "id": "flow_body_top_r2",
+   "moving": false,
+   "name_de": "Glatte Schale Körper oben rechts 2",
+   "name_en": "Smooth shell body top right 2",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 604
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -29.83,
+     12.36
+    ],
+    "u": [
+     31.0,
+     65.03
+    ],
+    "x": [
+     -20.0,
+     -13.0
+    ]
+   },
+   "id": "flow_body_low_r1",
+   "moving": false,
+   "name_de": "Glatte Schale Körper unten rechts 1",
+   "name_en": "Smooth shell body low right 1",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 444
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     86.5,
+     273.62
+    ],
+    "u": [
+     22.24,
+     73.9
+    ],
+    "x": [
+     -20.0,
+     -13.0
+    ]
+   },
+   "id": "flow_body_low_r2",
+   "moving": false,
+   "name_de": "Glatte Schale Körper unten rechts 2",
+   "name_en": "Smooth shell body low right 2",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 764
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -24.9,
+     -16.8
+    ],
+    "u": [
+     62.61,
+     67.64
+    ],
+    "x": [
+     -19.2,
+     -17.2
+    ]
+   },
+   "id": "flow_body_glow_r1",
+   "moving": false,
+   "name_de": "Leuchtlinie",
+   "name_en": "Glow line",
+   "role": "energy",
+   "shape": "tube",
+   "triangles": 796
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     84.8,
+     270.28
+    ],
+    "u": [
+     48.16,
+     76.38
+    ],
+    "x": [
+     -19.2,
+     -17.2
+    ]
+   },
+   "id": "flow_body_glow_r2",
+   "moving": false,
+   "name_de": "Leuchtlinie",
+   "name_en": "Glow line",
+   "role": "energy",
+   "shape": "tube",
+   "triangles": 14620
+  }
+ ],
+ "pilot": {
+  "module": "basic/pilot/w04_hand_cannon_v21.py",
+  "version": "2.1"
+ },
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-04 v2.1-Pilot (Quellhash fda8c58be8e9); Variante M „Pearl Drift“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-04",
+  "name": "Trommel v2.1",
+  "nick": "Familie v2.1",
+  "num": "04",
+  "type": "hand_cannon",
+  "type_de": "Handfeuerwaffe",
+  "type_en": "Hand Cannon"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Organisch-glatt: fließende Perlschalen mit Wellenfuge, Spindel um den Lauf, korallene Leuchtlinie",
+  "letter": "M",
+  "name": "Pearl Drift",
+  "params": {
+   "front": [
+    1.0,
+    1.06
+   ],
+   "grip": "v21",
+   "limbs": [
+    1.16,
+    1.24
+   ],
+   "series": "flow",
+   "sight": [
+    "holo_pille",
+    "boegen",
+    "scope_tropfen"
+   ]
+  },
+  "since": "0.8",
+  "skin": "perle"
+ },
+ "variation": {
+  "draws": {
+   "front": 1.056,
+   "limbs": 1.182,
+   "sight": "holo_pille"
+  },
+  "seed": "2075d0e3540ece00",
+  "values": {
+   "front": 1.056,
+   "grip": "v21",
+   "limbs": 1.182,
+   "series": "flow",
+   "sight": "holo_pille"
+  }
+ },
+ "warnings": [
+  "frame: Fase nicht ausgewertet: collinear unequal offset",
+  "flow_body_glow_l1: tube: AUTO-Bezier-Mittellinie nach Blender5.0.1, Auflösung12; paralleler Ringtransport statt vollständiger Blender-Tessellation",
+  "flow_body_glow_r1: tube: AUTO-Bezier-Mittellinie nach Blender5.0.1, Auflösung12; paralleler Ringtransport statt vollständiger Blender-Tessellation",
+  "flow_body_glow_r2: tube: AUTO-Bezier-Mittellinie nach Blender5.0.1, Auflösung12; paralleler Ringtransport statt vollständiger Blender-Tessellation"
+ ]
+}

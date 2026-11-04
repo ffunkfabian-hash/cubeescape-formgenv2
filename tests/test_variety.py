@@ -218,12 +218,12 @@ class RegisterVarietyTests(unittest.TestCase):
                 self.assertEqual(report["base"], ballon.pilots(SNAP, num)[-1], sid)
                 self.assertTrue(shape.endswith("· v2.1"), sid)
 
-    def test_six_to_eight_lines_with_frozen_ids(self):
+    def test_lines_with_frozen_ids(self):
         letters = [v["letter"] for v in self.entries]
-        self.assertTrue(6 <= len(letters) <= 8, letters)
+        self.assertTrue(6 <= len(letters) <= 12, letters)      # 0.8: acht Linien + vier Serien
         self.assertEqual(letters[:3], ["A", "B", "C"])
         self.assertEqual([v["name"] for v in self.entries[:3]], ["Baseline", "Long Reach", "Close Quarters"])
-        self.assertEqual({v["skin"] for v in self.entries}, set(variants._skins()), "alle BALLON-Skins im Einsatz")
+        self.assertEqual({v["skin"] for v in self.entries}, set(variants._skins()), "alle Skins im Einsatz")
 
     def test_every_line_differs_visibly_from_baseline(self):
         tris = {sid: variety.triangles(author) for sid, (author, _) in self.built.items()}

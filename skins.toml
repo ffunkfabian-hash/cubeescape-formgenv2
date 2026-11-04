@@ -281,6 +281,86 @@ metal_shell = true
 [skins.eloxal.roles]
 shell = "#5B6876"
 
+# Paletten der Design-Serien (0.8): nur hier, nicht in BALLON kit.SKINS (`formgen = true`); beim Backen in den laufenden Kit eingehängt.
+[skins.frost]
+de = "Frost"
+kind = "Farbe"
+formgen = true
+wear = 0.5
+[skins.frost.roles]
+shell = "#14171D"
+graphite = "#0C0D10"
+anodized = "#101217"
+sight_anod = "#101217"
+ring_anod = "#101217"
+dark_metal = "#20252D"
+metal = "#6A7482"
+trim = "#8CA0B3"
+accent = "#37C6E8"
+energy = "#7FEAFF"
+charge_core = "#7FEAFF"
+pin_glow = "#7FEAFF"
+draw_light = "#7FEAFF"
+sight_line = "#7FEAFF"
+
+[skins.werkbank]
+de = "Werkbank"
+kind = "Farbe"
+formgen = true
+wear = 1.8
+grime = 1.4
+[skins.werkbank.roles]
+shell = "#7E8488"
+graphite = "#26282C"
+anodized = "#303338"
+sight_anod = "#303338"
+ring_anod = "#303338"
+dark_metal = "#3A3D42"
+trim = "#D7DADD"
+accent = "#C99700"
+energy = "#FFC247"
+charge_core = "#FFC247"
+pin_glow = "#FFC247"
+draw_light = "#FFC247"
+sight_line = "#FFC247"
+
+[skins.cube]
+de = "Cube"
+kind = "Farbe"
+formgen = true
+wear = 0.7
+[skins.cube.roles]
+shell = "#D8CDB2"
+graphite = "#2F3137"
+anodized = "#2F3137"
+sight_anod = "#2F3137"
+ring_anod = "#2F3137"
+dark_metal = "#3C3F46"
+accent = "#CC3300"
+decal = "#D8CDB2"
+energy = "#10C8E0"
+
+[skins.perle]
+de = "Perle"
+kind = "Farbe"
+formgen = true
+wear = 0.3
+[skins.perle.roles]
+shell = "#E2DCD2"
+graphite = "#143A42"
+anodized = "#1E4A52"
+sight_anod = "#1E4A52"
+ring_anod = "#1E4A52"
+dark_metal = "#31555C"
+trim = "#D6C7AE"
+accent = "#C8321C"
+decal = "#E2DCD2"
+energy = "#FF5A3A"
+charge_core = "#FF5A3A"
+pin_glow = "#FF5A3A"
+draw_light = "#FF5A3A"
+sight_line = "#FF5A3A"
+
 [render]
 background_mid = "#808080"
 outline = "#17191D"

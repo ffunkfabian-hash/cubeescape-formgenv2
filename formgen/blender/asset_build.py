@@ -3,7 +3,8 @@
   blender -b --factory-startup -P formgen/blender/asset_build.py -- <job.json>
 
 job.json: snapshot (formgen.ballon_kit), module (BALLON-Grundmodul), model (META/PARTS/ASSEMBLIES/ANCHORS/POINTS/ACTIONS des
-Generators oder null = Modul unverändert), id, out; optional package, skin, atlas, samples, gpu, package_version (= formgen.asset.BAKE).
+Generators oder null = Modul unverändert), id, out; optional package, skin, skin_def (Skin einer Design-Serie, Form wie kit.SKINS), atlas,
+samples, gpu, package_version (= formgen.asset.BAKE).
 
 Nichts hier baut Geometrie oder Materialien selbst; alle Aufrufe sind BALLONs Schnittstellen ab 0.41 (docs/formgen-schnittstelle.md):
   1. tools/blender_build.main aus dem Schnappschuss, unverändert (kit.reset_scene, kit.build mit Fasen-Modifiern, Durchbrüchen und
@@ -64,6 +65,8 @@ def package(job, W, bpy, kit, BB):
     objs = {p['id']: bpy.data.objects[p['id']] for p in W.PARTS}
     root = bpy.data.objects[W.META['id']]
     BB.setup_render(854, 1, gpu=job['gpu'], aaa=True, bloom=False, bg='mid')
+    if job.get('skin_def'):                                 # Palette einer Design-Serie: nur für diesen Lauf im Kit, BALLON bleibt unberührt
+        kit.SKINS[job['skin']] = job['skin_def']
     kit.SKIN['name'] = job['skin']                          # Atlasfarbe = Skin der Linie; bake_weapon setzt danach Standard (FBX)
     kit.set_mode(objs, 'aaa')
     tex = EU.bake_weapon(root, tex_dir, sid, fbx=os.path.join(out, f'{sid}.fbx'), skins=False, gpu=job['gpu'], arms=False,

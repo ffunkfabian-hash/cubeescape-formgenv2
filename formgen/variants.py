@@ -33,7 +33,8 @@ INTS = {"glow": (0, 2)}
 HOLO = ("reflex_sight_v21", "holo_kasten", "holo_pille", "zinken", "boegen", "achteck", "d_linse", "entfernung")
 SCOPES = ("scope_tropfen", "gabel", "lang")
 PRECISION = ("03", "09", "11")   # Vorgabe Auftrag 0.4: Zielfernrohr nur an Scout, Scharfschütze, lineare Fusion
-CHOICES = {"sight": HOLO + SCOPES, "stock": ("S1", "S2"), "grip": ("v21",)}
+SERIES = ("facet", "bench", "block", "flow")   # Design-Serien (0.8, formgen/series.py): eigene Verkleidung über der Grundform
+CHOICES = {"sight": HOLO + SCOPES, "stock": ("S1", "S2"), "grip": ("v21",), "series": SERIES}
 BASES = ("pilot", "standard", "v21")   # pilot (0.6, Nutzerentscheid 242): neuester BALLON-Spielpilot, sonst Formstudie
 SCHEMA = 2
 TYPES = tuple(f"{n:02d}" for n in range(1, 18))
@@ -82,6 +83,8 @@ def _check_param(letter, key, value):
             raise VariantError(f"{letter}: {key} als Bereich [von, bis] mit von ≤ bis")
         if not all(_number(x) and lo <= x <= hi for x in values) or (key in INTS and not all(isinstance(x, int) for x in values)):
             raise VariantError(f"{letter}: {key}={value} außerhalb {lo}–{hi}")
+    elif key == "series" and value not in SERIES:     # eine Linie hat genau eine Formensprache, keine Auswahl (auch Spec-Schema)
+        raise VariantError(f"{letter}: series genau eine aus {', '.join(SERIES)}")
     elif key in CHOICES:
         values = value if isinstance(value, list) else [value]
         if not values or any(x not in CHOICES[key] for x in values) or len(set(values)) != len(values):

@@ -1,0 +1,924 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade",
+   "position_mm": [
+    864.25,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "emitter",
+   "position_mm": [
+    724.25,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "support_grip",
+   "position_mm": [
+    365.0,
+    40.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Stange",
+   "en": "Shaft",
+   "id": "shaft"
+  },
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Schild",
+   "en": "Shield",
+   "id": "shield"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-17",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w17_glaive.py": "0506f6b9704db6dea23b31074a7b34644bc4f656a844bf27eb0f1a5a4907046b"
+  },
+  "source_sha256": "8153dcc17637c734c91013187814e8a96028af7e3407b63be3a75646fb814dea",
+  "spec_sha256": "006f7d818397cf07c0df38e5c0a6fa75b1514c75e40f0c9f4664569768628017"
+ },
+ "ballon_dimensions_mm": {
+  "height": 151.9,
+  "length": 1423.1,
+  "width": 53.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
+ },
+ "counts": {
+  "assemblies": 7,
+  "parts": 28,
+  "triangles": 3276
+ },
+ "dimensions_mm": {
+  "height": 151.89,
+  "length": 1386.96,
+  "width": 56.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
+  "ops": [
+   {
+    "kind": "achteck",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 661.25,
+    "delta_mm": -35.75,
+    "factor": 0.948,
+    "limited": true,
+    "op": "front",
+    "stretched": [
+     "blade_mount"
+    ],
+    "translated": [
+     "blade",
+     "emitter"
+    ],
+    "wanted_mm": -39.52
+   },
+   {
+    "factor": 1.119,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   },
+   {
+    "added": [
+     "block_core_accent_l",
+     "block_core_graphite_l",
+     "block_core_shell_l",
+     "block_core_accent_r",
+     "block_core_graphite_r",
+     "block_core_shell_r",
+     "block_mount_graphite_l",
+     "block_mount_shell_l",
+     "block_mount_graphite_r",
+     "block_mount_shell_r",
+     "block_stair_1_shell",
+     "block_stair_1_graphite",
+     "block_stair_2_shell",
+     "block_stair_2_graphite",
+     "block_stair_3_shell"
+    ],
+    "kind": "block",
+    "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
+    "zones": [
+     "Kern",
+     "Klingenfuß"
+    ]
+   }
+  ]
+ },
+ "id": "BL17",
+ "name_de": "Glefe · Cube Blocks",
+ "name_en": "Glaive · Cube Blocks",
+ "parts": [
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -300.0,
+     660.0
+    ],
+    "u": [
+     27.44,
+     52.56
+    ],
+    "x": [
+     -12.56,
+     12.56
+    ]
+   },
+   "id": "shaft",
+   "moving": false,
+   "name_de": "Stange",
+   "name_en": "Shaft",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -334.0,
+     -296.0
+    ],
+    "u": [
+     21.52,
+     58.48
+    ],
+    "x": [
+     -18.48,
+     18.48
+    ]
+   },
+   "id": "counterweight",
+   "moving": false,
+   "name_de": "Gegengewicht",
+   "name_en": "Counterweight",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     210.0
+    ],
+    "u": [
+     18.0,
+     70.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "core",
+   "moving": false,
+   "name_de": "Kernkörper",
+   "name_en": "Core body",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 124
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     300.0,
+     430.0
+    ],
+    "u": [
+     23.58,
+     56.42
+    ],
+    "x": [
+     -16.42,
+     16.42
+    ]
+   },
+   "id": "support_grip",
+   "moving": false,
+   "name_de": "Stützgriff",
+   "name_en": "Support grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     640.0,
+     664.25
+    ],
+    "u": [
+     18.0,
+     64.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "blade_mount",
+   "moving": false,
+   "name_de": "Klingenaufnahme",
+   "name_en": "Blade mount",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     662.25,
+     1052.96
+    ],
+    "u": [
+     8.0,
+     72.0
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade",
+   "moving": false,
+   "name_de": "Klinge",
+   "name_en": "Blade",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     664.25,
+     724.25
+    ],
+    "u": [
+     34.2,
+     45.8
+    ],
+    "x": [
+     -5.8,
+     5.8
+    ]
+   },
+   "id": "emitter",
+   "moving": true,
+   "name_de": "Emitter",
+   "name_en": "Emitter",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 44
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     21.5,
+     26.5
+    ]
+   },
+   "id": "shield_l",
+   "moving": true,
+   "name_de": "Schildflügel links",
+   "name_en": "Shield wing left",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     -26.5,
+     -21.5
+    ]
+   },
+   "id": "shield_r",
+   "moving": true,
+   "name_de": "Schildflügel rechts",
+   "name_en": "Shield wing right",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     40.0,
+     160.0
+    ],
+    "u": [
+     70.0,
+     86.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     70.0,
+     130.0
+    ],
+    "u": [
+     76.0,
+     80.0
+    ],
+    "x": [
+     12.7,
+     13.7
+    ]
+   },
+   "id": "energy_cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.84,
+     25.1
+    ],
+    "u": [
+     -64.0,
+     20.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 300
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     37.53,
+     45.36
+    ],
+    "u": [
+     -6.81,
+     19.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -71.0,
+     215.0
+    ],
+    "u": [
+     25.0,
+     71.0
+    ],
+    "x": [
+     19.7,
+     28.0
+    ]
+   },
+   "id": "block_core_accent_l",
+   "moving": false,
+   "name_de": "Farbblöcke Kern links",
+   "name_en": "Colour blocks core left",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -47.0,
+     95.0
+    ],
+    "u": [
+     25.0,
+     71.0
+    ],
+    "x": [
+     19.7,
+     23.5
+    ]
+   },
+   "id": "block_core_graphite_l",
+   "moving": false,
+   "name_de": "Farbblöcke Kern links",
+   "name_en": "Colour blocks core left",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     1.0,
+     215.0
+    ],
+    "u": [
+     25.0,
+     71.0
+    ],
+    "x": [
+     19.7,
+     26.0
+    ]
+   },
+   "id": "block_core_shell_l",
+   "moving": false,
+   "name_de": "Farbblöcke Kern links",
+   "name_en": "Colour blocks core left",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 180
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -71.0,
+     215.0
+    ],
+    "u": [
+     25.0,
+     71.0
+    ],
+    "x": [
+     -28.0,
+     -19.7
+    ]
+   },
+   "id": "block_core_accent_r",
+   "moving": false,
+   "name_de": "Farbblöcke Kern rechts",
+   "name_en": "Colour blocks core right",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -47.0,
+     95.0
+    ],
+    "u": [
+     25.0,
+     71.0
+    ],
+    "x": [
+     -23.5,
+     -19.7
+    ]
+   },
+   "id": "block_core_graphite_r",
+   "moving": false,
+   "name_de": "Farbblöcke Kern rechts",
+   "name_en": "Colour blocks core right",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     1.0,
+     215.0
+    ],
+    "u": [
+     25.0,
+     71.0
+    ],
+    "x": [
+     -26.0,
+     -19.7
+    ]
+   },
+   "id": "block_core_shell_r",
+   "moving": false,
+   "name_de": "Farbblöcke Kern rechts",
+   "name_en": "Colour blocks core right",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 180
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     649.0,
+     671.0
+    ],
+    "u": [
+     25.0,
+     47.0
+    ],
+    "x": [
+     16.7,
+     20.5
+    ]
+   },
+   "id": "block_mount_graphite_l",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenfuß links",
+   "name_en": "Colour blocks mount left",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     649.0,
+     671.0
+    ],
+    "u": [
+     49.0,
+     71.0
+    ],
+    "x": [
+     16.7,
+     23.0
+    ]
+   },
+   "id": "block_mount_shell_l",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenfuß links",
+   "name_en": "Colour blocks mount left",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     649.0,
+     671.0
+    ],
+    "u": [
+     25.0,
+     47.0
+    ],
+    "x": [
+     -20.5,
+     -16.7
+    ]
+   },
+   "id": "block_mount_graphite_r",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenfuß rechts",
+   "name_en": "Colour blocks mount right",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     649.0,
+     671.0
+    ],
+    "u": [
+     49.0,
+     71.0
+    ],
+    "x": [
+     -23.0,
+     -16.7
+    ]
+   },
+   "id": "block_mount_shell_r",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenfuß rechts",
+   "name_en": "Colour blocks mount right",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -279.0,
+     -113.0
+    ],
+    "u": [
+     17.0,
+     63.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "block_stair_1_shell",
+   "moving": false,
+   "name_de": "Stufenblöcke 1",
+   "name_en": "Stair blocks 1",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 240
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -255.0,
+     -89.0
+    ],
+    "u": [
+     17.0,
+     63.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "block_stair_1_graphite",
+   "moving": false,
+   "name_de": "Stufenblöcke 1",
+   "name_en": "Stair blocks 1",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 240
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     226.0,
+     248.0
+    ],
+    "u": [
+     17.0,
+     63.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "block_stair_2_shell",
+   "moving": false,
+   "name_de": "Stufenblöcke 2",
+   "name_en": "Stair blocks 2",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     250.0,
+     272.0
+    ],
+    "u": [
+     17.0,
+     63.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "block_stair_2_graphite",
+   "moving": false,
+   "name_de": "Stufenblöcke 2",
+   "name_en": "Stair blocks 2",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     441.0,
+     463.0
+    ],
+    "u": [
+     17.0,
+     63.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "block_stair_3_shell",
+   "moving": false,
+   "name_de": "Stufenblöcke 3",
+   "name_en": "Stair blocks 3",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 60
+  }
+ ],
+ "pilot": null,
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante L „Cube Blocks“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-17",
+  "name": "Schildwacht",
+  "nick": "Standard",
+  "num": "17",
+  "type": "glaive",
+  "type_de": "Glefe",
+  "type_en": "Glaive"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Cube-Escape-Farbwelt: Rasterblöcke in Creme, Anthrazit und Orange, Stufen am Lauf, Würfel an der Mündung, cyane Fugenlinie",
+  "letter": "L",
+  "name": "Cube Blocks",
+  "params": {
+   "front": [
+    0.94,
+    1.0
+   ],
+   "limbs": [
+    1.1,
+    1.18
+   ],
+   "series": "block",
+   "sight": [
+    "holo_kasten",
+    "achteck",
+    "scope_tropfen"
+   ]
+  },
+  "since": "0.8",
+  "skin": "cube"
+ },
+ "variation": {
+  "draws": {
+   "front": 0.948,
+   "limbs": 1.119,
+   "sight": "achteck"
+  },
+  "seed": "90975a18bceadd43",
+  "values": {
+   "front": 0.948,
+   "limbs": 1.119,
+   "series": "block",
+   "sight": "achteck"
+  }
+ },
+ "warnings": []
+}

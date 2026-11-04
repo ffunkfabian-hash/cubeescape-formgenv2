@@ -1,0 +1,785 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade",
+   "position_mm": [
+    900.0,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "emitter",
+   "position_mm": [
+    760.0,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "support_grip",
+   "position_mm": [
+    365.0,
+    40.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Stange",
+   "en": "Shaft",
+   "id": "shaft"
+  },
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Schild",
+   "en": "Shield",
+   "id": "shield"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-17",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w17_glaive.py": "0506f6b9704db6dea23b31074a7b34644bc4f656a844bf27eb0f1a5a4907046b"
+  },
+  "source_sha256": "8153dcc17637c734c91013187814e8a96028af7e3407b63be3a75646fb814dea",
+  "spec_sha256": "006f7d818397cf07c0df38e5c0a6fa75b1514c75e40f0c9f4664569768628017"
+ },
+ "ballon_dimensions_mm": {
+  "height": 151.9,
+  "length": 1423.1,
+  "width": 53.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
+ },
+ "counts": {
+  "assemblies": 7,
+  "parts": 23,
+  "triangles": 18964
+ },
+ "dimensions_mm": {
+  "height": 151.89,
+  "length": 1422.71,
+  "width": 53.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
+  "ops": [
+   {
+    "kind": "entfernung",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "factor": 1.044,
+    "op": "mag",
+    "skipped": "kein entnehmbares Stangenmagazin"
+   },
+   {
+    "factor": 0.947,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   },
+   {
+    "added": [
+     "bench_core_l1",
+     "bench_core_bolts_l",
+     "bench_core_r1",
+     "bench_core_bolts_r",
+     "bench_mount_l1",
+     "bench_mount_bolts_l",
+     "bench_mount_r1",
+     "bench_mount_bolts_r",
+     "bench_fins_1",
+     "bench_fins_2"
+    ],
+    "kind": "bench",
+    "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
+    "zones": [
+     "Kern",
+     "Klingenfuß"
+    ]
+   }
+  ]
+ },
+ "id": "BK17",
+ "name_de": "Glefe · Bolt Works",
+ "name_en": "Glaive · Bolt Works",
+ "parts": [
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -300.0,
+     660.0
+    ],
+    "u": [
+     27.44,
+     52.56
+    ],
+    "x": [
+     -12.56,
+     12.56
+    ]
+   },
+   "id": "shaft",
+   "moving": false,
+   "name_de": "Stange",
+   "name_en": "Shaft",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -334.0,
+     -296.0
+    ],
+    "u": [
+     21.52,
+     58.48
+    ],
+    "x": [
+     -18.48,
+     18.48
+    ]
+   },
+   "id": "counterweight",
+   "moving": false,
+   "name_de": "Gegengewicht",
+   "name_en": "Counterweight",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     210.0
+    ],
+    "u": [
+     18.0,
+     70.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "core",
+   "moving": false,
+   "name_de": "Kernkörper",
+   "name_en": "Core body",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 124
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     300.0,
+     430.0
+    ],
+    "u": [
+     23.58,
+     56.42
+    ],
+    "x": [
+     -16.42,
+     16.42
+    ]
+   },
+   "id": "support_grip",
+   "moving": false,
+   "name_de": "Stützgriff",
+   "name_en": "Support grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     640.0,
+     700.0
+    ],
+    "u": [
+     18.0,
+     64.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "blade_mount",
+   "moving": false,
+   "name_de": "Klingenaufnahme",
+   "name_en": "Blade mount",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     698.0,
+     1088.71
+    ],
+    "u": [
+     8.0,
+     72.0
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade",
+   "moving": false,
+   "name_de": "Klinge",
+   "name_en": "Blade",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     700.0,
+     760.0
+    ],
+    "u": [
+     34.2,
+     45.8
+    ],
+    "x": [
+     -5.8,
+     5.8
+    ]
+   },
+   "id": "emitter",
+   "moving": true,
+   "name_de": "Emitter",
+   "name_en": "Emitter",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 44
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     21.5,
+     26.5
+    ]
+   },
+   "id": "shield_l",
+   "moving": true,
+   "name_de": "Schildflügel links",
+   "name_en": "Shield wing left",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     -26.5,
+     -21.5
+    ]
+   },
+   "id": "shield_r",
+   "moving": true,
+   "name_de": "Schildflügel rechts",
+   "name_en": "Shield wing right",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     40.0,
+     160.0
+    ],
+    "u": [
+     70.0,
+     86.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     70.0,
+     130.0
+    ],
+    "u": [
+     76.0,
+     80.0
+    ],
+    "x": [
+     12.7,
+     13.7
+    ]
+   },
+   "id": "energy_cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.84,
+     25.1
+    ],
+    "u": [
+     -64.0,
+     20.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 300
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     37.53,
+     45.36
+    ],
+    "u": [
+     -6.81,
+     19.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -59.0,
+     209.0
+    ],
+    "u": [
+     19.0,
+     69.0
+    ],
+    "x": [
+     19.7,
+     22.4
+    ]
+   },
+   "id": "bench_core_l1",
+   "moving": false,
+   "name_de": "Platte Kern links 1",
+   "name_en": "Plate core left 1",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 6360
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -54.25,
+     -49.75
+    ],
+    "u": [
+     23.48,
+     28.52
+    ],
+    "x": [
+     21.9,
+     24.2
+    ]
+   },
+   "id": "bench_core_bolts_l",
+   "moving": false,
+   "name_de": "Platte Kern Schrauben",
+   "name_en": "Plate core bolts",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 116
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -59.0,
+     209.0
+    ],
+    "u": [
+     19.0,
+     69.0
+    ],
+    "x": [
+     -22.4,
+     -19.7
+    ]
+   },
+   "id": "bench_core_r1",
+   "moving": false,
+   "name_de": "Platte Kern rechts 1",
+   "name_en": "Plate core right 1",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 6360
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -54.25,
+     -49.75
+    ],
+    "u": [
+     23.48,
+     28.52
+    ],
+    "x": [
+     -24.2,
+     -21.9
+    ]
+   },
+   "id": "bench_core_bolts_r",
+   "moving": false,
+   "name_de": "Platte Kern Schrauben",
+   "name_en": "Plate core bolts",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 116
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     641.0,
+     699.0
+    ],
+    "u": [
+     19.0,
+     63.0
+    ],
+    "x": [
+     16.7,
+     19.4
+    ]
+   },
+   "id": "bench_mount_l1",
+   "moving": false,
+   "name_de": "Platte Klingenfuß links 1",
+   "name_en": "Plate mount left 1",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 964
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     645.75,
+     694.25
+    ],
+    "u": [
+     23.48,
+     58.52
+    ],
+    "x": [
+     18.9,
+     21.2
+    ]
+   },
+   "id": "bench_mount_bolts_l",
+   "moving": false,
+   "name_de": "Platte Klingenfuß Schrauben",
+   "name_en": "Plate mount bolts",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 464
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     641.0,
+     699.0
+    ],
+    "u": [
+     19.0,
+     63.0
+    ],
+    "x": [
+     -19.4,
+     -16.7
+    ]
+   },
+   "id": "bench_mount_r1",
+   "moving": false,
+   "name_de": "Platte Klingenfuß rechts 1",
+   "name_en": "Plate mount right 1",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 964
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     645.75,
+     694.25
+    ],
+    "u": [
+     23.48,
+     58.52
+    ],
+    "x": [
+     -21.2,
+     -18.9
+    ]
+   },
+   "id": "bench_mount_bolts_r",
+   "moving": false,
+   "name_de": "Platte Klingenfuß Schrauben",
+   "name_en": "Plate mount bolts",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 464
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -271.75,
+     -88.25
+    ],
+    "u": [
+     18.0,
+     62.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "bench_fins_1",
+   "moving": false,
+   "name_de": "Kühlrippen 1",
+   "name_en": "Cooling fins 1",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 1260
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     233.25,
+     281.75
+    ],
+    "u": [
+     18.0,
+     62.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "bench_fins_2",
+   "moving": false,
+   "name_de": "Kühlrippen 2",
+   "name_en": "Cooling fins 2",
+   "role": "dark_metal",
+   "shape": "multi",
+   "triangles": 360
+  }
+ ],
+ "pilot": null,
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante K „Bolt Works“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-17",
+  "name": "Schildwacht",
+  "nick": "Standard",
+  "num": "17",
+  "type": "glaive",
+  "type_de": "Glefe",
+  "type_en": "Glaive"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Werkstatt-Serie: modularer Prototyp mit Klemmbändern, Sechskantschrauben, Lochschienen, Kühlrippen und Prüfkopf",
+  "letter": "K",
+  "name": "Bolt Works",
+  "params": {
+   "limbs": [
+    0.9,
+    0.96
+   ],
+   "mag": [
+    1.0,
+    1.15
+   ],
+   "series": "bench",
+   "sight": [
+    "holo_kasten",
+    "entfernung",
+    "reflex_sight_v21",
+    "lang"
+   ]
+  },
+  "since": "0.8",
+  "skin": "werkbank"
+ },
+ "variation": {
+  "draws": {
+   "limbs": 0.947,
+   "mag": 1.044,
+   "sight": "entfernung"
+  },
+  "seed": "46d177b6b49ab521",
+  "values": {
+   "limbs": 0.947,
+   "mag": 1.044,
+   "series": "bench",
+   "sight": "entfernung"
+  }
+ },
+ "warnings": []
+}

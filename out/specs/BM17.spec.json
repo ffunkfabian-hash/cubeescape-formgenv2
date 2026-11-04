@@ -1,0 +1,807 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade",
+   "position_mm": [
+    940.28,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "emitter",
+   "position_mm": [
+    800.28,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "support_grip",
+   "position_mm": [
+    365.0,
+    40.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Stange",
+   "en": "Shaft",
+   "id": "shaft"
+  },
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Schild",
+   "en": "Shield",
+   "id": "shield"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-17",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w17_glaive.py": "0506f6b9704db6dea23b31074a7b34644bc4f656a844bf27eb0f1a5a4907046b"
+  },
+  "source_sha256": "8153dcc17637c734c91013187814e8a96028af7e3407b63be3a75646fb814dea",
+  "spec_sha256": "006f7d818397cf07c0df38e5c0a6fa75b1514c75e40f0c9f4664569768628017"
+ },
+ "ballon_dimensions_mm": {
+  "height": 151.9,
+  "length": 1423.1,
+  "width": 53.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
+ },
+ "counts": {
+  "assemblies": 7,
+  "parts": 23,
+  "triangles": 11956
+ },
+ "dimensions_mm": {
+  "height": 151.89,
+  "length": 1462.99,
+  "width": 53.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
+  "ops": [
+   {
+    "kind": "holo_pille",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "kind": "v21",
+    "op": "grip",
+    "skipped": "Griffgruppe weicht von grip_rifle(top) ab (Neigung, Breite oder ohne Bügel)"
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 636.562,
+    "delta_mm": 40.28,
+    "factor": 1.053,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "shaft"
+    ],
+    "translated": [
+     "blade",
+     "blade_mount",
+     "emitter"
+    ],
+    "wanted_mm": 40.28
+   },
+   {
+    "factor": 1.161,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   },
+   {
+    "added": [
+     "flow_core_l1",
+     "flow_core_r1",
+     "flow_mount_l1",
+     "flow_mount_r1",
+     "flow_spindle_1",
+     "flow_ring_1",
+     "flow_spindle_2",
+     "flow_ring_2",
+     "flow_spindle_3",
+     "flow_ring_3"
+    ],
+    "kind": "flow",
+    "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
+    "zones": [
+     "Kern",
+     "Klingenfuß"
+    ]
+   }
+  ]
+ },
+ "id": "BM17",
+ "name_de": "Glefe · Pearl Drift",
+ "name_en": "Glaive · Pearl Drift",
+ "parts": [
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -300.0,
+     700.28
+    ],
+    "u": [
+     27.44,
+     52.56
+    ],
+    "x": [
+     -12.56,
+     12.56
+    ]
+   },
+   "id": "shaft",
+   "moving": false,
+   "name_de": "Stange",
+   "name_en": "Shaft",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -334.0,
+     -296.0
+    ],
+    "u": [
+     21.52,
+     58.48
+    ],
+    "x": [
+     -18.48,
+     18.48
+    ]
+   },
+   "id": "counterweight",
+   "moving": false,
+   "name_de": "Gegengewicht",
+   "name_en": "Counterweight",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     210.0
+    ],
+    "u": [
+     18.0,
+     70.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "core",
+   "moving": false,
+   "name_de": "Kernkörper",
+   "name_en": "Core body",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 124
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     300.0,
+     430.0
+    ],
+    "u": [
+     23.58,
+     56.42
+    ],
+    "x": [
+     -16.42,
+     16.42
+    ]
+   },
+   "id": "support_grip",
+   "moving": false,
+   "name_de": "Stützgriff",
+   "name_en": "Support grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     680.28,
+     740.28
+    ],
+    "u": [
+     18.0,
+     64.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "blade_mount",
+   "moving": false,
+   "name_de": "Klingenaufnahme",
+   "name_en": "Blade mount",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     738.28,
+     1128.99
+    ],
+    "u": [
+     8.0,
+     72.0
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade",
+   "moving": false,
+   "name_de": "Klinge",
+   "name_en": "Blade",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     740.28,
+     800.28
+    ],
+    "u": [
+     34.2,
+     45.8
+    ],
+    "x": [
+     -5.8,
+     5.8
+    ]
+   },
+   "id": "emitter",
+   "moving": true,
+   "name_de": "Emitter",
+   "name_en": "Emitter",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 44
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     21.5,
+     26.5
+    ]
+   },
+   "id": "shield_l",
+   "moving": true,
+   "name_de": "Schildflügel links",
+   "name_en": "Shield wing left",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     -26.5,
+     -21.5
+    ]
+   },
+   "id": "shield_r",
+   "moving": true,
+   "name_de": "Schildflügel rechts",
+   "name_en": "Shield wing right",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     40.0,
+     160.0
+    ],
+    "u": [
+     70.0,
+     86.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     70.0,
+     130.0
+    ],
+    "u": [
+     76.0,
+     80.0
+    ],
+    "x": [
+     12.7,
+     13.7
+    ]
+   },
+   "id": "energy_cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.84,
+     25.1
+    ],
+    "u": [
+     -64.0,
+     20.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 300
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     37.53,
+     45.36
+    ],
+    "u": [
+     -6.81,
+     19.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -60.66,
+     211.0
+    ],
+    "u": [
+     17.2,
+     70.8
+    ],
+    "x": [
+     19.7,
+     23.2
+    ]
+   },
+   "id": "flow_core_l1",
+   "moving": false,
+   "name_de": "Glatte Schale Kern links 1",
+   "name_en": "Smooth shell core left 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 972
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -60.66,
+     211.0
+    ],
+    "u": [
+     17.2,
+     70.8
+    ],
+    "x": [
+     -23.2,
+     -19.7
+    ]
+   },
+   "id": "flow_core_r1",
+   "moving": false,
+   "name_de": "Glatte Schale Kern rechts 1",
+   "name_en": "Smooth shell core right 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 972
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     679.62,
+     740.94
+    ],
+    "u": [
+     17.34,
+     64.66
+    ],
+    "x": [
+     16.7,
+     20.2
+    ]
+   },
+   "id": "flow_mount_l1",
+   "moving": false,
+   "name_de": "Glatte Schale Klingenfuß links 1",
+   "name_en": "Smooth shell mount left 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 332
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     679.62,
+     740.94
+    ],
+    "u": [
+     17.34,
+     64.66
+    ],
+    "x": [
+     -20.2,
+     -16.7
+    ]
+   },
+   "id": "flow_mount_r1",
+   "moving": false,
+   "name_de": "Glatte Schale Klingenfuß rechts 1",
+   "name_en": "Smooth shell mount right 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 332
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -290.0,
+     -80.0
+    ],
+    "u": [
+     20.9,
+     59.1
+    ],
+    "x": [
+     -19.1,
+     19.1
+    ]
+   },
+   "id": "flow_spindle_1",
+   "moving": false,
+   "name_de": "Spindel 1",
+   "name_en": "Spindle 1",
+   "role": "decal",
+   "shape": "multi",
+   "triangles": 2480
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -138.8,
+     -136.3
+    ],
+    "u": [
+     22.52,
+     57.48
+    ],
+    "x": [
+     -17.48,
+     17.48
+    ]
+   },
+   "id": "flow_ring_1",
+   "moving": false,
+   "name_de": "Leuchtring 1",
+   "name_en": "Glow ring 1",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 124
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     215.0,
+     290.0
+    ],
+    "u": [
+     20.9,
+     59.1
+    ],
+    "x": [
+     -19.1,
+     19.1
+    ]
+   },
+   "id": "flow_spindle_2",
+   "moving": false,
+   "name_de": "Spindel 2",
+   "name_en": "Spindle 2",
+   "role": "decal",
+   "shape": "multi",
+   "triangles": 2480
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     269.0,
+     271.5
+    ],
+    "u": [
+     22.52,
+     57.48
+    ],
+    "x": [
+     -17.48,
+     17.48
+    ]
+   },
+   "id": "flow_ring_2",
+   "moving": false,
+   "name_de": "Leuchtring 2",
+   "name_en": "Glow ring 2",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 124
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     430.0,
+     465.0
+    ],
+    "u": [
+     20.9,
+     59.1
+    ],
+    "x": [
+     -19.1,
+     19.1
+    ]
+   },
+   "id": "flow_spindle_3",
+   "moving": false,
+   "name_de": "Spindel 3",
+   "name_en": "Spindle 3",
+   "role": "decal",
+   "shape": "multi",
+   "triangles": 2480
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     455.2,
+     457.7
+    ],
+    "u": [
+     22.52,
+     57.48
+    ],
+    "x": [
+     -17.48,
+     17.48
+    ]
+   },
+   "id": "flow_ring_3",
+   "moving": false,
+   "name_de": "Leuchtring 3",
+   "name_en": "Glow ring 3",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 124
+  }
+ ],
+ "pilot": null,
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante M „Pearl Drift“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-17",
+  "name": "Schildwacht",
+  "nick": "Standard",
+  "num": "17",
+  "type": "glaive",
+  "type_de": "Glefe",
+  "type_en": "Glaive"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Organisch-glatt: fließende Perlschalen mit Wellenfuge, Spindel um den Lauf, korallene Leuchtlinie",
+  "letter": "M",
+  "name": "Pearl Drift",
+  "params": {
+   "front": [
+    1.0,
+    1.06
+   ],
+   "grip": "v21",
+   "limbs": [
+    1.16,
+    1.24
+   ],
+   "series": "flow",
+   "sight": [
+    "holo_pille",
+    "boegen",
+    "scope_tropfen"
+   ]
+  },
+  "since": "0.8",
+  "skin": "perle"
+ },
+ "variation": {
+  "draws": {
+   "front": 1.053,
+   "limbs": 1.161,
+   "sight": "holo_pille"
+  },
+  "seed": "69af362e47d61551",
+  "values": {
+   "front": 1.053,
+   "grip": "v21",
+   "limbs": 1.161,
+   "series": "flow",
+   "sight": "holo_pille"
+  }
+ },
+ "warnings": []
+}

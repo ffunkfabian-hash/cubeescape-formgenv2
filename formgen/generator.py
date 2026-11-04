@@ -11,6 +11,7 @@ ohne Piloten (BASIC-16/17) die Formstudie – im Blatt als „Formstudie – kei
   drop         Teil-ID-Muster (fnmatch); Teile mit Ankern, Kindteilen oder Bewegung bleiben (Bericht nennt sie mit Grund)
   front/rear   Faktor auf die Vorder-/Hinterlänge; Schnitt zwischen Stützhand und Mündung bzw. im Schaft
   limbs        Bogen: Faktor auf die Wurfarmlänge (oben und unten, Schnitt im Wurfarm)
+  series       Design-Serie (0.8, formgen/series.py): eigene Verkleidung außen auf der fertigen Form, zuletzt, ändert kein vorhandenes Teil
 Ein Schnitt `at` trennt: Teile ganz jenseits werden verschoben, lange Teile über dem Schnitt gedehnt bzw. gestaucht, kurze
 Teile werden nie verzerrt. Weltpunkte (`POINTS`, BALLON 0.41: Auswurf, Griffkontakte; Form wie ANCHORS) folgen ihrem Teil nach
 derselben Regel wie die Anker (0.7); ein getauschtes Teil gibt seine Punkte an das neue Teil gleicher ID oder das nächste neue Teil
@@ -23,7 +24,7 @@ import copy
 import fnmatch
 import math
 
-from . import ballon, geom, model, variants
+from . import ballon, geom, model, series, variants
 
 SHORT_MM = 60.0     # Teile kürzer als das werden nie gedehnt (Annahme: Detailteile behalten ihre Form)
 GAP_MM = 1.0        # Restabstand beim Stauchen (SEAM aus BALLON common.SEAM)
@@ -353,12 +354,15 @@ def _in_band(line):
     return line is not None and SIGHT_LINE_MM[0] - 1e-6 <= line <= SIGHT_LINE_MM[1] + 1e-6
 
 
-def swap_sight(model, kind, num, kit):
+def swap_sight(model, kind, num, kit, keep_side=False):
     op = {"op": "sight", "kind": kind}
     rails, old = _rails(model), [p for p in model["PARTS"] if p["asm"] == "sight"]
     bore = _anchor(model, "Socket_Muzzle", 1)
     if num in NO_SIGHT_SWAP:
         return {**op, "skipped": "Bogen: Pinvisier gehört zur Bogenform"}
+    if keep_side and any(abs(r.get("x", 0)) > 1 for r in rails):
+        # Bausteine sitzen auf der Mittelebene; an BASIC-14 läge das Visier im Rohr (Linien E–H: Meldung im Bericht 0.8)
+        return {**op, "skipped": "Seitenschiene: Grundvisier bleibt, der Baustein läge im Rohr"}
     if not rails or not old or bore is None:
         return {**op, "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"}
     feet = [p for p in old if p.get("iface") == "BRI-22"] or old
@@ -631,7 +635,7 @@ def _apply(model, params, num, kit, notes):
         added.update(report.get("added", []))
 
     if params.get("sight"):
-        run(swap_sight(model, params["sight"], num, kit))
+        run(swap_sight(model, params["sight"], num, kit, keep_side=bool(params.get("series"))))
     if "stock" in params or "stock_scale" in params:
         run(swap_stock(model, params.get("stock"), params.get("stock_scale"), kit))
     if params.get("grip"):
@@ -650,6 +654,8 @@ def _apply(model, params, num, kit, notes):
         run(stretch_rear(model, params["rear"]))
     if "limbs" in params:
         run(limbs(model, params["limbs"]))
+    if params.get("series"):
+        run(series.apply(model, params["series"], num, kit))
     return ops, added
 
 
@@ -691,7 +697,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
     provenance = {"kind": "Vorgabe", "source": (
         f"BALLON {meta['id']} {label} (Quellhash {source['source_sha256'][:12]}); "
         f"Variante {variant['letter']} „{variant['name']}“ aus data/variants.toml; Maße in mm wie BALLON")}
-    kit_ops = [o for o in ops if o["op"] in ("sight", "stock", "grip", "glow") and "skipped" not in o]
+    kit_ops = [o for o in ops if o["op"] in ("sight", "stock", "grip", "glow", "series") and "skipped" not in o]
     facts = [["Variante", f"{variant['letter']} · {variant['name']}"],
              ["Grundform", shape],
              ["BALLON-Quellhash", source["source_sha256"][:12]],
