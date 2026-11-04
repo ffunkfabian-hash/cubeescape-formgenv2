@@ -1,0 +1,564 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade_core",
+   "position_mm": [
+    561.01,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "blade_edge",
+   "position_mm": [
+    1011.01,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "grip",
+   "position_mm": [
+    -104.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Parierblock",
+   "en": "Guard",
+   "id": "guard"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-16",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w16_sword.py": "0511a334f84d7b85744b5f70398d43b0eeff8c93d20fb8809e3b8abf503578cb"
+  },
+  "source_sha256": "62a793a33059f606a1ecc302247dd0e5b071702deba511bdc4376e7e9a57916b",
+  "spec_sha256": "a79bc592d71507dcd29a57546745499d7c6f714115c4abf5749c7697460a8ee0"
+ },
+ "ballon_dimensions_mm": {
+  "height": 76.0,
+  "length": 1193.6,
+  "width": 96.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
+ },
+ "counts": {
+  "assemblies": 3,
+  "parts": 14,
+  "triangles": 2912
+ },
+ "dimensions_mm": {
+  "height": 77.46,
+  "length": 1194.32,
+  "width": 96.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-16; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
+  "ops": [
+   {
+    "kind": "holo_pille",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "kind": "v21",
+    "op": "grip",
+    "skipped": "keine Griffgruppe grip_rifle (BGM-1) oder schon v2.1"
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 505.0,
+    "delta_mm": 1.01,
+    "factor": 1.001,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "blade_core",
+     "blade_edge",
+     "blade_spine"
+    ],
+    "translated": [],
+    "wanted_mm": 1.01
+   },
+   {
+    "factor": 1.204,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   },
+   {
+    "added": [
+     "flow_blade_l1",
+     "flow_blade_r1",
+     "flow_guard_l1",
+     "flow_guard_l2",
+     "flow_guard_r1"
+    ],
+    "kind": "flow",
+    "op": "series",
+    "zones": [
+     "Klingenrücken",
+     "Parierstück"
+    ]
+   }
+  ]
+ },
+ "id": "BM16",
+ "name_de": "Schwert · Pearl Drift",
+ "name_en": "Sword · Pearl Drift",
+ "parts": [
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     96.0,
+     999.79
+    ],
+    "u": [
+     -17.99,
+     23.99
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade_core",
+   "moving": false,
+   "name_de": "Klingenkern",
+   "name_en": "Blade core",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 88
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     104.0,
+     899.64
+    ],
+    "u": [
+     12.01,
+     26.99
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "blade_spine",
+   "moving": false,
+   "name_de": "Klingenrücken",
+   "name_en": "Blade spine",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     100.0,
+     1010.32
+    ],
+    "u": [
+     -34.0,
+     -0.14
+    ],
+    "x": [
+     -2.5,
+     2.5
+    ]
+   },
+   "id": "blade_edge",
+   "moving": false,
+   "name_de": "Schneide",
+   "name_en": "Edge",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     54.0,
+     104.0
+    ],
+    "u": [
+     -36.0,
+     40.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "guard",
+   "moving": false,
+   "name_de": "Parierblock",
+   "name_en": "Guard block",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     44.0,
+     58.0
+    ],
+    "u": [
+     -30.0,
+     34.0
+    ],
+    "x": [
+     -48.0,
+     48.0
+    ]
+   },
+   "id": "crossguard",
+   "moving": false,
+   "name_de": "Parierstange",
+   "name_en": "Crossguard",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     66.0,
+     92.0
+    ],
+    "u": [
+     4.0,
+     14.0
+    ],
+    "x": [
+     22.7,
+     23.7
+    ]
+   },
+   "id": "charge_window",
+   "moving": true,
+   "name_de": "Ladeanzeige",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -150.0,
+     44.0
+    ],
+    "u": [
+     -15.45,
+     15.45
+    ],
+    "x": [
+     -15.45,
+     15.45
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griff",
+   "name_en": "Grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     -52.0
+    ],
+    "u": [
+     -16.9,
+     16.9
+    ],
+    "x": [
+     -16.9,
+     16.9
+    ]
+   },
+   "id": "grip_ring",
+   "moving": false,
+   "name_de": "Griffring",
+   "name_en": "Grip ring",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -184.0,
+     -148.0
+    ],
+    "u": [
+     -20.33,
+     20.33
+    ],
+    "x": [
+     -20.33,
+     20.33
+    ]
+   },
+   "id": "pommel",
+   "moving": false,
+   "name_de": "Knauf",
+   "name_en": "Pommel",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     109.5,
+     982.38
+    ],
+    "u": [
+     -18.71,
+     27.62
+    ],
+    "x": [
+     5.7,
+     7.6
+    ]
+   },
+   "id": "flow_blade_l1",
+   "moving": false,
+   "name_de": "Glatte Schale Klingenrücken links 1",
+   "name_en": "Smooth shell blade left 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 396
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     109.5,
+     982.38
+    ],
+    "u": [
+     -18.71,
+     27.62
+    ],
+    "x": [
+     -7.6,
+     -5.7
+    ]
+   },
+   "id": "flow_blade_r1",
+   "moving": false,
+   "name_de": "Glatte Schale Klingenrücken rechts 1",
+   "name_en": "Smooth shell blade right 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 396
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     63.4,
+     104.8
+    ],
+    "u": [
+     15.56,
+     40.66
+    ],
+    "x": [
+     22.7,
+     26.2
+    ]
+   },
+   "id": "flow_guard_l1",
+   "moving": false,
+   "name_de": "Glatte Schale Parierstück links 1",
+   "name_en": "Smooth shell guard left 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 412
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     63.53,
+     104.66
+    ],
+    "u": [
+     -36.8,
+     2.43
+    ],
+    "x": [
+     22.7,
+     26.2
+    ]
+   },
+   "id": "flow_guard_l2",
+   "moving": false,
+   "name_de": "Glatte Schale Parierstück links 2",
+   "name_en": "Smooth shell guard left 2",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 380
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     63.5,
+     104.66
+    ],
+    "u": [
+     -36.8,
+     40.66
+    ],
+    "x": [
+     -26.2,
+     -22.7
+    ]
+   },
+   "id": "flow_guard_r1",
+   "moving": false,
+   "name_de": "Glatte Schale Parierstück rechts 1",
+   "name_en": "Smooth shell guard right 1",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 360
+  }
+ ],
+ "pilot": null,
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-16 Formstudie (Quellhash 62a793a33059); Variante M „Pearl Drift“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-16",
+  "name": "Klingenlauf",
+  "nick": "Standard",
+  "num": "16",
+  "type": "sword",
+  "type_de": "Schwert",
+  "type_en": "Sword"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Organisch-glatt: fließende Perlschalen mit Wellenfuge, Spindel um den Lauf, korallene Leuchtlinie",
+  "letter": "M",
+  "name": "Pearl Drift",
+  "params": {
+   "front": [
+    1.0,
+    1.06
+   ],
+   "grip": "v21",
+   "limbs": [
+    1.16,
+    1.24
+   ],
+   "series": "flow",
+   "sight": [
+    "holo_pille",
+    "boegen",
+    "scope_tropfen"
+   ]
+  },
+  "since": "0.8",
+  "skin": "perle"
+ },
+ "variation": {
+  "draws": {
+   "front": 1.001,
+   "limbs": 1.204,
+   "sight": "holo_pille"
+  },
+  "seed": "15dadcc264b44c51",
+  "values": {
+   "front": 1.001,
+   "grip": "v21",
+   "limbs": 1.204,
+   "series": "flow",
+   "sight": "holo_pille"
+  }
+ },
+ "warnings": []
+}

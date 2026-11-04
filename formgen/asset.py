@@ -45,7 +45,7 @@ PACKAGE_VERSIONS = (1, 2)      # lesbar: 1 (0.6, ohne `model`), 2 (0.7, BALLON d
 BLENDER_SCRIPT = ROOT / "formgen/blender/asset_build.py"
 # atlas/samples: Vorgabe BALLON export_unity (4096², 64); jobs: Annahme – vier Blender-Läufe zugleich (je ≈ 0,5 GB RAM, ≈ 1,2 s)
 DEFAULTS = {"blender": "/Applications/Blender.app/Contents/MacOS/Blender", "atlas": 4096, "samples": 64, "jobs": 4}
-EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.7"
+EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.8"
 
 
 def settings(path: Path = ROOT / "config.toml") -> dict:
@@ -136,15 +136,27 @@ def plan(selection: dict, kit_snap: Path, data_snap: Path, cfg: dict | None = No
     return artifacts
 
 
+def skin_def(name: str, path: Path = ROOT / "skins.toml") -> dict | None:
+    """Skin einer Design-Serie (`formgen = true`) in der Form von BALLON `kit.SKINS`; BALLONs eigene Skins (None) kennt der Kit selbst."""
+    with Path(path).open("rb") as stream:
+        skin = tomllib.load(stream)["skins"][name]
+    return {k: v for k, v in skin.items() if k != "formgen"} if skin.get("formgen") else None
+
+
 def bake_plan(glb: list[Artifact], cfg: dict | None = None, gpu: bool = True) -> list[Artifact]:
-    """AAA-Bake je GLB-Artefakt: gleiche Quelle, dazu Skin, Atlas, Samples, Gerät (GPU und CPU backen nicht bitgleich)."""
+    """AAA-Bake je GLB-Artefakt: gleiche Quelle, dazu Skin, Atlas, Samples, Gerät (GPU und CPU backen nicht bitgleich); bei Skins der
+    Design-Serien auch deren Werte, die beim Backen in den laufenden Kit eingehängt werden."""
     cfg = cfg or settings()
     out = []
     for a in glb:
         params = {**a.params, "skin": a.inputs["skin"], "atlas": cfg["atlas"], "samples": cfg["samples"],
                   "device": "gpu" if gpu else "cpu"}
+        own = skin_def(a.inputs["skin"])
+        if own:
+            params["skin_def"] = hashlib.sha256(canonical(own)).hexdigest()
         out.append(Artifact(a.model_id, "asset_bake", a.source, params, {"ASSET": FORMAT, "BAKE": BAKE},
-                            f"assets/{a.model_id}.bake.zip", "formgen.asset:build_bake", {**a.inputs, "gpu": gpu, "glb_key": a.key}))
+                            f"assets/{a.model_id}.bake.zip", "formgen.asset:build_bake",
+                            {**a.inputs, "gpu": gpu, "glb_key": a.key, "skin_def": own}))
     return out
 
 
@@ -179,7 +191,7 @@ def build_glb(artifact: Artifact) -> bytes:
 def _bake(artifact: Artifact, work: Path) -> None:
     inputs = artifact.inputs
     run_blender({"snapshot": inputs["snapshot"], "module": inputs["module"], "model": inputs["model"], "id": artifact.model_id,
-                 "out": str(work), "package": True, "skin": artifact.params["skin"], "atlas": artifact.params["atlas"],
+                 "out": str(work), "package": True, "skin": artifact.params["skin"], "skin_def": inputs.get("skin_def"), "atlas": artifact.params["atlas"],
                  "samples": artifact.params["samples"], "gpu": inputs["gpu"], "package_version": BAKE}, inputs["blender"])
     shutil.rmtree(work / "_ballon_out", ignore_errors=True)
 

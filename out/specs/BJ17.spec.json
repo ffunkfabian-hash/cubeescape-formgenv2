@@ -1,0 +1,734 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade",
+   "position_mm": [
+    934.96,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "emitter",
+   "position_mm": [
+    794.96,
+    40.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "support_grip",
+   "position_mm": [
+    365.0,
+    40.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Stange",
+   "en": "Shaft",
+   "id": "shaft"
+  },
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Schild",
+   "en": "Shield",
+   "id": "shield"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-17",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w17_glaive.py": "0506f6b9704db6dea23b31074a7b34644bc4f656a844bf27eb0f1a5a4907046b"
+  },
+  "source_sha256": "8153dcc17637c734c91013187814e8a96028af7e3407b63be3a75646fb814dea",
+  "spec_sha256": "006f7d818397cf07c0df38e5c0a6fa75b1514c75e40f0c9f4664569768628017"
+ },
+ "ballon_dimensions_mm": {
+  "height": 151.9,
+  "length": 1423.1,
+  "width": 53.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
+ },
+ "counts": {
+  "assemblies": 7,
+  "parts": 20,
+  "triangles": 2900
+ },
+ "dimensions_mm": {
+  "height": 151.89,
+  "length": 1457.67,
+  "width": 53.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-17; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
+  "ops": [
+   {
+    "kind": "d_linse",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "factor": 0.813,
+    "op": "muzzle",
+    "radius": 1.0,
+    "skipped": "kein Mündungsteil `muzzle` entlang der Laufachse"
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 636.562,
+    "delta_mm": 34.96,
+    "factor": 1.046,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "shaft"
+    ],
+    "translated": [
+     "blade",
+     "blade_mount",
+     "emitter"
+    ],
+    "wanted_mm": 34.96
+   },
+   {
+    "factor": 1.124,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   },
+   {
+    "added": [
+     "facet_core_l1",
+     "facet_core_r1",
+     "facet_mount_l1",
+     "facet_mount_r1",
+     "facet_sleeve_1",
+     "facet_sleeve_2",
+     "facet_sleeve_3"
+    ],
+    "kind": "facet",
+    "op": "series",
+    "zones": [
+     "Kern",
+     "Klingenfuß"
+    ]
+   }
+  ]
+ },
+ "id": "BJ17",
+ "name_de": "Glefe · Cold Shard",
+ "name_en": "Glaive · Cold Shard",
+ "parts": [
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -300.0,
+     694.96
+    ],
+    "u": [
+     27.44,
+     52.56
+    ],
+    "x": [
+     -12.56,
+     12.56
+    ]
+   },
+   "id": "shaft",
+   "moving": false,
+   "name_de": "Stange",
+   "name_en": "Shaft",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -334.0,
+     -296.0
+    ],
+    "u": [
+     21.52,
+     58.48
+    ],
+    "x": [
+     -18.48,
+     18.48
+    ]
+   },
+   "id": "counterweight",
+   "moving": false,
+   "name_de": "Gegengewicht",
+   "name_en": "Counterweight",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     210.0
+    ],
+    "u": [
+     18.0,
+     70.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "core",
+   "moving": false,
+   "name_de": "Kernkörper",
+   "name_en": "Core body",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 124
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     300.0,
+     430.0
+    ],
+    "u": [
+     23.58,
+     56.42
+    ],
+    "x": [
+     -16.42,
+     16.42
+    ]
+   },
+   "id": "support_grip",
+   "moving": false,
+   "name_de": "Stützgriff",
+   "name_en": "Support grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     674.96,
+     734.96
+    ],
+    "u": [
+     18.0,
+     64.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "blade_mount",
+   "moving": false,
+   "name_de": "Klingenaufnahme",
+   "name_en": "Blade mount",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     732.96,
+     1123.67
+    ],
+    "u": [
+     8.0,
+     72.0
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade",
+   "moving": false,
+   "name_de": "Klinge",
+   "name_en": "Blade",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 80
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     734.96,
+     794.96
+    ],
+    "u": [
+     34.2,
+     45.8
+    ],
+    "x": [
+     -5.8,
+     5.8
+    ]
+   },
+   "id": "emitter",
+   "moving": true,
+   "name_de": "Emitter",
+   "name_en": "Emitter",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 44
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     21.5,
+     26.5
+    ]
+   },
+   "id": "shield_l",
+   "moving": true,
+   "name_de": "Schildflügel links",
+   "name_en": "Shield wing left",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "shield",
+   "extent_mm": {
+    "f": [
+     470.0,
+     636.0
+    ],
+    "u": [
+     -7.89,
+     87.89
+    ],
+    "x": [
+     -26.5,
+     -21.5
+    ]
+   },
+   "id": "shield_r",
+   "moving": true,
+   "name_de": "Schildflügel rechts",
+   "name_en": "Shield wing right",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 84
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     40.0,
+     160.0
+    ],
+    "u": [
+     70.0,
+     86.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "energy_cell",
+   "moving": true,
+   "name_de": "Energiezelle",
+   "name_en": "Energy cell",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     70.0,
+     130.0
+    ],
+    "u": [
+     76.0,
+     80.0
+    ],
+    "x": [
+     12.7,
+     13.7
+    ]
+   },
+   "id": "energy_cell_window",
+   "moving": false,
+   "name_de": "Ladefenster",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.84,
+     25.1
+    ],
+    "u": [
+     -64.0,
+     20.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Pistolengriff",
+   "name_en": "Pistol grip",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 300
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     37.53,
+     45.36
+    ],
+    "u": [
+     -6.81,
+     19.0
+    ],
+    "x": [
+     -3.5,
+     3.5
+    ]
+   },
+   "id": "trigger",
+   "moving": true,
+   "name_de": "Abzug",
+   "name_en": "Trigger",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 204
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -61.0,
+     211.0
+    ],
+    "u": [
+     17.07,
+     70.93
+    ],
+    "x": [
+     19.7,
+     23.5
+    ]
+   },
+   "id": "facet_core_l1",
+   "moving": false,
+   "name_de": "Facette Kern links 1",
+   "name_en": "Facet core left 1",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 440
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -61.0,
+     211.0
+    ],
+    "u": [
+     17.07,
+     70.93
+    ],
+    "x": [
+     -23.5,
+     -19.7
+    ]
+   },
+   "id": "facet_core_r1",
+   "moving": false,
+   "name_de": "Facette Kern rechts 1",
+   "name_en": "Facet core right 1",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 440
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     673.96,
+     735.96
+    ],
+    "u": [
+     17.4,
+     64.6
+    ],
+    "x": [
+     16.7,
+     20.5
+    ]
+   },
+   "id": "facet_mount_l1",
+   "moving": false,
+   "name_de": "Facette Klingenfuß links 1",
+   "name_en": "Facet mount left 1",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 68
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     673.96,
+     735.96
+    ],
+    "u": [
+     17.4,
+     64.6
+    ],
+    "x": [
+     -20.5,
+     -16.7
+    ]
+   },
+   "id": "facet_mount_r1",
+   "moving": false,
+   "name_de": "Facette Klingenfuß rechts 1",
+   "name_en": "Facet mount right 1",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 68
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     -280.0,
+     -80.0
+    ],
+    "u": [
+     19.24,
+     60.76
+    ],
+    "x": [
+     -23.85,
+     23.85
+    ]
+   },
+   "id": "facet_sleeve_1",
+   "moving": false,
+   "name_de": "Sechskantmantel 1",
+   "name_en": "Hex sleeve 1",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 116
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     225.0,
+     290.0
+    ],
+    "u": [
+     19.28,
+     60.72
+    ],
+    "x": [
+     -23.83,
+     23.83
+    ]
+   },
+   "id": "facet_sleeve_2",
+   "moving": false,
+   "name_de": "Sechskantmantel 2",
+   "name_en": "Hex sleeve 2",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 116
+  },
+  {
+   "assembly": "shaft",
+   "extent_mm": {
+    "f": [
+     440.0,
+     465.0
+    ],
+    "u": [
+     19.38,
+     60.62
+    ],
+    "x": [
+     -23.77,
+     23.77
+    ]
+   },
+   "id": "facet_sleeve_3",
+   "moving": false,
+   "name_de": "Sechskantmantel 3",
+   "name_en": "Hex sleeve 3",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 116
+  }
+ ],
+ "pilot": null,
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-17 Formstudie (Quellhash 8153dcc17637); Variante J „Cold Shard“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-17",
+  "name": "Schildwacht",
+  "nick": "Standard",
+  "num": "17",
+  "type": "glaive",
+  "type_de": "Glefe",
+  "type_en": "Glaive"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Stealth-Serie: wenige große Facetten als Keil über dem Lauf, matt dunkel, eisblaue Leuchtkanten",
+  "letter": "J",
+  "name": "Cold Shard",
+  "params": {
+   "front": [
+    1.02,
+    1.08
+   ],
+   "limbs": [
+    1.06,
+    1.14
+   ],
+   "muzzle": [
+    0.8,
+    0.95
+   ],
+   "series": "facet",
+   "sight": [
+    "achteck",
+    "zinken",
+    "d_linse",
+    "gabel"
+   ]
+  },
+  "since": "0.8",
+  "skin": "frost"
+ },
+ "variation": {
+  "draws": {
+   "front": 1.046,
+   "limbs": 1.124,
+   "muzzle": 0.813,
+   "sight": "d_linse"
+  },
+  "seed": "3edeca2742d958b6",
+  "values": {
+   "front": 1.046,
+   "limbs": 1.124,
+   "muzzle": 0.813,
+   "series": "facet",
+   "sight": "d_linse"
+  }
+ },
+ "warnings": []
+}

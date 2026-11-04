@@ -52,13 +52,13 @@ class RegisterTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "variants.toml"
             shutil.copy(variants.REGISTRY, path)
-            variants.new("J", "Glass Fang", "Probe", "0.2", "kobalt", {"front": [1.0, 1.1], "drop": ["vent_*"], "sight": ["zinken"]}, path,
+            variants.new("N", "Glass Fang", "Probe", "0.2", "kobalt", {"front": [1.0, 1.1], "drop": ["vent_*"], "sight": ["zinken"]}, path,
                          base="v21")
             self.assertEqual(variants.load(path)[-1]["params"], {"front": [1.0, 1.1], "drop": ["vent_*"], "sight": ["zinken"]})
             self.assertEqual(variants.load(path)[-1]["base"], "v21")
             before = path.read_text()
             with self.assertRaises(variants.VariantError):
-                variants.new("K", "Glass Fang", "doppelt", "0.2", path=path)
+                variants.new("P", "Glass Fang", "doppelt", "0.2", path=path)
             self.assertEqual(path.read_text(), before)
         with self.assertRaises(variants.VariantError):
             variants.parse_sheet("BI01")
@@ -68,7 +68,7 @@ class RegisterTests(unittest.TestCase):
             path = Path(tmp) / "variants.toml"
             shutil.copy(variants.REGISTRY, path)
             idea = 'Zeile eins\nZeile "zwei" \\ Ende\tTab'
-            variants.new("J", "Glass Fang", idea, "0.2", path=path)
+            variants.new("N", "Glass Fang", idea, "0.2", path=path)
             self.assertEqual(variants.load(path)[-1]["idea"], idea)
 
 

@@ -1,0 +1,732 @@
+{
+ "anchors": {
+  "Socket_BladeCenter": {
+   "part": "blade_core",
+   "position_mm": [
+    510.51,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "blade_edge",
+   "position_mm": [
+    960.51,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "grip",
+   "position_mm": [
+    -104.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Klinge",
+   "en": "Blade",
+   "id": "blade"
+  },
+  {
+   "de": "Parierblock",
+   "en": "Guard",
+   "id": "guard"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-16",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w16_sword.py": "0511a334f84d7b85744b5f70398d43b0eeff8c93d20fb8809e3b8abf503578cb"
+  },
+  "source_sha256": "62a793a33059f606a1ecc302247dd0e5b071702deba511bdc4376e7e9a57916b",
+  "spec_sha256": "a79bc592d71507dcd29a57546745499d7c6f714115c4abf5749c7697460a8ee0"
+ },
+ "ballon_dimensions_mm": {
+  "height": 76.0,
+  "length": 1193.6,
+  "width": 96.0
+ },
+ "base": "standard",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  },
+  "variant": {
+   "accent_functions": [
+    "Trennt die beiden Handpositionen (Akzent)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": null
+  }
+ },
+ "counts": {
+  "assemblies": 3,
+  "parts": 21,
+  "triangles": 3908
+ },
+ "dimensions_mm": {
+  "height": 94.0,
+  "length": 1143.82,
+  "width": 96.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [
+   {
+    "ballon": "pilot",
+    "field": "base",
+    "kind": "Annahme",
+    "reason": "kein BALLON-Spielpilot für BASIC-16; Formstudie (basic/weapons)",
+    "v2": "standard"
+   }
+  ],
+  "ops": [
+   {
+    "kind": "holo_kasten",
+    "op": "sight",
+    "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"
+   },
+   {
+    "anchors": [
+     "Socket_Hand",
+     "Socket_Muzzle",
+     "Socket_SupportHand"
+    ],
+    "cut_f_mm": 252.5,
+    "delta_mm": -49.49,
+    "factor": 0.951,
+    "limited": false,
+    "op": "front",
+    "stretched": [
+     "blade_core",
+     "blade_edge",
+     "blade_spine"
+    ],
+    "translated": [],
+    "wanted_mm": -49.49
+   },
+   {
+    "factor": 1.131,
+    "op": "limbs",
+    "skipped": "keine Baugruppe limbs (kein Bogen)"
+   },
+   {
+    "added": [
+     "block_blade_accent_l",
+     "block_blade_graphite_l",
+     "block_blade_shell_l",
+     "block_blade_accent_r",
+     "block_blade_graphite_r",
+     "block_blade_shell_r",
+     "block_guard_accent_l",
+     "block_guard_graphite_l",
+     "block_guard_shell_l",
+     "block_guard_accent_r",
+     "block_guard_graphite_r",
+     "block_guard_shell_r"
+    ],
+    "kind": "block",
+    "op": "series",
+    "zones": [
+     "Klingenrücken",
+     "Parierstück"
+    ]
+   }
+  ]
+ },
+ "id": "BL16",
+ "name_de": "Schwert · Cube Blocks",
+ "name_en": "Sword · Cube Blocks",
+ "parts": [
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     96.0,
+     949.29
+    ],
+    "u": [
+     -17.99,
+     23.99
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "blade_core",
+   "moving": false,
+   "name_de": "Klingenkern",
+   "name_en": "Blade core",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 88
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     104.0,
+     849.14
+    ],
+    "u": [
+     12.01,
+     26.99
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "blade_spine",
+   "moving": false,
+   "name_de": "Klingenrücken",
+   "name_en": "Blade spine",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     100.0,
+     959.82
+    ],
+    "u": [
+     -34.0,
+     -0.14
+    ],
+    "x": [
+     -2.5,
+     2.5
+    ]
+   },
+   "id": "blade_edge",
+   "moving": false,
+   "name_de": "Schneide",
+   "name_en": "Edge",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     54.0,
+     104.0
+    ],
+    "u": [
+     -36.0,
+     40.0
+    ],
+    "x": [
+     -23.0,
+     23.0
+    ]
+   },
+   "id": "guard",
+   "moving": false,
+   "name_de": "Parierblock",
+   "name_en": "Guard block",
+   "role": "shell",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     44.0,
+     58.0
+    ],
+    "u": [
+     -30.0,
+     34.0
+    ],
+    "x": [
+     -48.0,
+     48.0
+    ]
+   },
+   "id": "crossguard",
+   "moving": false,
+   "name_de": "Parierstange",
+   "name_en": "Crossguard",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     66.0,
+     92.0
+    ],
+    "u": [
+     4.0,
+     14.0
+    ],
+    "x": [
+     22.7,
+     23.7
+    ]
+   },
+   "id": "charge_window",
+   "moving": true,
+   "name_de": "Ladeanzeige",
+   "name_en": "Charge window",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -150.0,
+     44.0
+    ],
+    "u": [
+     -15.45,
+     15.45
+    ],
+    "x": [
+     -15.45,
+     15.45
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griff",
+   "name_en": "Grip",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -60.0,
+     -52.0
+    ],
+    "u": [
+     -16.9,
+     16.9
+    ],
+    "x": [
+     -16.9,
+     16.9
+    ]
+   },
+   "id": "grip_ring",
+   "moving": false,
+   "name_de": "Griffring",
+   "name_en": "Grip ring",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -184.0,
+     -148.0
+    ],
+    "u": [
+     -20.33,
+     20.33
+    ],
+    "x": [
+     -20.33,
+     20.33
+    ]
+   },
+   "id": "pommel",
+   "moving": false,
+   "name_de": "Knauf",
+   "name_en": "Pommel",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     337.0,
+     911.0
+    ],
+    "u": [
+     -23.0,
+     23.0
+    ],
+    "x": [
+     5.7,
+     8.8
+    ]
+   },
+   "id": "block_blade_accent_l",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenrücken links",
+   "name_en": "Colour blocks blade left",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 180
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     121.0,
+     863.0
+    ],
+    "u": [
+     -23.0,
+     23.0
+    ],
+    "x": [
+     5.7,
+     7.23
+    ]
+   },
+   "id": "block_blade_graphite_l",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenrücken links",
+   "name_en": "Colour blocks blade left",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 420
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     121.0,
+     887.0
+    ],
+    "u": [
+     -23.0,
+     23.0
+    ],
+    "x": [
+     5.7,
+     8.1
+    ]
+   },
+   "id": "block_blade_shell_l",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenrücken links",
+   "name_en": "Colour blocks blade left",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 660
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     337.0,
+     911.0
+    ],
+    "u": [
+     -23.0,
+     23.0
+    ],
+    "x": [
+     -8.8,
+     -5.7
+    ]
+   },
+   "id": "block_blade_accent_r",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenrücken rechts",
+   "name_en": "Colour blocks blade right",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 180
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     121.0,
+     863.0
+    ],
+    "u": [
+     -23.0,
+     23.0
+    ],
+    "x": [
+     -7.23,
+     -5.7
+    ]
+   },
+   "id": "block_blade_graphite_r",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenrücken rechts",
+   "name_en": "Colour blocks blade right",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 420
+  },
+  {
+   "assembly": "blade",
+   "extent_mm": {
+    "f": [
+     121.0,
+     887.0
+    ],
+    "u": [
+     -23.0,
+     23.0
+    ],
+    "x": [
+     -8.1,
+     -5.7
+    ]
+   },
+   "id": "block_blade_shell_r",
+   "moving": false,
+   "name_de": "Farbblöcke Klingenrücken rechts",
+   "name_en": "Colour blocks blade right",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 660
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     73.0,
+     95.0
+    ],
+    "u": [
+     -23.0,
+     -1.0
+    ],
+    "x": [
+     22.7,
+     31.0
+    ]
+   },
+   "id": "block_guard_accent_l",
+   "moving": false,
+   "name_de": "Farbblöcke Parierstück links",
+   "name_en": "Colour blocks guard left",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     73.0,
+     95.0
+    ],
+    "u": [
+     25.0,
+     47.0
+    ],
+    "x": [
+     22.7,
+     26.5
+    ]
+   },
+   "id": "block_guard_graphite_l",
+   "moving": false,
+   "name_de": "Farbblöcke Parierstück links",
+   "name_en": "Colour blocks guard left",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     73.0,
+     95.0
+    ],
+    "u": [
+     -47.0,
+     -25.0
+    ],
+    "x": [
+     22.7,
+     29.0
+    ]
+   },
+   "id": "block_guard_shell_l",
+   "moving": false,
+   "name_de": "Farbblöcke Parierstück links",
+   "name_en": "Colour blocks guard left",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     73.0,
+     95.0
+    ],
+    "u": [
+     -23.0,
+     -1.0
+    ],
+    "x": [
+     -31.0,
+     -22.7
+    ]
+   },
+   "id": "block_guard_accent_r",
+   "moving": false,
+   "name_de": "Farbblöcke Parierstück rechts",
+   "name_en": "Colour blocks guard right",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     73.0,
+     95.0
+    ],
+    "u": [
+     1.0,
+     23.0
+    ],
+    "x": [
+     -26.5,
+     -22.7
+    ]
+   },
+   "id": "block_guard_graphite_r",
+   "moving": false,
+   "name_de": "Farbblöcke Parierstück rechts",
+   "name_en": "Colour blocks guard right",
+   "role": "graphite",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "guard",
+   "extent_mm": {
+    "f": [
+     73.0,
+     95.0
+    ],
+    "u": [
+     -47.0,
+     47.0
+    ],
+    "x": [
+     -29.0,
+     -22.7
+    ]
+   },
+   "id": "block_guard_shell_r",
+   "moving": false,
+   "name_de": "Farbblöcke Parierstück rechts",
+   "name_en": "Colour blocks guard right",
+   "role": "shell",
+   "shape": "multi",
+   "triangles": 120
+  }
+ ],
+ "pilot": null,
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-16 Formstudie (Quellhash 62a793a33059); Variante L „Cube Blocks“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-16",
+  "name": "Klingenlauf",
+  "nick": "Standard",
+  "num": "16",
+  "type": "sword",
+  "type_de": "Schwert",
+  "type_en": "Sword"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Cube-Escape-Farbwelt: Rasterblöcke in Creme, Anthrazit und Orange, Stufen am Lauf, Würfel an der Mündung, cyane Fugenlinie",
+  "letter": "L",
+  "name": "Cube Blocks",
+  "params": {
+   "front": [
+    0.94,
+    1.0
+   ],
+   "limbs": [
+    1.1,
+    1.18
+   ],
+   "series": "block",
+   "sight": [
+    "holo_kasten",
+    "achteck",
+    "scope_tropfen"
+   ]
+  },
+  "since": "0.8",
+  "skin": "cube"
+ },
+ "variation": {
+  "draws": {
+   "front": 0.951,
+   "limbs": 1.131,
+   "sight": "holo_kasten"
+  },
+  "seed": "99b7106eb6dda867",
+  "values": {
+   "front": 0.951,
+   "limbs": 1.131,
+   "series": "block",
+   "sight": "holo_kasten"
+  }
+ },
+ "warnings": []
+}

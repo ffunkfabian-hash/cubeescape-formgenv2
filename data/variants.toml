@@ -122,3 +122,57 @@ rear = [1.04, 1.12]
 muzzle = [1.2, 1.5]
 mag = [1.05, 1.2]
 limbs = [1.14, 1.24]
+
+[[variants]]
+letter = "J"
+name = "Cold Shard"
+idea = "Stealth-Serie: wenige große Facetten als Keil über dem Lauf, matt dunkel, eisblaue Leuchtkanten"
+since = "0.8"
+skin = "frost"
+base = "pilot"
+[variants.params]
+series = "facet"
+sight = ["achteck", "zinken", "d_linse", "gabel"]
+front = [1.02, 1.08]
+muzzle = [0.8, 0.95]
+limbs = [1.06, 1.14]
+
+[[variants]]
+letter = "K"
+name = "Bolt Works"
+idea = "Werkstatt-Serie: modularer Prototyp mit Klemmbändern, Sechskantschrauben, Lochschienen, Kühlrippen und Prüfkopf"
+since = "0.8"
+skin = "werkbank"
+base = "pilot"
+[variants.params]
+series = "bench"
+sight = ["holo_kasten", "entfernung", "reflex_sight_v21", "lang"]
+mag = [1.0, 1.15]
+limbs = [0.9, 0.96]
+
+[[variants]]
+letter = "L"
+name = "Cube Blocks"
+idea = "Cube-Escape-Farbwelt: Rasterblöcke in Creme, Anthrazit und Orange, Stufen am Lauf, Würfel an der Mündung, cyane Fugenlinie"
+since = "0.8"
+skin = "cube"
+base = "pilot"
+[variants.params]
+series = "block"
+sight = ["holo_kasten", "achteck", "scope_tropfen"]
+front = [0.94, 1.0]
+limbs = [1.1, 1.18]
+
+[[variants]]
+letter = "M"
+name = "Pearl Drift"
+idea = "Organisch-glatt: fließende Perlschalen mit Wellenfuge, Spindel um den Lauf, korallene Leuchtlinie"
+since = "0.8"
+skin = "perle"
+base = "pilot"
+[variants.params]
+series = "flow"
+sight = ["holo_pille", "boegen", "scope_tropfen"]
+grip = "v21"
+front = [1.0, 1.06]
+limbs = [1.16, 1.24]

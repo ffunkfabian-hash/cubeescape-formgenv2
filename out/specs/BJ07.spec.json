@@ -1,0 +1,1492 @@
+{
+ "anchors": {
+  "Socket_ArrowTip": {
+   "part": "arrow_head",
+   "position_mm": [
+    553.0,
+    46.0,
+    0.0
+   ]
+  },
+  "Socket_DrawFull": {
+   "part": "string_top",
+   "position_mm": [
+    -570.0,
+    46.0,
+    0.0
+   ]
+  },
+  "Socket_Eye": {
+   "part": "sight_pin",
+   "position_mm": [
+    -590.0,
+    115.5,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "arrow_rest",
+   "position_mm": [
+    10.0,
+    46.0,
+    0.0
+   ]
+  },
+  "Socket_Nock": {
+   "part": "string_top",
+   "position_mm": [
+    -150.0,
+    46.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_pin",
+   "position_mm": [
+    89.7,
+    115.5,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_frame",
+   "position_mm": [
+    85.7,
+    115.5,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "string_top",
+   "position_mm": [
+    -150.0,
+    46.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Mittelstück",
+   "en": "Riser",
+   "id": "riser"
+  },
+  {
+   "de": "Wurfarme",
+   "en": "Limbs",
+   "id": "limbs"
+  },
+  {
+   "de": "Sehne",
+   "en": "String",
+   "id": "string"
+  },
+  {
+   "de": "Pfeil",
+   "en": "Arrow",
+   "id": "arrow"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-07",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/pilot/energy_roles.py": "4d36c51d0a80167bfc2b52ccb74634c9bc64670e0ba7906fbd8a50f1afad8782",
+   "basic/pilot/w07_combat_bow_v21.py": "2bb11194e7a07a68d0f95daf527ed9eda42ea135cd127fa5c09ae3715ce95d21",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w07_combat_bow.py": "0b84c66bccb8681d45f18e73bf19b174628a9dfe6430331d1b37a68a70b30f25"
+  },
+  "source_sha256": "2cb1d03f09668c18f96f8ebd37419b178512167ee3a7cdec8a5c98fc3ac059b7",
+  "spec_sha256": "5bc805444acfb9afc780d1e88b00842e01aa17eb3447d57a3e6056f8e78792d1"
+ },
+ "ballon_dimensions_mm": {
+  "height": 1015.7,
+  "length": 733.0,
+  "width": 68.8
+ },
+ "base": "v21",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Spannt den Klemmfuß werkzeuglos",
+    "Stabilisiert den Flug; zeigt die Nockrichtung"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "string"
+   },
+   "sight_line_mm": 69.5
+  },
+  "variant": {
+   "accent_functions": [
+    "Spannt den Klemmfuß werkzeuglos",
+    "Stabilisiert den Flug; zeigt die Nockrichtung"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "string"
+   },
+   "sight_line_mm": 69.5
+  }
+ },
+ "counts": {
+  "assemblies": 6,
+  "parts": 49,
+  "triangles": 15172
+ },
+ "dimensions_mm": {
+  "height": 1082.08,
+  "length": 733.0,
+  "width": 72.27
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 3,
+ "generator": {
+  "adaptations": [],
+  "ops": [
+   {
+    "kind": "zinken",
+    "op": "sight",
+    "skipped": "Bogen: Pinvisier gehört zur Bogenform"
+   },
+   {
+    "factor": 0.847,
+    "op": "muzzle",
+    "radius": 1.0,
+    "skipped": "kein Mündungsteil `muzzle` entlang der Laufachse"
+   },
+   {
+    "factor": 1.07,
+    "op": "front",
+    "skipped": "keine Längsachse (Socket_Muzzle < 100 mm vor Socket_Hand)"
+   },
+   {
+    "factor": 1.11,
+    "op": "limbs",
+    "sides": [
+     {
+      "cut_u_mm": 356.918,
+      "delta_mm": 33.202,
+      "limited": false,
+      "side": "oben",
+      "stretched": [
+       "cam_axles",
+       "limb_top",
+       "string_top"
+      ],
+      "translated": [
+       "cam_top"
+      ],
+      "wanted_mm": 33.202
+     },
+     {
+      "cut_u_mm": -356.918,
+      "delta_mm": 33.202,
+      "limited": false,
+      "side": "unten",
+      "stretched": [
+       "cam_axles",
+       "limb_bottom",
+       "string_bottom"
+      ],
+      "translated": [
+       "cam_bottom"
+      ],
+      "wanted_mm": 33.202
+     }
+    ]
+   },
+   {
+    "added": [
+     "facet_riser_l1",
+     "facet_riser_l2",
+     "facet_riser_r1",
+     "facet_riser_r2",
+     "facet_limb_top_l2",
+     "facet_limb_top_r2",
+     "facet_limb_bottom_l2",
+     "facet_limb_bottom_r2"
+    ],
+    "kind": "facet",
+    "op": "series",
+    "zones": [
+     "Mittelstück",
+     "Wurfarm oben",
+     "Wurfarm unten"
+    ]
+   }
+  ]
+ },
+ "id": "BJ07",
+ "name_de": "Bogen · Cold Shard",
+ "name_en": "Combat Bow · Cold Shard",
+ "parts": [
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -22.0,
+     46.0
+    ],
+    "u": [
+     -218.0,
+     218.0
+    ],
+    "x": [
+     -15.25,
+     44.25
+    ]
+   },
+   "id": "riser",
+   "moving": false,
+   "name_de": "Mittelstück",
+   "name_en": "Riser",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -36.0,
+     15.0
+    ],
+    "u": [
+     -52.0,
+     37.28
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "grip",
+   "moving": false,
+   "name_de": "Griffstück",
+   "name_en": "Bow grip",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -6.0,
+     18.0
+    ],
+    "u": [
+     37.0,
+     42.4
+    ],
+    "x": [
+     -1.5,
+     29.0
+    ]
+   },
+   "id": "arrow_rest",
+   "moving": false,
+   "name_de": "Pfeilauflage",
+   "name_en": "Arrow rest",
+   "role": "anodized",
+   "shape": "multi",
+   "triangles": 136
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -8.0,
+     38.0
+    ],
+    "u": [
+     206.0,
+     234.0
+    ],
+    "x": [
+     -18.0,
+     18.0
+    ]
+   },
+   "id": "pocket_top",
+   "moving": false,
+   "name_de": "Wurfarmaufnahme oben",
+   "name_en": "Upper limb pocket",
+   "role": "anodized",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -8.0,
+     38.0
+    ],
+    "u": [
+     -234.0,
+     -206.0
+    ],
+    "x": [
+     -18.0,
+     18.0
+    ]
+   },
+   "id": "pocket_bottom",
+   "moving": false,
+   "name_de": "Wurfarmaufnahme unten",
+   "name_en": "Lower limb pocket",
+   "role": "anodized",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -12.0,
+     26.0
+    ],
+    "u": [
+     174.0,
+     200.0
+    ],
+    "x": [
+     -15.3,
+     15.3
+    ]
+   },
+   "id": "band_side",
+   "moving": false,
+   "name_de": "Schrägband",
+   "name_en": "Slanted band",
+   "role": "accent",
+   "shape": "multi",
+   "triangles": 24
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -0.7,
+     24.69
+    ],
+    "u": [
+     -88.04,
+     -85.1
+    ],
+    "x": [
+     14.93,
+     15.17
+    ]
+   },
+   "id": "text_l",
+   "moving": false,
+   "name_de": "Schriftzug",
+   "name_en": "Lettering",
+   "role": "anodized",
+   "shape": "text",
+   "triangles": 2248
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -20.0,
+     -18.4
+    ],
+    "u": [
+     80.82,
+     87.18
+    ],
+    "x": [
+     33.32,
+     39.68
+    ]
+   },
+   "id": "draw_light",
+   "moving": true,
+   "name_de": "Spannlicht",
+   "name_en": "Draw light",
+   "role": "draw_light",
+   "shape": "cyl",
+   "triangles": 124
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -20.3,
+     -18.4
+    ],
+    "u": [
+     79.42,
+     88.58
+    ],
+    "x": [
+     31.92,
+     41.08
+    ]
+   },
+   "id": "draw_light_ring",
+   "moving": false,
+   "name_de": "Lichtring",
+   "name_en": "Light ring",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 768
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     30.0,
+     52.0
+    ],
+    "u": [
+     68.5,
+     76.5
+    ],
+    "x": [
+     10.5,
+     31.5
+    ]
+   },
+   "id": "sight_arm",
+   "moving": false,
+   "name_de": "Visierträger",
+   "name_en": "Sight arm",
+   "role": "anodized",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     40.0,
+     104.0
+    ],
+    "u": [
+     69.0,
+     77.5
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "rail",
+   "moving": false,
+   "name_de": "Schiene",
+   "name_en": "Top rail",
+   "role": "dark_metal",
+   "shape": "box",
+   "triangles": 748
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     56.0,
+     95.1
+    ],
+    "u": [
+     78.0,
+     83.5
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": true,
+   "name_de": "Visier-Klemmfuß",
+   "name_en": "Sight mount",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     66.2,
+     84.47
+    ],
+    "u": [
+     78.3,
+     81.08
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     57.0,
+     81.5
+    ],
+    "u": [
+     83.0,
+     89.5
+    ],
+    "x": [
+     -8.0,
+     8.0
+    ]
+   },
+   "id": "sight_body",
+   "moving": false,
+   "name_de": "Visiergehäuse",
+   "name_en": "Sight housing",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 180
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     81.07,
+     95.7
+    ],
+    "u": [
+     83.0,
+     89.1
+    ],
+    "x": [
+     -7.8,
+     7.8
+    ]
+   },
+   "id": "sight_base",
+   "moving": false,
+   "name_de": "Haubensockel",
+   "name_en": "Hood base",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 68
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     74.05,
+     78.75
+    ],
+    "u": [
+     82.95,
+     87.65
+    ],
+    "x": [
+     -10.0,
+     -7.5
+    ]
+   },
+   "id": "sight_knob_w",
+   "moving": false,
+   "name_de": "Seitenverstellung",
+   "name_en": "Windage knob",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     73.26,
+     79.54
+    ],
+    "u": [
+     82.16,
+     88.44
+    ],
+    "x": [
+     7.5,
+     10.0
+    ]
+   },
+   "id": "sight_battery",
+   "moving": false,
+   "name_de": "Batteriedeckel",
+   "name_en": "Battery cap",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     85.7,
+     93.7
+    ],
+    "u": [
+     87.7,
+     143.3
+    ],
+    "x": [
+     -20.52,
+     27.8
+    ]
+   },
+   "id": "sight_frame",
+   "moving": false,
+   "name_de": "Haube",
+   "name_en": "Sight hood",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 1392
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     93.3,
+     94.3
+    ],
+    "u": [
+     87.7,
+     143.3
+    ],
+    "x": [
+     -20.52,
+     27.8
+    ]
+   },
+   "id": "sight_frame_trim",
+   "moving": false,
+   "name_de": "Stirnkante",
+   "name_en": "Hood trim",
+   "role": "trim",
+   "shape": "xprof",
+   "triangles": 1392
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     86.7,
+     92.7
+    ],
+    "u": [
+     99.38,
+     131.62
+    ],
+    "x": [
+     -23.72,
+     -20.32
+    ]
+   },
+   "id": "sight_pin_rail",
+   "moving": false,
+   "name_de": "Pinschiene",
+   "name_en": "Pin rail",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.64,
+     90.76
+    ],
+    "u": [
+     95.72,
+     116.56
+    ],
+    "x": [
+     -24.52,
+     -23.52
+    ]
+   },
+   "id": "sight_pin_screws",
+   "moving": false,
+   "name_de": "Pinklemmen",
+   "name_en": "Pin clamps",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 420
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.8,
+     90.6
+    ],
+    "u": [
+     115.05,
+     115.95
+    ],
+    "x": [
+     -22.52,
+     -0.4
+    ]
+   },
+   "id": "sight_pin_blade_0",
+   "moving": false,
+   "name_de": "Pin 1",
+   "name_en": "Pin 1",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.7,
+     90.7
+    ],
+    "u": [
+     113.52,
+     117.48
+    ],
+    "x": [
+     -1.98,
+     1.98
+    ]
+   },
+   "id": "sight_pin",
+   "moving": false,
+   "name_de": "Pinkopf 1",
+   "name_en": "Pin head 1",
+   "role": "pin_glow",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.8,
+     90.6
+    ],
+    "u": [
+     105.69,
+     106.59
+    ],
+    "x": [
+     -22.52,
+     -0.4
+    ]
+   },
+   "id": "sight_pin_blade_1",
+   "moving": false,
+   "name_de": "Pin 2",
+   "name_en": "Pin 2",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.7,
+     90.7
+    ],
+    "u": [
+     104.41,
+     107.87
+    ],
+    "x": [
+     -1.73,
+     1.73
+    ]
+   },
+   "id": "sight_pin_1",
+   "moving": false,
+   "name_de": "Pinkopf 2",
+   "name_en": "Pin head 2",
+   "role": "pin_glow",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.8,
+     90.6
+    ],
+    "u": [
+     96.33,
+     97.23
+    ],
+    "x": [
+     -22.52,
+     -0.4
+    ]
+   },
+   "id": "sight_pin_blade_2",
+   "moving": false,
+   "name_de": "Pin 3",
+   "name_en": "Pin 3",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     88.7,
+     90.7
+    ],
+    "u": [
+     95.3,
+     98.26
+    ],
+    "x": [
+     -1.48,
+     1.48
+    ]
+   },
+   "id": "sight_pin_2",
+   "moving": false,
+   "name_de": "Pinkopf 3",
+   "name_en": "Pin head 3",
+   "role": "pin_glow",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -162.52,
+     28.99
+    ],
+    "u": [
+     217.64,
+     518.66
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "limb_top",
+   "moving": false,
+   "name_de": "Wurfarm oben",
+   "name_en": "Upper limb",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 416
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -162.52,
+     28.99
+    ],
+    "u": [
+     -518.66,
+     -217.64
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "limb_bottom",
+   "moving": false,
+   "name_de": "Wurfarm unten",
+   "name_en": "Lower limb",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 416
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -180.0,
+     -120.0
+    ],
+    "u": [
+     481.37,
+     541.04
+    ],
+    "x": [
+     -4.0,
+     4.0
+    ]
+   },
+   "id": "cam_top",
+   "moving": true,
+   "name_de": "Rolle oben",
+   "name_en": "Upper cam",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 1232
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -180.0,
+     -120.0
+    ],
+    "u": [
+     -541.04,
+     -481.37
+    ],
+    "x": [
+     -4.0,
+     4.0
+    ]
+   },
+   "id": "cam_bottom",
+   "moving": true,
+   "name_de": "Rolle unten",
+   "name_en": "Lower cam",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 1232
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -154.44,
+     -145.56
+    ],
+    "u": [
+     -515.65,
+     515.65
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "cam_axles",
+   "moving": false,
+   "name_de": "Rollenachsen",
+   "name_en": "Cam axles",
+   "role": "trim",
+   "shape": "multi",
+   "triangles": 472
+  },
+  {
+   "assembly": "string",
+   "extent_mm": {
+    "f": [
+     -151.48,
+     -148.52
+    ],
+    "u": [
+     46.0,
+     511.2
+    ],
+    "x": [
+     -1.48,
+     1.48
+    ]
+   },
+   "id": "string_top",
+   "moving": true,
+   "name_de": "Sehne oben",
+   "name_en": "Upper string",
+   "role": "string",
+   "shape": "cyl",
+   "triangles": 28
+  },
+  {
+   "assembly": "string",
+   "extent_mm": {
+    "f": [
+     -151.48,
+     -148.52
+    ],
+    "u": [
+     -511.2,
+     46.0
+    ],
+    "x": [
+     -1.48,
+     1.48
+    ]
+   },
+   "id": "string_bottom",
+   "moving": true,
+   "name_de": "Sehne unten",
+   "name_en": "Lower string",
+   "role": "string",
+   "shape": "cyl",
+   "triangles": 28
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -150.0,
+     505.0
+    ],
+    "u": [
+     42.91,
+     49.09
+    ],
+    "x": [
+     -3.09,
+     3.09
+    ]
+   },
+   "id": "arrow_shaft",
+   "moving": true,
+   "name_de": "Pfeilschaft",
+   "name_en": "Arrow shaft",
+   "role": "graphite",
+   "shape": "cyl",
+   "triangles": 140
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     499.0,
+     509.0
+    ],
+    "u": [
+     41.88,
+     50.12
+    ],
+    "x": [
+     -4.12,
+     4.12
+    ]
+   },
+   "id": "arrow_ferrule",
+   "moving": false,
+   "name_de": "Spitzenhülse",
+   "name_en": "Ferrule",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     508.0,
+     553.0
+    ],
+    "u": [
+     41.48,
+     50.52
+    ],
+    "x": [
+     -4.52,
+     4.52
+    ]
+   },
+   "id": "arrow_head",
+   "moving": false,
+   "name_de": "Pfeilspitze",
+   "name_en": "Arrow head",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 84
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -158.0,
+     -144.0
+    ],
+    "u": [
+     42.72,
+     49.28
+    ],
+    "x": [
+     -3.28,
+     3.28
+    ]
+   },
+   "id": "arrow_nock",
+   "moving": false,
+   "name_de": "Nocke",
+   "name_en": "Nock",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 236
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -135.83,
+     -76.14
+    ],
+    "u": [
+     46.0,
+     57.99
+    ],
+    "x": [
+     -0.6,
+     0.6
+    ]
+   },
+   "id": "fletch_top",
+   "moving": false,
+   "name_de": "Leitfeder",
+   "name_en": "Cock vane",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -135.82,
+     -76.15
+    ],
+    "u": [
+     45.4,
+     46.6
+    ],
+    "x": [
+     2.0,
+     12.99
+    ]
+   },
+   "id": "fletch_l",
+   "moving": false,
+   "name_de": "Befiederung links",
+   "name_en": "Left vane",
+   "role": "graphite",
+   "shape": "plan",
+   "triangles": 76
+  },
+  {
+   "assembly": "arrow",
+   "extent_mm": {
+    "f": [
+     -135.82,
+     -76.15
+    ],
+    "u": [
+     45.4,
+     46.6
+    ],
+    "x": [
+     -12.99,
+     -2.0
+    ]
+   },
+   "id": "fletch_r",
+   "moving": false,
+   "name_de": "Befiederung rechts",
+   "name_en": "Right vane",
+   "role": "graphite",
+   "shape": "plan",
+   "triangles": 76
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -21.08,
+     8.0
+    ],
+    "u": [
+     -218.6,
+     -59.4
+    ],
+    "x": [
+     43.95,
+     47.75
+    ]
+   },
+   "id": "facet_riser_l1",
+   "moving": false,
+   "name_de": "Facette Mittelstück links 1",
+   "name_en": "Facet riser left 1",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 68
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -19.24,
+     8.0
+    ],
+    "u": [
+     56.6,
+     218.6
+    ],
+    "x": [
+     43.95,
+     47.75
+    ]
+   },
+   "id": "facet_riser_l2",
+   "moving": false,
+   "name_de": "Facette Mittelstück links 2",
+   "name_en": "Facet riser left 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 80
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -21.08,
+     8.0
+    ],
+    "u": [
+     -218.6,
+     -59.4
+    ],
+    "x": [
+     -21.5,
+     -17.7
+    ]
+   },
+   "id": "facet_riser_r1",
+   "moving": false,
+   "name_de": "Facette Mittelstück rechts 1",
+   "name_en": "Facet riser right 1",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 68
+  },
+  {
+   "assembly": "riser",
+   "extent_mm": {
+    "f": [
+     -19.24,
+     8.0
+    ],
+    "u": [
+     56.6,
+     218.6
+    ],
+    "x": [
+     -21.5,
+     -17.7
+    ]
+   },
+   "id": "facet_riser_r2",
+   "moving": false,
+   "name_de": "Facette Mittelstück rechts 2",
+   "name_en": "Facet riser right 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 80
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -141.4,
+     8.0
+    ],
+    "u": [
+     223.9,
+     514.58
+    ],
+    "x": [
+     18.7,
+     22.5
+    ]
+   },
+   "id": "facet_limb_top_l2",
+   "moving": false,
+   "name_de": "Facette Wurfarm oben links 2",
+   "name_en": "Facet limb_top left 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 132
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -141.4,
+     8.0
+    ],
+    "u": [
+     216.64,
+     515.14
+    ],
+    "x": [
+     -22.5,
+     -18.7
+    ]
+   },
+   "id": "facet_limb_top_r2",
+   "moving": false,
+   "name_de": "Facette Wurfarm oben rechts 2",
+   "name_en": "Facet limb_top right 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 148
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -141.4,
+     8.0
+    ],
+    "u": [
+     -514.58,
+     -223.9
+    ],
+    "x": [
+     18.7,
+     22.5
+    ]
+   },
+   "id": "facet_limb_bottom_l2",
+   "moving": false,
+   "name_de": "Facette Wurfarm unten links 2",
+   "name_en": "Facet limb_bottom left 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 132
+  },
+  {
+   "assembly": "limbs",
+   "extent_mm": {
+    "f": [
+     -141.4,
+     8.0
+    ],
+    "u": [
+     -515.14,
+     -216.64
+    ],
+    "x": [
+     -22.5,
+     -18.7
+    ]
+   },
+   "id": "facet_limb_bottom_r2",
+   "moving": false,
+   "name_de": "Facette Wurfarm unten rechts 2",
+   "name_en": "Facet limb_bottom right 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 148
+  }
+ ],
+ "pilot": {
+  "module": "basic/pilot/w07_combat_bow_v21.py",
+  "version": "2.1"
+ },
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON BASIC-07 v2.1-Pilot (Quellhash 2cb1d03f0966); Variante J „Cold Shard“ aus data/variants.toml; Maße in mm wie BALLON"
+ },
+ "type": {
+  "id": "BASIC-07",
+  "name": "Sehnenzug v2.1",
+  "nick": "Familie v2.1",
+  "num": "07",
+  "type": "combat_bow",
+  "type_de": "Bogen",
+  "type_en": "Combat Bow"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Stealth-Serie: wenige große Facetten als Keil über dem Lauf, matt dunkel, eisblaue Leuchtkanten",
+  "letter": "J",
+  "name": "Cold Shard",
+  "params": {
+   "front": [
+    1.02,
+    1.08
+   ],
+   "limbs": [
+    1.06,
+    1.14
+   ],
+   "muzzle": [
+    0.8,
+    0.95
+   ],
+   "series": "facet",
+   "sight": [
+    "achteck",
+    "zinken",
+    "d_linse",
+    "gabel"
+   ]
+  },
+  "since": "0.8",
+  "skin": "frost"
+ },
+ "variation": {
+  "draws": {
+   "front": 1.07,
+   "limbs": 1.11,
+   "muzzle": 0.847,
+   "sight": "zinken"
+  },
+  "seed": "b4bdd5f8b87838ac",
+  "values": {
+   "front": 1.07,
+   "limbs": 1.11,
+   "muzzle": 0.847,
+   "series": "facet",
+   "sight": "zinken"
+  }
+ },
+ "warnings": [
+  "riser: Fase nicht ausgewertet: collinear unequal offset"
+ ]
+}

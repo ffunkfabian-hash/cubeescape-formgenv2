@@ -1,13 +1,14 @@
-# Formgen v2 · Hangar
+# Formgen v2 · Hallmark
 
-0.6.0 – **Varianten der echten BALLON-Spielwaffen.** Acht Variantenlinien × 17 Typen = 136 Konzeptblätter auf dem neuesten
-BALLON-Spielpiloten je Typ (BASIC-16/17 ohne Piloten: Formstudie, im Blatt gekennzeichnet), aus BALLON-Bausteinen (Visier v3,
-Schaft S1/S2, Griff v2.1, Längen, Leuchtstreifen) mit gesteuertem Zufall (Seed je Blatt), Spec, Prompts, GLB über BALLONs
-Blender-Kit (Stufe `asset`, AAA-Bake auf Anforderung), Ansichten, Vorschau und Viewer; jede Stufe inhaltsadressiert gecacht.
+0.8.0 – **Varianten der echten BALLON-Spielwaffen, jetzt mit Design-Serien.** Zwölf Linien × 17 Typen = 204 Konzeptblätter auf dem neuesten
+BALLON-Spielpiloten je Typ (BASIC-16/17 ohne Piloten: Formstudie, im Blatt gekennzeichnet): acht Parameterlinien aus BALLON-Bausteinen (Visier v3,
+Schaft S1/S2, Griff v2.1, Längen, Leuchtstreifen) und vier Serien mit eigener Formensprache (Stealth-Facetten, Werkstatt-Prototyp, Cube-Farbwelt,
+organisch-glatt), mit gesteuertem Zufall (Seed je Blatt), Spec, Prompts, GLB über BALLONs Blender-Kit (Stufe `asset`, AAA-Bake auf Anforderung),
+Ansichten, Vorschau und Viewer; jede Stufe inhaltsadressiert gecacht.
 Formgen v1 bleibt eingefrorenes Archiv.
 
 Einstieg: [Regeln](AGENTS.md), [Generator und Pipeline](docs/generator.md), [Cache](docs/cache.md),
-[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.6](docs/versions/0.6.md).
+[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.8](docs/versions/0.8.md).
 
 ```sh
 python3 -m venv .venv
@@ -22,7 +23,8 @@ python3 -m venv .venv
 
 Grundlage: BALLON-Commit aus `config.toml › [ballon]` (nur gelesen, `git archive`). Neue Variante:
 `python -m formgen.variants new <Buchstabe> "<English Name>" "<Idee>" --skin … [--base pilot|standard|v21] --param front=[1.0,1.1] --param 'sight=["zinken"]' …`.
-Vielfalt messen: `python -m formgen.variety` (Silhouetten-IoU jeder Linie gegen die Baseline).
+Vielfalt messen: `python -m formgen.variety` (Silhouetten-IoU jeder Linie gegen die Baseline); Serien untereinander mit `--variants J,K,L,M --pairs`.
+Design-Serien (0.8): Parameter `series` in `data/variants.toml`, Formensprachen in `formgen/series.py`, Belege mit `tools/series_evidence.py`, Abnahme durch BALLON mit `tools/ballon_accept.py`.
 Viewer `out/index.html`, Blätter `out/sheets/`, im Repo nur `out/specs/` und `out/prompts/` (Golden in `tests/golden.json`).
 Zeiten je Stufe: `out/timing.json`. Messwerkzeuge: `tools/measure_v1.py`, `tools/measure_v2.py`, `tools/ballon_compare.py`,
 `tools/line_a_parity.py` (Linie A gegen BALLONs Neubau), `tools/bake_check.py` (Bake gegen BALLONs Unity-Atlas).

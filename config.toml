@@ -1,6 +1,6 @@
 [project]
-version = "0.7.0"
-name = "Waypoint"
+version = "0.8.0"
+name = "Hallmark"
 [render]
 bg = "mid"
 width = 960

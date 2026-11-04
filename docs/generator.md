@@ -57,6 +57,10 @@ GLB dort neuer als der Pin ist (Maße und Baugruppen geändert), Beleg `~/Librar
 | F | Heavy Frame | wueste | Pilot | Werferoptik (`achteck`, `entfernung`, `d_linse`; Präzision `lang`) · Schaft S2 × 1,05–1,20 · mag 1,2–1,4 · muzzle 1,5–1,9 / r 1,10–1,25 · front 1,06–1,12 · limbs 0,84–0,90 |
 | G | Skeleton | tarnung | Pilot | `reflex_sight_v21`, `holo_kasten`, `zinken` (Präzision `scope_tropfen`) · Schaft S1 × 0,8–0,9 · mag 0,72–0,82 · muzzle 0,60–0,75 · front 0,82–0,90 · drop `vent_*`, `cheek_rest` · limbs 1,22–1,30 |
 | H | Long Watch | gebraucht | Pilot | `holo_kasten`, `achteck`, `entfernung` (Präzision `lang`, `scope_tropfen`) · front 1,15–1,30 · rear 1,04–1,12 · muzzle 1,2–1,5 · mag 1,05–1,20 · limbs 1,14–1,24 |
+| J | Cold Shard | frost | Pilot | **Serie `facet`** (0.8): Stealth-Facetten, Keil über dem Lauf, Sechskantmantel, Leuchtkanten · `achteck`, `zinken`, `d_linse` (Präzision `gabel`) · front 1,02–1,08 · muzzle 0,80–0,95 · limbs 1,06–1,14 |
+| K | Bolt Works | werkbank | Pilot | **Serie `bench`** (0.8): Klemmbänder, Sechskantschrauben, Lochschienen, Kühlrippen, Schlauch, Prüfkopf · `holo_kasten`, `entfernung`, `reflex_sight_v21` (Präzision `lang`) · mag 1,00–1,15 · limbs 0,90–0,96 |
+| L | Cube Blocks | cube | Pilot | **Serie `block`** (0.8): Rasterblöcke 24 mm in Creme/Anthrazit/Orange, Stufen, Mündungswürfel, Fugenlinie · `holo_kasten`, `achteck` (Präzision `scope_tropfen`) · front 0,94–1,00 · limbs 1,10–1,18 |
+| M | Pearl Drift | perle | Pilot | **Serie `flow`** (0.8): gerundete Perlschalen mit Wellenfuge, Spindel, Leuchtlinie · `holo_pille`, `boegen` (Präzision `scope_tropfen`) · Griff v2.1 · front 1,00–1,06 · limbs 1,16–1,24 |
 
 B und C bekamen in 0.4 nur `limbs`: ihre Bögen (BB07, BC07) waren bis 0.2 formgleich mit BA07 (nur Farbe); alle übrigen
 B/C-Blätter behalten ihre Parameter. Jede der acht BALLON-Skins ist einer Linie zugeordnet.
@@ -93,7 +97,8 @@ dieser festen Reihenfolge:
 | Länge vorn | `front` 0,7–1,4 | Vorderlänge Socket_Hand → Socket_Muzzle × Faktor; Schnitt in der mittleren Hälfte zwischen Socket_SupportHand (sonst Socket_Hand) und Socket_Muzzle an der Stelle, die die wenigsten kurzen Teile kreuzt | Anker gemessen aus BALLON; Faktor Vorgabe Register |
 | Länge hinten | `rear` 0,7–1,4 | Hinterlänge (hinterstes Teil → Socket_Hand) × Faktor; Schnitt im Schaft; ohne Baugruppe `stock` übersprungen | wie oben |
 | Wurfarme | `limbs` 0,8–1,3 | Bogen: oberer und unterer Wurfarm in u × Faktor (Schnitt in der mittleren Hälfte des Arms, gespiegelt für unten); Rollen, Sehnenenden und Bewegungspunkte folgen, Nockpunkt bleibt | `LIMB_WINDOW` (Annahme) |
-| Skin | `skins.toml` | nur Farben/Oberflächen; Form unverändert | Spiegel von BALLON `kit.SKINS` |
+| Serie | `series` | Design-Serie (0.8): Verkleidung außen auf der fertigen Form, als letzter Schritt, siehe [Design-Serien](#design-serien-08-hallmark) | `formgen/series.py` |
+| Skin | `skins.toml` | nur Farben/Oberflächen; Form unverändert | Spiegel von BALLON `kit.SKINS`; Serien-Skins (`formgen = true`) nur hier |
 
 Teile ganz jenseits eines Schnitts werden verschoben, Teile über dem Schnitt mit mindestens 60 mm Länge (Annahme
 `SHORT_MM`; Schnittfenster `FRONT_WINDOW` 25–75 %, Schaftrand `STOCK_MARGIN` 20 %, beide Annahmen) gedehnt oder gestaucht, kürzere nie verzerrt. Stauchen ist auf die freie Zone hinter dem Schnitt begrenzt
@@ -123,6 +128,47 @@ Punkten je Fall).
   in `sight_anod` (Visier) bzw. `graphite` entfärbt.
 - Grundform `pilot`/`v21` ohne Pilot (16, 17): Formstudie, Fakt „Formstudie – kein Pilot“.
 
+### Design-Serien (0.8 „Hallmark“)
+
+Nutzerwunsch 03.11.2026: Varianten wie in v1 – eine eigene Formensprache je Serie, nicht nur Länge und Farbe. Die v1-Blätter (J „Black Ice“,
+H „Werkstatt“, G Cube-Farbwelt) dienen nur als Bildvorlage; Parameter `series` setzt mit BALLONs Kit-Vokabular (`common.part`, Formen `prof`,
+`box`, `xprof`, `xbox`, `frame`, `cyl`, `multi`, `tube`, `cuts`) Verkleidungen auf den Piloten. Kein v1-Modul, keine neue Teilform, keine neue Materialrolle.
+
+| Serie | Formensprache | Aussparungen | Leuchtführung | Skin |
+|---|---|---|---|---|
+| `facet` | Hüllkontur der Silhouette, auf wenige Ecken vereinfacht, als Querprofil mit oberer und unterer Schräge (`xprof` + Konturschnitt), läuft als Keil bis zur Mündung; Sechskantmantel um freie Rohre; dunkle Felder und Schrägschlitze | gefaste Ecken | eisblaue Kante auf dem flachen Band | `frost` |
+| `bench` | Lochschienen mit Eckschrauben, Klemmbänder (`frame`) an freien Stellen, Schlauch zwischen den Bändern, Kühlrippen um freie Rohre, Prüfkopf an der Mündung | rechtwinklig | keine eigene (Werkbank) | `werkbank` |
+| `block` | Raster 24 mm ab Socket_Hand: Zellen zu Läufen zusammengefasst, Farben im festen Wechsel, drei Dicken als Relief; Stufenblöcke um freie Rohre, Würfel an der Mündung | ganze Zelle entfällt | cyane Linie in der Fuge | `cube` |
+| `flow` | Gerundete Körperschale, durch eine Wellenlinie in Oberschale (Perle) und Unterschale (Petrol) geteilt; Schaft mit Ovalfenster; Spindel um freie Rohre | gerundet | Leuchtlinie in der Wellenfuge, Ring in der Spindel | `perle` |
+
+**Wie es generisch bleibt.** `series.zones` liest je Typ die großen festen Flächen (Gehäuse, Vorderschaft, Schaft; Bogen: Mittelstück und Wurfarme;
+16/17: Klinge/Parierstück bzw. Kern/Klingenfuß; BASIC-14 nur Mäntel, keine Tangentenplatten am Rohr), `series.spans` die freien Rohrabschnitte. Flächen rechnet
+`manifold3d.CrossSection` in der Seitenansicht (Vereinigung, Hülle, Versatz, Differenz; ganzzahlig, also deterministisch).
+
+**Nur außen, Funktion bleibt.** Der Schritt läuft zuletzt und hängt nur Teile an: kein vorhandenes Teil, Anker oder Weltpunkt ändert sich, Aktionen und EGO_LIVE bleiben. Jede Schale wird gegen die Freizonen geschnitten
+(`Body.keepout`):
+
+| Freizone | Regel | Herkunft |
+|---|---|---|
+| Bewegte Teile | ganzer Weg (`move` translate/rotate samt Eltern), wenn er die Tiefe der Schale erreicht, + 2,5 mm | gemessen aus BALLON; Luft `MARGIN_MM` Annahme |
+| Griffgruppe, Magazin, Pfeil, Sehne, Gummi, Schacht | immer frei, + 4 mm | `HARD_ASM`, `HAND_MM` Annahme |
+| Handkontakte `grip.*` | Freikreis 18 mm; Stützhand ±50 mm längs, 12 mm unter, 40 mm über dem Punkt | Lage aus POINTS, Maße Annahme |
+| Auswurf `eject*` | Fenster ±34 × ±24 mm auf der Auswurfseite | Lage aus POINTS, Maße Annahme |
+| Leuchtanzeigen | bleiben sichtbar, + 2,5 mm | Rollen `GLOW_ROLES` |
+| Oben | nie über Grundform + 3,5 mm oder Sichtlinie (Socket_Eye, 3° abfallend) | `TOP_MM`, `SIGHT_DEG` Annahmen; BASIC-14 mit seitlichem Visier: stattdessen seitlich nicht über die Grundform + 3,5 mm |
+| Mündung | Schale endet 2 mm vor Socket_Muzzle | `MUZZLE_GAP_MM` Annahme |
+
+Die Prüfung (`tests/test_series.py`) kennt die Schnittlogik nicht: Sie baut dieselbe Linie ohne `series`, verlangt gleiche Teile, Anker und Punkte, misst die fertigen Schalen in 3D gegen die Wege aller bewegten
+Teile und in der Seitenansicht gegen Hände, Auswurf, Mündung und Sichtlinie. Gegenprobe ohne Freizonen wird rot.
+
+**Bewegter Träger.** Am Pistolenschlitten (BASIC-05) sitzt die Schale als Kind (`parent_part`), wie BALLONs Magazinboden am Magazin; sie läuft mit, das Teil `slide` bleibt unverändert.
+
+**Skins.** Serien-Paletten stehen in `skins.toml` mit `formgen = true`. Sie fehlen in BALLONs `kit.SKINS`; `asset.skin_def` gibt sie an den Bake, `blender/asset_build.py` hängt sie nur für den Lauf in den laufenden Kit
+(Schlüssel `skin_def` im Bake-Cache). BALLON übernimmt den Atlas als Standard-Skin der Variante und braucht den Namen nicht. Das GLB der Stufe `asset` bleibt wie bei allen Linien in Rollenfarben.
+Die Hex-Werte sind für BALLONs AAA-Licht dunkler und satter gewählt, als sie wirken sollen: AgX und das starke Key-Licht bleichen (Orange der Grundform erscheint lachsfarben).
+
+**Grafikteile sind keine Bedienelemente.** Verkleidungen in Rolle `accent` tragen die Funktion „Grafikelement der Serie“, zählen also nicht gegen die Grenze der Akzent-Bedienfunktionen.
+
 ### Designvertrag
 
 Gemessen am Autorenmodell vor und nach den Schritten, im Spec unter `contract` (BALLON `docs/designvertrag.md`):
@@ -144,9 +190,11 @@ Blatt zeigt eine Waffe von ~1 m auf ~900 px, also rund 1 px/mm; die gefüllte Se
 Stirnansicht der Langwaffen ist bei allen Linien fast gleich). Stand 0.4: alle 119 Blätter B–H ≤ 0,973 (Median 0,872, kleinster Wert 0,421 BD07).
 Stand 0.6 (Baseline = Pilot): alle 119 ≤ 0,9752 (BC05; Median 0,892, kleinster Wert 0,609 BG07).
 
-**Grenze (ehrlich):** Die Vielfalt bleibt im BALLON-Vokabular – Längen, Tausch genormter Bausteine, Leuchtlinien, Skins.
-Die v1-Linien waren je Linie von Hand modelliert (eigene Gehäusekonturen); radikal neue Silhouetten brauchen neue Bausteine
-in BALLON (Gehäuse- und Handschutzvarianten je Familie). Vorschlag an Sightline: [vorschlag-ballon-varianten.md](vorschlag-ballon-varianten.md).
+**Design-Serien (0.8):** Schärfere Schwelle min(IoU Seite, oben) ≤ **0,95** gegen A (`SERIES_THRESHOLD`; eine Serie ist kein Feintuning, 5 % Fläche sind rund das Doppelte einer Parameterlinie) und
+≤ 0,97 je Serienpaar (`PAIR_THRESHOLD`, Silhouette allein trennt sie schon, Farbe kommt dazu). Messung: `python -m formgen.variety --variants J,K,L,M --pairs`; Werte im [Bericht 0.8](versions/0.8.md).
+
+**Grenze (ehrlich):** Die Linien A–H bleiben im BALLON-Vokabular – Längen, Tausch genormter Bausteine, Leuchtlinien, Skins. Die Serien J–M setzen eigene Schalen darauf, die Gehäuse darunter bleiben die der Piloten:
+Schalen ändern die Kontur nach außen, nie nach innen; oben begrenzt die Sichtlinie jede neue Silhouette. Ganz neue Gehäuse brauchen weiter Bausteine in BALLON (Vorschlag an Sightline: [vorschlag-ballon-varianten.md](vorschlag-ballon-varianten.md)).
 
 ## Stufen und Cache
 

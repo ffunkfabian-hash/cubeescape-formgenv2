@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.0 Hallmark — Design-Serien wie in v1: vier eigene Formensprachen
+
+- Vier neue Linien × 17 Typen (68 Blätter, gesamt 204): J Cold Shard (Stealth-Facetten), K Bolt Works (Werkstatt-Prototyp), L Cube Blocks (Cube-Escape-Farbwelt), M Pearl Drift (organisch-glatt). Neuer Parameter `series` (`formgen/series.py`): Verkleidungen außen auf dem Piloten aus BALLONs Kit-Vokabular, eigene Palette (`skins.toml`, `formgen = true`) und Leuchtführung.
+- Funktion bleibt: vorhandene Teile, Anker, Weltpunkte, Aktionen unverändert; Schalen schneiden sich um Wege bewegter Teile, Griffe, Hände, Auswurf, Leuchtanzeigen, Sichtlinie und Mündung (`tests/test_series.py`, Gegenprobe rot). Bake-Paket 2 je Serie von BALLON angenommen. Vielfalt gegen A: Schwelle 0,95 statt 0,98. Bericht: [0.8](docs/versions/0.8.md).
+
 ## 0.7.0 Waypoint — BALLON 0.41/0.42 übernommen: Weltpunkte, Paket 2, neuer Pin
 
 - BALLON-Pin fe4a5dc (0.42); Bau über `blender_build.main(W, base)` (`basic/variant.as_module`) statt Modul in `sys.modules`, Bake über `export_unity.bake_weapon(arms=False)` – Waffenatlas ohne Arme, Regel beider Wege. Linie A weiter bytegleich zu BALLONs Neubau.
