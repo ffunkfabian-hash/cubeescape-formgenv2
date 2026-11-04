@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.1 — Patch visierfix
+
+- Visiertausch: `sight_emitter` behält die Leuchtbewegung des Grundvisiers (BE10–BH10, BJ10–BL10); BE14–BH14 sitzen auf der Rohroberkante, Seitenschiene und Visierarm entfallen dort.
+- Raster: Trommel (`cylinder`, alle Linien BASIC-04) ohne helle Innenkanten, sie wirkte wie Glas; Netz, Normalen und GLB waren in Ordnung.
+
 ## 0.8.0 Hallmark — Design-Serien wie in v1: vier eigene Formensprachen
 
 - Vier neue Linien × 17 Typen (68 Blätter, gesamt 204): J Cold Shard (Stealth-Facetten), K Bolt Works (Werkstatt-Prototyp), L Cube Blocks (Cube-Escape-Farbwelt), M Pearl Drift (organisch-glatt). Neuer Parameter `series` (`formgen/series.py`): Verkleidungen außen auf dem Piloten aus BALLONs Kit-Vokabular, eigene Palette (`skins.toml`, `formgen = true`) und Leuchtführung.

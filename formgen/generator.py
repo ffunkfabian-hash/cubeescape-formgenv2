@@ -38,6 +38,7 @@ SCOPE_LINE_MM = 66.0          # Vorgabe BALLON reticles.SIGHT height_mm: Zielfer
 FOOT_MM = 46.0                # Vorgabe BALLON common.sight_platform: H0-Klemmfuß 46 mm lang
 SCOPE_LEN_MM = {"scope_tropfen": 120.0, "gabel": 120.0, "lang": 200.0}   # Vorgabe BALLON: Standardlängen der Bausteine
 EYE_RELIEF_MM = 90.0          # Vorgabe BALLON reticles.SIGHT types.scope.eye_relief_mm
+SIDE_MOUNT_PARTS = ("sight_arm",)   # Vorgabe BALLON w14: Arm trägt nur die Seitenschiene; die Schelle bleibt und hält den Fuß auf dem Rohr
 NO_SIGHT_SWAP = ("07",)       # Annahme: das Pinvisier des Bogens gehört zur Bogenform (kein Holo am Bogen)
 S1_LEN_MM, S2_LEN_MM = 179.0, 170.0   # gemessen aus BALLON stock_s1/stock_s2 bei s = 1 (Schaftkappe hinten)
 GLOW_H_MM, GLOW_GAP_MM, GLOW_SPAN = 3.0, 3.0, (0.3, 0.7)   # Annahme: Streifen 3 mm hoch, 3 mm Abstand, mittlere 40 % des Teils
@@ -354,6 +355,24 @@ def _in_band(line):
     return line is not None and SIGHT_LINE_MM[0] - 1e-6 <= line <= SIGHT_LINE_MM[1] + 1e-6
 
 
+def _tube_top(model, f):
+    """Rohr über f: längster Zylinder auf der Laufachse (Schellen sind kürzer) → (Teil-ID, Oberkante u), sonst None."""
+    bore = _anchor(model, "Socket_Muzzle", 1)
+    tubes = [p for p in model["PARTS"] if p["shape"] == "cyl" and p.get("axis") == "f" and p["a0"] <= f <= p["a1"]
+             and abs(p["c"][0] - bore) < 1e-6 and abs(p["c"][1]) < 1e-6]
+    tube = max(tubes, key=lambda p: p["a1"] - p["a0"], default=None)
+    return tube and (tube["id"], tube["c"][0] + tube["r"])
+
+
+def _keep_glow(old, parts):
+    """Leuchtbewegung des alten Visiers auf das neue Teil gleicher ID: Aktionen und EGO_LIVE von BALLON zeigen auf die ID."""
+    glow = {p["id"]: p["move"] for p in old if (p.get("move") or {}).get("kind") == "glow"}
+    kept = [p for p in parts if p["id"] in glow and not p.get("move")]
+    for p in kept:
+        p["move"] = copy.deepcopy(glow[p["id"]])
+    return sorted(p["id"] for p in kept)
+
+
 def swap_sight(model, kind, num, kit, keep_side=False):
     op = {"op": "sight", "kind": kind}
     rails, old = _rails(model), [p for p in model["PARTS"] if p["asm"] == "sight"]
@@ -361,12 +380,19 @@ def swap_sight(model, kind, num, kit, keep_side=False):
     if num in NO_SIGHT_SWAP:
         return {**op, "skipped": "Bogen: Pinvisier gehört zur Bogenform"}
     if keep_side and any(abs(r.get("x", 0)) > 1 for r in rails):
-        # Bausteine sitzen auf der Mittelebene; an BASIC-14 läge das Visier im Rohr (Linien E–H: Meldung im Bericht 0.8)
+        # Serien behalten das Seitenvisier (Entscheid 0.8; ihre Schalen rechnen mit der Sichtlinie neben dem Rohr)
         return {**op, "skipped": "Seitenschiene: Grundvisier bleibt, der Baustein läge im Rohr"}
     if not rails or not old or bore is None:
         return {**op, "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"}
     feet = [p for p in old if p.get("iface") == "BRI-22"] or old
     center = (min(_extent(p)[0] for p in feet) + max(_extent(p)[1] for p in feet)) / 2
+    side = [r for r in rails if abs(r.get("x", 0)) > 1]
+    if side:                        # Bausteine sitzen auf der Mittelebene: Sitz auf der Rohroberkante, nicht auf Höhe der Seitenschiene
+        tube = _tube_top(model, center)
+        if tube is None:
+            return {**op, "skipped": "Seitenschiene ohne Rohr auf der Laufachse"}
+        rails = [{**r, "u1": tube[1]} for r in rails]
+        op["seat"] = {"part": tube[0], "u_mm": tube[1]}
     wtype = model["META"]["type"]
     if kind in variants.SCOPES:
         front, rear = rails[-1], rails[0]
@@ -396,9 +422,11 @@ def swap_sight(model, kind, num, kit, keep_side=False):
     before, after = _line(model), round(anchors["Socket_Eye"]["at"][1] - bore, 3)
     if not _in_band(after) and (_in_band(before) or before is None or abs(after - 70) > abs(before - 70)):
         return {**op, "skipped": f"Visierlinie {after:g} mm verletzt 60–80 mm (Grundform {before} mm)"}
-    removed, anchors_gone, handed = _replace(model, [p["id"] for p in old], parts, anchors)
+    glow = _keep_glow(old, parts)
+    orphans = [r["id"] for r in side] + [p["id"] for p in model["PARTS"] if side and p["id"] in SIDE_MOUNT_PARTS]
+    removed, anchors_gone, handed = _replace(model, [p["id"] for p in old] + orphans, parts, anchors)
     return {**op, "removed": removed, "added": [p["id"] for p in parts], "anchors_replaced": anchors_gone,
-            "sight_line_mm": {"before": before, "after": after}, **_handed(handed)}
+            "sight_line_mm": {"before": before, "after": after}, **({"glow_kept": glow} if glow else {}), **_handed(handed)}
 
 
 def _stock_kind(model):

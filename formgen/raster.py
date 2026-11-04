@@ -31,6 +31,8 @@ _ALIASES = {'left': 'side_left', 'right': 'side_right', 'side': 'side_left',
 # Studio ambient keeps dark kit roles readable without altering their palette.
 TOON = np.array([.72, .82, .92, 1.0])
 
+NO_EDGE_LIFT = ('cylinder',)   # Trommel BASIC-04: helle Innenkanten der Kanneluren lesen sich auf dem Rundkörper wie Glas (am Bild gewählt)
+
 
 def camera(view='side_left'):
     """Rows: screen right, screen up, towards camera; orthonormal world basis."""
@@ -429,6 +431,7 @@ def render(document, view='side_left', width=960, height=640, skin='standard', b
     # Dark-on-dark outlines disappear. Lift only interior edges, deriving the
     # edge tint from the visible material and the existing TOML outline color.
     dark_inner = inner & (np.max(rgba[..., :3], axis=-1) < 64)
+    dark_inner &= ~np.isin(parts, [i for i, part in enumerate(render_parts) if part.get('id') in NO_EDGE_LIFT])
     rgba[dark_inner, :3] = np.clip(rgba[dark_inner, :3]*1.8 + outline*.35, 0, 255)
     rgba[line & ~dark_inner, :3] = outline
     # Nearest surface per transparent part. Composite per-pixel back to front,
