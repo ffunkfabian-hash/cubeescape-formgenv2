@@ -13,7 +13,8 @@ Nur außen und nichts Funktionales: vorhandene Teile, Anker und Weltpunkte bleib
 gegen die Freizonen geschnitten (`Body.keepout`): Wege bewegter Teile (`move`, auch Kinder), Griffe und Hände (`grip.*`), Magazine,
 Auswurf (`eject`), Leuchtanzeigen. Nach oben begrenzt `Body.allow` alles: vor dem Auge nicht über die Grundform und die Sichtlinie
 (Socket_Eye, SIGHT_DEG unter der Horizontalen), hinter dem Auge nicht über die Grundform; nach vorn hält jede Schale Abstand zur Mündung.
-Teile eines bewegten Trägers (Pistolenschlitten) hängen als Kind daran (`parent_part`) und laufen mit, ohne ihn zu ändern.
+Teile eines bewegten Trägers (Pistolenschlitten) hängen als Kind daran (`parent_part`) und laufen mit, ohne ihn zu ändern; ihre Freizonen
+gelten über den ganzen Trägerweg.
 
 Alle Zahlen in mm im BALLON-Rahmen (f vorn, u oben, x links). Flächen rechnet manifold3d.CrossSection (ganzzahlig, deterministisch).
 Herkunft der Zahlen: Lagen und Ausdehnungen sind aus den Teilen gemessen. Regeln für Freiraum und Zonen stehen als Konstanten oben, alle
@@ -330,6 +331,7 @@ class Body:
         """Freizonen einer Seite (+1 links, −1 rechts) für eine Schale zwischen den Beträgen inner und outer."""
         own = zone.ids if zone else set()
         areas = []
+        ride = (self.by_id[zone.parent].get("move") or {}).get("vector_mm") if zone and zone.parent else None   # Weg des Trägers
         for p in self.parts:
             if p["id"] in own or (zone and zone.parent and p.get("parent_part") == zone.parent):
                 continue
@@ -341,11 +343,13 @@ class Body:
                 m = HAND_MM
             elif live and far >= inner - 1.0:
                 m = MARGIN_MM
-            elif not live and far > outer + 0.5:
+            elif not live and (far > outer + 0.5 or (ride and far > inner)):
                 m = MARGIN_MM
             else:
                 continue
             areas.append(rect(b[0] - m, b[1] + m, b[2] - m, b[3] + m))
+            if ride:                          # die Schale fährt mit: alles, was stehen bleibt, wandert in ihrem Rahmen gegen den Weg
+                areas.append(rect(min(b[0], b[0] - ride[0]) - m, max(b[1], b[1] - ride[0]) + m, min(b[2], b[2] - ride[1]) - m, max(b[3], b[3] - ride[1]) + m))
         for name, pt in self.model.get("POINTS", {}).items():
             f, u, x = pt["at"]
             if name == "grip.support":
@@ -806,6 +810,7 @@ def bench(B: Body):
 
 # ------------------------------------------------------------------ block: Cube-Farbwelt
 
+CARRIER_MM = 3.0       # Annahme: Reihen eines bewegten Trägers beginnen so weit über seiner Unterkante (Schlittenfang steht 2,5 mm höher als die Fuge)
 CELL_MM, GAP_MM = 24.0, 2.0   # Annahme: Raster 24 mm (zwei Fingerbreiten), Fuge 2 mm wie doppelte BALLON-Fuge SEAM
 BLOCK_ROLES = (("shell", 6.0), ("graphite", 3.5), ("shell", 6.0), ("accent", 8.0), ("graphite", 3.5), ("shell", 6.0))
 
@@ -815,18 +820,21 @@ def _roll(*key):
 
 
 def block_rows(B, z, side):
-    """Rasterzellen einer Zone als Läufe: {(Rolle, Dicke): [Rechtecke]}; Zellen in Freizonen oder außerhalb von `allow` entfallen."""
+    """Rasterzellen einer Zone als Läufe: {(Rolle, Dicke): [Rechtecke]}; Zellen in Freizonen oder außerhalb von `allow` entfallen. Das Raster
+    hängt an Socket_Hand; ein bewegter Träger ist niedriger als zwei Zellen und bekommt zwei eigene Reihen über dem Schlittenfang."""
     f0, u0, f1, u1 = z.area.bounds()
     keep = B.keepout(side, z.face(side), z.face(side) + 8, z)
     near = z.area.offset(3.0, JoinType.Miter, 2.0)
     out = {}
     start = _roll(B.num, z.name) % len(BLOCK_ROLES)
-    j0, j1 = math.floor(u0 / CELL_MM), math.ceil(u1 / CELL_MM)
+    origin, height = (u0 + CARRIER_MM, (u1 - u0 - CARRIER_MM) / 2) if z.parent else (0.0, CELL_MM)
+    j0, j1 = math.floor((u0 - origin) / height), math.ceil((u1 - origin) / height)
     i0, i1 = math.floor(f0 / CELL_MM), math.ceil(f1 / CELL_MM)
     for j in range(j0, j1):
+        lo, hi = origin + j * height + GAP_MM / 2, origin + (j + 1) * height - GAP_MM / 2
         cells = []
         for i in range(i0, i1 + 1):
-            c = rect(i * CELL_MM + GAP_MM / 2, (i + 1) * CELL_MM - GAP_MM / 2, j * CELL_MM + GAP_MM / 2, (j + 1) * CELL_MM - GAP_MM / 2)
+            c = rect(i * CELL_MM + GAP_MM / 2, (i + 1) * CELL_MM - GAP_MM / 2, lo, hi)
             ok = (c ^ near).area() >= .55 * c.area() and (c - B.allow).area() < 1 and (c ^ keep).area() < 1
             cells.append(i if ok else None)
         run, runs = [], []
@@ -843,7 +851,7 @@ def block_rows(B, z, side):
         for r in runs:
             role = BLOCK_ROLES[start % len(BLOCK_ROLES)]    # fortlaufend über alle Reihen: auch wenige Läufe zeigen alle Farben
             start += 1
-            out.setdefault(role, []).append((r[0] * CELL_MM + GAP_MM / 2, (r[-1] + 1) * CELL_MM - GAP_MM / 2, j * CELL_MM + GAP_MM / 2, (j + 1) * CELL_MM - GAP_MM / 2))
+            out.setdefault(role, []).append((r[0] * CELL_MM + GAP_MM / 2, (r[-1] + 1) * CELL_MM - GAP_MM / 2, lo, hi))
     return out
 
 

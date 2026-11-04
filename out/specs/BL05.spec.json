@@ -141,13 +141,13 @@
  },
  "counts": {
   "assemblies": 6,
-  "parts": 29,
-  "triangles": 7700
+  "parts": 30,
+  "triangles": 7760
  },
  "dimensions_mm": {
   "height": 190.0,
   "length": 236.12,
-  "width": 39.5
+  "width": 42.0
  },
  "format": "formgenv2/weapon-sheet-spec",
  "format_version": 3,
@@ -196,7 +196,8 @@
      "block_slide_accent_l",
      "block_slide_graphite_l",
      "block_slide_shell_l",
-     "block_slide_graphite_r"
+     "block_slide_graphite_r",
+     "block_slide_shell_r"
     ],
     "kind": "block",
     "op": "series",
@@ -820,11 +821,11 @@
    "extent_mm": {
     "f": [
      25.0,
-     71.0
+     143.0
     ],
     "u": [
-     73.0,
-     95.0
+     75.5,
+     91.0
     ],
     "x": [
      13.7,
@@ -843,12 +844,12 @@
    "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     73.0,
+     25.0,
      95.0
     ],
     "u": [
-     49.0,
-     71.0
+     58.0,
+     73.5
     ],
     "x": [
      13.7,
@@ -867,12 +868,12 @@
    "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     145.0,
+     97.0,
      167.0
     ],
     "u": [
-     49.0,
-     71.0
+     58.0,
+     73.5
     ],
     "x": [
      13.7,
@@ -895,8 +896,8 @@
      167.0
     ],
     "u": [
-     49.0,
-     71.0
+     58.0,
+     73.5
     ],
     "x": [
      -17.5,
@@ -908,6 +909,30 @@
    "name_de": "Farbblöcke Schlitten rechts",
    "name_en": "Colour blocks slide right",
    "role": "graphite",
+   "shape": "multi",
+   "triangles": 60
+  },
+  {
+   "assembly": "mechanism",
+   "extent_mm": {
+    "f": [
+     121.0,
+     143.0
+    ],
+    "u": [
+     75.5,
+     91.0
+    ],
+    "x": [
+     -20.0,
+     -13.7
+    ]
+   },
+   "id": "block_slide_shell_r",
+   "moving": false,
+   "name_de": "Farbblöcke Schlitten rechts",
+   "name_en": "Colour blocks slide right",
+   "role": "shell",
    "shape": "multi",
    "triangles": 60
   }

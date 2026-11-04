@@ -142,7 +142,7 @@
  "counts": {
   "assemblies": 6,
   "parts": 33,
-  "triangles": 36440
+  "triangles": 36360
  },
  "dimensions_mm": {
   "height": 190.0,
@@ -948,7 +948,7 @@
    "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     8.49,
+     8.53,
      195.5
     ],
     "u": [
@@ -966,17 +966,17 @@
    "name_en": "Smooth shell slide left 1",
    "role": "shell",
    "shape": "prof",
-   "triangles": 780
+   "triangles": 700
   },
   {
    "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     8.49,
+     8.53,
      36.0
     ],
     "u": [
-     56.9,
+     57.0,
      92.66
     ],
     "x": [

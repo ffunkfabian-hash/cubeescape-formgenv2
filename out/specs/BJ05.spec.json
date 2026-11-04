@@ -142,7 +142,7 @@
  "counts": {
   "assemblies": 6,
   "parts": 38,
-  "triangles": 9390
+  "triangles": 9318
  },
  "dimensions_mm": {
   "height": 190.0,
@@ -1074,12 +1074,12 @@
    "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     3.12,
+     3.2,
      205.67
     ],
     "u": [
-     53.08,
-     92.92
+     53.2,
+     92.8
     ],
     "x": [
      13.7,
@@ -1092,18 +1092,18 @@
    "name_en": "Facet slide left 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 356
+   "triangles": 332
   },
   {
    "assembly": "mechanism",
    "extent_mm": {
     "f": [
-     3.07,
+     3.49,
      36.0
     ],
     "u": [
-     55.45,
-     93.0
+     57.2,
+     92.8
     ],
     "x": [
      -17.5,
@@ -1116,7 +1116,7 @@
    "name_en": "Facet slide right 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 188
+   "triangles": 140
   },
   {
    "assembly": "mechanism",

@@ -161,7 +161,7 @@ H „Werkstatt“, G Cube-Farbwelt) dienen nur als Bildvorlage; Parameter `serie
 Die Prüfung (`tests/test_series.py`) kennt die Schnittlogik nicht: Sie baut dieselbe Linie ohne `series`, verlangt gleiche Teile, Anker und Punkte, misst die fertigen Schalen in 3D gegen die Wege aller bewegten
 Teile und in der Seitenansicht gegen Hände, Auswurf, Mündung und Sichtlinie. Gegenprobe ohne Freizonen wird rot.
 
-**Bewegter Träger.** Am Pistolenschlitten (BASIC-05) sitzt die Schale als Kind (`parent_part`), wie BALLONs Magazinboden am Magazin; sie läuft mit, das Teil `slide` bleibt unverändert.
+**Bewegter Träger.** Am Pistolenschlitten (BASIC-05) sitzt die Schale als Kind (`parent_part`), wie BALLONs Magazinboden am Magazin; sie läuft mit, das Teil `slide` bleibt unverändert. Ihre Freizonen gelten über den ganzen Trägerweg: was stehen bleibt und die Schalentiefe erreicht (Schlittenfang, Blende), wird um den Weg verlängert ausgespart; `tests/test_series.py` fährt die Schale den Weg ab.
 
 **Skins.** Serien-Paletten stehen in `skins.toml` mit `formgen = true`. Sie fehlen in BALLONs `kit.SKINS`; `asset.skin_def` gibt sie an den Bake, `blender/asset_build.py` hängt sie nur für den Lauf in den laufenden Kit
 (Schlüssel `skin_def` im Bake-Cache). BALLON übernimmt den Atlas als Standard-Skin der Variante und braucht den Namen nicht. Das GLB der Stufe `asset` bleibt wie bei allen Linien in Rollenfarben.

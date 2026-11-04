@@ -60,6 +60,26 @@ def rim_boxes(p):
     return [(f0, f1, u0, u1, x0, x0 + t), (f0, f1, u0, u1, x1 - t, x1), (f0, f1, u0, u0 + t, x0, x1), (f0, f1, u1 - t, u1, x0, x1)]
 
 
+def carried_hits(model, base):
+    """Schalen eines bewegten Trägers über den ganzen Trägerweg gegen alles, was stehen bleibt (Grundform und feste Schalen): [(Schale, Teil)]."""
+    parts = {p["id"]: p for p in model["PARTS"]}
+    still = [p for p in model["PARTS"] if not p.get("parent_part") and not p.get("move") and p["asm"] != "sight"]
+    still = [p for p in still if not any(q.get("id") == p.get("parent_part") for q in model["PARTS"])]
+    hits = []
+    for p in added(model, base):
+        host = parts.get(p.get("parent_part"))
+        if not host or (host.get("move") or {}).get("kind") != "translate":
+            continue
+        df, du = host["move"]["vector_mm"][:2]
+        b, area = series.bounds(p), footprint(p)
+        path = series.union([area.translate((df * k / 16, du * k / 16)) for k in range(17)])
+        for q in still:
+            c = series.bounds(q)
+            if q is not host and b[4] < c[5] and b[5] > c[4] and (path ^ footprint(q)).area() > OVERLAP_MM2:
+                hits.append((p["id"], q["id"]))
+    return hits
+
+
 def problems(model, base, num):
     """Fehlerliste einer Serie: Mechanik, Hände, Auswurf, Mündung, Sichtlinie (nur fertige Teile, keine Schnittlogik)."""
     bad = []
@@ -224,6 +244,26 @@ class ShellTests(unittest.TestCase):
         with mock.patch.object(series.Body, "keepout", lambda *a, **k: series.CrossSection()):
             model, base, _ = pair(v, "01")
         self.assertTrue(any("im Weg" in b for b in problems(model, base, "01")))
+
+    def test_carried_shells_clear_everything_that_stays(self):
+        for v in entries():
+            model, base, _ = self.built[v["letter"], "05"]
+            self.assertTrue(any(p.get("parent_part") == "slide" for p in added(model, base)))
+            self.assertEqual(carried_hits(model, base), [], v["letter"])
+
+    def test_carried_shells_avoid_a_static_part_on_their_way(self):
+        """Festes Teil vor der Schale, in Ruhe frei: Freizone über den Weg muss es aussparen; Gegenprobe ohne Freizonen trifft es."""
+        v = entries()[0]
+        data = ballon.load(SNAP, "05", ballon.resolve_base(SNAP, "05", "pilot"))
+        data["PARTS"].append(dict(id="probe", de="Probe", en="Probe", asm="receiver", shape="box", mat="graphite", func="Test", attach="Test", bevel=0.5,
+                                  f0=150, f1=156, u0=66, u1=76, w=6, x=16.5))
+        plain = dict(v, params={k: x for k, x in v["params"].items() if k != "series"})
+        base, _ = generator.vary(data, plain, "05", SNAP)
+        model, _ = generator.vary(data, v, "05", SNAP)
+        self.assertNotIn("probe", {h[1] for h in carried_hits(model, base)})
+        with mock.patch.object(series.Body, "keepout", lambda *a, **k: series.CrossSection()):
+            model, _ = generator.vary(data, v, "05", SNAP)
+        self.assertIn("probe", {h[1] for h in carried_hits(model, base)})
 
     def test_shells_on_moving_host_follow_it(self):
         model, base, _ = self.built["J", "05"]
