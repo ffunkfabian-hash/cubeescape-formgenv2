@@ -230,7 +230,9 @@ def swept(p, parents):
             lo, hi = mv.get("range_deg", (0, 0))[:2] if isinstance(mv.get("range_deg"), (list, tuple)) else (0, 360)
             piv = tuple(mv["pivot"]) + (0,) * (3 - len(mv["pivot"]))
             moved += [q for c in corners for q in _arc(c, piv, mv.get("axis", "x"), lo, hi)]
-        corners = moved
+        a = np.asarray(moved, float)         # nach jedem Schritt die volle Box: die nächste Bewegung kann jeden Punkt darin treffen
+        lo3, hi3 = a.min(0), a.max(0)
+        corners = [(f, u, x) for f in (lo3[0], hi3[0]) for u in (lo3[1], hi3[1]) for x in (lo3[2], hi3[2])]
     a = np.asarray(corners, float)
     lo, hi = a.min(0), a.max(0)
     return float(lo[0]), float(hi[0]), float(lo[1]), float(hi[1]), float(lo[2]), float(hi[2])

@@ -72,11 +72,11 @@ def measure(entries=None, snap=None, letters=None, types=ballon.TYPES):
     return result
 
 
-def pairs(entries=None, snap=None, types=ballon.TYPES):
-    """Serien untereinander: {Typ: {"J-K": IoU …}} je Paar (kleinere IoU aus Seite und Draufsicht)."""
+def pairs(entries=None, snap=None, types=ballon.TYPES, letters=None):
+    """Serien untereinander: {Typ: {"J-K": IoU …}} je Paar (kleinere IoU aus Seite und Draufsicht); `letters` wie bei `measure`."""
     entries = variants.load() if entries is None else entries
     snap = snap or ballon.snapshot()
-    lines = [v for v in entries if v["params"].get("series")]
+    lines = [v for v in entries if v["params"].get("series") and (not letters or v["letter"] in letters)]
     result = {}
     for num in types:
         tris = {v["letter"]: triangles(generator.build(v, num, snap)[0]) for v in lines}
@@ -98,7 +98,7 @@ def main(argv=None) -> int:
     res = measure(letters=a.variants and a.variants.split(","))
     for sid, r in res.items():
         print(f"{sid}  Seite {r['side']:.4f}  oben {r['top']:.4f}  vorn {r['front']:.4f}  {'sichtbar' if r['visible'] else 'ZU ÄHNLICH'}")
-    near = pairs() if a.pairs else {}
+    near = pairs(letters=a.variants and a.variants.split(",")) if a.pairs else {}
     for num, row in near.items():
         print(f"Serien {num}: " + "  ".join(f"{k} {v:.4f}" for k, v in row.items()))
     if a.json:

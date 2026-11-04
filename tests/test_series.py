@@ -172,6 +172,24 @@ class SweepTests(unittest.TestCase):
             self.assertGreaterEqual(b[3], pts[:, 1].max() - 1e-9)
 
 
+    def test_chained_turns_reach_every_combination(self):
+        """Kind dreht auf einem drehenden Eltern: Abtastung aller Winkelpaare (5°) muss in der Box liegen."""
+        parent = {"id": "p", "shape": "box", "f0": 0, "f1": 1, "u0": 0, "u1": 1, "w": 1,
+                  "move": {"kind": "rotate", "pivot": (0, 0, 0), "axis": "x", "range_deg": (0, 360)}}
+        child = {"id": "c", "shape": "box", "f0": 30, "f1": 31, "u0": 0, "u1": 1, "w": 1, "parent_part": "p",
+                 "move": {"kind": "rotate", "pivot": (20, 0, 0), "axis": "x", "range_deg": (0, 360)}}
+        b = series.swept(child, {"p": parent})
+        reach = 0.0
+        for a1 in range(0, 360, 5):
+            for a2 in range(0, 360, 5):
+                for f, u in ((30, 0), (31, 0), (30, 1), (31, 1)):
+                    c, s = math.cos(math.radians(a1)), math.sin(math.radians(a1))
+                    q = (20 + (f - 20) * c - u * s, (f - 20) * s + u * c)
+                    c, s = math.cos(math.radians(a2)), math.sin(math.radians(a2))
+                    reach = max(reach, q[0] * c - q[1] * s)
+        self.assertGreaterEqual(b[1], reach - 1e-9)
+
+
 @unittest.skipIf(SNAP is None, REASON)
 class ShellTests(unittest.TestCase):
     @classmethod
@@ -241,6 +259,10 @@ class ShellTests(unittest.TestCase):
 
 @unittest.skipIf(SNAP is None, REASON)
 class VarietyTests(unittest.TestCase):
+    def test_pairs_follow_the_selection(self):
+        near = variety.pairs(snap=SNAP, types=("05",), letters=["J", "K"])
+        self.assertEqual(list(near["05"]), ["J-K"])
+
     def test_each_series_clearly_differs_from_baseline(self):
         res = variety.measure(letters=list(LINES), snap=SNAP)
         self.assertEqual(len(res), 68)
