@@ -123,9 +123,10 @@ class RegisterTests(unittest.TestCase):
             self.assertEqual(len(v["types"]), 17)
             self.assertEqual(v["base"], "pilot")
 
-    def test_unknown_series_rejected(self):
-        with self.assertRaises(variants.VariantError):
-            variants.check([dict(letter="N", name="Other Line", idea="x", since="0.8", params={"series": "neon"})])
+    def test_unknown_or_several_series_rejected(self):
+        for value in ("neon", ["facet", "flow"]):
+            with self.assertRaises(variants.VariantError, msg=value):
+                variants.check([dict(letter="N", name="Other Line", idea="x", since="0.8", params={"series": value})])
 
     def test_series_languages_match_register(self):
         self.assertEqual(series.KINDS, variants.SERIES)
@@ -139,6 +140,36 @@ class RegisterTests(unittest.TestCase):
             self.assertNotIn("formgen", own)
             self.assertIn("shell", own["roles"])
             self.assertIn("energy", own["roles"])                # Leuchtführung je Serie
+
+
+class SweepTests(unittest.TestCase):
+    """Wege gegen unabhängige Rechnung: Vollkreis analytisch, Teilbögen gegen dichte Abtastung (0,25°), beide Drehsinne."""
+
+    def box(self, kind_range, axis="x"):
+        return {"id": "t", "shape": "box", "f0": 100, "f1": 101, "u0": 50, "u1": 51, "w": 2, "x": 0,
+                "move": {"kind": "rotate", "pivot": (0, 0, 0), "axis": axis, "range_deg": kind_range}}
+
+    def test_full_turn_reaches_the_circle(self):
+        r = math.hypot(101, 51)
+        b = series.swept(self.box((0, 360)), {})
+        for v in (b[1], b[3], -b[0], -b[2]):
+            self.assertAlmostEqual(v, r, places=6)
+
+    def test_partial_arc_matches_dense_sampling(self):
+        for lo, hi in ((0, 90), (0, -12), (10, 200)):
+            p = self.box((lo, hi))
+            b = series.swept(p, {})
+            pts = []
+            for a in np.arange(min(lo, hi, -lo, -hi), max(lo, hi, -lo, -hi) + .25, .25):
+                if not (min(lo, hi) <= a <= max(lo, hi) or min(-lo, -hi) <= a <= max(-lo, -hi)):
+                    continue
+                c, s = math.cos(math.radians(a)), math.sin(math.radians(a))
+                pts += [(f * c - u * s, f * s + u * c) for f in (100, 101) for u in (50, 51)]
+            pts = np.asarray(pts)
+            self.assertLessEqual(b[0], pts[:, 0].min() + 1e-9)
+            self.assertGreaterEqual(b[1], pts[:, 0].max() - 1e-9)
+            self.assertLessEqual(b[2], pts[:, 1].min() + 1e-9)
+            self.assertGreaterEqual(b[3], pts[:, 1].max() - 1e-9)
 
 
 @unittest.skipIf(SNAP is None, REASON)
@@ -218,7 +249,8 @@ class VarietyTests(unittest.TestCase):
         self.assertLess(variety.SERIES_THRESHOLD, 0.98)          # schärfer als die Schwelle aus 0.4
 
     def test_series_differ_from_each_other(self):
-        near = variety.pairs(snap=SNAP, types=("01", "05", "07", "09", "14", "16"))
+        near = variety.pairs(snap=SNAP)
+        self.assertEqual(len(near), 17)
         self.assertLessEqual(max(v for row in near.values() for v in row.values()), variety.PAIR_THRESHOLD)
 
 

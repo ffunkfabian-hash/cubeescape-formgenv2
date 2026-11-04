@@ -152,8 +152,8 @@
  },
  "counts": {
   "assemblies": 8,
-  "parts": 75,
-  "triangles": 65268
+  "parts": 73,
+  "triangles": 63932
  },
  "dimensions_mm": {
   "height": 268.5,
@@ -240,7 +240,6 @@
     "added": [
      "flow_body_top_l1",
      "flow_body_top_l2",
-     "flow_body_top_l3",
      "flow_body_low_l1",
      "flow_body_low_l2",
      "flow_body_low_l3",
@@ -249,7 +248,6 @@
      "flow_body_glow_l3",
      "flow_body_top_r1",
      "flow_body_top_r2",
-     "flow_body_top_r3",
      "flow_body_low_r1",
      "flow_body_low_r2",
      "flow_body_low_r3",
@@ -261,6 +259,10 @@
     ],
     "kind": "flow",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1598,11 +1600,11 @@
    "extent_mm": {
     "f": [
      -111.76,
-     18.85
+     -8.0
     ],
     "u": [
-     103.05,
-     145.82
+     103.06,
+     145.79
     ],
     "x": [
      24.3,
@@ -1615,31 +1617,7 @@
    "name_en": "Smooth shell body top left 1",
    "role": "shell",
    "shape": "prof",
-   "triangles": 540
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     49.15,
-     82.91
-    ],
-    "u": [
-     117.3,
-     145.95
-    ],
-    "x": [
-     24.3,
-     38.5
-    ]
-   },
-   "id": "flow_body_top_l2",
-   "moving": false,
-   "name_de": "Glatte Schale Körper oben links 2",
-   "name_en": "Smooth shell body top left 2",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 460
+   "triangles": 332
   },
   {
    "assembly": "receiver",
@@ -1657,10 +1635,10 @@
      38.5
     ]
    },
-   "id": "flow_body_top_l3",
+   "id": "flow_body_top_l2",
    "moving": false,
-   "name_de": "Glatte Schale Körper oben links 3",
-   "name_en": "Smooth shell body top left 3",
+   "name_de": "Glatte Schale Körper oben links 2",
+   "name_en": "Smooth shell body top left 2",
    "role": "shell",
    "shape": "prof",
    "triangles": 716
@@ -1814,11 +1792,11 @@
    "extent_mm": {
     "f": [
      -111.76,
-     18.85
+     -8.0
     ],
     "u": [
-     103.05,
-     145.82
+     103.06,
+     145.79
     ],
     "x": [
      -38.5,
@@ -1831,31 +1809,7 @@
    "name_en": "Smooth shell body top right 1",
    "role": "shell",
    "shape": "prof",
-   "triangles": 540
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     49.15,
-     82.91
-    ],
-    "u": [
-     117.3,
-     145.95
-    ],
-    "x": [
-     -38.5,
-     -24.3
-    ]
-   },
-   "id": "flow_body_top_r2",
-   "moving": false,
-   "name_de": "Glatte Schale Körper oben rechts 2",
-   "name_en": "Smooth shell body top right 2",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 460
+   "triangles": 332
   },
   {
    "assembly": "receiver",
@@ -1873,10 +1827,10 @@
      -24.3
     ]
    },
-   "id": "flow_body_top_r3",
+   "id": "flow_body_top_r2",
    "moving": false,
-   "name_de": "Glatte Schale Körper oben rechts 3",
-   "name_en": "Smooth shell body top right 3",
+   "name_de": "Glatte Schale Körper oben rechts 2",
+   "name_en": "Smooth shell body top right 2",
    "role": "shell",
    "shape": "prof",
    "triangles": 716

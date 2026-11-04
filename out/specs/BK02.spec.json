@@ -162,7 +162,7 @@
  "counts": {
   "assemblies": 8,
   "parts": 79,
-  "triangles": 52836
+  "triangles": 52868
  },
  "dimensions_mm": {
   "height": 256.0,
@@ -269,6 +269,10 @@
     ],
     "kind": "bench",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1695,7 +1699,7 @@
    "name_en": "Drilled rail body left 1",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 6732
+   "triangles": 6756
   },
   {
    "assembly": "receiver",
@@ -1743,13 +1747,13 @@
    "name_en": "Drilled rail body right 1",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 3200
+   "triangles": 3208
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     24.47,
+     24.49,
      142.0
     ],
     "u": [

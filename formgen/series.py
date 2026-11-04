@@ -16,6 +16,9 @@ Auswurf (`eject`), Leuchtanzeigen. Nach oben begrenzt `Body.allow` alles: vor de
 Teile eines bewegten Trägers (Pistolenschlitten) hängen als Kind daran (`parent_part`) und laufen mit, ohne ihn zu ändern.
 
 Alle Zahlen in mm im BALLON-Rahmen (f vorn, u oben, x links). Flächen rechnet manifold3d.CrossSection (ganzzahlig, deterministisch).
+Herkunft der Zahlen: Lagen und Ausdehnungen sind aus den Teilen gemessen. Regeln für Freiraum und Zonen stehen als Konstanten oben, alle
+als Annahme gekennzeichnet; Gestaltungsmaße innerhalb der Sprachen (Schalendicken, Radien, Rippenteilung) sind ebenfalls Annahmen dieser
+Serie (Entwurf 0.8, am Bild gewählt), der Generatorbericht nennt das je Blatt unter `provenance`.
 """
 from __future__ import annotations
 
@@ -43,6 +46,11 @@ MIN_STRIP_MM = 2.5     # Annahme: dünnere Stege als das werden aus den Schalen 
 HARD_ASM = ("grip_controls", "ammo", "arrow", "string")   # Baugruppen, die nie überdeckt werden
 GLOW_ROLES = ("energy", "charge_core", "pin_glow", "draw_light", "sight_line")
 MOVING_HOSTS = {"05": ("slide",)}   # bewegter Träger: Schale hängt als Kind daran (Pistolenschlitten)
+HANDGUNS = ("04", "05")             # Vorderteil statt Vorderschaft
+TUBE_ONLY = ("14",)                 # Rohr mit Mänteln statt Tangentenplatten
+TUBE_MIN_R_MM = 14.0                # Annahme: dünnere Zylinder sind Lauf oder Stange, keine Schalenträger
+ZONE_MIN_MM = 45.0                  # Annahme: kürzere Teile tragen keine Schale
+FLAT_MM = 3.5                       # Annahme: so weit aufliegende feste Teile (Paneele) zählen zur Seitenfläche
 SKIP_ZONE = re.compile(r"rail$|^muzzle|foregrip|^loop|clamp|band|collar|plug|bezel|window|recoil|emitter|cheek|butt|bridge|hatch|spine")   # keine Schalenträger
 HAND_SHAPE = {"facet": 6, "bench": 0, "block": 0, "flow": 24}   # Ecken des Freikreises um Handkontakte; 0 = Quadrat (Formensprache der Aussparung)
 GRAPHIC = "Grafikelement der Serie"  # enthält „Grafikelement“: keine Bedienfunktion nach Designvertrag (generator.ACCENT_EXEMPT)
@@ -187,14 +195,21 @@ def silhouette(p) -> CrossSection:
     return rect(b[0], b[1], b[2], b[3]) if b[1] > b[0] and b[3] > b[2] else CrossSection()
 
 
-def _rotate(point, pivot, axis, deg):
-    a = math.radians(deg)
-    ca, sa = math.cos(a), math.sin(a)
+def _arc(point, pivot, axis, lo, hi):
+    """Lagen eines Punkts auf seinem Drehbogen, die dessen Ausdehnung bestimmen: Bogenenden und jede Achsenquerung (Extrema des Kreises).
+    Beide Drehsinne: BALLONs Vorzeichen hängt am Achsenbezug, die Freizone muss für beide reichen."""
     i, j = {"x": (0, 1), "f": (1, 2), "u": (0, 2)}[axis]
-    q = list(point)
-    d0, d1 = q[i] - pivot[i], q[j] - pivot[j]
-    q[i], q[j] = pivot[i] + d0 * ca - d1 * sa, pivot[j] + d0 * sa + d1 * ca
-    return q
+    d0, d1 = point[i] - pivot[i], point[j] - pivot[j]
+    r, phi = math.hypot(d0, d1), math.degrees(math.atan2(d1, d0))
+    out = []
+    for a, b in ((lo, hi), (-hi, -lo)):
+        a, b = min(a, b), max(a, b)
+        angles = [phi + a, phi + b] + [k * 90.0 for k in range(math.ceil((phi + a) / 90), math.floor((phi + b) / 90) + 1)]
+        for t in angles:
+            q = list(point)
+            q[i], q[j] = pivot[i] + r * math.cos(math.radians(t)), pivot[j] + r * math.sin(math.radians(t))
+            out.append(tuple(q))
+    return out
 
 
 def swept(p, parents):
@@ -214,8 +229,7 @@ def swept(p, parents):
         elif mv.get("kind") == "rotate" and mv.get("pivot") is not None:
             lo, hi = mv.get("range_deg", (0, 0))[:2] if isinstance(mv.get("range_deg"), (list, tuple)) else (0, 360)
             piv = tuple(mv["pivot"]) + (0,) * (3 - len(mv["pivot"]))
-            for k in range(1, 9):
-                moved += [tuple(_rotate(c, piv, mv.get("axis", "x"), lo + (hi - lo) * k / 8)) for c in corners]
+            moved += [q for c in corners for q in _arc(c, piv, mv.get("axis", "x"), lo, hi)]
         corners = moved
     a = np.asarray(corners, float)
     lo, hi = a.min(0), a.max(0)
@@ -410,13 +424,13 @@ def zones(body: Body):
             if p in parts or B._moves(p) or p["asm"] in HARD_ASM or p["asm"] == "sight" or p["mat"] in GLOW_ROLES:
                 continue
             if b[0] < lo[2] and b[1] > lo[0] and b[2] < lo[3] and b[3] > lo[1]:
-                if x1 < b[5] <= x1 + 3.5:
+                if x1 < b[5] <= x1 + FLAT_MM:
                     x1 = b[5]
-                if x0 - 3.5 <= b[4] < x0:
+                if x0 - FLAT_MM <= b[4] < x0:
                     x0 = b[4]
         return Zone(name, area, asm or parts[0]["asm"], x0, x1, parent, [p["id"] for p in parts])
 
-    def big(p, length=45.0):
+    def big(p, length=ZONE_MIN_MM):
         b = B.ext[p["id"]]
         return p.get("shape") in ("prof", "box", "plan", "cyl") and (b[1] - b[0] >= length or b[3] - b[2] >= length) and \
             p["mat"] not in GLOW_ROLES and p["mat"] not in ("rubber", "metal", "trim") and not SKIP_ZONE.search(p["id"])
@@ -439,7 +453,7 @@ def zones(body: Body):
         out.append(make("Schlitten", [B.by_id[pid]], parent=pid, asm=B.by_id[pid]["asm"]))
     stock = [p for p in B.parts if p["asm"] == "stock" and big(p) and not B._moves(p)]
     main = [p for p in B.parts if p["asm"] in ("receiver", "support", "barrel") and big(p) and not B._moves(p)
-            and not (p.get("shape") == "cyl" and (p.get("axis") != "f" or p["r"] < 14 or num == "14"))]   # 14: Rohr bekommt Mäntel, keine Tangentenplatten
+            and not (p.get("shape") == "cyl" and (p.get("axis") != "f" or p["r"] < TUBE_MIN_R_MM or num in TUBE_ONLY))]
     if not main:
         return [z for z in out if z]
     ends = [B.ext[p["id"]][1] for p in main if p["id"] in ("lower", "receiver", "frame", "upper")]
@@ -449,7 +463,7 @@ def zones(body: Body):
     rear = [p for p in main if B.ext[p["id"]][0] < split]
     fore = [p for p in main if B.ext[p["id"]][1] > split]
     out.append(make("Gehäuse", rear, rect(near, split, -500, 500)))
-    out.append(make("Vorderteil" if num in ("04", "05") else "Vorderschaft", fore, rect(split, far, -500, 500), asm=fore[-1]["asm"] if fore else None))
+    out.append(make("Vorderteil" if num in HANDGUNS else "Vorderschaft", fore, rect(split, far, -500, 500), asm=fore[-1]["asm"] if fore else None))
     if stock:
         out.append(make("Schaft", stock))
     return [z for z in out if z]
@@ -979,4 +993,5 @@ def apply(model, kind, num, kit):
     if clash or len({p["id"] for p in B.added}) != len(B.added):
         raise ValueError(f"Serie {kind}: Teil-IDs doppelt: {clash}")
     model["PARTS"] += B.added
-    return {"op": "series", "kind": kind, "zones": [z.name for z in B.zones], "added": [p["id"] for p in B.added]}
+    return {"op": "series", "kind": kind, "zones": [z.name for z in B.zones], "added": [p["id"] for p in B.added],
+            "provenance": {"kind": "Annahme", "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"}}

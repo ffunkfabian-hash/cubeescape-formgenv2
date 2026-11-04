@@ -161,8 +161,8 @@
  },
  "counts": {
   "assemblies": 8,
-  "parts": 79,
-  "triangles": 31484
+  "parts": 80,
+  "triangles": 30826
  },
  "dimensions_mm": {
   "height": 255.06,
@@ -278,6 +278,7 @@
      "facet_field_l3",
      "facet_cheek_r1",
      "facet_cheek_r2",
+     "facet_cheek_r3",
      "facet_ice_r1",
      "facet_ice_r2",
      "facet_ice_r3",
@@ -291,6 +292,10 @@
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1717,7 +1722,7 @@
    "name_en": "Facet cheek left 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 366
+   "triangles": 344
   },
   {
    "assembly": "receiver",
@@ -1771,7 +1776,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     27.47,
+     27.49,
      58.0
     ],
     "u": [
@@ -1916,11 +1921,11 @@
    "extent_mm": {
     "f": [
      -113.5,
-     78.94
+     13.46
     ],
     "u": [
-     37.04,
-     134.41
+     36.98,
+     134.46
     ],
     "x": [
      -28.2,
@@ -1933,7 +1938,31 @@
    "name_en": "Facet cheek right 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 1000
+   "triangles": 128
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     27.49,
+     78.93
+    ],
+    "u": [
+     48.08,
+     76.92
+    ],
+    "x": [
+     -28.2,
+     -22.3
+    ]
+   },
+   "id": "facet_cheek_r2",
+   "moving": false,
+   "name_de": "Facettenschale rechts 2",
+   "name_en": "Facet cheek right 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 236
   },
   {
    "assembly": "receiver",
@@ -1951,10 +1980,10 @@
      -22.3
     ]
    },
-   "id": "facet_cheek_r2",
+   "id": "facet_cheek_r3",
    "moving": false,
-   "name_de": "Facettenschale rechts 2",
-   "name_en": "Facet cheek right 2",
+   "name_de": "Facettenschale rechts 3",
+   "name_en": "Facet cheek right 3",
    "role": "shell",
    "shape": "xprof",
    "triangles": 796
@@ -1987,7 +2016,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     27.47,
+     27.49,
      58.0
     ],
     "u": [
@@ -2083,7 +2112,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     27.47,
+     27.49,
      49.46
     ],
     "u": [
@@ -2266,6 +2295,7 @@
   "pulse_coils: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
   "coil_rings: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
   "facet_cheek_l1: Fase nicht ausgewertet: cap constraint recovery iteration limit",
-  "facet_cheek_l2: Fase nicht ausgewertet: incompatible low-angle corner offsets"
+  "facet_cheek_l2: Fase nicht ausgewertet: incompatible low-angle corner offsets",
+  "facet_cheek_r1: Fase nicht ausgewertet: Degenerierte Fläche"
  ]
 }

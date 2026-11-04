@@ -153,7 +153,7 @@
  "counts": {
   "assemblies": 8,
   "parts": 81,
-  "triangles": 38578
+  "triangles": 38458
  },
  "dimensions_mm": {
   "height": 269.6,
@@ -260,6 +260,10 @@
     ],
     "kind": "block",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1693,11 +1697,11 @@
    "extent_mm": {
     "f": [
      -119.0,
-     -1.0
+     -25.0
     ],
     "u": [
      49.0,
-     143.0
+     119.0
     ],
     "x": [
      24.3,
@@ -1710,7 +1714,7 @@
    "name_en": "Colour blocks body left",
    "role": "graphite",
    "shape": "multi",
-   "triangles": 180
+   "triangles": 120
   },
   {
    "assembly": "receiver",
@@ -1789,11 +1793,11 @@
    "extent_mm": {
     "f": [
      -119.0,
-     -1.0
+     -25.0
     ],
     "u": [
      49.0,
-     143.0
+     119.0
     ],
     "x": [
      -28.1,
@@ -1806,7 +1810,7 @@
    "name_en": "Colour blocks body right",
    "role": "graphite",
    "shape": "multi",
-   "triangles": 180
+   "triangles": 120
   },
   {
    "assembly": "receiver",

@@ -286,6 +286,10 @@
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1598,7 +1602,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -2.53,
+     -2.51,
      328.9
     ],
     "u": [
@@ -1646,7 +1650,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -38.25,
+     -38.17,
      32.83
     ],
     "u": [
@@ -1862,7 +1866,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -2.53,
+     -2.51,
      18.0
     ],
     "u": [
@@ -1934,7 +1938,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -38.25,
+     -38.17,
      18.0
     ],
     "u": [

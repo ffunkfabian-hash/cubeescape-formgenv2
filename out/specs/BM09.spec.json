@@ -167,8 +167,8 @@
  },
  "counts": {
   "assemblies": 8,
-  "parts": 67,
-  "triangles": 65908
+  "parts": 66,
+  "triangles": 64680
  },
  "dimensions_mm": {
   "height": 268.2,
@@ -225,7 +225,6 @@
      "flow_body_glow_l2",
      "flow_body_top_r1",
      "flow_body_top_r2",
-     "flow_body_top_r3",
      "flow_body_low_r1",
      "flow_body_low_r2",
      "flow_body_low_r3",
@@ -240,6 +239,10 @@
     ],
     "kind": "flow",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1384,12 +1387,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -123.5,
+     -31.82,
      529.82
     ],
     "u": [
      62.44,
-     140.99
+     140.9
     ],
     "x": [
      18.0,
@@ -1402,7 +1405,7 @@
    "name_en": "Smooth shell body top left 1",
    "role": "shell",
    "shape": "prof",
-   "triangles": 2028
+   "triangles": 1836
   },
   {
    "assembly": "receiver",
@@ -1480,12 +1483,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -53.97,
-     274.1
+     -30.23,
+     277.53
     ],
     "u": [
-     60.29,
-     103.28
+     60.31,
+     102.82
     ],
     "x": [
      20.25,
@@ -1498,7 +1501,7 @@
    "name_en": "Glow line",
    "role": "energy",
    "shape": "tube",
-   "triangles": 12316
+   "triangles": 11548
   },
   {
    "assembly": "receiver",
@@ -1528,12 +1531,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -123.5,
-     -77.13
+     -31.82,
+     -10.51
     ],
     "u": [
-     104.88,
-     122.26
+     125.0,
+     140.9
     ],
     "x": [
      -24.5,
@@ -1546,31 +1549,7 @@
    "name_en": "Smooth shell body top right 1",
    "role": "shell",
    "shape": "prof",
-   "triangles": 332
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -73.84,
-     -10.51
-    ],
-    "u": [
-     125.0,
-     140.99
-    ],
-    "x": [
-     -24.5,
-     -18.0
-    ]
-   },
-   "id": "flow_body_top_r2",
-   "moving": false,
-   "name_de": "Glatte Schale Körper oben rechts 2",
-   "name_en": "Smooth shell body top right 2",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 412
+   "triangles": 476
   },
   {
    "assembly": "receiver",
@@ -1588,10 +1567,10 @@
      -18.0
     ]
    },
-   "id": "flow_body_top_r3",
+   "id": "flow_body_top_r2",
    "moving": false,
-   "name_de": "Glatte Schale Körper oben rechts 3",
-   "name_en": "Smooth shell body top right 3",
+   "name_de": "Glatte Schale Körper oben rechts 2",
+   "name_en": "Smooth shell body top right 2",
    "role": "shell",
    "shape": "prof",
    "triangles": 1228

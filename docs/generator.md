@@ -230,6 +230,7 @@ und Variante), Maße (eigene und BALLONs), Zähler, Baugruppen, Teile mit Ausdeh
 **Migration Pflicht:** `MIGRATIONS[1]` hebt 0.2-Specs auf 2 (`base` standard, Seed aus der Blatt-ID, keine Ziehungen,
 `contract` null); Test mit einem echten 0.2-Spec (`tests/fixtures/BA04.spec-v1.json`).
 Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Version 3 über `wspec.migrate` (1 und 2 werden migriert); Abnehmer aus 0.4/0.5 kennen Version 3 nicht und lehnen sie ab. Toolgen liest das Blatt-Spec nicht.
+0.8 ergänzt Version 3 additiv um `variant.params.series` und den Schritt `series`: bestehende Specs bleiben gültig und bytegleich (keine Migration nötig, Golden A–H), neue Blätter J–M brauchen Abnehmer ab **0.8.0**; `formgen.viewer` und `formgen.release_assets` gehen mit, ein Abnehmer aus 0.6/0.7 lehnt nur J–M ab. Ein Register-`series` ist genau ein Wert (keine Auswahlliste).
 
 ## Für Sightline (BALLON nicht geändert)
 

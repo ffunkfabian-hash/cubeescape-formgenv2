@@ -167,8 +167,8 @@
  },
  "counts": {
   "assemblies": 8,
-  "parts": 93,
-  "triangles": 31384
+  "parts": 91,
+  "triangles": 30456
  },
  "dimensions_mm": {
   "height": 263.38,
@@ -269,7 +269,6 @@
      "facet_ice_l1",
      "facet_ice_l2",
      "facet_ice_l3",
-     "facet_field_l1",
      "facet_field_l2",
      "facet_field_l3",
      "facet_cheek_r1",
@@ -278,7 +277,6 @@
      "facet_ice_r1",
      "facet_ice_r2",
      "facet_ice_r3",
-     "facet_field_r1",
      "facet_field_r2",
      "facet_field_r3",
      "facet_stock_l1",
@@ -287,6 +285,10 @@
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -2032,7 +2034,7 @@
    "extent_mm": {
     "f": [
      -151.5,
-     87.0
+     -65.65
     ],
     "u": [
      38.51,
@@ -2049,7 +2051,7 @@
    "name_en": "Facet cheek left 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 788
+   "triangles": 392
   },
   {
    "assembly": "receiver",
@@ -2104,7 +2106,7 @@
    "extent_mm": {
     "f": [
      -151.5,
-     87.0
+     -65.65
     ],
     "u": [
      71.34,
@@ -2175,30 +2177,6 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -71.33,
-     65.92
-    ],
-    "u": [
-     75.24,
-     111.5
-    ],
-    "x": [
-     31.45,
-     32.1
-    ]
-   },
-   "id": "facet_field_l1",
-   "moving": false,
-   "name_de": "Dunkles Feld links 1",
-   "name_en": "Dark field left 1",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 116
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
      164.0,
      267.0
     ],
@@ -2248,7 +2226,7 @@
    "extent_mm": {
     "f": [
      -151.5,
-     85.0
+     -65.65
     ],
     "u": [
      38.51,
@@ -2265,7 +2243,7 @@
    "name_en": "Facet cheek right 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 704
+   "triangles": 404
   },
   {
    "assembly": "receiver",
@@ -2320,7 +2298,7 @@
    "extent_mm": {
     "f": [
      -151.5,
-     84.0
+     -65.65
     ],
     "u": [
      71.34,
@@ -2386,30 +2364,6 @@
    "role": "energy",
    "shape": "prof",
    "triangles": 108
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -71.33,
-     65.92
-    ],
-    "u": [
-     75.24,
-     111.5
-    ],
-    "x": [
-     -32.1,
-     -31.45
-    ]
-   },
-   "id": "facet_field_r1",
-   "moving": false,
-   "name_de": "Dunkles Feld rechts 1",
-   "name_en": "Dark field right 1",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 116
   },
   {
    "assembly": "receiver",

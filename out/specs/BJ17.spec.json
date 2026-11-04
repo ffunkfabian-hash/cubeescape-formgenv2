@@ -179,6 +179,10 @@
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Kern",
      "Klingenfuß"
@@ -510,8 +514,8 @@
      211.0
     ],
     "u": [
-     17.07,
-     70.93
+     17.05,
+     70.95
     ],
     "x": [
      19.7,
@@ -534,8 +538,8 @@
      211.0
     ],
     "u": [
-     17.07,
-     70.93
+     17.05,
+     70.95
     ],
     "x": [
      -23.5,

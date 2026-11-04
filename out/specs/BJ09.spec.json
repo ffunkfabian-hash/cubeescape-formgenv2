@@ -167,8 +167,8 @@
  },
  "counts": {
   "assemblies": 8,
-  "parts": 67,
-  "triangles": 25124
+  "parts": 66,
+  "triangles": 24768
  },
  "dimensions_mm": {
   "height": 268.2,
@@ -225,7 +225,7 @@
    },
    {
     "added": [
-     "facet_cheek_l1",
+     "facet_cheek_l2",
      "facet_ice_l1",
      "facet_ice_l2",
      "facet_ice_l3",
@@ -235,7 +235,6 @@
      "facet_cheek_r1",
      "facet_cheek_r2",
      "facet_cheek_r3",
-     "facet_cheek_r4",
      "facet_ice_r1",
      "facet_ice_r2",
      "facet_ice_r3",
@@ -248,6 +247,10 @@
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1392,36 +1395,36 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -123.5,
+     -37.21,
      780.89
     ],
     "u": [
      22.53,
-     140.5
+     138.86
     ],
     "x": [
      18.0,
      25.05
     ]
    },
-   "id": "facet_cheek_l1",
+   "id": "facet_cheek_l2",
    "moving": false,
-   "name_de": "Facettenschale links 1",
-   "name_en": "Facet cheek left 1",
+   "name_de": "Facettenschale links 2",
+   "name_en": "Facet cheek left 2",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 2092
+   "triangles": 1984
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
      -30.3,
-     75.65
+     75.09
     ],
     "u": [
-     65.89,
-     67.69
+     65.33,
+     67.13
     ],
     "x": [
      24.9,
@@ -1440,12 +1443,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     92.35,
+     92.91,
      277.0
     ],
     "u": [
-     65.89,
-     67.69
+     65.33,
+     67.13
     ],
     "x": [
      24.9,
@@ -1465,11 +1468,11 @@
    "extent_mm": {
     "f": [
      383.0,
-     596.37
+     592.05
     ],
     "u": [
-     65.89,
-     67.69
+     65.33,
+     67.13
     ],
     "x": [
      24.9,
@@ -1488,12 +1491,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -30.3,
-     137.74
+     45.78,
+     202.46
     ],
     "u": [
-     69.79,
-     126.5
+     69.23,
+     124.86
     ],
     "x": [
      24.9,
@@ -1506,18 +1509,18 @@
    "name_en": "Dark field left 1",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 268
+   "triangles": 116
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     148.99,
-     385.43
+     209.4,
+     425.81
     ],
     "u": [
-     69.79,
-     126.5
+     69.23,
+     124.86
     ],
     "x": [
      24.9,
@@ -1530,18 +1533,18 @@
    "name_en": "Dark field left 2",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 324
+   "triangles": 424
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     402.22,
-     559.9
+     438.46,
+     583.64
     ],
     "u": [
-     69.79,
-     117.06
+     69.23,
+     115.44
     ],
     "x": [
      24.9,
@@ -1560,30 +1563,6 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -123.5,
-     -77.0
-    ],
-    "u": [
-     103.86,
-     123.41
-    ],
-    "x": [
-     -25.0,
-     -18.0
-    ]
-   },
-   "id": "facet_cheek_r1",
-   "moving": false,
-   "name_de": "Facettenschale rechts 1",
-   "name_en": "Facet cheek right 1",
-   "role": "shell",
-   "shape": "xprof",
-   "triangles": 180
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
      -84.06,
      -46.38
     ],
@@ -1596,10 +1575,10 @@
      -18.0
     ]
    },
-   "id": "facet_cheek_r2",
+   "id": "facet_cheek_r1",
    "moving": false,
-   "name_de": "Facettenschale rechts 2",
-   "name_en": "Facet cheek right 2",
+   "name_de": "Facettenschale rechts 1",
+   "name_en": "Facet cheek right 1",
    "role": "shell",
    "shape": "xprof",
    "triangles": 188
@@ -1620,13 +1599,13 @@
      -18.0
     ]
    },
-   "id": "facet_cheek_r3",
+   "id": "facet_cheek_r2",
    "moving": false,
-   "name_de": "Facettenschale rechts 3",
-   "name_en": "Facet cheek right 3",
+   "name_de": "Facettenschale rechts 2",
+   "name_en": "Facet cheek right 2",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 480
+   "triangles": 552
   },
   {
    "assembly": "receiver",
@@ -1644,10 +1623,10 @@
      -18.0
     ]
    },
-   "id": "facet_cheek_r4",
+   "id": "facet_cheek_r3",
    "moving": false,
-   "name_de": "Facettenschale rechts 4",
-   "name_en": "Facet cheek right 4",
+   "name_de": "Facettenschale rechts 3",
+   "name_en": "Facet cheek right 3",
    "role": "shell",
    "shape": "xprof",
    "triangles": 1360
@@ -1728,8 +1707,8 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -5.62,
-     137.74
+     3.6,
+     167.71
     ],
     "u": [
      69.79,
@@ -1746,14 +1725,14 @@
    "name_en": "Dark field right 1",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 348
+   "triangles": 116
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     148.99,
-     385.43
+     176.59,
+     403.68
     ],
     "u": [
      69.79,
@@ -1770,18 +1749,18 @@
    "name_en": "Dark field right 2",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 324
+   "triangles": 468
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     402.22,
-     559.9
+     418.78,
+     570.55
     ],
     "u": [
      69.79,
-     117.06
+     116.33
     ],
     "x": [
      -25.5,

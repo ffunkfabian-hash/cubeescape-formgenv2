@@ -163,8 +163,8 @@
  },
  "counts": {
   "assemblies": 8,
-  "parts": 94,
-  "triangles": 39136
+  "parts": 95,
+  "triangles": 38936
  },
  "dimensions_mm": {
   "height": 260.06,
@@ -272,6 +272,7 @@
      "facet_field_l2",
      "facet_field_l3",
      "facet_cheek_r1",
+     "facet_cheek_r2",
      "facet_ice_r1",
      "facet_ice_r2",
      "facet_ice_r3",
@@ -286,6 +287,10 @@
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -2096,7 +2101,7 @@
    "name_en": "Facet cheek left 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 1740
+   "triangles": 1640
   },
   {
    "assembly": "receiver",
@@ -2126,7 +2131,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     31.47,
+     31.49,
      81.19
     ],
     "u": [
@@ -2288,7 +2293,31 @@
    "name_en": "Facet cheek right 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 1696
+   "triangles": 1384
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     31.49,
+     81.81
+    ],
+    "u": [
+     50.15,
+     80.85
+    ],
+    "x": [
+     -30.2,
+     -23.5
+    ]
+   },
+   "id": "facet_cheek_r2",
+   "moving": false,
+   "name_de": "Facettenschale rechts 2",
+   "name_en": "Facet cheek right 2",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 212
   },
   {
    "assembly": "receiver",
@@ -2318,7 +2347,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     31.47,
+     31.49,
      81.19
     ],
     "u": [
@@ -2414,7 +2443,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     31.47,
+     31.49,
      51.5
     ],
     "u": [

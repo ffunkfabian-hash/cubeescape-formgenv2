@@ -83,6 +83,8 @@ def _check_param(letter, key, value):
             raise VariantError(f"{letter}: {key} als Bereich [von, bis] mit von ≤ bis")
         if not all(_number(x) and lo <= x <= hi for x in values) or (key in INTS and not all(isinstance(x, int) for x in values)):
             raise VariantError(f"{letter}: {key}={value} außerhalb {lo}–{hi}")
+    elif key == "series" and value not in SERIES:     # eine Linie hat genau eine Formensprache, keine Auswahl (auch Spec-Schema)
+        raise VariantError(f"{letter}: series genau eine aus {', '.join(SERIES)}")
     elif key in CHOICES:
         values = value if isinstance(value, list) else [value]
         if not values or any(x not in CHOICES[key] for x in values) or len(set(values)) != len(values):

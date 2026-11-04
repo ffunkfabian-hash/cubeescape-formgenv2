@@ -170,7 +170,7 @@
  "counts": {
   "assemblies": 8,
   "parts": 80,
-  "triangles": 33060
+  "triangles": 32868
  },
  "dimensions_mm": {
   "height": 259.99,
@@ -297,6 +297,10 @@
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1771,7 +1775,7 @@
    "name_en": "Facet cheek left 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 1920
+   "triangles": 1824
   },
   {
    "assembly": "receiver",
@@ -1801,7 +1805,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     27.47,
+     27.49,
      76.78
     ],
     "u": [
@@ -1963,13 +1967,13 @@
    "name_en": "Facet cheek right 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 1664
+   "triangles": 1616
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     24.78,
+     27.49,
      77.35
     ],
     "u": [
@@ -1987,7 +1991,7 @@
    "name_en": "Facet cheek right 2",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 188
+   "triangles": 140
   },
   {
    "assembly": "receiver",
@@ -2017,7 +2021,7 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     27.47,
+     27.49,
      76.78
     ],
     "u": [

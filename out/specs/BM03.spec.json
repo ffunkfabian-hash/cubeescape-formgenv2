@@ -170,7 +170,7 @@
  "counts": {
   "assemblies": 8,
   "parts": 84,
-  "triangles": 67856
+  "triangles": 67648
  },
  "dimensions_mm": {
   "height": 259.99,
@@ -293,6 +293,10 @@
     ],
     "kind": "flow",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1750,7 +1754,7 @@
    "extent_mm": {
     "f": [
      -123.57,
-     -2.25
+     -2.16
     ],
     "u": [
      38.0,
@@ -1767,13 +1771,13 @@
    "name_en": "Smooth shell body low left 1",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 924
+   "triangles": 860
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     27.46,
+     27.54,
      79.15
     ],
     "u": [
@@ -1791,7 +1795,7 @@
    "name_en": "Smooth shell body low left 2",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 412
+   "triangles": 364
   },
   {
    "assembly": "receiver",
@@ -2038,7 +2042,7 @@
    "extent_mm": {
     "f": [
      -123.57,
-     -2.25
+     -2.16
     ],
     "u": [
      38.0,
@@ -2055,13 +2059,13 @@
    "name_en": "Smooth shell body low right 1",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 908
+   "triangles": 812
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     27.5,
+     27.63,
      74.47
     ],
     "u": [

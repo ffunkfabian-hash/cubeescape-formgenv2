@@ -152,8 +152,8 @@
  },
  "counts": {
   "assemblies": 8,
-  "parts": 78,
-  "triangles": 41076
+  "parts": 74,
+  "triangles": 38788
  },
  "dimensions_mm": {
   "height": 269.6,
@@ -249,27 +249,27 @@
     "added": [
      "facet_cheek_l1",
      "facet_cheek_l2",
-     "facet_cheek_l3",
      "facet_ice_l1",
      "facet_ice_l2",
      "facet_ice_l3",
      "facet_field_l1",
      "facet_field_l2",
-     "facet_field_l3",
      "facet_cheek_r1",
      "facet_cheek_r2",
-     "facet_cheek_r3",
      "facet_ice_r1",
      "facet_ice_r2",
      "facet_ice_r3",
      "facet_field_r1",
      "facet_field_r2",
-     "facet_field_r3",
      "facet_stock_l1",
      "facet_stock_r1"
     ],
     "kind": "facet",
     "op": "series",
+    "provenance": {
+     "kind": "Annahme",
+     "source": "Gestaltungsmaße der Serie (Entwurf 0.8); Lagen gemessen aus den Teilen der Grundform"
+    },
     "zones": [
      "Gehäuse",
      "Vorderschaft",
@@ -1678,12 +1678,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -111.49,
-     23.44
+     -111.5,
+     -8.0
     ],
     "u": [
-     38.55,
-     145.45
+     38.52,
+     145.48
     ],
     "x": [
      24.3,
@@ -1696,31 +1696,7 @@
    "name_en": "Facet cheek left 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 376
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     45.3,
-     86.14
-    ],
-    "u": [
-     117.3,
-     144.85
-    ],
-    "x": [
-     24.3,
-     39.0
-    ]
-   },
-   "id": "facet_cheek_l2",
-   "moving": false,
-   "name_de": "Facettenschale links 2",
-   "name_en": "Facet cheek left 2",
-   "role": "shell",
-   "shape": "xprof",
-   "triangles": 320
+   "triangles": 244
   },
   {
    "assembly": "receiver",
@@ -1738,10 +1714,10 @@
      39.0
     ]
    },
-   "id": "facet_cheek_l3",
+   "id": "facet_cheek_l2",
    "moving": false,
-   "name_de": "Facettenschale links 3",
-   "name_en": "Facet cheek left 3",
+   "name_de": "Facettenschale links 2",
+   "name_en": "Facet cheek left 2",
    "role": "shell",
    "shape": "xprof",
    "triangles": 412
@@ -1823,7 +1799,7 @@
    "extent_mm": {
     "f": [
      -59.53,
-     17.48
+     -8.0
     ],
     "u": [
      82.04,
@@ -1840,31 +1816,7 @@
    "name_en": "Dark field left 1",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 548
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     70.27,
-     82.5
-    ],
-    "u": [
-     117.3,
-     131.5
-    ],
-    "x": [
-     38.85,
-     39.5
-    ]
-   },
-   "id": "facet_field_l2",
-   "moving": false,
-   "name_de": "Dunkles Feld links 2",
-   "name_en": "Dark field left 2",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 232
+   "triangles": 88
   },
   {
    "assembly": "receiver",
@@ -1882,10 +1834,10 @@
      39.5
     ]
    },
-   "id": "facet_field_l3",
+   "id": "facet_field_l2",
    "moving": false,
-   "name_de": "Dunkles Feld links 3",
-   "name_en": "Dark field left 3",
+   "name_de": "Dunkles Feld links 2",
+   "name_en": "Dark field left 2",
    "role": "graphite",
    "shape": "prof",
    "triangles": 304
@@ -1894,12 +1846,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -111.49,
-     23.44
+     -111.5,
+     -8.0
     ],
     "u": [
-     38.55,
-     145.45
+     38.52,
+     145.48
     ],
     "x": [
      -39.0,
@@ -1912,31 +1864,7 @@
    "name_en": "Facet cheek right 1",
    "role": "shell",
    "shape": "xprof",
-   "triangles": 376
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     45.3,
-     86.14
-    ],
-    "u": [
-     117.3,
-     144.85
-    ],
-    "x": [
-     -39.0,
-     -24.3
-    ]
-   },
-   "id": "facet_cheek_r2",
-   "moving": false,
-   "name_de": "Facettenschale rechts 2",
-   "name_en": "Facet cheek right 2",
-   "role": "shell",
-   "shape": "xprof",
-   "triangles": 320
+   "triangles": 244
   },
   {
    "assembly": "receiver",
@@ -1954,10 +1882,10 @@
      -24.3
     ]
    },
-   "id": "facet_cheek_r3",
+   "id": "facet_cheek_r2",
    "moving": false,
-   "name_de": "Facettenschale rechts 3",
-   "name_en": "Facet cheek right 3",
+   "name_de": "Facettenschale rechts 2",
+   "name_en": "Facet cheek right 2",
    "role": "shell",
    "shape": "xprof",
    "triangles": 412
@@ -2039,7 +1967,7 @@
    "extent_mm": {
     "f": [
      -59.53,
-     17.48
+     -8.0
     ],
     "u": [
      82.04,
@@ -2056,31 +1984,7 @@
    "name_en": "Dark field right 1",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 548
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     70.27,
-     82.5
-    ],
-    "u": [
-     117.3,
-     131.5
-    ],
-    "x": [
-     -39.5,
-     -38.85
-    ]
-   },
-   "id": "facet_field_r2",
-   "moving": false,
-   "name_de": "Dunkles Feld rechts 2",
-   "name_en": "Dark field right 2",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 232
+   "triangles": 88
   },
   {
    "assembly": "receiver",
@@ -2098,10 +2002,10 @@
      -38.85
     ]
    },
-   "id": "facet_field_r3",
+   "id": "facet_field_r2",
    "moving": false,
-   "name_de": "Dunkles Feld rechts 3",
-   "name_en": "Dark field right 3",
+   "name_de": "Dunkles Feld rechts 2",
+   "name_en": "Dark field right 2",
    "role": "graphite",
    "shape": "prof",
    "triangles": 304
