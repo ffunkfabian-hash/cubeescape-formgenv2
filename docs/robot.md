@@ -52,6 +52,6 @@ Standard ist `weiss_graphit` in `skins.toml`, Farben aus den Materialien des Ref
 
 ## Abnahme
 
-Grundhaltung von RA01 ist die A-Position (`PARAMS`: symmetrisch, Rumpf und Kopf gerade, Arme 40° vom Körper, Winkel `A_ANGLE`). Das Referenz-GLB steht im Kontrapost, darum misst die Abnahme nicht das ausgelieferte GLB, sondern dieselbe Quelle in `REFERENCE_PARAMS` (`--referenzhaltung`). Die Schulterteile hängen rigide am Oberarm und folgen ihm.
+Grundhaltung von RA01 ist die A-Position (`PARAMS`: symmetrisch, Rumpf und Kopf gerade, Arme 40° vom Körper, Winkel `A_ANGLE`). Das Referenz-GLB steht im Kontrapost, darum misst die Abnahme nicht das ausgelieferte GLB, sondern dieselbe Quelle in `REFERENCE_PARAMS` (`--referenzhaltung`). Die Schulterteile öffnen je Seite gespiegelt um das Schultergelenk (`pose.shoulder_open`), in der Referenzhaltung ist der Winkel 0.
 
 Für RA01 ist die Referenz `RoboterBasic-01.glb` der Sicherung vom 05.11.2026 (SHA256 im Versionsbericht), gleiche Registrierung, kein Strecken: Front, Rücken, beide Seiten IoU ≥ 0,90; zehn Höhenbänder, äußere Spannweite Modell/Referenz 0,92–1,08. Die Referenz liegt nicht im Repo.

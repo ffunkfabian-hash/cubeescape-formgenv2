@@ -1,8 +1,8 @@
 """RoboterBasic-01: Basic-Typ 1 der Roboter (Blatt RA01), Grundform wie BA01 bei den Waffen.
 
-Autorenmaße in mm. Herkunft: alle Zahlen in PARAMS sind Vorgabe aus BALLON Commit 14bd78d, Studie a_waechter (einmalig übertragen,
+Autorenmaße in mm. Herkunft: die Zahlen in REFERENCE_PARAMS sind Vorgabe aus BALLON Commit 14bd78d, Studie a_waechter (einmalig übertragen,
 BALLON bleibt Lesereferenz); der Nutzer hat diesen Körper mit Helm H 80 als Ziel gesetzt. Der Helm liegt als Flächendaten in
-helmet_h80.json vor (gemessen aus RoboterBasic-01.glb der Sicherung vom 05.11.2026): dafür gibt es keine Kit-Quelle.
+helmet_h80.json vor (gemessen aus RoboterBasic-01.glb der Sicherung vom 05.11.2026): dafür gibt es keine Kit-Quelle. PARAMS ändert davon nur die Haltung (A-Position, Annahme).
 Linien setzen nur Einträge von PARAMS (data/robots.toml, formgen/robot/lines.py), nie Teile von Hand. Schnittstelle eines Typs: docs/robot.md.
 """
 from __future__ import annotations
@@ -30,7 +30,7 @@ REFERENCE_PARAMS = dict(
     arm_bulk=1.30,                     # Querschnitt Ober-/Unterarm zusätzlich zu arm.ARM_BULK
     arm_drop=('upper_body', 'upper_shell'),
     upper_arm=dict(rows=[(10, 62, 60, 0), (150, 70, 68, 2), (290, 56, 54, 0)], ball=60, shell=(-110, 110), ch=20),
-    pose=dict(upper=(-0.24, 0.04, -1.0), fore=(-0.05, -0.32, -1.0), fingers='relaxed'),
+    pose=dict(upper=(-0.24, 0.04, -1.0), fore=(-0.05, -0.32, -1.0), fingers='relaxed', shoulder_open=0),
     head=dict(neck=48),
     torso=dict(
         core=[(30, 112, 88, -2), (120, 150, 106, 0), (230, 192, 122, -4), (280, 204, 118, -6), (330, 176, 106, -8), (380, 120, 88, -10)],
@@ -60,15 +60,18 @@ REFERENCE_PARAMS = dict(
 # Zwei Ebenen nach Nutzerentscheid 05.11.2026: zehn Einzelteile (Feld `assembly`) und darüber vier Baugruppen (Feld `group`); je Einzelteil beide
 # Körperseiten, das Becken gehört zur Baugruppe Oberkörper. Explosion nur zur Darstellung.
 GROUPS = dict(head='Kopf', upper_body='Oberkörper', arms='Arme', legs='Beine')
-# Grundhaltung A-Position (Nutzerentscheid 05.11.2026): symmetrisch, Rumpf und Kopf gerade, Arme 40° vom Körper. Annahme: Winkel und Standbreite.
-# REFERENCE_PARAMS bleibt die Haltung des Referenz-GLB (Kontrapost) und ist die Haltung der Silhouettenabnahme.
-A_ANGLE = 40
+# Grundhaltung A-Position (Nutzerentscheid 05.11.2026). Herkunft Annahme, alle übrigen Zahlen wie REFERENCE_PARAMS: Rumpf, Becken und Kopf gerade
+# (Versätze 0), Füße parallel mit ±165 mm Knöchelabstand und 30 mm Auswärtsstellung, Knie nach vorn, Arme A_ANGLE vom Körper, Unterarm A_ELBOW Grad
+# näher am Körper und A_FORE_Y leicht nach vorn. REFERENCE_PARAMS ist die Haltung des Referenz-GLB (Kontrapost) und die der Silhouettenabnahme.
+A_ANGLE, A_ELBOW, A_FORE_Y = 40, 4, -0.08
+_HANG = math.degrees(math.atan(0.24))         # Oberarmwinkel der Referenzhaltung; die Schulterteile öffnen nur um die Differenz
 PARAMS = dict(REFERENCE_PARAMS,
               skeleton=dict(REFERENCE_PARAMS['skeleton'], neck=(0, -18, 1405), pelvis=(0, 0, 834), head_off=(0, 6), torso_hint=(0, -1, 0), head_hint=(0, -1, 0),
                             ankles={'R': (-165, 0), 'L': (165, 0)}, toes={'R': (-195, -165), 'L': (195, -165)},
                             knee_pole={'R': (0, -1, 0), 'L': (0, -1, 0)}),
               pose=dict(upper=(-math.sin(math.radians(A_ANGLE)), 0.0, -math.cos(math.radians(A_ANGLE))),
-                        fore=(-math.sin(math.radians(A_ANGLE - 4)), -0.08, -math.cos(math.radians(A_ANGLE - 4))), fingers='relaxed'))
+                        fore=(-math.sin(math.radians(A_ANGLE - A_ELBOW)), A_FORE_Y, -math.cos(math.radians(A_ANGLE - A_ELBOW))), fingers='relaxed',
+                        shoulder_open=A_ANGLE - _HANG))
 
 ASSEMBLIES = [
     dict(id='head', de='Kopf', group='head', explode=[0, 300, 0]),
@@ -91,7 +94,7 @@ _ARM = dict(upper='upper_arms', fore='forearms')
 
 
 def _assembly(pid, kind):
-    """Einzelteil eines Bauteils; die Schulterteile hängen im Modell am Rumpf bzw. Oberarm, wie Segment SHOULDER_* der Referenz (21 Teile je Seite)."""
+    """Einzelteil eines Bauteils; zur Schulter gehören die Teile von Segment SHOULDER_* der Referenz (21 je Seite), beschrieben im Rumpf- bzw. Oberarmrahmen."""
     if pid.startswith(('pauldron_', 'shoulder_')):
         return 'shoulders'
     if kind == 'hand' or re.fullmatch(r'(f\d|t)_\d', kind):
@@ -123,18 +126,18 @@ def rig_of(params):
     return sk, frames
 
 
-def _shoulder_frame(side, frames, reference):
-    """Schulterteile hängen rigide am Oberarm (Segment SHOULDER_* der Referenz); gemessen sind sie im Rumpfrahmen der Referenzhaltung."""
-    moved, joint = frames[f'arm_{side}_upper'][:2]
-    base, base_joint = reference[f'arm_{side}_upper'][:2]
-    torso, torso_origin = reference['torso'][:2]
-    delta = moved @ base.T
-    return delta @ torso, delta @ (torso_origin - base_joint) + joint
+def _shoulder_frame(side, torso, joint_local, degrees):
+    """Schulterteile sind im Rumpfrahmen beschrieben. Beim Öffnen der Arme drehen sie um das Schultergelenk, je Seite gespiegelt um die Rumpf-Vorderachse."""
+    R, o = torso
+    if not degrees:
+        return R, o
+    turn = rig.rot_axis('y', -degrees if side == 'R' else degrees)
+    joint = np.array(joint_local, float) * ((1, 1, 1) if side == 'R' else (-1, 1, 1))
+    return R @ turn, o + R @ (joint - turn @ joint)
 
 
 def parts(params=PARAMS):
     sk, frames = rig_of(params)
-    _, reference = rig_of(REFERENCE_PARAMS)
     head = body.head(params['head'])
     trunk = body.torso(params['torso']) + body.pelvis(params['pelvis']) + body.legs(params['legs'])
     limbs = arm._bulk([p for p in arm.parts() if p[0] not in set(params['arm_drop'])], params['arm_bulk']) + body.upper_arm(params['upper_arm'])
@@ -147,7 +150,7 @@ def parts(params=PARAMS):
             if seg == kind:
                 frame_ = (R, o)
                 if _assembly(pid, kind) == 'shoulders':
-                    frame_ = _shoulder_frame('L' if re.match(r'(pauldron|shoulder)_l', pid) else 'R', frames, reference)
+                    frame_ = _shoulder_frame('L' if re.match(r'(pauldron|shoulder)_l', pid) else 'R', (R, o), sk['SHOULDER_LOCAL'], params['pose']['shoulder_open'])
                 out.append(kit.part(f'{name}_{pid}' if side != 'C' else pid, de, name, form, role, p, frame_, sx, _assembly(pid, kind), side))
     for side, sx in (('R', 1), ('L', -1)):
         for pid, de, seg, form, role, p in limbs:
@@ -180,7 +183,9 @@ def anchors(params=PARAMS):
 def document(params=PARAMS, *, sheet_id='RA01', line='basic', name='RoboterBasic-01'):
     """Kit-Dokument einer Linie; params ist vollständig (Basis + Register)."""
     return dict(info=dict(id=sheet_id, kind='figure', name_de=name, line=line, status='draft',
-                          provenance=dict(kind='Vorgabe', source=SOURCE)),
+                          provenance=dict(kind='Vorgabe', source=SOURCE),
+                          stance=dict(kind='Vorgabe' if params['pose']['shoulder_open'] == 0 else 'Annahme',
+                                      source='Referenzhaltung aus ' + SOURCE if params['pose']['shoulder_open'] == 0 else 'A-Position, Nutzerentscheid 05.11.2026; Winkel und Standbreite Annahme')),
                 parts=parts(params), assemblies=copy.deepcopy(ASSEMBLIES), anchors=anchors(params),
                 poses={'idle': dict(part_transforms={}, note='Grundhaltung des Modells: A-Position aus PARAMS')})
 

@@ -9,6 +9,7 @@ from unittest import mock
 
 import jsonschema
 import numpy as np
+from scipy.spatial import cKDTree
 
 from formgen import change_request, geom, model, sheet, variants
 from formgen.models.robot import roboterbasic_01 as basic
@@ -78,8 +79,35 @@ class ModelTest(Base):
         arm = at['Socket_Elbow_L'] - at['Socket_Shoulder_L']
         self.assertAlmostEqual(np.degrees(np.arctan2(arm[2], -arm[1])), basic.A_ANGLE, delta=.1)
 
-    def test_shoulder_parts_follow_the_upper_arm(self):
-        """Abstand Schulterteil zu Schultergelenk bleibt in beiden Haltungen gleich, auch wenn der Rumpf anders steht."""
+    def test_every_side_mirrors_in_the_a_pose(self):
+        """Gesamte Figur außer Helm: rechts gegen gespiegelt links, auch die Schulterteile; Bounds und Anker sähen einen Fehler dort nicht."""
+        parts = {p['id']: np.array(p['mesh']['vertices']) for p in self.doc['parts']}
+        self.by_id = {p['id']: p for p in self.doc['parts']}
+        pairs = [(i, re.sub(r'(^|_)L_', r'\1R_', i, count=1)) for i in parts if re.search(r'(^|_)L_', i)]
+        pairs += [(i, re.sub(r'(^|_)l(_|$)', r'\1r\2', i, count=1)) for i in parts if re.search(r'(^|_)l(_|$)', i) and not i.startswith('helmet_')]
+        self.assertGreater(len(pairs), 136)
+        for left, right in pairs:
+            mirrored = parts[left] * (-1, 1, 1)
+            distance = max(cKDTree(parts[right]).query(mirrored)[0].max(), cKDTree(mirrored).query(parts[right])[0].max())
+            # Bauteile mit Fugen: der Boolean tesselliert links und rechts etwas anders, der Punktabstand misst das mit
+            self.assertLess(distance, .005 if self.by_id[left].get('cuts') else .001, left)
+
+    def test_shoulder_frame_is_the_torso_frame_without_opening(self):
+        R, o = np.eye(3), np.array((1., 2., 3.))
+        got = basic._shoulder_frame('L', (R, o), (276, 0, 300), 0)
+        self.assertIs(got[0], R)
+        self.assertIs(got[1], o)
+
+    def test_shoulder_turns_outward_around_its_joint(self):
+        R, o = np.eye(3), np.zeros(3)
+        for side, sign in (('R', 1), ('L', -1)):
+            turned, origin = basic._shoulder_frame(side, (R, o), (276, 0, 300), 30)
+            joint = np.array((sign * 276, 0, 300.))
+            np.testing.assert_allclose(turned @ joint + origin, joint, atol=1e-9)
+            below = turned @ (joint + (0, 0, -100)) + origin
+            self.assertGreater(sign * below[0], 276 + 40)
+
+    def test_shoulder_parts_keep_their_distance_to_the_joint(self):
         ref = {p['id']: p for p in basic.parts(basic.REFERENCE_PARAMS)}
         now = {p['id']: p for p in basic.parts()}
         joint = lambda params, side: np.array(basic.anchors(params)[f'Socket_Shoulder_{side}']['at'])
@@ -327,6 +355,9 @@ def _tiny_glb(path, names):
 
 
 class SilhouetteTest(unittest.TestCase):
+    def test_reference_stance_path_builds_the_model(self):
+        self.assertEqual(len(silhouette.reference_triangles()), 159923)
+
     def test_without_helmet_keeps_the_neck_only(self):
         with tempfile.TemporaryDirectory() as t:
             path = Path(t) / 'r.glb'
