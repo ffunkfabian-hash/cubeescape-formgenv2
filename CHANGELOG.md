@@ -2,7 +2,7 @@
 
 ## 0.8.1 — Patch visierfix
 
-- Visiertausch: `sight_emitter` behält die Leuchtbewegung des Grundvisiers (BE10–BH10, BJ10–BL10); BE14–BH14 sitzen auf der Rohroberkante, Seitenschiene und Visierarm entfallen dort.
+- Visiertausch: `sight_emitter` behält die Leuchtbewegung des Grundvisiers (BE10–BH10, BJ10–BL10); BE14–BH14 sitzen wie der Pilot seitlich auf der Schiene (BALLON `side_mount`) statt im Rohr.
 - Raster: Trommel (`cylinder`, alle Linien BASIC-04) ohne helle Innenkanten, sie wirkte wie Glas; Netz, Normalen und GLB waren in Ordnung.
 
 ## 0.8.0 Hallmark — Design-Serien wie in v1: vier eigene Formensprachen
