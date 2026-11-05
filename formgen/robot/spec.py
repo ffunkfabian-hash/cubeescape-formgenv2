@@ -13,6 +13,15 @@ def _skin_name(skin):
     return tomllib.loads((ROOT / 'skins.toml').read_text())['skins'][skin]['de']
 
 
+def _groups(document, counts):
+    out = {}
+    for a in document['assemblies']:
+        g = out.setdefault(a['group'], dict(id=a['group'], de=a['group_de'], parts=0, assemblies=[]))
+        g['parts'] += counts[a['id']]
+        g['assemblies'].append(a['id'])
+    return list(out.values())
+
+
 def build(document, entry) -> dict:
     (low, high) = document['bounds_m']
     counts = {}
@@ -27,7 +36,8 @@ def build(document, entry) -> dict:
                 dimensions_mm=dict(height=round((high[2] - low[2]) * 1000, 1), width=round((high[0] - low[0]) * 1000, 1), depth=round((high[1] - low[1]) * 1000, 1)),
                 parts=[dict(id=p['id'], name_de=p.get('label', p['id']) + side.get(p.get('side'), ''), assembly=p['assembly'], role=p['role']) for p in document['parts']],
                 triangles=document['counts']['triangles'], forms=dict(sorted(forms.items())),
-                assemblies=[dict(id=a['id'], de=a['de'], parts=counts[a['id']]) for a in document['assemblies']],
+                assemblies=[dict(id=a['id'], de=a['de'], group=a['group'], parts=counts[a['id']]) for a in document['assemblies']],
+                groups=_groups(document, counts),
                 sockets=sorted(document.get('anchors', {})), provenance=document['info']['provenance'],
                 measured_parts=sorted(p['id'] for p in document['parts'] if p.get('provenance', {}).get('kind') == 'gemessen'), warnings=document.get('warnings', []))
 

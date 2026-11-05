@@ -39,7 +39,7 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 |---|---|
 | Modulort | `formgen/models/robot/roboterbasic_<NN>.py`, Daten daneben; keine Pfade außerhalb des Repos |
 | Modul liefert | `PARAMS` (dict), `DATA_FILES` (Pfade, gehen in den Cache-Schlüssel), `document(params, *, sheet_id, line, name)` sowie `INFO`, `PARTS`, `ASSEMBLIES`, `ANCHORS`, `POSES` nach [Modellsprache](modellsprache.md); `INFO.kind = figure`, Maße mm (f,u,x), Boden u = 0, vorn f+, links x+ |
-| Baugruppen | genau `head`, `arms`, `upper_body`, `lower_body`, `legs` |
+| Baugruppen und Einzelteile | zwei Ebenen, je Einzelteil beide Körperseiten: Baugruppe `head` Kopf (Einzelteil `head`), `upper_body` Oberkörper mit Becken (`upper_body`), `arms` Arme (`shoulders` Schulter, `upper_arms` Oberarm, `forearms` Unterarm, `hands` Hände), `legs` Beine (`thighs` Oberschenkel, `shins` Unterschenkel, `feet` Füße). Im Modell: `ASSEMBLIES` sind die Einzelteile mit Feld `group`, jedes der 424 Bauteile trägt `assembly`; GLB-Extras `basic_assembly`, `basic_group` |
 | Anker | mindestens `Socket_Neck`, `Socket_Waist`, `Socket_Hip_R/L`, `Socket_Shoulder_R/L`, `Socket_Wrist_R/L`, `Socket_Hand`; weitere erlaubt |
 | Rollen | nur Rollen aus `skins.toml` › `[roles]`; Farben nie im Modell. Ein neuer Skin ergänzt `[skins.<id>]`, siehe Cachehinweis in den Lehren |
 | Herkunft | jede Zahl: `INFO.provenance` oder je Teil. Flächendaten (`surface`) sind zulässig, tragen `kind = gemessen` mit Quelle, stehen in der Spec unter `measured_parts` und werden im Bericht ausgewiesen |

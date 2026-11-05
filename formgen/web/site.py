@@ -45,8 +45,10 @@ def count(value) -> int:
 
 def part_labels(spec: dict) -> dict:
     parts = spec['parts'] if isinstance(spec['parts'], list) else []
-    return {'parts': {p['id']: p['name_de'] for p in parts if isinstance(p, dict) and p.get('id') and p.get('name_de')},
-            'assemblies': {a['id']: a['de'] for a in spec['assemblies']}}
+    return {'order': [a['id'] for a in spec.get('assemblies', []) if isinstance(a, dict)],
+            'parts': {p['id']: p['name_de'] for p in parts if isinstance(p, dict) and p.get('id') and p.get('name_de')},
+            'assemblies': {a['id']: a['de'] for a in spec['assemblies']},
+            'families': [{'id': g['id'], 'de': g['de']} for g in spec.get('groups', [])]}
 
 
 def collect(out) -> list[dict]:
@@ -70,7 +72,7 @@ def collect(out) -> list[dict]:
             spec = robot_spec(spec)
             found.append({'id': sid, 'kind': 'robot', 'name': spec['name_de'], 'has_3d': has_3d, 'labels': part_labels(spec),
                           'line': spec['line'], 'skin': spec.get('skin_de', spec['skin']), 'dimensions_mm': spec['dimensions_mm'],
-                          'parts': count(spec['parts']), 'assemblies': spec['assemblies']})
+                          'parts': count(spec['parts']), 'assemblies': spec['assemblies'], 'groups': spec.get('groups', [])})
     weapons = sorted((i for i in found if i['kind'] == 'weapon'), key=lambda i: (i['group'], i['variant']))
     return weapons + sorted((i for i in found if i['kind'] == 'robot'), key=lambda i: (i['line'], i['id']))
 
@@ -142,16 +144,19 @@ def robots_page(items: list[dict]) -> str:
         for item in entries:
             sid, size = esc(item['id']), item['dimensions_mm']
             facts = [('Höhe', f"{size['height']:.0f} mm"), ('Breite', f"{size['width']:.0f} mm"), ('Tiefe', f"{size['depth']:.0f} mm"),
-                     ('Bauteile', str(item['parts'])), ('Baugruppen', str(len(item['assemblies']))), ('Skin', item['skin'])]
-            chips = ''.join((f'<li><a href="3d.html?id={sid}&amp;baugruppe={esc(a["id"])}">{esc(a["de"])}</a></li>' if item['has_3d']
-                             else f'<li><span>{esc(a["de"])}</span></li>') for a in item['assemblies'])
+                     ('Bauteile', str(item['parts'])), ('Baugruppen', str(len(item.get('groups', [])))), ('Einzelteile', str(len(item['assemblies']))), ('Skin', item['skin'])]
+            def chips(entries):
+                return ''.join((f'<li><a href="3d.html?id={sid}&amp;baugruppe={esc(a["id"])}">{esc(a["de"])}</a></li>' if item['has_3d']
+                                else f'<li><span>{esc(a["de"])}</span></li>') for a in entries)
+            levels = (f'<h3>Baugruppen</h3><ul class="chips">{chips(item["groups"])}</ul>' if item.get('groups') else '') + \
+                     f'<h3>Einzelteile</h3><ul class="chips">{chips(item["assemblies"])}</ul>'
             cards.append(f'<article class="robot">{shot(item)}<div><b>{sid}</b><h3>{esc(item["name"])}</h3><dl>' +
                          ''.join(f'<div><dt>{k}</dt><dd>{esc(str(v))}</dd></div>' for k, v in facts) + f'</dl>{actions(item)}</div>'
-                         f'<section class="parts"><h3>Baugruppen</h3><ul class="chips">{chips}</ul></section></article>')
+                         f'<section class="parts">{levels}</section></article>')
         sections.append(f'<section><h2>Linie {esc(line.title())}<small>{len(entries)} Roboter</small></h2><div class="robots">{"".join(cards)}</div></section>')
     body = ''.join(sections) or '<p class="note">Noch kein Roboter gebaut.</p>'
     return page('Roboter', 'roboter', f'<header><h1>Roboter</h1><p>Roboter nach Linien.</p></header><main>{body}</main>',
-                footer='Baugruppen öffnen die 3D-Ansicht nur mit dieser Baugruppe.')
+                footer='Baugruppen und Einzelteile öffnen die 3D-Ansicht nur mit dieser Auswahl.')
 
 
 ICONS = {'orbit': '<path d="M3 11c0-3 4-5 9-5s9 2 9 5-4 5-9 5"/><path d="m5 7-2 4 4 1"/><circle cx="12" cy="11" r="2"/>',

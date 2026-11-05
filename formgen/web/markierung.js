@@ -54,7 +54,7 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
  const comment=find('[data-global]'),save=find('[data-export]'),status=find('[role=status]');
  const width=find('[data-width]'),panel=find('[data-editor]');
  const buttons=[...form.querySelectorAll('[data-tool]')];
- const available=meshes.filter(item=>group==='all'||item.group===group);
+ const available=meshes.filter(item=>group==='all'||item.group===group||item.family===group);
  const objects=available.map(item=>item.obj),owners=new Map(available.map(item=>[item.obj,item]));
  const ray=new T.Raycaster(),ndc=new T.Vector2(),paint=surfacePaint(T);
  let done=[],active=null;

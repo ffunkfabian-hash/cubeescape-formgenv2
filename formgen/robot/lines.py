@@ -12,7 +12,8 @@ REGISTER = ROOT / 'data/robots.toml'
 SCHEMA = 'formgenv2/robot-register'
 LETTERS = set('ABCDEFGHJKLMNPQRSTUVWXYZ')
 RESERVED = {'R01', 'R02'}
-ASSEMBLIES = ('head', 'arms', 'upper_body', 'lower_body', 'legs')
+GROUPS = dict(head=('head',), upper_body=('upper_body',), arms=('shoulders', 'upper_arms', 'forearms', 'hands'), legs=('thighs', 'shins', 'feet'))
+ASSEMBLIES = tuple(a for members in GROUPS.values() for a in members)      # Einzelteile; darüber die Baugruppen GROUPS
 SOCKETS = ('Socket_Neck', 'Socket_Waist', 'Socket_Hip_R', 'Socket_Hip_L', 'Socket_Shoulder_R', 'Socket_Shoulder_L',
            'Socket_Wrist_R', 'Socket_Wrist_L', 'Socket_Hand')
 
@@ -94,7 +95,10 @@ def check_document(document):
         raise ValueError('Basic-Typ: INFO.kind muss figure sein')
     found = [a['id'] for a in document['assemblies']]
     if sorted(found) != sorted(ASSEMBLIES):
-        raise ValueError(f'Basic-Typ: Baugruppen {found}, erwartet {list(ASSEMBLIES)}')
+        raise ValueError(f'Basic-Typ: Einzelteile {found}, erwartet {list(ASSEMBLIES)}')
+    for a in document['assemblies']:
+        if a['id'] not in GROUPS.get(a.get('group'), ()):
+            raise ValueError(f"Basic-Typ: Einzelteil {a['id']} gehört nicht zur Baugruppe {a.get('group')!r}")
     missing = [s for s in SOCKETS if s not in document['anchors']]
     if missing:
         raise ValueError(f'Basic-Typ: Anker fehlen: {missing}')

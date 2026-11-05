@@ -28,9 +28,29 @@ class Base(unittest.TestCase):
 class ModelTest(Base):
     def test_parts_and_assemblies(self):
         self.assertEqual(len(self.raw['parts']), 424)
-        self.assertEqual([a['id'] for a in self.raw['assemblies']], ['head', 'arms', 'upper_body', 'lower_body', 'legs'])
+        self.assertEqual([a['de'] for a in self.raw['assemblies']], ['Kopf', 'Oberkörper', 'Schulter', 'Oberarm', 'Unterarm', 'Hände', 'Oberschenkel', 'Unterschenkel', 'Füße'])
+        self.assertEqual(sorted(a['id'] for a in self.raw['assemblies']), sorted(lines.ASSEMBLIES))
         self.assertEqual(self.raw['info']['id'], 'RA01')
         self.assertEqual(self.raw['info']['kind'], 'figure')
+
+    def test_parts_per_assembly(self):
+        count = {}
+        for p in self.raw['parts']:
+            count[p['assembly']] = count.get(p['assembly'], 0) + 1
+        self.assertEqual(count, dict(head=61, upper_body=95, shoulders=42, upper_arms=10, forearms=24, hands=106, thighs=20, shins=48, feet=18))
+
+    def test_groups_sit_above_the_single_parts(self):
+        groups = spec.build(self.doc, lines.sheets()['RA01'])['groups']
+        self.assertEqual([(g['de'], g['parts']) for g in groups], [('Kopf', 61), ('Oberkörper', 95), ('Arme', 182), ('Beine', 86)])
+        self.assertEqual(groups[2]['assemblies'], ['shoulders', 'upper_arms', 'forearms', 'hands'])
+        self.assertEqual(groups[3]['assemblies'], ['thighs', 'shins', 'feet'])
+        self.assertEqual({a['id']: a['group'] for a in self.raw['assemblies']}, {a: g for g, m in lines.GROUPS.items() for a in m})
+
+    def test_shoulder_group_matches_the_reference_segments(self):
+        ids = {p['id'] for p in self.raw['parts'] if p['assembly'] == 'shoulders'}
+        self.assertIn('arm_L_shoulder_ball', ids)
+        self.assertIn('pauldron_r_flare2_edge', ids)
+        self.assertTrue(all(i.startswith(('pauldron_', 'shoulder_', 'arm_L_shoulder', 'arm_R_shoulder')) for i in ids))
 
     def test_only_helmet_is_surface_data(self):
         measured = [p for p in self.raw['parts'] if p.get('provenance', {}).get('kind') == 'gemessen']
@@ -171,7 +191,7 @@ class AssetTest(Base):
     def test_every_part_is_a_named_node(self):
         nodes = [n for n in self.gltf['nodes'] if 'mesh' in n]
         self.assertEqual({n['extras']['basic_part'] for n in nodes}, {p['id'] for p in self.doc['parts']})
-        self.assertTrue(all(n['extras']['basic_assembly'] for n in nodes))
+        self.assertTrue(all(n['extras']['basic_assembly'] and n['extras']['basic_group'] for n in nodes))
 
     def test_triangles_survive(self):
         with tempfile.TemporaryDirectory() as t:
@@ -195,8 +215,11 @@ class AssetTest(Base):
 class ContractTest(Base):
     def test_basic_type_contract_holds_and_rejects_gaps(self):
         lines.check_document(self.doc)
-        with self.assertRaisesRegex(ValueError, 'Baugruppen'):
+        with self.assertRaisesRegex(ValueError, 'Einzelteile'):
             lines.check_document(dict(self.doc, assemblies=self.doc['assemblies'][:4]))
+        wrong = [dict(a, group='legs') if a['id'] == 'hands' else a for a in self.doc['assemblies']]
+        with self.assertRaisesRegex(ValueError, 'hands'):
+            lines.check_document(dict(self.doc, assemblies=wrong))
         with self.assertRaisesRegex(ValueError, 'Socket_Hand'):
             lines.check_document(dict(self.doc, anchors={k: v for k, v in self.doc['anchors'].items() if k != 'Socket_Hand'}))
         with self.assertRaisesRegex(ValueError, 'Rollen'):
@@ -211,8 +234,10 @@ class ContractTest(Base):
     def test_website_shows_two_types_side_by_side(self):
         item = dict(kind='robot', has_3d=True, name='x', line='basic', skin='weiss_graphit', parts=1, labels={}, assemblies=[dict(id='head', de='Kopf')],
                     dimensions_mm=dict(height=1, width=1, depth=1))
-        html = site.robots_page([dict(item, id='RA01'), dict(item, id='RA02')])
+        html = site.robots_page([dict(item, id='RA01', groups=[dict(id='arms', de='Arme')]), dict(item, id='RA02')])
         self.assertIn('2 Roboter', html)
+        self.assertIn('baugruppe=arms', html)
+        self.assertIn('Einzelteile', html)
         self.assertIn('3d.html?id=RA02', html)
 
 

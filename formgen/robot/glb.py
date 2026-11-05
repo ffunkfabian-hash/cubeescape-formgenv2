@@ -79,6 +79,7 @@ def build(document, skin: str) -> bytes:
         return np.c_[p[:, 0], p[:, 2], -p[:, 1]]
 
     groups = {a['id']: [] for a in document['assemblies']}
+    family = {a['id']: a.get('group') for a in document['assemblies']}
     for part in document['parts']:
         mesh = part['mesh']
         v, n, t = split_normals(mesh['vertices'], mesh['faces'])
@@ -87,12 +88,12 @@ def build(document, skin: str) -> bytes:
                     indices=add(t.astype('<u4').ravel(), 5125, 'SCALAR', 34963), material=material[part['role']])
         meshes.append(dict(name=part['id'], primitives=[prim]))
         nodes.append(dict(name=part['id'], mesh=len(meshes) - 1,
-                          extras=dict(basic_part=part['id'], basic_assembly=part['assembly'], basic_label=part.get('label', part['id']),
+                          extras=dict(basic_part=part['id'], basic_assembly=part['assembly'], basic_group=family[part['assembly']], basic_label=part.get('label', part['id']),
                                       basic_role=part['role'], basic_form=part.get('form', part['shape']), segment=part.get('segment'), side=part.get('side'))))
         groups[part['assembly']].append(len(nodes) - 1)
     children = []
     for assembly in document['assemblies']:
-        nodes.append(dict(name=assembly['id'], children=groups[assembly['id']], extras=dict(basic_assembly=assembly['id'], basic_label=assembly['de'])))
+        nodes.append(dict(name=assembly['id'], children=groups[assembly['id']], extras=dict(basic_assembly=assembly['id'], basic_group=assembly.get('group'), basic_label=assembly['de'])))
         children.append(len(nodes) - 1)
     for name, anchor in document.get('anchors', {}).items():
         nodes.append(dict(name=name, translation=to_gltf([anchor['position_m']])[0].tolist(), extras=dict(socket=name, basic_part=anchor['part'])))

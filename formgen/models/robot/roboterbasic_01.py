@@ -55,17 +55,33 @@ PARAMS = dict(
         foot=[(-100, 64, 44, -66), (-30, 70, 56, -56), (70, 72, 48, -64), (160, 66, 34, -78), (222, 54, 22, -88)]),
 )
 
+# Zwei Ebenen nach Nutzerentscheid 05.11.2026: neun Einzelteile (Feld `assembly`) und darüber vier Baugruppen (Feld `group`); je Einzelteil beide
+# Körperseiten, das Becken gehört zum Oberkörper. Explosion nur zur Darstellung.
+GROUPS = dict(head='Kopf', upper_body='Oberkörper', arms='Arme', legs='Beine')
 ASSEMBLIES = [
-    dict(id='head', de='Kopf', explode=[0, 260, 0]),
-    dict(id='arms', de='Arme', explode=[220, 40, 0]),
-    dict(id='upper_body', de='Oberkörper', explode=[0, 0, 0]),
-    dict(id='lower_body', de='Unterkörper', explode=[0, -170, 0]),
-    dict(id='legs', de='Beine', explode=[0, -360, 0]),
+    dict(id='head', de='Kopf', group='head', explode=[0, 300, 0]),
+    dict(id='upper_body', de='Oberkörper', group='upper_body', explode=[0, 0, 0]),
+    dict(id='shoulders', de='Schulter', group='arms', explode=[0, 140, 0]),
+    dict(id='upper_arms', de='Oberarm', group='arms', explode=[200, 60, 0]),
+    dict(id='forearms', de='Unterarm', group='arms', explode=[330, 0, 0]),
+    dict(id='hands', de='Hände', group='arms', explode=[460, -60, 0]),
+    dict(id='thighs', de='Oberschenkel', group='legs', explode=[0, -200, 0]),
+    dict(id='shins', de='Unterschenkel', group='legs', explode=[0, -380, 0]),
+    dict(id='feet', de='Füße', group='legs', explode=[0, -560, 0]),
 ]
 for _a in ASSEMBLIES:
-    _a['provenance'] = dict(kind='Annahme', source='Explosionsversatz nur zur Darstellung, mm (f,u,x); BALLON EXPLODE sinngemäß')
+    _a['group_de'] = GROUPS[_a['group']]
+    _a['provenance'] = dict(kind='Annahme', source='Explosionsversatz nur zur Darstellung, mm (f,u,x)')
 
-_ASSEMBLY = dict(head='head', torso='upper_body', pelvis='lower_body', thigh='legs', shin='legs', foot='legs')
+_TRUNK = dict(head='head', torso='upper_body', pelvis='upper_body', thigh='thighs', shin='shins', foot='feet')
+_ARM = dict(upper='upper_arms', fore='forearms')
+
+
+def _assembly(pid, kind):
+    """Einzelteil eines Bauteils; die Schulterteile hängen im Modell am Rumpf bzw. Oberarm, wie Segment SHOULDER_* der Referenz (21 Teile je Seite)."""
+    if pid.startswith(('pauldron_', 'shoulder_')) or pid == 'shoulder_ball':
+        return 'shoulders'
+    return _TRUNK.get(kind) or _ARM.get(kind, 'hands')
 
 
 def _helmet(frames):
@@ -101,11 +117,11 @@ def parts(params=PARAMS):
         sx = -1 if side == 'L' else 1
         for pid, de, seg, form, role, p in head + trunk:
             if seg == kind:
-                out.append(kit.part(f'{name}_{pid}' if side != 'C' else pid, de, name, form, role, p, (R, o), sx, _ASSEMBLY[kind], side))
+                out.append(kit.part(f'{name}_{pid}' if side != 'C' else pid, de, name, form, role, p, (R, o), sx, _assembly(pid, kind), side))
     for side, sx in (('R', 1), ('L', -1)):
         for pid, de, seg, form, role, p in limbs:
             R, o, _, _ = frames[f'arm_{side}_{seg}']
-            out.append(kit.part(f'arm_{side}_{pid}', de, f'arm_{side}_{seg}', form, role, p, (R, o), sx, 'arms', side))
+            out.append(kit.part(f'arm_{side}_{pid}', de, f'arm_{side}_{seg}', form, role, p, (R, o), sx, _assembly(pid, seg), side))
     return out + _helmet(frames)
 
 

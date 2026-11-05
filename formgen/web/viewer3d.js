@@ -33,7 +33,7 @@
    const primitive=parser.associations.get(obj)?.primitives??0;
    const parent=obj.parent&&parser.json.nodes[nodeOf(parser,obj.parent)]?.name;
    return {obj,node,mesh:info.mesh,primitive,part:extra(obj,'basic_part')||info.name||'mesh_'+info.mesh,
-     group:extra(obj,'basic_assembly')||extra(obj,'source_segment')||parent||null};
+     group:extra(obj,'basic_assembly')||extra(obj,'source_segment')||parent||null,family:extra(obj,'basic_group')||null};
  }
  function header(entry){
    pick('[data-id]').textContent=entry.id;pick('[data-name]').textContent=entry.name;
@@ -48,8 +48,11 @@
    const ids=[...new Set(meshes.map(m=>m.group).filter(Boolean))];
    if(ids.length<2)return;
    const names=model.labels.assemblies,select=pick('[data-assembly]');
-   const rows=ids.map(g=>[g,names[g]||g]).sort((a,b)=>a[1].localeCompare(b[1],'de'));
-   select.replaceChildren(new Option('Gesamtmodell','all'),...rows.map(([g,label])=>new Option(label,g)));
+   const order=model.labels.order||[],rank=g=>order.includes(g)?order.indexOf(g):order.length;   // Roboter: Reihenfolge am Körper
+   const rows=ids.map(g=>[g,names[g]||g]).sort((a,b)=>rank(a[0])-rank(b[0])||a[1].localeCompare(b[1],'de'));
+   const families=model.labels.families||[],level=(label,items)=>{const box=document.createElement('optgroup');box.label=label;
+     box.append(...items.map(([g,text])=>new Option(text,g)));return box};
+   select.replaceChildren(new Option('Gesamtmodell','all'),...(families.length?[level('Baugruppen',families.map(f=>[f.id,f.de])),level('Einzelteile',rows)]:rows.map(([g,label])=>new Option(label,g))));
    select.value=group;pick('[data-view]').hidden=false;
    select.onchange=()=>{
      const next=new URLSearchParams({id:model.id});
@@ -63,7 +66,7 @@
    root.updateMatrixWorld(true);
    const meshes=[];
    root.traverse(obj=>{if(obj.isMesh)meshes.push(describe(parser,obj))});
-   const group=meshes.some(m=>m.group===wanted)?wanted:'all';
+   const group=meshes.some(m=>m.group===wanted||m.family===wanted)?wanted:'all';
    const renderer=new T.WebGLRenderer({antialias:true});
    renderer.toneMapping=T.ACESFilmicToneMapping;
    const scene=new T.Scene();scene.background=new T.Color(0x808080);
@@ -72,7 +75,7 @@
    scene.add(root,key,new T.HemisphereLight(0xffffff,0xa1a7af,1));
    const box=new T.Box3();
    for(const m of meshes){
-     m.obj.visible=group==='all'||m.group===group;
+     m.obj.visible=group==='all'||m.group===group||m.family===group;
      if(m.obj.visible)box.expandByObject(m.obj,true);
    }
    if(box.isEmpty())throw Error('Leeres Modell');
