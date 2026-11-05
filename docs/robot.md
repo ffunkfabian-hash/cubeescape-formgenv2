@@ -43,7 +43,7 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 | Anker | mindestens `Socket_Neck`, `Socket_Waist`, `Socket_Hip_R/L`, `Socket_Shoulder_R/L`, `Socket_Wrist_R/L`, `Socket_Hand`; weitere erlaubt |
 | Rollen | nur Rollen aus `skins.toml` › `[roles]`; Farben nie im Modell. Ein neuer Skin ergänzt `[skins.<id>]`, siehe Cachehinweis in den Lehren |
 | Herkunft | jede Zahl: `INFO.provenance` oder je Teil. Flächendaten (`surface`) sind zulässig, tragen `kind = gemessen` mit Quelle, stehen in der Spec unter `measured_parts` und werden im Bericht ausgewiesen |
-| Haltung | Grundhaltung A-Position, symmetrisch |
+| Haltung | Grundhaltung A-Position |
 | Abnahme | je Typ eigene Referenz über `python -m formgen.robot.silhouette`, in der Haltung der Referenz; IoU ≥ 0,90, Bänder 0,92–1,08 |
 
 ## Skin
@@ -52,6 +52,6 @@ Standard ist `weiss_graphit` in `skins.toml`, Farben aus den Materialien des Ref
 
 ## Abnahme
 
-Grundhaltung von RA01 ist die A-Position (`PARAMS`: symmetrisch, Rumpf und Kopf gerade, Arme 40° vom Körper, Winkel `A_ANGLE`). Das Referenz-GLB steht im Kontrapost, darum misst die Abnahme nicht das ausgelieferte GLB, sondern dieselbe Quelle in `REFERENCE_PARAMS` (`--referenzhaltung`). Die Schulterteile öffnen je Seite gespiegelt um das Schultergelenk (`pose.shoulder_open`), in der Referenzhaltung ist der Winkel 0.
+Grundhaltung von RA01 ist die A-Position (`PARAMS`: Rumpf und Kopf gerade, Arme 40° vom Körper, Winkel `A_ANGLE`). Symmetrisch sind alle Bauteile bis auf den Helm (gemessene Daten) und die Bruststreifen `chest_stripe_a/b`, die schon in BALLON und im Referenz-GLB nur auf einer Seite liegen. Das Referenz-GLB steht im Kontrapost, darum misst die Abnahme nicht das ausgelieferte GLB, sondern dieselbe Quelle in `REFERENCE_PARAMS` (`--referenzhaltung`). Die Schulterteile öffnen je Seite gespiegelt um das Schultergelenk (`pose.shoulder_open`), in der Referenzhaltung ist der Winkel 0.
 
 Für RA01 ist die Referenz `RoboterBasic-01.glb` der Sicherung vom 05.11.2026 (SHA256 im Versionsbericht), gleiche Registrierung, kein Strecken: Front, Rücken, beide Seiten IoU ≥ 0,90; zehn Höhenbänder, äußere Spannweite Modell/Referenz 0,92–1,08. Die Referenz liegt nicht im Repo.

@@ -30,7 +30,7 @@ REFERENCE_PARAMS = dict(
     arm_bulk=1.30,                     # Querschnitt Ober-/Unterarm zusätzlich zu arm.ARM_BULK
     arm_drop=('upper_body', 'upper_shell'),
     upper_arm=dict(rows=[(10, 62, 60, 0), (150, 70, 68, 2), (290, 56, 54, 0)], ball=60, shell=(-110, 110), ch=20),
-    pose=dict(upper=(-0.24, 0.04, -1.0), fore=(-0.05, -0.32, -1.0), fingers='relaxed', shoulder_open=0),
+    pose=dict(upper=(-0.24, 0.04, -1.0), fore=(-0.05, -0.32, -1.0), fingers='relaxed', shoulder_open=0, origin='Vorgabe'),
     head=dict(neck=48),
     torso=dict(
         core=[(30, 112, 88, -2), (120, 150, 106, 0), (230, 192, 122, -4), (280, 204, 118, -6), (330, 176, 106, -8), (380, 120, 88, -10)],
@@ -64,14 +64,14 @@ GROUPS = dict(head='Kopf', upper_body='Oberkörper', arms='Arme', legs='Beine')
 # (Versätze 0), Füße parallel mit ±165 mm Knöchelabstand und 30 mm Auswärtsstellung, Knie nach vorn, Arme A_ANGLE vom Körper, Unterarm A_ELBOW Grad
 # näher am Körper und A_FORE_Y leicht nach vorn. REFERENCE_PARAMS ist die Haltung des Referenz-GLB (Kontrapost) und die der Silhouettenabnahme.
 A_ANGLE, A_ELBOW, A_FORE_Y = 40, 4, -0.08
-_HANG = math.degrees(math.atan(0.24))         # Oberarmwinkel der Referenzhaltung; die Schulterteile öffnen nur um die Differenz
+_HANG = math.degrees(math.atan(REFERENCE_PARAMS['pose']['upper'][0] / REFERENCE_PARAMS['pose']['upper'][2]))   # Oberarmwinkel der Referenz, Mittel beider Seiten im Rumpfrahmen; die Schulterteile öffnen nur um die Differenz
 PARAMS = dict(REFERENCE_PARAMS,
               skeleton=dict(REFERENCE_PARAMS['skeleton'], neck=(0, -18, 1405), pelvis=(0, 0, 834), head_off=(0, 6), torso_hint=(0, -1, 0), head_hint=(0, -1, 0),
                             ankles={'R': (-165, 0), 'L': (165, 0)}, toes={'R': (-195, -165), 'L': (195, -165)},
                             knee_pole={'R': (0, -1, 0), 'L': (0, -1, 0)}),
               pose=dict(upper=(-math.sin(math.radians(A_ANGLE)), 0.0, -math.cos(math.radians(A_ANGLE))),
                         fore=(-math.sin(math.radians(A_ANGLE - A_ELBOW)), A_FORE_Y, -math.cos(math.radians(A_ANGLE - A_ELBOW))), fingers='relaxed',
-                        shoulder_open=A_ANGLE - _HANG))
+                        shoulder_open=A_ANGLE - _HANG, origin='Annahme'))
 
 ASSEMBLIES = [
     dict(id='head', de='Kopf', group='head', explode=[0, 300, 0]),
@@ -184,8 +184,8 @@ def document(params=PARAMS, *, sheet_id='RA01', line='basic', name='RoboterBasic
     """Kit-Dokument einer Linie; params ist vollständig (Basis + Register)."""
     return dict(info=dict(id=sheet_id, kind='figure', name_de=name, line=line, status='draft',
                           provenance=dict(kind='Vorgabe', source=SOURCE),
-                          stance=dict(kind='Vorgabe' if params['pose']['shoulder_open'] == 0 else 'Annahme',
-                                      source='Referenzhaltung aus ' + SOURCE if params['pose']['shoulder_open'] == 0 else 'A-Position, Nutzerentscheid 05.11.2026; Winkel und Standbreite Annahme')),
+                          stance=dict(kind=params['pose']['origin'],
+                                      source='Referenzhaltung aus ' + SOURCE if params['pose']['origin'] == 'Vorgabe' else 'A-Position, Nutzerentscheid 05.11.2026; Winkel und Standbreite Annahme')),
                 parts=parts(params), assemblies=copy.deepcopy(ASSEMBLIES), anchors=anchors(params),
                 poses={'idle': dict(part_transforms={}, note='Grundhaltung des Modells: A-Position aus PARAMS')})
 

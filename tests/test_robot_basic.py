@@ -79,22 +79,31 @@ class ModelTest(Base):
         arm = at['Socket_Elbow_L'] - at['Socket_Shoulder_L']
         self.assertAlmostEqual(np.degrees(np.arctan2(arm[2], -arm[1])), basic.A_ANGLE, delta=.1)
 
-    def test_every_side_mirrors_in_the_a_pose(self):
-        """Gesamte Figur außer Helm: rechts gegen gespiegelt links, auch die Schulterteile; Bounds und Anker sähen einen Fehler dort nicht."""
-        parts = {p['id']: np.array(p['mesh']['vertices']) for p in self.doc['parts']}
-        self.by_id = {p['id']: p for p in self.doc['parts']}
+    def test_every_part_mirrors_in_the_a_pose(self):
+        """Alle 366 Bauteile außer Helm: Seitenpaare gegeneinander, Mittelteile gegen sich selbst. Bounds und Anker sähen einen Fehler dort nicht.
+        Ausnahme chest_stripe_a/b: Der Bruststreifen liegt schon in BALLON und im Referenz-GLB nur auf einer Seite."""
+        parts = {p['id']: np.array(p['mesh']['vertices']) for p in self.doc['parts'] if not p['id'].startswith('helmet_')}
+        cuts = {p['id'] for p in self.doc['parts'] if p.get('cuts')}
         pairs = [(i, re.sub(r'(^|_)L_', r'\1R_', i, count=1)) for i in parts if re.search(r'(^|_)L_', i)]
-        pairs += [(i, re.sub(r'(^|_)l(_|$)', r'\1r\2', i, count=1)) for i in parts if re.search(r'(^|_)l(_|$)', i) and not i.startswith('helmet_')]
-        self.assertGreater(len(pairs), 136)
+        pairs += [(i, re.sub(r'(^|_)l(_|$)', r'\1r\2', i, count=1)) for i in parts if re.search(r'(^|_)l(_|$)', i)]
+        self.assertEqual(len(pairs), 160)
+        paired = {i for pair in pairs for i in pair}
+        exceptions = {'chest_stripe_a', 'chest_stripe_b'}
+        center = sorted(set(parts) - paired - exceptions)
+        self.assertEqual(len(center), 44)
+
         def gap(left, right):
             mirrored = parts[left] * (-1, 1, 1)
             return max(cKDTree(parts[right]).query(mirrored)[0].max(), cKDTree(mirrored).query(parts[right])[0].max())
         # Ränder und Streifen zählen um die Teilmitte: Rand a links liegt dem Rand b rechts gegenüber
         swap = lambda i: re.sub(r'_([ab])(?=$|_)', lambda m: '_' + 'ba'['ab'.index(m[1])], i)
-        for left, right in pairs:
-            distance = min(gap(left, name) for name in {right, swap(right)} if name in parts)
+        chosen = []
+        for left, right in pairs + [(i, i) for i in center]:
+            distance, name = min((gap(left, n), n) for n in {right, swap(right)} if n in parts)
+            chosen.append(name)
             # Bauteile mit Fugen: der Boolean tesselliert links und rechts etwas anders, der Punktabstand misst das mit
-            self.assertLess(distance, .005 if self.by_id[left].get('cuts') else .001, left)
+            self.assertLess(distance, .005 if left in cuts else .001, left)
+        self.assertEqual(len(chosen), len(set(chosen)), 'ein Gegenstück zählt nur einmal')
 
     def test_shoulder_frame_is_the_torso_frame_without_opening(self):
         R, o = np.eye(3), np.array((1., 2., 3.))
