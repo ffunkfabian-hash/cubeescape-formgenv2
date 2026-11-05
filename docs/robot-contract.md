@@ -1,4 +1,6 @@
-# R01 – Baugruppenvertrag (aktuelle Nutzerentscheidung)
+# R01 – Baugruppenvertrag (Contour, ruht)
+
+Gilt nur für R01/R02. Für RoboterBasic-01 gilt [docs/robot.md](robot.md); die Orthos sind dort keine Referenz.
 
 26.10.2026: Verbindlich sind vier neue Orthos unter `~/Library/Caches/CubeEscapeFormgen/refs/robot-ortho-{front,back,side-right,side-left}.png`.
 Sie bestimmen Silhouette, Proportionen und Gelenklagen. B ist ausschließlich Schalengestaltung; altes Konzept nur Stimmung.

@@ -1,6 +1,6 @@
 [project]
-version = "0.8.2"
-name = "Hallmark"
+version = "0.9.0"
+name = "Sentry"
 [render]
 bg = "mid"
 width = 960

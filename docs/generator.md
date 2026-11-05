@@ -208,7 +208,7 @@ Schalen ändern die Kontur nach außen, nie nach innen; oben begrenzt die Sichtl
 | views | `out/views/<ID>/*.png` | Geometrie-Hash; Kamera, Größe, Skin + `skins.toml`-Hash, Hintergrund; Closure `raster.py`; Umgebung; RASTER |
 | sheets | `out/sheets/<ID>.dc.html` | Geometrie-Hash; Bildpfade + Bildmetadaten; Closure `sheet.py`; SHEET |
 | previews | `out/previews/<ID>.webp` | wie views (Held 720×480, Variantenskin) |
-| viewer | `out/index.html` | Liste aller Blätter mit Spec-Daten; Hash von `viewer.py`; VIEWER |
+| viewer | `out/index.html`, `waffen.html`, `roboter.html`, `3d.html`, `web/`, `models3d/` | Website mit Navigation, 3D und Markierung ([Website](website.md)); Hash von `viewer.py`, `web/`; VIEWER, SITE |
 
 Closure = SHA256 über die statisch importierten lokalen Module des Stufencodes (`build.source_hashes`) plus die Dateien
 mit den Buildern selbst (`pipeline.py`, `build.py`; Richterbefund 0.2), daher keine

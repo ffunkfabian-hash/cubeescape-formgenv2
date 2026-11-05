@@ -1,6 +1,8 @@
-# Formgen v2 · Hallmark
+# Formgen v2 · Sentry
 
-0.8.2 – **Varianten der echten BALLON-Spielwaffen, jetzt mit Design-Serien.** Zwölf Linien × 17 Typen = 204 Konzeptblätter auf dem neuesten
+0.9 – **Waffen und Roboter auf einer Website mit 3D und Markierung.** Einstieg `out/index.html`, offline per `file://` ([Website](docs/website.md)). Heute ein Basic-Roboter, RoboterBasic-01 (`RA01`), fest in diesem Repo, ohne Verbindung zu Critic ([Roboter](docs/robot.md)).
+
+**Varianten der echten BALLON-Spielwaffen, jetzt mit Design-Serien.** Zwölf Linien × 17 Typen = 204 Konzeptblätter auf dem neuesten
 BALLON-Spielpiloten je Typ (BASIC-16/17 ohne Piloten: Formstudie, im Blatt gekennzeichnet): acht Parameterlinien aus BALLON-Bausteinen (Visier v3,
 Schaft S1/S2, Griff v2.1, Längen, Leuchtstreifen) und vier Serien mit eigener Formensprache (Stealth-Facetten, Werkstatt-Prototyp, Cube-Farbwelt,
 organisch-glatt), mit gesteuertem Zufall (Seed je Blatt), Spec, Prompts, GLB über BALLONs Blender-Kit (Stufe `asset`, AAA-Bake auf Anforderung),
@@ -8,7 +10,7 @@ Ansichten, Vorschau und Viewer; jede Stufe inhaltsadressiert gecacht.
 Formgen v1 bleibt eingefrorenes Archiv.
 
 Einstieg: [Regeln](AGENTS.md), [Generator und Pipeline](docs/generator.md), [Cache](docs/cache.md),
-[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.8](docs/versions/0.8.md).
+[Modellsprache](docs/modellsprache.md), [Versionsbericht 0.9](docs/versions/0.9.md).
 
 ```sh
 python3 -m venv .venv
@@ -33,7 +35,7 @@ Zeiten je Stufe: `out/timing.json`. Messwerkzeuge: `tools/measure_v1.py`, `tools
 
 Roboter R01 und die Contour-Piloten (W01, KG02/VS02 als v1-Geo-Prüfeingänge) bauen weiter über `formgen.build`;
 sie sind nicht Teil der Waffen-Pipeline. Entscheid 234 A deckt den R01-Rücken ([Ausnahmen je Referenz](docs/acceptance-exceptions.json));
-Seiten-Band 0 (1,42) wartet auf eine Nutzerentscheidung. Roboterarbeit ruht auf Nutzerwunsch.
+Seiten-Band 0 (1,42) wartet auf eine Nutzerentscheidung. Der aktuelle Roboter ist RoboterBasic-01 ([Roboter](docs/robot.md)); R01/R02 stehen nicht auf der Website.
 
 ```sh
 .venv/bin/python -m formgen.build --dummy
