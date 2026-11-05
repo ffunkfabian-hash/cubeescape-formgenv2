@@ -131,7 +131,7 @@ class ShapesTest(unittest.TestCase):
         self.assertGreater(volume(done.vertices, done.faces), 0)
 
     def test_width_does_not_depend_on_the_pose_of_the_part(self):
-        """Starres Teil, gedreht und verschoben: dieselbe Breite. Die Quadratik der Klemmung löschte sich vorher je Haltung anders aus."""
+        """Starres Teil, gedreht und verschoben: dieselbe Breite. Die Auslöschung der alten Quadratik fängt nur der Spiegeltest an echten Teilen."""
         v, f = prism([(0, 0), (.1, 0), (.1, .01), (.03, .012), (0, .01)], .004)
         turn = geom_rotation(.7, 1.1)
         moved = v @ turn.T + (1.3, -.4, .9)
