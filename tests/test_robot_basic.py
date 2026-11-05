@@ -28,7 +28,7 @@ class Base(unittest.TestCase):
 class ModelTest(Base):
     def test_parts_and_assemblies(self):
         self.assertEqual(len(self.raw['parts']), 424)
-        self.assertEqual([a['de'] for a in self.raw['assemblies']], ['Kopf', 'Oberkörper', 'Schulter', 'Oberarm', 'Unterarm', 'Hände', 'Oberschenkel', 'Unterschenkel', 'Füße'])
+        self.assertEqual([a['de'] for a in self.raw['assemblies']], ['Kopf', 'Oberkörper', 'Becken', 'Schulter', 'Oberarm', 'Unterarm', 'Hände', 'Oberschenkel', 'Unterschenkel', 'Füße'])
         self.assertEqual(sorted(a['id'] for a in self.raw['assemblies']), sorted(lines.ASSEMBLIES))
         self.assertEqual(self.raw['info']['id'], 'RA01')
         self.assertEqual(self.raw['info']['kind'], 'figure')
@@ -37,11 +37,12 @@ class ModelTest(Base):
         count = {}
         for p in self.raw['parts']:
             count[p['assembly']] = count.get(p['assembly'], 0) + 1
-        self.assertEqual(count, dict(head=61, upper_body=95, shoulders=42, upper_arms=10, forearms=24, hands=106, thighs=20, shins=48, feet=18))
+        self.assertEqual(count, dict(head=61, upper_body=59, pelvis=36, shoulders=42, upper_arms=10, forearms=24, hands=106, thighs=20, shins=48, feet=18))
 
     def test_groups_sit_above_the_single_parts(self):
         groups = spec.build(self.doc, lines.sheets()['RA01'])['groups']
         self.assertEqual([(g['de'], g['parts']) for g in groups], [('Kopf', 61), ('Oberkörper', 95), ('Arme', 182), ('Beine', 86)])
+        self.assertEqual(groups[1]['assemblies'], ['upper_body', 'pelvis'])
         self.assertEqual(groups[2]['assemblies'], ['shoulders', 'upper_arms', 'forearms', 'hands'])
         self.assertEqual(groups[3]['assemblies'], ['thighs', 'shins', 'feet'])
         self.assertEqual({a['id']: a['group'] for a in self.raw['assemblies']}, {a: g for g, m in lines.GROUPS.items() for a in m})
@@ -59,9 +60,34 @@ class ModelTest(Base):
         rest = [p for p in self.raw['parts'] if p not in measured]
         self.assertEqual({p['form'] for p in rest}, {'wrap', 'cyl', 'box', 'loft', 'tube', 'plate', 'hull'})
 
-    def test_size_matches_reference_measure(self):
-        low, high = np.array(self.doc['bounds_m'])
+    def test_reference_stance_keeps_the_reference_measure(self):
+        low, high = np.array(geom.evaluate(model.normalize(basic.document(basic.REFERENCE_PARAMS)))['bounds_m'])
         np.testing.assert_allclose(high - low, (.8663, .5257, 1.6560), atol=.002)   # Referenz 0,8659 × 0,5250 × 1,6559 m
+
+    def test_a_pose_is_symmetric_and_keeps_the_height(self):
+        low, high = np.array(self.doc['bounds_m'])
+        self.assertAlmostEqual(low[0], -high[0], delta=.001)
+        self.assertAlmostEqual(high[2] - low[2], 1.656, delta=.002)
+        at = {k: np.array(v['at']) for k, v in self.raw['anchors'].items()}
+        for name in ('Hip', 'Knee', 'Ankle', 'Shoulder', 'Elbow', 'Wrist'):
+            np.testing.assert_allclose(at[f'Socket_{name}_L'], at[f'Socket_{name}_R'] * (1, 1, -1), atol=.01, err_msg=name)
+        self.assertEqual((at['Socket_Neck'][2], at['Socket_Waist'][2]), (0, 0))
+
+    def test_a_pose_arm_angle(self):
+        at = {k: np.array(v['at']) for k, v in self.raw['anchors'].items()}
+        arm = at['Socket_Elbow_L'] - at['Socket_Shoulder_L']
+        self.assertAlmostEqual(np.degrees(np.arctan2(arm[2], -arm[1])), basic.A_ANGLE, delta=.1)
+
+    def test_shoulder_parts_follow_the_upper_arm(self):
+        """Abstand Schulterteil zu Schultergelenk bleibt in beiden Haltungen gleich, auch wenn der Rumpf anders steht."""
+        ref = {p['id']: p for p in basic.parts(basic.REFERENCE_PARAMS)}
+        now = {p['id']: p for p in basic.parts()}
+        joint = lambda params, side: np.array(basic.anchors(params)[f'Socket_Shoulder_{side}']['at'])
+        for pid, side in (('pauldron_l', 'L'), ('pauldron_r', 'R'), ('shoulder_l_axle', 'L')):
+            points = lambda p: np.array(p.get('vertices') or sum(p['rings'], []))
+            d0 = np.linalg.norm(points(ref[pid]) - joint(basic.REFERENCE_PARAMS, side), axis=1)
+            d1 = np.linalg.norm(points(now[pid]) - joint(basic.PARAMS, side), axis=1)
+            np.testing.assert_allclose(d0, d1, atol=.01, err_msg=pid)
 
     def test_every_anchor_on_known_part(self):
         ids = {p['id'] for p in self.raw['parts']}
@@ -241,6 +267,7 @@ class ContractTest(Base):
     def test_every_segment_has_a_single_part(self):
         with self.assertRaisesRegex(ValueError, 'gibt_es_nicht'):
             basic._assembly('x', 'gibt_es_nicht')
+        self.assertEqual(basic._assembly('pelvis_core', 'pelvis'), 'pelvis')
 
     def test_website_shows_two_types_side_by_side(self):
         item = dict(kind='robot', has_3d=True, name='x', line='basic', skin='weiss_graphit', parts=1, labels={}, assemblies=[dict(id='head', de='Kopf')],

@@ -1,6 +1,7 @@
 """Silhouettenvergleich zweier Figuren: gleiche Registrierung, kein Strecken. Abnahmeregel aus docs/robot.md (IoU ≥ 0,90,
 Bandbreite 0,92–1,08; Breite = mittlere äußere Spannweite je Zeile, leere Zeilen zählen null). Eingaben sind Dreiecksnetze in glTF-Achsen (Meter).
 
+  python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--ohne-helm]
   python -m formgen.robot.silhouette <referenz.glb> <modell.glb> [--ohne-helm]
 """
 from __future__ import annotations
@@ -98,11 +99,27 @@ def compare(a, b, px_per_m=1000):
     return result
 
 
+def reference_triangles(helmet=True):
+    """RoboterBasic-01 in der Haltung des Referenz-GLB; die Grundhaltung A-Position lässt sich gegen die Referenz nicht messen."""
+    import tempfile
+    from .. import geom, model
+    from ..models.robot import roboterbasic_01 as basic
+    from . import glb
+    document = geom.evaluate(model.normalize(basic.document(basic.REFERENCE_PARAMS)))
+    with tempfile.TemporaryDirectory() as folder:
+        path = Path(folder) / 'referenz.glb'
+        path.write_bytes(glb.build(document, 'weiss_graphit'))
+        return triangles(path, helmet)
+
+
 def main(argv=None):
     args = list(argv or sys.argv[1:])
     helmet = '--ohne-helm' not in args
-    ref, model = [a for a in args if a != '--ohne-helm'][:2]
-    report = compare(triangles(ref, helmet), triangles(model, helmet))
+    files = [a for a in args if not a.startswith('--')]
+    if '--referenzhaltung' in args:
+        report = compare(triangles(files[0], helmet), reference_triangles(helmet))
+    else:
+        report = compare(triangles(files[0], helmet), triangles(files[1], helmet))
     print(json.dumps(report, indent=1))
     return 0 if all(v['iou_pass'] and v['bands_pass'] for v in report.values()) else 1
 

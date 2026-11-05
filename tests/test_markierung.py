@@ -41,7 +41,7 @@ class MarkierungTest(unittest.TestCase):
     def test_group_filter_marks_on_the_single_part(self):
         self.assertEqual(self.r['family'], 'hands')       # Ansicht Baugruppe Arme: die Probe nennt das Einzelteil
         self.assertEqual(self.r['single'], 'hands')
-        self.assertIn('0', self.r['otherFamily'])         # Ansicht Beine: Teil der Arme ist nicht wählbar
+        self.assertEqual(self.r['otherFamily'], '0 Markierungen')         # Ansicht Beine: Teil der Arme ist nicht wählbar
 
 
 if __name__ == '__main__':

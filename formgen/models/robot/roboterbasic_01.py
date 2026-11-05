@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import copy
 import json
+import math
 import re
 from pathlib import Path
 
@@ -20,7 +21,7 @@ SOURCE = 'BALLON 14bd78d basic/robot/studies/a_waechter.py, Nutzerziel RoboterBa
 HELMET = Path(__file__).with_name('helmet_h80.json')
 DATA_FILES = (HELMET,)      # Schnittstelle Basic-Typ: Datendateien des Modells, gehen in den Cache-Schlüssel
 
-PARAMS = dict(
+REFERENCE_PARAMS = dict(
     skeleton=dict(waist=(0, 0, 1010), neck=(22, -18, 1405), pelvis=(22, 0, 834), head_h=270, head_off=(-14, 6),
                   torso_hint=(0.2, -1, 0), head_hint=(0.42, -1, 0), shoulder=(276, 0, 300),
                   hip_x=120, hip_z=40, thigh=395, shin=385, foot_h=112,
@@ -56,12 +57,23 @@ PARAMS = dict(
         foot=[(-100, 64, 44, -66), (-30, 70, 56, -56), (70, 72, 48, -64), (160, 66, 34, -78), (222, 54, 22, -88)]),
 )
 
-# Zwei Ebenen nach Nutzerentscheid 05.11.2026: neun Einzelteile (Feld `assembly`) und darüber vier Baugruppen (Feld `group`); je Einzelteil beide
-# Körperseiten, das Becken gehört zum Oberkörper. Explosion nur zur Darstellung.
+# Zwei Ebenen nach Nutzerentscheid 05.11.2026: zehn Einzelteile (Feld `assembly`) und darüber vier Baugruppen (Feld `group`); je Einzelteil beide
+# Körperseiten, das Becken gehört zur Baugruppe Oberkörper. Explosion nur zur Darstellung.
 GROUPS = dict(head='Kopf', upper_body='Oberkörper', arms='Arme', legs='Beine')
+# Grundhaltung A-Position (Nutzerentscheid 05.11.2026): symmetrisch, Rumpf und Kopf gerade, Arme 40° vom Körper. Annahme: Winkel und Standbreite.
+# REFERENCE_PARAMS bleibt die Haltung des Referenz-GLB (Kontrapost) und ist die Haltung der Silhouettenabnahme.
+A_ANGLE = 40
+PARAMS = dict(REFERENCE_PARAMS,
+              skeleton=dict(REFERENCE_PARAMS['skeleton'], neck=(0, -18, 1405), pelvis=(0, 0, 834), head_off=(0, 6), torso_hint=(0, -1, 0), head_hint=(0, -1, 0),
+                            ankles={'R': (-165, 0), 'L': (165, 0)}, toes={'R': (-195, -165), 'L': (195, -165)},
+                            knee_pole={'R': (0, -1, 0), 'L': (0, -1, 0)}),
+              pose=dict(upper=(-math.sin(math.radians(A_ANGLE)), 0.0, -math.cos(math.radians(A_ANGLE))),
+                        fore=(-math.sin(math.radians(A_ANGLE - 4)), -0.08, -math.cos(math.radians(A_ANGLE - 4))), fingers='relaxed'))
+
 ASSEMBLIES = [
     dict(id='head', de='Kopf', group='head', explode=[0, 300, 0]),
     dict(id='upper_body', de='Oberkörper', group='upper_body', explode=[0, 0, 0]),
+    dict(id='pelvis', de='Becken', group='upper_body', explode=[0, -90, 0]),
     dict(id='shoulders', de='Schulter', group='arms', explode=[0, 140, 0]),
     dict(id='upper_arms', de='Oberarm', group='arms', explode=[200, 60, 0]),
     dict(id='forearms', de='Unterarm', group='arms', explode=[330, 0, 0]),
@@ -74,7 +86,7 @@ for _a in ASSEMBLIES:
     _a['group_de'] = GROUPS[_a['group']]
     _a['provenance'] = dict(kind='Annahme', source='Explosionsversatz nur zur Darstellung, mm (f,u,x)')
 
-_TRUNK = dict(head='head', torso='upper_body', pelvis='upper_body', thigh='thighs', shin='shins', foot='feet')
+_TRUNK = dict(head='head', torso='upper_body', pelvis='pelvis', thigh='thighs', shin='shins', foot='feet')
 _ARM = dict(upper='upper_arms', fore='forearms')
 
 
@@ -111,8 +123,18 @@ def rig_of(params):
     return sk, frames
 
 
+def _shoulder_frame(side, frames, reference):
+    """Schulterteile hängen rigide am Oberarm (Segment SHOULDER_* der Referenz); gemessen sind sie im Rumpfrahmen der Referenzhaltung."""
+    moved, joint = frames[f'arm_{side}_upper'][:2]
+    base, base_joint = reference[f'arm_{side}_upper'][:2]
+    torso, torso_origin = reference['torso'][:2]
+    delta = moved @ base.T
+    return delta @ torso, delta @ (torso_origin - base_joint) + joint
+
+
 def parts(params=PARAMS):
     sk, frames = rig_of(params)
+    _, reference = rig_of(REFERENCE_PARAMS)
     head = body.head(params['head'])
     trunk = body.torso(params['torso']) + body.pelvis(params['pelvis']) + body.legs(params['legs'])
     limbs = arm._bulk([p for p in arm.parts() if p[0] not in set(params['arm_drop'])], params['arm_bulk']) + body.upper_arm(params['upper_arm'])
@@ -123,7 +145,10 @@ def parts(params=PARAMS):
         sx = -1 if side == 'L' else 1
         for pid, de, seg, form, role, p in head + trunk:
             if seg == kind:
-                out.append(kit.part(f'{name}_{pid}' if side != 'C' else pid, de, name, form, role, p, (R, o), sx, _assembly(pid, kind), side))
+                frame_ = (R, o)
+                if _assembly(pid, kind) == 'shoulders':
+                    frame_ = _shoulder_frame('L' if re.match(r'(pauldron|shoulder)_l', pid) else 'R', frames, reference)
+                out.append(kit.part(f'{name}_{pid}' if side != 'C' else pid, de, name, form, role, p, frame_, sx, _assembly(pid, kind), side))
     for side, sx in (('R', 1), ('L', -1)):
         for pid, de, seg, form, role, p in limbs:
             R, o, _, _ = frames[f'arm_{side}_{seg}']
@@ -157,7 +182,7 @@ def document(params=PARAMS, *, sheet_id='RA01', line='basic', name='RoboterBasic
     return dict(info=dict(id=sheet_id, kind='figure', name_de=name, line=line, status='draft',
                           provenance=dict(kind='Vorgabe', source=SOURCE)),
                 parts=parts(params), assemblies=copy.deepcopy(ASSEMBLIES), anchors=anchors(params),
-                poses={'idle': dict(part_transforms={}, note='Grundhaltung des Modells: Ruhehaltung aus PARAMS.pose')})
+                poses={'idle': dict(part_transforms={}, note='Grundhaltung des Modells: A-Position aus PARAMS')})
 
 
 _doc = document()

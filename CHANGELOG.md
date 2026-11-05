@@ -2,7 +2,7 @@
 
 ## 0.9.0 Sentry — RoboterBasic-01 im Repo, Website mit Navigation, 3D und Markierung
 
-- Roboter: RoboterBasic-01 (`RA01`) mit neun Einzelteilen und vier Baugruppen als Python-Modell unter `formgen/models/robot/`, Körper und Arme parametrisch aus BALLON 14bd78d, Helm H 80 als offen ausgewiesene Flächendaten. Register `data/robots.toml` als Linie × Basic-Typ, vorbereitet für `RA02`, Bau `python -m formgen.robot` ohne Blender, Skin `weiss_graphit`, keine Critic-Verbindung ([Roboter](docs/robot.md)).
+- Roboter: RoboterBasic-01 (`RA01`) mit zehn Einzelteilen, vier Baugruppen und A-Position als Python-Modell unter `formgen/models/robot/`, Körper und Arme parametrisch aus BALLON 14bd78d, Helm H 80 als offen ausgewiesene Flächendaten. Register `data/robots.toml` als Linie × Basic-Typ, vorbereitet für `RA02`, Bau `python -m formgen.robot` ohne Blender, Skin `weiss_graphit`, keine Critic-Verbindung ([Roboter](docs/robot.md)).
 - Website: `out/index.html` mit Navigation, getrennte Seiten Waffen und Roboter, 3D-Ansicht und Markierung für alle 205 Modelle, offline per `file://`, Three.js 0.186.1 fest im Repo ([Website](docs/website.md)). R01/R02 erscheinen nicht mehr.
 - Format `formgen/change-request` v1 für Waffen und Roboter, Altdateien `formgen/robot-change-request` werden migriert. 3D-Daten als eigenes Release-Zip.
 - Regel „Roboter ruhen / Zielbilder anfordern“ gestrichen (Nutzerentscheid 05.11.2026).

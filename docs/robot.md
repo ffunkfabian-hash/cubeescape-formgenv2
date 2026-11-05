@@ -5,7 +5,7 @@ Basic-Typ 1 der Roboter, Blatt `RA01`, Grundform wie BA01 bei den Waffen. Heute 
 ```sh
 .venv/bin/python -m formgen.robot                     # Geometrie, GLB, Spec, Prompts, Ansichten, Blatt, Vorschau (ohne --force nur Fehlendes)
 .venv/bin/python -m formgen.viewer                    # Website neu bauen
-.venv/bin/python -m formgen.robot.silhouette <referenz.glb> out/assets/RA01.glb
+.venv/bin/python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--ohne-helm]
 ```
 
 Bilder unter `./ce lock blender -- …` (CPU-Rasterizer). Blender wird nicht gebraucht: das GLB schreibt `formgen/robot/glb.py`.
@@ -39,16 +39,19 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 |---|---|
 | Modulort | `formgen/models/robot/roboterbasic_<NN>.py`, Daten daneben; keine Pfade außerhalb des Repos |
 | Modul liefert | `PARAMS` (dict), `DATA_FILES` (Pfade, gehen in den Cache-Schlüssel), `document(params, *, sheet_id, line, name)` sowie `INFO`, `PARTS`, `ASSEMBLIES`, `ANCHORS`, `POSES` nach [Modellsprache](modellsprache.md); `INFO.kind = figure`, Maße mm (f,u,x), Boden u = 0, vorn f+, links x+ |
-| Baugruppen und Einzelteile | zwei Ebenen, je Einzelteil beide Körperseiten: Baugruppe `head` Kopf (Einzelteil `head`), `upper_body` Oberkörper mit Becken (`upper_body`), `arms` Arme (`shoulders` Schulter, `upper_arms` Oberarm, `forearms` Unterarm, `hands` Hände), `legs` Beine (`thighs` Oberschenkel, `shins` Unterschenkel, `feet` Füße). Im Modell: `ASSEMBLIES` sind die Einzelteile mit den Feldern `group`, `group_de`, jedes der 424 Bauteile trägt `assembly`; GLB-Extras `basic_assembly`, `basic_group` |
+| Baugruppen und Einzelteile | zwei Ebenen, je Einzelteil beide Körperseiten: Baugruppe `head` Kopf (Einzelteil `head`), `upper_body` Oberkörper (`upper_body` Oberkörper, `pelvis` Becken), `arms` Arme (`shoulders` Schulter, `upper_arms` Oberarm, `forearms` Unterarm, `hands` Hände), `legs` Beine (`thighs` Oberschenkel, `shins` Unterschenkel, `feet` Füße). Im Modell: `ASSEMBLIES` sind die Einzelteile mit den Feldern `group`, `group_de`, jedes der 424 Bauteile trägt `assembly`; GLB-Extras `basic_assembly`, `basic_group` |
 | Anker | mindestens `Socket_Neck`, `Socket_Waist`, `Socket_Hip_R/L`, `Socket_Shoulder_R/L`, `Socket_Wrist_R/L`, `Socket_Hand`; weitere erlaubt |
 | Rollen | nur Rollen aus `skins.toml` › `[roles]`; Farben nie im Modell. Ein neuer Skin ergänzt `[skins.<id>]`, siehe Cachehinweis in den Lehren |
 | Herkunft | jede Zahl: `INFO.provenance` oder je Teil. Flächendaten (`surface`) sind zulässig, tragen `kind = gemessen` mit Quelle, stehen in der Spec unter `measured_parts` und werden im Bericht ausgewiesen |
-| Abnahme | je Typ eigene Referenz über `python -m formgen.robot.silhouette`; IoU ≥ 0,90, Bänder 0,92–1,08 |
+| Haltung | Grundhaltung A-Position, symmetrisch |
+| Abnahme | je Typ eigene Referenz über `python -m formgen.robot.silhouette`, in der Haltung der Referenz; IoU ≥ 0,90, Bänder 0,92–1,08 |
 
 ## Skin
 
 Standard ist `weiss_graphit` in `skins.toml`, Farben aus den Materialien des Referenz-GLB. Weitere Skins kommen später. `[skins.weiss_graphit.finish]` hält Metall/Rauheit je Rolle für das GLB; das Raster-Blatt nutzt nur die Farben.
 
 ## Abnahme
+
+Grundhaltung von RA01 ist die A-Position (`PARAMS`: symmetrisch, Rumpf und Kopf gerade, Arme 40° vom Körper, Winkel `A_ANGLE`). Das Referenz-GLB steht im Kontrapost, darum misst die Abnahme nicht das ausgelieferte GLB, sondern dieselbe Quelle in `REFERENCE_PARAMS` (`--referenzhaltung`). Die Schulterteile hängen rigide am Oberarm und folgen ihm.
 
 Für RA01 ist die Referenz `RoboterBasic-01.glb` der Sicherung vom 05.11.2026 (SHA256 im Versionsbericht), gleiche Registrierung, kein Strecken: Front, Rücken, beide Seiten IoU ≥ 0,90; zehn Höhenbänder, äußere Spannweite Modell/Referenz 0,92–1,08. Die Referenz liegt nicht im Repo.

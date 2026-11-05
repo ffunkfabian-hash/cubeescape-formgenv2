@@ -54,8 +54,8 @@ def glb_parts(path):
 
 def main(path):
     from formgen.models.robot import body, rig
-    from formgen.models.robot.roboterbasic_01 import PARAMS
-    R, o, _, _ = rig.body_segments(body.skeleton(PARAMS['skeleton']))['head']
+    from formgen.models.robot.roboterbasic_01 import REFERENCE_PARAMS
+    R, o, _, _ = rig.body_segments(body.skeleton(REFERENCE_PARAMS['skeleton']))['head']
     found, sha = glb_parts(path)
     seen, anon, parts = {}, 0, []
     names = [n for n, *_ in found]

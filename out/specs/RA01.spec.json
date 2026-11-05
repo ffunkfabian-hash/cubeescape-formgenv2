@@ -10,7 +10,13 @@
    "de": "Oberkörper",
    "group": "upper_body",
    "id": "upper_body",
-   "parts": 95
+   "parts": 59
+  },
+  {
+   "de": "Becken",
+   "group": "upper_body",
+   "id": "pelvis",
+   "parts": 36
   },
   {
    "de": "Schulter",
@@ -56,9 +62,9 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 525.6,
-  "height": 1656.0,
-  "width": 866.4
+  "depth": 453.0,
+  "height": 1655.6,
+  "width": 1472.3
  },
  "format": "formgenv2/robot-sheet-spec",
  "forms": {
@@ -82,7 +88,8 @@
   },
   {
    "assemblies": [
-    "upper_body"
+    "upper_body",
+    "pelvis"
    ],
    "de": "Oberkörper",
    "id": "upper_body",
@@ -182,217 +189,217 @@
  "name_de": "RoboterBasic-01",
  "parts": [
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "pelvis_core",
    "name_de": "Becken",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "belt",
    "name_de": "Gürtelring",
    "role": "dark_metal"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "belt_trim",
    "name_de": "Gürtelkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "brief",
    "name_de": "Schrittstück",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "buckle",
    "name_de": "Schließe",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "buckle_inset",
    "name_de": "Schließenfeld",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset",
    "name_de": "Lendenplatte",
    "role": "shell"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_rim_a",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_rim_b",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_stripe_a",
    "name_de": "Akzentstreifen",
    "role": "accent"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_stripe_b",
    "name_de": "Akzentstreifen",
    "role": "accent"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_r",
    "name_de": "Beintasche",
    "role": "shell"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_r_rim_a",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_r_rim_b",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_r_edge",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_r_top",
    "name_de": "Beintasche oben",
    "role": "shell"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_r_top_edge",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_r_axle",
    "name_de": "Hüftgelenk",
    "role": "dark_metal"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_r_disc",
    "name_de": "Medaillon",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_r_ring",
    "name_de": "Medaillonring",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_r_hub",
    "name_de": "Medaillonnabe",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "belt_box_r",
    "name_de": "Gürtelmodul",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "belt_box_r_trim",
    "name_de": "Modulkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_l",
    "name_de": "Beintasche",
    "role": "shell"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_l_rim_a",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_l_rim_b",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_l_edge",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_l_top",
    "name_de": "Beintasche oben",
    "role": "shell"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "tasset_side_l_top_edge",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_l_axle",
    "name_de": "Hüftgelenk",
    "role": "dark_metal"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_l_disc",
    "name_de": "Medaillon",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_l_ring",
    "name_de": "Medaillonring",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "hip_l_hub",
    "name_de": "Medaillonnabe",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "belt_box_l",
    "name_de": "Gürtelmodul",
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "belt_box_l_trim",
    "name_de": "Modulkante",
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
+   "assembly": "pelvis",
    "id": "butt",
    "name_de": "Gesäßplatte",
    "role": "shell"
@@ -2749,7 +2756,7 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 159923,
+ "triangles": 159689,
  "type": {
   "name_de": "RoboterBasic-01",
   "num": 1
