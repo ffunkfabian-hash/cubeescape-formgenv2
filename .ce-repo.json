@@ -13,7 +13,15 @@
     ]
   },
   "tools_version": {
-    "version": "0.22.0",
-    "commit": "9f1ed12072c8807d3cd0b26370e792bd4249f762"
+    "version": "0.35.0",
+    "commit": "79250432f2d2cedeab642800c6a2ac667e6ec645"
+  },
+  "core_paths": [
+    "docs/schemas/*.schema.json",
+    "formgen/wspec.py",
+    "formgen/geo.py"
+  ],
+  "docs": {
+    "changelog": "CHANGELOG.md"
   }
 }
