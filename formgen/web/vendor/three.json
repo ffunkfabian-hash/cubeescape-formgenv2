@@ -1,0 +1,23 @@
+{
+ "package": "three",
+ "version": "0.186.1",
+ "revision": "186",
+ "license": "MIT",
+ "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz",
+ "npm_integrity": "sha512-blFeqb49wRCSGUGj7gtpfnSGHy2lwDk94RhUmS1c/hTby70kvChbWpkJ4Pm1390LqzzvTmzgXKHPEafJwCb8jA==",
+ "tarball_sha256": "8cd068708ea44f2c73c944b1cead2ba2f0d5c15c8fc194e5700f4e4f4a033fe7",
+ "sources_sha256": {
+  "build/three.core.js": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
+  "build/three.module.js": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea",
+  "examples/jsm/utils/BufferGeometryUtils.js": "9fb63427ce6641fa14fd0baff9cc4d1b5f9c3d85fd084bf2e90e803c44ec1797",
+  "examples/jsm/utils/SkeletonUtils.js": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f",
+  "examples/jsm/loaders/GLTFLoader.js": "131c0f78c01d19368ae495caa65b3adaa10487810a36a05bb5901b769a35ac16",
+  "examples/jsm/controls/OrbitControls.js": "3d79d07ecb686b4e5d93232eedab255331c1beef711e13164eaa1f68655a5f2b",
+  "examples/jsm/environments/RoomEnvironment.js": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+ },
+ "file": "three-0.186.1.pack.js",
+ "sha256": "9ddcee4d1980451c20e365b6f076d753a6fe6f2d5058dc7c9a576f27b85b5852",
+ "bytes": 1300814,
+ "license_file": "three-LICENSE.txt",
+ "license_sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+}

@@ -137,7 +137,7 @@ def resolve(params: dict, sid: str) -> tuple[dict, dict]:
 
 def _skins() -> set[str]:
     with (ROOT / "skins.toml").open("rb") as stream:
-        return set(tomllib.load(stream)["skins"])
+        return {name for name, skin in tomllib.load(stream)["skins"].items() if not skin.get("robot")}   # Roboter-Skins nicht für Waffen
 
 
 def load(path: Path = REGISTRY) -> list[dict]:

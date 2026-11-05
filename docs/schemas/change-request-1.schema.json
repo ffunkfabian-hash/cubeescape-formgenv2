@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "formgen/change-request/1",
+  "title": "Änderungsdatei für Waffen und Roboter (formgen/change-request v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "version", "created_at", "model", "requested_change", "markings"],
+  "properties": {
+    "format": {"const": "formgen/change-request"},
+    "version": {"const": 1},
+    "created_at": {"type": "string", "minLength": 1},
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "name", "asset", "asset_sha256"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^(B[A-Z]|R[A-Z])[0-9]{2}$"},
+        "kind": {"enum": ["weapon", "robot"]},
+        "name": {"type": "string", "minLength": 1},
+        "asset": {"type": "string", "minLength": 1},
+        "asset_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "requested_change": {"type": "string"},
+    "markings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/marking"}},
+    "migrated_from": {
+      "description": "Nur in migrierten Dateien; erlaubt den verlustfreien Rückweg.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "version"],
+      "properties": {
+        "format": {"const": "formgen/robot-change-request"},
+        "version": {"enum": [1, 2]}
+      }
+    }
+  },
+  "$defs": {
+    "vec3": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+    "marking": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tool", "comment", "diameter_mm", "samples"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "tool": {"enum": ["point", "line", "brush"]},
+        "comment": {"type": "string"},
+        "diameter_mm": {"description": "null nur aus Altdateien v1, die keinen Durchmesser kannten.", "type": ["number", "null"], "exclusiveMinimum": 0},
+        "samples": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sample"}}
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["part", "assembly", "location"],
+      "properties": {
+        "part": {"description": "Teil: GLB-Extra basic_part, sonst Node-Name.", "type": "string", "minLength": 1},
+        "assembly": {"description": "Beim Roboter das Einzelteil, bei Waffen die Baugruppe: GLB-Extra basic_assembly, sonst übergeordneter Node; null wenn keine bekannt.", "type": ["string", "null"]},
+        "location": {"$ref": "#/$defs/location"},
+        "source": {"description": "Übrige Felder einer Altdatei, unverändert.", "type": "object"}
+      }
+    },
+    "location": {
+      "description": "Lage auf der Oberfläche. local_* im Node-Raum, model_* im Modellraum (GLB-Szene, Meter).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gltf_node", "gltf_triangle", "barycentric", "local_gltf_xyz_m"],
+      "properties": {
+        "gltf_node": {"type": "integer", "minimum": 0},
+        "gltf_mesh": {"type": "integer", "minimum": 0},
+        "gltf_primitive": {"type": "integer", "minimum": 0},
+        "gltf_triangle": {"type": "integer", "minimum": 0},
+        "triangle_vertex_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 3, "maxItems": 3},
+        "barycentric": {"$ref": "#/$defs/vec3"},
+        "local_gltf_xyz_m": {"$ref": "#/$defs/vec3"},
+        "local_normal_gltf_xyz": {"$ref": "#/$defs/vec3"},
+        "local_formgen_fux_mm": {"$ref": "#/$defs/vec3", "description": "f vorn, u oben, x links in mm, aus glTF x, y, z = x, u, f. Aus Altdateien migrierte Werte bleiben im alten Rahmen (Vorzeichen von f und x gedreht); eine Datei kann beide mischen, maßgeblich ist dann local_gltf_xyz_m."},
+        "model_gltf_xyz_m": {"$ref": "#/$defs/vec3"}
+      }
+    }
+  }
+}

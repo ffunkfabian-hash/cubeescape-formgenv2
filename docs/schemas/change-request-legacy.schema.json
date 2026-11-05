@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "formgen/robot-change-request",
+  "title": "Altformat formgen/robot-change-request v1 (ein Punkt) und v2 (Markierungen); nur lesen, nie neu schreiben",
+  "type": "object",
+  "required": ["format", "version", "created_at", "model", "asset", "asset_sha256", "requested_change"],
+  "properties": {
+    "format": {"const": "formgen/robot-change-request"},
+    "version": {"enum": [1, 2]},
+    "created_at": {"type": "string"},
+    "model": {"type": "string"},
+    "asset": {"type": "string"},
+    "asset_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "requested_change": {"type": "string"},
+    "target": {"$ref": "#/$defs/target"},
+    "markings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "comment", "tool", "diameter_mm", "samples"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "comment": {"type": "string"},
+          "tool": {"enum": ["point", "line", "brush"]},
+          "diameter_mm": {"type": "number", "exclusiveMinimum": 0},
+          "samples": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/target"}}
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {"properties": {"version": {"const": 1}}, "required": ["target"], "not": {"required": ["markings"]}},
+    {"properties": {"version": {"const": 2}}, "required": ["markings"], "not": {"required": ["target"]}}
+  ],
+  "$defs": {
+    "target": {
+      "type": "object",
+      "required": ["assembly", "formgen_part_id", "gltf_node", "gltf_triangle", "barycentric", "local_gltf_xyz_m"],
+      "properties": {
+        "assembly": {"type": "string"},
+        "formgen_part_id": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

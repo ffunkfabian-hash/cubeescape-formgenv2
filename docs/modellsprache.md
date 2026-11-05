@@ -7,7 +7,7 @@ Stand 0.1 „Contour“, 26.10.2026. Quelle: ballon `basic/kit.py`, `basic/commo
 Python-Modul mit `INFO`, `PARTS`, `ASSEMBLIES`, `ANCHORS`, optional `POSES`. `model.load(path_or_module)` liefert ein JSON-serialisierbares Dict mit `info`, `parts`, `assemblies`, `anchors`, `poses`, `source`, `warnings`. Keine numpy-Arrays an Modulgrenzen.
 `INFO`: `id`, `kind` (weapon/sight/figure), `name_de`, `provenance` (kind Vorgabe/gemessen/Annahme, source). Teil-IDs eindeutig und stabil.
 `PARTS`: `id`, `assembly`, `shape`, Maßfelder, `role`, optional `bevel`, `cuts`, `parent_part`, `move`, `label`, `decals`, `provenance`.
-`ASSEMBLIES`: Liste von Dicts mit `id`, `de` und optional `explode` (f,u,x in mm). `ANCHORS`: Socket-Name → `at` (f,u,x mm), `part`, `source`.
+`ASSEMBLIES`: Liste von Dicts mit `id`, `de` und optional `explode` (f,u,x in mm); Roboter zusätzlich `group`, `group_de` (Baugruppe über dem Einzelteil, [Roboter](robot.md)). `ANCHORS`: Socket-Name → `at` (f,u,x mm), `part`, `source`.
 Eine Herkunft im INFO gilt als ausdrücklich deklarierter Default für alle nicht separat bezeichneten Entwurfsmaße. Gemessene Ausgaben führen den Messweg zusätzlich.
 
 ## Abweichungen zu ballon

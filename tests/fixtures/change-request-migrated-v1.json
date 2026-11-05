@@ -1,0 +1,62 @@
+{
+  "format": "formgen/change-request",
+  "version": 1,
+  "created_at": "2026-11-05T16:46:02.672Z",
+  "model": {
+    "id": "RA01",
+    "kind": "robot",
+    "name": "RoboterBasic-01",
+    "asset": "RoboterBasic-01.glb",
+    "asset_sha256": "d1821c8d0510019571673327ee970ac77300e1ca22e95d6e0019859ac351e745"
+  },
+  "requested_change": "asd",
+  "markings": [
+    {
+      "id": "legacy-target",
+      "tool": "point",
+      "comment": "",
+      "diameter_mm": null,
+      "samples": [
+        {
+          "part": "pauldron_l_338",
+          "assembly": "SHOULDER_L",
+          "location": {
+            "gltf_node": 396,
+            "gltf_mesh": 338,
+            "gltf_primitive": 0,
+            "gltf_triangle": 1933,
+            "triangle_vertex_indices": [
+              1417,
+              1416,
+              1418
+            ],
+            "barycentric": [
+              0.16281400761852427,
+              0.5465392320302719,
+              0.29064676035120385
+            ],
+            "local_gltf_xyz_m": [
+              -0.05652626700991292,
+              -0.043884096316910925,
+              -0.09780856063135401
+            ],
+            "local_formgen_fux_mm": [
+              97.80856063135401,
+              -43.88409631691093,
+              56.52626700991292
+            ]
+          },
+          "source": {
+            "source_segment": "SHOULDER_L",
+            "source_archive": "Formgen-Modelle.zip",
+            "source_member": "SHOULDER_L.json"
+          }
+        }
+      ]
+    }
+  ],
+  "migrated_from": {
+    "format": "formgen/robot-change-request",
+    "version": 1
+  }
+}
