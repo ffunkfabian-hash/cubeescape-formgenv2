@@ -86,9 +86,13 @@ class ModelTest(Base):
         pairs = [(i, re.sub(r'(^|_)L_', r'\1R_', i, count=1)) for i in parts if re.search(r'(^|_)L_', i)]
         pairs += [(i, re.sub(r'(^|_)l(_|$)', r'\1r\2', i, count=1)) for i in parts if re.search(r'(^|_)l(_|$)', i) and not i.startswith('helmet_')]
         self.assertGreater(len(pairs), 136)
-        for left, right in pairs:
+        def gap(left, right):
             mirrored = parts[left] * (-1, 1, 1)
-            distance = max(cKDTree(parts[right]).query(mirrored)[0].max(), cKDTree(mirrored).query(parts[right])[0].max())
+            return max(cKDTree(parts[right]).query(mirrored)[0].max(), cKDTree(mirrored).query(parts[right])[0].max())
+        # Ränder und Streifen zählen um die Teilmitte: Rand a links liegt dem Rand b rechts gegenüber
+        swap = lambda i: re.sub(r'_([ab])(?=$|_)', lambda m: '_' + 'ba'['ab'.index(m[1])], i)
+        for left, right in pairs:
+            distance = min(gap(left, name) for name in {right, swap(right)} if name in parts)
             # Bauteile mit Fugen: der Boolean tesselliert links und rechts etwas anders, der Punktabstand misst das mit
             self.assertLess(distance, .005 if self.by_id[left].get('cuts') else .001, left)
 
