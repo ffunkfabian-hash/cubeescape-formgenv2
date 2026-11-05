@@ -1,0 +1,19 @@
+# Register der Roboter, wie data/variants.toml bei den Waffen: Blatt = Linie × Basic-Typ, Blatt-ID R<Linie><NN> (RA01, später RA02).
+# [[types]]: Basic-Typen mit eigenem Modellmodul unter formgen/models/robot/ (Schnittstelle siehe docs/robot.md).
+# [[lines]]: Kennbuchstabe A–Z ohne I/O, englischer Name 1–3 Wörter ≤ 16 Zeichen, gilt für die genannten Typen; `params.<num>` überschreibt
+# nur vorhandene Schlüssel von PARAMS des Typs. Vergebene IDs sind ewig; R01 und R02 (Contour) bleiben reserviert.
+schema = "formgenv2/robot-register"
+
+[[types]]
+num = 1
+name_de = "RoboterBasic-01"
+module = "formgen.models.robot.roboterbasic_01"
+since = "0.9"
+
+[[lines]]
+letter = "A"
+name = "Basic"
+since = "0.9"
+idea = "Grundform der Basic-Typen, ohne Abwandlung"
+skin = "weiss_graphit"
+types = [1]

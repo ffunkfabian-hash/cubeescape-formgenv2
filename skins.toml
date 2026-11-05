@@ -361,6 +361,33 @@ pin_glow = "#FF5A3A"
 draw_light = "#FF5A3A"
 sight_line = "#FF5A3A"
 
+# Standard des Roboters (0.9): Farben aus den Materialien von RoboterBasic-01.glb (Sicherung 05.11.2026), linear → sRGB; finish nur für das GLB.
+[skins.weiss_graphit]
+de = "Weiß-Graphit"
+kind = "Farbe"
+formgen = true
+robot = true
+[skins.weiss_graphit.roles]
+graphite = "#313438"
+trim = "#8D8E8B"
+shell = "#D6D7D5"
+dark_metal = "#1A1A1A"
+energy = "#5FE3D6"
+anodized = "#313438"
+accent = "#4A493E"
+rubber = "#141414"
+reticle_cyan = "#5FE3D6"
+[skins.weiss_graphit.finish]
+graphite = { metal = 0.15, rough = 0.75 }
+trim = { metal = 0.2, rough = 0.6 }
+shell = { metal = 0.05, rough = 0.6 }
+dark_metal = { metal = 0.8, rough = 0.3 }
+energy = { metal = 0, rough = 0.2 }
+anodized = { metal = 0.15, rough = 0.75 }
+accent = { metal = 0.15, rough = 0.6 }
+rubber = { metal = 0, rough = 0.75 }
+reticle_cyan = { metal = 0, rough = 0.2 }
+
 [render]
 background_mid = "#808080"
 outline = "#17191D"
