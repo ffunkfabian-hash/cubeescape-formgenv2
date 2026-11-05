@@ -28,12 +28,16 @@ def source_hash(entry) -> str:
     module = lines.module_of(entry)
     hashes = {str(Path(k).relative_to(ROOT)): v for k, v in build.source_hashes(Path(module.__file__)).items()}
     hashes.update({str(Path(f).relative_to(ROOT)): file_hash(Path(f)) for f in module.DATA_FILES})
+    for engine in ('formgen/geom.py', 'formgen/model.py'):      # wie der Waffenschlüssel: Auswertung gehört zur Geometrie
+        hashes.update({str(Path(k).relative_to(ROOT)): v for k, v in build.source_hashes(ROOT / engine).items()})
     return hashlib.sha256(canonical({'files': hashes, 'entry': entry})).hexdigest()
 
 
 def document_for(sid, entry):
     module = lines.module_of(entry)
-    return module.document(lines.merge(module.PARAMS, entry['params']), sheet_id=sid, line=entry['line']['name'].lower(), name=entry['type']['name_de'])
+    document = module.document(lines.merge(module.PARAMS, entry['params']), sheet_id=sid, line=entry['line']['name'].lower(), name=entry['type']['name_de'])
+    document['info']['skin'] = entry['skin']        # Materialkacheln des Blatts zeigen die Farben des Skins
+    return document
 
 
 def build_geometry(artifact: Artifact) -> bytes:
@@ -73,7 +77,7 @@ def run(selection, out, cache, force=False, log=print, stages=STAGES):
     derived = lambda sid, e: {'geometry_path': str((out / 'geometry' / f'{sid}.json').resolve()), 'entry': e}
     stage('asset', [Artifact(sid, 'asset', file_hash(out / 'geometry' / f'{sid}.json'), {'code': _code(), 'skin': e['skin'], 'skin_sha': file_hash(ROOT / 'skins.toml')},
                              {'ROBOT': ROBOT}, f'assets/{sid}.glb', 'formgen.robot.pipeline:build_asset', derived(sid, e)) for sid, e in selection.items()])
-    stage('specs', [Artifact(sid, 'specs', file_hash(out / 'geometry' / f'{sid}.json'), {'code': _code()}, {'ROBOT': ROBOT}, f'specs/{sid}.spec.json',
+    stage('specs', [Artifact(sid, 'specs', file_hash(out / 'geometry' / f'{sid}.json'), {'code': _code(), 'entry': e, 'skin_sha': file_hash(ROOT / 'skins.toml')}, {'ROBOT': ROBOT}, f'specs/{sid}.spec.json',
                              'formgen.robot.pipeline:build_robot_spec', derived(sid, e)) for sid, e in selection.items()])
     ids = list(selection)
     if not set(stages) & set(IMAGE_STAGES):

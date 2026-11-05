@@ -234,10 +234,11 @@ class ReleaseTests(Fixture):
                               f"web/{site.THREE['file']}", f"web/{site.THREE['license_file']}", 'specs/RA01.spec.json'}, names)
         self.assertFalse([n for n in names if n.startswith(('models3d/', 'assets/'))])
 
-    def test_robot_needs_no_prompts(self):
+    def test_robot_needs_prompts(self):
         self.prepare()
         (self.out/'prompts/RA01.prompts.json').unlink()
-        self.assertIn('RA01', release_assets.package(self.out, self.path/'release')['models'])
+        with self.assertRaisesRegex(ValueError, 'prompts/RA01'):
+            release_assets.package(self.out, self.path/'release')
 
     def test_missing_page_link_fails(self):
         self.prepare()

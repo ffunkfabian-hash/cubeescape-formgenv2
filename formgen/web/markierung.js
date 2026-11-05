@@ -131,8 +131,8 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
    const place={gltf_node:owner.node,gltf_mesh:owner.mesh,gltf_primitive:owner.primitive,gltf_triangle:hit.faceIndex,
      triangle_vertex_indices:ids,barycentric:bary.toArray(),local_gltf_xyz_m:pos.toArray(),local_normal_gltf_xyz:normal.toArray(),
      model_gltf_xyz_m:hit.point.toArray()};
-   // Die Formgen-Achsen des Roboters stehen im Altformat fest; bei Waffen genügt die Lage im Modellraum.
-   if(model.kind==='robot')place.local_formgen_fux_mm=[-1000*pos.z,1000*pos.y,-1000*pos.x];
+   // Autorenrahmen: f vorn, u oben, x links; glTF x, y, z = x, u, f (formgen/change_request.py › fux_from_gltf). Migrierte Altwerte behalten ihren Rahmen.
+   if(model.kind==='robot')place.local_formgen_fux_mm=[1000*pos.z,1000*pos.y,1000*pos.x];
    stroke.samples.push({obj,pos,normal,radius:stroke.radius,data:{part:owner.part,assembly:owner.group,location:place}});
  }
  function trace(stroke,from,to){
@@ -199,7 +199,9 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
    if(save.disabled)return;
    const created=new Date();
    const payload={format:changeRequest.FORMAT,version:changeRequest.VERSION,created_at:created.toISOString(),
-     model:{id:model.id,kind:model.kind,name:model.name,asset:model.asset,asset_sha256:model.asset_sha256},
+     // Solange Proben eines anderen Modellstands geladen sind, nennt die Datei weiter dessen Asset: nur so erkennt das nächste Öffnen sie wieder.
+     model:{id:model.id,kind:model.kind,name:model.name,asset:origin?.asset??model.asset,asset_sha256:origin?.asset_sha256??model.asset_sha256},
+     ...(migrated?{migrated_from:migrated}:{}),
      requested_change:comment.value.trim(),
      markings:done.map(stroke=>({id:stroke.id,tool:stroke.tool,comment:stroke.note,
        diameter_mm:stroke.diameter===undefined?stroke.radius*2000:stroke.diameter,samples:stroke.samples.map(p=>p.data)}))};
@@ -212,7 +214,8 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
  const fileInput=find('[data-file]');
  find('[data-open]').onclick=()=>fileInput.click();
  const slot=(node,primitive)=>node+':'+primitive;
- function readRecords(records,approx=false){
+ let origin=null,migrated=null;
+ function readRecords(records,same=true,stats={approx:0,lost:0}){
    const bySlot=new Map(available.map(item=>[slot(item.node,item.primitive),item.obj]));
    return records.map(record=>{
      const known=record.diameter_mm!==null&&record.diameter_mm!==undefined;
@@ -221,7 +224,12 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
      if(!Object.hasOwn(labels,record.tool)||!Number.isFinite(r)||r<=0||!Array.isArray(record.samples)||!record.samples.length)
        throw Error('Ungültige Markierung.');
      const samples=record.samples.map(data=>{
-       if(approx)return onPart(data,r);
+       try{return exact(data,r)}
+       catch(error){if(same)throw error;return onPart(data,r,stats)}
+     });
+     return {id:record.id||uid(),tool:record.tool,radius:r,diameter:known?undefined:null,note:String(record.comment||''),samples};
+   });
+   function exact(data,r){
        const place=data.location,obj=bySlot.get(slot(place.gltf_node,place.gltf_primitive??0));
        if(!obj)throw Error('Diese Markierung liegt außerhalb der Baugruppe. Bitte im Gesamtmodell öffnen.');
        const valid=v=>Array.isArray(v)&&v.length===3&&v.every(Number.isFinite);
@@ -234,21 +242,22 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
        const resolved=new T.Vector3();tri.forEach((v,i)=>resolved.addScaledVector(v,w[i]));
        if(resolved.distanceTo(pos)>1e-5)throw Error('Oberflächenpunkt stimmt nicht mit der Datei überein.');
        return {obj,pos,normal:T.Triangle.getNormal(...tri,new T.Vector3()),radius:r,data};
-     });
-     return {id:record.id||uid(),tool:record.tool,radius:r,diameter:known?undefined:null,note:String(record.comment||''),samples};
-   });
+   }
  }
  // Anderer Modellstand: Lage ist verloren, das Teil nicht. Punkt auf den Netzpunkt nahe der Teilmitte, die Dateidaten bleiben unverändert.
- function onPart(data,radius){
-   const name=String(data.part),found=meshes.find(m=>m.part===name)||meshes.find(m=>m.part===name.replace(/_\d+$/,''));
-   if(!found)throw Error('Die Datei gehört zu einem anderen Modellstand.');
-   const geom=found.obj.geometry,at=geom.attributes.position,v=new T.Vector3(),pos=new T.Vector3();
+ // Altnamen: Zähler am Ende (pauldron_l_338), Helmteile ohne Präfix (Crown_62 → helmet_crown). Ohne Teil steht die Probe am ersten sichtbaren Teil.
+ function onPart(data,radius,stats){
+   const name=String(data.part).replace(/_\d+$/,''),snake='helmet_'+name.replace(/([a-z])([A-Z])/g,'$1_$2').toLowerCase();
+   const wanted=[String(data.part),name,snake];
+   const found=available.find(m=>wanted.includes(m.part));
+   if(found)stats.approx++;else stats.lost++;
+   const obj=(found||available[0]).obj,geom=obj.geometry,at=geom.attributes.position,v=new T.Vector3(),pos=new T.Vector3();
    if(!geom.boundingSphere)geom.computeBoundingSphere();
    let best=Infinity,index=0;
    for(let i=0;i<at.count;i++){const d=v.fromBufferAttribute(at,i).distanceToSquared(geom.boundingSphere.center);if(d<best){best=d;index=i}}
    pos.fromBufferAttribute(at,index);
    const normal=geom.attributes.normal?new T.Vector3().fromBufferAttribute(geom.attributes.normal,index):new T.Vector3(0,1,0);
-   return {obj:found.obj,pos,normal,radius,data};
+   return {obj,pos,normal,radius,data};
  }
  fileInput.onchange=async()=>{
    const file=fileInput.files[0];if(!file)return;
@@ -256,17 +265,16 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
      const data=changeRequest.migrate(JSON.parse(await file.text()));
      if(data.model.id!==model.id)throw Error('Die Datei gehört zu '+data.model.id+', nicht zu '+model.id+'.');
      if(!Array.isArray(data.markings)||!data.markings.length)throw Error('Keine Markierungen gefunden.');
-     // Ein anderer Modellstand ist nur dann ein Fehler, wenn die Punkte nicht mehr auf den Flächen liegen.
-     const same=data.model.asset_sha256===model.asset_sha256;
-     let loaded,approx=false;
-     try{loaded=readRecords(data.markings)}
-     catch(error){
-       if(same)throw error;
-       loaded=readRecords(data.markings,true);approx=true;
-     }
+     // Anderer Modellstand: je Probe genau, sonst ungefähr auf ihrem Teil; die Datei bleibt lesbar.
+     const same=data.model.asset_sha256===model.asset_sha256,stats={approx:0,lost:0};
+     const loaded=readRecords(data.markings,same,stats);
      cancel();checkpoint();done=loaded;active=done[0];comment.value=String(data.requested_change||'');
+     origin=same?null:{asset:data.model.asset,asset_sha256:data.model.asset_sha256};
+     migrated=data.migrated_from??null;
      mode('orbit');showList();requestDraw();update();
-     status.textContent=same?'Datei geöffnet.':approx?'Datei geöffnet. Anderer Modellstand: Markierungen stehen nur ungefähr auf ihrem Teil.':'Datei geöffnet. Sie stammt von einem anderen Modellstand, die Punkte passen aber.';
+     const moved=stats.approx+stats.lost;
+     status.textContent=same?'Datei geöffnet.':!moved?'Datei geöffnet. Sie stammt von einem anderen Modellstand, die Punkte passen aber.':
+       'Datei geöffnet. Anderer Modellstand: '+stats.approx+' Proben stehen nur ungefähr auf ihrem Teil'+(stats.lost?', '+stats.lost+' ohne bekanntes Teil.':'.');
    }catch(error){status.textContent='Öffnen fehlgeschlagen. '+error.message}
    finally{fileInput.value=''}
  };

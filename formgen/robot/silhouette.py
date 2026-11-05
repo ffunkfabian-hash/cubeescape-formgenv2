@@ -1,7 +1,7 @@
-"""Silhouettenvergleich zweier Figuren: gleiche Registrierung, kein Strecken. Abnahmeregel aus docs/robot-contract.md (IoU ≥ 0,90,
+"""Silhouettenvergleich zweier Figuren: gleiche Registrierung, kein Strecken. Abnahmeregel aus docs/robot.md (IoU ≥ 0,90,
 Bandbreite 0,92–1,08; Breite = mittlere äußere Spannweite je Zeile, leere Zeilen zählen null). Eingaben sind Dreiecksnetze in glTF-Achsen (Meter).
 
-  python -m formgen.robot.silhouette <referenz.glb> <modell.glb>
+  python -m formgen.robot.silhouette <referenz.glb> <modell.glb> [--ohne-helm]
 """
 from __future__ import annotations
 
@@ -17,8 +17,8 @@ IOU_MIN, BAND_MIN, BAND_MAX, BANDS = .90, .92, 1.08, 10
 VIEWS = {'front': (0, 1, 1), 'back': (0, 1, -1), 'side_right': (2, 1, 1), 'side_left': (2, 1, -1)}   # Achse waagerecht, senkrecht, Vorzeichen
 
 
-def triangles(path):
-    """Alle Dreiecke eines GLB in Weltlage: Array (n, 3, 3)."""
+def triangles(path, helmet=True):
+    """Alle Dreiecke eines GLB in Weltlage: Array (n, 3, 3). helmet=False lässt Helmteile weg (Referenz: SEG_head ohne Hals, Modell: helmet_*)."""
     data = Path(path).read_bytes()
     size, = struct.unpack_from('<I', data, 12)
     doc = json.loads(data[20:20 + size])
@@ -43,16 +43,19 @@ def triangles(path):
         return m
     out = []
 
-    def walk(i, parent):
+    def walk(i, parent, head=False):
         n = doc['nodes'][i]
         world = parent @ local(n)
-        if 'mesh' in n:
+        head = head or n.get('name') == 'SEG_head'
+        name = n.get('name') or ''
+        skip = not helmet and (name.startswith('helmet_') or (head and 'mesh' in n and name not in ('neck', 'neck_ring', 'neck_trim')))
+        if 'mesh' in n and not skip:
             for prim in doc['meshes'][n['mesh']]['primitives']:
                 v = accessor(prim['attributes']['POSITION'])
                 t = (accessor(prim['indices']) if 'indices' in prim else np.arange(len(v))).reshape(-1, 3).astype(int)
                 out.append(((world[:3, :3] @ v.T).T + world[:3, 3])[t])
         for c in n.get('children', ()):
-            walk(c, world)
+            walk(c, world, head)
     for r in doc['scenes'][doc.get('scene', 0)]['nodes']:
         walk(r, np.eye(4))
     return np.concatenate(out)
@@ -96,8 +99,10 @@ def compare(a, b, px_per_m=1000):
 
 
 def main(argv=None):
-    ref, model = (argv or sys.argv[1:])[:2]
-    report = compare(triangles(ref), triangles(model))
+    args = list(argv or sys.argv[1:])
+    helmet = '--ohne-helm' not in args
+    ref, model = [a for a in args if a != '--ohne-helm'][:2]
+    report = compare(triangles(ref, helmet), triangles(model, helmet))
     print(json.dumps(report, indent=1))
     return 0 if all(v['iou_pass'] and v['bands_pass'] for v in report.values()) else 1
 

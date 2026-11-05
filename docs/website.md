@@ -33,7 +33,7 @@ python -m formgen.change_request <Datei>     # prüft und migriert auf stdout
 
 `RoboterBasic-01` wird zu RA01. Migrierte Dateien tragen `migrated_from`; `change_request.downgrade` führt sie verlustfrei zurück (Inhalt, nicht Schlüsselreihenfolge). v1 kannte keinen Durchmesser: `diameter_mm` bleibt `null`, nur die Anzeige setzt einen Wert. Altfelder ohne eigenen Platz stehen unverändert in `source`. Der Editor schreibt nur das neue Format.
 
-Öffnen: Eine andere Modell-ID wird abgelehnt. Ein anderer `asset_sha256` ist nur dann ein Fehler, wenn die Punkte nicht mehr auf ihren Dreiecken liegen; sonst öffnet die Datei mit Hinweis.
+Öffnen: Eine andere Modell-ID wird abgelehnt. Bei anderem `asset_sha256` wird jede Probe einzeln geprüft: Liegt sie noch auf ihrem Dreieck, bleibt sie genau, sonst steht sie ungefähr auf ihrem Teil. Beim Speichern nennt die Datei weiter das Asset ihrer Herkunft, `migrated_from` bleibt erhalten.
 
 ## Three.js
 
@@ -41,6 +41,6 @@ Version 0.186.1 wie in der Lockdatei der Sicherung, Herkunft und Hashes in `form
 
 ## Release
 
-Das Hauptzip (`python -m formgen.release_assets`) folgt den Links von `index.html` und enthält Seiten, Blätter und `web/`. Die 3D-Daten kommen als eigenes Zip (etwa 280 MB): `python -m formgen.release_assets --models3d`. Beide in denselben Ordner auspacken. Ohne 3D-Zip meldet die 3D-Seite die fehlende Datei.
+Das Hauptzip (`python -m formgen.release_assets`) folgt den Links von `index.html` und enthält Seiten, Blätter und `web/`. Die 3D-Daten kommen als eigenes Zip (0.9: 62 MiB gepackt, 205 MiB ausgepackt): `python -m formgen.release_assets --models3d`. Beide in denselben Ordner auspacken. Ohne 3D-Zip meldet die 3D-Seite die fehlende Datei.
 
-Gehört eine Datei zu einem anderen Modellstand und passen Knoten und Dreieck nicht mehr, öffnet der Editor sie trotzdem, wenn das Teil noch existiert (auch `pauldron_l_338` → `pauldron_l`): Die Markierung steht dann ungefähr auf dem Teil, der Status sagt das, die Dateidaten bleiben unverändert.
+Altnamen werden zugeordnet (`pauldron_l_338` → `pauldron_l`, `Crown_62` → `helmet_crown`); der Status nennt, wie viele Proben ungefähr stehen oder kein Teil mehr haben. Die Dateidaten bleiben unverändert.

@@ -73,7 +73,7 @@
         "barycentric": {"$ref": "#/$defs/vec3"},
         "local_gltf_xyz_m": {"$ref": "#/$defs/vec3"},
         "local_normal_gltf_xyz": {"$ref": "#/$defs/vec3"},
-        "local_formgen_fux_mm": {"$ref": "#/$defs/vec3"},
+        "local_formgen_fux_mm": {"$ref": "#/$defs/vec3", "description": "f vorn, u oben, x links in mm, aus glTF x, y, z = x, u, f. Aus Altdateien migrierte Werte bleiben im alten Rahmen (Vorzeichen von f und x gedreht)."},
         "model_gltf_xyz_m": {"$ref": "#/$defs/vec3"}
       }
     }

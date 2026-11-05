@@ -107,3 +107,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Änderungsdatei prüfen und auf den aktuellen Stand migrieren (Ausgabe auf stdout).')
     parser.add_argument('file', type=Path)
     sys.stdout.write(dumps(load(parser.parse_args().file)))
+
+
+def fux_from_gltf(xyz_m) -> list[float]:
+    """Autorenrahmen aus glTF-Metern: f vorn, u oben, x links. Neue Dateien schreiben das; migrierte Altwerte bleiben im alten Rahmen."""
+    x, y, z = xyz_m
+    return [1000 * z, 1000 * y, 1000 * x]

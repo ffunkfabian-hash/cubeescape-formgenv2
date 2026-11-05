@@ -153,9 +153,8 @@ def package(out, destination, ids=None):
     for sid in ids:
         if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*',sid): raise ValueError('Ungültige Modell-ID')
         pending += [f'specs/{sid}.spec.json',f'sheets/{sid}.dc.html',f'previews/{sid}.webp']
-        robot = re.fullmatch(r'R[A-Z]\d\d',sid)   # Roboterblätter führen keine Prompts
-        if not robot or (out/f'prompts/{sid}.prompts.json').is_file():
-            pending.append(f'prompts/{sid}.prompts.json')
+        robot = re.fullmatch(r'R[A-Z]\d\d',sid)
+        pending.append(f'prompts/{sid}.prompts.json')
         if not robot and not re.fullmatch(r'B[A-Z]\d\d',sid):   # Waffen- und Roboterblätter liefern Spec statt Geo
             pending.append(f'geo/{sid}.geo.json')
         pending += [p.relative_to(out).as_posix() for p in sorted((out/'views'/sid).glob('*.png'))]
@@ -191,7 +190,7 @@ def package(out, destination, ids=None):
 
 
 def package_3d(out, destination, ids=None):
-    """3D-Daten als eigenes Zip neben dem Hauptzip (etwa 280 MB): in denselben Ordner auspacken, die 3D-Seite findet sie dort."""
+    """3D-Daten als eigenes Zip neben dem Hauptzip (0.9: 62 MiB gepackt, 205 MiB ausgepackt): in denselben Ordner auspacken, die 3D-Seite findet sie dort."""
     out, destination = Path(out).resolve(), Path(destination)
     ids = sorted(set(ids)) if ids else sorted(p.stem for p in (out/'models3d').glob('*.js'))
     if not ids: raise ValueError('Keine 3D-Daten für Release-Probelauf')

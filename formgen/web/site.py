@@ -18,8 +18,7 @@ from ..versions import VIEWER
 
 SITE = 1
 HERE = Path(__file__).resolve().parent
-ROBOT_FORMAT = 'formgenv2/robot-sheet-spec'
-ROBOT_VERSION = 1
+from ..robot.spec import FORMAT as ROBOT_FORMAT, VERSION as ROBOT_VERSION
 ROBOT_FIELDS = ('id', 'name_de', 'kind', 'line', 'skin', 'dimensions_mm', 'parts', 'assemblies')
 THREE = json.loads((HERE/'vendor/three.json').read_text(encoding='utf-8'))
 WEB_FILES = {'site.css': 'site.css', 'site.js': 'site.js', 'viewer3d.js': 'viewer3d.js', 'markierung.js': 'markierung.js',

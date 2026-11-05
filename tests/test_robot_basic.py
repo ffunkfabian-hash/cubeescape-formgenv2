@@ -5,11 +5,12 @@ import struct
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import jsonschema
 import numpy as np
 
-from formgen import geom, model
+from formgen import change_request, geom, model, sheet, variants
 from formgen.models.robot import roboterbasic_01 as basic
 from formgen.robot import glb, lines, pipeline, silhouette, spec
 from formgen.web import site
@@ -60,6 +61,47 @@ class ModelTest(Base):
             self.assertNotIn('cubeescape-critic', text, path)
             self.assertNotIn('critic_', text, path)
             self.assertNotIn('/users/', text, path)
+
+
+    def test_left_parts_keep_outward_normals(self):
+        def volume(p):
+            v = np.array(p['mesh']['vertices'])
+            return float(np.einsum('ij,ij->i', v[np.array(p['mesh']['faces'])[:, 0]], np.cross(v[np.array(p['mesh']['faces'])[:, 1]], v[np.array(p['mesh']['faces'])[:, 2]])).sum() / 6)
+        parts = {p['id']: p for p in self.doc['parts']}
+        pairs = [(i, re.sub(r'(^|_)L_', r'\1R_', i, count=1)) for i, p in parts.items() if p['side'] == 'L' and p['form'] in ('loft', 'tube', 'wrap')]
+        self.assertGreater(len(pairs), 30)
+        for left, right in pairs:
+            self.assertGreater(volume(parts[left]), 0, left)
+            self.assertAlmostEqual(volume(parts[left]) / volume(parts[right]), 1, delta=.05, msg=left)
+
+    def test_anchor_positions_survive_the_gltf_to_fux_formula(self):
+        for name, a in self.doc['anchors'].items():
+            x, y, z = a['position_m']
+            np.testing.assert_allclose(change_request.fux_from_gltf((x, z, -y)), a['at'], atol=1e-6, err_msg=name)
+        self.assertIn('[1000*pos.z,1000*pos.y,1000*pos.x]', (ROOT / 'formgen/web/markierung.js').read_text())
+
+
+class KeyTest(unittest.TestCase):
+    def test_spec_key_follows_register_and_skin(self):
+        with tempfile.TemporaryDirectory() as t:
+            out = Path(t)
+            sheets = lines.sheets()
+            seen = []
+            with mock.patch.object(pipeline, 'run_artifacts', side_effect=lambda a, *r, **k: seen.extend(a) or []), \
+                    mock.patch.object(pipeline, 'file_hash', return_value='0' * 64):
+                pipeline.run(sheets, out, out / 'c', stages=('specs',), log=lambda *_: None)
+                other = {'RA01': dict(sheets['RA01'], skin='nacht')}
+                pipeline.run(other, out, out / 'c', stages=('specs',), log=lambda *_: None)
+            self.assertEqual(len(seen), 2)
+            self.assertNotEqual(seen[0].key, seen[1].key)
+
+    def test_geometry_key_includes_the_evaluation_engine(self):
+        entry = lines.sheets()['RA01']
+        real = pipeline.build.source_hashes
+        changed = lambda path, *a: {k: ('x' if k.endswith('geom.py') else v) for k, v in real(path, *a).items()}
+        before = pipeline.source_hash(entry)
+        with mock.patch.object(pipeline.build, 'source_hashes', changed):
+            self.assertNotEqual(before, pipeline.source_hash(entry))
 
 
 class LinesTest(unittest.TestCase):
@@ -164,11 +206,24 @@ class ContractTest(Base):
         self.assertIn('3d.html?id=RA02', html)
 
 
+class SheetTest(Base):
+    def test_material_tiles_show_the_robot_skin(self):
+        doc = dict(self.doc, info=dict(self.doc['info'], skin='weiss_graphit'))
+        html = sheet.materials_html(doc).upper()
+        self.assertIn('#D6D7D5', html)
+        self.assertNotIn('#D8CCB4', html)
+        self.assertIn('#D8CCB4', sheet.materials_html(self.doc).upper())      # ohne info.skin wie bisher
+
+    def test_weapon_lines_cannot_use_a_robot_skin(self):
+        self.assertNotIn('weiss_graphit', variants._skins())
+
+
 class SpecTest(Base):
     def test_spec(self):
         s = spec.build(self.doc, lines.sheets()['RA01'])
         self.assertEqual((s['format'], s['version'], s['id'], s['kind'], s['skin'], s['line']), ('formgenv2/robot-sheet-spec', 1, 'RA01', 'robot', 'weiss_graphit', 'basic'))
         self.assertEqual(s['type'], dict(num=1, name_de='RoboterBasic-01'))
+        self.assertEqual(len(s['measured_parts']), 58)
         self.assertEqual(sum(a['parts'] for a in s['assemblies']), 424)
         self.assertEqual(len(s['parts']), 424)
         self.assertEqual({'id', 'name_de', 'assembly', 'role'}, set(s['parts'][0]))

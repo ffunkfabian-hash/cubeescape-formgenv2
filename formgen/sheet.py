@@ -142,10 +142,11 @@ def materials_html(document):
     with (Path(__file__).resolve().parents[1] / 'skins.toml').open('rb') as stream:
         catalogue = tomllib.load(stream)
     roles = catalogue['roles']
+    skin = catalogue['skins'].get(document.get('info', {}).get('skin'), {})    # nur Roboter tragen info.skin
     used = {}
     for part in document.get('parts', []):
         role = part.get('role', 'shell')
-        color = part.get('color', roles.get(role, {}).get('color', ''))
+        color = part.get('color', skin.get('roles', {}).get(role, roles.get(role, {}).get('color', '')))
         if isinstance(color, (list, tuple)) and len(color) >= 3:
             rgb = [_number(c) for c in color[:3]]
             factor = 255 if max(rgb) <= 1 else 1

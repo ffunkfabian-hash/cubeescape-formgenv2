@@ -14,7 +14,7 @@ Bilder unter `./ce lock blender -- …` (CPU-Rasterizer). Blender wird nicht geb
 
 | Datei | Inhalt | Herkunft |
 |---|---|---|
-| `formgen/models/robot/roboterbasic_01.py` | `INFO`, `PARTS`, `ASSEMBLIES`, `ANCHORS`, `POSES`, alle Maße in `PARAMS` | Vorgabe: BALLON 14bd78d, Studie `a_waechter` |
+| `formgen/models/robot/roboterbasic_01.py` | `INFO`, `PARTS`, `ASSEMBLIES`, `ANCHORS`, `POSES`; Körpermaße in `PARAMS`, Armmaße als Konstanten in `arm.py` (für Linien bisher nur `arm_bulk`) | Vorgabe: BALLON 14bd78d, Studie `a_waechter` |
 | `formgen/models/robot/{forms,shapes,body,arm}.py` | Formbaukasten, einmalig übertragen | BALLON 14bd78d, Kopf ohne BALLONs Helmstudien |
 | `formgen/models/robot/rig.py` | Skelett, Armhaltung, Fingergelenke | BALLON `tools/robot_build.py`, `tools/ego_build.py`, ohne Blender |
 | `formgen/models/robot/kit.py` | Formen → kit-Teile in Weltmaßen (mm, f/u/x) | eigen |

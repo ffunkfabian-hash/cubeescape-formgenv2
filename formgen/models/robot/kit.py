@@ -81,7 +81,7 @@ def part(pid, label, seg, kind, role, p, frame_, sx, assembly, side):
                 'wrap': lambda: forms.wrap(p['secs'], p['a0'], p['a1'], p['t'], p.get('steps'), p.get('sub', 6)),
                 'tube': lambda: forms.tube(p['path'], p['r'], p.get('segs', 14))}[kind]()
         V = np.array(V, float) * mirror
-        F = [list(f) for f in F]
+        F = [list(f if sx > 0 else f[::-1]) for f in F]     # Spiegeln dreht die Windung; Normalen bleiben außen
         out.update(shape='surface', vertices=to_fux(R, o, tilt(V)), faces=F)
         if p.get('cuts'):
             out['cuts'] = [dict(shape='hull', points=to_fux(R, o, tilt(_cut_points(c) * mirror))) for c in p['cuts']]

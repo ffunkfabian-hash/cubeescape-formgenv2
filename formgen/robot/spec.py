@@ -28,7 +28,8 @@ def build(document, entry) -> dict:
                 parts=[dict(id=p['id'], name_de=p.get('label', p['id']) + side.get(p.get('side'), ''), assembly=p['assembly'], role=p['role']) for p in document['parts']],
                 triangles=document['counts']['triangles'], forms=dict(sorted(forms.items())),
                 assemblies=[dict(id=a['id'], de=a['de'], parts=counts[a['id']]) for a in document['assemblies']],
-                sockets=sorted(document.get('anchors', {})), provenance=document['info']['provenance'], warnings=document.get('warnings', []))
+                sockets=sorted(document.get('anchors', {})), provenance=document['info']['provenance'],
+                measured_parts=sorted(p['id'] for p in document['parts'] if p.get('provenance', {}).get('kind') == 'gemessen'), warnings=document.get('warnings', []))
 
 
 def migrate(spec: dict) -> dict:
