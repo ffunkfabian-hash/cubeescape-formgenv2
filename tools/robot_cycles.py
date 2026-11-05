@@ -7,7 +7,7 @@ Licht aus `BB.setup_render(aaa=True)` des gepinnten Schnappschusses; Skin und `f
 `formgen/blender/asset_build.py`. Keine Stufe der Pipeline: Das GLB bleibt die Lieferung, dieses Bild nur der Abnahmebeleg, Ausgabe außerhalb des Repos.
 
 <out>/<ID><tag>_{hero,nah}.png und <ID><tag>_rollen.json: je Rolle der gemessene Farbwert im Bild neben dem Hex des Skins, aus einer Rollenmaske
-derselben Kamera. AgX und Key-Licht bleichen; darum wird die Palette hier abgenommen, nicht am Raster-Blatt.
+derselben Kamera, `rahmen` nach `TOLERANCE`. AgX und Key-Licht bleichen; darum wird die Palette hier abgenommen, nicht am Raster-Blatt.
 """
 import argparse
 import json
@@ -28,6 +28,7 @@ from formgen.robot import lines  # noqa: E402
 OUT = Path.home() / "Library/Caches/CubeEscapeFormgen2" / __version__.rsplit(".", 1)[0] / "belege"
 MIN_PIXELS = 20         # Annahme: darunter ist ein Median kein Messwert
 ERODE_PX = 2            # Annahme: Randpixel schmaler Teile mischen sich bei Filter und Entrauschen mit dem Nachbarn
+TOLERANCE = 16          # Annahme: Median im Bild darf je Kanal so weit vom Soll-Hex abweichen, 8 Bit sRGB
 CLIP = 250              # Annahme: ab diesem Wert in allen Kanälen gilt ein Pixel als ausgefressen
 # Vorgabe BALLON 14bd78d, tools/robot_build.py: `AMBIENT`, `lights()`, Ansichten `hero`/`nah` im Hochformat 4:5
 SCENE = {
@@ -114,6 +115,13 @@ def srgb(linear):
     return np.where(linear <= .0031308, linear * 12.92, 1.055 * linear ** (1 / 2.4) - .055)
 
 
+def within(found, goal):
+    """Median im Rahmen des Solls? None ohne Soll im Skin."""
+    if not goal:
+        return None
+    return all(abs(int(found[i:i + 2], 16) - int(goal[i:i + 2], 16)) <= TOLERANCE for i in (1, 3, 5))
+
+
 def measure(image, mask, roles, skin):
     """Je Rolle Median, Lichter und Schatten im Bild neben dem Soll-Hex; `clip` = Anteil ausgefressener Pixel."""
     rgb = np.asarray(Image.open(image).convert("RGB"), float)
@@ -129,7 +137,8 @@ def measure(image, mask, roles, skin):
             continue
         luma = px @ [.2126, .7152, .0722]
         hexa = "#%02X%02X%02X" % tuple(int(round(c)) for c in np.median(px, axis=0))
-        report[role] = dict(soll=skin["roles"].get(role), bild=hexa, pixel=len(px), hell_p90=round(float(np.percentile(luma, 90))), dunkel_p10=round(float(np.percentile(luma, 10))),
+        goal = skin["roles"].get(role)
+        report[role] = dict(soll=goal, bild=hexa, rahmen=within(hexa, goal), pixel=len(px), hell_p90=round(float(np.percentile(luma, 90))), dunkel_p10=round(float(np.percentile(luma, 10))),
                             median=round(float(np.median(luma))), clip=round(float((px.min(axis=1) >= CLIP).mean()), 4))
     return report
 
@@ -170,7 +179,7 @@ def main():
         if row["bild"] is None:
             print(f"{role:12} Soll {row['soll']}  nicht messbar: {row['pixel']} Pixel im Inneren der Maske")
             continue
-        print(f"{role:12} Soll {row['soll']}  Bild {row['bild']}  dunkel {row['dunkel_p10']:3} median {row['median']:3} hell {row['hell_p90']:3}  ausgefressen {row['clip']:.1%}")
+        print(f"{role:12} Soll {row['soll']}  Bild {row['bild']}  dunkel {row['dunkel_p10']:3} median {row['median']:3} hell {row['hell_p90']:3}  ausgefressen {row['clip']:.1%}  {'im Rahmen' if row['rahmen'] else 'außerhalb'}")
 
 
 if __name__ == "__main__":

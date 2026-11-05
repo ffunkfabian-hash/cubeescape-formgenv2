@@ -2,8 +2,8 @@
 
 ## 0.10.0 Chamfer — RoboterBasic-01 optisch auf dem Stand der Waffen
 
-- Fasen: 346 Teile von RA01 tragen Fasen wie BALLON 14bd78d (`formgen/robot/bevel.py`, 30°, zwei Segmente, nach den Fugen); Helm H 80 und Leitungen unverändert. Silhouette besser als zuvor, IoU ≥ 0,9990.
-- Cycles: `tools/robot_cycles.py`, Weiß-Graphit am AAA-Licht abgenommen; Eingangsfarben in `[skins.weiss_graphit.aaa]`, GLB und Blatt unverändert.
+- Fasen: 344 Teile von RA01 tragen Fasen wie BALLON 14bd78d (`formgen/robot/bevel.py`, 30°, zwei Segmente, nach den Fugen); Helm H 80 und Leitungen unverändert. Silhouette besser als zuvor, IoU ≥ 0,9990.
+- Cycles: `tools/robot_cycles.py` misst Weiß-Graphit am AAA-Licht; 6 von 9 Rollen im Rahmen, Abnahme durch den Nutzer offen. Eingangsfarben in `[skins.weiss_graphit.aaa]`, GLB und Blatt unverändert.
 - [Bericht](docs/versions/0.10.md)
 
 ## 0.9.0 Sentry — RoboterBasic-01 im Repo, Website mit Navigation, 3D und Markierung

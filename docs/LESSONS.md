@@ -26,3 +26,4 @@ Nur wiederkehrende Dauer-Fallen; alle übrigen Lehren stehen unverändert in [LE
 - Eine Winkelgrenze auf Dreiecken hängt an der Diagonale: Spiegelpaare brauchen dieselbe (kürzere), sonst wählen links und rechts andere Kanten; erst der Spiegeltest deckte es auf. [Roboter](robot.md)
 - Vor dem Urteil „Blender klemmt das auch“ den echten Modifier auf denselben Netzen laufen lassen: auf Vierecken stimmte er (1,7 % Dreiecke), an Fugenteilen zeigte die Referenz volle Breite gegen 0,04 mm bei gemeinsamer Klemmung. [Roboter](robot.md)
 - Farbmessung am Bild nur im Inneren der Rollenmaske: Randpixel schmaler Teile mischen sich mit dem Nachbarn und täuschen Bleichen vor. [Roboter](robot.md)
+- Kleinste Wurzel einer Quadratik nie als (−b ± √D)/2a: Ist a nur Rauschen, löscht sie sich aus und dasselbe starre Teil bekommt je Haltung eine andere Klemmung; Probe: gedrehtes Teil, gleiche Breite. [Roboter](robot.md)

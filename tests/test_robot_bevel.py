@@ -2,9 +2,11 @@
 import collections
 import math
 from pathlib import Path
+import re
 import tempfile
 import tomllib
 import unittest
+from unittest import mock
 
 import numpy as np
 from PIL import Image
@@ -27,6 +29,11 @@ def closed(faces):
 def volume(vertices, faces):
     v, f = np.asarray(vertices), np.asarray(faces)
     return float(np.einsum('ij,ij->i', v[f[:, 0]], np.cross(v[f[:, 1]], v[f[:, 2]])).sum() / 6)
+
+
+def geom_rotation(a, b):
+    ca, sa, cb, sb = math.cos(a), math.sin(a), math.cos(b), math.sin(b)
+    return np.array([(ca, -sa, 0), (sa, ca, 0), (0, 0, 1.)]) @ np.array([(1, 0, 0), (0, cb, -sb), (0, sb, cb)])
 
 
 def prism(outline, height):
@@ -71,7 +78,12 @@ class CubeTest(unittest.TestCase):
         hard = glb.split_normals(self.done.vertices, self.done.faces)[1]
         soft = glb.split_normals(self.done.vertices, self.done.faces, soft=self.done.soft)[1]
         self.assertLess(len(soft), len(hard))                       # Gegenprobe: ohne soft bricht die 45°-Kante, Punkte werden getrennt
-        self.assertTrue(((soft @ [0, 0, 1]) > .999).any())          # große Fläche behält ihre Normale
+        v, n, t = glb.split_normals(self.done.vertices, self.done.faces, soft=self.done.soft)
+        strip = np.zeros(len(t), bool)
+        strip[self.done.soft] = True
+        top = (~strip) & (np.abs(v[t][:, :, 2] - .1).max(axis=1) < 1e-12)
+        self.assertTrue(top.any())
+        np.testing.assert_allclose(n[t[top]].reshape(-1, 3), np.tile([0, 0, 1.], (top.sum() * 3, 1)), atol=1e-6)   # alle Ecken der Fläche, wie harden_normals
 
 
 class ShapesTest(unittest.TestCase):
@@ -99,6 +111,31 @@ class ShapesTest(unittest.TestCase):
         self.assertTrue(closed(done.faces))
         for tip in v[4:]:
             self.assertLess(np.linalg.norm(done.vertices - tip, axis=1).min(), 1e-12)       # Firstenden bleiben stehen, das Profil läuft spitz aus
+
+    def test_corner_with_four_bevelled_edges_gets_a_closed_cap(self):
+        v = np.array([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0), (.5, .5, 1.)])
+        f = np.array([(0, 2, 1), (0, 3, 2), (0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4)])
+        done = bevel.apply(v, f, .02)
+        self.assertEqual(done.edges, 8)
+        self.assertTrue(closed(done.faces))
+        self.assertGreater(volume(done.vertices, done.faces), 0)
+        self.assertLess(done.vertices[:, 2].max(), 1)
+
+    def test_two_bodies_touching_in_one_point_stay_apart(self):
+        a = np.array([(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1.)])
+        b = -a[1:]
+        v = np.vstack([a, b])
+        f = np.array([(0, 2, 1), (0, 1, 3), (1, 2, 3), (2, 0, 3), (0, 4, 5), (0, 6, 4), (4, 6, 5), (5, 6, 0)])
+        done = bevel.apply(v, f, .02)
+        self.assertTrue(closed(done.faces))
+        self.assertGreater(volume(done.vertices, done.faces), 0)
+
+    def test_width_does_not_depend_on_the_pose_of_the_part(self):
+        """Starres Teil, gedreht und verschoben: dieselbe Breite. Die Quadratik der Klemmung löschte sich vorher je Haltung anders aus."""
+        v, f = prism([(0, 0), (.1, 0), (.1, .01), (.03, .012), (0, .01)], .004)
+        turn = geom_rotation(.7, 1.1)
+        moved = v @ turn.T + (1.3, -.4, .9)
+        self.assertAlmostEqual(bevel.apply(v, f, .002).width, bevel.apply(moved, f, .002).width, places=9)
 
     def test_open_or_broken_meshes_are_refused(self):
         v, f = prism(SQUARE, .1)
@@ -159,6 +196,9 @@ class CyclesToolTest(unittest.TestCase):
         self.assertEqual((report['graphite']['bild'], report['shell']['bild']), ('#C8C8C8', '#282828'))
         self.assertEqual(report['shell']['soll'], '#D6D7D5')
         self.assertEqual(report['graphite']['clip'], 0)
+        self.assertIsNone(report['graphite']['rahmen'])
+        self.assertFalse(report['shell']['rahmen'])
+        self.assertTrue(robot_cycles.within('#2D2D2E', '#313438'))
 
     def test_too_small_roles_are_reported_not_dropped(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -209,12 +249,33 @@ class ModelTest(unittest.TestCase):
         done = [p for p in self.parts.values() if p['bevel'] > 0]
         self.assertEqual(len(done), 346)
         self.assertEqual(self.doc['warnings'], [])
+        plain = sorted(p['id'] for p in done if p['bevel_status'] == 'no_feature_edges')
+        self.assertEqual(plain, ['arm_L_shoulder_ball', 'arm_R_shoulder_ball'])     # Kugel ohne Kante über 30°, wie bei Blender auf denselben Netzen
         for p in done:
-            self.assertEqual(p['bevel_status'], 'mesh_bevel', p['id'])
+            self.assertIn(p['bevel_status'], ('mesh_bevel', 'no_feature_edges'), p['id'])
             self.assertTrue(closed(p['mesh']['faces']), p['id'])
             self.assertGreater(volume(p['mesh']['vertices'], p['mesh']['faces']), 0, p['id'])
 
-    def test_parts_with_grooves_keep_their_full_width(self):
+    def test_mirror_pairs_get_the_same_width(self):
+        swap = lambda i: re.sub(r'_([ab])(?=$|_)', lambda m: '_' + 'ba'['ab'.index(m[1])], i)
+        checked = 0
+        for pid, part in self.parts.items():
+            other = pid.replace('_L_', '_R_') if '_L_' in pid else re.sub(r'_l(?=$|_)', '_r', pid)
+            if other == pid or part['bevel'] == 0 or part.get('cuts'):
+                continue
+            widths = [self.parts[n]['bevel_effective_mm'] for n in (other, swap(other)) if n in self.parts]
+            self.assertTrue(any(abs(w - part['bevel_effective_mm']) < .002 for w in widths), (pid, part['bevel_effective_mm'], widths))
+            checked += 1
+        self.assertGreater(checked, 130)
+
+    def test_build_hands_the_bevel_faces_to_the_normals(self):
+        with mock.patch.object(glb, 'split_normals', wraps=glb.split_normals) as spy:
+            part = self.parts['buckle']
+            glb.build(dict(self.doc, parts=[part], assemblies=[a for a in self.doc['assemblies'] if a['id'] == part['assembly']], anchors={}), 'weiss_graphit')
+        self.assertEqual(spy.call_args.kwargs['soft'], part['mesh']['soft'])
+        self.assertGreater(len(part['mesh']['soft']), 0)
+
+    def test_parts_with_grooves_keep_their_full_median_width(self):
         cut = [p for p in self.parts.values() if p.get('cuts')]
         self.assertEqual(len(cut), 7)
         for p in cut:

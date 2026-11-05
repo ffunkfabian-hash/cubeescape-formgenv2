@@ -36,7 +36,7 @@ def materials(skin: str, roles, path=ROOT / 'skins.toml'):
 
 def split_normals(vertices, faces, sharp_deg=SHARP_DEG, soft=()):
     """Glatte Normalen mit harten Kanten ab sharp_deg, flächengewichtet wie BALLONs WEIGHTED_NORMAL; Fasenflächen (`soft`) sind untereinander
-    immer glatt, sonst bricht die 45°-Mittelkante eines rechten Winkels die Glanzkante. Rückgabe: Punkte, Normalen, Dreiecke (je Normale aufgetrennt)."""
+    immer glatt, sonst bricht die 45°-Mittelkante eines rechten Winkels die Glanzkante, und ziehen große Flächen nicht mit (`harden_normals`). Rückgabe: Punkte, Normalen, Dreiecke (je Normale aufgetrennt)."""
     v = np.asarray(vertices, float)
     f = np.asarray(faces, np.int64)
     cross = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
@@ -51,7 +51,8 @@ def split_normals(vertices, faces, sharp_deg=SHARP_DEG, soft=()):
     normals = np.zeros((f.size, 3))
     for corners, incident in zip(np.split(order, bounds), np.split(corner_face, bounds)):
         n = unit[incident]
-        mask = ((n @ n.T) >= limit) | np.outer(bevelled[incident], bevelled[incident])
+        strip = bevelled[incident]
+        mask = (((n @ n.T) >= limit) | np.outer(strip, strip)) & ~np.outer(~strip, strip)      # Fläche behält ihre Normale, nur die Fase läuft in sie aus
         normals[corners] = mask @ cross[incident]
     length = np.linalg.norm(normals, axis=1, keepdims=True)
     normals = np.divide(normals, length, out=np.repeat(unit, 3, axis=0), where=length > 1e-20)

@@ -378,7 +378,7 @@ accent = "#4A493E"
 rubber = "#141414"
 reticle_cyan = "#5FE3D6"
 # Eingangsfarben nur für Cycles (wie `aaa_color` der Rollen): AgX und Key-Licht bleichen, `roles` bleibt die Wirkung und gilt für GLB und Blatt.
-# Abgenommen am Bild von tools/robot_cycles.py: gemessener Median je Rolle nah am Hex aus `roles`.
+# Gewählt am Bild von tools/robot_cycles.py: Median je Rolle höchstens 16 je Kanal vom Hex aus `roles` (TOLERANCE); Stand in docs/versions/0.10.md.
 [skins.weiss_graphit.aaa]
 shell = "#C4C5C3"
 graphite = "#1C1E22"

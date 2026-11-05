@@ -127,11 +127,10 @@ def _flip_widths(v, tris, offsets):
     b = np.einsum('ij,ij->i', n0, np.cross(e1, g2) + np.cross(g1, e2))
     c = (1 - KEEP) * np.einsum('ij,ij->i', n0, n0)
     disc = b * b - 4 * a * c
-    with np.errstate(divide='ignore', invalid='ignore'):
-        root = np.sqrt(np.maximum(disc, 0))
-        roots = np.stack([(-b - root) / (2 * a), (-b + root) / (2 * a), -c / b])
-    roots[:2, (disc < 0) | (np.abs(a) < 1e-30)] = np.inf
-    roots[2, np.abs(a) >= 1e-30] = np.inf
+    with np.errstate(divide='ignore', invalid='ignore'):        # stabile Form: (−b ± √D)/2a löscht sich aus, wenn a nur Rauschen ist
+        q = -(b + np.where(b >= 0, 1.0, -1.0) * np.sqrt(np.maximum(disc, 0))) / 2
+        roots = np.stack([q / a, c / q])
+    roots[:, disc < 0] = np.inf
     roots[~np.isfinite(roots) | (roots <= 0)] = np.inf
     roots[:, ~ok] = np.inf
     return roots.min(axis=0)
@@ -288,7 +287,7 @@ def evaluate(document):
             continue
         hard = mesh['hard'][0] if mesh['hard'] else 1
         part['mesh'] = dict(vertices=done.vertices.tolist(), faces=done.faces.tolist(), hard=[hard] * len(done.faces), soft=done.soft.tolist())
-        part['bevel_status'] = 'mesh_bevel'
+        part['bevel_status'] = 'mesh_bevel' if done.edges else 'no_feature_edges'
         part['bevel_effective_mm'] = round(done.width * 1000, 4)
         part['bounds_m'] = [done.vertices.min(axis=0).tolist(), done.vertices.max(axis=0).tolist()]
         part['counts'] = dict(vertices=len(done.vertices), faces=len(done.faces), triangles=len(done.faces))

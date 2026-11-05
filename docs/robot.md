@@ -59,6 +59,8 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 | Überlappungsschutz | gemeinsam je Teil, Fläche kippt nie (`KEEP`) | Vorgabe in der Art (`use_clamp_overlap`), Schwelle Annahme |
 | Gehrung `MITER`, Kurzzug `SHORT_RUN`, `SLIVER_M`, `LOCAL_PASSES` | 1,5 · 4 · 0,02 mm · 60 | Annahme, am Bild und an der Referenz geprüft |
 
+Die gemeinsame Klemmung trifft wie bei Blender viele Teile: 95 von 344 liegen unter der Nennbreite, 40 unter der Hälfte (`thigh_shell` rund 0,4 statt 1,2 mm). Die Schulterkugeln `arm_*_shoulder_ball` haben keine Kante über 30°, ihr Status ist `no_feature_edges`.
+
 Teile mit Fugen klemmen örtlich je Ecke: Der Boolean hinterlässt Kleinstkanten, die gemeinsam geklemmt die Fase des ganzen Teils auslöschen würden (`chest` 0,04 statt 1,2 mm); Blender arbeitet dort auf N-Ecken und behält die volle Breite, gemessen an der Referenz. Dazu fallen Kantenzüge unter vierfacher Breite weg: Reste einer flach streifenden Fuge. Vierecke teilt `kit.py` an der kürzeren Diagonale, sonst wählt die 30°-Grenze links andere Kanten als rechts. Fasenflächen stehen in `mesh.soft` und sind in den Normalen untereinander glatt (BALLON: `harden_normals`, `WEIGHTED_NORMAL`). Keine Blender-Parität an Ecken.
 
 ## Skin
@@ -71,7 +73,7 @@ Abnahme am AAA-Licht, kein Teil der Pipeline; das GLB bleibt die Lieferung:
 ./ce lock gpu -- "$PWD/.venv/bin/python" tools/robot_cycles.py RA01 --samples 128 --res 1200
 ```
 
-Das Werkzeug lädt das fertige GLB, nimmt Materialien und AAA-Licht aus BALLONs gepinntem Kit und Lichtsetzung und Kamera aus `tools/robot_build.py` (14bd78d). Neben `<ID>_{hero,nah}.png` schreibt es `<ID>_rollen.json`: je Rolle der Median im Inneren einer Rollenmaske neben dem Hex aus `roles`. Eine Skin-Änderung macht alle Waffenstufen veraltet (Lehren).
+Das Werkzeug lädt das fertige GLB, nimmt Materialien und AAA-Licht aus BALLONs gepinntem Kit und Lichtsetzung und Kamera aus `tools/robot_build.py` (14bd78d). Neben `<ID>_{hero,nah}.png` schreibt es `<ID>_rollen.json`: je Rolle der Median im Inneren einer Rollenmaske neben dem Hex aus `roles`, `rahmen` heißt höchstens 16 je Kanal Abstand (Annahme). Eine Skin-Änderung macht alle Waffenstufen veraltet (Lehren).
 
 ## Abnahme
 
