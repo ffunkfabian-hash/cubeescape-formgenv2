@@ -160,6 +160,19 @@ class CyclesToolTest(unittest.TestCase):
         self.assertEqual(report['shell']['soll'], '#D6D7D5')
         self.assertEqual(report['graphite']['clip'], 0)
 
+    def test_too_small_roles_are_reported_not_dropped(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            image, mask = Path(tmp) / 'i.png', Path(tmp) / 'm.png'
+            Image.fromarray(np.full((20, 20, 3), 90, np.uint8)).save(image)
+            m = np.zeros((20, 20, 4), np.uint8)
+            m[..., 3] = 255
+            m[..., :3] = int(robot_cycles.srgb(1 / 3) * 255)
+            m[10, 10, :3] = int(robot_cycles.srgb(2 / 3) * 255)
+            Image.fromarray(m).save(mask)
+            report = robot_cycles.measure(image, mask, ['graphite', 'shell'], dict(roles={}))
+        self.assertIsNone(report['shell']['bild'])
+        self.assertEqual(report['graphite']['bild'], '#5A5A5A')
+
     def test_cycles_colours_stay_out_of_glb_and_sheet(self):
         skins = tomllib.loads((ROOT / 'skins.toml').read_text())['skins']['weiss_graphit']
         self.assertLessEqual(set(skins['aaa']), set(skins['roles']))
@@ -191,6 +204,7 @@ class ModelTest(unittest.TestCase):
             self.assertNotIn('soft', p['mesh'])
         self.assertTrue(all('bevel_status' not in p for p in self.parts.values() if p.get('form') == 'tube'))
 
+    # Zählwerte: 424 Bauteile − 58 Helm − 20 Leitungen = 346; sieben Teile mit Fugen. Ändert sich das Modell, gehören sie mit Grund geändert.
     def test_every_other_part_is_bevelled_closed_and_without_warning(self):
         done = [p for p in self.parts.values() if p['bevel'] > 0]
         self.assertEqual(len(done), 346)

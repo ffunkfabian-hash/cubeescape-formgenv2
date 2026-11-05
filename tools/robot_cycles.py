@@ -22,10 +22,13 @@ from scipy.ndimage import binary_erosion
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from formgen import asset, ballon_kit  # noqa: E402
+from formgen import __version__, asset, ballon_kit  # noqa: E402
 from formgen.robot import lines  # noqa: E402
 
-OUT = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.10/belege"
+OUT = Path.home() / "Library/Caches/CubeEscapeFormgen2" / __version__.rsplit(".", 1)[0] / "belege"
+MIN_PIXELS = 20         # Annahme: darunter ist ein Median kein Messwert
+ERODE_PX = 2            # Annahme: Randpixel schmaler Teile mischen sich bei Filter und Entrauschen mit dem Nachbarn
+CLIP = 250              # Annahme: ab diesem Wert in allen Kanälen gilt ein Pixel als ausgefressen
 # Vorgabe BALLON 14bd78d, tools/robot_build.py: `AMBIENT`, `lights()`, Ansichten `hero`/`nah` im Hochformat 4:5
 SCENE = {
     "ambient": 0.35,
@@ -119,14 +122,15 @@ def measure(image, mask, roles, skin):
     found = np.abs(m[..., 0, None] - levels).argmin(axis=-1)
     report = {}
     for i, role in enumerate(roles):
-        inner = binary_erosion((found == i) & (m[..., 3] > 250), iterations=2)   # nur das Innere: Randpixel mischen sich mit dem Nachbarteil
+        inner = binary_erosion((found == i) & (m[..., 3] > 250), iterations=ERODE_PX)
         px = rgb[inner]
-        if len(px) < 20:
+        if len(px) < MIN_PIXELS:
+            report[role] = dict(soll=skin["roles"].get(role), bild=None, pixel=len(px))
             continue
         luma = px @ [.2126, .7152, .0722]
         hexa = "#%02X%02X%02X" % tuple(int(round(c)) for c in np.median(px, axis=0))
         report[role] = dict(soll=skin["roles"].get(role), bild=hexa, pixel=len(px), hell_p90=round(float(np.percentile(luma, 90))), dunkel_p10=round(float(np.percentile(luma, 10))),
-                            median=round(float(np.median(luma))), clip=round(float((px.min(axis=1) >= 250).mean()), 4))
+                            median=round(float(np.median(luma))), clip=round(float((px.min(axis=1) >= CLIP).mean()), 4))
     return report
 
 
@@ -163,6 +167,9 @@ def main():
             report[view] = measure(tmp / f"{view}.png", tmp / f"{view}_mask.png", roles, definition)
     (a.out / f"{a.id}{a.tag}_rollen.json").write_text(json.dumps(report, indent=1, ensure_ascii=False))
     for role, row in report["hero"].items():
+        if row["bild"] is None:
+            print(f"{role:12} Soll {row['soll']}  nicht messbar: {row['pixel']} Pixel im Inneren der Maske")
+            continue
         print(f"{role:12} Soll {row['soll']}  Bild {row['bild']}  dunkel {row['dunkel_p10']:3} median {row['median']:3} hell {row['hell_p90']:3}  ausgefressen {row['clip']:.1%}")
 
 

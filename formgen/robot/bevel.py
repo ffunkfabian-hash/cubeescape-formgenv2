@@ -274,7 +274,7 @@ def evaluate(document):
     widths = {p['id']: p['bevel'] for p in source['parts']}
     for part in source['parts']:
         part['bevel'] = 0                 # fehlt das Feld, fast geom.evaluate selbst mit 1 mm
-    result = geom.evaluate(source)
+    result = geom.evaluate(source, booleans=True, bevels=False)
     for part in result['parts']:
         part['bevel'] = widths[part['id']]
         if not part['bevel']:
