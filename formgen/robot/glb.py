@@ -34,8 +34,9 @@ def materials(skin: str, roles, path=ROOT / 'skins.toml'):
     return out
 
 
-def split_normals(vertices, faces, sharp_deg=SHARP_DEG):
-    """Glatte Normalen mit harten Kanten ab sharp_deg; Rückgabe: Punkte, Normalen, Dreiecke (Punkte je Normale aufgetrennt)."""
+def split_normals(vertices, faces, sharp_deg=SHARP_DEG, soft=()):
+    """Glatte Normalen mit harten Kanten ab sharp_deg, flächengewichtet wie BALLONs WEIGHTED_NORMAL; Fasenflächen (`soft`) sind untereinander
+    immer glatt, sonst bricht die 45°-Mittelkante eines rechten Winkels die Glanzkante. Rückgabe: Punkte, Normalen, Dreiecke (je Normale aufgetrennt)."""
     v = np.asarray(vertices, float)
     f = np.asarray(faces, np.int64)
     cross = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
@@ -45,10 +46,12 @@ def split_normals(vertices, faces, sharp_deg=SHARP_DEG):
     corner_face = (np.arange(f.size) // 3)[order]
     bounds = np.flatnonzero(np.diff(f.ravel()[order])) + 1
     limit = np.cos(np.radians(sharp_deg))
+    bevelled = np.zeros(len(f), bool)
+    bevelled[np.asarray(soft, np.int64)] = True
     normals = np.zeros((f.size, 3))
     for corners, incident in zip(np.split(order, bounds), np.split(corner_face, bounds)):
         n = unit[incident]
-        mask = (n @ n.T) >= limit
+        mask = ((n @ n.T) >= limit) | np.outer(bevelled[incident], bevelled[incident])
         normals[corners] = mask @ cross[incident]
     length = np.linalg.norm(normals, axis=1, keepdims=True)
     normals = np.divide(normals, length, out=np.repeat(unit, 3, axis=0), where=length > 1e-20)
@@ -82,7 +85,7 @@ def build(document, skin: str) -> bytes:
     family = {a['id']: a.get('group') for a in document['assemblies']}
     for part in document['parts']:
         mesh = part['mesh']
-        v, n, t = split_normals(mesh['vertices'], mesh['faces'])
+        v, n, t = split_normals(mesh['vertices'], mesh['faces'], soft=mesh.get('soft', ()))
         prim = dict(attributes=dict(POSITION=add(to_gltf(v).astype('<f4'), 5126, 'VEC3', 34962),
                                     NORMAL=add(to_gltf(n).astype('<f4'), 5126, 'VEC3', 34962)),
                     indices=add(t.astype('<u4').ravel(), 5125, 'SCALAR', 34963), material=material[part['role']])

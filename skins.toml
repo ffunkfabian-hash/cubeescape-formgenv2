@@ -377,13 +377,26 @@ anodized = "#313438"
 accent = "#4A493E"
 rubber = "#141414"
 reticle_cyan = "#5FE3D6"
+# Eingangsfarben nur für Cycles (wie `aaa_color` der Rollen): AgX und Key-Licht bleichen, `roles` bleibt die Wirkung und gilt für GLB und Blatt.
+# Abgenommen am Bild von tools/robot_cycles.py: gemessener Median je Rolle nah am Hex aus `roles`.
+[skins.weiss_graphit.aaa]
+shell = "#C4C5C3"
+graphite = "#1C1E22"
+anodized = "#1C1E22"
+trim = "#5C5E5C"
+accent = "#0E0D0A"
+dark_metal = "#080808"
+energy = "#34DCCB"
+reticle_cyan = "#34DCCB"
+rubber = "#0C0C0C"
+
 [skins.weiss_graphit.finish]
 graphite = { metal = 0.15, rough = 0.75 }
 trim = { metal = 0.2, rough = 0.6 }
 shell = { metal = 0.05, rough = 0.6 }
 dark_metal = { metal = 0.8, rough = 0.3 }
 energy = { metal = 0, rough = 0.2 }
-anodized = { metal = 0.15, rough = 0.75 }
+anodized = { metal = 0.15, rough = 0.75, spec = 0.25 }
 accent = { metal = 0.15, rough = 0.6 }
 rubber = { metal = 0, rough = 0.75 }
 reticle_cyan = { metal = 0, rough = 0.2 }

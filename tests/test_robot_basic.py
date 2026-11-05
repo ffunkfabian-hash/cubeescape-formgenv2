@@ -13,7 +13,7 @@ from scipy.spatial import cKDTree
 
 from formgen import change_request, geom, model, sheet, variants
 from formgen.models.robot import roboterbasic_01 as basic
-from formgen.robot import glb, lines, pipeline, silhouette, spec
+from formgen.robot import bevel, glb, lines, pipeline, silhouette, spec
 from formgen.web import site
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,7 +23,7 @@ class Base(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.raw = model.normalize(basic.document())
-        cls.doc = geom.evaluate(cls.raw)
+        cls.doc = bevel.evaluate(basic.document())
 
 
 class ModelTest(Base):
@@ -62,7 +62,7 @@ class ModelTest(Base):
         self.assertEqual({p['form'] for p in rest}, {'wrap', 'cyl', 'box', 'loft', 'tube', 'plate', 'hull'})
 
     def test_reference_stance_keeps_the_reference_measure(self):
-        low, high = np.array(geom.evaluate(model.normalize(basic.document(basic.REFERENCE_PARAMS)))['bounds_m'])
+        low, high = np.array(bevel.evaluate(basic.document(basic.REFERENCE_PARAMS))['bounds_m'])
         np.testing.assert_allclose(high - low, (.8663, .5257, 1.6560), atol=.002)   # Referenz 0,8659 × 0,5250 × 1,6559 m
 
     def test_a_pose_is_symmetric_and_keeps_the_height(self):
@@ -369,7 +369,7 @@ def _tiny_glb(path, names):
 
 class SilhouetteTest(unittest.TestCase):
     def test_reference_stance_path_builds_the_model(self):
-        self.assertEqual(len(silhouette.reference_triangles()), 159923)
+        self.assertEqual(len(silhouette.reference_triangles()), 287595)
 
     def test_without_helmet_keeps_the_neck_only(self):
         with tempfile.TemporaryDirectory() as t:

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0 Chamfer — RoboterBasic-01 optisch auf dem Stand der Waffen
+
+- Fasen: 346 Teile von RA01 tragen Fasen wie BALLON 14bd78d (`formgen/robot/bevel.py`, 30°, zwei Segmente, nach den Fugen); Helm H 80 und Leitungen unverändert. Silhouette besser als zuvor, IoU ≥ 0,9990.
+- Cycles: `tools/robot_cycles.py`, Weiß-Graphit am AAA-Licht abgenommen; Eingangsfarben in `[skins.weiss_graphit.aaa]`, GLB und Blatt unverändert.
+- [Bericht](docs/versions/0.10.md)
+
 ## 0.9.0 Sentry — RoboterBasic-01 im Repo, Website mit Navigation, 3D und Markierung
 
 - Roboter: RoboterBasic-01 (`RA01`) mit zehn Einzelteilen, vier Baugruppen und A-Position als Python-Modell unter `formgen/models/robot/`, Körper und Arme parametrisch aus BALLON 14bd78d, Helm H 80 als offen ausgewiesene Flächendaten. Register `data/robots.toml` als Linie × Basic-Typ, vorbereitet für `RA02`, Bau `python -m formgen.robot` ohne Blender, Skin `weiss_graphit`, keine Critic-Verbindung ([Roboter](docs/robot.md)).

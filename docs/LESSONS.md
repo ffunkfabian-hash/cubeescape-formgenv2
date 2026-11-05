@@ -22,3 +22,7 @@ Nur wiederkehrende Dauer-Fallen; alle übrigen Lehren stehen unverändert in [LE
 - Vor dem Anstellen an eine Sperre Treffer zählen (`plan` + `(cache/key).exists()`): ein Lauf, der nur aus dem Cache wiederherstellt, braucht weder Blender noch Sperre. [Bericht](versions/0.9.md)
 - Eine Quelle erst gegen die Referenz vermessen, dann entscheiden: der ID-Abgleich traf 138 von 422 Teilen, das Namensschema (Segment + Seite + ID) traf alle, und die Teile lagen auf 1–3 mm. [Roboter](robot.md)
 - GLTFExporter schreibt Node-Transformationen als `matrix`, nicht als TRS; ein Leser ohne `matrix` liefert still falsche Lagen, nur die Gesamtmaße verraten es. [Roboter](robot.md)
+- Fehlt `bevel` im Teil, fast `geom.evaluate` selbst mit 1 mm: Wer die Fase umleitet, setzt 0 und löscht das Feld nicht; die Zahl sah erst wie Blenders Klemmung aus. [Roboter](robot.md)
+- Eine Winkelgrenze auf Dreiecken hängt an der Diagonale: Spiegelpaare brauchen dieselbe (kürzere), sonst wählen links und rechts andere Kanten; erst der Spiegeltest deckte es auf. [Roboter](robot.md)
+- Vor dem Urteil „Blender klemmt das auch“ den echten Modifier auf denselben Netzen laufen lassen: auf Vierecken stimmte er (1,7 % Dreiecke), an Fugenteilen zeigte die Referenz volle Breite gegen 0,04 mm bei gemeinsamer Klemmung. [Roboter](robot.md)
+- Farbmessung am Bild nur im Inneren der Rollenmaske: Randpixel schmaler Teile mischen sich mit dem Nachbarn und täuschen Bleichen vor. [Roboter](robot.md)

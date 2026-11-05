@@ -18,11 +18,12 @@ Bilder unter `./ce lock blender -- …` (CPU-Rasterizer). Blender wird nicht geb
 | `formgen/models/robot/{forms,shapes,body,arm}.py` | Formbaukasten, einmalig übertragen | BALLON 14bd78d, Kopf ohne BALLONs Helmstudien |
 | `formgen/models/robot/rig.py` | Skelett, Armhaltung, Fingergelenke | BALLON `tools/robot_build.py`, `tools/ego_build.py`, ohne Blender |
 | `formgen/models/robot/kit.py` | Formen → kit-Teile in Weltmaßen (mm, f/u/x) | eigen |
+| `formgen/robot/bevel.py` | Fasen auf geschlossenen Netzen, nach den Fugen | Vorgabe: BALLON 14bd78d, `kit.add_bevel` |
 | `formgen/models/robot/helmet_h80.json` | Helm H 80, 58 Teile als Flächen im Kopfrahmen | gemessen aus `RoboterBasic-01.glb`, `tools/robot_helmet_transfer.py` |
 
 Abbildung der BALLON-Formen: `loft`, `wrap`, `tube` → `surface`; `cyl` → `loft`; `box`, `plate`, `hull` → `hull`; Fugen (`cuts`) → `hull`-Schnitte. Das Feld `form` hält die Autorenform fest, `model.py` bleibt unverändert. Die Formparameter sind die Quelle, die ausgewerteten Punkte nur ihr Ergebnis; das gilt nicht für den Helm.
 
-Grenzen: Fasen sind aus (`bevel = 0`), BALLON fast in Blender 1–2 mm. Der Helm ist die einzige Mesh-Übernahme; er folgt dem Skelett, lässt sich aber nicht über Parameter formen. Pose `ready` fehlt, Waffenanbindung ist offen (`Socket_Hand`).
+Grenzen: Der Helm ist die einzige Mesh-Übernahme und bleibt ungefast (`bevel = 0`, seine Fasen stecken in den gemessenen Flächen); er folgt dem Skelett, lässt sich aber nicht über Parameter formen. Pose `ready` fehlt, Waffenanbindung ist offen (`Socket_Hand`).
 
 ## Register
 
@@ -46,9 +47,31 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 | Haltung | Grundhaltung A-Position |
 | Abnahme | je Typ eigene Referenz über `python -m formgen.robot.silhouette`, in der Haltung der Referenz; IoU ≥ 0,90, Bänder 0,92–1,08 |
 
+## Fasen
+
+`bevel.evaluate(document)` ist der Auswertungsweg des Roboters: `geom.evaluate` baut Formen und Fugen, danach fast `bevel.py` jedes Teil. `geom._bevel` kann nur Konvexes, und `geom.py` steht in allen Waffenschlüsseln.
+
+| Zahl | Wert | Herkunft |
+|---|---|---|
+| Breite je Form (`kit.BEVEL`), mm | `cyl` 0,8 · `hull` 2,0 · `box` 1,0 · `plate` 1,0 · `loft` 1,6 · `wrap` 1,2 · `tube` 0 | Vorgabe: BALLON 14bd78d, `tools/robot_build.py` `_piece` |
+| Breite je Teil | `bevel=` in `body.py`, `arm.py` geht vor; `0` heißt dort „nicht gesetzt“ | Vorgabe: ebenda |
+| Winkelgrenze, Segmente | 30°, 2 | Vorgabe: BALLON `kit.add_bevel` |
+| Überlappungsschutz | gemeinsam je Teil, Fläche kippt nie (`KEEP`) | Vorgabe in der Art (`use_clamp_overlap`), Schwelle Annahme |
+| Gehrung `MITER`, Kurzzug `SHORT_RUN`, `SLIVER_M`, `LOCAL_PASSES` | 1,5 · 4 · 0,02 mm · 60 | Annahme, am Bild und an der Referenz geprüft |
+
+Teile mit Fugen klemmen örtlich je Ecke: Der Boolean hinterlässt Kleinstkanten, die gemeinsam geklemmt die Fase des ganzen Teils auslöschen würden (`chest` 0,04 statt 1,2 mm); Blender arbeitet dort auf N-Ecken und behält die volle Breite, gemessen an der Referenz. Dazu fallen Kantenzüge unter vierfacher Breite weg: Reste einer flach streifenden Fuge. Vierecke teilt `kit.py` an der kürzeren Diagonale, sonst wählt die 30°-Grenze links andere Kanten als rechts. Fasenflächen stehen in `mesh.soft` und sind in den Normalen untereinander glatt (BALLON: `harden_normals`, `WEIGHTED_NORMAL`). Keine Blender-Parität an Ecken.
+
 ## Skin
 
-Standard ist `weiss_graphit` in `skins.toml`, Farben aus den Materialien des Referenz-GLB. Weitere Skins kommen später. `[skins.weiss_graphit.finish]` hält Metall/Rauheit je Rolle für das GLB; das Raster-Blatt nutzt nur die Farben.
+Standard ist `weiss_graphit` in `skins.toml`, Farben aus den Materialien des Referenz-GLB. Weitere Skins kommen später. `[skins.weiss_graphit.finish]` hält Metall/Rauheit je Rolle für GLB und Cycles, optional `spec` nur für Cycles; das Raster-Blatt nutzt nur die Farben. `[skins.weiss_graphit.aaa]` hält die Eingangsfarben für Cycles (wie `aaa_color` der Rollen): `roles` bleibt die Wirkung, GLB und Blatt zeigen sie unverändert.
+
+Abnahme am AAA-Licht, kein Teil der Pipeline; das GLB bleibt die Lieferung:
+
+```sh
+./ce lock gpu -- "$PWD/.venv/bin/python" tools/robot_cycles.py RA01 --samples 128 --res 1200
+```
+
+Das Werkzeug lädt das fertige GLB, nimmt Materialien und AAA-Licht aus BALLONs gepinntem Kit und Lichtsetzung und Kamera aus `tools/robot_build.py` (14bd78d). Neben `<ID>_{hero,nah}.png` schreibt es `<ID>_rollen.json`: je Rolle der Median im Inneren einer Rollenmaske neben dem Hex aus `roles`. Eine Skin-Änderung macht alle Waffenstufen veraltet (Lehren).
 
 ## Abnahme
 
