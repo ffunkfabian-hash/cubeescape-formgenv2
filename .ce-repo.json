@@ -20,5 +20,8 @@
     "docs/schemas/*.schema.json",
     "formgen/wspec.py",
     "formgen/geo.py"
-  ]
+  ],
+  "docs": {
+    "changelog": "CHANGELOG.md"
+  }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.2 — Patch kern-sweep
+
+- Nur Doku und Konfiguration: AGENTS.md auf den harten Kern 1–8 und Repo-Eigenes gekürzt (CLAUDE.md importiert sie), LESSONS auf wiederkehrende Fallen gekürzt (Rest in `LESSONS-lang.md`), Werkzeug-Pin 0.35, `core_paths`, `docs.changelog`.
+
 ## 0.8.1 — Patch visierfix
 
 - Visiertausch: `sight_emitter` behält die Leuchtbewegung des Grundvisiers (BE10–BH10, BJ10–BL10); BE14–BH14 sitzen wie der Pilot seitlich auf der Schiene (BALLON `side_mount`) statt im Rohr.
