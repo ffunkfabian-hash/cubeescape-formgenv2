@@ -151,7 +151,7 @@ def materials_html(document):
             rgb = [_number(c) for c in color[:3]]
             factor = 255 if max(rgb) <= 1 else 1
             color = '#' + ''.join(f'{max(0,min(255,round(c*factor))):02x}' for c in rgb)
-        used.setdefault((role, str(color)), roles.get(role, {}))
+        used.setdefault((role, str(color)), {**roles.get(role, {}), **skin.get('finish', {}).get(role, {}), **({'de': role} if skin else {})})
     tiles = []
     for (role, color), value in used.items():
         valid_color = color if re.fullmatch(r'#[0-9a-fA-F]{6}', color) else 'transparent'

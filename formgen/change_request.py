@@ -87,6 +87,8 @@ def downgrade(doc: dict) -> dict:
     legacy = {'format': origin['format'], 'version': origin['version'], 'created_at': doc['created_at'], 'model': doc['model']['name'],
               'asset': doc['model']['asset'], 'asset_sha256': doc['model']['asset_sha256'], 'requested_change': doc['requested_change']}
     if origin['version'] == 1:
+        if len(doc['markings']) != 1 or len(doc['markings'][0]['samples']) != 1:
+            raise ChangeRequestError('Das Altformat v1 fasst genau einen Punkt; diese Datei hat mehr')
         legacy['target'] = _target(doc['markings'][0]['samples'][0])
     else:
         legacy['markings'] = [{'id': m['id'], 'comment': m['comment'], 'tool': m['tool'], 'diameter_mm': m['diameter_mm'],

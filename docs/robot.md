@@ -42,7 +42,7 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 | Baugruppen | genau `head`, `arms`, `upper_body`, `lower_body`, `legs` |
 | Anker | mindestens `Socket_Neck`, `Socket_Waist`, `Socket_Hip_R/L`, `Socket_Shoulder_R/L`, `Socket_Wrist_R/L`, `Socket_Hand`; weitere erlaubt |
 | Rollen | nur Rollen aus `skins.toml` › `[roles]`; Farben nie im Modell. Ein neuer Skin ergänzt `[skins.<id>]`, siehe Cachehinweis in den Lehren |
-| Herkunft | jede Zahl: `INFO.provenance` oder je Teil. Flächendaten (`surface`) sind zulässig, tragen `kind = gemessen` mit Quelle und werden im Bericht ausgewiesen |
+| Herkunft | jede Zahl: `INFO.provenance` oder je Teil. Flächendaten (`surface`) sind zulässig, tragen `kind = gemessen` mit Quelle, stehen in der Spec unter `measured_parts` und werden im Bericht ausgewiesen |
 | Abnahme | je Typ eigene Referenz über `python -m formgen.robot.silhouette`; IoU ≥ 0,90, Bänder 0,92–1,08 |
 
 ## Skin

@@ -61,7 +61,8 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
  const previous=[],undone=[];
  const list=find('[data-list]'),note=find('[data-note]');
  const labels={point:'Punkt',line:'Strich',brush:'Pinsel'};
- const snapshot=()=>({items:done.slice(),active,comment:comment.value});
+ let origin=null,migrated=null;   // Herkunft einer geöffneten Datei, gehört wie die Markierungen zum Undo-Stand
+ const snapshot=()=>({items:done.slice(),active,comment:comment.value,origin,migrated});
  function checkpoint(){previous.push(snapshot());undone.length=0;}
  function rowText(s,i){
    const part=s.samples[0].data.part,name=model.labels.parts[part]||part;
@@ -183,7 +184,7 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
    if(gesture)return;
    const [from,to]=redo?[undone,previous]:[previous,undone];
    if(!from.length)return;
-   to.push(snapshot());const old=from.pop();done=old.items;active=old.active;comment.value=old.comment;showList();status.textContent=redo?'Markierung wiederhergestellt.':'Markierung zurückgenommen.';
+   to.push(snapshot());const old=from.pop();done=old.items;active=old.active;comment.value=old.comment;origin=old.origin;migrated=old.migrated;showList();status.textContent=redo?'Markierung wiederhergestellt.':'Markierung zurückgenommen.';
    requestDraw();update();
  }
  find('[data-undo]').onclick=()=>history(false);find('[data-redo]').onclick=()=>history(true);
@@ -214,7 +215,6 @@ window.formgenEnableAnnotation=function({T,stage,canvas,meshes,group,camera,cont
  const fileInput=find('[data-file]');
  find('[data-open]').onclick=()=>fileInput.click();
  const slot=(node,primitive)=>node+':'+primitive;
- let origin=null,migrated=null;
  function readRecords(records,same=true,stats={approx:0,lost:0}){
    const bySlot=new Map(available.map(item=>[slot(item.node,item.primitive),item.obj]));
    return records.map(record=>{

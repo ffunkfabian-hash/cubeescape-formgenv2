@@ -8,6 +8,7 @@ Jede Stufe ist ein Cacheeintrag (formgen/cache.py); ohne --force nur Fehlendes. 
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import hashlib
 import json
 from pathlib import Path
@@ -60,6 +61,18 @@ def _code() -> str:
     return hashlib.sha256(canonical({c: file_hash(ROOT / c) for c in CODE})).hexdigest()
 
 
+def _coded(artifacts):
+    """Bildstufen und Blatt: build.py nimmt keinen Code in den Schlüssel; wie in formgen.pipeline Closure und Umgebung ergänzen."""
+    from .. import pipeline as weapons
+    out = []
+    for a in artifacts:
+        extra = {'code': weapons.code_hash(weapons.CODE[a.kind])}
+        if a.kind in weapons.IMAGE_STAGES:
+            extra['env'] = weapons.environment()
+        out.append(dataclasses.replace(a, params={**a.params, **extra}))
+    return out
+
+
 def run(selection, out, cache, force=False, log=print, stages=STAGES):
     out = Path(out)
     results = []
@@ -82,17 +95,17 @@ def run(selection, out, cache, force=False, log=print, stages=STAGES):
     ids = list(selection)
     if not set(stages) & set(IMAGE_STAGES):
         return results
-    stage('prompts', build.downstream_plan(ids, out, 'prompts'))
+    stage('prompts', _coded(build.downstream_plan(ids, out, 'prompts')))
     views = []
     for sid, e in selection.items():
         views += build.downstream_plan([sid], out, 'views', skin=e['skin'])
-    stage('views', views)
+    stage('views', _coded(views))
     stage('fonts', build.font_plan())
-    stage('sheets', build.downstream_plan(ids, out, 'sheets'))
+    stage('sheets', _coded(build.downstream_plan(ids, out, 'sheets')))
     previews = []
     for sid, e in selection.items():
         previews += build.downstream_plan([sid], out, 'previews', skin=e['skin'])
-    stage('previews', previews)
+    stage('previews', _coded(previews))
     return results
 
 

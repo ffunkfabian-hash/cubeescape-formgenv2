@@ -16,7 +16,8 @@
   "sockets",
   "provenance",
   "line_info",
-  "type"
+  "type",
+  "measured_parts"
  ],
  "properties": {
   "format": {
@@ -113,6 +114,13 @@
     "num",
     "name_de"
    ]
+  },
+  "measured_parts": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "Teile mit Herkunft gemessen (Flächendaten statt Parameter)."
   }
  }
 }

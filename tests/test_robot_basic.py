@@ -82,18 +82,28 @@ class ModelTest(Base):
 
 
 class KeyTest(unittest.TestCase):
+    def spec_key(self, sheets, skins='0' * 64):
+        seen = []
+        hashes = lambda path: skins if Path(path).name == 'skins.toml' else '0' * 64
+        with tempfile.TemporaryDirectory() as t, mock.patch.object(pipeline, 'run_artifacts', side_effect=lambda a, *r, **k: seen.extend(a) or []), \
+                mock.patch.object(pipeline, 'file_hash', hashes):
+            pipeline.run(sheets, Path(t), Path(t) / 'c', stages=('specs',), log=lambda *_: None)
+        return seen[0].key
+
     def test_spec_key_follows_register_and_skin(self):
-        with tempfile.TemporaryDirectory() as t:
-            out = Path(t)
-            sheets = lines.sheets()
-            seen = []
-            with mock.patch.object(pipeline, 'run_artifacts', side_effect=lambda a, *r, **k: seen.extend(a) or []), \
-                    mock.patch.object(pipeline, 'file_hash', return_value='0' * 64):
-                pipeline.run(sheets, out, out / 'c', stages=('specs',), log=lambda *_: None)
-                other = {'RA01': dict(sheets['RA01'], skin='nacht')}
-                pipeline.run(other, out, out / 'c', stages=('specs',), log=lambda *_: None)
-            self.assertEqual(len(seen), 2)
-            self.assertNotEqual(seen[0].key, seen[1].key)
+        sheets = lines.sheets()
+        base = self.spec_key(sheets)
+        self.assertEqual(base, self.spec_key(sheets))
+        self.assertNotEqual(base, self.spec_key({'RA01': dict(sheets['RA01'], skin='nacht')}))
+        self.assertNotEqual(base, self.spec_key(sheets, skins='1' * 64))
+
+    def test_image_and_sheet_keys_carry_the_code(self):
+        a = pipeline.Artifact('RA01', 'sheets', 's', {}, {}, 'x', 'b', {})
+        b = pipeline.Artifact('RA01', 'views', 's', {}, {}, 'x', 'b', {})
+        sheet_a, view_b = pipeline._coded([a, b])
+        self.assertIn('code', sheet_a.params)
+        self.assertIn('env', view_b.params)
+        self.assertNotEqual(a.key, sheet_a.key)
 
     def test_geometry_key_includes_the_evaluation_engine(self):
         entry = lines.sheets()['RA01']
@@ -241,7 +251,26 @@ def _box(w, h, d):
     return v[np.array(t)]
 
 
+def _tiny_glb(path, names):
+    """Je Name ein Dreieck unter einem Node SEG_head, wie im Referenz-GLB."""
+    blob = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0]], '<f4').tobytes()
+    meshes = [dict(primitives=[dict(attributes=dict(POSITION=0))]) for _ in names]
+    nodes = [dict(name=n, mesh=i) for i, n in enumerate(names)] + [dict(name='SEG_head', children=list(range(len(names))))]
+    doc = dict(scene=0, scenes=[dict(nodes=[len(names)])], nodes=nodes, meshes=meshes, buffers=[dict(byteLength=len(blob))],
+               bufferViews=[dict(buffer=0, byteOffset=0, byteLength=len(blob))], accessors=[dict(bufferView=0, componentType=5126, count=3, type='VEC3')])
+    head = json.dumps(doc).encode()
+    head += b' ' * (-len(head) % 4)
+    Path(path).write_bytes(struct.pack('<4sII', b'glTF', 2, 28 + len(head) + len(blob)) + struct.pack('<I4s', len(head), b'JSON') + head + struct.pack('<I4s', len(blob), b'BIN\0') + blob)
+
+
 class SilhouetteTest(unittest.TestCase):
+    def test_without_helmet_keeps_the_neck_only(self):
+        with tempfile.TemporaryDirectory() as t:
+            path = Path(t) / 'r.glb'
+            _tiny_glb(path, ['neck', 'neck_ring', 'Crown', 'Shell'])
+            self.assertEqual(len(silhouette.triangles(path)), 4)
+            self.assertEqual(len(silhouette.triangles(path, helmet=False)), 2)
+
     def test_identical_figures_pass(self):
         r = silhouette.compare(_box(.5, 1.6, .3), _box(.5, 1.6, .3), 200)
         for v in r.values():

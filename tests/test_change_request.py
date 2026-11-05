@@ -99,6 +99,12 @@ class EditorParityTests(unittest.TestCase):
                                          capture_output=True, text=True, check=True)
                     self.assertEqual(json.loads(run.stdout), cr.load(path))
 
+    def test_downgrade_to_v1_refuses_more_than_one_point(self):
+        doc = cr.load(FIX/'change-request-legacy-v1.json')
+        doc['markings'].append(dict(doc['markings'][0], id='zwei'))
+        with self.assertRaisesRegex(cr.ChangeRequestError, 'genau einen Punkt'):
+            cr.downgrade(doc)
+
 
 if __name__ == '__main__':
     unittest.main()
