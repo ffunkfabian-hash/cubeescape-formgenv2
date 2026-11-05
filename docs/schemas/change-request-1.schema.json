@@ -54,7 +54,7 @@
       "required": ["part", "assembly", "location"],
       "properties": {
         "part": {"description": "Teil: GLB-Extra basic_part, sonst Node-Name.", "type": "string", "minLength": 1},
-        "assembly": {"description": "Baugruppe: GLB-Extra basic_assembly, sonst übergeordneter Node; null wenn keine bekannt.", "type": ["string", "null"]},
+        "assembly": {"description": "Beim Roboter das Einzelteil, bei Waffen die Baugruppe: GLB-Extra basic_assembly, sonst übergeordneter Node; null wenn keine bekannt.", "type": ["string", "null"]},
         "location": {"$ref": "#/$defs/location"},
         "source": {"description": "Übrige Felder einer Altdatei, unverändert.", "type": "object"}
       }

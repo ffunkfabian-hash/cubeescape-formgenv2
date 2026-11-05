@@ -97,8 +97,8 @@ def check_document(document):
     if sorted(found) != sorted(ASSEMBLIES):
         raise ValueError(f'Basic-Typ: Einzelteile {found}, erwartet {list(ASSEMBLIES)}')
     for a in document['assemblies']:
-        if a['id'] not in GROUPS.get(a.get('group'), ()):
-            raise ValueError(f"Basic-Typ: Einzelteil {a['id']} gehört nicht zur Baugruppe {a.get('group')!r}")
+        if a['id'] not in GROUPS.get(a.get('group'), ()) or not a.get('group_de'):
+            raise ValueError(f"Basic-Typ: Einzelteil {a['id']} gehört nicht zur Baugruppe {a.get('group')!r} oder group_de fehlt")
     missing = [s for s in SOCKETS if s not in document['anchors']]
     if missing:
         raise ValueError(f'Basic-Typ: Anker fehlen: {missing}')

@@ -231,6 +231,17 @@ class ContractTest(Base):
         doc = pipeline.document_for('RA01', lines.sheets()['RA01'])
         self.assertEqual((doc['info']['id'], doc['info']['name_de'], doc['info']['line']), ('RA01', 'RoboterBasic-01', 'basic'))
 
+    def test_labels_order_only_with_group_level(self):
+        robot = dict(parts=[], assemblies=[dict(id='feet', de='Füße'), dict(id='head', de='Kopf')], groups=[dict(id='legs', de='Beine')])
+        self.assertEqual(site.part_labels(robot)['order'], ['feet', 'head'])
+        self.assertEqual(site.part_labels(robot)['families'], [dict(id='legs', de='Beine')])
+        weapon = dict(parts=[], assemblies=[dict(id='receiver', de='Hauptgehäuse'), dict(id='barrel', de='Lauf')])
+        self.assertEqual((site.part_labels(weapon)['order'], site.part_labels(weapon)['families']), ([], []))
+
+    def test_every_segment_has_a_single_part(self):
+        with self.assertRaisesRegex(ValueError, 'gibt_es_nicht'):
+            basic._assembly('x', 'gibt_es_nicht')
+
     def test_website_shows_two_types_side_by_side(self):
         item = dict(kind='robot', has_3d=True, name='x', line='basic', skin='weiss_graphit', parts=1, labels={}, assemblies=[dict(id='head', de='Kopf')],
                     dimensions_mm=dict(height=1, width=1, depth=1))

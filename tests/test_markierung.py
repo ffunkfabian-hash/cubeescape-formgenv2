@@ -38,6 +38,11 @@ class MarkierungTest(unittest.TestCase):
         self.assertEqual(self.r['fresh']['sha'], self.r['cur'])
         self.assertEqual([round(v, 3) for v in self.r['fresh']['fux']], [0, 333.333, 333.333])
 
+    def test_group_filter_marks_on_the_single_part(self):
+        self.assertEqual(self.r['family'], 'hands')       # Ansicht Baugruppe Arme: die Probe nennt das Einzelteil
+        self.assertEqual(self.r['single'], 'hands')
+        self.assertIn('0', self.r['otherFamily'])         # Ansicht Beine: Teil der Arme ist nicht wählbar
+
 
 if __name__ == '__main__':
     unittest.main()

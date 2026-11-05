@@ -19,7 +19,7 @@ from ..versions import VIEWER
 SITE = 1
 HERE = Path(__file__).resolve().parent
 from ..robot.spec import FORMAT as ROBOT_FORMAT, VERSION as ROBOT_VERSION
-ROBOT_FIELDS = ('id', 'name_de', 'kind', 'line', 'skin', 'dimensions_mm', 'parts', 'assemblies')
+ROBOT_FIELDS = ('id', 'name_de', 'kind', 'line', 'skin', 'dimensions_mm', 'parts', 'assemblies', 'groups')
 THREE = json.loads((HERE/'vendor/three.json').read_text(encoding='utf-8'))
 WEB_FILES = {'site.css': 'site.css', 'site.js': 'site.js', 'viewer3d.js': 'viewer3d.js', 'markierung.js': 'markierung.js',
              'change-request.js': 'change-request.js', THREE['file']: f"vendor/{THREE['file']}",
@@ -45,7 +45,8 @@ def count(value) -> int:
 
 def part_labels(spec: dict) -> dict:
     parts = spec['parts'] if isinstance(spec['parts'], list) else []
-    return {'order': [a['id'] for a in spec.get('assemblies', []) if isinstance(a, dict)],
+    # Reihenfolge am Körper nur für Modelle mit Baugruppen-Ebene; Waffen bleiben alphabetisch
+    return {'order': [a['id'] for a in spec['assemblies']] if spec.get('groups') else [],
             'parts': {p['id']: p['name_de'] for p in parts if isinstance(p, dict) and p.get('id') and p.get('name_de')},
             'assemblies': {a['id']: a['de'] for a in spec['assemblies']},
             'families': [{'id': g['id'], 'de': g['de']} for g in spec.get('groups', [])]}
@@ -72,7 +73,7 @@ def collect(out) -> list[dict]:
             spec = robot_spec(spec)
             found.append({'id': sid, 'kind': 'robot', 'name': spec['name_de'], 'has_3d': has_3d, 'labels': part_labels(spec),
                           'line': spec['line'], 'skin': spec.get('skin_de', spec['skin']), 'dimensions_mm': spec['dimensions_mm'],
-                          'parts': count(spec['parts']), 'assemblies': spec['assemblies'], 'groups': spec.get('groups', [])})
+                          'parts': count(spec['parts']), 'assemblies': spec['assemblies'], 'groups': spec['groups']})
     weapons = sorted((i for i in found if i['kind'] == 'weapon'), key=lambda i: (i['group'], i['variant']))
     return weapons + sorted((i for i in found if i['kind'] == 'robot'), key=lambda i: (i['line'], i['id']))
 

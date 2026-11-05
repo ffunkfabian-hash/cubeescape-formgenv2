@@ -31,7 +31,7 @@ def weapon(sid, letter, name):
 
 
 def robot(**change):
-    return {'format': site.ROBOT_FORMAT, 'version': 1, 'id': 'RA01', 'name_de': 'RoboterBasic-01', 'kind': 'robot', 'line': 'basic',
+    return {'format': site.ROBOT_FORMAT, 'version': 1, 'id': 'RA01', 'name_de': 'RoboterBasic-01', 'kind': 'robot', 'groups': [{'id': 'torso', 'de': 'Rumpf'}], 'line': 'basic',
             'skin': 'Weiß-Graphit', 'dimensions_mm': {'height': 1820.0, 'width': 760.0, 'depth': 520.0}, 'parts': 424,
             'assemblies': [{'id': 'head', 'de': 'Kopf'}, {'id': 'torso', 'de': 'Brustkorb'}], **change}
 

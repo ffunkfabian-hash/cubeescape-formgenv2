@@ -7,7 +7,7 @@ Einstieg ist `out/index.html`, offline per `file://`, ohne node, ohne Netz, ohne
 | `index.html` | Start mit Navigation und Einstieg in beide Bereiche |
 | `waffen.html` | Waffen nach BASIC-Typ, Suche und Variantenfilter; je Karte Blatt und 3D |
 | `roboter.html` | Roboter nach Linie (`line`), Maße, Baugruppen; heute genau RA01 |
-| `3d.html?id=<ID>` | Eine Seite für alle 3D-Ansichten, optional `&baugruppe=<id>` |
+| `3d.html?id=<ID>` | Eine Seite für alle 3D-Ansichten, optional `&baugruppe=<id>` (Baugruppe oder Einzelteil) |
 | `web/` | CSS, Skripte, `catalog.js`, Three.js und Lizenz |
 | `models3d/<ID>.js` | GLB als Base64, je Blatt per `<script>` nachgeladen |
 
@@ -19,7 +19,7 @@ Es erscheinen nur Blätter mit Vorschau und Spec-Format `formgenv2/weapon-sheet-
 
 ## Teile und Baugruppen
 
-Die Markierung liest je Treffer die Node-Extras `basic_part` und `basic_assembly`, ausgehend vom Mesh nach oben. Ohne Extras gilt: Teil = Node-Name, sonst `mesh_<n>`; Baugruppe = `source_segment`, sonst Name des übergeordneten Nodes. Deutsche Namen kommen aus Spec `parts` und `assemblies`.
+Die Markierung liest je Treffer die Node-Extras `basic_part`, `basic_assembly` und beim Roboter `basic_group`; `?baugruppe=` nimmt Baugruppe oder Einzelteil, in der Datei steht immer das Einzelteil (`assembly`). Gelesen wird ausgehend vom Mesh nach oben. Ohne Extras gilt: Teil = Node-Name, sonst `mesh_<n>`; Baugruppe = `source_segment`, sonst Name des übergeordneten Nodes. Deutsche Namen kommen aus Spec `parts` und `assemblies`.
 
 ## Änderungsdatei
 

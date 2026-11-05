@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -79,9 +80,14 @@ _ARM = dict(upper='upper_arms', fore='forearms')
 
 def _assembly(pid, kind):
     """Einzelteil eines Bauteils; die Schulterteile hängen im Modell am Rumpf bzw. Oberarm, wie Segment SHOULDER_* der Referenz (21 Teile je Seite)."""
-    if pid.startswith(('pauldron_', 'shoulder_')) or pid == 'shoulder_ball':
+    if pid.startswith(('pauldron_', 'shoulder_')):
         return 'shoulders'
-    return _TRUNK.get(kind) or _ARM.get(kind, 'hands')
+    if kind == 'hand' or re.fullmatch(r'(f\d|t)_\d', kind):
+        return 'hands'
+    found = _TRUNK.get(kind) or _ARM.get(kind)
+    if not found:
+        raise ValueError(f'{pid}: Segment {kind} gehört zu keinem Einzelteil')
+    return found
 
 
 def _helmet(frames):
