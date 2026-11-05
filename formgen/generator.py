@@ -354,6 +354,15 @@ def _in_band(line):
     return line is not None and SIGHT_LINE_MM[0] - 1e-6 <= line <= SIGHT_LINE_MM[1] + 1e-6
 
 
+def _keep_glow(old, parts):
+    """Leuchtbewegung des alten Visiers auf das neue Teil gleicher ID: Aktionen und EGO_LIVE von BALLON zeigen auf die ID."""
+    glow = {p["id"]: p["move"] for p in old if (p.get("move") or {}).get("kind") == "glow"}
+    kept = [p for p in parts if p["id"] in glow and not p.get("move")]
+    for p in kept:
+        p["move"] = copy.deepcopy(glow[p["id"]])
+    return sorted(p["id"] for p in kept)
+
+
 def swap_sight(model, kind, num, kit, keep_side=False):
     op = {"op": "sight", "kind": kind}
     rails, old = _rails(model), [p for p in model["PARTS"] if p["asm"] == "sight"]
@@ -361,7 +370,7 @@ def swap_sight(model, kind, num, kit, keep_side=False):
     if num in NO_SIGHT_SWAP:
         return {**op, "skipped": "Bogen: Pinvisier gehört zur Bogenform"}
     if keep_side and any(abs(r.get("x", 0)) > 1 for r in rails):
-        # Bausteine sitzen auf der Mittelebene; an BASIC-14 läge das Visier im Rohr (Linien E–H: Meldung im Bericht 0.8)
+        # Serien behalten das Seitenvisier (Entscheid 0.8; ihre Schalen rechnen mit der Sichtlinie neben dem Rohr)
         return {**op, "skipped": "Seitenschiene: Grundvisier bleibt, der Baustein läge im Rohr"}
     if not rails or not old or bore is None:
         return {**op, "skipped": "keine Schiene BRI-22 mit Visier oder keine Laufachse"}
@@ -393,12 +402,17 @@ def swap_sight(model, kind, num, kit, keep_side=False):
         size = {} if kind == "reflex_sight_v21" else {"size": "M"}
         parts, anchors = kit(kind, f, rail["u1"], weapon_type=wtype, **size)
         op.update(f_mm=round(f, 3))
+    side = next((r["x"] for r in rails if abs(r.get("x", 0)) > 1), None)
+    if side:                        # Bausteine sitzen auf der Mittelebene: wie der Pilot quer auf die Seitenschiene (BALLON side_mount)
+        parts, anchors = kit("side_mount", parts, anchors, side)
+        op["side_mm"] = side
     before, after = _line(model), round(anchors["Socket_Eye"]["at"][1] - bore, 3)
     if not _in_band(after) and (_in_band(before) or before is None or abs(after - 70) > abs(before - 70)):
         return {**op, "skipped": f"Visierlinie {after:g} mm verletzt 60–80 mm (Grundform {before} mm)"}
+    glow = _keep_glow(old, parts)
     removed, anchors_gone, handed = _replace(model, [p["id"] for p in old], parts, anchors)
     return {**op, "removed": removed, "added": [p["id"] for p in parts], "anchors_replaced": anchors_gone,
-            "sight_line_mm": {"before": before, "after": after}, **_handed(handed)}
+            "sight_line_mm": {"before": before, "after": after}, **({"glow_kept": glow} if glow else {}), **_handed(handed)}
 
 
 def _stock_kind(model):

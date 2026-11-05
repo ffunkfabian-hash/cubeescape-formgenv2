@@ -1,6 +1,6 @@
 # Formgen v2 · Hallmark
 
-0.8.0 – **Varianten der echten BALLON-Spielwaffen, jetzt mit Design-Serien.** Zwölf Linien × 17 Typen = 204 Konzeptblätter auf dem neuesten
+0.8.1 – **Varianten der echten BALLON-Spielwaffen, jetzt mit Design-Serien.** Zwölf Linien × 17 Typen = 204 Konzeptblätter auf dem neuesten
 BALLON-Spielpiloten je Typ (BASIC-16/17 ohne Piloten: Formstudie, im Blatt gekennzeichnet): acht Parameterlinien aus BALLON-Bausteinen (Visier v3,
 Schaft S1/S2, Griff v2.1, Längen, Leuchtstreifen) und vier Serien mit eigener Formensprache (Stealth-Facetten, Werkstatt-Prototyp, Cube-Farbwelt,
 organisch-glatt), mit gesteuertem Zufall (Seed je Blatt), Spec, Prompts, GLB über BALLONs Blender-Kit (Stufe `asset`, AAA-Bake auf Anforderung),

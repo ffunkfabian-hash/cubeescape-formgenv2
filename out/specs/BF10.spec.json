@@ -182,6 +182,9 @@
     ],
     "anchors_replaced": [],
     "f_mm": -12.0,
+    "glow_kept": [
+     "sight_emitter"
+    ],
     "kind": "entfernung",
     "op": "sight",
     "removed": [
@@ -644,7 +647,7 @@
     ]
    },
    "id": "sight_emitter",
-   "moving": false,
+   "moving": true,
    "name_de": "Emitter",
    "name_en": "Reticle emitter",
    "role": "energy",
