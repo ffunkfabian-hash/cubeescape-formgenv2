@@ -1,0 +1,58 @@
+{
+  "format": "formgen/change-request",
+  "version": 1,
+  "created_at": "2026-11-05T18:00:00.000Z",
+  "model": {
+    "id": "BA01",
+    "kind": "weapon",
+    "name": "Automatikgewehr · Baseline",
+    "asset": "BA01.glb",
+    "asset_sha256": "02d31b06882d0d262d7469af556101001ac5508717c9a330e37ab4154df11378"
+  },
+  "requested_change": "Magazin kürzer",
+  "markings": [
+    {
+      "id": "6f1b1f0e-6f5d-4c58-9b2e-1a9d6f0a0003",
+      "tool": "line",
+      "comment": "bis hier",
+      "diameter_mm": 4.8,
+      "samples": [
+        {
+          "part": "magazine_base",
+          "assembly": "ammo",
+          "location": {
+            "gltf_node": 0,
+            "gltf_mesh": 0,
+            "gltf_primitive": 0,
+            "gltf_triangle": 12,
+            "triangle_vertex_indices": [
+              1,
+              2,
+              3
+            ],
+            "barycentric": [
+              0.2,
+              0.3,
+              0.5
+            ],
+            "local_gltf_xyz_m": [
+              0.01,
+              0.02,
+              0.03
+            ],
+            "local_normal_gltf_xyz": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "model_gltf_xyz_m": [
+              0.01,
+              -0.05,
+              -0.08
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
