@@ -31,5 +31,4 @@ Quelle: Nexogen `templates/kern.md`, nur dort ändern; gilt auch in Cloud-Sitzun
 - Roboter: Basic-Typen wie die Waffen, heute RoboterBasic-01 (Blatt `RA01`) und RoboterBasic-02 (`RA02`), weitere Typen über das Register. Quelle fest in diesem Repo unter `formgen/models/robot/`, Typen und Linien nur im Register `data/robots.toml`, Bau `python -m formgen.robot` ([Roboter](docs/robot.md)). Keine Verbindung zu Critic, weder Laufzeit noch Build; Brücke zu BALLON kommt später. Grundhaltung A-Position. Abnahme von RA01 in der Referenzhaltung gegen `RoboterBasic-01.glb` der Sicherung vom 05.11.2026: Front/Rücken/beide Seiten IoU ≥ 0,90; Bandbreite 0,92–1,08 (`python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung`). R01/R02 und ihre Contour-Module erscheinen nicht auf der Website.
 - KI-Generierung ist optional. Modelle und Standardbau dürfen davon nicht abhängen.
 - Blätter, Ansichten, Vorschauen, Geo und Release-Zips sind gitignoriert. Specs/Prompts bleiben im Repo; Belege extern.
-- Vor Commit `./check` und gezielte Tests. Branch je Sitzung: Patch (bis etwa 100 Zeilen ohne Format, Vertrag, Kernsystem) `./ce session patch <kurzname>`, Version `./ce session reserve <Name>`.
-- Commits sind beauftragt. Kein Push, PR, Merge oder veröffentlichter Release ohne ausdrückliches Okay.
+- Vor Commit `./check` und gezielte Tests.
