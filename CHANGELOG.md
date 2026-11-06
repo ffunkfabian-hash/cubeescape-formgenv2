@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.3 Patch pin40
+
+- Pin auf Agent Tools 0.40.0, sonst keine Änderung.
+
 ## 0.11.2 Patch pin37
 
 - Pin auf Agent Tools 0.37.0 (Waybill), sonst keine Änderung.
