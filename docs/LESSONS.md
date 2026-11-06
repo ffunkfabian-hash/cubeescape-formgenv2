@@ -27,3 +27,5 @@ Nur wiederkehrende Dauer-Fallen; alle übrigen Lehren stehen unverändert in [LE
 - Vor dem Urteil „Blender klemmt das auch“ den echten Modifier auf denselben Netzen laufen lassen: auf Vierecken stimmte er (1,7 % Dreiecke), an Fugenteilen zeigte die Referenz volle Breite gegen 0,04 mm bei gemeinsamer Klemmung. [Roboter](robot.md)
 - Farbmessung am Bild nur im Inneren der Rollenmaske: Randpixel schmaler Teile mischen sich mit dem Nachbarn und täuschen Bleichen vor. [Roboter](robot.md)
 - Kleinste Wurzel einer Quadratik nie als (−b ± √D)/2a: Ist a nur Rauschen, löscht sie sich aus und dasselbe starre Teil bekommt je Haltung eine andere Klemmung; Probe: gedrehtes Teil, gleiche Breite. [Roboter](robot.md)
+- Eine Lieferung von außen gegen die Quelle selbst nachmessen, nicht nur ihre Tests laufen lassen: Der Export von `robot_v2.blend` dauerte unter einer Minute und bestätigte RA02 unabhängig. [Bericht](versions/0.11.md)
+- Feste Studiomaße prüfen, wenn ein Modell größer wird: BALLONs Licht `Top` auf 1,8 m schnitt durch den 1,85 m hohen RA02 und malte eine harte Kante, die wie eine andere Farbe aussah; Einzelrender je Licht zeigten es. [Bericht](versions/0.11.md)

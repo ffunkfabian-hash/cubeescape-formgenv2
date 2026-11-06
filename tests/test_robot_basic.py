@@ -202,20 +202,23 @@ class KeyTest(unittest.TestCase):
 
 
 class LinesTest(unittest.TestCase):
-    def test_register_has_exactly_ra01_today(self):
-        self.assertEqual(list(lines.sheets()), ['RA01'])
+    def test_register_has_both_basic_types_of_line_a(self):
+        self.assertEqual(list(lines.sheets()), ['RA01', 'RA02'])
         e = lines.sheets()['RA01']
         self.assertEqual((e['skin'], e['type']['name_de'], e['line']['name']), ('weiss_graphit', 'RoboterBasic-01', 'Basic'))
+        e = lines.sheets()['RA02']
+        self.assertEqual((e['skin'], e['type']['name_de'], e['line']['name']), ('weiss_graphit', 'RoboterBasic-02', 'Basic'))
 
-    def test_second_basic_type_gets_its_own_sheet_and_leaves_the_first_alone(self):
+    def test_further_basic_type_gets_its_own_sheet_and_leaves_the_others_alone(self):
         reg = lines.load()
-        before = lines.sheets(reg)['RA01']
-        two = dict(types=reg['types'] + [dict(num=2, name_de='RoboterBasic-02', module='formgen.models.robot.roboterbasic_02', since='0.10')],
-                   lines=[dict(reg['lines'][0], types=[1, 2])])
-        sheets = lines.sheets(lines.validate(two['types'], two['lines']))
-        self.assertEqual(list(sheets), ['RA01', 'RA02'])
-        self.assertEqual(sheets['RA01'], before)
-        self.assertEqual(pipeline.source_hash(sheets['RA01']), pipeline.source_hash(before))
+        before = lines.sheets(reg)
+        more = dict(types=reg['types'] + [dict(num=3, name_de='RoboterBasic-03', module='formgen.models.robot.roboterbasic_02', since='0.12')],
+                    lines=[dict(reg['lines'][0], types=[1, 2, 3])])
+        sheets = lines.sheets(lines.validate(more['types'], more['lines']))
+        self.assertEqual(list(sheets), ['RA01', 'RA02', 'RA03'])
+        for sid in before:
+            self.assertEqual(sheets[sid], before[sid])
+            self.assertEqual(pipeline.source_hash(sheets[sid]), pipeline.source_hash(before[sid]))
 
     def test_rules(self):
         types = [dict(num=1, name_de='x', module='formgen.models.robot.x', since='0.9')]

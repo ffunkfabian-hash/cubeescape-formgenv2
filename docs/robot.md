@@ -1,11 +1,11 @@
-# RoboterBasic-01
+# Roboter
 
-Basic-Typ 1 der Roboter, Blatt `RA01`, Grundform wie BA01 bei den Waffen. Heute steht nur er im Register; weitere Typen (`RA02`) und Linien sind im Aufbau vorgesehen.
+Zwei Basic-Typen im Register: RoboterBasic-01 (Blatt `RA01`, Grundform wie BA01 bei den Waffen, dieses Dokument) und RoboterBasic-02 (Blatt `RA02`, Abschnitt [RoboterBasic-02](#roboterbasic-02)). Weitere Typen und Linien sind im Aufbau vorgesehen.
 
 ```sh
 .venv/bin/python -m formgen.robot                     # Geometrie, GLB, Spec, Prompts, Ansichten, Blatt, Vorschau (ohne --force nur Fehlendes)
 .venv/bin/python -m formgen.viewer                    # Website neu bauen
-.venv/bin/python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--ohne-helm]
+.venv/bin/python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--typ 2 | --ohne-helm]
 ```
 
 Bilder unter `./ce lock blender -- …` (CPU-Rasterizer). Blender wird nicht gebraucht: das GLB schreibt `formgen/robot/glb.py`.
@@ -25,6 +25,20 @@ Abbildung der BALLON-Formen: `loft`, `wrap`, `tube` → `surface`; `cyl` → `lo
 
 Grenzen: Der Helm ist die einzige Mesh-Übernahme und bleibt ungefast (`bevel = 0`, seine Fasen stecken in den gemessenen Flächen); er folgt dem Skelett, lässt sich aber nicht über Parameter formen. Pose `ready` fehlt, Waffenanbindung ist offen (`Socket_Hand`).
 
+## RoboterBasic-02
+
+Eigener Körper, gemessen aus `robot_v2.blend` (SHA256 `67a350c1…d578`), zur Laufzeit ohne Blender. Modul `formgen/models/robot/roboterbasic_02.py`, Profile `roboterbasic_02_parameters.py`, Daten `roboterbasic_02_shapes.json` und `_shapes_2.json` (zwei Hälften der Teile, je unter 5 MB). Zuordnung aller Quellobjekte, Ausnahmen und Herkunft: [Bericht](robot/roboterbasic-02.md); Vorschläge [Parameter](robot/parameter-vorschlag.md), [Originalskin](robot/skin-vorschlag-roboterbasic-02.md).
+
+| Punkt | Stand |
+|---|---|
+| Umfang | 554 Teile, 264.549 Dreiecke in A-Position, 1849 × 1446 × 507 mm |
+| Fasen | `bevel = 0`: Die Fasen stecken in den gemessenen Netzen, `bevel.py` fast hier nichts |
+| Mesh-Anteil | 199 Teile enthalten `surface`-Daten; `measured_parts` der Spec nennt alle 554, weil alle Teile gemessen sind |
+| Haltung | A-Position wie RA01; `REFERENCE_PARAMS` ist die Quellhaltung, Schultern je 20 mm enger als die Quelle (Nutzerwunsch) |
+| Abnahme | Front und Rücken IoU 0,9273, Seiten 0,9995; das Minus von vorn ist die engere Schulter |
+| Rollen | `metal` und `glass` hat `weiss_graphit` nicht, sie kommen aus `[roles]` |
+| Tausch mit 01 | Armkette geometrisch geprüft, Kopftausch nicht freigegeben |
+
 ## Register
 
 `data/robots.toml`: Blatt = Linie × Basic-Typ, Blatt-ID `R<Linie><NN>`, ewig, wie `BA01`/`BA02` bei den Waffen. R01 und R02 bleiben reserviert.
@@ -40,7 +54,7 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 |---|---|
 | Modulort | `formgen/models/robot/roboterbasic_<NN>.py`, Daten daneben; keine Pfade außerhalb des Repos |
 | Modul liefert | `PARAMS` (dict), `DATA_FILES` (Pfade, gehen in den Cache-Schlüssel), `document(params, *, sheet_id, line, name)` sowie `INFO`, `PARTS`, `ASSEMBLIES`, `ANCHORS`, `POSES` nach [Modellsprache](modellsprache.md); `INFO.kind = figure`, Maße mm (f,u,x), Boden u = 0, vorn f+, links x+ |
-| Baugruppen und Einzelteile | zwei Ebenen, je Einzelteil beide Körperseiten: Baugruppe `head` Kopf (Einzelteil `head`), `upper_body` Oberkörper (`upper_body` Oberkörper, `pelvis` Becken), `arms` Arme (`shoulders` Schulter, `upper_arms` Oberarm, `forearms` Unterarm, `hands` Hände), `legs` Beine (`thighs` Oberschenkel, `shins` Unterschenkel, `feet` Füße). Im Modell: `ASSEMBLIES` sind die Einzelteile mit den Feldern `group`, `group_de`, jedes der 424 Bauteile trägt `assembly`; GLB-Extras `basic_assembly`, `basic_group` |
+| Baugruppen und Einzelteile | zwei Ebenen, je Einzelteil beide Körperseiten: Baugruppe `head` Kopf (Einzelteil `head`), `upper_body` Oberkörper (`upper_body` Oberkörper, `pelvis` Becken), `arms` Arme (`shoulders` Schulter, `upper_arms` Oberarm, `forearms` Unterarm, `hands` Hände), `legs` Beine (`thighs` Oberschenkel, `shins` Unterschenkel, `feet` Füße). Im Modell: `ASSEMBLIES` sind die Einzelteile mit den Feldern `group`, `group_de`, jedes Bauteil trägt `assembly`; GLB-Extras `basic_assembly`, `basic_group` |
 | Anker | mindestens `Socket_Neck`, `Socket_Waist`, `Socket_Hip_R/L`, `Socket_Shoulder_R/L`, `Socket_Wrist_R/L`, `Socket_Hand`; weitere erlaubt |
 | Rollen | nur Rollen aus `skins.toml` › `[roles]`; Farben nie im Modell. Ein neuer Skin ergänzt `[skins.<id>]`, siehe Cachehinweis in den Lehren |
 | Herkunft | jede Zahl: `INFO.provenance` oder je Teil. Flächendaten (`surface`) sind zulässig, tragen `kind = gemessen` mit Quelle, stehen in der Spec unter `measured_parts` und werden im Bericht ausgewiesen |

@@ -6,7 +6,7 @@ Einstieg ist `out/index.html`, offline per `file://`, ohne node, ohne Netz, ohne
 | --- | --- |
 | `index.html` | Start mit Navigation und Einstieg in beide Bereiche |
 | `waffen.html` | Waffen nach BASIC-Typ, Suche und Variantenfilter; je Karte Blatt und 3D |
-| `roboter.html` | Roboter nach Linie (`line`), Maße, Baugruppen; heute genau RA01 |
+| `roboter.html` | Roboter nach Linie (`line`), Maße, Baugruppen; heute RA01 und RA02 |
 | `3d.html?id=<ID>` | Eine Seite für alle 3D-Ansichten, optional `&baugruppe=<id>` (Baugruppe oder Einzelteil) |
 | `web/` | CSS, Skripte, `catalog.js`, Three.js und Lizenz |
 | `models3d/<ID>.js` | GLB als Base64, je Blatt per `<script>` nachgeladen |

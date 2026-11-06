@@ -1,7 +1,7 @@
 """Silhouettenvergleich zweier Figuren: gleiche Registrierung, kein Strecken. Abnahmeregel aus docs/robot.md (IoU ≥ 0,90,
 Bandbreite 0,92–1,08; Breite = mittlere äußere Spannweite je Zeile, leere Zeilen zählen null). Eingaben sind Dreiecksnetze in glTF-Achsen (Meter).
 
-  python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--ohne-helm]
+  python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--typ 2 | --ohne-helm]
   python -m formgen.robot.silhouette <referenz.glb> <modell.glb> [--ohne-helm]
 """
 from __future__ import annotations
@@ -99,11 +99,15 @@ def compare(a, b, px_per_m=1000):
     return result
 
 
-def reference_triangles(helmet=True):
-    """RoboterBasic-01 in der Haltung des Referenz-GLB; die Grundhaltung A-Position lässt sich gegen die Referenz nicht messen."""
+def reference_triangles(helmet=True, kind=1):
+    """Basic-Typ aus dem Register in der Haltung des Referenz-GLB; die Grundhaltung A-Position lässt sich gegen die Referenz nicht messen."""
+    import importlib
     import tempfile
-    from ..models.robot import roboterbasic_01 as basic
-    from . import bevel, glb
+    from . import bevel, glb, lines
+    modules = {t['num']: t['module'] for t in lines.load()['types']}
+    if kind not in modules:
+        raise SystemExit(f'--typ {kind}: im Register stehen nur {sorted(modules)}')
+    basic = importlib.import_module(modules[kind])
     document = bevel.evaluate(basic.document(basic.REFERENCE_PARAMS))
     with tempfile.TemporaryDirectory() as folder:
         path = Path(folder) / 'referenz.glb'
@@ -114,9 +118,19 @@ def reference_triangles(helmet=True):
 def main(argv=None):
     args = list(argv or sys.argv[1:])
     helmet = '--ohne-helm' not in args
+    kind = 1
+    if '--typ' in args:
+        at = args.index('--typ')
+        if at + 1 == len(args) or not args[at + 1].isdigit():
+            raise SystemExit('--typ braucht die Nummer eines Basic-Typs')
+        if '--referenzhaltung' not in args:
+            raise SystemExit('--typ gilt nur mit --referenzhaltung')
+        kind = int(args.pop(at + 1))
+    if kind != 1 and not helmet:
+        raise SystemExit('--ohne-helm gilt nur für Typ 1: nur dessen Referenz hat SEG_head')
     files = [a for a in args if not a.startswith('--')]
     if '--referenzhaltung' in args:
-        report = compare(triangles(files[0], helmet), reference_triangles(helmet))
+        report = compare(triangles(files[0], helmet), reference_triangles(helmet, kind))
     else:
         report = compare(triangles(files[0], helmet), triangles(files[1], helmet))
     print(json.dumps(report, indent=1))
