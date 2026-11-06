@@ -26,7 +26,7 @@ SHOULDER_WIDTH = 600.000084 - 2*SHOULDER_INSET
 ARM_LENGTH = 556.210017335
 LEG_LENGTH = 907.782963632
 HEAD_SIZE = 236.918
-NECK_LENGTH = 70.0  # Annahme: Halslaenge fuer body.py, am Bild gewaehlt; 01 nutzt 48
+NECK_LENGTH = 70.0  # Annahme von Codex, ohne Beleg: Bezugslaenge, wirkt nur als Verhaeltnis zu head.neck
 SHAPES_FILE = Path(__file__).with_name('roboterbasic_02_shapes.json')
 SHAPES_FILE_2 = Path(__file__).with_name('roboterbasic_02_shapes_2.json')    # zweite Hälfte der Teile: je Datei unter der Grenze von 5 MB
 DATA_FILES = (SHAPES_FILE, SHAPES_FILE_2)
@@ -252,7 +252,7 @@ def _transform(params, row, frames):
             inherited=(_BASE_FRAMES[mount][1]-o0)@R0@Rt.T+ot
             v+=frames[mount][1]-inherited
         if row['bone']=='neck':
-            v[:,:2]=neck[:2]+(v[:,:2]-neck[:2])*params['head']['neck']/70.0
+            v[:,:2]=neck[:2]+(v[:,:2]-neck[:2])*params['head']['neck']/NECK_LENGTH
         if row['assembly']=='head':v=neck+(v-neck)*head_size
         v[:,2]*=dim['height']/_MEASURED_HEIGHT
         return v.reshape(original_shape)
