@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1 Patch ci
+
+- CI: `.github/workflows/check.yml` führt `check.quick` als PR-Check auf dem Standard-Linux-Runner aus (Entscheidung 294).
+
 ## 0.11.1 Patch runde
 
 - Trimline-Runde: Pin auf Agent Tools 0.36.2, `AGENTS.md` ohne veraltete Kopien globaler Regeln.
