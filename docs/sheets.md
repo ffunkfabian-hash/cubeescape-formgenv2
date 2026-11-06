@@ -9,7 +9,7 @@
 | Blatt | Ansichten |
 |---|---|
 | Waffe | `hero`, `side_left`, `side_right`, `front`, `back`, `top`, `bottom`, `detail_trigger`, bei vorhandener Optik `sight_iso`, `sight_side` |
-| Skins | `skin_standard`, `skin_nacht`, `skin_polar`, `skin_kobalt` |
+| Skins | Haupt-Skin der Variante `skin_<skin>` zuerst, dann `skin_standard`, `skin_nacht`, `skin_polar`, `skin_kobalt` ohne Doppelung; ohne Variantenlinie nur die vier festen |
 | Visier | `iso`, sechs Orthogonalansichten, vier Skins |
 | Figur | `front`, `side_left`, `back`, `iso`, `exploded`, `idle`, `ready`, `assembly_<id>` je Baugruppe |
 

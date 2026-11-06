@@ -15,7 +15,7 @@ import zipfile
 from pathlib import Path
 from unittest import mock
 
-from formgen import asset, ballon, ballon_kit, generator, pipeline, variants
+from formgen import asset, ballon, ballon_kit, generator, pipeline, raster, variants
 from formgen.cache import canonical
 
 try:
@@ -67,6 +67,88 @@ def fake_glb(payload: dict) -> bytes:
     chunk += b" " * (-len(chunk) % 4)
     body = struct.pack("<II", len(chunk), 0x4E4F534A) + chunk
     return b"glTF" + struct.pack("<II", 2, 12 + len(body)) + body
+
+
+def skin_sample(bin_chunk=b"\x01\x02\x03\x04") -> bytes:
+    """GLB mit Rollenmaterialien wie BALLONs Export und einem BIN-Block."""
+    glow = {"name": "MT_energy_color", "extras": {"basic_role": "energy"}, "emissiveFactor": [0.15, 0.87, 1.0],
+            "pbrMetallicRoughness": {"baseColorFactor": [0.114, 0.651, 0.745, 1]}}
+    glass = {"name": "MT_glass_color", "extras": {"basic_role": "glass"}, "pbrMetallicRoughness": {"baseColorFactor": [0.5, 0.7, 0.8, 0.12]}}
+    shell = {"name": "MT_shell_color", "extras": {"basic_role": "shell"},
+             "pbrMetallicRoughness": {"baseColorFactor": [0.68, 0.6, 0.45, 1], "metallicFactor": 0, "roughnessFactor": 0.55}}
+    metal = {"name": "MT_metal_color", "extras": {"basic_role": "metal"}, "pbrMetallicRoughness": {"baseColorFactor": [0.26, 0.28, 0.31, 1]}}
+    chunk = json.dumps({"asset": {"version": "2.0"}, "materials": [shell, metal, glow, glass]}).encode()
+    chunk += b" " * (-len(chunk) % 4)
+    body = struct.pack("<II", len(chunk), 0x4E4F534A) + chunk + struct.pack("<II", len(bin_chunk), 0x004E4942) + bin_chunk
+    return b"glTF" + struct.pack("<II", 2, 12 + len(body)) + body
+
+
+def skin_materials(data: bytes) -> dict:
+    size = struct.unpack("<I", data[12:16])[0]
+    return {m["extras"]["basic_role"]: m for m in json.loads(data[20:20 + size])["materials"]}
+
+
+class SkinGlbTests(unittest.TestCase):
+    def test_linear_rgb_matches_blenders_export(self):
+        for got, want in zip(asset.linear_rgb("#E0651E"), (0.7454042, 0.1301365, 0.0129830)):     # MT_accent_color der Stufe asset
+            self.assertAlmostEqual(got, want, places=5)
+
+    def test_standard_returns_the_same_bytes(self):
+        data = skin_sample()
+        self.assertEqual(asset.skin_glb(data, asset.skin_style("standard")), data)
+
+    def test_skin_colors_only_its_roles_and_keeps_the_mesh_chunk(self):
+        data = skin_sample()
+        result = asset.skin_glb(data, asset.skin_style("wueste"))
+        before, after = skin_materials(data), skin_materials(result)
+        self.assertEqual(after["shell"]["pbrMetallicRoughness"]["baseColorFactor"], [*asset.linear_rgb("#B8A27E"), 1])
+        self.assertEqual(after["metal"], before["metal"])
+        self.assertEqual(after["glass"], before["glass"])
+        self.assertEqual(struct.unpack("<I", result[8:12])[0], len(result))
+        self.assertEqual(len(result) % 4, 0)
+        self.assertTrue(result.endswith(struct.pack("<II", 4, 0x004E4942) + b"\x01\x02\x03\x04"))
+        self.assertEqual(result[:8], data[:8])
+
+    def test_glow_follows_the_skin_at_the_same_brightness(self):
+        after = skin_materials(asset.skin_glb(skin_sample(), asset.skin_style("perle")))["energy"]
+        rgb = asset.linear_rgb("#FF5A3A")
+        self.assertEqual(after["pbrMetallicRoughness"]["baseColorFactor"], [*rgb, 1])
+        self.assertAlmostEqual(max(after["emissiveFactor"]), 1.0)
+        for got, want in zip(after["emissiveFactor"], rgb):
+            self.assertAlmostEqual(got, want / max(rgb))
+
+    def test_metal_shell_and_pattern_ground_tone(self):
+        shell = skin_materials(asset.skin_glb(skin_sample(), asset.skin_style("eloxal")))["shell"]["pbrMetallicRoughness"]
+        self.assertEqual((shell["metallicFactor"], shell["roughnessFactor"]), (0.85, 0.32))
+        shell = skin_materials(asset.skin_glb(skin_sample(), asset.skin_style("tarnung")))["shell"]["pbrMetallicRoughness"]
+        self.assertEqual(shell["baseColorFactor"], [*asset.linear_rgb("#6F7360"), 1])
+
+    def test_every_line_gets_the_colors_the_sheet_shows(self):
+        data = raster.palette()
+        for entry in variants.load():
+            for role, color in asset.skin_style(entry["skin"])["roles"].items():
+                if not data["skins"][entry["skin"]].get("pattern") or role != "shell":
+                    self.assertEqual(color, raster.material({"role": role}, entry["skin"], data)["color"], (entry["letter"], role))
+
+
+@unittest.skipUnless((OUT / "assets/index.json").is_file(), "keine gebauten GLBs unter out/assets")
+class BuiltGlbSkinTests(unittest.TestCase):
+    def test_built_glbs_carry_the_skin_of_their_line(self):
+        checked = 0
+        for sid, entry in variants.sheets().items():
+            path = OUT / f"assets/{sid}.glb"
+            if not path.is_file():
+                continue
+            style = asset.skin_style(entry["variant"]["skin"])
+            materials = asset.glb_json(path)["materials"]
+            self.assertTrue(all("basic_role" in m.get("extras", {}) for m in materials), sid)
+            for material in materials:
+                color = style["roles"].get(material["extras"]["basic_role"])
+                if color:
+                    for got, want in zip(material["pbrMetallicRoughness"]["baseColorFactor"], asset.linear_rgb(color)):
+                        self.assertAlmostEqual(got, want, places=4, msg=f"{sid} {material['name']}")
+                    checked += 1
+        self.assertGreater(checked, 0)
 
 
 @unittest.skipIf(SNAP is None, REASON)
@@ -348,12 +430,19 @@ class AssetCacheTests(unittest.TestCase):
         with zipfile.ZipFile(self.out / "assets/BD01.bake.zip") as archive:
             self.assertEqual(json.loads(archive.read("BD01.package.json"))["atlas"], 4096)
 
+    def test_other_skin_rebuilds_the_glb(self):
+        self.run_pipeline(["BD01"])
+        self.assertEqual(self.run_pipeline(["BD01"]), {"assets/BD01.glb": False})
+        entries = variants.load()
+        next(v for v in entries if v["letter"] == "D")["skin"] = "nacht"
+        self.assertEqual(self.run_pipeline(["BD01"], entries), {"assets/BD01.glb": True})
+
     def test_index_drops_bake_of_older_glb_or_other_skin(self):
         with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": "1"}):
             self.run_pipeline(["BD01"], bake=["BD01"])
         self.assertIn("bake", json.loads((self.out / "assets/index.json").read_text())["assets"]["BD01"])
         entries = variants.load()
-        next(v for v in entries if v["letter"] == "D")["skin"] = "nacht"                    # gleiche GLB, anderer Skin
+        next(v for v in entries if v["letter"] == "D")["skin"] = "nacht"                    # gleiche Form, anderer Skin
         self.run_pipeline(["BD01"], entries)
         self.assertNotIn("bake", json.loads((self.out / "assets/index.json").read_text())["assets"]["BD01"])
         with mock.patch.dict(os.environ, {"CE_HEAVY_HELD": "1"}):

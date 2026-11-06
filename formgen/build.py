@@ -235,7 +235,8 @@ def view_names(document: dict) -> list[str]:
         names.append("detail_trigger")
     if any(_sight(part) for part in document["parts"]):
         names += ["sight_iso", "sight_side"]
-    return names + [f"skin_{skin}" for skin in SKINS]
+    from .sheet import sheet_skins
+    return names + [f"skin_{skin}" for skin in sheet_skins(document)]
 
 
 def view_parameters(document: dict, name: str, *, width=None, height=None,

@@ -167,6 +167,13 @@ class BuildTests(unittest.TestCase):
         self.assertIn("iso", view_names(document))
         self.assertNotIn("hero", view_names(document))
 
+    def test_views_of_a_line_include_its_main_skin(self):
+        document = {**self.sample_document(), "generator": {"variant": {"skin": "wueste"}}}
+        names = view_names(document)
+        self.assertEqual([n for n in names if n.startswith("skin_")], ["skin_wueste", *(f"skin_{skin}" for skin in SKINS)])
+        params = view_parameters(document, "skin_wueste")
+        self.assertEqual((params["skin"], params["width"], params["height"]), ("wueste", 960, 640))
+
     def test_figure_explode_assembly_and_explicit_pose(self):
         document = self.sample_document()
         document["info"]["kind"] = "figure"
