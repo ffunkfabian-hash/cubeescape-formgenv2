@@ -10,10 +10,16 @@ name_de = "RoboterBasic-01"
 module = "formgen.models.robot.roboterbasic_01"
 since = "0.9"
 
+[[types]]
+num = 2
+name_de = "RoboterBasic-02"
+module = "formgen.models.robot.roboterbasic_02"
+since = "0.11"
+
 [[lines]]
 letter = "A"
 name = "Basic"
 since = "0.9"
 idea = "Grundform der Basic-Typen, ohne Abwandlung"
 skin = "weiss_graphit"
-types = [1]
+types = [1, 2]

@@ -1,11 +1,11 @@
-# RoboterBasic-01
+# Roboter
 
-Basic-Typ 1 der Roboter, Blatt `RA01`, Grundform wie BA01 bei den Waffen. Heute steht nur er im Register; weitere Typen (`RA02`) und Linien sind im Aufbau vorgesehen.
+Zwei Basic-Typen im Register: RoboterBasic-01 (Blatt `RA01`, Grundform wie BA01 bei den Waffen, dieses Dokument) und RoboterBasic-02 (Blatt `RA02`, Abschnitt [RoboterBasic-02](#roboterbasic-02)). Weitere Typen und Linien sind im Aufbau vorgesehen.
 
 ```sh
 .venv/bin/python -m formgen.robot                     # Geometrie, GLB, Spec, Prompts, Ansichten, Blatt, Vorschau (ohne --force nur Fehlendes)
 .venv/bin/python -m formgen.viewer                    # Website neu bauen
-.venv/bin/python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--ohne-helm]
+.venv/bin/python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--typ 02] [--ohne-helm]
 ```
 
 Bilder unter `./ce lock blender -- …` (CPU-Rasterizer). Blender wird nicht gebraucht: das GLB schreibt `formgen/robot/glb.py`.
@@ -24,6 +24,20 @@ Bilder unter `./ce lock blender -- …` (CPU-Rasterizer). Blender wird nicht geb
 Abbildung der BALLON-Formen: `loft`, `wrap`, `tube` → `surface`; `cyl` → `loft`; `box`, `plate`, `hull` → `hull`; Fugen (`cuts`) → `hull`-Schnitte. Das Feld `form` hält die Autorenform fest, `model.py` bleibt unverändert. Die Formparameter sind die Quelle, die ausgewerteten Punkte nur ihr Ergebnis; das gilt nicht für den Helm.
 
 Grenzen: Der Helm ist die einzige Mesh-Übernahme und bleibt ungefast (`bevel = 0`, seine Fasen stecken in den gemessenen Flächen); er folgt dem Skelett, lässt sich aber nicht über Parameter formen. Pose `ready` fehlt, Waffenanbindung ist offen (`Socket_Hand`).
+
+## RoboterBasic-02
+
+Eigener Körper, gemessen aus `robot_v2.blend` (SHA256 `67a350c1…d578`), zur Laufzeit ohne Blender. Modul `formgen/models/robot/roboterbasic_02.py`, Profile `roboterbasic_02_parameters.py`, Daten `roboterbasic_02_shapes.json` und `_shapes_2.json` (zwei Hälften der Teile, je unter 5 MB). Zuordnung aller Quellobjekte, Ausnahmen und Herkunft: [Bericht](robot/roboterbasic-02.md); Vorschläge [Parameter](robot/parameter-vorschlag.md), [Originalskin](robot/skin-vorschlag-roboterbasic-02.md).
+
+| Punkt | Stand |
+|---|---|
+| Umfang | 554 Teile, 264.549 Dreiecke in A-Position, 1849 × 1446 × 507 mm |
+| Fasen | `bevel = 0`: Die Fasen stecken in den gemessenen Netzen, `bevel.py` fast hier nichts |
+| Mesh-Anteil | 199 Teile enthalten `surface`-Daten, stehen in der Spec unter `measured_parts` |
+| Haltung | A-Position wie RA01; `REFERENCE_PARAMS` ist die Quellhaltung, Schultern je 20 mm enger als die Quelle (Nutzerwunsch) |
+| Abnahme | Front und Rücken IoU 0,9273, Seiten 0,9995; das Minus von vorn ist die engere Schulter |
+| Rollen | `metal` und `glass` hat `weiss_graphit` nicht, sie kommen aus `[roles]` |
+| Tausch mit 01 | Armkette geometrisch geprüft, Kopftausch nicht freigegeben |
 
 ## Register
 

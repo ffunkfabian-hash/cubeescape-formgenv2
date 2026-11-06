@@ -1,7 +1,7 @@
 """Silhouettenvergleich zweier Figuren: gleiche Registrierung, kein Strecken. Abnahmeregel aus docs/robot.md (IoU ≥ 0,90,
 Bandbreite 0,92–1,08; Breite = mittlere äußere Spannweite je Zeile, leere Zeilen zählen null). Eingaben sind Dreiecksnetze in glTF-Achsen (Meter).
 
-  python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--ohne-helm]
+  python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--typ 02] [--ohne-helm]
   python -m formgen.robot.silhouette <referenz.glb> <modell.glb> [--ohne-helm]
 """
 from __future__ import annotations
@@ -99,11 +99,12 @@ def compare(a, b, px_per_m=1000):
     return result
 
 
-def reference_triangles(helmet=True):
-    """RoboterBasic-01 in der Haltung des Referenz-GLB; die Grundhaltung A-Position lässt sich gegen die Referenz nicht messen."""
+def reference_triangles(helmet=True, kind='01'):
+    """Basic-Typ in der Haltung des Referenz-GLB; die Grundhaltung A-Position lässt sich gegen die Referenz nicht messen."""
+    import importlib
     import tempfile
-    from ..models.robot import roboterbasic_01 as basic
     from . import bevel, glb
+    basic = importlib.import_module(f'formgen.models.robot.roboterbasic_{kind}')
     document = bevel.evaluate(basic.document(basic.REFERENCE_PARAMS))
     with tempfile.TemporaryDirectory() as folder:
         path = Path(folder) / 'referenz.glb'
@@ -114,9 +115,10 @@ def reference_triangles(helmet=True):
 def main(argv=None):
     args = list(argv or sys.argv[1:])
     helmet = '--ohne-helm' not in args
+    kind = args.pop(args.index('--typ') + 1) if '--typ' in args else '01'
     files = [a for a in args if not a.startswith('--')]
     if '--referenzhaltung' in args:
-        report = compare(triangles(files[0], helmet), reference_triangles(helmet))
+        report = compare(triangles(files[0], helmet), reference_triangles(helmet, kind))
     else:
         report = compare(triangles(files[0], helmet), triangles(files[1], helmet))
     print(json.dumps(report, indent=1))

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.0 Keystone — RoboterBasic-02 als RA02
+
+- RoboterBasic-02 steht im Register und auf der Website: 554 Teile, gemessen aus `robot_v2.blend`, Blatt `RA02`, 3D und Markierung wie RA01. Silhouette gegen die Quelle bestanden (Front und Rücken IoU 0,9273, Seiten 0,9995).
+- `silhouette --typ` misst jeden Basic-Typ in seiner Referenzhaltung.
+- [Bericht](docs/versions/0.11.md)
+
 ## 0.10.0 Chamfer — RoboterBasic-01 optisch auf dem Stand der Waffen
 
 - Fasen: 344 Teile von RA01 tragen Fasen wie BALLON 14bd78d (`formgen/robot/bevel.py`, 30°, zwei Segmente, nach den Fugen); Helm H 80 und Leitungen unverändert. Silhouette besser als zuvor, IoU ≥ 0,9990.
