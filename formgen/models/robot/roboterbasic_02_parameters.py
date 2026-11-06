@@ -20,7 +20,7 @@ from . import arm, body, kit
 
 PROVENANCE = {
     'reference': 'Vorgabe01: BALLON 14bd78d; Parameter und Einheiten aus RoboterBasic-01',
-    'calibration': 'gemessen: lokale Kontrollpunkte jeder 02-Quellteilfamilie, roboterbasic_02_shapes.json',
+    'calibration': 'gemessen: lokale Kontrollpunkte jeder 02-Quellteilfamilie, roboterbasic_02_shapes.json und _shapes_2.json',
     'association': 'Annahme: deklarative Zuordnung semantisch gleicher Teile und lokal interpolierter Verschiebungstransport',
 }
 

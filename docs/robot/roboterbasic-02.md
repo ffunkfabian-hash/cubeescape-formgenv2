@@ -320,7 +320,7 @@ Hilfs-/Studioobjekte werden ausdrücklich nicht als Roboterteile übernommen; ih
 
 | Quellobjekt | Teil-ID / Status | Einzelteil | Baugruppe | SHAPES | Rolle | Elternteil |
 |---|---|---|---|---|---|---|
-| AbPlate_Lower | pelvis_L_ab_plate_lower | pelvis | upper_body | hull | shell | pelvis_waist |
+| AbPlate_Lower | pelvis_ab_plate_lower | pelvis | upper_body | hull | shell | pelvis_waist |
 | AbPlate_Upper | pelvis_ab_plate_upper | pelvis | upper_body | multi | shell | pelvis_waist |
 | AnkleCore_L | shin_L_ankle_core | shins | legs | hull | graphite | shin_L_shin |
 | AnkleCore_R | shin_R_ankle_core | shins | legs | hull | graphite | shin_R_shin |
@@ -357,7 +357,7 @@ Hilfs-/Studioobjekte werden ausdrücklich nicht als Roboterteile übernommen; ih
 | BackTriangle_L | torso_L_back_triangle | upper_body | upper_body | hull | graphite | torso_torso_core |
 | BackTriangle_R | torso_R_back_triangle | upper_body | upper_body | hull | graphite | torso_torso_core |
 | Backpack | torso_backpack | upper_body | upper_body | surface | shell | torso_torso_core |
-| Backpack_Lower | torso_L_backpack_lower | upper_body | upper_body | hull | shell | torso_torso_core |
+| Backpack_Lower | torso_backpack_lower | upper_body | upper_body | hull | shell | torso_torso_core |
 | Belt | pelvis_belt | pelvis | upper_body | surface | graphite | pelvis_pelvis_core |
 | BeltBolt_L | pelvis_L_belt_bolt | pelvis | upper_body | surface | metal | pelvis_pelvis_core |
 | BeltBolt_R | pelvis_R_belt_bolt | pelvis | upper_body | surface | metal | pelvis_pelvis_core |

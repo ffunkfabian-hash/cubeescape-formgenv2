@@ -26,6 +26,7 @@ SHOULDER_WIDTH = 600.000084 - 2*SHOULDER_INSET
 ARM_LENGTH = 556.210017335
 LEG_LENGTH = 907.782963632
 HEAD_SIZE = 236.918
+NECK_LENGTH = 70.0  # Annahme: Halslaenge fuer body.py, am Bild gewaehlt; 01 nutzt 48
 SHAPES_FILE = Path(__file__).with_name('roboterbasic_02_shapes.json')
 SHAPES_FILE_2 = Path(__file__).with_name('roboterbasic_02_shapes_2.json')    # zweite Hälfte der Teile: je Datei unter der Grenze von 5 MB
 DATA_FILES = (SHAPES_FILE, SHAPES_FILE_2)
@@ -44,10 +45,10 @@ def _length(name):
 
 _UPPER, _FORE = _length('upperarm_R'), _length('forearm_R')
 _THIGH, _SHIN = _length('thigh_R'), _length('shin_R')
-_MEASURED_HEIGHT=1848.919751
+_MEASURED_HEIGHT=HEIGHT
 _MEASURED_ARM_LENGTH=_UPPER+_FORE
 _MEASURED_LEG_LENGTH=_THIGH+_SHIN
-_MEASURED_HEAD_SIZE=236.918
+_MEASURED_HEAD_SIZE=HEAD_SIZE
 _WAIST, _NECK, _PELVIS = (_point(n) for n in ('spine', 'neck', 'hips'))
 _TORSO_BASIS=rig.frame(_WAIST,_NECK,(0,-1,0))
 _SHOULDER_LOCAL=_TORSO_BASIS.T@(_point('upperarm_L')-_WAIST)
@@ -73,7 +74,7 @@ REFERENCE_PARAMS = dict(
     pose=dict(upper=((_point('upperarm_L','tail')-_point('upperarm_L'))*[-1,1,1]).tolist(),
               fore=((_point('forearm_L','tail')-_point('forearm_L'))*[-1,1,1]).tolist(),
               fingers='relaxed', shoulder_open=0, origin='gemessen'),
-    head=dict(neck=70.0),
+    head=dict(neck=NECK_LENGTH),
 )
 REFERENCE_PARAMS.update(profiles.extras())
 # Vorgabe01 cf294c4: gemeinsame A-Position; die Winkel sind Entwurfsannahmen,

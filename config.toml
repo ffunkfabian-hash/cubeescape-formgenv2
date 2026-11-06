@@ -1,6 +1,6 @@
 [project]
 version = "0.11.0"
-name = "Chamfer"
+name = "Keystone"
 [render]
 bg = "mid"
 width = 960

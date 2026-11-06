@@ -470,9 +470,9 @@
   "kneecap_R_knee_bolt1",
   "kneecap_R_knee_bolt2",
   "kneecap_R_knee_groove",
-  "pelvis_L_ab_plate_lower",
   "pelvis_L_belt_bolt",
   "pelvis_R_belt_bolt",
+  "pelvis_ab_plate_lower",
   "pelvis_ab_plate_upper",
   "pelvis_belt",
   "pelvis_belt_buckle",
@@ -611,7 +611,6 @@
   "torso_L_back_side_grille_frame",
   "torso_L_back_slot",
   "torso_L_back_triangle",
-  "torso_L_backpack_lower",
   "torso_L_chest_vent",
   "torso_L_hose",
   "torso_L_hose_clamp",
@@ -660,6 +659,7 @@
   "torso_back_top_vent",
   "torso_back_top_vent_frame",
   "torso_backpack",
+  "torso_backpack_lower",
   "torso_chest",
   "torso_chest_band",
   "torso_chest_chevron",
@@ -682,7 +682,7 @@
  "parts": [
   {
    "assembly": "pelvis",
-   "id": "pelvis_L_ab_plate_lower",
+   "id": "pelvis_ab_plate_lower",
    "name_de": "AbPlate_Lower",
    "role": "shell"
   },
@@ -904,7 +904,7 @@
   },
   {
    "assembly": "upper_body",
-   "id": "torso_L_backpack_lower",
+   "id": "torso_backpack_lower",
    "name_de": "Backpack_Lower",
    "role": "shell"
   },
