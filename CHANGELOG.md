@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.2 Patch pin37
+
+- Pin auf Agent Tools 0.37.0 (Waybill), sonst keine Änderung.
+
 ## 0.11.1 Patch runde
 
 - Trimline-Runde: Pin auf Agent Tools 0.36.2, `AGENTS.md` ohne veraltete Kopien globaler Regeln.
