@@ -36,7 +36,33 @@ def views():
     return result
 
 
+def line_document(skin):
+    return {**document(), 'generator': {'variant': {'skin': skin}}}
+
+
 class SheetTests(unittest.TestCase):
+    def test_main_skin_of_the_line_comes_first_and_is_marked(self):
+        self.assertEqual(sheet.sheet_skins(line_document('wueste')), ('wueste', *sheet.SKINS))
+        images = {**views(), 'skin_wueste': '../views/TEST/skin_wueste.png'}
+        result = sheet.build(line_document('wueste'), images)
+        self.assertIn('Wüste · Haupt-Skin', result)
+        self.assertIn('--skins:5', result)
+        self.assertNotIn('Ansichten ausstehend', result)
+        self.assertLess(result.index('skin_wueste.png'), result.index('skin_standard.png'))
+
+    def test_main_skin_among_the_fixed_four_is_not_doubled(self):
+        self.assertEqual(sheet.sheet_skins(line_document('polar')), ('polar', 'standard', 'nacht', 'kobalt'))
+        result = sheet.build(line_document('polar'), views())
+        self.assertIn('Polar · Haupt-Skin', result)
+        self.assertEqual(result.count('skin_polar.png'), 1)
+
+    def test_sheet_without_line_keeps_the_fixed_four(self):
+        self.assertEqual(sheet.sheet_skins(document()), sheet.SKINS)
+        self.assertEqual(sheet.sheet_skins({**document(), 'generator': None}), sheet.SKINS)
+        result = sheet.build(document(), views())
+        self.assertIn('Vier Skins', result)
+        self.assertNotIn('Haupt-Skin', result)
+
     def test_complete_weapon_uses_external_images_and_bilingual_prompts(self):
         doc, images = document(), views()
         before = copy.deepcopy((doc, images))

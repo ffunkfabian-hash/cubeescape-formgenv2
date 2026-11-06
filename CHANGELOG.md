@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.4 Patch skinfix
+
+- Blatt: Der Haupt-Skin der Variante steht als erstes, markiertes Feld in der Skin-Übersicht; bisher fehlte er bei 8 von 12 Linien.
+- GLB und 3D-Seite: `asset.skin_glb` schreibt die Skinfarben der Linie in die Materialien, Skin im Cache-Schlüssel; bisher trugen alle Waffen die Standardfarben.
+
 ## 0.11.3 Patch pin40
 
 - Pin auf Agent Tools 0.40.0, sonst keine Änderung.

@@ -164,7 +164,7 @@ Teile und in der Seitenansicht gegen Hände, Auswurf, Mündung und Sichtlinie. G
 **Bewegter Träger.** Am Pistolenschlitten (BASIC-05) sitzt die Schale als Kind (`parent_part`), wie BALLONs Magazinboden am Magazin; sie läuft mit, das Teil `slide` bleibt unverändert. Ihre Freizonen gelten über den ganzen Trägerweg: was stehen bleibt und die Schalentiefe erreicht (Schlittenfang, Blende), wird um den Weg verlängert ausgespart; `tests/test_series.py` fährt die Schale den Weg ab.
 
 **Skins.** Serien-Paletten stehen in `skins.toml` mit `formgen = true`. Sie fehlen in BALLONs `kit.SKINS`; `asset.skin_def` gibt sie an den Bake, `blender/asset_build.py` hängt sie nur für den Lauf in den laufenden Kit
-(Schlüssel `skin_def` im Bake-Cache). BALLON übernimmt den Atlas als Standard-Skin der Variante und braucht den Namen nicht. Das GLB der Stufe `asset` bleibt wie bei allen Linien in Rollenfarben.
+(Schlüssel `skin_def` im Bake-Cache). BALLON übernimmt den Atlas als Standard-Skin der Variante und braucht den Namen nicht. BALLON exportiert das GLB im Modus `color`, der keinen Skin kennt; `asset.skin_glb` schreibt danach die Skinfarben aus `skins.toml` je `basic_role` in die Materialien, Netze bleiben bytegleich. Das GLB hat keine Textur: Tarnung trägt nur den Grundton des Musters, Abnutzung fehlt.
 Die Hex-Werte sind für BALLONs AAA-Licht dunkler und satter gewählt, als sie wirken sollen: AgX und das starke Key-Licht bleichen (Orange der Grundform erscheint lachsfarben).
 
 **Grafikteile sind keine Bedienelemente.** Verkleidungen in Rolle `accent` tragen die Funktion „Grafikelement der Serie“, zählen also nicht gegen die Grenze der Akzent-Bedienfunktionen.

@@ -12,8 +12,8 @@ gepinnten Schnappschuss (`formgen.ballon_kit`). Ergebnis je Blatt-ID `out/assets
 ≈ 4 min GPU je Blatt bei 4096²) läuft nur für angeforderte IDs unter `ce lock gpu` und landet als `out/assets/<ID>.bake.zip`.
 
 Schlüssel (nur Inhalte): Kit-Modell der Variante, Grundmodul und Import-Closure des BALLON-Typmoduls, Closure von BALLONs Bau-/Back-/
-Exportcode, eigener Code (diese Datei, ballon_kit.py, blender/asset_build.py, Closure des Generators), Blender-Version; beim Bake
-zusätzlich Skin, Atlasgröße, Samples und Gerät. Ohne --force wird nur Fehlendes gebaut; ein zweiter Lauf ist reiner Treffer.
+Exportcode, eigener Code (diese Datei, ballon_kit.py, blender/asset_build.py, Closure des Generators), Blender-Version, Skinwerte der
+Linie (`skin_glb` schreibt sie nach dem Export in die Materialien); beim Bake zusätzlich Skin, Atlasgröße, Samples und Gerät. Ohne --force wird nur Fehlendes gebaut; ein zweiter Lauf ist reiner Treffer.
 """
 from __future__ import annotations
 
@@ -45,6 +45,7 @@ PACKAGE_VERSIONS = (1, 2)      # lesbar: 1 (0.6, ohne `model`), 2 (0.7, BALLON d
 BLENDER_SCRIPT = ROOT / "formgen/blender/asset_build.py"
 # atlas/samples: Vorgabe BALLON export_unity (4096², 64); jobs: Annahme – vier Blender-Läufe zugleich (je ≈ 0,5 GB RAM, ≈ 1,2 s)
 DEFAULTS = {"blender": "/Applications/Blender.app/Contents/MacOS/Blender", "atlas": 4096, "samples": 64, "jobs": 4}
+METAL_SHELL = {"metallicFactor": 0.85, "roughnessFactor": 0.32}   # Vorgabe BALLON kit.aaa_nodes (`metal_shell`); Test vergleicht mit dem Schnappschuss
 EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.8"
 
 
@@ -117,6 +118,46 @@ def select(ids, entries=None) -> dict:
     return {i: sheets[i] for i in ids}
 
 
+def skin_style(name: str, path: Path = ROOT / "skins.toml") -> dict:
+    """Was ein Skin am GLB ändert: Rollenfarben, bei Tarnmustern den Grundton auf der Schale (GLB ohne Textur) und die Metallschale."""
+    with Path(path).open("rb") as stream:
+        skin = tomllib.load(stream)["skins"][name]
+    roles = dict(skin.get("roles", {}))
+    if skin.get("pattern"):
+        roles.setdefault("shell", skin["pattern"][0])
+    return {"roles": roles, "metal_shell": bool(skin.get("metal_shell"))}
+
+
+def linear_rgb(color: str) -> list[float]:
+    """Hexfarbe nach linearem RGB (sRGB-Kurve), wie glTF `baseColorFactor` sie trägt."""
+    values = [int(color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    return [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in values]
+
+
+def skin_glb(data: bytes, style: dict) -> bytes:
+    """Skin der Linie in die Materialien einer GLB schreiben. BALLON exportiert im Modus `color`, der den Skin nicht kennt (kit.material);
+    nur der JSON-Block ändert sich, Netze und Teilenamen bleiben. Ohne Änderung (Standard) kommen dieselben Bytes zurück."""
+    if not style["roles"] and not style["metal_shell"]:
+        return data
+    size = struct.unpack("<I", data[12:16])[0]
+    document = json.loads(data[20:20 + size])
+    for material in document.get("materials", []):
+        role = material.get("extras", {}).get("basic_role")
+        if role in style["roles"]:
+            pbr = material.setdefault("pbrMetallicRoughness", {})
+            rgb = linear_rgb(style["roles"][role])
+            pbr["baseColorFactor"] = [*rgb, pbr.get("baseColorFactor", [1, 1, 1, 1])[3]]
+            if "emissiveFactor" in material:             # Blender normiert auf den größten Kanal; Helligkeit bleibt, Farbe folgt dem Skin
+                peak = max(material["emissiveFactor"]) / (max(rgb) or 1)
+                material["emissiveFactor"] = [c * peak for c in rgb]
+        if role == "shell" and style["metal_shell"]:
+            material.setdefault("pbrMetallicRoughness", {}).update(METAL_SHELL)
+    text = json.dumps(document, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    text += b" " * (-len(text) % 4)
+    rest = data[20 + size:]
+    return data[:8] + struct.pack("<III", 20 + len(text) + len(rest), len(text), 0x4E4F534A) + text + rest
+
+
 def plan(selection: dict, kit_snap: Path, data_snap: Path, cfg: dict | None = None) -> list[Artifact]:
     """GLB-Artefakte für eine Auswahl {ID: {variant, num}} (wie `pipeline.select`)."""
     cfg = cfg or settings()
@@ -129,10 +170,11 @@ def plan(selection: dict, kit_snap: Path, data_snap: Path, cfg: dict | None = No
         module = ballon_kit.module_name(kit_snap, ballon.module_file(kit_snap, num, base))
         typ = hashlib.sha256(canonical(ballon.closure(kit_snap, num, base))).hexdigest()
         source = hashlib.sha256(canonical({"model": model, "type": typ, "backend": backend, "module": module})).hexdigest()
-        artifacts.append(Artifact(sid, "asset_glb", source, params, {"ASSET": FORMAT}, f"assets/{sid}.glb",
-                                  "formgen.asset:build_glb",
+        style = skin_style(entry["variant"]["skin"])
+        artifacts.append(Artifact(sid, "asset_glb", source, {**params, "skin_style": hashlib.sha256(canonical(style)).hexdigest()},
+                                  {"ASSET": FORMAT}, f"assets/{sid}.glb", "formgen.asset:build_glb",
                                   {"snapshot": str(kit_snap), "module": module, "model": model, "ops": run["ops"], "base": base,
-                                   "skin": entry["variant"]["skin"], "blender": cfg["blender"]}))
+                                   "skin": entry["variant"]["skin"], "skin_style": style, "blender": cfg["blender"]}))
     return artifacts
 
 
@@ -185,7 +227,7 @@ def build_glb(artifact: Artifact) -> bytes:
     with tempfile.TemporaryDirectory(prefix=f"formgen-glb-{artifact.model_id}-") as out:
         run_blender({"snapshot": inputs["snapshot"], "module": inputs["module"], "model": inputs["model"],
                      "id": artifact.model_id, "out": out}, inputs["blender"])
-        return (Path(out) / f"{artifact.model_id}.glb").read_bytes()
+        return skin_glb((Path(out) / f"{artifact.model_id}.glb").read_bytes(), inputs["skin_style"])
 
 
 def _bake(artifact: Artifact, work: Path) -> None:
