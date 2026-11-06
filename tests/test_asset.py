@@ -131,6 +131,12 @@ class SkinGlbTests(unittest.TestCase):
                     self.assertEqual(color, raster.material({"role": role}, entry["skin"], data)["color"], (entry["letter"], role))
 
 
+    @unittest.skipIf(KIT is None, REASON)
+    def test_metal_shell_values_match_the_pinned_kit(self):
+        values = asset.METAL_SHELL
+        self.assertIn(f"d.update(metal={values['metallicFactor']}, rough={values['roughnessFactor']})", (KIT / "basic/kit.py").read_text(encoding="utf-8"))
+
+
 @unittest.skipUnless((OUT / "assets/index.json").is_file(), "keine gebauten GLBs unter out/assets")
 class BuiltGlbSkinTests(unittest.TestCase):
     def test_built_glbs_carry_the_skin_of_their_line(self):

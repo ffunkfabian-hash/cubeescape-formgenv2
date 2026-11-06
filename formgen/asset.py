@@ -45,6 +45,7 @@ PACKAGE_VERSIONS = (1, 2)      # lesbar: 1 (0.6, ohne `model`), 2 (0.7, BALLON d
 BLENDER_SCRIPT = ROOT / "formgen/blender/asset_build.py"
 # atlas/samples: Vorgabe BALLON export_unity (4096², 64); jobs: Annahme – vier Blender-Läufe zugleich (je ≈ 0,5 GB RAM, ≈ 1,2 s)
 DEFAULTS = {"blender": "/Applications/Blender.app/Contents/MacOS/Blender", "atlas": 4096, "samples": 64, "jobs": 4}
+METAL_SHELL = {"metallicFactor": 0.85, "roughnessFactor": 0.32}   # Vorgabe BALLON kit.aaa_nodes (`metal_shell`); Test vergleicht mit dem Schnappschuss
 EVIDENCE = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.8"
 
 
@@ -149,8 +150,8 @@ def skin_glb(data: bytes, style: dict) -> bytes:
             if "emissiveFactor" in material:             # Blender normiert auf den größten Kanal; Helligkeit bleibt, Farbe folgt dem Skin
                 peak = max(material["emissiveFactor"]) / (max(rgb) or 1)
                 material["emissiveFactor"] = [c * peak for c in rgb]
-        if role == "shell" and style["metal_shell"]:      # Werte aus BALLON kit.aaa_nodes
-            material.setdefault("pbrMetallicRoughness", {}).update(metallicFactor=0.85, roughnessFactor=0.32)
+        if role == "shell" and style["metal_shell"]:
+            material.setdefault("pbrMetallicRoughness", {}).update(METAL_SHELL)
     text = json.dumps(document, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     text += b" " * (-len(text) % 4)
     rest = data[20 + size:]
