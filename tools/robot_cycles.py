@@ -63,6 +63,9 @@ for name, loc, energy, size, color in job['scene']['lights']:
     o.rotation_euler = (Vector((0, 0, 1.0)) - Vector(loc)).to_track_quat('-Z', 'Y').to_euler()
 bpy.ops.import_scene.gltf(filepath=job['glb'])
 parts = [o for o in sc.objects if o.type == 'MESH']
+# BALLONs Top hängt fest auf 1,8 m; RA02 ist 1,85 m hoch, die Lichtfläche schnitte durch den Helm und zöge dort eine harte Kante
+top = max((o.matrix_world @ Vector(c)).z for o in parts for c in o.bound_box)
+bpy.data.objects['Top'].location.z = max(bpy.data.objects['Top'].location.z, top + 0.1)   # Annahme: 10 cm Abstand; RA01 bleibt auf 1,8 m
 roles = sorted({o['basic_role'] for o in parts})
 for o in parts:
     o.data.materials[0] = kit.material(o['basic_role'], 'aaa')
