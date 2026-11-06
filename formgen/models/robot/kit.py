@@ -9,6 +9,8 @@ from . import forms
 from .rig import rot_axis
 
 CURVED = {'loft', 'wrap', 'tube', 'cyl'}
+# Fase je Form in mm, wenn das Teil keine eigene trägt. Vorgabe: BALLON 14bd78d, tools/robot_build.py `_piece`; dort gilt `bevel = 0` als nicht gesetzt.
+BEVEL = {'cyl': 0.8, 'hull': 2.0, 'plate': 1.0, 'box': 1.0, 'loft': 1.6, 'wrap': 1.2, 'tube': 0.0}
 
 
 def _plate_points(p):
@@ -53,6 +55,19 @@ def _cut_points(c):
     return (R @ _box(dict(d=c['d'])).T).T + np.array(c['c'], float)
 
 
+def _triangles(V, faces, mirrored):
+    """Vierecke hier teilen, nicht in geom: immer die kürzere Diagonale, das ist spiegelgleich auch bei Paaren aus eigenen Parametern (`rib_l/r`).
+    Sonst wählt die 30°-Grenze der Fasen links andere Kanten als rechts. Spiegeln dreht die Windung; Normalen bleiben außen."""
+    out = []
+    for f in faces:
+        tris = [f]
+        if len(f) == 4:
+            a, b, c, d = f
+            tris = [(a, b, c), (a, c, d)] if np.linalg.norm(V[a] - V[c]) <= np.linalg.norm(V[b] - V[d]) + 1e-6 else [(a, b, d), (b, c, d)]
+        out += [list(t[::-1] if mirrored else t) for t in tris]
+    return out
+
+
 def to_fux(R, o, points):
     """Segmentrahmen → Welt-mm → Autorenrahmen (f nach vorn = −Y, u = Z, x = X)."""
     w = (R @ np.asarray(points, float).T).T + o
@@ -63,7 +78,7 @@ def part(pid, label, seg, kind, role, p, frame_, sx, assembly, side):
     """Teil-Tupel (BALLON-Form) im Rahmen frame_=(R, o); sx=-1 spiegelt an X. Liefert ein kit-Teil."""
     R, o = frame_
     mirror = np.array((sx, 1, 1), float)
-    out = dict(id=pid, assembly=assembly, role=role, label=label, bevel=0, segment=seg, side=side, form=kind)
+    out = dict(id=pid, assembly=assembly, role=role, label=label, bevel=p.get('bevel') or BEVEL[kind], segment=seg, side=side, form=kind)
     if kind in CURVED:
         out['smooth'] = True
 
@@ -81,7 +96,7 @@ def part(pid, label, seg, kind, role, p, frame_, sx, assembly, side):
                 'wrap': lambda: forms.wrap(p['secs'], p['a0'], p['a1'], p['t'], p.get('steps'), p.get('sub', 6)),
                 'tube': lambda: forms.tube(p['path'], p['r'], p.get('segs', 14))}[kind]()
         V = np.array(V, float) * mirror
-        F = [list(f if sx > 0 else f[::-1]) for f in F]     # Spiegeln dreht die Windung; Normalen bleiben außen
+        F = _triangles(V, F, sx < 0)
         out.update(shape='surface', vertices=to_fux(R, o, tilt(V)), faces=F)
         if p.get('cuts'):
             out['cuts'] = [dict(shape='hull', points=to_fux(R, o, tilt(_cut_points(c) * mirror))) for c in p['cuts']]

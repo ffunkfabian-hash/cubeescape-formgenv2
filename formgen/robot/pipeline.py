@@ -15,13 +15,13 @@ from pathlib import Path
 
 from .. import build, versions
 from ..cache import Artifact, canonical, file_hash, run_artifacts
-from . import glb, lines, spec
+from . import bevel, glb, lines, spec
 
 ROOT = build.ROOT
-ROBOT = 1                 # Stufenstand der Roboter-Pipeline (eigene Konstante: versions.py steht in allen Waffenschlüsseln)
+ROBOT = 2                 # Stufenstand der Roboter-Pipeline (eigene Konstante: versions.py steht in allen Waffenschlüsseln)
 STAGES = ('geometry', 'asset', 'specs', 'prompts', 'views', 'fonts', 'sheets', 'previews')
 IMAGE_STAGES = ('prompts', 'views', 'fonts', 'sheets', 'previews')
-CODE = ('formgen/robot/pipeline.py', 'formgen/robot/glb.py', 'formgen/robot/spec.py', 'formgen/robot/lines.py')
+CODE = ('formgen/robot/pipeline.py', 'formgen/robot/bevel.py', 'formgen/robot/glb.py', 'formgen/robot/spec.py', 'formgen/robot/lines.py')
 
 
 def source_hash(entry) -> str:
@@ -42,8 +42,7 @@ def document_for(sid, entry):
 
 
 def build_geometry(artifact: Artifact) -> bytes:
-    from .. import geom, model
-    document = geom.evaluate(model.normalize(document_for(artifact.model_id, artifact.inputs['entry'])), booleans=True, bevels=True)
+    document = bevel.evaluate(document_for(artifact.model_id, artifact.inputs['entry']))
     return canonical(lines.check_document(document)) + b'\n'
 
 

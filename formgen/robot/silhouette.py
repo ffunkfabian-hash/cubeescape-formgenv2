@@ -102,10 +102,9 @@ def compare(a, b, px_per_m=1000):
 def reference_triangles(helmet=True):
     """RoboterBasic-01 in der Haltung des Referenz-GLB; die Grundhaltung A-Position lässt sich gegen die Referenz nicht messen."""
     import tempfile
-    from .. import geom, model
     from ..models.robot import roboterbasic_01 as basic
-    from . import glb
-    document = geom.evaluate(model.normalize(basic.document(basic.REFERENCE_PARAMS)))
+    from . import bevel, glb
+    document = bevel.evaluate(basic.document(basic.REFERENCE_PARAMS))
     with tempfile.TemporaryDirectory() as folder:
         path = Path(folder) / 'referenz.glb'
         path.write_bytes(glb.build(document, 'weiss_graphit'))
