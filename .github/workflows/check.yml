@@ -27,6 +27,12 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - uses: ffunkfabian-hash/ce-agent-tools/.github/actions/ce-tools@e85688c492c4006f914f7edfad6f13d028d911a9
+      - name: BALLON (gepinnter Commit aus config.toml, nur gelesen)
+        run: |
+          commit=$(sed -n 's/^commit = "\(.*\)"/\1/p' config.toml | head -1)
+          git clone -q https://github.com/ffunkfabian-hash/cubeescape-ballon.git "$RUNNER_TEMP/ballon"
+          git -C "$RUNNER_TEMP/ballon" checkout -q "$commit"
+          echo "FORMGEN_BALLON_REPO=$RUNNER_TEMP/ballon" >> "$GITHUB_ENV"
       - name: Abhängigkeiten (.venv wie check.quick erwartet)
         run: |
           python -m venv .venv
