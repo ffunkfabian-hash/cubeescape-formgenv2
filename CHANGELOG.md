@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1 Patch runde
+
+- Trimline-Runde: Pin auf Agent Tools 0.36.2, `AGENTS.md` ohne veraltete Kopien globaler Regeln.
+
 ## 0.11.0 Keystone — RoboterBasic-02 als RA02
 
 - RoboterBasic-02 steht im Register und auf der Website: 554 Teile, gemessen aus `robot_v2.blend`, Blatt `RA02`, 3D und Markierung wie RA01. Silhouette gegen die Quelle bestanden (Front und Rücken IoU 0,9273, Seiten 0,9995).
