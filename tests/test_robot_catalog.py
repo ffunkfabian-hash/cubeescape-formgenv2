@@ -182,7 +182,7 @@ class PackDetailTest(unittest.TestCase):
 class CenterMirrorTest(unittest.TestCase):
     def test_ra02_center_parts_stay_mirror_symmetric_under_field_variants(self):
         """Richter 0.14: Mittelteile von RA02 (gemessen symmetrisch zu x = 0, z. B. Codpiece) wurden im Feldweg schief, wenn eine Variante die
-        Punktzahl des Konstruktorteils änderte (PV-C: 11,5 mm). Gefordert: Mitte der Hülle höchstens 1 mm neben der Grundform."""
+        Punktzahl des Konstruktorteils änderte (Mitte von Codpiece bei PV-C 5,8 mm, Brustband in RC02 28 mm). Gefordert: Mitte der Hülle höchstens 1 mm neben der Grundform."""
         import numpy as np
 
         from formgen.models.robot import roboterbasic_02_parameters as profiles
@@ -197,16 +197,22 @@ class CenterMirrorTest(unittest.TestCase):
         base = {k: v for k, v in centers(basic2.PARAMS).items() if abs(v) < 1.0}
         self.assertIn('pelvis_codpiece', base)
         kit = catalog.load()
+        cases = []
         for a in ('upper_body', 'pelvis'):
             for letter, v in kit[a].items():
-                if letter == 'A' or v.ra02 != 'field':
-                    continue
-                params = copy.deepcopy(basic2.PARAMS)
-                params['variants'][a] = letter
-                got = centers(params)
-                with self.subTest(variant=v.id):
-                    off = {k: round(got[k], 2) for k in base if k in got and abs(got[k]) > 1.0}
-                    self.assertEqual(off, {})
+                if letter != 'A' and v.ra02 == 'field':
+                    params = copy.deepcopy(basic2.PARAMS)
+                    params['variants'][a] = letter
+                    cases.append((v.id, params))
+        cases += [(sid, lines.params_of(e)) for sid, e in lines.sheets().items() if e['type']['num'] == 2 and e['line']['letter'] != 'A']
+        for name, params in cases:
+            got = centers(params)
+            with self.subTest(case=name):
+                off = {k: round(got[k], 2) for k in base if k in got and abs(got[k]) > 1.0}
+                self.assertEqual(off, {})
+        with mock.patch.object(profiles, '_centered', return_value=False):          # Gegenprobe: ohne Mittelung liegt eine Mitte daneben
+            got = centers(dict(cases[-3][1]))                                         # RC02
+            self.assertTrue(any(abs(got[k]) > 1.0 for k in base if k in got))
 
 
 class SpecTest(unittest.TestCase):

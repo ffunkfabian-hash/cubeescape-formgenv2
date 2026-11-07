@@ -533,7 +533,7 @@ def templates(params, defaults, rows, base_frames):
             displacement = _field(refpoints, reference, changed) - refpoints
             if center:
                 # 0.14: Mittelteile bleiben spiegelgleich. Ändert eine Variante die Punktzahl des Konstruktorteils, ordnet _resample die
-                # Kontrollpunkte nach Index zu, nicht nach Lage; das Feld wird schief (Codpiece bei PV-C 11,5 mm zur Seite, Richter 0.14).
+                # Kontrollpunkte nach Index zu, nicht nach Lage; das Feld wird schief (Mitte von Codpiece bei PV-C 5,8 mm daneben, Brustband in RC02 28 mm, Richter 0.14).
                 # Mittel aus dem Feld am Punkt und dem gespiegelten Feld am Spiegelpunkt.
                 flip = np.array([-1.0, 1.0, 1.0])
                 mirrored = rlow + (local * flip - low) / size * rsize
