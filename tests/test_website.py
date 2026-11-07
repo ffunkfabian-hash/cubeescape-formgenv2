@@ -2,8 +2,11 @@
 import base64
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
+import shutil
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -168,6 +171,65 @@ class PagesTests(Fixture):
         self.assertNotIn('type="module"', self.page('3d.html'))
         for script in scripts:
             self.assertTrue((self.out/script).is_file(), script)
+
+
+# Die gebaute 3D-Seite laeuft in der JavaScriptCore-Shell von macOS (kein Browser noetig); ohne jsc, etwa unter Linux, wird uebersprungen.
+JSC = next((p for p in (shutil.which('jsc'), '/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc')
+            if p and os.access(p, os.X_OK)), None)
+BROWSER = r'''
+var window = globalThis;
+globalThis.URLSearchParams = class {
+  constructor(s) { this.m = new Map(String(s).replace(/^\?/, '').split('&').filter(Boolean)
+    .map(p => p.split('=').map(x => decodeURIComponent(x.replace(/\+/g, ' '))))) }
+  get(k) { return this.m.has(k) ? this.m.get(k) : null } set(k, v) { this.m.set(k, String(v)) } delete(k) { this.m.delete(k) }
+  toString() { return [...this.m].map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v)).join('&') }
+};
+var location = {search: SEARCH, hash: ''};
+var history = {replaceState(state, title, url) { location.search = url }};
+var elements = {};
+var document = {title: '', head: {append: script => script.onload()}, createElement: () => ({}),
+  querySelector: s => elements[s] || (elements[s] = {hidden: true, append() {}, replaceChildren() {}, setAttribute() {}})};
+var Option = function(text, value) { this.text = text; this.value = value };
+var atob = () => '';
+// Three.js, Renderer und Markierung: ein Proxy, der jeden Aufruf schluckt; die Seite soll nur Kopf, Skinwahl und Links bauen.
+var any = new Proxy(function() {}, {get: (t, k) => k === 'then' ? undefined : k === 'isEmpty' ? () => false : k === Symbol.toPrimitive ? () => 1 : any,
+  apply: () => any, construct: () => any, set: () => true});
+var ResizeObserver = any;
+window.FormgenThree = any;
+window.formgenEnableAnnotation = () => {};
+window.formgenModel = {id: ID, glb: '', labels: {assemblies: {}, order: []}};
+'''
+PAGER = r'''
+drainMicrotasks();
+var links = () => [elements['[data-prev]'].href, elements['[data-next]'].href];
+var seen = {error: elements['#error'] ? elements['#error'].textContent : null, start: links()};
+var select = elements['[data-skin-select]'];
+select.value = SKIN; select.onchange(); seen.skin = links(); seen.search = location.search;
+select.value = ''; select.onchange(); seen.original = links();
+print(JSON.stringify(seen));
+'''
+
+
+@unittest.skipIf(JSC is None, 'jsc (JavaScriptCore) fehlt')
+class PagingTests(Fixture):
+    def test_skin_change_carries_into_prev_and_next_links(self):
+        for sid, letter in (('BC01', 'C'), ('BD01', 'D')):
+            sheet(self.out, sid, weapon(sid, letter, f'Linie {letter}'))
+        viewer.build(self.out, self.cache)
+        catalog = json.loads(self.page('web/catalog.js').removeprefix('window.formgenCatalog=').removesuffix(';\n'))
+        skin = catalog['skins']['weapon'][0]['id']
+        stub, pager = self.path/'browser.js', self.path/'pager.js'
+        stub.write_text(f'var SEARCH = "?id=BC01", ID = "BC01", SKIN = {json.dumps(skin)};\n' + BROWSER, encoding='utf-8')
+        pager.write_text(PAGER, encoding='utf-8')
+        run = subprocess.run([JSC, str(stub), str(self.out/'web/catalog.js'), str(self.out/'web/viewer3d.js'), str(pager)],
+                             capture_output=True, text=True, timeout=60)
+        self.assertEqual(run.returncode, 0, run.stderr + run.stdout)
+        seen = json.loads(run.stdout.strip().splitlines()[-1])
+        self.assertIsNone(seen['error'])
+        self.assertEqual(seen['start'], ['3d.html?id=BA01', '3d.html?id=BD01'])
+        self.assertEqual(seen['search'], f'?id=BC01&skin={skin}')
+        self.assertEqual(seen['skin'], [f'3d.html?id=BA01&skin={skin}', f'3d.html?id=BD01&skin={skin}'])
+        self.assertEqual(seen['original'], ['3d.html?id=BA01', '3d.html?id=BD01'])
 
 
 class ArtifactTests(Fixture):
