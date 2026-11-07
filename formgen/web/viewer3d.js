@@ -39,9 +39,14 @@
    pick('[data-id]').textContent=entry.id;pick('[data-name]').textContent=entry.name;
    document.title=entry.id+' · '+entry.name+' · Formgen 2';
    const sheet=pick('[data-sheet]');sheet.href='sheets/'+entry.id+'.dc.html';sheet.hidden=false;
+   pager(entry);
+ }
+ // Vor/Zurück aus der aktuellen Adresse: beim Laden und nach jedem Skinwechsel (replaceState), damit der Skin beim Blättern bleibt.
+ function pager(entry){
    const same=items.filter(i=>i.kind===entry.kind&&i.has_3d),at=same.findIndex(i=>i.id===entry.id);
+   const skin=new URLSearchParams(location.search).get('skin');
    for(const [selector,other] of [['[data-prev]',same[at-1]],['[data-next]',same[at+1]]]){
-     if(other){const a=pick(selector),skin=query.get('skin');a.href='3d.html?id='+encodeURIComponent(other.id)+(skin?'&skin='+encodeURIComponent(skin):'');a.hidden=false}   // Skin bleibt beim Blättern
+     if(other){const a=pick(selector);a.href='3d.html?id='+encodeURIComponent(other.id)+(skin?'&skin='+encodeURIComponent(skin):'');a.hidden=false}
    }
  }
  function chooser(meshes,model,group){
@@ -93,6 +98,7 @@
      const next=new URLSearchParams(location.search);
      if(select.value)next.set('skin',select.value);else next.delete('skin');
      history.replaceState(null,'','?'+next.toString());
+     pager(entry);
      apply(select.value);
    };
    const first=query.get('skin');

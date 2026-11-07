@@ -1,5 +1,9 @@
 # Changelog
 
+## Patch skin-blaettern (Nachbesserung 0.12)
+
+- 3D-Seite: Die Links für vor und zurück nehmen einen auf der Seite gewählten Skin mit; bisher galten sie nur für den Skin beim Laden. Doku 0.12 berichtigt (PR-Link, Silhouettenabnahme C/D offen, Merge-Ja).
+
 ## 0.14.0 Kitbash — Varianten-Baukasten je Roboter-Einzelteil
 
 - Roboter: Katalog `formgen/models/robot/catalog` mit drei Formvarianten je Einzelteil für alle zehn Einzelteile, wirksam in RA01 und RA02 (Feld/Aufsatz oder neuer Ersatzmodus); Kopfvarianten über Helmgruppen und Aufsätze, Unterarm- und Handmaße als Parameter. Register v2 mit `[lines.parts]`, Linien B–E sind neue Roboter aus diesen Varianten ([Roboter](docs/robot.md#varianten-baukasten-014)).
