@@ -2,7 +2,7 @@
 
 ## Patch ci-voll (nur CI, Version bleibt 0.14.1)
 
-- Neuer PR-Check `check / quick`: volle Testsuite (`./ce check`) auf Linux mit BALLON am gepinnten Commit, Timeout 45 min; Blender-, GPU- und Bildtests bleiben beim Nachtlauf auf dem Mac.
+- Neuer PR-Check `check / quick`: volle Testsuite wie `./check` auf Linux mit BALLON am gepinnten Commit, verteilt auf drei Teiljobs nach Testklassen (etwa 20 min); Blender-, GPU-, Bild- und JavaScriptCore-Tests bleiben beim Nachtlauf auf dem Mac.
 
 ## 0.14.1 Patch skin-blaettern (Nachbesserung 0.12)
 
