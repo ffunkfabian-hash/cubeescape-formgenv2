@@ -21,15 +21,13 @@ _PW, _PT, _KZ = arm.HAND['palm_w'], arm.HAND['palm_t'], arm.HAND['knuckle_z']
 
 VARIANTS: list = [
     # ------------------------------------------------------------------ Oberarm (body.upper_arm: rows (z, a, b, y), shell Winkel, Fase)
-    # Bizepskolben (body.upper_arm piston, seitlich in +X) und schmale Schale nur in RA01: RA02 überträgt Änderungen in X am linken Arm
-    # heute ungespiegelt (roboterbasic_02_parameters._frame_for spiegelt nur Beine): Der Kolben säße links hinten statt vorn, die schmale
-    # Schale würde links 10,8 mm schief. Nach der Spiegelkorrektur gehören shell und piston in params (Bericht 0.14, Unteragent Arme).
+    # Bizepskolben (body.upper_arm piston, seitlich in +X) und schmale Schale in beiden Typen: seit 0.14 spiegelt RA02 Feld und Aufsätze am
+    # linken Arm (roboterbasic_02_parameters._frame_for), vorher saß der Kolben links hinten statt vorn (Bericht 0.14, Unteragent Arme).
     Variant('upper_arms', 'B', 'Piston Arm', '0.14',
             'Schlanker Mechanik-Oberarm; in RA01 mit schmaler Schale und offenem Bizepskolben an der Vorderseite',
             dict(kind='Vorgabe', source=f'{_BALLON} basic/robot/studies/c_mechanik.py arm_extra (rows, shell, ch, piston); '
                                         'Schulterkugel ball 52 nicht übernommen, sie gehört zum Einzelteil Schulter'),
-            params=dict(upper_arm=dict(rows=[(10, 50, 48, 0), (150, 54, 52, 0), (290, 44, 42, 0)], ch=16)),
-            types={1: dict(upper_arm=dict(shell=(-80, 80), piston=True))}),
+            params=dict(upper_arm=dict(rows=[(10, 50, 48, 0), (150, 54, 52, 0), (290, 44, 42, 0)], ch=16, shell=(-80, 80), piston=True))),
     Variant('upper_arms', 'C', 'Heavy Shell', '0.14',
             'Schwerer Panzerarm: dicker Körper, Schale greift fast ganz um den Oberarm',
             dict(kind='Annahme', source='entworfen: Querschnitt +15–20 % gegen upper_arm.rows der Grundform, Schale ±150° statt ±110°, '

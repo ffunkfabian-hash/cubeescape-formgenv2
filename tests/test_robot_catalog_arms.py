@@ -123,9 +123,9 @@ class VariantTest(unittest.TestCase):
                     self.assertLessEqual(set(anchors), set(got))
 
     def test_mirror_symmetry(self):
-        """RA01: jedes neue oder geänderte Teil links = rechts an x gespiegelt. RA02: die gemessenen Teile sind schon in der Grundform bis
-        4 mm unsymmetrisch, neue Armteile setzt RA02 links heute ungespiegelt an (Kralle 0 ↔ 2 vertauscht, Bericht 0.14): verglichen wird
-        das ganze Einzelteil als Punktmenge, höchstens 1 mm schlechter als die Grundform, und die neuen Teile als Menge auf 1 mm."""
+        """RA01: jedes neue oder geänderte Teil links = rechts an x gespiegelt. RA02: neue Teile ebenso auf 1 mm; geänderte gemessene Teile
+        sind schon in der Grundform bis 4 mm unsymmetrisch und dürfen je Teil höchstens 1 mm schlechter werden. Vor der Spiegelkorrektur in
+        roboterbasic_02_parameters._frame_for (0.14) lag der Bizepskolben links 103 mm daneben."""
         for num, _, _ in TYPES:
             base = self.base[num]
             for v in arms.VARIANTS:
@@ -133,17 +133,9 @@ class VariantTest(unittest.TestCase):
                 with self.subTest(type=num, variant=v.id):
                     touched = [i for i in got if twin(i) and (i not in base or got[i] != base[i])]
                     self.assertTrue(all(twin(i) in got for i in touched))
-                    if num == 1:
-                        for i in touched:
-                            self.assertLess(mirror_error(points(got[i]), points(got[twin(i)])), 1e-3, i)
-                        continue
-                    union = {k: [np.concatenate([points(p) for p in parts.values() if p['assembly'] == v.assembly and p['id'].startswith(s)])
-                                 for s in ('arm_R_', 'arm_L_')] for k, parts in (('base', base), ('got', got))}
-                    self.assertLessEqual(mirror_error(*union['got']), mirror_error(*union['base']) + 1.0)
-                    new = [i for i in touched if i not in base]
-                    if new:
-                        self.assertLess(mirror_error(np.concatenate([points(got[i]) for i in new]),
-                                                     np.concatenate([points(got[twin(i)]) for i in new])), 1.0)
+                    for i in touched:
+                        limit = 1e-3 if num == 1 else (1.0 if i not in base else mirror_error(points(base[i]), points(base[twin(i)])) + 1.0)
+                        self.assertLess(mirror_error(points(got[i]), points(got[twin(i)])), limit, i)
 
     def test_variety_each_variant_differs_in_its_own_part(self):
         """Wie variety.measure_parts: IoU der Masken des eigenen Einzelteils gegen die Grundform, kleinste Ansicht ≤ PART_THRESHOLD.

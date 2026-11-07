@@ -405,8 +405,10 @@ def _same(a, b):
 
 def _frame_for(row, base_frames):
     R, origin, _, _ = base_frames[_segment(row)]
-    # body.legs mirrors the left leg; arm frames already mirror their X axis.
-    mirror = np.array([-1, 1, 1]) if _side(row) == 'L' and row['assembly'] == 'legs' else np.ones(3)
+    # body.legs mirrors the left leg. 0.14: Arme ebenso – Konstruktorteile sind rechts beschrieben, kit.part spiegelt links an X; ohne
+    # Spiegel lagen neue Armteile und Feldänderungen links ungespiegelt (Bizepskolben 103 mm daneben, Bericht 0.14).
+    left_arm = _segment(row).startswith('arm_L_')
+    mirror = np.array([-1, 1, 1]) if _side(row) == 'L' and (row['assembly'] == 'legs' or left_arm) else np.ones(3)
     return R, origin, mirror
 
 
