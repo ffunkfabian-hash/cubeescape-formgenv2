@@ -1,6 +1,6 @@
 # Changelog
 
-## Patch skin-blaettern (Nachbesserung 0.12)
+## 0.14.1 Patch skin-blaettern (Nachbesserung 0.12)
 
 - 3D-Seite: Die Links für vor und zurück nehmen einen auf der Seite gewählten Skin mit; bisher galten sie nur für den Skin beim Laden. Doku 0.12 berichtigt (PR-Link, Silhouettenabnahme C/D offen, Merge-Ja).
 
