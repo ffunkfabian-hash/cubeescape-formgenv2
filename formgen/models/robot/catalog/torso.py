@@ -28,8 +28,9 @@ VARIANTS: list = [
     Variant('upper_body', 'D', 'Open Frame', '0.14',
             'Offenes Skelett der Mechanik-Studie: zwei Brustplatten mit Linse, offene Wirbelsäule mit Schulterblattplatten, Bauch als Säule',
             dict(kind='Vorgabe', source=f'{MECHANIK} upper_body(): abdomen spine, rings, chest split/full/mid/t, back spine'),
-            params={'torso': {'abdomen': 'spine', 'rings': (-30, -2, 26),
-                              'chest': {'split': True, 'full': 130, 'mid': (200, 260, 318), 't': 9},
-                              'back': {'kind': 'spine'}}},
+            params={'torso': {'chest': {'split': True, 'full': 130, 'mid': (200, 260, 318), 't': 9}, 'back': {'kind': 'spine'}}},
+            # Bauch als Säule nur RA01: In RA02 gehören Bauchplatten und Taille zum Becken (Knochen spine); dort hingen die neuen Wirbelringe
+            # am Schulterteil (Nebenwirkung Schulter IoU 0,66, Integration 0.14)
+            types={1: {'torso': {'abdomen': 'spine', 'rings': (-30, -2, 26)}}},
             ra02='replace'),
 ]

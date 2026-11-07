@@ -2,7 +2,7 @@
 
 Kataloge: formgen/models/robot/catalog/{torso,pelvis,shoulders,legs}.py. Geprüft: Grundform bytegleich, jede Variante baut, keine
 Phantomteile, Spiegelsymmetrie (RA01), Anker, Vielfalt je Einzelteil (formgen.robot.variety.measure_parts) samt Gegenproben.
-Varianten mit `ra02 = 'replace'` (Ersatzmodus) werden für RA02 hier nicht gebaut; sie wirken bis zum Ersatzmodus nur in RA01.
+Varianten mit `ra02 = 'replace'` baut RA02 im Ersatzmodus (roboterbasic_02_replace), sie werden hier in beiden Typen geprüft.
 Laufzeit einige Minuten: jede Variante wird je Typ einmal voll ausgewertet (Booleans, Fasen) und einmal für das Vielfaltsmaß gemessen.
 """
 import copy
@@ -49,7 +49,7 @@ def document(num, v, kit=None):
 
 def builds(num):
     """Varianten, die Typ num heute baut: RA02 ohne Ersatzmodus."""
-    return [v for v in MINE if num == 1 or v.ra02 == 'field']
+    return list(MINE)          # seit dem Ersatzmodus (0.14) baut RA02 auch die replace-Varianten
 
 
 def phantoms(v, base, doc):
@@ -197,7 +197,11 @@ class BuildTest(unittest.TestCase):
             ids = {p['id'] for p in doc['parts']}
             with self.subTest(sheet=f'RA0{num}', variant=vid):
                 self.assertTrue({a['part'] for a in doc['anchors'].values()} <= ids)
-                self.assertEqual(doc['anchors'], self.base[num][0]['anchors'])
+                if num == 2 and v.ra02 == 'replace':      # Ersatzmodus: gleiche Lage, das Teil darf das Ersatzteil desselben Einzelteils sein
+                    base = self.base[num][0]['anchors']
+                    self.assertEqual({k: a['at'] for k, a in doc['anchors'].items()}, {k: a['at'] for k, a in base.items()})
+                else:
+                    self.assertEqual(doc['anchors'], self.base[num][0]['anchors'])
                 if num == 1:
                     self.assertTrue(set(ANCHORS_01) <= ids, set(ANCHORS_01) - ids)
 
