@@ -10,7 +10,7 @@
    "de": "Oberkörper",
    "group": "upper_body",
    "id": "upper_body",
-   "parts": 45
+   "parts": 18
   },
   {
    "de": "Becken",
@@ -62,7 +62,7 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 505.8,
+  "depth": 404.0,
   "height": 1921.9,
   "width": 1462.2
  },
@@ -70,10 +70,10 @@
  "forms": {
   "box": 2,
   "cyl": 8,
-  "hull": 289,
+  "hull": 275,
   "loft": 18,
-  "multi": 42,
-  "surface": 186,
+  "multi": 35,
+  "surface": 180,
   "tube": 2
  },
  "groups": [
@@ -92,7 +92,7 @@
    ],
    "de": "Oberkörper",
    "id": "upper_body",
-   "parts": 64
+   "parts": 37
   },
   {
    "assemblies": [
@@ -602,51 +602,24 @@
   "thigh_R_thigh_hatch_bolt2",
   "thigh_R_thigh_plate",
   "thigh_R_thigh_trim",
-  "torso_L_back_grille",
-  "torso_L_back_grille_frame",
-  "torso_L_back_lower_panel",
-  "torso_L_back_side_grille",
-  "torso_L_back_side_grille_frame",
-  "torso_L_back_slot",
-  "torso_L_back_triangle",
   "torso_L_chest_vent",
   "torso_L_shoulder_block",
   "torso_L_shoulder_block_core",
   "torso_L_shoulder_block_lower",
   "torso_L_shoulder_bolt1",
   "torso_L_shoulder_bolt2",
-  "torso_R_back_grille",
-  "torso_R_back_grille_frame",
-  "torso_R_back_lower_panel",
-  "torso_R_back_side_grille",
-  "torso_R_back_side_grille_frame",
-  "torso_R_back_slot",
-  "torso_R_back_triangle",
   "torso_R_chest_vent",
   "torso_R_shoulder_block",
   "torso_R_shoulder_block_core",
   "torso_R_shoulder_block_lower",
   "torso_R_shoulder_bolt1",
   "torso_R_shoulder_bolt2",
-  "torso_back_bolt1",
-  "torso_back_bolt2",
-  "torso_back_bolt3",
-  "torso_back_bolt4",
-  "torso_back_lower_grille",
-  "torso_back_lower_grille_frame",
-  "torso_back_panel",
-  "torso_back_panel_bolt1",
-  "torso_back_panel_bolt2",
-  "torso_back_spine_fins",
-  "torso_back_top_vent",
-  "torso_back_top_vent_frame",
   "torso_chest",
   "torso_chest_band",
   "torso_chest_chevron",
   "torso_chest_seam_dn",
   "torso_chest_seam_up",
   "torso_orange_detail_3",
-  "torso_orange_detail_6",
   "torso_r5_sensor_inner_bezel",
   "torso_r5_sensor_light_ring",
   "torso_r5_sensor_outer_bezel",
@@ -718,162 +691,6 @@
    "assembly": "shins",
    "id": "shin_R_ankle_piston",
    "name_de": "AnklePiston_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt1",
-   "name_de": "BackBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt2",
-   "name_de": "BackBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt3",
-   "name_de": "BackBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt4",
-   "name_de": "BackBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_grille_frame",
-   "name_de": "BackGrilleFrame_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_grille_frame",
-   "name_de": "BackGrilleFrame_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_grille",
-   "name_de": "BackGrille_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_grille",
-   "name_de": "BackGrille_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_lower_grille",
-   "name_de": "BackLowerGrille",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_lower_grille_frame",
-   "name_de": "BackLowerGrilleFrame",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_lower_panel",
-   "name_de": "BackLowerPanel_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_lower_panel",
-   "name_de": "BackLowerPanel_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel",
-   "name_de": "BackPanel",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel_bolt1",
-   "name_de": "BackPanelBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel_bolt2",
-   "name_de": "BackPanelBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_side_grille_frame",
-   "name_de": "BackSideGrilleFrame_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_side_grille_frame",
-   "name_de": "BackSideGrilleFrame_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_side_grille",
-   "name_de": "BackSideGrille_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_side_grille",
-   "name_de": "BackSideGrille_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_slot",
-   "name_de": "BackSlot_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_slot",
-   "name_de": "BackSlot_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_spine_fins",
-   "name_de": "BackSpineFins",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_top_vent",
-   "name_de": "BackTopVent",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_top_vent_frame",
-   "name_de": "BackTopVentFrame",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_triangle",
-   "name_de": "BackTriangle_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_triangle",
-   "name_de": "BackTriangle_R",
    "role": "graphite"
   },
   {
@@ -2128,12 +1945,6 @@
    "assembly": "pelvis",
    "id": "pelvis_orange_detail_5",
    "name_de": "OrangeDetail_5",
-   "role": "accent"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_orange_detail_6",
-   "name_de": "OrangeDetail_6",
    "role": "accent"
   },
   {
@@ -3966,7 +3777,7 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 253398,
+ "triangles": 248494,
  "type": {
   "name_de": "RoboterBasic-02",
   "num": 2

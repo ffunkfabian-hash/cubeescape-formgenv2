@@ -66,13 +66,13 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 
 Eine Linie ist seit 0.12 eine Livery (eigener Skin) und seit 0.13 dazu eine Bauform ([Proportionen](#proportionen-013)). Jede Linie gilt für beide Typen, Blatt-ID `R<Linie><NN>`.
 
-| Linie | Name | Skin | `arm_bulk` 01 / 02 | Proportionen (Schulter / Rumpf / Beine / Rücken) | Idee |
+| Linie | Name | Skin | `arm_bulk` 01 / 02 | Proportionen (Schulter / Rumpf / Beine / Rücken) | Teile (0.14, sonst Grundform) |
 |---|---|---|---|---|---|
 | A | Basic | `weiss_graphit` | 1,30 / 1,00 | 1,00 / 1,00 / 1,00 / 1,00 | Grundform, unverändert |
-| B | Night Watch | `nachtwache` | wie A | 0,88 / 0,92 / 0,90 / 0,80 | dunkle Schale, schmal gebaut |
-| C | Signal | `signal` | 1,42 / 1,12 | 1,22 / 1,10 / 1,15 / 1,25 | Warnorange, schwerer Arbeitsroboter |
-| D | Field Olive | `feldoliv` | 1,18 / 0,92 | 0,95 / 1,00 / 0,92 / 1,30 | Oliv, schlank mit großem Feldgepäck |
-| E | Cobalt Line | `kobaltblau` | wie A | 1,30 / 1,00 / 0,88 / 0,85 | Blau, Panzerschulter über schlanken Beinen |
+| B | Night Watch | `nachtwache` | wie A | 0,88 / 0,92 / 0,90 / 0,80 | HD-C UB-B PV-C SH-C UA-D FA-B HN-D TH-C SN-D FT-B: schlanker Nachtläufer |
+| C | Signal | `signal` | 1,42 / 1,12 | 1,22 / 1,10 / 1,15 / 1,25 | HD-D UB-C PV-D SH-D UA-C FA-D HN-B TH-D SN-C FT-C: schwerer Arbeitsroboter |
+| D | Field Olive | `feldoliv` | 1,18 / 0,92 | 0,95 / 1,00 / 0,92 / 1,00 | UB-D PV-C SH-C UA-B FA-C HN-C TH-B SN-B FT-D, Kopf Grundform: offener Mechanik-Feldroboter |
+| E | Cobalt Line | `kobaltblau` | wie A | 1,30 / 1,00 / 0,88 / 0,85 | HD-B UB-B PV-B SH-B UA-C FA-B HN-B TH-C SN-C FT-D: Paladin |
 
 Herkunft der Zahlen: Farben, `arm_bulk` und Proportionen sind Annahmen am Entwurf, am Vielfaltsmaß und am Bild gesichtet (der Test `test_every_line_is_a_complete_robot_livery…` prüft nur, dass jeder gesetzte Schlüssel in `PARAMS` des Typs existiert). Teile-IDs, Anker, Baugruppen und Abnahme bleiben die der Typen; die Silhouettenabnahme gilt für Linie A in der Referenzhaltung; B–E ändern nur Querschnitte (Arme, Proportionen). Jeder Skin deckt alle neun Rollen von `weiss_graphit` samt `finish` ab, trägt `robot = true` (nie für Waffen wählbar) und hat noch keinen `aaa`-Block: Die Eingangsfarben für Cycles sind nicht gemessen, GLB, Blatt und 3D-Seite zeigen die Hexwerte. Ein Skin kommt im Katalog der Website auch als Wahl in der 3D-Ansicht vor, auf jedem Roboter ([Website](website.md#skinwechsel)).
 

@@ -145,7 +145,9 @@ ASSOCIATIONS = (
     ('ShoulderBlock', 'pauldron_{s}'), ('ShoulderBolt', 'pauldron_{s}'),
     ('ShoulderMed', 'shoulder_{s}_med_disc'), ('ShoulderJoint', 'shoulder_ball'),
     ('Backpack', 'backpack'), ('RefBackMount', 'backpack_shell'), ('RefBackPanel', 'backpack_shell'),
-    ('BackSpine', 'back'), ('Back', 'back'), ('Hose', 'pack_cable_{s}'),
+    # 0.14: alle Back*-Teile außer Backpack sitzen gemessen auf dem Rückenmodul (f −302…−177 mm, Rumpfrücken bei −130), nicht auf einer
+    # Rückenplatte; an `back` gebunden blieben sie bei Linien ohne Rückenmodul 160 mm hinter dem Rumpf in der Luft stehen.
+    ('BackSpine', 'backpack_shell'), ('Back', 'backpack_shell'), ('Hose', 'pack_cable_{s}'),
     ('R5_SensorLightRing', 'chest_light_r_lamp'),
     ('R5_Sensor', 'emblem_disc'), ('Sensor', 'emblem_disc'),
     ('ChestVent', 'chest'), ('ChestSeam', 'chest'), ('ChestBand', 'chest_stripe_a'),
@@ -171,6 +173,9 @@ ASSOCIATIONS = (
 )
 
 
+PACK_DETAILS = ('OrangeDetail_6',)      # gemessen f −298…−292 mm: Akzent auf dem Rückenmodul, nicht auf der Brust (0.14)
+
+
 def warnings(params, defaults):
     """Visible inherited 01 contract gaps; the protected 01 is not reinterpreted."""
     return [f'01-Parameter torso.chest.{key} aktuell ohne Formwirkung; geschuetztes 01 unveraendert'
@@ -191,6 +196,8 @@ def binding(row):
     if row.get('profile_binding'):
         return tuple(row['profile_binding'])
     name = row['source_object']
+    if name in PACK_DETAILS:
+        return ('torso', 'backpack_shell')
     if name.startswith('OrangeDetail'):
         return ('pelvis', 'tasset_stripe_a') if row['assembly'] == 'lower_body' else ('torso', 'chest_stripe_a')
     for prefix, target in ASSOCIATIONS:

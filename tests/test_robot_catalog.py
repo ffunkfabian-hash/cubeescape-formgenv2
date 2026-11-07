@@ -138,6 +138,26 @@ class KitTest(unittest.TestCase):
             self.assertTrue({v.id for k, v in variants.items() if k != 'A'} & used, f'{a}: keine Linie nutzt eine Variante')
 
 
+class PackDetailTest(unittest.TestCase):
+    def test_ra02_without_backpack_drops_its_measured_details(self):
+        """Regression 0.14: Die Back*-Details von RA02 sitzen auf dem Rückenmodul; an `back` gebunden blieben sie bei UB-B 160 mm hinter dem Rumpf
+        stehen. Gegenprobe: mit Rückenmodul liegen Teile so weit hinten."""
+        import numpy as np
+
+        def depth(params):
+            out = []
+            for p in basic2.parts(params):
+                if p['assembly'] == 'upper_body':
+                    for key in ('points', 'vertices', 'rings'):
+                        if key in p:
+                            out.append(np.asarray(p[key], float).reshape(-1, 3)[:, 0].min())
+            return min(out)
+        params = copy.deepcopy(basic2.PARAMS)
+        params['variants']['upper_body'] = 'B'
+        self.assertGreater(depth(params), -150)
+        self.assertLess(depth(basic2.PARAMS), -290)
+
+
 class SpecTest(unittest.TestCase):
     def test_variants_field_only_with_a_choice_and_migrate_fills_base(self):
         doc = dict(bounds_m=[[0, 0, 0], [1, 1, 1]], parts=[dict(id='p', assembly='feet', role='shell', shape='hull')], counts=dict(triangles=1),
