@@ -36,7 +36,7 @@ def source_hash(entry) -> str:
 
 def document_for(sid, entry):
     module = lines.module_of(entry)
-    document = module.document(lines.merge(module.PARAMS, entry['params']), sheet_id=sid, line=entry['line']['name'].lower(), name=entry['type']['name_de'])
+    document = module.document(lines.params_of(entry), sheet_id=sid, line=entry['line']['name'].lower(), name=entry['type']['name_de'])
     document['info']['skin'] = entry['skin']        # Materialkacheln des Blatts zeigen die Farben des Skins
     return document
 
@@ -54,6 +54,15 @@ def build_asset(artifact: Artifact) -> bytes:
 def build_robot_spec(artifact: Artifact) -> bytes:
     document = json.loads(Path(artifact.inputs['geometry_path']).read_bytes())
     return json.dumps(spec.build(document, artifact.inputs['entry']), indent=1, ensure_ascii=False, sort_keys=True).encode() + b'\n'
+
+
+def spec_params(entry) -> dict:
+    """Schlüssel der Spec-Stufe: Code, Eintrag, Skin und (0.14) die Katalogtexte der gewählten Varianten, die spec.build schreibt;
+    eine geänderte Idee im Katalog ändert die Geometrie nicht, die Spec aber schon. Ohne Wahl wie vor 0.14."""
+    out = {'code': _code(), 'entry': entry, 'skin_sha': file_hash(ROOT / 'skins.toml')}
+    if entry.get('parts'):
+        out['variants'] = lines.variants_of(entry)
+    return out
 
 
 def _code() -> str:
@@ -89,7 +98,7 @@ def run(selection, out, cache, force=False, log=print, stages=STAGES):
     derived = lambda sid, e: {'geometry_path': str((out / 'geometry' / f'{sid}.json').resolve()), 'entry': e}
     stage('asset', [Artifact(sid, 'asset', file_hash(out / 'geometry' / f'{sid}.json'), {'code': _code(), 'skin': e['skin'], 'skin_sha': file_hash(ROOT / 'skins.toml')},
                              {'ROBOT': ROBOT}, f'assets/{sid}.glb', 'formgen.robot.pipeline:build_asset', derived(sid, e)) for sid, e in selection.items()])
-    stage('specs', [Artifact(sid, 'specs', file_hash(out / 'geometry' / f'{sid}.json'), {'code': _code(), 'entry': e, 'skin_sha': file_hash(ROOT / 'skins.toml')}, {'ROBOT': ROBOT}, f'specs/{sid}.spec.json',
+    stage('specs', [Artifact(sid, 'specs', file_hash(out / 'geometry' / f'{sid}.json'), spec_params(e), {'ROBOT': ROBOT}, f'specs/{sid}.spec.json',
                              'formgen.robot.pipeline:build_robot_spec', derived(sid, e)) for sid, e in selection.items()])
     ids = list(selection)
     if not set(stages) & set(IMAGE_STAGES):
@@ -120,7 +129,9 @@ def main(argv=None) -> int:
     sheets = lines.sheets()
     if a.list:
         for sid, e in sheets.items():
-            print(f"{sid}  Linie {e['line']['letter']} {e['line']['name']:<12} {e['type']['name_de']:<16} Skin {e['skin']:<13} {json.dumps(e['params'], sort_keys=True) if e['params'] else '-'}")
+            chosen = ', '.join(f"{v['id']} {v['name']}" for v in lines.variants_of(e) if v['letter'] != 'A') or 'Grundform'
+            print(f"{sid}  Linie {e['line']['letter']} {e['line']['name']:<12} {e['type']['name_de']:<16} Skin {e['skin']:<13} Teile {chosen}  "
+                  f"{json.dumps(e['params'], sort_keys=True) if e['params'] else '-'}")
         return 0
     unknown = [i for i in a.ids if i not in sheets]
     if unknown:

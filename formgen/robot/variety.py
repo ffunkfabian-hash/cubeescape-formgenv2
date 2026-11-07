@@ -2,6 +2,7 @@
 
   python -m formgen.robot.variety                  # Tabelle aller Blätter, dazu die Paare der Linien untereinander
   python -m formgen.robot.variety --json out/robot-variety.json
+  python -m formgen.robot.variety --teile          # 0.14: je Einzelteil, jede Katalogvariante gegen die Grundform und jede Linie gegen A
 
 Masken: gefüllte Dreiecke der Geometrie ohne Booleans und Fasen (die Außenkontur ändern sie nicht merklich), 2 mm je Pixel, feste Weltgrenzen
 beider Figuren, keine Verschiebung. Der Skin zählt nicht. Eine Linie weicht sichtbar ab, wenn die kleinste IoU aus Front, Seite und Draufsicht höchstens
@@ -9,6 +10,7 @@ THRESHOLD ist; zwei Linien unterscheiden sich, wenn ihre kleinste IoU höchstens
 """
 from __future__ import annotations
 
+import copy
 import itertools
 import json
 import sys
@@ -23,18 +25,24 @@ MM_PX = 2.0           # Annahme: Raster der Messung; die Außenkontur ändert si
 VIEWS = dict(front=(0, 2), side=(1, 2), top=(0, 1))      # Achsen im Ausgaberaum (x links, −y vorn, z oben)
 THRESHOLD = 0.97       # Annahme: ≥ 3 % Flächenunterschied in der kleinsten Ansicht ist am Blatt zu erkennen; Weapons-Linien: 0,98 bei Langwaffen
 PAIR_THRESHOLD = 0.985  # Annahme: zwei Linien sind mindestens halb so verschieden wie eine Linie von A
+PART_THRESHOLD = 0.97   # Annahme (0.14): eine Variante weicht in der kleinsten Ansicht ihres Einzelteils um ≥ 3 % Fläche von der Grundform ab
+
+
+def by_assembly(module, params, sid='RA01'):
+    """Dreiecke (n, 3, 3) in Metern je Einzelteil; Polygone werden als Fächer zerlegt."""
+    document = module.document(params, sheet_id=sid)
+    out = {}
+    for p in geom.evaluate(model.normalize(document), booleans=False, bevels=False)['parts']:
+        v = np.asarray(p['mesh']['vertices'], float)
+        tris = out.setdefault(p['assembly'], [])
+        for face in p['mesh']['faces']:
+            tris += [v[[face[0], face[i], face[i + 1]]] for i in range(1, len(face) - 1)]
+    return {a: np.array(t).reshape(-1, 3, 3) for a, t in out.items()}
 
 
 def triangles(entry, sid='RA01'):
-    """Dreiecke (n, 3, 3) in Metern; Polygone werden als Fächer zerlegt."""
-    module = lines.module_of(entry)
-    document = module.document(lines.merge(module.PARAMS, entry['params']), sheet_id=sid, line=entry['line']['name'].lower(), name=entry['type']['name_de'])
-    out = []
-    for p in geom.evaluate(model.normalize(document), booleans=False, bevels=False)['parts']:
-        v = np.asarray(p['mesh']['vertices'], float)
-        for face in p['mesh']['faces']:
-            out += [v[[face[0], face[i], face[i + 1]]] for i in range(1, len(face) - 1)]
-    return np.array(out)
+    """Dreiecke (n, 3, 3) in Metern der ganzen Figur."""
+    return np.concatenate(list(by_assembly(lines.module_of(entry), lines.params_of(entry), sid).values()))
 
 
 def _mask(tris, axes, lo, shape):
@@ -91,8 +99,86 @@ def verdict(result):
     return rows
 
 
+def _part_iou(a, b):
+    """IoU je Ansicht zweier Dreieckssätze desselben Einzelteils auf gemeinsamem Raster; ein leerer Satz zählt als leere Maske."""
+    cache = {k: t for k, t in (('a', a), ('b', b)) if len(t)}
+    if len(cache) < 2:
+        return {view: (1.0 if not cache else 0.0) for view in VIEWS}
+    m = masks(cache)
+    return iou(m['a'], m['b'])
+
+
+def measure_parts(catalog=None, types=None, register=None):
+    """Vielfalt je Einzelteil (0.14). variants: je Typ jede Katalogvariante allein auf der Grundform, IoU ihres Einzelteils gegen die
+    Grundform und die größte Nebenwirkung auf ein anderes Einzelteil (kleinste IoU dort); lines: je Blatt außer A die IoU jedes Einzelteils
+    gegen A desselben Typs. Masken nur der Teile des Einzelteils, Raster und Ansichten wie measure()."""
+    from formgen.models.robot import catalog as kit_module
+    kit = kit_module.load() if catalog is None else catalog
+    register = lines.load() if register is None else register
+    modules = {t['num']: lines.module_of(dict(type=t)) for t in register['types'] if types is None or t['num'] in types}
+    result = dict(variants={}, lines={})
+    base = {}
+    for num, module in modules.items():
+        sid = f'RA{num:02d}'
+        base[num] = by_assembly(module, module.PARAMS, sid)
+        rows = result['variants'][sid] = {}
+        for assembly, variants in kit.items():
+            for letter, v in variants.items():
+                if letter == kit_module.BASE:
+                    continue
+                params = copy.deepcopy(module.PARAMS)
+                params['variants'][assembly] = letter
+                with _catalog(kit_module, kit):
+                    tris = by_assembly(module, params, sid)
+                own = _part_iou(base[num].get(assembly, np.empty((0, 3, 3))), tris.get(assembly, np.empty((0, 3, 3))))
+                side = {a: min(_part_iou(base[num].get(a, np.empty((0, 3, 3))), tris.get(a, np.empty((0, 3, 3)))).values())
+                        for a in kit if a != assembly}
+                worst = min(side, key=side.get)
+                rows[v.id] = dict(assembly=assembly, iou=own, least=min(own.values()), side_effect=dict(assembly=worst, least=side[worst]))
+    for sid, entry in lines.sheets(register).items():
+        num = entry['type']['num']
+        if entry['line']['letter'] == 'A' or num not in modules:
+            continue
+        with _catalog(kit_module, kit):
+            tris = by_assembly(modules[num], lines.params_of(entry), sid)
+        result['lines'][sid] = {a: min(_part_iou(base[num].get(a, np.empty((0, 3, 3))), tris.get(a, np.empty((0, 3, 3)))).values())
+                                for a in kit}
+    return result
+
+
+class _catalog:
+    """Katalog für die Dauer einer Messung festhalten (Gegenproben mit eigenem Katalog)."""
+    def __init__(self, module, kit):
+        self.module, self.kit = module, kit
+
+    def __enter__(self):
+        self.load = self.module.load
+        self.module.load = lambda: self.kit
+
+    def __exit__(self, *exc):
+        self.module.load = self.load
+
+
+def part_verdict(result):
+    """(Variante, Typ-Blatt, Einzelteil, kleinste IoU, abweichend?) je Katalogvariante."""
+    return [(vid, sid, row['assembly'], row['least'], row['least'] <= PART_THRESHOLD)
+            for sid, rows in result['variants'].items() for vid, row in rows.items()]
+
+
 def main(argv=None):
     args = list(argv or sys.argv[1:])
+    if '--teile' in args:
+        result = measure_parts()
+        for vid, sid, assembly, least, ok in part_verdict(result):
+            row = result['variants'][sid][vid]
+            print(f"{sid} {vid}  {assembly:10s} " + ' '.join(f'{v} {row["iou"][v]:.4f}' for v in VIEWS)
+                  + f"  min {least:.4f}  {'abweichend' if ok else 'GLEICH'}  Nebenwirkung {row['side_effect']['assembly']} {row['side_effect']['least']:.4f}")
+        for sid, parts in result['lines'].items():
+            print(f'{sid} gegen A je Einzelteil: ' + ' '.join(f'{a} {v:.3f}' for a, v in parts.items()))
+        if '--json' in args:
+            with open(args[args.index('--json') + 1], 'w') as fh:
+                json.dump(result, fh, indent=1, sort_keys=True)
+        return 0
     result = measure()
     for key, views, least, ok in verdict(result):
         print(f"{key:8s} " + ' '.join(f'{v} {views[v]:.4f}' for v in VIEWS) + f"  min {least:.4f}  {'abweichend' if ok else 'GLEICH'}")

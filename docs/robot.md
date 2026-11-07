@@ -1,6 +1,6 @@
 # Roboter
 
-Zwei Basic-Typen im Register: RoboterBasic-01 (Blatt `RA01`, Grundform wie BA01 bei den Waffen, dieses Dokument) und RoboterBasic-02 (Blatt `RA02`, Abschnitt [RoboterBasic-02](#roboterbasic-02)). Seit 0.12 gibt es fünf Linien (A–E) mit beiden Typen, zusammen zehn Blätter, siehe [Linien](#linien-und-liveries-012).
+Zwei Basic-Typen im Register: RoboterBasic-01 (Blatt `RA01`, Grundform wie BA01 bei den Waffen, dieses Dokument) und RoboterBasic-02 (Blatt `RA02`, Abschnitt [RoboterBasic-02](#roboterbasic-02)). Seit 0.12 gibt es fünf Linien (A–E) mit beiden Typen, zusammen zehn Blätter, siehe [Linien](#linien-und-liveries-012); seit 0.14 sind B–E eigene Roboter aus dem [Varianten-Baukasten](#varianten-baukasten-014).
 
 ```sh
 .venv/bin/python -m formgen.robot                     # Geometrie, GLB, Spec, Prompts, Ansichten, Blatt, Vorschau (ohne --force nur Fehlendes)
@@ -24,7 +24,7 @@ Bilder unter `./ce lock blender -- …` (CPU-Rasterizer). Blender wird nicht geb
 
 Abbildung der BALLON-Formen: `loft`, `wrap`, `tube` → `surface`; `cyl` → `loft`; `box`, `plate`, `hull` → `hull`; Fugen (`cuts`) → `hull`-Schnitte. Das Feld `form` hält die Autorenform fest, `model.py` bleibt unverändert. Die Formparameter sind die Quelle, die ausgewerteten Punkte nur ihr Ergebnis; das gilt nicht für den Helm.
 
-Grenzen: Der Helm ist die einzige Mesh-Übernahme und bleibt ungefast (`bevel = 0`, seine Fasen stecken in den gemessenen Flächen); er folgt dem Skelett, lässt sich aber nicht über Parameter formen. Pose `ready` fehlt, Waffenanbindung ist offen (`Socket_Hand`).
+Grenzen: Der Helm ist die einzige Mesh-Übernahme und bleibt ungefast (`bevel = 0`, seine Fasen stecken in den gemessenen Flächen); er folgt dem Skelett und lässt sich seit 0.14 über `PARAMS['helmet']` formen (Gruppenfelder und Aufsätze, `formgen/models/robot/helmet.py`, [Baukasten](#varianten-baukasten-014)). Pose `ready` fehlt, Waffenanbindung ist offen (`Socket_Hand`).
 
 ## RoboterBasic-02
 
@@ -66,15 +66,15 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 
 Eine Linie ist seit 0.12 eine Livery (eigener Skin) und seit 0.13 dazu eine Bauform ([Proportionen](#proportionen-013)). Jede Linie gilt für beide Typen, Blatt-ID `R<Linie><NN>`.
 
-| Linie | Name | Skin | `arm_bulk` 01 / 02 | Proportionen (Schulter / Rumpf / Beine / Rücken) | Idee |
+| Linie | Name | Skin | `arm_bulk` 01 / 02 | Proportionen (Schulter / Rumpf / Beine / Rücken) | Teile (0.14, sonst Grundform) |
 |---|---|---|---|---|---|
 | A | Basic | `weiss_graphit` | 1,30 / 1,00 | 1,00 / 1,00 / 1,00 / 1,00 | Grundform, unverändert |
-| B | Night Watch | `nachtwache` | wie A | 0,88 / 0,92 / 0,90 / 0,80 | dunkle Schale, schmal gebaut |
-| C | Signal | `signal` | 1,42 / 1,12 | 1,22 / 1,10 / 1,15 / 1,25 | Warnorange, schwerer Arbeitsroboter |
-| D | Field Olive | `feldoliv` | 1,18 / 0,92 | 0,95 / 1,00 / 0,92 / 1,30 | Oliv, schlank mit großem Feldgepäck |
-| E | Cobalt Line | `kobaltblau` | wie A | 1,30 / 1,00 / 0,88 / 0,85 | Blau, Panzerschulter über schlanken Beinen |
+| B | Night Watch | `nachtwache` | wie A | 0,88 / 0,92 / 0,90 / 0,80 | HD-C UB-B PV-C SH-C UA-D FA-B HN-D TH-C SN-D FT-B: schlanker Nachtläufer |
+| C | Signal | `signal` | 1,42 / 1,12 | 1,22 / 1,10 / 1,15 / 1,25 | HD-D UB-C PV-D SH-D UA-C FA-D HN-B TH-D SN-C FT-C: schwerer Arbeitsroboter |
+| D | Field Olive | `feldoliv` | 1,18 / 0,92 | 0,95 / 1,00 / 0,92 / 1,00 | UB-D PV-C SH-C UA-B FA-C HN-C TH-B SN-B FT-D, Kopf Grundform: offener Mechanik-Feldroboter |
+| E | Cobalt Line | `kobaltblau` | wie A | 1,30 / 1,00 / 0,88 / 0,85 | HD-B UB-B PV-B SH-B UA-C FA-B HN-B TH-C SN-C FT-D: Paladin |
 
-Herkunft der Zahlen: Farben, `arm_bulk` und Proportionen sind Annahmen am Entwurf, am Vielfaltsmaß und am Bild gesichtet (der Test `test_every_line_is_a_complete_robot_livery…` prüft nur, dass jeder gesetzte Schlüssel in `PARAMS` des Typs existiert). Teile-IDs, Anker, Baugruppen und Abnahme bleiben die der Typen; die Silhouettenabnahme gilt für Linie A in der Referenzhaltung; B–E ändern nur Querschnitte (Arme, Proportionen). Jeder Skin deckt alle neun Rollen von `weiss_graphit` samt `finish` ab, trägt `robot = true` (nie für Waffen wählbar) und hat noch keinen `aaa`-Block: Die Eingangsfarben für Cycles sind nicht gemessen, GLB, Blatt und 3D-Seite zeigen die Hexwerte. Ein Skin kommt im Katalog der Website auch als Wahl in der 3D-Ansicht vor, auf jedem Roboter ([Website](website.md#skinwechsel)).
+Herkunft der Zahlen: Farben, `arm_bulk` und Proportionen sind Annahmen am Entwurf, am Vielfaltsmaß und am Bild gesichtet (der Test `test_every_line_is_a_complete_robot_livery…` prüft nur, dass jeder gesetzte Schlüssel in `PARAMS` des Typs existiert). Teile-IDs, Anker, Baugruppen und Abnahme bleiben die der Typen; die Silhouettenabnahme gilt für Linie A in der Referenzhaltung; B–E bestehen seit 0.14 aus Katalogvarianten je Einzelteil, Skelett, Gelenke und Anker bleiben die des Typs. Jeder Skin deckt alle neun Rollen von `weiss_graphit` samt `finish` ab, trägt `robot = true` (nie für Waffen wählbar) und hat noch keinen `aaa`-Block: Die Eingangsfarben für Cycles sind nicht gemessen, GLB, Blatt und 3D-Seite zeigen die Hexwerte. Ein Skin kommt im Katalog der Website auch als Wahl in der 3D-Ansicht vor, auf jedem Roboter ([Website](website.md#skinwechsel)).
 
 ## Proportionen (0.13)
 
@@ -90,6 +90,24 @@ Herkunft der Zahlen: Farben, `arm_bulk` und Proportionen sind Annahmen am Entwur
 Beide Typen gehen denselben Weg: RA01 baut die skalierten Profile, RA02 überträgt die Differenz als Verschiebungsfeld auf die gemessenen Teile (554, davon 199 mit Flächendaten; `roboterbasic_02_parameters.templates`), es gibt keine Neumodellierung. Das Feld ist lokal: Bei `legs` wandern Fuß und Becken in der Nähe der Gelenke ein Stück mit. Dabei fand 0.13 einen Fehler: RA02 hängte bei jeder Profiländerung Konstruktorteile ohne gemessenes Gegenstück an (30 Teile bei den Beinen mit Faktor 1,25, darunter `shin_core`; ein Teil der linken Rippe lag bei −9922 mm). Seit 0.13 entstehen neue Teile nur für Merkmale, die der Standard nicht kennt (z. B. `torso.waist_pistons = true`). Schalter wie `gorget` oder `flare` stehen in RA01 an und in RA02 aus; sie taugen darum nicht als gemeinsame Linienparameter und bleiben außen vor.
 
 Vielfaltsmaß `python -m formgen.robot.variety`: Silhouetten-IoU jeder Linie gegen A desselben Typs und der Linien untereinander, Front, Seite und Draufsicht, 2 mm je Pixel. Schwellen (Annahme): Linie gegen A höchstens 0,97, Linie gegen Linie höchstens 0,985 in der kleinsten Ansicht; Messung der kleinsten Ansicht 0,86–0,96 gegen A, 0,81–0,93 untereinander (Tabelle im [Bericht](versions/0.13.md)). Der Test `test_robot_proportion` fordert beides für alle acht Blätter außer A und bringt die Gegenprobe (eine Linie ohne Proportionen: IoU genau 1,0, wird gemeldet).
+
+## Varianten-Baukasten (0.14)
+
+RA01 und RA02 sind die Basisversionen wie BA01 bei den Waffen. Neue Roboter entstehen je Einzelteil: Der Katalog `formgen/models/robot/catalog/` hält für jedes der zehn Einzelteile Formvarianten, eine Linie wählt im Register je Einzelteil eine (`[lines.parts]`, z. B. `shoulders = "SH-C"`), fehlende bleiben bei der Grundform A.
+
+| Punkt | Vorgabe |
+|---|---|
+| ID | `<Kürzel>-<Buchstabe>`, ewig; Kürzel HD Kopf, UB Oberkörper, PV Becken, SH Schulter, UA Oberarm, FA Unterarm, HN Hände, TH Oberschenkel, SN Unterschenkel, FT Füße; A = Grundform `Basic` |
+| Regel | Buchstabe B–Z ohne I/O, englischer Name 1–3 Wörter ≤ 16 Zeichen, je Einzelteil nichts doppelt, `since`, Idee, Herkunft (`origin`) |
+| Wirkung | nur Parameter im gemeinsamen Vokabular beider Typen (`params`, strikt), optional je Typ (`types`); gesperrt sind Skelett, Haltung, Maße, Proportionen. `catalog.OPTIONS` hat die bisher ungenannten Schalter von `body.py` mit dem Wert, den der Konstruktor ohne Schlüssel nimmt |
+| Ablauf | `parts()` beider Typen: `proportion.apply(catalog.apply(params))`; nur Grundformen → gleiches Objekt, A und die Abnahme bleiben bytegleich |
+| RA02 | `ra02 = 'field'`: Verschiebungsfeld und kalibrierte Aufsätze (`roboterbasic_02_parameters.templates`); `ra02 = 'replace'`: Ersatzmodus, die Messteile des Einzelteils weichen konstruierten Teilen, eingepasst je Segment um das gemessene Gelenk (`roboterbasic_02_replace.py`); kostet dort den gemessenen Look. Kopf: eigener Weg über `helmet.ra02`, kein Ersatz |
+| Kopf | `PARAMS['helmet']`: Felder je Helmgruppe (Haube, Visier, Kiefer, Seiten, Kragen, Hinterkopf) und Aufsätze (Kamm, Antennen, Ohrausleger, Linse, Halsleitungen), RA01 und RA02 |
+| Arme | Unterarm- und Handmaße als `PARAMS['forearm']`, `PARAMS['hand']` (`arm.FOREARM`, `arm.HAND`, vorher Konstanten); Fingermaße nur RA01 (RA02 hat gemessene Fingerrahmen) |
+| Spec | Feld `variants` (alle zehn Einzelteile) nur bei einer Wahl; `spec.migrate` ergänzt bei älteren Specs die Grundformen. Register Version 2, v1 wird beim Laden migriert |
+| Vielfalt | `python -m formgen.robot.variety --teile`: je Typ jede Variante allein, IoU nur der Teile ihres Einzelteils gegen die Grundform (Schwelle 0,97, Annahme) und die größte Nebenwirkung auf ein anderes Einzelteil; dazu je Linie jedes Einzelteil gegen A |
+
+Grenzen der Einzelteile folgen in RA02 der Messung, nicht RA01: Bauchplatten und Taille gehören dort zum Becken, das Hüftgelenk zum Oberschenkel, das Knöchelgelenk zum Unterschenkel. Darum setzt keine Variante `abdomen` in RA02, und Merkmale, die das Feld in RA02 schlecht ansetzt (Kolben, Wirbelsäule), stehen in Ersatzvarianten (UB-D, TH-B, SN-B). Varianten und Messwerte: [Bericht 0.14](versions/0.14.md).
 
 ## Fasen
 

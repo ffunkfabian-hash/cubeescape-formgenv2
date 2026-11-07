@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.14.0 Kitbash — Varianten-Baukasten je Roboter-Einzelteil
+
+- Roboter: Katalog `formgen/models/robot/catalog` mit drei Formvarianten je Einzelteil für alle zehn Einzelteile, wirksam in RA01 und RA02 (Feld/Aufsatz oder neuer Ersatzmodus); Kopfvarianten über Helmgruppen und Aufsätze, Unterarm- und Handmaße als Parameter. Register v2 mit `[lines.parts]`, Linien B–E sind neue Roboter aus diesen Varianten ([Roboter](docs/robot.md#varianten-baukasten-014)).
+- RA02: zwei Fehler behoben: neue Teile und Feldänderungen am linken Arm saßen ungespiegelt (Bizepskolben 103 mm daneben), und die Details des Rückenmoduls hingen an der Rückenplatte (ohne Modul 160 mm hinter dem Rumpf in der Luft).
+- Neu: `python -m formgen.robot.variety --teile` misst die Vielfalt je Einzelteil.
+- [Bericht](docs/versions/0.14.md)
+
 ## 0.13.0 Gantry — Bauteilproportionen der Roboterlinien
 
 - Roboter: `PARAMS['proportion']` mit vier Faktoren (Schulter, Rumpf, Beine, Rückenmodul) für beide Basic-Typen; Linien B–E setzen sie im Register, dazu `arm_bulk`. Die acht Linienblätter weichen in der kleinsten Ansicht 0,86–0,96 (IoU) von A ab und untereinander 0,81–0,93 ([Roboter](docs/robot.md#proportionen-013)). Standard 1,0 ändert nichts, A und die Abnahme von RA01 bleiben.

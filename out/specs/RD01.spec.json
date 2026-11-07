@@ -10,49 +10,49 @@
    "de": "Oberkörper",
    "group": "upper_body",
    "id": "upper_body",
-   "parts": 59
+   "parts": 48
   },
   {
    "de": "Becken",
    "group": "upper_body",
    "id": "pelvis",
-   "parts": 36
+   "parts": 27
   },
   {
    "de": "Schulter",
    "group": "arms",
    "id": "shoulders",
-   "parts": 42
+   "parts": 26
   },
   {
    "de": "Oberarm",
    "group": "arms",
    "id": "upper_arms",
-   "parts": 10
+   "parts": 16
   },
   {
    "de": "Unterarm",
    "group": "arms",
    "id": "forearms",
-   "parts": 24
+   "parts": 30
   },
   {
    "de": "Hände",
    "group": "arms",
    "id": "hands",
-   "parts": 106
+   "parts": 118
   },
   {
    "de": "Oberschenkel",
    "group": "legs",
    "id": "thighs",
-   "parts": 20
+   "parts": 28
   },
   {
    "de": "Unterschenkel",
    "group": "legs",
    "id": "shins",
-   "parts": 48
+   "parts": 64
   },
   {
    "de": "Füße",
@@ -62,20 +62,20 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 471.5,
-  "height": 1655.6,
-  "width": 1471.8
+  "depth": 411.2,
+  "height": 1655.9,
+  "width": 1523.6
  },
  "format": "formgenv2/robot-sheet-spec",
  "forms": {
-  "box": 42,
-  "cyl": 111,
-  "hull": 12,
-  "loft": 25,
+  "box": 48,
+  "cyl": 104,
+  "hull": 20,
+  "loft": 22,
   "plate": 36,
   "surface": 58,
-  "tube": 20,
-  "wrap": 120
+  "tube": 51,
+  "wrap": 97
  },
  "groups": [
   {
@@ -93,7 +93,7 @@
    ],
    "de": "Oberkörper",
    "id": "upper_body",
-   "parts": 95
+   "parts": 75
   },
   {
    "assemblies": [
@@ -104,7 +104,7 @@
    ],
    "de": "Arme",
    "id": "arms",
-   "parts": 182
+   "parts": 190
   },
   {
    "assemblies": [
@@ -114,14 +114,14 @@
    ],
    "de": "Beine",
    "id": "legs",
-   "parts": 86
+   "parts": 110
   }
  ],
  "id": "RD01",
  "kind": "robot",
  "line": "field olive",
  "line_info": {
-  "idea": "Matter Feldeinsatz in Oliv: schlanke Arme und Beine, schmale Schulter, dafür das große Feldgepäck",
+  "idea": "Offener Mechanik-Feldroboter: Grundhelm, offener Rahmen mit Wirbelsäule, offene Hüfte, kompakte Kappe, Kolbenarme mit Stellzylinder und Krallenhand, Kolbenbeine, Krallenstiefel",
   "letter": "D",
   "name": "Field Olive",
   "since": "0.12"
@@ -280,18 +280,6 @@
   },
   {
    "assembly": "pelvis",
-   "id": "tasset_side_r_top",
-   "name_de": "Beintasche oben",
-   "role": "shell"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "tasset_side_r_top_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "pelvis",
    "id": "hip_r_axle",
    "name_de": "Hüftgelenk",
    "role": "dark_metal"
@@ -313,18 +301,6 @@
    "id": "hip_r_hub",
    "name_de": "Medaillonnabe",
    "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_r",
-   "name_de": "Gürtelmodul",
-   "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_r_trim",
-   "name_de": "Modulkante",
-   "role": "trim"
   },
   {
    "assembly": "pelvis",
@@ -352,18 +328,6 @@
   },
   {
    "assembly": "pelvis",
-   "id": "tasset_side_l_top",
-   "name_de": "Beintasche oben",
-   "role": "shell"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "tasset_side_l_top_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "pelvis",
    "id": "hip_l_axle",
    "name_de": "Hüftgelenk",
    "role": "dark_metal"
@@ -385,24 +349,6 @@
    "id": "hip_l_hub",
    "name_de": "Medaillonnabe",
    "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_l",
-   "name_de": "Gürtelmodul",
-   "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_l_trim",
-   "name_de": "Modulkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "butt",
-   "name_de": "Gesäßplatte",
-   "role": "shell"
   },
   {
    "assembly": "upper_body",
@@ -466,20 +412,44 @@
   },
   {
    "assembly": "upper_body",
-   "id": "abs_a",
-   "name_de": "Bauchplatte",
-   "role": "shell"
+   "id": "waist_ring_0",
+   "name_de": "Wirbelring",
+   "role": "dark_metal"
   },
   {
    "assembly": "upper_body",
-   "id": "abs_b",
-   "name_de": "Bauchplatte",
-   "role": "shell"
+   "id": "waist_ring_1",
+   "name_de": "Wirbelring",
+   "role": "dark_metal"
   },
   {
    "assembly": "upper_body",
-   "id": "abs_a_edge",
-   "name_de": "Zierkante",
+   "id": "waist_ring_2",
+   "name_de": "Wirbelring",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_trim",
+   "name_de": "Taillenkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "spine_disc_0",
+   "name_de": "Wirbelscheibe",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "spine_disc_1",
+   "name_de": "Wirbelscheibe",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "spine_disc_2",
+   "name_de": "Wirbelscheibe",
    "role": "trim"
   },
   {
@@ -520,139 +490,67 @@
   },
   {
    "assembly": "upper_body",
-   "id": "chest",
+   "id": "chest_r",
    "name_de": "Brustplatte",
    "role": "shell"
   },
   {
    "assembly": "upper_body",
-   "id": "chest_rim_a",
+   "id": "chest_r_rim_a",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
    "assembly": "upper_body",
-   "id": "chest_rim_b",
+   "id": "chest_r_rim_b",
    "name_de": "Zierkante",
    "role": "trim"
   },
   {
    "assembly": "upper_body",
-   "id": "emblem_disc",
+   "id": "chest_l",
+   "name_de": "Brustplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_l_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_l_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_lens_disc",
    "name_de": "Medaillon",
    "role": "graphite"
   },
   {
    "assembly": "upper_body",
-   "id": "emblem_ring",
+   "id": "chest_lens_ring",
    "name_de": "Medaillonring",
    "role": "trim"
   },
   {
    "assembly": "upper_body",
-   "id": "emblem_hub",
+   "id": "chest_lens_hub",
    "name_de": "Medaillonnabe",
    "role": "graphite"
   },
   {
    "assembly": "upper_body",
-   "id": "emblem_bezel",
+   "id": "chest_lens_bezel",
    "name_de": "Lichtfassung",
    "role": "trim"
   },
   {
    "assembly": "upper_body",
-   "id": "emblem_lamp",
-   "name_de": "Statuslicht",
-   "role": "energy"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "solar",
-   "name_de": "Sonnenplatte",
-   "role": "anodized"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "solar_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "solar_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "solar_bolt_a",
-   "name_de": "Bolzen",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "solar_bolt_b",
-   "name_de": "Bolzen",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "rib_r",
-   "name_de": "Rippenplatte",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "rib_r_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "rib_r_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "rib_l",
-   "name_de": "Rippenplatte",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "rib_l_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "rib_l_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "chest_light_r_bezel",
-   "name_de": "Lichtfassung",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "chest_light_r_lamp",
-   "name_de": "Statuslicht",
-   "role": "energy"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "chest_light_l_bezel",
-   "name_de": "Lichtfassung",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "chest_light_l_lamp",
+   "id": "chest_lens_lamp",
    "name_de": "Statuslicht",
    "role": "energy"
   },
@@ -670,93 +568,75 @@
   },
   {
    "assembly": "upper_body",
-   "id": "back",
-   "name_de": "Rückenplatte",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "back_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "back_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "backpack",
-   "name_de": "Rückenmodul",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "backpack_shell",
-   "name_de": "Rückenmodulschale",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_r",
-   "name_de": "Düse",
+   "id": "spine",
+   "name_de": "Wirbelsäule",
    "role": "dark_metal"
   },
   {
    "assembly": "upper_body",
-   "id": "nozzle_r_trim",
-   "name_de": "Düsenkante",
+   "id": "vertebra_0",
+   "name_de": "Wirbel",
    "role": "trim"
   },
   {
    "assembly": "upper_body",
-   "id": "nozzle_r_core",
-   "name_de": "Düsenkern",
-   "role": "anodized"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "pack_cable_r",
-   "name_de": "Leitung",
-   "role": "rubber"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_l",
-   "name_de": "Düse",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_l_trim",
-   "name_de": "Düsenkante",
+   "id": "vertebra_1",
+   "name_de": "Wirbel",
    "role": "trim"
   },
   {
    "assembly": "upper_body",
-   "id": "nozzle_l_core",
-   "name_de": "Düsenkern",
-   "role": "anodized"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "pack_cable_l",
-   "name_de": "Leitung",
-   "role": "rubber"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "backpack_bezel",
-   "name_de": "Lichtfassung",
+   "id": "vertebra_2",
+   "name_de": "Wirbel",
    "role": "trim"
   },
   {
    "assembly": "upper_body",
-   "id": "backpack_lamp",
-   "name_de": "Statuslicht",
-   "role": "energy"
+   "id": "vertebra_3",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "vertebra_4",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "vertebra_5",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "vertebra_6",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "vertebra_7",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "vertebra_8",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "blade_r",
+   "name_de": "Schulterblattplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "blade_l",
+   "name_de": "Schulterblattplatte",
+   "role": "shell"
   },
   {
    "assembly": "shoulders",
@@ -805,54 +685,6 @@
    "id": "pauldron_r_stripe_b",
    "name_de": "Akzentstreifen",
    "role": "accent"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
   },
   {
    "assembly": "shoulders",
@@ -925,54 +757,6 @@
    "id": "pauldron_l_stripe_b",
    "name_de": "Akzentstreifen",
    "role": "accent"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
   },
   {
    "assembly": "shoulders",
@@ -1077,6 +861,30 @@
    "role": "graphite"
   },
   {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_piston_cyl",
+   "name_de": "Oberschenkelkolben rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_piston_rod",
+   "name_de": "Oberschenkelkolben (Stange) rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_piston_collar",
+   "name_de": "Oberschenkelkolben (Manschette) rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_cable",
+   "name_de": "Leitung rechts",
+   "role": "rubber"
+  },
+  {
    "assembly": "shins",
    "id": "shin_R_knee_axle",
    "name_de": "Kniegelenk rechts",
@@ -1111,6 +919,42 @@
    "id": "shin_R_knee_cap_edge",
    "name_de": "Zierkante rechts",
    "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_a_cyl",
+   "name_de": "Kniekolben rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_a_rod",
+   "name_de": "Kniekolben (Stange) rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_a_collar",
+   "name_de": "Kniekolben (Manschette) rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_b_cyl",
+   "name_de": "Kniekolben rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_b_rod",
+   "name_de": "Kniekolben (Stange) rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_b_collar",
+   "name_de": "Kniekolben (Manschette) rechts",
+   "role": "graphite"
   },
   {
    "assembly": "shins",
@@ -1168,9 +1012,21 @@
   },
   {
    "assembly": "shins",
-   "id": "shin_R_calf",
-   "name_de": "Wadenplatte rechts",
-   "role": "shell"
+   "id": "shin_R_calf_piston_cyl",
+   "name_de": "Wadenkolben rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_calf_piston_rod",
+   "name_de": "Wadenkolben (Stange) rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_calf_piston_collar",
+   "name_de": "Wadenkolben (Manschette) rechts",
+   "role": "graphite"
   },
   {
    "assembly": "shins",
@@ -1335,6 +1191,30 @@
    "role": "graphite"
   },
   {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_piston_cyl",
+   "name_de": "Oberschenkelkolben links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_piston_rod",
+   "name_de": "Oberschenkelkolben (Stange) links",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_piston_collar",
+   "name_de": "Oberschenkelkolben (Manschette) links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_cable",
+   "name_de": "Leitung links",
+   "role": "rubber"
+  },
+  {
    "assembly": "shins",
    "id": "shin_L_knee_axle",
    "name_de": "Kniegelenk links",
@@ -1369,6 +1249,42 @@
    "id": "shin_L_knee_cap_edge",
    "name_de": "Zierkante links",
    "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_a_cyl",
+   "name_de": "Kniekolben links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_a_rod",
+   "name_de": "Kniekolben (Stange) links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_a_collar",
+   "name_de": "Kniekolben (Manschette) links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_b_cyl",
+   "name_de": "Kniekolben links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_b_rod",
+   "name_de": "Kniekolben (Stange) links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_b_collar",
+   "name_de": "Kniekolben (Manschette) links",
+   "role": "graphite"
   },
   {
    "assembly": "shins",
@@ -1426,9 +1342,21 @@
   },
   {
    "assembly": "shins",
-   "id": "shin_L_calf",
-   "name_de": "Wadenplatte links",
-   "role": "shell"
+   "id": "shin_L_calf_piston_cyl",
+   "name_de": "Wadenkolben links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_calf_piston_rod",
+   "name_de": "Wadenkolben (Stange) links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_calf_piston_collar",
+   "name_de": "Wadenkolben (Manschette) links",
+   "role": "graphite"
   },
   {
    "assembly": "shins",
@@ -1605,6 +1533,24 @@
    "role": "trim"
   },
   {
+   "assembly": "forearms",
+   "id": "arm_R_fore_ram",
+   "name_de": "Stellzylinder rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_ram_rod",
+   "name_de": "Kolbenstange rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_ram_mount",
+   "name_de": "Zylinderlager rechts",
+   "role": "graphite"
+  },
+  {
    "assembly": "hands",
    "id": "arm_R_wrist_block",
    "name_de": "Kardanblock rechts",
@@ -1651,6 +1597,42 @@
    "id": "arm_R_thumb_mount",
    "name_de": "Daumensockel rechts",
    "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_claw_0",
+   "name_de": "Kralle rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_claw_0_mount",
+   "name_de": "Krallenfuß rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_claw_1",
+   "name_de": "Kralle rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_claw_1_mount",
+   "name_de": "Krallenfuß rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_claw_2",
+   "name_de": "Kralle rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_claw_2_mount",
+   "name_de": "Krallenfuß rechts",
+   "role": "dark_metal"
   },
   {
    "assembly": "hands",
@@ -1959,6 +1941,24 @@
    "role": "trim"
   },
   {
+   "assembly": "upper_arms",
+   "id": "arm_R_biceps_piston_cyl",
+   "name_de": "Armkolben rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_biceps_piston_rod",
+   "name_de": "Armkolben (Stange) rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_biceps_piston_collar",
+   "name_de": "Armkolben (Manschette) rechts",
+   "role": "graphite"
+  },
+  {
    "assembly": "forearms",
    "id": "arm_L_elbow",
    "name_de": "Ellbogengelenk links",
@@ -2031,6 +2031,24 @@
    "role": "trim"
   },
   {
+   "assembly": "forearms",
+   "id": "arm_L_fore_ram",
+   "name_de": "Stellzylinder links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_ram_rod",
+   "name_de": "Kolbenstange links",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_ram_mount",
+   "name_de": "Zylinderlager links",
+   "role": "graphite"
+  },
+  {
    "assembly": "hands",
    "id": "arm_L_wrist_block",
    "name_de": "Kardanblock links",
@@ -2077,6 +2095,42 @@
    "id": "arm_L_thumb_mount",
    "name_de": "Daumensockel links",
    "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_claw_0",
+   "name_de": "Kralle links",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_claw_0_mount",
+   "name_de": "Krallenfuß links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_claw_1",
+   "name_de": "Kralle links",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_claw_1_mount",
+   "name_de": "Krallenfuß links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_claw_2",
+   "name_de": "Kralle links",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_claw_2_mount",
+   "name_de": "Krallenfuß links",
+   "role": "dark_metal"
   },
   {
    "assembly": "hands",
@@ -2383,6 +2437,24 @@
    "id": "arm_L_upper_seam",
    "name_de": "Oberarmfuge links",
    "role": "trim"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_biceps_piston_cyl",
+   "name_de": "Armkolben links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_biceps_piston_rod",
+   "name_de": "Armkolben (Stange) links",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_biceps_piston_collar",
+   "name_de": "Armkolben (Manschette) links",
+   "role": "graphite"
   },
   {
    "assembly": "head",
@@ -2756,11 +2828,143 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 286521,
+ "triangles": 260155,
  "type": {
   "name_de": "RoboterBasic-01",
   "num": 1
  },
+ "variants": [
+  {
+   "assembly": "head",
+   "id": "HD-A",
+   "idea": "Grundform des Typs, unverändert",
+   "letter": "A",
+   "name": "Basic",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "RoboterBasic-01/-02 wie im Register, ohne Abwandlung"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "UB-D",
+   "idea": "Offenes Skelett der Mechanik-Studie: zwei Brustplatten mit Linse, offene Wirbelsäule mit Schulterblattplatten, Bauch als Säule",
+   "letter": "D",
+   "name": "Open Frame",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py upper_body(): abdomen spine, rings, chest split/full/mid/t, back spine"
+   },
+   "ra02": "replace",
+   "since": "0.14"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "PV-C",
+   "idea": "Schmales, offenes Becken der Mechanik-Studie: kurze Lendenplatte, kleine Beintaschen, ohne Gesäßplatte und Gürtelmodule",
+   "letter": "C",
+   "name": "Open Hips",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py lower_body(): pel a/b (auf den z-Stützstellen von RA01, Annahme), belt, front, side; butt, belt_boxes und layer fehlen dort; hip_len nicht übernommen (Gelenk gehört zum Typ)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "SH-C",
+   "idea": "Kompakte runde Schulterkappe der Mechanik-Studie ohne Lagen, flacher geneigt; der Oberarm liegt frei",
+   "letter": "C",
+   "name": "Compact Cap",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py upper_body(): pauldron rows, band, med, tilt, ch, grooves; flare/flare2 fehlen dort"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "UA-B",
+   "idea": "Schlanker Mechanik-Oberarm; in RA01 mit schmaler Schale und offenem Bizepskolben an der Vorderseite",
+   "letter": "B",
+   "name": "Piston Arm",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py arm_extra (rows, shell, ch, piston); Schulterkugel ball 52 nicht übernommen, sie gehört zum Einzelteil Schulter"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "forearms",
+   "id": "FA-C",
+   "idea": "Mechanik-Unterarm: Stellzylinder mit blanker Kolbenstange an der Innenseite bis zur Stulpe",
+   "letter": "C",
+   "name": "Ram Bracer",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/arms/studies/c_mechanik.py actuator (z 24–186, r 17) und actuator_rod (z 180–268, r 7,5); Lage y −52 unter dem Körper Annahme"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "hands",
+   "id": "HN-C",
+   "idea": "Klauenhand: drei gebogene Krallen vom Handrücken weit über die Finger hinaus",
+   "letter": "C",
+   "name": "Claw Hand",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: drei Krallen bei x −22/0/22 mm (Fingerteilung ≈ 20 mm), Fuß z 30–70, Spitze KNUCKLE_Z + 110 mm, 40 mm zur Handfläche gebogen"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "thighs",
+   "id": "TH-B",
+   "idea": "Schlanker Oberschenkel der Mechanik-Studie mit Schale nur vorn, Kolben außen hinten und Leitung",
+   "letter": "B",
+   "name": "Piston Thigh",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): thigh a/b (auf den z-Stützstellen von RA01, Annahme), thigh_shell, thigh_piston, thigh_cable"
+   },
+   "ra02": "replace",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shins",
+   "id": "SN-B",
+   "idea": "Offene Mechanik am Unterschenkel: zwei Kniekolben in der Kniekehle, Wadenkolben statt Wadenplatte",
+   "letter": "B",
+   "name": "Piston Shin",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/b_paladin.py legs(): knee_pistons; BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): calf_piston, ohne calf"
+   },
+   "ra02": "replace",
+   "since": "0.14"
+  },
+  {
+   "assembly": "feet",
+   "id": "FT-D",
+   "idea": "Langer, spitz zulaufender Stiefel: schmale Zehe weit vorn, hoher Rist",
+   "letter": "D",
+   "name": "Talon Boot",
+   "origin": {
+    "kind": "Annahme",
+    "source": "foot gegen RA01: Zehe 40 mm länger, nach vorn auf a 30 / b 14 mm verjüngt (a −4…−24), Ferse 10 mm länger, Rist b +2 mm; y für die Unterkante"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  }
+ ],
  "version": 1,
  "warnings": []
 }

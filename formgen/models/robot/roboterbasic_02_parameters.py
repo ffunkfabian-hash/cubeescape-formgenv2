@@ -16,7 +16,7 @@ from copy import deepcopy
 import numpy as np
 
 from formgen import geom
-from . import arm, body, kit
+from . import arm, body, catalog, kit
 
 PROVENANCE = {
     'reference': 'Vorgabe01: BALLON 14bd78d; Parameter und Einheiten aus RoboterBasic-01',
@@ -119,7 +119,8 @@ def extras():
     Die Profilzahlen sind deklarierte Referenzkoordinaten, keine erfundenen
     02-Messwerte. ``measurements`` liefert die tatsaechlichen 02-Profilgrenzen.
     """
-    out = deepcopy(_REFERENCE)
+    out = catalog.options(deepcopy(_REFERENCE))
+    out.update(forearm=deepcopy(arm.FOREARM), hand=deepcopy(arm.HAND))     # 0.14: Unterarm- und Handmaße wie RA01 (arm.py)
     out['torso'].update(waist_pistons=False, gorget=None, bridges=None)
     out['torso']['pauldron'].update(flare=None, flare2=None, stripes=False, grooves=())
     out['pelvis']['belt_boxes'] = False
@@ -144,7 +145,9 @@ ASSOCIATIONS = (
     ('ShoulderBlock', 'pauldron_{s}'), ('ShoulderBolt', 'pauldron_{s}'),
     ('ShoulderMed', 'shoulder_{s}_med_disc'), ('ShoulderJoint', 'shoulder_ball'),
     ('Backpack', 'backpack'), ('RefBackMount', 'backpack_shell'), ('RefBackPanel', 'backpack_shell'),
-    ('BackSpine', 'back'), ('Back', 'back'), ('Hose', 'pack_cable_{s}'),
+    # 0.14: alle Back*-Teile außer Backpack sitzen gemessen auf dem Rückenmodul (f −302…−177 mm, Rumpfrücken bei −130), nicht auf einer
+    # Rückenplatte; an `back` gebunden blieben sie bei Linien ohne Rückenmodul 160 mm hinter dem Rumpf in der Luft stehen.
+    ('BackSpine', 'backpack_shell'), ('Back', 'backpack_shell'), ('Hose', 'pack_cable_{s}'),
     ('R5_SensorLightRing', 'chest_light_r_lamp'),
     ('R5_Sensor', 'emblem_disc'), ('Sensor', 'emblem_disc'),
     ('ChestVent', 'chest'), ('ChestSeam', 'chest'), ('ChestBand', 'chest_stripe_a'),
@@ -170,6 +173,9 @@ ASSOCIATIONS = (
 )
 
 
+PACK_DETAILS = ('OrangeDetail_6',)      # gemessen f −298…−292 mm: Akzent auf dem Rückenmodul, nicht auf der Brust (0.14)
+
+
 def warnings(params, defaults):
     """Visible inherited 01 contract gaps; the protected 01 is not reinterpreted."""
     return [f'01-Parameter torso.chest.{key} aktuell ohne Formwirkung; geschuetztes 01 unveraendert'
@@ -190,6 +196,8 @@ def binding(row):
     if row.get('profile_binding'):
         return tuple(row['profile_binding'])
     name = row['source_object']
+    if name in PACK_DETAILS:
+        return ('torso', 'backpack_shell')
     if name.startswith('OrangeDetail'):
         return ('pelvis', 'tasset_stripe_a') if row['assembly'] == 'lower_body' else ('torso', 'chest_stripe_a')
     for prefix, target in ASSOCIATIONS:
@@ -381,7 +389,7 @@ def _canonical(params):
                              ('pelvis', body.pelvis), ('legs', body.legs)):
         for row in function(params[family]):
             out[(family, row[0])] = row
-    for row in arm.parts():
+    for row in arm.parts(params['forearm'], params['hand']):
         if row[0] not in params['arm_drop']:
             out[('arm', row[0])] = row
     return out
@@ -404,8 +412,10 @@ def _same(a, b):
 
 def _frame_for(row, base_frames):
     R, origin, _, _ = base_frames[_segment(row)]
-    # body.legs mirrors the left leg; arm frames already mirror their X axis.
-    mirror = np.array([-1, 1, 1]) if _side(row) == 'L' and row['assembly'] == 'legs' else np.ones(3)
+    # body.legs mirrors the left leg. 0.14: Arme ebenso – Konstruktorteile sind rechts beschrieben, kit.part spiegelt links an X; ohne
+    # Spiegel lagen neue Armteile und Feldänderungen links ungespiegelt (Bizepskolben 103 mm daneben, Bericht 0.14).
+    left_arm = _segment(row).startswith('arm_L_')
+    mirror = np.array([-1, 1, 1]) if _side(row) == 'L' and (row['assembly'] == 'legs' or left_arm) else np.ones(3)
     return R, origin, mirror
 
 
@@ -454,6 +464,14 @@ def _field(points, reference, changed):
     return np.concatenate(out)
 
 
+def _centered(row, R, origin, mirror, tolerance=1.0):
+    """Mittelteil: die gemessene Hülle liegt im Segmentrahmen symmetrisch zu x = 0 (Annahme: Toleranz 1 mm), z. B. Codpiece, TorsoCore."""
+    if _side(row) == 'L' or row['bone'].endswith(('_R', '_L')):
+        return False
+    local = (_cloud(row) - origin) @ R * mirror
+    return bool(len(local)) and abs(local[:, 0].min() + local[:, 0].max()) / 2 < tolerance
+
+
 def _calibration(bounds, reference):
     low, high = bounds
     rlow, rhigh = reference.min(axis=0), reference.max(axis=0)
@@ -470,9 +488,15 @@ def templates(params, defaults, rows, base_frames):
     new feature switches add actual kit geometry, removed features drop their
     associated source parts. All lengths remain mm and all angles degrees.
     """
-    keys = ('upper_arm', 'torso', 'pelvis', 'legs', 'arm_drop')
+    keys = ('upper_arm', 'torso', 'pelvis', 'legs', 'arm_drop', 'forearm', 'hand', 'replace')
     if all(_same(params[k], defaults[k]) for k in keys):
         return rows
+    plan, replaced = None, []
+    if params['replace']:
+        # 0.14 Ersatzmodus: erst die gemessenen Teile der Einzelteile in params['replace'] gegen eingepasste Konstruktorteile tauschen
+        # (roboterbasic_02_replace); die übrigen Teile gehen danach unverändert den Feldweg unten (Varianten, Proportionen).
+        from . import roboterbasic_02_replace as replacement
+        rows, replaced, plan = replacement.build(params, defaults, rows, base_frames)
     rows = associate(rows)
     before, after = _canonical(defaults), _canonical(params)
     bounds = measurements(rows, base_frames)
@@ -501,11 +525,19 @@ def templates(params, defaults, rows, base_frames):
         reference, changed = _cloud(old), _cloud(new)
         R, origin, mirror = _frame_for(row, base_frames)
         low, size, rlow, rsize = _calibration(bounds[(key, _segment(row))], reference)
+        center = _centered(row, R, origin, mirror)
 
-        def deform(points):
+        def deform(points, center=center):
             local = (points - origin) @ R * mirror
             refpoints = rlow + (local - low) / size * rsize
             displacement = _field(refpoints, reference, changed) - refpoints
+            if center:
+                # 0.14: Mittelteile bleiben spiegelgleich. Ändert eine Variante die Punktzahl des Konstruktorteils, ordnet _resample die
+                # Kontrollpunkte nach Index zu, nicht nach Lage; das Feld wird schief (Mitte von Codpiece bei PV-C 5,8 mm daneben, Brustband in RC02 28 mm, Richter 0.14).
+                # Mittel aus dem Feld am Punkt und dem gespiegelten Feld am Spiegelpunkt.
+                flip = np.array([-1.0, 1.0, 1.0])
+                mirrored = rlow + (local * flip - low) / size * rsize
+                displacement = (displacement + (_field(mirrored, reference, changed) - mirrored) * flip) / 2
             return (local + displacement) * mirror @ R.T + origin
 
         updated = _map(row, deform)
@@ -521,6 +553,8 @@ def templates(params, defaults, rows, base_frames):
     # nearest sibling in the SAME constructor family and anatomical segment.
     for key, new in after.items():
         if key in assigned or key in before:      # nur Merkmale, die der Standard nicht kennt; ein Konstruktorteil ohne gemessenes Gegenstück (shin_core, brief) ist kein Merkmal
+            continue
+        if plan is not None and plan.owner(key) in plan.replace:      # Ersatzmodus baut das Merkmal schon mit seinem Einzelteil
             continue
         family, pid = key
         _, label, segment, _, role, _ = new
@@ -583,4 +617,4 @@ def templates(params, defaults, rows, base_frames):
                 # body.upper_arm replacement profiles have their own dimensions.
                 part['apply_arm_bulk'] = True
             out.append(part)
-    return out
+    return out + replaced

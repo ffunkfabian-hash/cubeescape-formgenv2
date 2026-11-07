@@ -4,13 +4,13 @@
    "de": "Kopf",
    "group": "head",
    "id": "head",
-   "parts": 31
+   "parts": 33
   },
   {
    "de": "Oberkörper",
    "group": "upper_body",
    "id": "upper_body",
-   "parts": 63
+   "parts": 18
   },
   {
    "de": "Becken",
@@ -22,7 +22,7 @@
    "de": "Schulter",
    "group": "arms",
    "id": "shoulders",
-   "parts": 48
+   "parts": 64
   },
   {
    "de": "Oberarm",
@@ -34,13 +34,13 @@
    "de": "Unterarm",
    "group": "arms",
    "id": "forearms",
-   "parts": 14
+   "parts": 18
   },
   {
    "de": "Hände",
    "group": "arms",
    "id": "hands",
-   "parts": 200
+   "parts": 208
   },
   {
    "de": "Oberschenkel",
@@ -62,16 +62,16 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 506.8,
-  "height": 1848.9,
+  "depth": 448.9,
+  "height": 1897.7,
   "width": 1445.8
  },
  "format": "formgenv2/robot-sheet-spec",
  "forms": {
-  "hull": 298,
+  "hull": 287,
   "loft": 18,
-  "multi": 42,
-  "surface": 196
+  "multi": 35,
+  "surface": 199
  },
  "groups": [
   {
@@ -80,7 +80,7 @@
    ],
    "de": "Kopf",
    "id": "head",
-   "parts": 31
+   "parts": 33
   },
   {
    "assemblies": [
@@ -89,7 +89,7 @@
    ],
    "de": "Oberkörper",
    "id": "upper_body",
-   "parts": 83
+   "parts": 38
   },
   {
    "assemblies": [
@@ -100,7 +100,7 @@
    ],
    "de": "Arme",
    "id": "arms",
-   "parts": 292
+   "parts": 320
   },
   {
    "assemblies": [
@@ -117,7 +117,7 @@
  "kind": "robot",
  "line": "cobalt line",
  "line_info": {
-  "idea": "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Läuferbau: Panzerschulter über schlanken Beinen, flaches Rückenmodul",
+  "idea": "Paladin: Kammhelm, Rückenplatte, lange Lendenplatte, Paladinschulter mit zwei Lagen, Panzerarme mit Schildschiene und Panzerfaust, gepanzerte Beine, Krallenstiefel",
   "letter": "E",
   "name": "Cobalt Line",
   "since": "0.12"
@@ -604,69 +604,24 @@
   "thigh_R_thigh_hatch_bolt2",
   "thigh_R_thigh_plate",
   "thigh_R_thigh_trim",
-  "torso_L_back_grille",
-  "torso_L_back_grille_frame",
-  "torso_L_back_lower_panel",
-  "torso_L_back_side_grille",
-  "torso_L_back_side_grille_frame",
-  "torso_L_back_slot",
-  "torso_L_back_triangle",
   "torso_L_chest_vent",
-  "torso_L_hose",
-  "torso_L_hose_clamp",
-  "torso_L_ref_back_mount1",
-  "torso_L_ref_back_mount2",
-  "torso_L_ref_back_mount_screw1",
-  "torso_L_ref_back_mount_screw2",
-  "torso_L_ref_back_panel1",
-  "torso_L_ref_back_panel2",
   "torso_L_shoulder_block",
   "torso_L_shoulder_block_core",
   "torso_L_shoulder_block_lower",
   "torso_L_shoulder_bolt1",
   "torso_L_shoulder_bolt2",
-  "torso_R_back_grille",
-  "torso_R_back_grille_frame",
-  "torso_R_back_lower_panel",
-  "torso_R_back_side_grille",
-  "torso_R_back_side_grille_frame",
-  "torso_R_back_slot",
-  "torso_R_back_triangle",
   "torso_R_chest_vent",
-  "torso_R_hose",
-  "torso_R_hose_clamp",
-  "torso_R_ref_back_mount1",
-  "torso_R_ref_back_mount2",
-  "torso_R_ref_back_mount_screw1",
-  "torso_R_ref_back_mount_screw2",
-  "torso_R_ref_back_panel1",
-  "torso_R_ref_back_panel2",
   "torso_R_shoulder_block",
   "torso_R_shoulder_block_core",
   "torso_R_shoulder_block_lower",
   "torso_R_shoulder_bolt1",
   "torso_R_shoulder_bolt2",
-  "torso_back_bolt1",
-  "torso_back_bolt2",
-  "torso_back_bolt3",
-  "torso_back_bolt4",
-  "torso_back_lower_grille",
-  "torso_back_lower_grille_frame",
-  "torso_back_panel",
-  "torso_back_panel_bolt1",
-  "torso_back_panel_bolt2",
-  "torso_back_spine_fins",
-  "torso_back_top_vent",
-  "torso_back_top_vent_frame",
-  "torso_backpack",
-  "torso_backpack_lower",
   "torso_chest",
   "torso_chest_band",
   "torso_chest_chevron",
   "torso_chest_seam_dn",
   "torso_chest_seam_up",
   "torso_orange_detail_3",
-  "torso_orange_detail_6",
   "torso_r5_sensor_inner_bezel",
   "torso_r5_sensor_light_ring",
   "torso_r5_sensor_outer_bezel",
@@ -739,174 +694,6 @@
    "id": "shin_R_ankle_piston",
    "name_de": "AnklePiston_R",
    "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt1",
-   "name_de": "BackBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt2",
-   "name_de": "BackBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt3",
-   "name_de": "BackBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt4",
-   "name_de": "BackBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_grille_frame",
-   "name_de": "BackGrilleFrame_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_grille_frame",
-   "name_de": "BackGrilleFrame_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_grille",
-   "name_de": "BackGrille_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_grille",
-   "name_de": "BackGrille_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_lower_grille",
-   "name_de": "BackLowerGrille",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_lower_grille_frame",
-   "name_de": "BackLowerGrilleFrame",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_lower_panel",
-   "name_de": "BackLowerPanel_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_lower_panel",
-   "name_de": "BackLowerPanel_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel",
-   "name_de": "BackPanel",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel_bolt1",
-   "name_de": "BackPanelBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel_bolt2",
-   "name_de": "BackPanelBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_side_grille_frame",
-   "name_de": "BackSideGrilleFrame_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_side_grille_frame",
-   "name_de": "BackSideGrilleFrame_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_side_grille",
-   "name_de": "BackSideGrille_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_side_grille",
-   "name_de": "BackSideGrille_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_slot",
-   "name_de": "BackSlot_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_slot",
-   "name_de": "BackSlot_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_spine_fins",
-   "name_de": "BackSpineFins",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_top_vent",
-   "name_de": "BackTopVent",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_top_vent_frame",
-   "name_de": "BackTopVentFrame",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_triangle",
-   "name_de": "BackTriangle_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_triangle",
-   "name_de": "BackTriangle_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_backpack",
-   "name_de": "Backpack",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_backpack_lower",
-   "name_de": "Backpack_Lower",
-   "role": "shell"
   },
   {
    "assembly": "pelvis",
@@ -1725,30 +1512,6 @@
    "role": "metal"
   },
   {
-   "assembly": "upper_body",
-   "id": "torso_L_hose_clamp",
-   "name_de": "HoseClamp_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_hose_clamp",
-   "name_de": "HoseClamp_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_hose",
-   "name_de": "Hose_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_hose",
-   "name_de": "Hose_R",
-   "role": "graphite"
-  },
-  {
    "assembly": "head",
    "id": "helmet_jaw",
    "name_de": "Jaw",
@@ -2196,12 +1959,6 @@
    "assembly": "pelvis",
    "id": "pelvis_orange_detail_5",
    "name_de": "OrangeDetail_5",
-   "role": "accent"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_orange_detail_6",
-   "name_de": "OrangeDetail_6",
    "role": "accent"
   },
   {
@@ -3135,78 +2892,6 @@
    "role": "shell"
   },
   {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount1",
-   "name_de": "RefBackMount1_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount1",
-   "name_de": "RefBackMount1_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount2",
-   "name_de": "RefBackMount2_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount2",
-   "name_de": "RefBackMount2_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount_screw1",
-   "name_de": "RefBackMountScrew1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount_screw1",
-   "name_de": "RefBackMountScrew1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount_screw2",
-   "name_de": "RefBackMountScrew2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount_screw2",
-   "name_de": "RefBackMountScrew2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_panel1",
-   "name_de": "RefBackPanel1_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_panel1",
-   "name_de": "RefBackPanel1_R",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_panel2",
-   "name_de": "RefBackPanel2_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_panel2",
-   "name_de": "RefBackPanel2_R",
-   "role": "shell"
-  },
-  {
    "assembly": "hands",
    "id": "arm_L_ref_pin_finger1",
    "name_de": "RefPin_finger1_L",
@@ -4003,6 +3688,186 @@
    "id": "arm_R_wrist_cuff",
    "name_de": "WristCuff_R",
    "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare2",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare2_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare2_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_r_flare2_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare2",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare2_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare2_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_profile_pauldron_l_flare2_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_profile_fore_guard",
+   "name_de": "Armschild",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_profile_fore_guard",
+   "name_de": "Armschild",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_profile_fore_guard_line",
+   "name_de": "Armschild-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_profile_fore_guard_line",
+   "name_de": "Armschild-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_guard",
+   "name_de": "Knöchelpanzer",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_guard",
+   "name_de": "Knöchelpanzer",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_guard_line",
+   "name_de": "Knöchelpanzer-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_guard_line",
+   "name_de": "Knöchelpanzer-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_cheek_a",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_cheek_a",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_cheek_b",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_cheek_b",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "head_crest",
+   "name_de": "Helmkamm",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "head_crest_edge",
+   "name_de": "Kammleiste",
+   "role": "trim"
   }
  ],
  "provenance": {
@@ -4028,11 +3893,143 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 263351,
+ "triangles": 265902,
  "type": {
   "name_de": "RoboterBasic-02",
   "num": 2
  },
+ "variants": [
+  {
+   "assembly": "head",
+   "id": "HD-B",
+   "idea": "Hohe Paradehaube mit Kamm und Kammleiste über die Mitte, Hinterkopf länger",
+   "letter": "B",
+   "name": "Crest Guard",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Idee BALLON b_paladin (Helm mit Kamm, hz 1,16 → Haubenhöhe 1,16 Vorgabe); Kamm 30 mm, Tiefe 1,06, Breite 0,96, Hinterkopf 10 mm Annahme am Vielfaltsmaß"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "UB-B",
+   "idea": "Rücken nur mit Platte wie beim Paladin: kein Rückenmodul, keine Düsen und Leitungen, schlanke Seite und Draufsicht",
+   "letter": "B",
+   "name": "Plate Back",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/b_paladin.py upper_body(): back kind plate, z (150, 220, 360)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "PV-B",
+   "idea": "Lange, schmale Lendenplatte des Paladins bis weit über die Oberschenkel, schlankeres Becken, einlagige Beintaschen",
+   "letter": "B",
+   "name": "Long Tasset",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/b_paladin.py lower_body(): pel a/b (auf den z-Stützstellen von RA01, Annahme), belt, front, side; side ohne layer wie dort"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "SH-B",
+   "idea": "Großer runder Panzer des Paladins, stärker geneigt, mit zwei Lagen über dem Oberarm (RA02 bekommt die Lagen neu)",
+   "letter": "B",
+   "name": "Paladin Guard",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/b_paladin.py upper_body(): pauldron n, rows, flare, flare2, flare_span, band, med, tilt, ch, grooves"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "UA-C",
+   "idea": "Schwerer Panzerarm: dicker Körper, Schale greift fast ganz um den Oberarm",
+   "letter": "C",
+   "name": "Heavy Shell",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Querschnitt +15–20 % gegen upper_arm.rows der Grundform, Schale ±150° statt ±110°, Fase 24; Prinzip „Panzer umschließt das Glied“ aus arm.py (Q-D2-ARM)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "forearms",
+   "id": "FA-B",
+   "idea": "Schwere Armschiene: breite Schildplatte mit Grat über der Unterarmschale",
+   "letter": "B",
+   "name": "Shield Bracer",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Platte z 40–236 mm, 136→104 mm breit (Schale 112→68), 9 mm dick, Grat 10; Prinzip „geschlossene Cremeschale“ aus BALLON 14bd78d basic/arms/studies/b_panzer.py"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "hands",
+   "id": "HN-B",
+   "idea": "Panzerfaust: großer Knöchelpanzer über Knöcheln und Fingerwurzeln, dicke Rückenschale, Wangen an der Handfläche",
+   "letter": "B",
+   "name": "Armored Fist",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Prinzip aus BALLON 14bd78d basic/arms/studies/b_panzer.py („dicke Rückenschale und Knöchelschutz“); Maße entworfen: Panzer KNUCKLE_Z −30…+14 mm, PALM_W +16/+12, 11 mm dick; Rückenschale 9 statt 5 mm"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "thighs",
+   "id": "TH-C",
+   "idea": "Schale, die fast ganz um den Oberschenkel greift und höher ansetzt, Fuge tiefer zum Knie",
+   "letter": "C",
+   "name": "Armored Thigh",
+   "origin": {
+    "kind": "Annahme",
+    "source": "thigh_shell (−150, 60) statt (−112, 34) Grad, thigh_top 120 statt 150 mm, thigh_seams (250,) statt (200,)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shins",
+   "id": "SN-C",
+   "idea": "Beinschiene, die rundum greift, dazu eine große Kniekappe",
+   "letter": "C",
+   "name": "Heavy Greave",
+   "origin": {
+    "kind": "Annahme",
+    "source": "shin_shell (−130, 130) statt (−96, 96) Grad; kneecap gegen RA01 je Zeile a +6…+8, b +6…+10, beide Enden 6 mm weiter"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "feet",
+   "id": "FT-D",
+   "idea": "Langer, spitz zulaufender Stiefel: schmale Zehe weit vorn, hoher Rist",
+   "letter": "D",
+   "name": "Talon Boot",
+   "origin": {
+    "kind": "Annahme",
+    "source": "foot gegen RA01: Zehe 40 mm länger, nach vorn auf a 30 / b 14 mm verjüngt (a −4…−24), Ferse 10 mm länger, Rist b +2 mm; y für die Unterkante"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  }
+ ],
  "version": 1,
  "warnings": []
 }

@@ -97,6 +97,19 @@ class PagesTests(Fixture):
         self.assertIn('Kopf', text)
         self.assertIn('3d.html?id=RA01&amp;baugruppe=torso', text)
 
+    def test_robot_page_shows_chosen_variants_only(self):
+        """0.14: Varianten je Einzelteil aus der Spec erscheinen auf der Karte, Grundformen nicht; ohne Feld bleibt die Karte wie zuvor."""
+        variants = [dict(id='SH-C', letter='C', name='Compact Cap', idea='kompakte Kappe'), dict(id='FT-A', letter='A', name='Basic', idea='Grundform')]
+        write(self.out/'specs/RA01.spec.json', json.dumps(robot(variants=variants)))
+        viewer.build(self.out, self.cache)
+        text = self.page('roboter.html')
+        self.assertIn('SH-C · Compact Cap', text)
+        self.assertIn('title="kompakte Kappe"', text)
+        self.assertNotIn('FT-A', text)
+        write(self.out/'specs/RA01.spec.json', json.dumps(robot()))
+        viewer.build(self.out, self.cache)
+        self.assertNotIn('Varianten je Einzelteil', self.page('roboter.html'))
+
     def test_robot_page_filters_lines_and_shows_skin_colors(self):
         sheet(self.out, 'RC01', robot(id='RC01', line='signal', skin='signal', skin_de='Signal', line_info={'letter': 'C', 'name': 'Signal'}))
         sheet(self.out, 'RA01', robot(line_info={'letter': 'A', 'name': 'Basic'}, skin='weiss_graphit', skin_de='Weiß-Graphit'))

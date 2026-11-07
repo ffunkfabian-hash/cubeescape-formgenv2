@@ -109,7 +109,8 @@ class VarietyTest(unittest.TestCase):
 
     def test_counterproof_a_line_without_proportions_is_flagged_for_the_right_reason(self):
         reg = lines.load()
-        one = dict(types=reg['types'][:1], lines=[dict(reg['lines'][0], types=[1]), dict(reg['lines'][1], types=[1], params={})])
+        line_b = {k: v for k, v in reg['lines'][1].items() if k != 'parts'}          # seit 0.14 auch ohne Teilewahl: nur der Skin bleibt
+        one = dict(types=reg['types'][:1], lines=[dict(reg['lines'][0], types=[1]), dict(line_b, types=[1], params={})])
         result = variety.measure(lines.validate(one['types'], one['lines']))
         (key, views, least, ok), = variety.verdict(result)
         self.assertEqual(key, 'RB01')
