@@ -74,6 +74,10 @@ def validate(types, entries):
         unknown = set(e['types']) - set(nums)
         if unknown or not e['types']:
             raise ValueError(f'Linie {letter}: unbekannte Typen {sorted(unknown)}')
+        for num, over in e.get('params', {}).items():
+            locked = set(over) & {'variants', 'replace', 'helmet'}
+            if locked:
+                raise ValueError(f'Linie {letter}: {sorted(locked)} nur über [lines.parts], nie unter params.{num}')
         for assembly, vid in e.get('parts', {}).items():
             try:
                 catalog.parse(assembly, vid, kit)

@@ -30,7 +30,7 @@ VARIANTS: list = [
                 flare=None, flare2=None, band=284, med=(270, 22), tilt=12, ch=26)}},
             types={1: {'torso': {'pauldron': {'grooves': (314, 328)}}}}),
     Variant('shoulders', 'D', 'Wide Guard', '0.14',
-            'Breiter, waagrecht ausladender Panzer: jede Lage 12–18 mm breiter und weiter außen, kaum geneigt',
+            'Breiter, waagrecht ausladender Panzer: jede Lage bis 12 mm breiter und 8–18 mm weiter außen, kaum geneigt',
             dict(kind='Annahme', source='pauldron.rows gegen RA01: a +12…+2, b +2, Versatz dx +18…+8 mm; tilt 8 statt 16 Grad'),
             params={'torso': {'pauldron': dict(
                 rows=[(250, 116, 126, -6, 58), (290, 132, 136, -6, 48), (340, 128, 132, -6, 28), (375, 104, 114, -6, 8), (392, 62, 78, -6, -6)],

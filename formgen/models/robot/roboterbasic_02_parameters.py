@@ -464,6 +464,14 @@ def _field(points, reference, changed):
     return np.concatenate(out)
 
 
+def _centered(row, R, origin, mirror, tolerance=1.0):
+    """Mittelteil: die gemessene Hülle liegt im Segmentrahmen symmetrisch zu x = 0 (Annahme: Toleranz 1 mm), z. B. Codpiece, TorsoCore."""
+    if _side(row) == 'L' or row['bone'].endswith(('_R', '_L')):
+        return False
+    local = (_cloud(row) - origin) @ R * mirror
+    return bool(len(local)) and abs(local[:, 0].min() + local[:, 0].max()) / 2 < tolerance
+
+
 def _calibration(bounds, reference):
     low, high = bounds
     rlow, rhigh = reference.min(axis=0), reference.max(axis=0)
@@ -517,11 +525,19 @@ def templates(params, defaults, rows, base_frames):
         reference, changed = _cloud(old), _cloud(new)
         R, origin, mirror = _frame_for(row, base_frames)
         low, size, rlow, rsize = _calibration(bounds[(key, _segment(row))], reference)
+        center = _centered(row, R, origin, mirror)
 
-        def deform(points):
+        def deform(points, center=center):
             local = (points - origin) @ R * mirror
             refpoints = rlow + (local - low) / size * rsize
             displacement = _field(refpoints, reference, changed) - refpoints
+            if center:
+                # 0.14: Mittelteile bleiben spiegelgleich. Ändert eine Variante die Punktzahl des Konstruktorteils, ordnet _resample die
+                # Kontrollpunkte nach Index zu, nicht nach Lage; das Feld wird schief (Codpiece bei PV-C 11,5 mm zur Seite, Richter 0.14).
+                # Mittel aus dem Feld am Punkt und dem gespiegelten Feld am Spiegelpunkt.
+                flip = np.array([-1.0, 1.0, 1.0])
+                mirrored = rlow + (local * flip - low) / size * rsize
+                displacement = (displacement + (_field(mirrored, reference, changed) - mirrored) * flip) / 2
             return (local + displacement) * mirror @ R.T + origin
 
         updated = _map(row, deform)

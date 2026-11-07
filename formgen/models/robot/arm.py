@@ -181,8 +181,8 @@ def _plate_hull(p):
 
 def _girth(P, k):
     """Querschnitt (X/Y) der Unterarmteile fore_* um k skalieren, Längen (Z) und Ellbogen bleiben (Variante, FOREARM['girth']).
-    Bolzen behalten ihre Teilung in X und wandern nur mit der Schale nach außen: Eine Verschiebung in X überträgt RA02 heute links
-    ungespiegelt (roboterbasic_02_parameters._frame_for spiegelt nur Beine)."""
+    Bolzen behalten ihre Teilung in X und wandern nur mit der Schale nach außen (entworfen, als RA02 den linken Arm noch nicht spiegelte;
+    seit der Korrektur in roboterbasic_02_parameters._frame_for, 0.14, bleibt es so, die Grundform ändert sich dadurch nicht)."""
     if k == 1.0:
         return P
     out = []

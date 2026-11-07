@@ -48,7 +48,7 @@ def document(num, v, kit=None):
 
 
 def builds(num):
-    """Varianten, die Typ num heute baut: RA02 ohne Ersatzmodus."""
+    """Varianten, die Typ num baut: seit dem Ersatzmodus (0.14) alle, in beiden Typen."""
     return list(MINE)          # seit dem Ersatzmodus (0.14) baut RA02 auch die replace-Varianten
 
 

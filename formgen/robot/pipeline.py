@@ -56,6 +56,15 @@ def build_robot_spec(artifact: Artifact) -> bytes:
     return json.dumps(spec.build(document, artifact.inputs['entry']), indent=1, ensure_ascii=False, sort_keys=True).encode() + b'\n'
 
 
+def spec_params(entry) -> dict:
+    """Schlüssel der Spec-Stufe: Code, Eintrag, Skin und (0.14) die Katalogtexte der gewählten Varianten, die spec.build schreibt;
+    eine geänderte Idee im Katalog ändert die Geometrie nicht, die Spec aber schon. Ohne Wahl wie vor 0.14."""
+    out = {'code': _code(), 'entry': entry, 'skin_sha': file_hash(ROOT / 'skins.toml')}
+    if entry.get('parts'):
+        out['variants'] = lines.variants_of(entry)
+    return out
+
+
 def _code() -> str:
     return hashlib.sha256(canonical({c: file_hash(ROOT / c) for c in CODE})).hexdigest()
 
@@ -89,7 +98,7 @@ def run(selection, out, cache, force=False, log=print, stages=STAGES):
     derived = lambda sid, e: {'geometry_path': str((out / 'geometry' / f'{sid}.json').resolve()), 'entry': e}
     stage('asset', [Artifact(sid, 'asset', file_hash(out / 'geometry' / f'{sid}.json'), {'code': _code(), 'skin': e['skin'], 'skin_sha': file_hash(ROOT / 'skins.toml')},
                              {'ROBOT': ROBOT}, f'assets/{sid}.glb', 'formgen.robot.pipeline:build_asset', derived(sid, e)) for sid, e in selection.items()])
-    stage('specs', [Artifact(sid, 'specs', file_hash(out / 'geometry' / f'{sid}.json'), {'code': _code(), 'entry': e, 'skin_sha': file_hash(ROOT / 'skins.toml')}, {'ROBOT': ROBOT}, f'specs/{sid}.spec.json',
+    stage('specs', [Artifact(sid, 'specs', file_hash(out / 'geometry' / f'{sid}.json'), spec_params(e), {'ROBOT': ROBOT}, f'specs/{sid}.spec.json',
                              'formgen.robot.pipeline:build_robot_spec', derived(sid, e)) for sid, e in selection.items()])
     ids = list(selection)
     if not set(stages) & set(IMAGE_STAGES):

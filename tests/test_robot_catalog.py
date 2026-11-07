@@ -47,6 +47,24 @@ class CatalogTest(unittest.TestCase):
             with self.assertRaises(ValueError, msg=vid):
                 catalog.parse(assembly, vid)
 
+    def test_options_change_nothing_against_the_constructors_without_them(self):
+        """Richter 0.14: Werte gegen body.py prüfen, nicht nur Schlüssel – ohne die OPTIONS-Schlüssel bauen die Konstruktoren dasselbe."""
+        from formgen.models.robot import body
+
+        def strip(params, table):
+            out = copy.deepcopy(params)
+            for key, value in table.items():
+                if isinstance(value, dict):
+                    out[key] = strip(out[key], value)
+                else:
+                    out.pop(key, None)
+            return out
+        for module in (basic1, basic2):
+            for family, build in (('torso', body.torso), ('pelvis', body.pelvis), ('legs', body.legs), ('upper_arm', body.upper_arm)):
+                bare = strip(module.PARAMS[family], catalog.OPTIONS[family])
+                self.assertNotEqual(bare, module.PARAMS[family])
+                self.assertEqual(build(bare), build(module.PARAMS[family]), f'{module.__name__} {family}')
+
     def test_options_match_the_constructor_defaults(self):
         """Die OPTIONS-Schlüssel stehen in PARAMS beider Typen; ein Wert, den body.py ohne Schlüssel nähme, ändert nichts (Grundform bytegleich)."""
         for module in (basic1, basic2):
@@ -111,6 +129,9 @@ class RegisterTest(unittest.TestCase):
         bad = [dict(reg['lines'][0], parts={'feet': 'SH-A'})]
         with self.assertRaisesRegex(ValueError, 'Linie A: feet'):
             lines.validate(reg['types'], bad)
+        for key in ('variants', 'replace', 'helmet'):          # Richter 0.14: Teilewahl nie an der Variantenregel vorbei
+            with self.assertRaisesRegex(ValueError, 'nur über'):
+                lines.validate(reg['types'], [dict(reg['lines'][0], params={'1': {key: {}}})])
         good = lines.validate(reg['types'], [dict(reg['lines'][0], parts={'feet': 'FT-A'})])
         entry = lines.sheets(good)['RA01']
         self.assertEqual(entry['parts'], {'feet': 'FT-A'})
@@ -158,7 +179,49 @@ class PackDetailTest(unittest.TestCase):
         self.assertLess(depth(basic2.PARAMS), -290)
 
 
+class CenterMirrorTest(unittest.TestCase):
+    def test_ra02_center_parts_stay_mirror_symmetric_under_field_variants(self):
+        """Richter 0.14: Mittelteile von RA02 (gemessen symmetrisch zu x = 0, z. B. Codpiece) wurden im Feldweg schief, wenn eine Variante die
+        Punktzahl des Konstruktorteils änderte (PV-C: 11,5 mm). Gefordert: Mitte der Hülle höchstens 1 mm neben der Grundform."""
+        import numpy as np
+
+        from formgen.models.robot import roboterbasic_02_parameters as profiles
+
+        def centers(params):
+            out = {}
+            for p in basic2.parts(params):
+                x = profiles._cloud(p)[:, 0]          # Weltmaß x (rechte Körperseite), auch aus `items`
+                if p['source_object'][-2:] not in ('_L', '_R') and len(x):
+                    out[p['id']] = (x.min() + x.max()) / 2
+            return out
+        base = {k: v for k, v in centers(basic2.PARAMS).items() if abs(v) < 1.0}
+        self.assertIn('pelvis_codpiece', base)
+        kit = catalog.load()
+        for a in ('upper_body', 'pelvis'):
+            for letter, v in kit[a].items():
+                if letter == 'A' or v.ra02 != 'field':
+                    continue
+                params = copy.deepcopy(basic2.PARAMS)
+                params['variants'][a] = letter
+                got = centers(params)
+                with self.subTest(variant=v.id):
+                    off = {k: round(got[k], 2) for k in base if k in got and abs(got[k]) > 1.0}
+                    self.assertEqual(off, {})
+
+
 class SpecTest(unittest.TestCase):
+    def test_spec_key_follows_catalog_text(self):
+        """Richter 0.14: spec.build schreibt Name und Idee der Varianten; eine geänderte Idee muss den Schlüssel der Spec-Stufe ändern."""
+        from formgen.robot import pipeline
+        entry = lines.sheets()['RB01']
+        self.assertNotIn('variants', pipeline.spec_params(lines.sheets()['RA01']))      # A wie vor 0.14
+        before = pipeline.spec_params(entry)
+        kit = catalog.load()
+        v = kit['head'][entry['parts']['head'].split('-')[1]]
+        kit['head'][v.letter] = catalog.Variant(**dict(vars(v), idea=v.idea + ' (neu)'))
+        with mock.patch.object(catalog, 'load', return_value=kit):
+            self.assertNotEqual(pipeline.spec_params(entry), before)
+
     def test_variants_field_only_with_a_choice_and_migrate_fills_base(self):
         doc = dict(bounds_m=[[0, 0, 0], [1, 1, 1]], parts=[dict(id='p', assembly='feet', role='shell', shape='hull')], counts=dict(triangles=1),
                    assemblies=[dict(id=a, de=a, group='g', group_de='G') for a in ['feet']], info=dict(id='RA01', name_de='x', provenance={}))
