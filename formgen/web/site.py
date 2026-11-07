@@ -97,7 +97,8 @@ def collect(out) -> list[dict]:
             found.append({'id': sid, 'kind': 'robot', 'name': spec['name_de'], 'has_3d': has_3d, 'labels': part_labels(spec),
                           'line': spec['line'], 'letter': spec.get('line_info', {}).get('letter', ''), 'skin_id': spec['skin'],
                           'swatches': swatches(spec['skin'], palettes), 'skin': spec.get('skin_de', spec['skin']), 'dimensions_mm': spec['dimensions_mm'],
-                          'parts': count(spec['parts']), 'assemblies': spec['assemblies'], 'groups': spec['groups']})
+                          'parts': count(spec['parts']), 'assemblies': spec['assemblies'], 'groups': spec['groups'],
+                          'variants': [v for v in spec.get('variants', []) if v['letter'] != 'A']})     # 0.14: Wahl je Einzelteil, nur Abwandlungen
     weapons = sorted((i for i in found if i['kind'] == 'weapon'), key=lambda i: (i['group'], i['variant']))
     return weapons + sorted((i for i in found if i['kind'] == 'robot'), key=lambda i: (i['letter'] or '~', i['line'], i['id']))
 
@@ -181,6 +182,9 @@ def robots_page(items: list[dict]) -> str:
                                 else f'<li><span>{esc(a["de"])}</span></li>') for a in entries)
             levels = (f'<h3>Baugruppen</h3><ul class="chips">{chips(item["groups"])}</ul>' if item.get('groups') else '') + \
                      f'<h3>Einzelteile</h3><ul class="chips">{chips(item["assemblies"])}</ul>'
+            if item.get('variants'):     # 0.14: Varianten aus dem Baukasten, Idee als Tooltip
+                levels += '<h3>Varianten je Einzelteil</h3><ul class="chips">' + ''.join(
+                    f'<li><span title="{esc(v["idea"])}">{esc(v["id"])} · {esc(v["name"])}</span></li>' for v in item['variants']) + '</ul>'
             cards.append(f'<article class="robot" data-variant="{esc(item.get("letter", ""))}">{shot(item)}<div><b>{sid}</b><h3>{esc(item["name"])}</h3><dl>' +
                          ''.join(f'<div><dt>{k}</dt><dd>{esc(str(v))}</dd></div>' for k, v in facts) + f'</dl>{dots(item)}{actions(item)}</div>'
                          f'<section class="parts">{levels}</section></article>')
