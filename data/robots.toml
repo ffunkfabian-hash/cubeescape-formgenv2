@@ -24,43 +24,80 @@ idea = "Grundform der Basic-Typen, ohne Abwandlung"
 skin = "weiss_graphit"
 types = [1, 2]
 
-# 0.12 Livery: vier Farblinien; Form bleibt die der Basic-Typen, nur `arm_bulk` (Armquerschnitt) wandert. Werte Annahme, am Bild gesichtet.
+# 0.12 Livery: vier Farblinien. 0.13 Gantry: dazu je Linie eigene Bauteilproportionen (`proportion`: Schultern, Rumpf, Beine, Rückenmodul; Faktoren auf die Profile,
+# 1,0 = Vorgabe, Grenzen 0,7–1,4 in formgen/models/robot/proportion.py) und `arm_bulk`. Alle Werte Annahme, am Vielfaltsmaß (`python -m formgen.robot.variety`) und am Bild gesichtet.
 [[lines]]
 letter = "B"
 name = "Night Watch"
 since = "0.12"
-idea = "Dunkle Nachtstreife mit warmem Orange als Leuchtfarbe, Form unverändert"
+idea = "Dunkle Nachtstreife mit warmem Orange als Leuchtfarbe, schmal gebaut: kleine Schulter, schlanke Beine, kompaktes Rückenmodul"
 skin = "nachtwache"
 types = [1, 2]
+[lines.params.1.proportion]
+shoulders = 0.88
+torso = 0.92
+legs = 0.90
+pack = 0.80
+[lines.params.2.proportion]
+shoulders = 0.88
+torso = 0.92
+legs = 0.90
+pack = 0.80
 
 [[lines]]
 letter = "C"
 name = "Signal"
 since = "0.12"
-idea = "Warnorange Arbeitsroboter mit kräftigeren Armen"
+idea = "Warnorange Arbeitsroboter, schwer gebaut: kräftige Arme, breite Schulter, starke Beine, großes Rückenmodul"
 skin = "signal"
 types = [1, 2]
 [lines.params.1]
 arm_bulk = 1.42
+[lines.params.1.proportion]
+shoulders = 1.22
+torso = 1.10
+legs = 1.15
+pack = 1.25
 [lines.params.2]
 arm_bulk = 1.12
+[lines.params.2.proportion]
+shoulders = 1.22
+torso = 1.10
+legs = 1.15
+pack = 1.25
 
 [[lines]]
 letter = "D"
 name = "Field Olive"
 since = "0.12"
-idea = "Matter Feldeinsatz in Oliv mit schlankeren Armen"
+idea = "Matter Feldeinsatz in Oliv: schlanke Arme und Beine, schmale Schulter, dafür das große Feldgepäck"
 skin = "feldoliv"
 types = [1, 2]
 [lines.params.1]
 arm_bulk = 1.18
+[lines.params.1.proportion]
+shoulders = 0.95
+legs = 0.92
+pack = 1.30
 [lines.params.2]
 arm_bulk = 0.92
+[lines.params.2.proportion]
+shoulders = 0.95
+legs = 0.92
+pack = 1.30
 
 [[lines]]
 letter = "E"
 name = "Cobalt Line"
 since = "0.12"
-idea = "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Form unverändert"
+idea = "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Läuferbau: Panzerschulter über schlanken Beinen, flaches Rückenmodul"
 skin = "kobaltblau"
 types = [1, 2]
+[lines.params.1.proportion]
+shoulders = 1.30
+legs = 0.88
+pack = 0.85
+[lines.params.2.proportion]
+shoulders = 1.30
+legs = 0.88
+pack = 0.85

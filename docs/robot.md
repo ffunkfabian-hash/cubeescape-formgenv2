@@ -64,17 +64,32 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 
 ## Linien und Liveries (0.12)
 
-Eine Linie ist eine Livery: eigener Skin, dieselbe Form, dazu höchstens der Armquerschnitt. Jede Linie gilt für beide Typen, Blatt-ID `R<Linie><NN>`.
+Eine Linie ist seit 0.12 eine Livery (eigener Skin) und seit 0.13 dazu eine Bauform ([Proportionen](#proportionen-013)). Jede Linie gilt für beide Typen, Blatt-ID `R<Linie><NN>`.
 
-| Linie | Name | Skin | `arm_bulk` 01 / 02 | Idee |
-|---|---|---|---|---|
-| A | Basic | `weiss_graphit` | 1,30 / 1,00 (Grundform) | Grundform, unverändert |
-| B | Night Watch | `nachtwache` | wie A | dunkle Schale, Orange als Leuchtfarbe |
-| C | Signal | `signal` | 1,42 / 1,12 | Warnorange, kräftigere Arme |
-| D | Field Olive | `feldoliv` | 1,18 / 0,92 | Oliv, schlankere Arme |
-| E | Cobalt Line | `kobaltblau` | wie A | blaue Schale, helles Zyan |
+| Linie | Name | Skin | `arm_bulk` 01 / 02 | Proportionen (Schulter / Rumpf / Beine / Rücken) | Idee |
+|---|---|---|---|---|---|
+| A | Basic | `weiss_graphit` | 1,30 / 1,00 | 1,00 / 1,00 / 1,00 / 1,00 | Grundform, unverändert |
+| B | Night Watch | `nachtwache` | wie A | 0,88 / 0,92 / 0,90 / 0,80 | dunkle Schale, schmal gebaut |
+| C | Signal | `signal` | 1,42 / 1,12 | 1,22 / 1,10 / 1,15 / 1,25 | Warnorange, schwerer Arbeitsroboter |
+| D | Field Olive | `feldoliv` | 1,18 / 0,92 | 0,95 / 1,00 / 0,92 / 1,30 | Oliv, schlank mit großem Feldgepäck |
+| E | Cobalt Line | `kobaltblau` | wie A | 1,30 / 1,00 / 0,88 / 0,85 | Blau, Panzerschulter über schlanken Beinen |
 
-Herkunft der Zahlen: Farben und `arm_bulk` sind Annahmen am Entwurf, am Bild gesichtet; der Armquerschnitt ist der einzige Formparameter, den ich für beide Typen gleichermaßen genutzt habe (der Test `test_every_line_is_a_complete_robot_livery…` prüft nur, dass jeder gesetzte Schlüssel in `PARAMS` des Typs existiert). Teile-IDs, Anker, Baugruppen und Abnahme bleiben die der Typen; die Silhouettenabnahme gilt für Linie A, die Liveries ändern nur Querschnitte der Arme. Jeder Skin deckt alle neun Rollen von `weiss_graphit` samt `finish` ab, trägt `robot = true` (nie für Waffen wählbar) und hat noch keinen `aaa`-Block: Die Eingangsfarben für Cycles sind nicht gemessen, GLB, Blatt und 3D-Seite zeigen die Hexwerte. Ein Skin kommt im Katalog der Website auch als Wahl in der 3D-Ansicht vor, auf jedem Roboter ([Website](website.md#skinwechsel)).
+Herkunft der Zahlen: Farben, `arm_bulk` und Proportionen sind Annahmen am Entwurf, am Vielfaltsmaß und am Bild gesichtet (der Test `test_every_line_is_a_complete_robot_livery…` prüft nur, dass jeder gesetzte Schlüssel in `PARAMS` des Typs existiert). Teile-IDs, Anker, Baugruppen und Abnahme bleiben die der Typen; die Silhouettenabnahme gilt für Linie A in der Referenzhaltung; B–E ändern nur Querschnitte (Arme, Proportionen). Jeder Skin deckt alle neun Rollen von `weiss_graphit` samt `finish` ab, trägt `robot = true` (nie für Waffen wählbar) und hat noch keinen `aaa`-Block: Die Eingangsfarben für Cycles sind nicht gemessen, GLB, Blatt und 3D-Seite zeigen die Hexwerte. Ein Skin kommt im Katalog der Website auch als Wahl in der 3D-Ansicht vor, auf jedem Roboter ([Website](website.md#skinwechsel)).
+
+## Proportionen (0.13)
+
+`PARAMS['proportion']` hat vier Faktoren, die beide Typen kennen (`formgen/models/robot/proportion.py`). Standard 1,0 ändert nichts: `apply` gibt dann dasselbe Objekt zurück, die Referenzhaltung der Abnahme bleibt unberührt. Erlaubt sind 0,7–1,4 (Annahme: außerhalb schneiden sich Schale, Kern und Gelenk sichtbar durch). Ein Faktor skaliert Breite `a` und Tiefe `b` der Profilzeilen, nie Höhen `z`, Versätze, Gelenke oder Skelett; Teile und IDs bleiben.
+
+| Faktor | Profile | Wirkung am Bild |
+|---|---|---|
+| `shoulders` | `torso.pauldron` (Lagen, `flare`, `flare2`) | Schulterpanzer breiter oder kleiner, Draufsicht |
+| `torso` | `torso.core`, `collar`, `waist`, `gorget` | Brustkorb und Kragen; von vorn kaum sichtbar, weil Schulter und Arme die Breite tragen |
+| `legs` | `legs.thigh`, `shin`, `kneecap`, `knee_r` | stärkere oder schlankere Beine, Front und Seite |
+| `pack` | `torso.back.rows` | Rückenmodul, Seite und Draufsicht |
+
+Beide Typen gehen denselben Weg: RA01 baut die skalierten Profile, RA02 überträgt die Differenz als Verschiebungsfeld auf die gemessenen Teile (554, davon 199 mit Flächendaten; `roboterbasic_02_parameters.templates`), es gibt keine Neumodellierung. Das Feld ist lokal: Bei `legs` wandern Fuß und Becken in der Nähe der Gelenke ein Stück mit. Dabei fand 0.13 einen Fehler: RA02 hängte bei jeder Profiländerung Konstruktorteile ohne gemessenes Gegenstück an (30 Teile bei den Beinen mit Faktor 1,25, darunter `shin_core`; ein Teil der linken Rippe lag bei −9922 mm). Seit 0.13 entstehen neue Teile nur für Merkmale, die der Standard nicht kennt (z. B. `torso.waist_pistons = true`). Schalter wie `gorget` oder `flare` stehen in RA01 an und in RA02 aus; sie taugen darum nicht als gemeinsame Linienparameter und bleiben außen vor.
+
+Vielfaltsmaß `python -m formgen.robot.variety`: Silhouetten-IoU jeder Linie gegen A desselben Typs und der Linien untereinander, Front, Seite und Draufsicht, 2 mm je Pixel. Schwellen (Annahme): Linie gegen A höchstens 0,97, Linie gegen Linie höchstens 0,985 in der kleinsten Ansicht; Messung der kleinsten Ansicht 0,86–0,96 gegen A, 0,81–0,93 untereinander (Tabelle im [Bericht](versions/0.13.md)). Der Test `test_robot_proportion` fordert beides für alle acht Blätter außer A und bringt die Gegenprobe (eine Linie ohne Proportionen: IoU genau 1,0, wird gemeldet).
 
 ## Fasen
 
