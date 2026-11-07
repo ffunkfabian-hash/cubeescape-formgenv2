@@ -523,8 +523,6 @@ def templates(params, defaults, rows, base_frames):
         if key in assigned or key in before:      # nur Merkmale, die der Standard nicht kennt; ein Konstruktorteil ohne gemessenes Gegenstück (shin_core, brief) ist kein Merkmal
             continue
         family, pid = key
-        if family == 'arm' and key in before:
-            continue
         _, label, segment, _, role, _ = new
         sides = ('R', 'L') if segment in ('upper', 'fore', 'hand', 'thigh', 'shin', 'foot') else ('C',)
         for side in sides:

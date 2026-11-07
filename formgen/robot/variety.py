@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw
 from formgen import geom, model
 from . import lines
 
-MM_PX = 2.0
+MM_PX = 2.0           # Annahme: Raster der Messung; die Außenkontur ändert sich darunter nicht merklich, 4 mm Rand je Seite ebenso
 VIEWS = dict(front=(0, 2), side=(1, 2), top=(0, 1))      # Achsen im Ausgaberaum (x links, −y vorn, z oben)
 THRESHOLD = 0.97       # Annahme: ≥ 3 % Flächenunterschied in der kleinsten Ansicht ist am Blatt zu erkennen; Weapons-Linien: 0,98 bei Langwaffen
 PAIR_THRESHOLD = 0.985  # Annahme: zwei Linien sind mindestens halb so verschieden wie eine Linie von A
