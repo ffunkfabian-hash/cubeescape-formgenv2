@@ -6,7 +6,7 @@ Einstieg ist `out/index.html`, offline per `file://`, ohne node, ohne Netz, ohne
 | --- | --- |
 | `index.html` | Start mit Navigation und Einstieg in beide Bereiche |
 | `waffen.html` | Waffen nach BASIC-Typ, Suche und Variantenfilter; je Karte Blatt und 3D |
-| `roboter.html` | Roboter nach Linie (`line`), Maße, Baugruppen; heute RA01 und RA02 |
+| `roboter.html` | Roboter nach Linie (`line`, sortiert nach Kennbuchstabe), Maße, Baugruppen, Farbpunkte des Skins; Suche und Linienfilter ab zwei Linien |
 | `3d.html?id=<ID>` | Eine Seite für alle 3D-Ansichten, optional `&baugruppe=<id>` (Baugruppe oder Einzelteil) |
 | `web/` | CSS, Skripte, `catalog.js`, Three.js und Lizenz |
 | `models3d/<ID>.js` | GLB als Base64, je Blatt per `<script>` nachgeladen |
@@ -16,6 +16,10 @@ Es erscheinen nur Blätter mit Vorschau und Spec-Format `formgenv2/weapon-sheet-
 ## Bau
 
 `python -m formgen.viewer --out out` oder die Pipeline-Stufe `viewer`; beide laufen über `viewer.build(out, cache, force=…)`. Jede Datei ist ein Artefakt aus `formgen/cache.py`: ohne `--force` entsteht nur Fehlendes. Schlüssel: `VIEWER` und `SITE` (`formgen/web/site.py`), Seiten zusätzlich der Hash von `site.py` und der Blattliste, Webdateien ihr Dateihash, `models3d` Hash von GLB und Teilenamen. Bei Änderung am Modellskript `SITE` erhöhen. Die Module liegen außerhalb der Code-Closure der Bildstufen; `viewer.py` und `site.py` zu ändern baut keine Blätter neu (Test).
+
+## Skinwechsel
+
+Die 3D-Seite hat neben der Baugruppenwahl eine Skinwahl („Original“ plus alle Farbskins). Roboter bieten die Roboter-Skins (`robot = true` in `skins.toml`), Waffen die übrigen Farbskins; Textur-Skins (Tarnung, Gebraucht, Eloxal) fehlen, weil sie keine reine Farbe sind. Die Palette steht je Skin als Rolle → Hex in `web/catalog.js` (`skins`), gebaut aus `skins.toml` (`site.skin_palettes`); die Seite färbt die Materialien um, ohne das GLB neu zu laden. Rolle = Materialname (Roboter `shell`, Waffen `MT_shell_color`). Der Skin steht in der Adresse (`&skin=<id>`), bleibt beim Blättern und bei der Baugruppenwahl erhalten und wird nicht in die Änderungsdatei geschrieben. Die Farben sind die Hexwerte der Skins; Tonemapping und Licht des Three.js-Viewers hellen dunkle Skins auf, wie es das AAA-Bild der Waffen tut.
 
 ## Teile und Baugruppen
 

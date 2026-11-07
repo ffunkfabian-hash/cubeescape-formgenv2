@@ -114,9 +114,14 @@ def main(argv=None) -> int:
     p.add_argument('--out', type=Path, default=ROOT / 'out')
     p.add_argument('--cache', type=Path, default=build.DEFAULT_CACHE)
     p.add_argument('--force', action='store_true')
+    p.add_argument('--list', action='store_true', help='Register anzeigen (Blatt, Linie, Typ, Skin, Parameter) und beenden; baut nichts')
     p.add_argument('--stages', help='Kommagetrennt aus ' + ','.join(STAGES) + '; ohne Angabe alle. Ohne Bildstufen braucht der Lauf keine Sperre.')
     a = p.parse_args(argv)
     sheets = lines.sheets()
+    if a.list:
+        for sid, e in sheets.items():
+            print(f"{sid}  Linie {e['line']['letter']} {e['line']['name']:<12} {e['type']['name_de']:<16} Skin {e['skin']:<13} {json.dumps(e['params'], sort_keys=True) if e['params'] else '-'}")
+        return 0
     unknown = [i for i in a.ids if i not in sheets]
     if unknown:
         raise SystemExit(f"Unbekannte Blatt-ID: {', '.join(unknown)}")

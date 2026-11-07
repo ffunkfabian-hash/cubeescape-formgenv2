@@ -10,15 +10,18 @@ import base64
 import hashlib
 import html
 import json
+import tomllib
 from pathlib import Path
 
 from .. import wspec
 from ..cache import Artifact, canonical, file_hash, run_artifacts
 from ..versions import VIEWER
 
-SITE = 1
+SITE = 2
 HERE = Path(__file__).resolve().parent
 from ..robot.spec import FORMAT as ROBOT_FORMAT, VERSION as ROBOT_VERSION
+SKINS = HERE.parent.parent/'skins.toml'
+SWATCH_ROLES = ('shell', 'graphite', 'trim', 'energy')
 ROBOT_FIELDS = ('id', 'name_de', 'kind', 'line', 'skin', 'dimensions_mm', 'parts', 'assemblies', 'groups')
 THREE = json.loads((HERE/'vendor/three.json').read_text(encoding='utf-8'))
 WEB_FILES = {'site.css': 'site.css', 'site.js': 'site.js', 'viewer3d.js': 'viewer3d.js', 'markierung.js': 'markierung.js',
@@ -39,6 +42,26 @@ def robot_spec(doc: dict) -> dict:
     return doc
 
 
+def skin_palettes(path=SKINS) -> dict:
+    """Farbskins für den Wechsel in der 3D-Ansicht: Rolle → Hex je Skin, getrennt nach Roboter und Waffe; Textur-Skins fehlen, sie sind keine reine Farbe."""
+    data = tomllib.loads(Path(path).read_text(encoding='utf-8'))
+    base = {role: spec['color'] for role, spec in data['roles'].items() if 'color' in spec}
+    out = {'robot': [], 'weapon': []}
+    for sid, skin in data['skins'].items():
+        if skin.get('kind') != 'Farbe':
+            continue
+        kind = 'robot' if skin.get('robot') else 'weapon'
+        out[kind].append({'id': sid, 'de': skin['de'], 'roles': {**base, **skin.get('roles', {})}})
+    return out
+
+
+def swatches(skin_id: str, palettes: dict) -> list[str]:
+    for entry in palettes['robot'] + palettes['weapon']:
+        if entry['id'] == skin_id:
+            return [entry['roles'][role] for role in SWATCH_ROLES]
+    return []
+
+
 def count(value) -> int:
     return len(value) if isinstance(value, (list, dict)) else int(value)
 
@@ -54,7 +77,7 @@ def part_labels(spec: dict) -> dict:
 
 def collect(out) -> list[dict]:
     """Waffen nach BASIC-Typ und Variante, dann Roboter; Blätter ohne Vorschau oder bekanntes Spec-Format fehlen."""
-    out, found = Path(out), []
+    out, found, palettes = Path(out), [], skin_palettes()
     for path in sorted((out/'sheets').glob('*.dc.html')):
         sid = path.name.removesuffix('.dc.html')
         spec_path = out/'specs'/f'{sid}.spec.json'
@@ -66,16 +89,17 @@ def collect(out) -> list[dict]:
             spec = wspec.migrate(spec)   # unbekannte oder neuere Versionen brechen ab
             t, v = spec['type'], spec['variant']
             found.append({'id': sid, 'kind': 'weapon', 'name': spec['name_de'], 'has_3d': has_3d, 'labels': part_labels(spec),
-                          'variant': v['letter'], 'variant_name': v['name'],
+                          'variant': v['letter'], 'variant_name': v['name'], 'skin_id': v.get('skin'), 'swatches': swatches(v.get('skin'), palettes),
                           'group': f"BASIC-{t['num']} · {t['type_de']} ({t['type_en']})",
                           'note': f"{v['letter']} · {v['name']} · {spec['dimensions_mm']['length']:.0f} mm"})
         elif spec.get('format') == ROBOT_FORMAT:
             spec = robot_spec(spec)
             found.append({'id': sid, 'kind': 'robot', 'name': spec['name_de'], 'has_3d': has_3d, 'labels': part_labels(spec),
-                          'line': spec['line'], 'skin': spec.get('skin_de', spec['skin']), 'dimensions_mm': spec['dimensions_mm'],
+                          'line': spec['line'], 'letter': spec.get('line_info', {}).get('letter', ''), 'skin_id': spec['skin'],
+                          'swatches': swatches(spec['skin'], palettes), 'skin': spec.get('skin_de', spec['skin']), 'dimensions_mm': spec['dimensions_mm'],
                           'parts': count(spec['parts']), 'assemblies': spec['assemblies'], 'groups': spec['groups']})
     weapons = sorted((i for i in found if i['kind'] == 'weapon'), key=lambda i: (i['group'], i['variant']))
-    return weapons + sorted((i for i in found if i['kind'] == 'robot'), key=lambda i: (i['line'], i['id']))
+    return weapons + sorted((i for i in found if i['kind'] == 'robot'), key=lambda i: (i['letter'] or '~', i['line'], i['id']))
 
 
 def page(title: str, current: str, main: str, *, scripts: tuple = ('site.js',), footer: str = '') -> str:
@@ -106,12 +130,17 @@ def start_page(items: list[dict]) -> str:
     def door(href, title, text, sample):
         image = f'<img src="previews/{esc(sample["id"])}.webp" alt="" loading="lazy">' if sample else '<div class="empty"></div>'
         return f'<a class="door" href="{href}">{image}<div><b>{title}</b><span>{text}</span></div></a>'
-    robot_text = f'{len(robots)} Roboter' if robots else 'Noch kein Roboter gebaut'
+    robot_text = f"{len(robots)} Roboter · {len({i['line'] for i in robots})} Linien" if robots else 'Noch kein Roboter gebaut'
     return page('Start', 'start', '<header><h1>Bibliothek</h1><p>Konzeptblätter, Modelle in 3D und Änderungswünsche direkt am Modell.</p></header>'
                 '<main class="doors">' +
                 door('waffen.html', 'Waffen', f'{len(weapons)} Blätter · {variants} Varianten', weapons[0] if weapons else None) +
                 door('roboter.html', 'Roboter', robot_text, robots[0] if robots else None) + '</main>',
                 footer='Läuft lokal ohne Netz. Maße und Herkunft stehen in Blatt und Spec.')
+
+
+def dots(item: dict, label: str = 'Farben des Skins') -> str:
+    colors = ''.join(f'<i style="background:{esc(c)}" title="{esc(c)}"></i>' for c in item.get('swatches', []))
+    return f'<p class="swatches" aria-label="{label}">{colors}</p>' if colors else ''
 
 
 def weapons_page(items: list[dict]) -> str:
@@ -123,7 +152,7 @@ def weapons_page(items: list[dict]) -> str:
     sections = []
     for group, entries in groups.items():
         cards = ''.join(f'<article class="card" data-variant="{esc(i["variant"])}">{shot(i)}<div><b>{esc(i["id"])}</b>'
-                        f'<span>{esc(i["name"])}</span><em>{esc(i["note"])}</em>{actions(i)}</div></article>' for i in entries)
+                        f'<span>{esc(i["name"])}</span><em>{esc(i["note"])}</em>{dots(i)}{actions(i)}</div></article>' for i in entries)
         sections.append(f'<section><h2>{esc(group)}<small>{len(entries)} Blätter</small></h2><div class="grid">{cards}</div></section>')
     options = '<option value="">alle Varianten</option>' + ''.join(
         f'<option value="{esc(v)}">{esc(v)} · {esc(names[v])}</option>' for v in sorted(names))
@@ -140,6 +169,7 @@ def robots_page(items: list[dict]) -> str:
     for item in robots:
         lines.setdefault(item['line'], []).append(item)
     sections = []
+    letters = {i['line']: i.get('letter', '') for i in robots}
     for line, entries in lines.items():
         cards = []
         for item in entries:
@@ -151,12 +181,16 @@ def robots_page(items: list[dict]) -> str:
                                 else f'<li><span>{esc(a["de"])}</span></li>') for a in entries)
             levels = (f'<h3>Baugruppen</h3><ul class="chips">{chips(item["groups"])}</ul>' if item.get('groups') else '') + \
                      f'<h3>Einzelteile</h3><ul class="chips">{chips(item["assemblies"])}</ul>'
-            cards.append(f'<article class="robot">{shot(item)}<div><b>{sid}</b><h3>{esc(item["name"])}</h3><dl>' +
-                         ''.join(f'<div><dt>{k}</dt><dd>{esc(str(v))}</dd></div>' for k, v in facts) + f'</dl>{actions(item)}</div>'
+            cards.append(f'<article class="robot" data-variant="{esc(item.get("letter", ""))}">{shot(item)}<div><b>{sid}</b><h3>{esc(item["name"])}</h3><dl>' +
+                         ''.join(f'<div><dt>{k}</dt><dd>{esc(str(v))}</dd></div>' for k, v in facts) + f'</dl>{dots(item)}{actions(item)}</div>'
                          f'<section class="parts">{levels}</section></article>')
         sections.append(f'<section><h2>Linie {esc(line.title())}<small>{len(entries)} Roboter</small></h2><div class="robots">{"".join(cards)}</div></section>')
     body = ''.join(sections) or '<p class="note">Noch kein Roboter gebaut.</p>'
-    return page('Roboter', 'roboter', f'<header><h1>Roboter</h1><p>Roboter nach Linien.</p></header><main>{body}</main>',
+    options = '<option value="">alle Linien</option>' + ''.join(
+        f'<option value="{esc(letters[line])}">{esc(letters[line])} · {esc(line.title())}</option>' for line in lines if letters[line])
+    tools = ('<div class="tools"><input type="search" aria-label="Roboter filtern" placeholder="Name, Kennung oder Skin …">'
+             f'<select aria-label="Linie">{options}</select></div>') if len(lines) > 1 else ''
+    return page('Roboter', 'roboter', f'<header><h1>Roboter</h1><p>Roboter nach Linien: {len(robots)} Blätter in {len(lines)} Linien.</p>{tools}</header><main>{body}</main>',
                 footer='Baugruppen und Einzelteile öffnen die 3D-Ansicht nur mit dieser Auswahl.')
 
 
@@ -193,6 +227,7 @@ def model_page() -> str:
             '<p id="error" class="note" hidden></p><div class="workspace" data-workspace hidden><div>'
             f'<div class="stage" data-orbit>{guide}</div><div class="stage-foot"><small>Mausrad gedrückt ziehen: drehen · mit Umschalt: verschieben · '
             'Scrollen: zoomen</small><label data-view hidden>Ansicht <select data-assembly></select></label>'
+            '<label data-skin hidden>Skin <select data-skin-select></select></label>'
             '<button type="button" data-reset disabled>Ansicht zurücksetzen</button></div></div>' + panel + '</div></main>')
     license_link = f'<a href="web/{THREE["license_file"]}">Three.js {THREE["version"]} (MIT)</a>'
     return page('3D-Ansicht', 'modell', main, footer=f'Änderungsdateien: Format formgen/change-request. {license_link}',
@@ -200,8 +235,8 @@ def model_page() -> str:
 
 
 def catalog_js(items: list[dict]) -> str:
-    rows = [{k: i[k] for k in ('id', 'kind', 'name', 'has_3d')} for i in items]
-    return 'window.formgenCatalog=' + json.dumps({'items': rows}, ensure_ascii=False, separators=(',', ':')) + ';\n'
+    rows = [{k: i[k] for k in ('id', 'kind', 'name', 'has_3d', 'skin_id') if k in i} for i in items]
+    return 'window.formgenCatalog=' + json.dumps({'items': rows, 'skins': skin_palettes()}, ensure_ascii=False, separators=(',', ':')) + ';\n'
 
 
 def render_page(artifact: Artifact) -> str:
@@ -225,7 +260,7 @@ def artifacts(out) -> list[Artifact]:
     out = Path(out)
     found = collect(out)
     versions = {'VIEWER': VIEWER, 'SITE': SITE}
-    source = hashlib.sha256(canonical(found)).hexdigest()
+    source = hashlib.sha256(canonical({'items': found, 'skins': skin_palettes()})).hexdigest()
     code = file_hash(Path(__file__))
     plan = [Artifact('SITE', 'viewer', source, {'page': key, 'code': code}, versions, name, 'formgen.web.site:render_page', {'items': found})
             for name, key in PAGES.items()]

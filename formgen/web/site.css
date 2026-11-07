@@ -49,3 +49,5 @@ aside button:disabled,.stage-foot button:disabled{opacity:.45;cursor:default}
 [data-size]{grid-template-columns:auto 1fr auto;align-items:center}.state{margin:0;font-size:14px;color:#aab3bd}
 [data-editor]{display:grid;gap:10px}
 @media(max-width:800px){.workspace,.robot{grid-template-columns:1fr}.robot>div{padding:16px 18px}.stage{height:50vh;min-height:260px}h1{font-size:32px}}
+
+.swatches{display:flex;gap:6px;margin:6px 0 10px}.swatches i{width:22px;height:22px;border-radius:50%;border:1px solid #3e4853;display:block}
