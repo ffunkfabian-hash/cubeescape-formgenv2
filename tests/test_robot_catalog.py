@@ -119,6 +119,25 @@ class RegisterTest(unittest.TestCase):
         self.assertNotIn('parts', lines.sheets()['RA01'])               # ohne Wahl wie in Version 1: Spec und Schlüssel von A bleiben
 
 
+class KitTest(unittest.TestCase):
+    def test_every_assembly_has_at_least_two_shape_variants_and_lines_b_to_e_use_the_kit(self):
+        kit = catalog.load()
+        for a, variants in kit.items():
+            self.assertGreaterEqual(len(variants) - 1, 2, a)
+        chosen = {}
+        for sid, entry in lines.sheets().items():
+            parts = entry.get('parts', {})
+            if entry['line']['letter'] == 'A':
+                self.assertEqual(parts, {}, sid)
+                continue
+            self.assertGreaterEqual(len(parts), 9, sid)                  # jede Linie ist ein eigener Roboter, nicht nur eine Farbe
+            chosen.setdefault(entry['line']['letter'], tuple(sorted(parts.items())))
+        self.assertEqual(len(set(chosen.values())), 4, 'B–E: je Linie eine eigene Kombination')
+        used = {vid for combo in chosen.values() for _, vid in combo}
+        for a, variants in kit.items():
+            self.assertTrue({v.id for k, v in variants.items() if k != 'A'} & used, f'{a}: keine Linie nutzt eine Variante')
+
+
 class SpecTest(unittest.TestCase):
     def test_variants_field_only_with_a_choice_and_migrate_fills_base(self):
         doc = dict(bounds_m=[[0, 0, 0], [1, 1, 1]], parts=[dict(id='p', assembly='feet', role='shell', shape='hull')], counts=dict(triangles=1),

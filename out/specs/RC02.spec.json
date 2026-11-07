@@ -4,7 +4,7 @@
    "de": "Kopf",
    "group": "head",
    "id": "head",
-   "parts": 31
+   "parts": 41
   },
   {
    "de": "Oberkörper",
@@ -40,7 +40,7 @@
    "de": "Hände",
    "group": "arms",
    "id": "hands",
-   "parts": 200
+   "parts": 208
   },
   {
    "de": "Oberschenkel",
@@ -62,16 +62,18 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 517.9,
+  "depth": 554.5,
   "height": 1848.9,
   "width": 1445.8
  },
  "format": "formgenv2/robot-sheet-spec",
  "forms": {
-  "hull": 298,
+  "box": 4,
+  "hull": 306,
   "loft": 18,
   "multi": 42,
-  "surface": 196
+  "surface": 196,
+  "tube": 6
  },
  "groups": [
   {
@@ -80,7 +82,7 @@
    ],
    "de": "Kopf",
    "id": "head",
-   "parts": 31
+   "parts": 41
   },
   {
    "assemblies": [
@@ -100,7 +102,7 @@
    ],
    "de": "Arme",
    "id": "arms",
-   "parts": 292
+   "parts": 300
   },
   {
    "assemblies": [
@@ -117,7 +119,7 @@
  "kind": "robot",
  "line": "signal",
  "line_info": {
-  "idea": "Warnorange Arbeitsroboter, schwer gebaut: kräftige Arme, breite Schulter, starke Beine, großes Rückenmodul",
+  "idea": "Schwerer Arbeitsroboter: Kieferhelm, Fassbrust, Beintaschenrock, breite Schulter, Panzerarme mit gedrungener Schiene und Panzerfaust, schwere Oberschenkel, Beinschienen, breite Stampfstiefel",
   "letter": "C",
   "name": "Signal",
   "since": "0.12"
@@ -4003,6 +4005,114 @@
    "id": "arm_R_wrist_cuff",
    "name_de": "WristCuff_R",
    "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_guard",
+   "name_de": "Knöchelpanzer",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_guard",
+   "name_de": "Knöchelpanzer",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_guard_line",
+   "name_de": "Knöchelpanzer-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_guard_line",
+   "name_de": "Knöchelpanzer-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_cheek_a",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_cheek_a",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_fist_cheek_b",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_fist_cheek_b",
+   "name_de": "Handwange",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "head_ear_r",
+   "name_de": "Ohrausleger rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_ear_r_cap",
+   "name_de": "Auslegerkappe rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "head_cable_r",
+   "name_de": "Halsleitung rechts",
+   "role": "rubber"
+  },
+  {
+   "assembly": "head",
+   "id": "head_cable_r_plug_a",
+   "name_de": "Leitungstülle rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_cable_r_plug_b",
+   "name_de": "Leitungstülle rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_ear_l",
+   "name_de": "Ohrausleger links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_ear_l_cap",
+   "name_de": "Auslegerkappe links",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "head_cable_l",
+   "name_de": "Halsleitung links",
+   "role": "rubber"
+  },
+  {
+   "assembly": "head",
+   "id": "head_cable_l_plug_a",
+   "name_de": "Leitungstülle links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_cable_l_plug_b",
+   "name_de": "Leitungstülle links",
+   "role": "dark_metal"
   }
  ],
  "provenance": {
@@ -4028,11 +4138,143 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 263243,
+ "triangles": 265851,
  "type": {
   "name_de": "RoboterBasic-02",
   "num": 2
  },
+ "variants": [
+  {
+   "assembly": "head",
+   "id": "HD-D",
+   "idea": "Breiter, vorgeschobener Kiefer mit Ohrauslegern, kräftigem Kragen und Halsleitungen",
+   "letter": "D",
+   "name": "Heavy Jaw",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Idee BALLON b_paladin (Ohrausleger ear=out Faktor 1, Halsleitungen r 5,5 → Vorgabe); Kiefer 1,16 breit, 14 mm vor, 6 mm tiefer, Seiten 6 mm, Kragen 1,08 Annahme am Vielfaltsmaß"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "UB-C",
+   "idea": "Gewölbter Brustkorb: oberer Rumpf breiter und tiefer, Brust- und Rückenplatte wandern mit; Taille und Bauch bleiben",
+   "letter": "C",
+   "name": "Barrel Chest",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Rumpfzeilen z 280/330/380 je +22/+22/+14 mm Breite, +16/+14/+8 mm Tiefe gegen RA01; z ≤ 230 unverändert"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "PV-D",
+   "idea": "Panzerrock: breite, lange Beintaschen weit um die Hüfte und eine breitere, längere Lendenplatte",
+   "letter": "D",
+   "name": "Skirt Armor",
+   "origin": {
+    "kind": "Annahme",
+    "source": "side.rows gegen RA01: untere Zeilen 40/20 mm tiefer, a +2…+6, b +2…+4; span 44 statt 32; front a 40, tip −120"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "SH-D",
+   "idea": "Breiter, waagrecht ausladender Panzer: jede Lage 12–18 mm breiter und weiter außen, kaum geneigt",
+   "letter": "D",
+   "name": "Wide Guard",
+   "origin": {
+    "kind": "Annahme",
+    "source": "pauldron.rows gegen RA01: a +12…+2, b +2, Versatz dx +18…+8 mm; tilt 8 statt 16 Grad"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "UA-C",
+   "idea": "Schwerer Panzerarm: dicker Körper, Schale greift fast ganz um den Oberarm",
+   "letter": "C",
+   "name": "Heavy Shell",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Querschnitt +15–20 % gegen upper_arm.rows der Grundform, Schale ±150° statt ±110°, Fase 24; Prinzip „Panzer umschließt das Glied“ aus arm.py (Q-D2-ARM)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "forearms",
+   "id": "FA-D",
+   "idea": "Gedrungener Unterarm: kräftiger Querschnitt, weit aufgeweitete Stulpe greift über die Hand",
+   "letter": "D",
+   "name": "Stocky Bracer",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Querschnitt × 1,22 (girth); Stulpe bis z 318 aufgeweitet nach BALLON 14bd78d basic/arms/studies/b_panzer.py CUFF (z 236–320, „Stulpe greift über die Hand“), Maße entworfen"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "hands",
+   "id": "HN-B",
+   "idea": "Panzerfaust: großer Knöchelpanzer über Knöcheln und Fingerwurzeln, dicke Rückenschale, Wangen an der Handfläche",
+   "letter": "B",
+   "name": "Armored Fist",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Prinzip aus BALLON 14bd78d basic/arms/studies/b_panzer.py („dicke Rückenschale und Knöchelschutz“); Maße entworfen: Panzer KNUCKLE_Z −30…+14 mm, PALM_W +16/+12, 11 mm dick; Rückenschale 9 statt 5 mm"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "thighs",
+   "id": "TH-D",
+   "idea": "Kräftiger, kantiger Oberschenkel mit Wulst über der Mitte, zum Knie hin schlank",
+   "letter": "D",
+   "name": "Heavy Thigh",
+   "origin": {
+    "kind": "Annahme",
+    "source": "thigh a/b gegen RA01 +10/+10, +16/+16, +14/+14, +6/+6 mm; thigh_ch 34 statt 26"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shins",
+   "id": "SN-C",
+   "idea": "Beinschiene, die rundum greift, dazu eine große Kniekappe",
+   "letter": "C",
+   "name": "Heavy Greave",
+   "origin": {
+    "kind": "Annahme",
+    "source": "shin_shell (−130, 130) statt (−96, 96) Grad; kneecap gegen RA01 je Zeile a +6…+8, b +6…+10, beide Enden 6 mm weiter"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "feet",
+   "id": "FT-C",
+   "idea": "Breiter, langer Stampfer mit kräftiger Fase, Ferse und Zehe weiter draußen",
+   "letter": "C",
+   "name": "Wide Stomper",
+   "origin": {
+    "kind": "Annahme",
+    "source": "foot gegen RA01: z −20…+28 mm länger, a +8…+12, b +4 mm; y für die Unterkante; foot_ch 22 statt 14"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  }
+ ],
  "version": 1,
  "warnings": []
 }

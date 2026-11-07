@@ -10,13 +10,13 @@
    "de": "Oberkörper",
    "group": "upper_body",
    "id": "upper_body",
-   "parts": 63
+   "parts": 26
   },
   {
    "de": "Becken",
    "group": "upper_body",
    "id": "pelvis",
-   "parts": 20
+   "parts": 19
   },
   {
    "de": "Schulter",
@@ -28,31 +28,31 @@
    "de": "Oberarm",
    "group": "arms",
    "id": "upper_arms",
-   "parts": 30
+   "parts": 36
   },
   {
    "de": "Unterarm",
    "group": "arms",
    "id": "forearms",
-   "parts": 14
+   "parts": 20
   },
   {
    "de": "Hände",
    "group": "arms",
    "id": "hands",
-   "parts": 200
+   "parts": 212
   },
   {
    "de": "Oberschenkel",
    "group": "legs",
    "id": "thighs",
-   "parts": 50
+   "parts": 36
   },
   {
    "de": "Unterschenkel",
    "group": "legs",
    "id": "shins",
-   "parts": 72
+   "parts": 66
   },
   {
    "de": "Füße",
@@ -62,16 +62,16 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 515.4,
+  "depth": 449.4,
   "height": 1848.9,
-  "width": 1445.8
+  "width": 1475.9
  },
  "format": "formgenv2/robot-sheet-spec",
  "forms": {
-  "hull": 298,
-  "loft": 18,
-  "multi": 42,
-  "surface": 196
+  "hull": 221,
+  "loft": 45,
+  "multi": 34,
+  "surface": 220
  },
  "groups": [
   {
@@ -89,7 +89,7 @@
    ],
    "de": "Oberkörper",
    "id": "upper_body",
-   "parts": 83
+   "parts": 45
   },
   {
    "assemblies": [
@@ -100,7 +100,7 @@
    ],
    "de": "Arme",
    "id": "arms",
-   "parts": 292
+   "parts": 316
   },
   {
    "assemblies": [
@@ -110,14 +110,14 @@
    ],
    "de": "Beine",
    "id": "legs",
-   "parts": 148
+   "parts": 128
   }
  ],
  "id": "RD02",
  "kind": "robot",
  "line": "field olive",
  "line_info": {
-  "idea": "Matter Feldeinsatz in Oliv: schlanke Arme und Beine, schmale Schulter, dafür das große Feldgepäck",
+  "idea": "Offener Mechanik-Feldroboter: Grundhelm, offener Rahmen mit Wirbelsäule, offene Hüfte, kompakte Kappe, Kolbenarme mit Stellzylinder und Krallenhand, Kolbenbeine, Krallenstiefel",
   "letter": "D",
   "name": "Field Olive",
   "since": "0.12"
@@ -462,14 +462,6 @@
   "helmet_r4_visor_cyan",
   "helmet_visor",
   "helmet_visor_frame",
-  "kneecap_L_knee",
-  "kneecap_L_knee_bolt1",
-  "kneecap_L_knee_bolt2",
-  "kneecap_L_knee_groove",
-  "kneecap_R_knee",
-  "kneecap_R_knee_bolt1",
-  "kneecap_R_knee_bolt2",
-  "kneecap_R_knee_groove",
   "pelvis_L_belt_bolt",
   "pelvis_R_belt_bolt",
   "pelvis_ab_plate_lower",
@@ -485,198 +477,20 @@
   "pelvis_orange_detail_4",
   "pelvis_orange_detail_5",
   "pelvis_pelvis_core",
-  "pelvis_seat",
   "pelvis_spine_ring1",
   "pelvis_spine_ring2",
   "pelvis_spine_ring3",
   "pelvis_waist",
-  "shin_L_ankle_core",
-  "shin_L_ankle_insert",
-  "shin_L_ankle_piston",
-  "shin_L_calf_insert",
-  "shin_L_knee_core",
-  "shin_L_knee_joint",
-  "shin_L_knee_med_icap",
-  "shin_L_knee_med_idisc",
-  "shin_L_knee_med_ihub",
-  "shin_L_knee_med_ihub_bolt1",
-  "shin_L_knee_med_ihub_bolt2",
-  "shin_L_knee_med_ihub_bolt3",
-  "shin_L_knee_med_ihub_bolt4",
-  "shin_L_knee_med_irecess",
-  "shin_L_knee_med_iring",
-  "shin_L_knee_med_ocap",
-  "shin_L_knee_med_odisc",
-  "shin_L_knee_med_ohub",
-  "shin_L_knee_med_ohub_bolt1",
-  "shin_L_knee_med_ohub_bolt2",
-  "shin_L_knee_med_ohub_bolt3",
-  "shin_L_knee_med_ohub_bolt4",
-  "shin_L_knee_med_orecess",
-  "shin_L_knee_med_oring",
-  "shin_L_knee_piston_eye_bot1",
-  "shin_L_knee_piston_eye_bot2",
-  "shin_L_knee_piston_rod1",
-  "shin_L_knee_piston_rod2",
-  "shin_L_shin",
-  "shin_L_shin_bolt1",
-  "shin_L_shin_bolt2",
-  "shin_L_shin_chevron",
-  "shin_R_ankle_core",
-  "shin_R_ankle_insert",
-  "shin_R_ankle_piston",
-  "shin_R_calf_insert",
-  "shin_R_knee_core",
-  "shin_R_knee_joint",
-  "shin_R_knee_med_icap",
-  "shin_R_knee_med_idisc",
-  "shin_R_knee_med_ihub",
-  "shin_R_knee_med_ihub_bolt1",
-  "shin_R_knee_med_ihub_bolt2",
-  "shin_R_knee_med_ihub_bolt3",
-  "shin_R_knee_med_ihub_bolt4",
-  "shin_R_knee_med_irecess",
-  "shin_R_knee_med_iring",
-  "shin_R_knee_med_ocap",
-  "shin_R_knee_med_odisc",
-  "shin_R_knee_med_ohub",
-  "shin_R_knee_med_ohub_bolt1",
-  "shin_R_knee_med_ohub_bolt2",
-  "shin_R_knee_med_ohub_bolt3",
-  "shin_R_knee_med_ohub_bolt4",
-  "shin_R_knee_med_orecess",
-  "shin_R_knee_med_oring",
-  "shin_R_knee_piston_eye_bot1",
-  "shin_R_knee_piston_eye_bot2",
-  "shin_R_knee_piston_rod1",
-  "shin_R_knee_piston_rod2",
-  "shin_R_shin",
-  "shin_R_shin_bolt1",
-  "shin_R_shin_bolt2",
-  "shin_R_shin_chevron",
-  "thigh_L_hip_joint",
-  "thigh_L_hip_med_cap",
-  "thigh_L_hip_med_disc",
-  "thigh_L_hip_med_hub",
-  "thigh_L_hip_med_hub_bolt1",
-  "thigh_L_hip_med_hub_bolt2",
-  "thigh_L_hip_med_hub_bolt3",
-  "thigh_L_hip_med_hub_bolt4",
-  "thigh_L_hip_med_recess",
-  "thigh_L_hip_med_ring",
-  "thigh_L_knee_cable",
-  "thigh_L_knee_piston_body1",
-  "thigh_L_knee_piston_body2",
-  "thigh_L_knee_piston_eye_top1",
-  "thigh_L_knee_piston_eye_top2",
-  "thigh_L_thigh",
-  "thigh_L_thigh_bolt1",
-  "thigh_L_thigh_bolt2",
-  "thigh_L_thigh_bolt3",
-  "thigh_L_thigh_bolt4",
-  "thigh_L_thigh_core",
-  "thigh_L_thigh_hatch_bolt1",
-  "thigh_L_thigh_hatch_bolt2",
-  "thigh_L_thigh_plate",
-  "thigh_L_thigh_trim",
-  "thigh_R_hip_joint",
-  "thigh_R_hip_med_cap",
-  "thigh_R_hip_med_disc",
-  "thigh_R_hip_med_hub",
-  "thigh_R_hip_med_hub_bolt1",
-  "thigh_R_hip_med_hub_bolt2",
-  "thigh_R_hip_med_hub_bolt3",
-  "thigh_R_hip_med_hub_bolt4",
-  "thigh_R_hip_med_recess",
-  "thigh_R_hip_med_ring",
-  "thigh_R_knee_cable",
-  "thigh_R_knee_piston_body1",
-  "thigh_R_knee_piston_body2",
-  "thigh_R_knee_piston_eye_top1",
-  "thigh_R_knee_piston_eye_top2",
-  "thigh_R_thigh",
-  "thigh_R_thigh_bolt1",
-  "thigh_R_thigh_bolt2",
-  "thigh_R_thigh_bolt3",
-  "thigh_R_thigh_bolt4",
-  "thigh_R_thigh_core",
-  "thigh_R_thigh_hatch_bolt1",
-  "thigh_R_thigh_hatch_bolt2",
-  "thigh_R_thigh_plate",
-  "thigh_R_thigh_trim",
-  "torso_L_back_grille",
-  "torso_L_back_grille_frame",
-  "torso_L_back_lower_panel",
-  "torso_L_back_side_grille",
-  "torso_L_back_side_grille_frame",
-  "torso_L_back_slot",
-  "torso_L_back_triangle",
-  "torso_L_chest_vent",
-  "torso_L_hose",
-  "torso_L_hose_clamp",
-  "torso_L_ref_back_mount1",
-  "torso_L_ref_back_mount2",
-  "torso_L_ref_back_mount_screw1",
-  "torso_L_ref_back_mount_screw2",
-  "torso_L_ref_back_panel1",
-  "torso_L_ref_back_panel2",
   "torso_L_shoulder_block",
   "torso_L_shoulder_block_core",
   "torso_L_shoulder_block_lower",
   "torso_L_shoulder_bolt1",
   "torso_L_shoulder_bolt2",
-  "torso_R_back_grille",
-  "torso_R_back_grille_frame",
-  "torso_R_back_lower_panel",
-  "torso_R_back_side_grille",
-  "torso_R_back_side_grille_frame",
-  "torso_R_back_slot",
-  "torso_R_back_triangle",
-  "torso_R_chest_vent",
-  "torso_R_hose",
-  "torso_R_hose_clamp",
-  "torso_R_ref_back_mount1",
-  "torso_R_ref_back_mount2",
-  "torso_R_ref_back_mount_screw1",
-  "torso_R_ref_back_mount_screw2",
-  "torso_R_ref_back_panel1",
-  "torso_R_ref_back_panel2",
   "torso_R_shoulder_block",
   "torso_R_shoulder_block_core",
   "torso_R_shoulder_block_lower",
   "torso_R_shoulder_bolt1",
-  "torso_R_shoulder_bolt2",
-  "torso_back_bolt1",
-  "torso_back_bolt2",
-  "torso_back_bolt3",
-  "torso_back_bolt4",
-  "torso_back_lower_grille",
-  "torso_back_lower_grille_frame",
-  "torso_back_panel",
-  "torso_back_panel_bolt1",
-  "torso_back_panel_bolt2",
-  "torso_back_spine_fins",
-  "torso_back_top_vent",
-  "torso_back_top_vent_frame",
-  "torso_backpack",
-  "torso_backpack_lower",
-  "torso_chest",
-  "torso_chest_band",
-  "torso_chest_chevron",
-  "torso_chest_seam_dn",
-  "torso_chest_seam_up",
-  "torso_orange_detail_3",
-  "torso_orange_detail_6",
-  "torso_r5_sensor_inner_bezel",
-  "torso_r5_sensor_light_ring",
-  "torso_r5_sensor_outer_bezel",
-  "torso_r5_sensor_retainers",
-  "torso_rib_plate",
-  "torso_rib_stripe",
-  "torso_sensor",
-  "torso_sensor_bezel",
-  "torso_sensor_housing",
-  "torso_torso_core"
+  "torso_R_shoulder_bolt2"
  ],
  "name_de": "RoboterBasic-02",
  "parts": [
@@ -693,30 +507,6 @@
    "role": "shell"
   },
   {
-   "assembly": "shins",
-   "id": "shin_L_ankle_core",
-   "name_de": "AnkleCore_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_ankle_core",
-   "name_de": "AnkleCore_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_ankle_insert",
-   "name_de": "AnkleInsert_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_ankle_insert",
-   "name_de": "AnkleInsert_R",
-   "role": "graphite"
-  },
-  {
    "assembly": "feet",
    "id": "foot_L_ankle_piston_rod",
    "name_de": "AnklePistonRod_L",
@@ -727,186 +517,6 @@
    "id": "foot_R_ankle_piston_rod",
    "name_de": "AnklePistonRod_R",
    "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_ankle_piston",
-   "name_de": "AnklePiston_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_ankle_piston",
-   "name_de": "AnklePiston_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt1",
-   "name_de": "BackBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt2",
-   "name_de": "BackBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt3",
-   "name_de": "BackBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_bolt4",
-   "name_de": "BackBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_grille_frame",
-   "name_de": "BackGrilleFrame_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_grille_frame",
-   "name_de": "BackGrilleFrame_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_grille",
-   "name_de": "BackGrille_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_grille",
-   "name_de": "BackGrille_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_lower_grille",
-   "name_de": "BackLowerGrille",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_lower_grille_frame",
-   "name_de": "BackLowerGrilleFrame",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_lower_panel",
-   "name_de": "BackLowerPanel_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_lower_panel",
-   "name_de": "BackLowerPanel_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel",
-   "name_de": "BackPanel",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel_bolt1",
-   "name_de": "BackPanelBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_panel_bolt2",
-   "name_de": "BackPanelBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_side_grille_frame",
-   "name_de": "BackSideGrilleFrame_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_side_grille_frame",
-   "name_de": "BackSideGrilleFrame_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_side_grille",
-   "name_de": "BackSideGrille_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_side_grille",
-   "name_de": "BackSideGrille_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_slot",
-   "name_de": "BackSlot_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_slot",
-   "name_de": "BackSlot_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_spine_fins",
-   "name_de": "BackSpineFins",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_top_vent",
-   "name_de": "BackTopVent",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_back_top_vent_frame",
-   "name_de": "BackTopVentFrame",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_back_triangle",
-   "name_de": "BackTriangle_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_back_triangle",
-   "name_de": "BackTriangle_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_backpack",
-   "name_de": "Backpack",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_backpack_lower",
-   "name_de": "Backpack_Lower",
-   "role": "shell"
   },
   {
    "assembly": "pelvis",
@@ -1015,60 +625,6 @@
    "id": "pelvis_buckle_tongue",
    "name_de": "BuckleTongue",
    "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_calf_insert",
-   "name_de": "CalfInsert_L",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_calf_insert",
-   "name_de": "CalfInsert_R",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_chest",
-   "name_de": "Chest",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_chest_band",
-   "name_de": "ChestBand",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_chest_chevron",
-   "name_de": "ChestChevron",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_chest_seam_dn",
-   "name_de": "ChestSeam_Dn",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_chest_seam_up",
-   "name_de": "ChestSeam_Up",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_chest_vent",
-   "name_de": "ChestVent_L",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_chest_vent",
-   "name_de": "ChestVent_R",
-   "role": "dark_metal"
   },
   {
    "assembly": "head",
@@ -1605,549 +1161,9 @@
    "role": "graphite"
   },
   {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_joint",
-   "name_de": "HipJoint_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_joint",
-   "name_de": "HipJoint_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_cap",
-   "name_de": "HipMed_LCap",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_disc",
-   "name_de": "HipMed_LDisc",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_hub",
-   "name_de": "HipMed_LHub",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_hub_bolt1",
-   "name_de": "HipMed_LHubBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_hub_bolt2",
-   "name_de": "HipMed_LHubBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_hub_bolt3",
-   "name_de": "HipMed_LHubBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_hub_bolt4",
-   "name_de": "HipMed_LHubBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_recess",
-   "name_de": "HipMed_LRecess",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_hip_med_ring",
-   "name_de": "HipMed_LRing",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_cap",
-   "name_de": "HipMed_RCap",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_disc",
-   "name_de": "HipMed_RDisc",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_hub",
-   "name_de": "HipMed_RHub",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_hub_bolt1",
-   "name_de": "HipMed_RHubBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_hub_bolt2",
-   "name_de": "HipMed_RHubBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_hub_bolt3",
-   "name_de": "HipMed_RHubBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_hub_bolt4",
-   "name_de": "HipMed_RHubBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_recess",
-   "name_de": "HipMed_RRecess",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_hip_med_ring",
-   "name_de": "HipMed_RRing",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_hose_clamp",
-   "name_de": "HoseClamp_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_hose_clamp",
-   "name_de": "HoseClamp_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_hose",
-   "name_de": "Hose_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_hose",
-   "name_de": "Hose_R",
-   "role": "graphite"
-  },
-  {
    "assembly": "head",
    "id": "helmet_jaw",
    "name_de": "Jaw",
-   "role": "shell"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_L_knee_bolt1",
-   "name_de": "KneeBolt1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_R_knee_bolt1",
-   "name_de": "KneeBolt1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_L_knee_bolt2",
-   "name_de": "KneeBolt2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_R_knee_bolt2",
-   "name_de": "KneeBolt2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_knee_cable",
-   "name_de": "KneeCable_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_knee_cable",
-   "name_de": "KneeCable_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_core",
-   "name_de": "KneeCore_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_core",
-   "name_de": "KneeCore_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_L_knee_groove",
-   "name_de": "KneeGroove_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_R_knee_groove",
-   "name_de": "KneeGroove_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_joint",
-   "name_de": "KneeJoint_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_joint",
-   "name_de": "KneeJoint_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_icap",
-   "name_de": "KneeMed_L_ICap",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_idisc",
-   "name_de": "KneeMed_L_IDisc",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ihub",
-   "name_de": "KneeMed_L_IHub",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ihub_bolt1",
-   "name_de": "KneeMed_L_IHubBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ihub_bolt2",
-   "name_de": "KneeMed_L_IHubBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ihub_bolt3",
-   "name_de": "KneeMed_L_IHubBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ihub_bolt4",
-   "name_de": "KneeMed_L_IHubBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_irecess",
-   "name_de": "KneeMed_L_IRecess",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_iring",
-   "name_de": "KneeMed_L_IRing",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ocap",
-   "name_de": "KneeMed_L_OCap",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_odisc",
-   "name_de": "KneeMed_L_ODisc",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ohub",
-   "name_de": "KneeMed_L_OHub",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ohub_bolt1",
-   "name_de": "KneeMed_L_OHubBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ohub_bolt2",
-   "name_de": "KneeMed_L_OHubBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ohub_bolt3",
-   "name_de": "KneeMed_L_OHubBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_ohub_bolt4",
-   "name_de": "KneeMed_L_OHubBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_orecess",
-   "name_de": "KneeMed_L_ORecess",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_med_oring",
-   "name_de": "KneeMed_L_ORing",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_icap",
-   "name_de": "KneeMed_R_ICap",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_idisc",
-   "name_de": "KneeMed_R_IDisc",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ihub",
-   "name_de": "KneeMed_R_IHub",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ihub_bolt1",
-   "name_de": "KneeMed_R_IHubBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ihub_bolt2",
-   "name_de": "KneeMed_R_IHubBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ihub_bolt3",
-   "name_de": "KneeMed_R_IHubBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ihub_bolt4",
-   "name_de": "KneeMed_R_IHubBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_irecess",
-   "name_de": "KneeMed_R_IRecess",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_iring",
-   "name_de": "KneeMed_R_IRing",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ocap",
-   "name_de": "KneeMed_R_OCap",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_odisc",
-   "name_de": "KneeMed_R_ODisc",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ohub",
-   "name_de": "KneeMed_R_OHub",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ohub_bolt1",
-   "name_de": "KneeMed_R_OHubBolt1",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ohub_bolt2",
-   "name_de": "KneeMed_R_OHubBolt2",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ohub_bolt3",
-   "name_de": "KneeMed_R_OHubBolt3",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_ohub_bolt4",
-   "name_de": "KneeMed_R_OHubBolt4",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_orecess",
-   "name_de": "KneeMed_R_ORecess",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_med_oring",
-   "name_de": "KneeMed_R_ORing",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_knee_piston_body1",
-   "name_de": "KneePistonBody1_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_knee_piston_body1",
-   "name_de": "KneePistonBody1_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_knee_piston_body2",
-   "name_de": "KneePistonBody2_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_knee_piston_body2",
-   "name_de": "KneePistonBody2_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_piston_eye_bot1",
-   "name_de": "KneePistonEyeBot1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_piston_eye_bot1",
-   "name_de": "KneePistonEyeBot1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_piston_eye_bot2",
-   "name_de": "KneePistonEyeBot2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_piston_eye_bot2",
-   "name_de": "KneePistonEyeBot2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_knee_piston_eye_top1",
-   "name_de": "KneePistonEyeTop1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_knee_piston_eye_top1",
-   "name_de": "KneePistonEyeTop1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_knee_piston_eye_top2",
-   "name_de": "KneePistonEyeTop2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_knee_piston_eye_top2",
-   "name_de": "KneePistonEyeTop2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_piston_rod1",
-   "name_de": "KneePistonRod1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_piston_rod1",
-   "name_de": "KneePistonRod1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_knee_piston_rod2",
-   "name_de": "KneePistonRod2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_knee_piston_rod2",
-   "name_de": "KneePistonRod2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_L_knee",
-   "name_de": "Knee_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "shins",
-   "id": "kneecap_R_knee",
-   "name_de": "Knee_R",
    "role": "shell"
   },
   {
@@ -2181,12 +1197,6 @@
    "role": "accent"
   },
   {
-   "assembly": "upper_body",
-   "id": "torso_orange_detail_3",
-   "name_de": "OrangeDetail_3",
-   "role": "accent"
-  },
-  {
    "assembly": "pelvis",
    "id": "pelvis_orange_detail_4",
    "name_de": "OrangeDetail_4",
@@ -2196,12 +1206,6 @@
    "assembly": "pelvis",
    "id": "pelvis_orange_detail_5",
    "name_de": "OrangeDetail_5",
-   "role": "accent"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_orange_detail_6",
-   "name_de": "OrangeDetail_6",
    "role": "accent"
   },
   {
@@ -2931,30 +1935,6 @@
    "role": "energy"
   },
   {
-   "assembly": "upper_body",
-   "id": "torso_r5_sensor_inner_bezel",
-   "name_de": "R5_SensorInnerBezel",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_r5_sensor_light_ring",
-   "name_de": "R5_SensorLightRing",
-   "role": "energy"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_r5_sensor_outer_bezel",
-   "name_de": "R5_SensorOuterBezel",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_r5_sensor_retainers",
-   "name_de": "R5_SensorRetainers",
-   "role": "metal"
-  },
-  {
    "assembly": "hands",
    "id": "arm_L_ref_armor_finger1",
    "name_de": "RefArmor_Finger1_L",
@@ -3132,78 +2112,6 @@
    "assembly": "hands",
    "id": "arm_R_ref_armor_thumb",
    "name_de": "RefArmor_Thumb_R",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount1",
-   "name_de": "RefBackMount1_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount1",
-   "name_de": "RefBackMount1_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount2",
-   "name_de": "RefBackMount2_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount2",
-   "name_de": "RefBackMount2_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount_screw1",
-   "name_de": "RefBackMountScrew1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount_screw1",
-   "name_de": "RefBackMountScrew1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount_screw2",
-   "name_de": "RefBackMountScrew2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount_screw2",
-   "name_de": "RefBackMountScrew2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_panel1",
-   "name_de": "RefBackPanel1_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_panel1",
-   "name_de": "RefBackPanel1_R",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_panel2",
-   "name_de": "RefBackPanel2_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_panel2",
-   "name_de": "RefBackPanel2_R",
    "role": "shell"
   },
   {
@@ -3385,90 +2293,6 @@
    "id": "arm_R_ref_pin_thumbtip",
    "name_de": "RefPin_thumbtip_R",
    "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_rib_plate",
-   "name_de": "RibPlate",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_rib_stripe",
-   "name_de": "RibStripe",
-   "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "pelvis_seat",
-   "name_de": "Seat",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_sensor",
-   "name_de": "Sensor",
-   "role": "glass"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_sensor_bezel",
-   "name_de": "SensorBezel",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_sensor_housing",
-   "name_de": "SensorHousing",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_shin_bolt1",
-   "name_de": "ShinBolt1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_shin_bolt1",
-   "name_de": "ShinBolt1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_shin_bolt2",
-   "name_de": "ShinBolt2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_shin_bolt2",
-   "name_de": "ShinBolt2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_shin_chevron",
-   "name_de": "ShinChevron_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_shin_chevron",
-   "name_de": "ShinChevron_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_shin",
-   "name_de": "Shin_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_shin",
-   "name_de": "Shin_R",
-   "role": "shell"
   },
   {
    "assembly": "shoulders",
@@ -3777,126 +2601,6 @@
    "role": "graphite"
   },
   {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_bolt1",
-   "name_de": "ThighBolt1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_bolt1",
-   "name_de": "ThighBolt1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_bolt2",
-   "name_de": "ThighBolt2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_bolt2",
-   "name_de": "ThighBolt2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_bolt3",
-   "name_de": "ThighBolt3_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_bolt3",
-   "name_de": "ThighBolt3_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_bolt4",
-   "name_de": "ThighBolt4_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_bolt4",
-   "name_de": "ThighBolt4_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_core",
-   "name_de": "ThighCore_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_core",
-   "name_de": "ThighCore_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_hatch_bolt1",
-   "name_de": "ThighHatchBolt1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_hatch_bolt1",
-   "name_de": "ThighHatchBolt1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_hatch_bolt2",
-   "name_de": "ThighHatchBolt2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_hatch_bolt2",
-   "name_de": "ThighHatchBolt2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_plate",
-   "name_de": "ThighPlate_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_plate",
-   "name_de": "ThighPlate_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh_trim",
-   "name_de": "ThighTrim_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh_trim",
-   "name_de": "ThighTrim_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_L_thigh",
-   "name_de": "Thigh_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "thighs",
-   "id": "thigh_R_thigh",
-   "name_de": "Thigh_R",
-   "role": "shell"
-  },
-  {
    "assembly": "hands",
    "id": "arm_L_thumb_mid",
    "name_de": "ThumbMid_L",
@@ -3943,12 +2647,6 @@
    "id": "foot_R_toe_seam",
    "name_de": "ToeSeam_R",
    "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_torso_core",
-   "name_de": "TorsoCore",
-   "role": "graphite"
   },
   {
    "assembly": "upper_arms",
@@ -4003,6 +2701,918 @@
    "id": "arm_R_wrist_cuff",
    "name_de": "WristCuff_R",
    "role": "shell"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_profile_biceps_piston_cyl",
+   "name_de": "Armkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_profile_biceps_piston_cyl",
+   "name_de": "Armkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_profile_biceps_piston_rod",
+   "name_de": "Armkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_profile_biceps_piston_rod",
+   "name_de": "Armkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_profile_biceps_piston_collar",
+   "name_de": "Armkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_profile_biceps_piston_collar",
+   "name_de": "Armkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_profile_fore_ram",
+   "name_de": "Stellzylinder",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_profile_fore_ram",
+   "name_de": "Stellzylinder",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_profile_fore_ram_rod",
+   "name_de": "Kolbenstange",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_profile_fore_ram_rod",
+   "name_de": "Kolbenstange",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_profile_fore_ram_mount",
+   "name_de": "Zylinderlager",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_profile_fore_ram_mount",
+   "name_de": "Zylinderlager",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_claw_0",
+   "name_de": "Kralle",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_claw_0",
+   "name_de": "Kralle",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_claw_0_mount",
+   "name_de": "Krallenfuß",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_claw_0_mount",
+   "name_de": "Krallenfuß",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_claw_1",
+   "name_de": "Kralle",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_claw_1",
+   "name_de": "Kralle",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_claw_1_mount",
+   "name_de": "Krallenfuß",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_claw_1_mount",
+   "name_de": "Krallenfuß",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_claw_2",
+   "name_de": "Kralle",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_claw_2",
+   "name_de": "Kralle",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_profile_claw_2_mount",
+   "name_de": "Krallenfuß",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_profile_claw_2_mount",
+   "name_de": "Krallenfuß",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_torso_core",
+   "name_de": "Rumpf",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_r",
+   "name_de": "Brustplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_r_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_r_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_l",
+   "name_de": "Brustplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_l_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_l_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_lens_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_lens_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_lens_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_lens_bezel",
+   "name_de": "Lichtfassung",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_lens_lamp",
+   "name_de": "Statuslicht",
+   "role": "energy"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_stripe_a",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_chest_stripe_b",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_spine",
+   "name_de": "Wirbelsäule",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_0",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_1",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_2",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_3",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_4",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_5",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_6",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_7",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_vertebra_8",
+   "name_de": "Wirbel",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_blade_r",
+   "name_de": "Schulterblattplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_kit_blade_l",
+   "name_de": "Schulterblattplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_r_axle",
+   "name_de": "Hüftgelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_r_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_r_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_r_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_l_axle",
+   "name_de": "Hüftgelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_l_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_l_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "pelvis_kit_hip_l_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_hip_ball",
+   "name_de": "Hüftkugel",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_hip_ball",
+   "name_de": "Hüftkugel",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_core",
+   "name_de": "Oberschenkel",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_core",
+   "name_de": "Oberschenkel",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_cuff",
+   "name_de": "Hüftmanschette",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_cuff",
+   "name_de": "Hüftmanschette",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_cuff_trim",
+   "name_de": "Manschettenkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_cuff_trim",
+   "name_de": "Manschettenkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_shell",
+   "name_de": "Oberschenkelschale",
+   "role": "shell"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_shell",
+   "name_de": "Oberschenkelschale",
+   "role": "shell"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_shell_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_shell_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_shell_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_shell_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_stripe_a",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_stripe_a",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_stripe_b",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_stripe_b",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_seam_0",
+   "name_de": "Fuge",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_seam_0",
+   "name_de": "Fuge",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_piston_cyl",
+   "name_de": "Oberschenkelkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_piston_cyl",
+   "name_de": "Oberschenkelkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_piston_rod",
+   "name_de": "Oberschenkelkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_piston_rod",
+   "name_de": "Oberschenkelkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_piston_collar",
+   "name_de": "Oberschenkelkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_piston_collar",
+   "name_de": "Oberschenkelkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_kit_thigh_cable",
+   "name_de": "Leitung",
+   "role": "rubber"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_kit_thigh_cable",
+   "name_de": "Leitung",
+   "role": "rubber"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_axle",
+   "name_de": "Kniegelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_axle",
+   "name_de": "Kniegelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_cap",
+   "name_de": "Kniekappe",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_cap",
+   "name_de": "Kniekappe",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_cap_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_cap_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_piston_a_cyl",
+   "name_de": "Kniekolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_piston_a_cyl",
+   "name_de": "Kniekolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_piston_a_rod",
+   "name_de": "Kniekolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_piston_a_rod",
+   "name_de": "Kniekolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_piston_a_collar",
+   "name_de": "Kniekolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_piston_a_collar",
+   "name_de": "Kniekolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_piston_b_cyl",
+   "name_de": "Kniekolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_piston_b_cyl",
+   "name_de": "Kniekolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_piston_b_rod",
+   "name_de": "Kniekolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_piston_b_rod",
+   "name_de": "Kniekolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_knee_piston_b_collar",
+   "name_de": "Kniekolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_knee_piston_b_collar",
+   "name_de": "Kniekolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_shin_core",
+   "name_de": "Schienbein",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_shin_core",
+   "name_de": "Schienbein",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_shin_shell",
+   "name_de": "Schienbeinschale",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_shin_shell",
+   "name_de": "Schienbeinschale",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_shin_shell_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_shin_shell_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_shin_shell_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_shin_shell_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_shin_plate",
+   "name_de": "Schienbeinlage",
+   "role": "anodized"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_shin_plate",
+   "name_de": "Schienbeinlage",
+   "role": "anodized"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_shin_bolt_a",
+   "name_de": "Bolzen",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_shin_bolt_a",
+   "name_de": "Bolzen",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_shin_bolt_b",
+   "name_de": "Bolzen",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_shin_bolt_b",
+   "name_de": "Bolzen",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_calf_piston_cyl",
+   "name_de": "Wadenkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_calf_piston_cyl",
+   "name_de": "Wadenkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_calf_piston_rod",
+   "name_de": "Wadenkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_calf_piston_rod",
+   "name_de": "Wadenkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_calf_piston_collar",
+   "name_de": "Wadenkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_calf_piston_collar",
+   "name_de": "Wadenkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_ankle_piston_a_cyl",
+   "name_de": "Knöchelkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_ankle_piston_a_cyl",
+   "name_de": "Knöchelkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_ankle_piston_a_collar",
+   "name_de": "Knöchelkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_ankle_piston_a_collar",
+   "name_de": "Knöchelkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_ankle_piston_b_cyl",
+   "name_de": "Knöchelkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_ankle_piston_b_cyl",
+   "name_de": "Knöchelkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_ankle_piston_b_rod",
+   "name_de": "Knöchelkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_ankle_piston_b_rod",
+   "name_de": "Knöchelkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_ankle_piston_b_collar",
+   "name_de": "Knöchelkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_ankle_piston_b_collar",
+   "name_de": "Knöchelkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_boot_cuff",
+   "name_de": "Stiefelschaft",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_boot_cuff",
+   "name_de": "Stiefelschaft",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_kit_boot_cuff_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_kit_boot_cuff_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_R_kit_ankle_axle",
+   "name_de": "Knöchel",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_L_kit_ankle_axle",
+   "name_de": "Knöchel",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_R_kit_ankle_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_L_kit_ankle_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_R_kit_ankle_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_L_kit_ankle_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_R_kit_ankle_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "foot_L_kit_ankle_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
   }
  ],
  "provenance": {
@@ -4028,11 +3638,143 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 263249,
+ "triangles": 305308,
  "type": {
   "name_de": "RoboterBasic-02",
   "num": 2
  },
+ "variants": [
+  {
+   "assembly": "head",
+   "id": "HD-A",
+   "idea": "Grundform des Typs, unverändert",
+   "letter": "A",
+   "name": "Basic",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "RoboterBasic-01/-02 wie im Register, ohne Abwandlung"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "UB-D",
+   "idea": "Offenes Skelett der Mechanik-Studie: zwei Brustplatten mit Linse, offene Wirbelsäule mit Schulterblattplatten, Bauch als Säule",
+   "letter": "D",
+   "name": "Open Frame",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py upper_body(): abdomen spine, rings, chest split/full/mid/t, back spine"
+   },
+   "ra02": "replace",
+   "since": "0.14"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "PV-C",
+   "idea": "Schmales, offenes Becken der Mechanik-Studie: kurze Lendenplatte, kleine Beintaschen, ohne Gesäßplatte und Gürtelmodule",
+   "letter": "C",
+   "name": "Open Hips",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py lower_body(): pel a/b (auf den z-Stützstellen von RA01, Annahme), belt, front, side; butt, belt_boxes und layer fehlen dort; hip_len nicht übernommen (Gelenk gehört zum Typ)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "SH-C",
+   "idea": "Kompakte runde Schulterkappe der Mechanik-Studie ohne Lagen, flacher geneigt; der Oberarm liegt frei",
+   "letter": "C",
+   "name": "Compact Cap",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py upper_body(): pauldron rows, band, med, tilt, ch, grooves; flare/flare2 fehlen dort"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "UA-B",
+   "idea": "Schlanker Mechanik-Oberarm; in RA01 mit schmaler Schale und offenem Bizepskolben an der Vorderseite",
+   "letter": "B",
+   "name": "Piston Arm",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py arm_extra (rows, shell, ch, piston); Schulterkugel ball 52 nicht übernommen, sie gehört zum Einzelteil Schulter"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "forearms",
+   "id": "FA-C",
+   "idea": "Mechanik-Unterarm: Stellzylinder mit blanker Kolbenstange an der Innenseite bis zur Stulpe",
+   "letter": "C",
+   "name": "Ram Bracer",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/arms/studies/c_mechanik.py actuator (z 24–186, r 17) und actuator_rod (z 180–268, r 7,5); Lage y −52 unter dem Körper Annahme"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "hands",
+   "id": "HN-C",
+   "idea": "Klauenhand: drei gebogene Krallen vom Handrücken weit über die Finger hinaus",
+   "letter": "C",
+   "name": "Claw Hand",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: drei Krallen bei x −22/0/22 mm (Fingerteilung ≈ 20 mm), Fuß z 30–70, Spitze KNUCKLE_Z + 110 mm, 40 mm zur Handfläche gebogen"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "thighs",
+   "id": "TH-B",
+   "idea": "Schlanker Oberschenkel der Mechanik-Studie mit Schale nur vorn, Kolben außen hinten und Leitung",
+   "letter": "B",
+   "name": "Piston Thigh",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): thigh a/b (auf den z-Stützstellen von RA01, Annahme), thigh_shell, thigh_piston, thigh_cable"
+   },
+   "ra02": "replace",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shins",
+   "id": "SN-B",
+   "idea": "Offene Mechanik am Unterschenkel: zwei Kniekolben in der Kniekehle, Wadenkolben statt Wadenplatte",
+   "letter": "B",
+   "name": "Piston Shin",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/b_paladin.py legs(): knee_pistons; BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): calf_piston, ohne calf"
+   },
+   "ra02": "replace",
+   "since": "0.14"
+  },
+  {
+   "assembly": "feet",
+   "id": "FT-D",
+   "idea": "Langer, spitz zulaufender Stiefel: schmale Zehe weit vorn, hoher Rist",
+   "letter": "D",
+   "name": "Talon Boot",
+   "origin": {
+    "kind": "Annahme",
+    "source": "foot gegen RA01: Zehe 40 mm länger, nach vorn auf a 30 / b 14 mm verjüngt (a −4…−24), Ferse 10 mm länger, Rist b +2 mm; y für die Unterkante"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  }
+ ],
  "version": 1,
  "warnings": []
 }

@@ -2,6 +2,7 @@
 
 | Datum | Entscheidung | Herkunft |
 |---|---|---|
+| 07.11.2026 | RA01/RA02 sind Basisversionen wie BA01; neue Roboter entstehen gezielt je Einzelteil aus einem Varianten-Baukasten (alle zehn Einzelteile, echte Formvarianten), Linien B–E neu kombiniert, Skins und Namen bleiben; RA02 über Feld/Aufsatz oder Ersatzmodus (0.14 „Kitbash“) | Nutzerwunsch, übermittelt mit dem Auftrag der Vorsitzung |
 | 27.10.2026 | Weiß/blaues SVG-Blatt ist Vorlage für einen neuen Roboter R02 (0.2 „Frost“); erst Referenzprobe, dann [Auftrag](auftrag-r02.md) für frische Sitzung; R01 und seine Originale bleiben unverändert | direkte Nutzerentscheidung nach SVG-Vergleich |
 | 27.10.2026 | Die geprüften GEOM8-Fasen sind das akzeptierte W01-Ziel; exakte Blender-Clamp-/Miter-Parität wird für diesen Abschluss nicht verlangt | direkte Nutzeranweisung in der Abschlusssitzung |
 | 27.10.2026 | Fußkorrektur nach Ursachenprüfung gezielt fortsetzen; bisherige Silhouetten-, Breiten-, Symmetrie- und Durchdringungsprüfungen bleiben verbindlich | ausdrückliche erneute Nutzerfreigabe nach Korrekturobergrenze |

@@ -4,37 +4,37 @@
    "de": "Kopf",
    "group": "head",
    "id": "head",
-   "parts": 61
+   "parts": 73
   },
   {
    "de": "Oberkörper",
    "group": "upper_body",
    "id": "upper_body",
-   "parts": 59
+   "parts": 47
   },
   {
    "de": "Becken",
    "group": "upper_body",
    "id": "pelvis",
-   "parts": 36
+   "parts": 27
   },
   {
    "de": "Schulter",
    "group": "arms",
    "id": "shoulders",
-   "parts": 42
+   "parts": 26
   },
   {
    "de": "Oberarm",
    "group": "arms",
    "id": "upper_arms",
-   "parts": 10
+   "parts": 4
   },
   {
    "de": "Unterarm",
    "group": "arms",
    "id": "forearms",
-   "parts": 24
+   "parts": 28
   },
   {
    "de": "Hände",
@@ -52,7 +52,7 @@
    "de": "Unterschenkel",
    "group": "legs",
    "id": "shins",
-   "parts": 48
+   "parts": 46
   },
   {
    "de": "Füße",
@@ -62,20 +62,20 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 440.5,
-  "height": 1655.6,
-  "width": 1471.8
+  "depth": 355.4,
+  "height": 1732.2,
+  "width": 1488.7
  },
  "format": "formgenv2/robot-sheet-spec",
  "forms": {
-  "box": 42,
+  "box": 44,
   "cyl": 111,
-  "hull": 12,
-  "loft": 25,
+  "hull": 16,
+  "loft": 22,
   "plate": 36,
   "surface": 58,
   "tube": 20,
-  "wrap": 120
+  "wrap": 88
  },
  "groups": [
   {
@@ -84,7 +84,7 @@
    ],
    "de": "Kopf",
    "id": "head",
-   "parts": 61
+   "parts": 73
   },
   {
    "assemblies": [
@@ -93,7 +93,7 @@
    ],
    "de": "Oberkörper",
    "id": "upper_body",
-   "parts": 95
+   "parts": 74
   },
   {
    "assemblies": [
@@ -104,7 +104,7 @@
    ],
    "de": "Arme",
    "id": "arms",
-   "parts": 182
+   "parts": 164
   },
   {
    "assemblies": [
@@ -114,14 +114,14 @@
    ],
    "de": "Beine",
    "id": "legs",
-   "parts": 86
+   "parts": 84
   }
  ],
  "id": "RB01",
  "kind": "robot",
  "line": "night watch",
  "line_info": {
-  "idea": "Dunkle Nachtstreife mit warmem Orange als Leuchtfarbe, schmal gebaut: kleine Schulter, schlanke Beine, kompaktes Rückenmodul",
+  "idea": "Schlanker Nachtläufer: Sensorkopf, Rückenplatte statt Modul, offenes Becken, kompakte Schulterkappe, dunkle Läuferarme mit Schildschiene und Präzisionshand, gepanzerte Oberschenkel, schlanke Schienbeine, runde Stiefel",
   "letter": "B",
   "name": "Night Watch",
   "since": "0.12"
@@ -280,18 +280,6 @@
   },
   {
    "assembly": "pelvis",
-   "id": "tasset_side_r_top",
-   "name_de": "Beintasche oben",
-   "role": "shell"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "tasset_side_r_top_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "pelvis",
    "id": "hip_r_axle",
    "name_de": "Hüftgelenk",
    "role": "dark_metal"
@@ -313,18 +301,6 @@
    "id": "hip_r_hub",
    "name_de": "Medaillonnabe",
    "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_r",
-   "name_de": "Gürtelmodul",
-   "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_r_trim",
-   "name_de": "Modulkante",
-   "role": "trim"
   },
   {
    "assembly": "pelvis",
@@ -352,18 +328,6 @@
   },
   {
    "assembly": "pelvis",
-   "id": "tasset_side_l_top",
-   "name_de": "Beintasche oben",
-   "role": "shell"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "tasset_side_l_top_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "pelvis",
    "id": "hip_l_axle",
    "name_de": "Hüftgelenk",
    "role": "dark_metal"
@@ -385,24 +349,6 @@
    "id": "hip_l_hub",
    "name_de": "Medaillonnabe",
    "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_l",
-   "name_de": "Gürtelmodul",
-   "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "belt_box_l_trim",
-   "name_de": "Modulkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "butt",
-   "name_de": "Gesäßplatte",
-   "role": "shell"
   },
   {
    "assembly": "upper_body",
@@ -687,78 +633,6 @@
    "role": "trim"
   },
   {
-   "assembly": "upper_body",
-   "id": "backpack",
-   "name_de": "Rückenmodul",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "backpack_shell",
-   "name_de": "Rückenmodulschale",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_r",
-   "name_de": "Düse",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_r_trim",
-   "name_de": "Düsenkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_r_core",
-   "name_de": "Düsenkern",
-   "role": "anodized"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "pack_cable_r",
-   "name_de": "Leitung",
-   "role": "rubber"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_l",
-   "name_de": "Düse",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_l_trim",
-   "name_de": "Düsenkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "nozzle_l_core",
-   "name_de": "Düsenkern",
-   "role": "anodized"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "pack_cable_l",
-   "name_de": "Leitung",
-   "role": "rubber"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "backpack_bezel",
-   "name_de": "Lichtfassung",
-   "role": "trim"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "backpack_lamp",
-   "name_de": "Statuslicht",
-   "role": "energy"
-  },
-  {
    "assembly": "shoulders",
    "id": "shoulder_r_axle",
    "name_de": "Schultergelenk",
@@ -805,54 +679,6 @@
    "id": "pauldron_r_stripe_b",
    "name_de": "Akzentstreifen",
    "role": "accent"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_r_flare2_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
   },
   {
    "assembly": "shoulders",
@@ -925,54 +751,6 @@
    "id": "pauldron_l_stripe_b",
    "name_de": "Akzentstreifen",
    "role": "accent"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2",
-   "name_de": "Schulterlage",
-   "role": "shell"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2_rim_a",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2_rim_b",
-   "name_de": "Zierkante",
-   "role": "trim"
-  },
-  {
-   "assembly": "shoulders",
-   "id": "pauldron_l_flare2_edge",
-   "name_de": "Zierkante",
-   "role": "trim"
   },
   {
    "assembly": "shoulders",
@@ -1165,12 +943,6 @@
    "id": "shin_R_shin_light_lamp",
    "name_de": "Statuslicht rechts",
    "role": "energy"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_calf",
-   "name_de": "Wadenplatte rechts",
-   "role": "shell"
   },
   {
    "assembly": "shins",
@@ -1426,12 +1198,6 @@
   },
   {
    "assembly": "shins",
-   "id": "shin_L_calf",
-   "name_de": "Wadenplatte links",
-   "role": "shell"
-  },
-  {
-   "assembly": "shins",
    "id": "shin_L_ankle_piston_a_cyl",
    "name_de": "Knöchelkolben links",
    "role": "dark_metal"
@@ -1603,6 +1369,18 @@
    "id": "arm_R_fore_cuff_trim",
    "name_de": "Stulpenkante rechts",
    "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_guard",
+   "name_de": "Armschild rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_guard_line",
+   "name_de": "Armschild-Akzentlinie rechts",
+   "role": "accent"
   },
   {
    "assembly": "hands",
@@ -1936,24 +1714,6 @@
   },
   {
    "assembly": "upper_arms",
-   "id": "arm_R_upper_shell_r",
-   "name_de": "Oberarmschale rechts",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_arms",
-   "id": "arm_R_upper_stripe_a",
-   "name_de": "Akzentstreifen rechts",
-   "role": "accent"
-  },
-  {
-   "assembly": "upper_arms",
-   "id": "arm_R_upper_stripe_b",
-   "name_de": "Akzentstreifen rechts",
-   "role": "accent"
-  },
-  {
-   "assembly": "upper_arms",
    "id": "arm_R_upper_seam",
    "name_de": "Oberarmfuge rechts",
    "role": "trim"
@@ -2029,6 +1789,18 @@
    "id": "arm_L_fore_cuff_trim",
    "name_de": "Stulpenkante links",
    "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_guard",
+   "name_de": "Armschild links",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_guard_line",
+   "name_de": "Armschild-Akzentlinie links",
+   "role": "accent"
   },
   {
    "assembly": "hands",
@@ -2359,24 +2131,6 @@
    "id": "arm_L_upper_core",
    "name_de": "Oberarmkörper links",
    "role": "graphite"
-  },
-  {
-   "assembly": "upper_arms",
-   "id": "arm_L_upper_shell_r",
-   "name_de": "Oberarmschale links",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_arms",
-   "id": "arm_L_upper_stripe_a",
-   "name_de": "Akzentstreifen links",
-   "role": "accent"
-  },
-  {
-   "assembly": "upper_arms",
-   "id": "arm_L_upper_stripe_b",
-   "name_de": "Akzentstreifen links",
-   "role": "accent"
   },
   {
    "assembly": "upper_arms",
@@ -2731,6 +2485,78 @@
    "id": "helmet_forehead_plate_l",
    "name_de": "ForeheadPlate_L",
    "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens_housing",
+   "name_de": "Linsengehäuse",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens_ring",
+   "name_de": "Linsenring",
+   "role": "trim"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens",
+   "name_de": "Kameralinse",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens_pupil",
+   "name_de": "Linsenkern",
+   "role": "energy"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r_mount",
+   "name_de": "Antennenhalter rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r",
+   "name_de": "Antenne rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r_tip_bezel",
+   "name_de": "Lichtfassung rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r_tip_lamp",
+   "name_de": "Statuslicht rechts",
+   "role": "energy"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l_mount",
+   "name_de": "Antennenhalter links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l",
+   "name_de": "Antenne links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l_tip_bezel",
+   "name_de": "Lichtfassung links",
+   "role": "trim"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l_tip_lamp",
+   "name_de": "Statuslicht links",
+   "role": "energy"
   }
  ],
  "provenance": {
@@ -2756,11 +2582,143 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 285377,
+ "triangles": 247637,
  "type": {
   "name_de": "RoboterBasic-01",
   "num": 1
  },
+ "variants": [
+  {
+   "assembly": "head",
+   "id": "HD-C",
+   "idea": "Flache, breite Sensorhaube mit Kameralinse auf der Stirn, vorgezogenem Visier und zwei Antennen",
+   "letter": "C",
+   "name": "Sensor Pod",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Idee BALLON c_mechanik (Kameralinse r 13, Antenne r 3 mit rund 140 mm Mast → Vorgabe); Haubenhöhe 0,86, Breite 1,08, Tiefe 1,04, Visier 10 mm vor Annahme am Vielfaltsmaß"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "UB-B",
+   "idea": "Rücken nur mit Platte wie beim Paladin: kein Rückenmodul, keine Düsen und Leitungen, schlanke Seite und Draufsicht",
+   "letter": "B",
+   "name": "Plate Back",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/b_paladin.py upper_body(): back kind plate, z (150, 220, 360)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "PV-C",
+   "idea": "Schmales, offenes Becken der Mechanik-Studie: kurze Lendenplatte, kleine Beintaschen, ohne Gesäßplatte und Gürtelmodule",
+   "letter": "C",
+   "name": "Open Hips",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py lower_body(): pel a/b (auf den z-Stützstellen von RA01, Annahme), belt, front, side; butt, belt_boxes und layer fehlen dort; hip_len nicht übernommen (Gelenk gehört zum Typ)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "SH-C",
+   "idea": "Kompakte runde Schulterkappe der Mechanik-Studie ohne Lagen, flacher geneigt; der Oberarm liegt frei",
+   "letter": "C",
+   "name": "Compact Cap",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py upper_body(): pauldron rows, band, med, tilt, ch, grooves; flare/flare2 fehlen dort"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "UA-D",
+   "idea": "Schlanker dunkler Läuferarm ohne Cremeschale, nur Körper und Fuge",
+   "letter": "D",
+   "name": "Runner Arm",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Prinzip aus BALLON 14bd78d basic/robot/studies/b_paladin.py (ARM_DROP upper_shell: „Oberarm dunkel und schlank“); Querschnitt entworfen, ≈ 0,78 × Grundform, Fase 14"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "forearms",
+   "id": "FA-B",
+   "idea": "Schwere Armschiene: breite Schildplatte mit Grat über der Unterarmschale",
+   "letter": "B",
+   "name": "Shield Bracer",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Platte z 40–236 mm, 136→104 mm breit (Schale 112→68), 9 mm dick, Grat 10; Prinzip „geschlossene Cremeschale“ aus BALLON 14bd78d basic/arms/studies/b_panzer.py"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "hands",
+   "id": "HN-D",
+   "idea": "Schlanke Präzisionshand: schmale, flache, lange Handfläche; in RA01 auch schlanke, längere Finger",
+   "letter": "D",
+   "name": "Precision Hand",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Handfläche 0,8 × breit, 0,8 × dick, +14 mm lang (KNUCKLE_Z mit); RA01 Finger 14 mm breit, Teilung 16 mm, Glieder × 1,15; RA02 behält seine gemessenen Finger"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "thighs",
+   "id": "TH-C",
+   "idea": "Schale, die fast ganz um den Oberschenkel greift und höher ansetzt, Fuge tiefer zum Knie",
+   "letter": "C",
+   "name": "Armored Thigh",
+   "origin": {
+    "kind": "Annahme",
+    "source": "thigh_shell (−150, 60) statt (−112, 34) Grad, thigh_top 120 statt 150 mm, thigh_seams (250,) statt (200,)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shins",
+   "id": "SN-D",
+   "idea": "Schlankes Schienbein der Mechanik-Studie mit schmaler Schale, kleiner Kniekappe und freier Wade",
+   "letter": "D",
+   "name": "Slim Shin",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): shin a/b/y (auf den z-Stützstellen von RA01, Annahme), shin_shell, kneecap, ohne calf"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "feet",
+   "id": "FT-B",
+   "idea": "Runder, schmaler Stiefel ohne Fasen nach dem Fußprofil der Mechanik-Studie",
+   "letter": "B",
+   "name": "Round Boot",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): foot z/a/b; y Annahme (Unterkante wie RA01); foot_ch 0 Annahme"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  }
+ ],
  "version": 1,
  "warnings": []
 }

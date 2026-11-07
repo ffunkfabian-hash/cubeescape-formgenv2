@@ -27,15 +27,28 @@ idea = "Grundform der Basic-Typen, ohne Abwandlung"
 skin = "weiss_graphit"
 types = [1, 2]
 
+# 0.14 Kitbash: B–E sind neue Roboter aus dem Varianten-Baukasten ([lines.parts], je Einzelteil eine Variante; Skins, Namen und 0.13-Proportionen
+# bleiben, D ohne Rückenmodul darum pack = 1,0). Die Wahl ist Annahme am Entwurf, am Vielfaltsmaß je Einzelteil und an den Kontaktbögen gesichtet.
 # 0.12 Livery: vier Farblinien. 0.13 Gantry: dazu je Linie eigene Bauteilproportionen (`proportion`: Schultern, Rumpf, Beine, Rückenmodul; Faktoren auf die Profile,
 # 1,0 = Vorgabe, Grenzen 0,7–1,4 in formgen/models/robot/proportion.py) und `arm_bulk`. Alle Werte Annahme, am Vielfaltsmaß (`python -m formgen.robot.variety`) und am Bild gesichtet.
 [[lines]]
 letter = "B"
 name = "Night Watch"
 since = "0.12"
-idea = "Dunkle Nachtstreife mit warmem Orange als Leuchtfarbe, schmal gebaut: kleine Schulter, schlanke Beine, kompaktes Rückenmodul"
+idea = "Schlanker Nachtläufer: Sensorkopf, Rückenplatte statt Modul, offenes Becken, kompakte Schulterkappe, dunkle Läuferarme mit Schildschiene und Präzisionshand, gepanzerte Oberschenkel, schlanke Schienbeine, runde Stiefel"
 skin = "nachtwache"
 types = [1, 2]
+[lines.parts]
+head = "HD-C"
+upper_body = "UB-B"
+pelvis = "PV-C"
+shoulders = "SH-C"
+upper_arms = "UA-D"
+forearms = "FA-B"
+hands = "HN-D"
+thighs = "TH-C"
+shins = "SN-D"
+feet = "FT-B"
 [lines.params.1.proportion]
 shoulders = 0.88
 torso = 0.92
@@ -51,9 +64,20 @@ pack = 0.80
 letter = "C"
 name = "Signal"
 since = "0.12"
-idea = "Warnorange Arbeitsroboter, schwer gebaut: kräftige Arme, breite Schulter, starke Beine, großes Rückenmodul"
+idea = "Schwerer Arbeitsroboter: Kieferhelm, Fassbrust, Beintaschenrock, breite Schulter, Panzerarme mit gedrungener Schiene und Panzerfaust, schwere Oberschenkel, Beinschienen, breite Stampfstiefel"
 skin = "signal"
 types = [1, 2]
+[lines.parts]
+head = "HD-D"
+upper_body = "UB-C"
+pelvis = "PV-D"
+shoulders = "SH-D"
+upper_arms = "UA-C"
+forearms = "FA-D"
+hands = "HN-B"
+thighs = "TH-D"
+shins = "SN-C"
+feet = "FT-C"
 [lines.params.1]
 arm_bulk = 1.42
 [lines.params.1.proportion]
@@ -73,29 +97,50 @@ pack = 1.25
 letter = "D"
 name = "Field Olive"
 since = "0.12"
-idea = "Matter Feldeinsatz in Oliv: schlanke Arme und Beine, schmale Schulter, dafür das große Feldgepäck"
+idea = "Offener Mechanik-Feldroboter: Grundhelm, offener Rahmen mit Wirbelsäule, offene Hüfte, kompakte Kappe, Kolbenarme mit Stellzylinder und Krallenhand, Kolbenbeine, Krallenstiefel"
 skin = "feldoliv"
 types = [1, 2]
+[lines.parts]
+upper_body = "UB-D"
+pelvis = "PV-C"
+shoulders = "SH-C"
+upper_arms = "UA-B"
+forearms = "FA-C"
+hands = "HN-C"
+thighs = "TH-B"
+shins = "SN-B"
+feet = "FT-D"
 [lines.params.1]
 arm_bulk = 1.18
 [lines.params.1.proportion]
 shoulders = 0.95
 legs = 0.92
-pack = 1.30
+pack = 1.0
 [lines.params.2]
 arm_bulk = 0.92
 [lines.params.2.proportion]
 shoulders = 0.95
 legs = 0.92
-pack = 1.30
+pack = 1.0
 
 [[lines]]
 letter = "E"
 name = "Cobalt Line"
 since = "0.12"
-idea = "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Läuferbau: Panzerschulter über schlanken Beinen, flaches Rückenmodul"
+idea = "Paladin: Kammhelm, Rückenplatte, lange Lendenplatte, Paladinschulter mit zwei Lagen, Panzerarme mit Schildschiene und Panzerfaust, gepanzerte Beine, Krallenstiefel"
 skin = "kobaltblau"
 types = [1, 2]
+[lines.parts]
+head = "HD-B"
+upper_body = "UB-B"
+pelvis = "PV-B"
+shoulders = "SH-B"
+upper_arms = "UA-C"
+forearms = "FA-B"
+hands = "HN-B"
+thighs = "TH-C"
+shins = "SN-C"
+feet = "FT-D"
 [lines.params.1.proportion]
 shoulders = 1.30
 legs = 0.88

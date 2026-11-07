@@ -4,19 +4,19 @@
    "de": "Kopf",
    "group": "head",
    "id": "head",
-   "parts": 31
+   "parts": 43
   },
   {
    "de": "Oberkörper",
    "group": "upper_body",
    "id": "upper_body",
-   "parts": 63
+   "parts": 45
   },
   {
    "de": "Becken",
    "group": "upper_body",
    "id": "pelvis",
-   "parts": 20
+   "parts": 19
   },
   {
    "de": "Schulter",
@@ -28,13 +28,13 @@
    "de": "Oberarm",
    "group": "arms",
    "id": "upper_arms",
-   "parts": 30
+   "parts": 28
   },
   {
    "de": "Unterarm",
    "group": "arms",
    "id": "forearms",
-   "parts": 14
+   "parts": 18
   },
   {
    "de": "Hände",
@@ -52,7 +52,7 @@
    "de": "Unterschenkel",
    "group": "legs",
    "id": "shins",
-   "parts": 72
+   "parts": 70
   },
   {
    "de": "Füße",
@@ -62,16 +62,19 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 512.1,
-  "height": 1848.9,
-  "width": 1445.8
+  "depth": 505.8,
+  "height": 1921.9,
+  "width": 1462.2
  },
  "format": "formgenv2/robot-sheet-spec",
  "forms": {
-  "hull": 298,
+  "box": 2,
+  "cyl": 8,
+  "hull": 289,
   "loft": 18,
   "multi": 42,
-  "surface": 196
+  "surface": 186,
+  "tube": 2
  },
  "groups": [
   {
@@ -80,7 +83,7 @@
    ],
    "de": "Kopf",
    "id": "head",
-   "parts": 31
+   "parts": 43
   },
   {
    "assemblies": [
@@ -89,7 +92,7 @@
    ],
    "de": "Oberkörper",
    "id": "upper_body",
-   "parts": 83
+   "parts": 64
   },
   {
    "assemblies": [
@@ -100,7 +103,7 @@
    ],
    "de": "Arme",
    "id": "arms",
-   "parts": 292
+   "parts": 294
   },
   {
    "assemblies": [
@@ -110,14 +113,14 @@
    ],
    "de": "Beine",
    "id": "legs",
-   "parts": 148
+   "parts": 146
   }
  ],
  "id": "RB02",
  "kind": "robot",
  "line": "night watch",
  "line_info": {
-  "idea": "Dunkle Nachtstreife mit warmem Orange als Leuchtfarbe, schmal gebaut: kleine Schulter, schlanke Beine, kompaktes Rückenmodul",
+  "idea": "Schlanker Nachtläufer: Sensorkopf, Rückenplatte statt Modul, offenes Becken, kompakte Schulterkappe, dunkle Läuferarme mit Schildschiene und Präzisionshand, gepanzerte Oberschenkel, schlanke Schienbeine, runde Stiefel",
   "letter": "B",
   "name": "Night Watch",
   "since": "0.12"
@@ -261,7 +264,6 @@
   "arm_L_thumb",
   "arm_L_thumb_mid",
   "arm_L_thumb_tip",
-  "arm_L_upper_arm",
   "arm_L_upper_arm_core",
   "arm_L_wrist_cuff",
   "arm_R_elbow",
@@ -402,7 +404,6 @@
   "arm_R_thumb",
   "arm_R_thumb_mid",
   "arm_R_thumb_tip",
-  "arm_R_upper_arm",
   "arm_R_upper_arm_core",
   "arm_R_wrist_cuff",
   "foot_L_ankle_piston_rod",
@@ -485,7 +486,6 @@
   "pelvis_orange_detail_4",
   "pelvis_orange_detail_5",
   "pelvis_pelvis_core",
-  "pelvis_seat",
   "pelvis_spine_ring1",
   "pelvis_spine_ring2",
   "pelvis_spine_ring3",
@@ -493,7 +493,6 @@
   "shin_L_ankle_core",
   "shin_L_ankle_insert",
   "shin_L_ankle_piston",
-  "shin_L_calf_insert",
   "shin_L_knee_core",
   "shin_L_knee_joint",
   "shin_L_knee_med_icap",
@@ -525,7 +524,6 @@
   "shin_R_ankle_core",
   "shin_R_ankle_insert",
   "shin_R_ankle_piston",
-  "shin_R_calf_insert",
   "shin_R_knee_core",
   "shin_R_knee_joint",
   "shin_R_knee_med_icap",
@@ -612,14 +610,6 @@
   "torso_L_back_slot",
   "torso_L_back_triangle",
   "torso_L_chest_vent",
-  "torso_L_hose",
-  "torso_L_hose_clamp",
-  "torso_L_ref_back_mount1",
-  "torso_L_ref_back_mount2",
-  "torso_L_ref_back_mount_screw1",
-  "torso_L_ref_back_mount_screw2",
-  "torso_L_ref_back_panel1",
-  "torso_L_ref_back_panel2",
   "torso_L_shoulder_block",
   "torso_L_shoulder_block_core",
   "torso_L_shoulder_block_lower",
@@ -633,14 +623,6 @@
   "torso_R_back_slot",
   "torso_R_back_triangle",
   "torso_R_chest_vent",
-  "torso_R_hose",
-  "torso_R_hose_clamp",
-  "torso_R_ref_back_mount1",
-  "torso_R_ref_back_mount2",
-  "torso_R_ref_back_mount_screw1",
-  "torso_R_ref_back_mount_screw2",
-  "torso_R_ref_back_panel1",
-  "torso_R_ref_back_panel2",
   "torso_R_shoulder_block",
   "torso_R_shoulder_block_core",
   "torso_R_shoulder_block_lower",
@@ -658,8 +640,6 @@
   "torso_back_spine_fins",
   "torso_back_top_vent",
   "torso_back_top_vent_frame",
-  "torso_backpack",
-  "torso_backpack_lower",
   "torso_chest",
   "torso_chest_band",
   "torso_chest_chevron",
@@ -897,18 +877,6 @@
    "role": "graphite"
   },
   {
-   "assembly": "upper_body",
-   "id": "torso_backpack",
-   "name_de": "Backpack",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_backpack_lower",
-   "name_de": "Backpack_Lower",
-   "role": "shell"
-  },
-  {
    "assembly": "pelvis",
    "id": "pelvis_belt",
    "name_de": "Belt",
@@ -1015,18 +983,6 @@
    "id": "pelvis_buckle_tongue",
    "name_de": "BuckleTongue",
    "role": "metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_L_calf_insert",
-   "name_de": "CalfInsert_L",
-   "role": "dark_metal"
-  },
-  {
-   "assembly": "shins",
-   "id": "shin_R_calf_insert",
-   "name_de": "CalfInsert_R",
-   "role": "dark_metal"
   },
   {
    "assembly": "upper_body",
@@ -1723,30 +1679,6 @@
    "id": "thigh_R_hip_med_ring",
    "name_de": "HipMed_RRing",
    "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_hose_clamp",
-   "name_de": "HoseClamp_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_hose_clamp",
-   "name_de": "HoseClamp_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_hose",
-   "name_de": "Hose_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_hose",
-   "name_de": "Hose_R",
-   "role": "graphite"
   },
   {
    "assembly": "head",
@@ -3135,78 +3067,6 @@
    "role": "shell"
   },
   {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount1",
-   "name_de": "RefBackMount1_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount1",
-   "name_de": "RefBackMount1_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount2",
-   "name_de": "RefBackMount2_L",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount2",
-   "name_de": "RefBackMount2_R",
-   "role": "graphite"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount_screw1",
-   "name_de": "RefBackMountScrew1_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount_screw1",
-   "name_de": "RefBackMountScrew1_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_mount_screw2",
-   "name_de": "RefBackMountScrew2_L",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_mount_screw2",
-   "name_de": "RefBackMountScrew2_R",
-   "role": "metal"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_panel1",
-   "name_de": "RefBackPanel1_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_panel1",
-   "name_de": "RefBackPanel1_R",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_L_ref_back_panel2",
-   "name_de": "RefBackPanel2_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_body",
-   "id": "torso_R_ref_back_panel2",
-   "name_de": "RefBackPanel2_R",
-   "role": "shell"
-  },
-  {
    "assembly": "hands",
    "id": "arm_L_ref_pin_finger1",
    "name_de": "RefPin_finger1_L",
@@ -3397,12 +3257,6 @@
    "id": "torso_rib_stripe",
    "name_de": "RibStripe",
    "role": "graphite"
-  },
-  {
-   "assembly": "pelvis",
-   "id": "pelvis_seat",
-   "name_de": "Seat",
-   "role": "shell"
   },
   {
    "assembly": "upper_body",
@@ -3963,18 +3817,6 @@
    "role": "graphite"
   },
   {
-   "assembly": "upper_arms",
-   "id": "arm_L_upper_arm",
-   "name_de": "UpperArm_L",
-   "role": "shell"
-  },
-  {
-   "assembly": "upper_arms",
-   "id": "arm_R_upper_arm",
-   "name_de": "UpperArm_R",
-   "role": "shell"
-  },
-  {
    "assembly": "head",
    "id": "helmet_visor",
    "name_de": "Visor",
@@ -4003,6 +3845,102 @@
    "id": "arm_R_wrist_cuff",
    "name_de": "WristCuff_R",
    "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_profile_fore_guard",
+   "name_de": "Armschild",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_profile_fore_guard",
+   "name_de": "Armschild",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_profile_fore_guard_line",
+   "name_de": "Armschild-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_profile_fore_guard_line",
+   "name_de": "Armschild-Akzentlinie",
+   "role": "accent"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens_housing",
+   "name_de": "Linsengehäuse",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens_ring",
+   "name_de": "Linsenring",
+   "role": "trim"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens",
+   "name_de": "Kameralinse",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "head_lens_pupil",
+   "name_de": "Linsenkern",
+   "role": "energy"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r_mount",
+   "name_de": "Antennenhalter rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r",
+   "name_de": "Antenne rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r_tip_bezel",
+   "name_de": "Lichtfassung rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_r_tip_lamp",
+   "name_de": "Statuslicht rechts",
+   "role": "energy"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l_mount",
+   "name_de": "Antennenhalter links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l",
+   "name_de": "Antenne links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l_tip_bezel",
+   "name_de": "Lichtfassung links",
+   "role": "trim"
+  },
+  {
+   "assembly": "head",
+   "id": "head_antenna_l_tip_lamp",
+   "name_de": "Statuslicht links",
+   "role": "energy"
   }
  ],
  "provenance": {
@@ -4028,11 +3966,143 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 262647,
+ "triangles": 253398,
  "type": {
   "name_de": "RoboterBasic-02",
   "num": 2
  },
+ "variants": [
+  {
+   "assembly": "head",
+   "id": "HD-C",
+   "idea": "Flache, breite Sensorhaube mit Kameralinse auf der Stirn, vorgezogenem Visier und zwei Antennen",
+   "letter": "C",
+   "name": "Sensor Pod",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Idee BALLON c_mechanik (Kameralinse r 13, Antenne r 3 mit rund 140 mm Mast → Vorgabe); Haubenhöhe 0,86, Breite 1,08, Tiefe 1,04, Visier 10 mm vor Annahme am Vielfaltsmaß"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "UB-B",
+   "idea": "Rücken nur mit Platte wie beim Paladin: kein Rückenmodul, keine Düsen und Leitungen, schlanke Seite und Draufsicht",
+   "letter": "B",
+   "name": "Plate Back",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/b_paladin.py upper_body(): back kind plate, z (150, 220, 360)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "PV-C",
+   "idea": "Schmales, offenes Becken der Mechanik-Studie: kurze Lendenplatte, kleine Beintaschen, ohne Gesäßplatte und Gürtelmodule",
+   "letter": "C",
+   "name": "Open Hips",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py lower_body(): pel a/b (auf den z-Stützstellen von RA01, Annahme), belt, front, side; butt, belt_boxes und layer fehlen dort; hip_len nicht übernommen (Gelenk gehört zum Typ)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "SH-C",
+   "idea": "Kompakte runde Schulterkappe der Mechanik-Studie ohne Lagen, flacher geneigt; der Oberarm liegt frei",
+   "letter": "C",
+   "name": "Compact Cap",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py upper_body(): pauldron rows, band, med, tilt, ch, grooves; flare/flare2 fehlen dort"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "UA-D",
+   "idea": "Schlanker dunkler Läuferarm ohne Cremeschale, nur Körper und Fuge",
+   "letter": "D",
+   "name": "Runner Arm",
+   "origin": {
+    "kind": "Annahme",
+    "source": "Prinzip aus BALLON 14bd78d basic/robot/studies/b_paladin.py (ARM_DROP upper_shell: „Oberarm dunkel und schlank“); Querschnitt entworfen, ≈ 0,78 × Grundform, Fase 14"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "forearms",
+   "id": "FA-B",
+   "idea": "Schwere Armschiene: breite Schildplatte mit Grat über der Unterarmschale",
+   "letter": "B",
+   "name": "Shield Bracer",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Platte z 40–236 mm, 136→104 mm breit (Schale 112→68), 9 mm dick, Grat 10; Prinzip „geschlossene Cremeschale“ aus BALLON 14bd78d basic/arms/studies/b_panzer.py"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "hands",
+   "id": "HN-D",
+   "idea": "Schlanke Präzisionshand: schmale, flache, lange Handfläche; in RA01 auch schlanke, längere Finger",
+   "letter": "D",
+   "name": "Precision Hand",
+   "origin": {
+    "kind": "Annahme",
+    "source": "entworfen: Handfläche 0,8 × breit, 0,8 × dick, +14 mm lang (KNUCKLE_Z mit); RA01 Finger 14 mm breit, Teilung 16 mm, Glieder × 1,15; RA02 behält seine gemessenen Finger"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "thighs",
+   "id": "TH-C",
+   "idea": "Schale, die fast ganz um den Oberschenkel greift und höher ansetzt, Fuge tiefer zum Knie",
+   "letter": "C",
+   "name": "Armored Thigh",
+   "origin": {
+    "kind": "Annahme",
+    "source": "thigh_shell (−150, 60) statt (−112, 34) Grad, thigh_top 120 statt 150 mm, thigh_seams (250,) statt (200,)"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "shins",
+   "id": "SN-D",
+   "idea": "Schlankes Schienbein der Mechanik-Studie mit schmaler Schale, kleiner Kniekappe und freier Wade",
+   "letter": "D",
+   "name": "Slim Shin",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): shin a/b/y (auf den z-Stützstellen von RA01, Annahme), shin_shell, kneecap, ohne calf"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  },
+  {
+   "assembly": "feet",
+   "id": "FT-B",
+   "idea": "Runder, schmaler Stiefel ohne Fasen nach dem Fußprofil der Mechanik-Studie",
+   "letter": "B",
+   "name": "Round Boot",
+   "origin": {
+    "kind": "Vorgabe",
+    "source": "BALLON 14bd78d basic/robot/studies/c_mechanik.py legs(): foot z/a/b; y Annahme (Unterkante wie RA01); foot_ch 0 Annahme"
+   },
+   "ra02": "field",
+   "since": "0.14"
+  }
+ ],
  "version": 1,
  "warnings": []
 }
