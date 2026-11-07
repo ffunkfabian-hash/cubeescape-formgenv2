@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.5 Patch pin42
+
+- Pin auf Agent Tools 0.42.0 (`e1c2ddf`), Lader `ce` folgt; sonst keine Änderung.
+
 ## 0.11.4 Patch skinfix
 
 - Blatt: Der Haupt-Skin der Variante steht als erstes, markiertes Feld in der Skin-Übersicht; bisher fehlte er bei 8 von 12 Linien.
