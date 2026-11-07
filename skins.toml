@@ -401,6 +401,112 @@ accent = { metal = 0.15, rough = 0.6 }
 rubber = { metal = 0, rough = 0.75 }
 reticle_cyan = { metal = 0, rough = 0.2 }
 
+# Roboter-Liveries (0.12 Livery): nur Farben, dieselben neun Rollen wie weiss_graphit; Form bleibt die der Linie. Gewählt als Annahme nach Gestaltungsidee
+# der Linie (data/robots.toml), nicht am AAA-Bild gemessen (offen, siehe Versionsbericht). `finish` wie weiss_graphit, damit das GLB dieselbe Materialwirkung hat.
+[skins.nachtwache]
+de = "Nachtwache"
+kind = "Farbe"
+formgen = true
+robot = true
+[skins.nachtwache.roles]
+graphite = "#15161A"
+trim = "#6A6F78"
+shell = "#3B3F46"
+dark_metal = "#0E0F10"
+energy = "#FF7A3C"
+anodized = "#15161A"
+accent = "#2A2823"
+rubber = "#101010"
+reticle_cyan = "#FF7A3C"
+[skins.nachtwache.finish]
+graphite = { metal = 0.15, rough = 0.75 }
+trim = { metal = 0.2, rough = 0.6 }
+shell = { metal = 0.05, rough = 0.6 }
+dark_metal = { metal = 0.8, rough = 0.3 }
+energy = { metal = 0, rough = 0.2 }
+anodized = { metal = 0.15, rough = 0.75, spec = 0.25 }
+accent = { metal = 0.15, rough = 0.6 }
+rubber = { metal = 0, rough = 0.75 }
+reticle_cyan = { metal = 0, rough = 0.2 }
+
+[skins.signal]
+de = "Signal"
+kind = "Farbe"
+formgen = true
+robot = true
+[skins.signal.roles]
+graphite = "#25272B"
+trim = "#9A9C9A"
+shell = "#D8601F"
+dark_metal = "#17181A"
+energy = "#FFD24A"
+anodized = "#25272B"
+accent = "#3A2A1A"
+rubber = "#141414"
+reticle_cyan = "#FFD24A"
+[skins.signal.finish]
+graphite = { metal = 0.15, rough = 0.75 }
+trim = { metal = 0.2, rough = 0.6 }
+shell = { metal = 0.05, rough = 0.55 }
+dark_metal = { metal = 0.8, rough = 0.3 }
+energy = { metal = 0, rough = 0.2 }
+anodized = { metal = 0.15, rough = 0.75, spec = 0.25 }
+accent = { metal = 0.15, rough = 0.6 }
+rubber = { metal = 0, rough = 0.75 }
+reticle_cyan = { metal = 0, rough = 0.2 }
+
+[skins.feldoliv]
+de = "Feld-Oliv"
+kind = "Farbe"
+formgen = true
+robot = true
+[skins.feldoliv.roles]
+graphite = "#2B2E27"
+trim = "#A39E83"
+shell = "#6E7554"
+dark_metal = "#1B1D18"
+energy = "#9BE564"
+anodized = "#2B2E27"
+accent = "#3F3B2A"
+rubber = "#161714"
+reticle_cyan = "#9BE564"
+[skins.feldoliv.finish]
+graphite = { metal = 0.15, rough = 0.75 }
+trim = { metal = 0.2, rough = 0.6 }
+shell = { metal = 0.05, rough = 0.7 }
+dark_metal = { metal = 0.8, rough = 0.3 }
+energy = { metal = 0, rough = 0.2 }
+anodized = { metal = 0.15, rough = 0.75, spec = 0.25 }
+accent = { metal = 0.15, rough = 0.6 }
+rubber = { metal = 0, rough = 0.75 }
+reticle_cyan = { metal = 0, rough = 0.2 }
+
+[skins.kobaltblau]
+de = "Kobaltblau"
+kind = "Farbe"
+formgen = true
+robot = true
+[skins.kobaltblau.roles]
+graphite = "#1A1C22"
+trim = "#AEB6C2"
+shell = "#2F4F8F"
+dark_metal = "#101216"
+energy = "#8FE9FF"
+anodized = "#1A1C22"
+accent = "#2A3350"
+rubber = "#121316"
+reticle_cyan = "#8FE9FF"
+[skins.kobaltblau.finish]
+graphite = { metal = 0.15, rough = 0.75 }
+trim = { metal = 0.2, rough = 0.6 }
+shell = { metal = 0.1, rough = 0.5 }
+dark_metal = { metal = 0.8, rough = 0.3 }
+energy = { metal = 0, rough = 0.2 }
+anodized = { metal = 0.15, rough = 0.75, spec = 0.25 }
+accent = { metal = 0.15, rough = 0.6 }
+rubber = { metal = 0, rough = 0.75 }
+reticle_cyan = { metal = 0, rough = 0.2 }
+
 [render]
 background_mid = "#808080"
 outline = "#17191D"

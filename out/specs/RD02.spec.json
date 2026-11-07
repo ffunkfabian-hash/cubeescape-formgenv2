@@ -1,0 +1,4038 @@
+{
+ "assemblies": [
+  {
+   "de": "Kopf",
+   "group": "head",
+   "id": "head",
+   "parts": 31
+  },
+  {
+   "de": "Oberkörper",
+   "group": "upper_body",
+   "id": "upper_body",
+   "parts": 63
+  },
+  {
+   "de": "Becken",
+   "group": "upper_body",
+   "id": "pelvis",
+   "parts": 20
+  },
+  {
+   "de": "Schulter",
+   "group": "arms",
+   "id": "shoulders",
+   "parts": 48
+  },
+  {
+   "de": "Oberarm",
+   "group": "arms",
+   "id": "upper_arms",
+   "parts": 30
+  },
+  {
+   "de": "Unterarm",
+   "group": "arms",
+   "id": "forearms",
+   "parts": 14
+  },
+  {
+   "de": "Hände",
+   "group": "arms",
+   "id": "hands",
+   "parts": 200
+  },
+  {
+   "de": "Oberschenkel",
+   "group": "legs",
+   "id": "thighs",
+   "parts": 50
+  },
+  {
+   "de": "Unterschenkel",
+   "group": "legs",
+   "id": "shins",
+   "parts": 72
+  },
+  {
+   "de": "Füße",
+   "group": "legs",
+   "id": "feet",
+   "parts": 26
+  }
+ ],
+ "dimensions_mm": {
+  "depth": 506.8,
+  "height": 1848.9,
+  "width": 1445.8
+ },
+ "format": "formgenv2/robot-sheet-spec",
+ "forms": {
+  "hull": 298,
+  "loft": 18,
+  "multi": 42,
+  "surface": 196
+ },
+ "groups": [
+  {
+   "assemblies": [
+    "head"
+   ],
+   "de": "Kopf",
+   "id": "head",
+   "parts": 31
+  },
+  {
+   "assemblies": [
+    "upper_body",
+    "pelvis"
+   ],
+   "de": "Oberkörper",
+   "id": "upper_body",
+   "parts": 83
+  },
+  {
+   "assemblies": [
+    "shoulders",
+    "upper_arms",
+    "forearms",
+    "hands"
+   ],
+   "de": "Arme",
+   "id": "arms",
+   "parts": 292
+  },
+  {
+   "assemblies": [
+    "thighs",
+    "shins",
+    "feet"
+   ],
+   "de": "Beine",
+   "id": "legs",
+   "parts": 148
+  }
+ ],
+ "id": "RD02",
+ "kind": "robot",
+ "line": "field olive",
+ "line_info": {
+  "idea": "Matter Feldeinsatz in Oliv mit schlankeren Armen",
+  "letter": "D",
+  "name": "Field Olive",
+  "since": "0.12"
+ },
+ "measured_parts": [
+  "arm_L_elbow",
+  "arm_L_elbow_cable",
+  "arm_L_elbow_inner_cap",
+  "arm_L_elbow_inner_ring",
+  "arm_L_elbow_med_cap",
+  "arm_L_elbow_med_disc",
+  "arm_L_elbow_med_hub",
+  "arm_L_elbow_med_hub_bolt1",
+  "arm_L_elbow_med_hub_bolt2",
+  "arm_L_elbow_med_hub_bolt3",
+  "arm_L_elbow_med_hub_bolt4",
+  "arm_L_elbow_med_recess",
+  "arm_L_elbow_med_ring",
+  "arm_L_finger1",
+  "arm_L_finger2",
+  "arm_L_finger3",
+  "arm_L_finger4",
+  "arm_L_finger_mid1",
+  "arm_L_finger_mid2",
+  "arm_L_finger_mid3",
+  "arm_L_finger_mid4",
+  "arm_L_finger_tip1",
+  "arm_L_finger_tip2",
+  "arm_L_finger_tip3",
+  "arm_L_finger_tip4",
+  "arm_L_forearm",
+  "arm_L_forearm_bolt1",
+  "arm_L_forearm_bolt2",
+  "arm_L_forearm_core",
+  "arm_L_forearm_inner_plate",
+  "arm_L_forearm_plate",
+  "arm_L_hand_plate",
+  "arm_L_palm",
+  "arm_L_r2_hand_screw1",
+  "arm_L_r2_hand_screw2",
+  "arm_L_r2_wrist_axle",
+  "arm_L_r2_wrist_bearing",
+  "arm_L_r2_wrist_gimbal",
+  "arm_L_r3_grip_finger1",
+  "arm_L_r3_grip_finger2",
+  "arm_L_r3_grip_finger3",
+  "arm_L_r3_grip_finger4",
+  "arm_L_r3_grip_finger_mid1",
+  "arm_L_r3_grip_finger_mid2",
+  "arm_L_r3_grip_finger_mid3",
+  "arm_L_r3_grip_finger_mid4",
+  "arm_L_r3_grip_finger_tip1",
+  "arm_L_r3_grip_finger_tip2",
+  "arm_L_r3_grip_finger_tip3",
+  "arm_L_r3_grip_finger_tip4",
+  "arm_L_r3_grip_thumb",
+  "arm_L_r3_grip_thumb_mid",
+  "arm_L_r3_grip_thumb_tip",
+  "arm_L_r3_knuckle_pad1",
+  "arm_L_r3_knuckle_pad2",
+  "arm_L_r3_knuckle_pad3",
+  "arm_L_r3_knuckle_pad4",
+  "arm_L_r3_palm_center",
+  "arm_L_r3_palm_heel",
+  "arm_L_r3_palm_screw1",
+  "arm_L_r3_palm_screw2",
+  "arm_L_r3_palm_screw3",
+  "arm_L_r3_pin_ends_finger1",
+  "arm_L_r3_pin_ends_finger2",
+  "arm_L_r3_pin_ends_finger3",
+  "arm_L_r3_pin_ends_finger4",
+  "arm_L_r3_pin_ends_finger_mid1",
+  "arm_L_r3_pin_ends_finger_mid2",
+  "arm_L_r3_pin_ends_finger_mid3",
+  "arm_L_r3_pin_ends_finger_mid4",
+  "arm_L_r3_pin_ends_finger_tip1",
+  "arm_L_r3_pin_ends_finger_tip2",
+  "arm_L_r3_pin_ends_finger_tip3",
+  "arm_L_r3_pin_ends_finger_tip4",
+  "arm_L_r3_pin_ends_thumb",
+  "arm_L_r3_pin_ends_thumb_mid",
+  "arm_L_r3_pin_ends_thumb_tip",
+  "arm_L_r3_thenar_pad",
+  "arm_L_r3_thumb_socket",
+  "arm_L_r3_thumb_socket_cap",
+  "arm_L_r3_wrist_bolt1",
+  "arm_L_r3_wrist_boltminus1",
+  "arm_L_r3_wrist_gaiter",
+  "arm_L_r3_wrist_holder1",
+  "arm_L_r3_wrist_holderminus1",
+  "arm_L_r3_wrist_saddle",
+  "arm_L_ref_armor_finger1",
+  "arm_L_ref_armor_finger2",
+  "arm_L_ref_armor_finger3",
+  "arm_L_ref_armor_finger4",
+  "arm_L_ref_armor_finger_mid1",
+  "arm_L_ref_armor_finger_mid2",
+  "arm_L_ref_armor_finger_mid3",
+  "arm_L_ref_armor_finger_mid4",
+  "arm_L_ref_armor_finger_tip1",
+  "arm_L_ref_armor_finger_tip2",
+  "arm_L_ref_armor_finger_tip3",
+  "arm_L_ref_armor_finger_tip4",
+  "arm_L_ref_armor_thumb",
+  "arm_L_ref_armor_thumb_mid",
+  "arm_L_ref_armor_thumb_tip",
+  "arm_L_ref_pin_finger1",
+  "arm_L_ref_pin_finger2",
+  "arm_L_ref_pin_finger3",
+  "arm_L_ref_pin_finger4",
+  "arm_L_ref_pin_fingermid1",
+  "arm_L_ref_pin_fingermid2",
+  "arm_L_ref_pin_fingermid3",
+  "arm_L_ref_pin_fingermid4",
+  "arm_L_ref_pin_fingertip1",
+  "arm_L_ref_pin_fingertip2",
+  "arm_L_ref_pin_fingertip3",
+  "arm_L_ref_pin_fingertip4",
+  "arm_L_ref_pin_thumb",
+  "arm_L_ref_pin_thumbmid",
+  "arm_L_ref_pin_thumbtip",
+  "arm_L_shoulder_joint",
+  "arm_L_shoulder_med_bcap",
+  "arm_L_shoulder_med_bdisc",
+  "arm_L_shoulder_med_bhub",
+  "arm_L_shoulder_med_bhub_bolt1",
+  "arm_L_shoulder_med_bhub_bolt2",
+  "arm_L_shoulder_med_bhub_bolt3",
+  "arm_L_shoulder_med_bhub_bolt4",
+  "arm_L_shoulder_med_brecess",
+  "arm_L_shoulder_med_bring",
+  "arm_L_shoulder_med_fcap",
+  "arm_L_shoulder_med_fdisc",
+  "arm_L_shoulder_med_fhub",
+  "arm_L_shoulder_med_fhub_bolt1",
+  "arm_L_shoulder_med_fhub_bolt2",
+  "arm_L_shoulder_med_fhub_bolt3",
+  "arm_L_shoulder_med_fhub_bolt4",
+  "arm_L_shoulder_med_frecess",
+  "arm_L_shoulder_med_fring",
+  "arm_L_thumb",
+  "arm_L_thumb_mid",
+  "arm_L_thumb_tip",
+  "arm_L_upper_arm",
+  "arm_L_upper_arm_core",
+  "arm_L_wrist_cuff",
+  "arm_R_elbow",
+  "arm_R_elbow_cable",
+  "arm_R_elbow_inner_cap",
+  "arm_R_elbow_inner_ring",
+  "arm_R_elbow_med_cap",
+  "arm_R_elbow_med_disc",
+  "arm_R_elbow_med_hub",
+  "arm_R_elbow_med_hub_bolt1",
+  "arm_R_elbow_med_hub_bolt2",
+  "arm_R_elbow_med_hub_bolt3",
+  "arm_R_elbow_med_hub_bolt4",
+  "arm_R_elbow_med_recess",
+  "arm_R_elbow_med_ring",
+  "arm_R_finger1",
+  "arm_R_finger2",
+  "arm_R_finger3",
+  "arm_R_finger4",
+  "arm_R_finger_mid1",
+  "arm_R_finger_mid2",
+  "arm_R_finger_mid3",
+  "arm_R_finger_mid4",
+  "arm_R_finger_tip1",
+  "arm_R_finger_tip2",
+  "arm_R_finger_tip3",
+  "arm_R_finger_tip4",
+  "arm_R_forearm",
+  "arm_R_forearm_bolt1",
+  "arm_R_forearm_bolt2",
+  "arm_R_forearm_core",
+  "arm_R_forearm_inner_plate",
+  "arm_R_forearm_plate",
+  "arm_R_hand_plate",
+  "arm_R_palm",
+  "arm_R_r2_hand_screw1",
+  "arm_R_r2_hand_screw2",
+  "arm_R_r2_wrist_axle",
+  "arm_R_r2_wrist_bearing",
+  "arm_R_r2_wrist_gimbal",
+  "arm_R_r3_grip_finger1",
+  "arm_R_r3_grip_finger2",
+  "arm_R_r3_grip_finger3",
+  "arm_R_r3_grip_finger4",
+  "arm_R_r3_grip_finger_mid1",
+  "arm_R_r3_grip_finger_mid2",
+  "arm_R_r3_grip_finger_mid3",
+  "arm_R_r3_grip_finger_mid4",
+  "arm_R_r3_grip_finger_tip1",
+  "arm_R_r3_grip_finger_tip2",
+  "arm_R_r3_grip_finger_tip3",
+  "arm_R_r3_grip_finger_tip4",
+  "arm_R_r3_grip_thumb",
+  "arm_R_r3_grip_thumb_mid",
+  "arm_R_r3_grip_thumb_tip",
+  "arm_R_r3_knuckle_pad1",
+  "arm_R_r3_knuckle_pad2",
+  "arm_R_r3_knuckle_pad3",
+  "arm_R_r3_knuckle_pad4",
+  "arm_R_r3_palm_center",
+  "arm_R_r3_palm_heel",
+  "arm_R_r3_palm_screw1",
+  "arm_R_r3_palm_screw2",
+  "arm_R_r3_palm_screw3",
+  "arm_R_r3_pin_ends_finger1",
+  "arm_R_r3_pin_ends_finger2",
+  "arm_R_r3_pin_ends_finger3",
+  "arm_R_r3_pin_ends_finger4",
+  "arm_R_r3_pin_ends_finger_mid1",
+  "arm_R_r3_pin_ends_finger_mid2",
+  "arm_R_r3_pin_ends_finger_mid3",
+  "arm_R_r3_pin_ends_finger_mid4",
+  "arm_R_r3_pin_ends_finger_tip1",
+  "arm_R_r3_pin_ends_finger_tip2",
+  "arm_R_r3_pin_ends_finger_tip3",
+  "arm_R_r3_pin_ends_finger_tip4",
+  "arm_R_r3_pin_ends_thumb",
+  "arm_R_r3_pin_ends_thumb_mid",
+  "arm_R_r3_pin_ends_thumb_tip",
+  "arm_R_r3_thenar_pad",
+  "arm_R_r3_thumb_socket",
+  "arm_R_r3_thumb_socket_cap",
+  "arm_R_r3_wrist_bolt1",
+  "arm_R_r3_wrist_boltminus1",
+  "arm_R_r3_wrist_gaiter",
+  "arm_R_r3_wrist_holder1",
+  "arm_R_r3_wrist_holderminus1",
+  "arm_R_r3_wrist_saddle",
+  "arm_R_ref_armor_finger1",
+  "arm_R_ref_armor_finger2",
+  "arm_R_ref_armor_finger3",
+  "arm_R_ref_armor_finger4",
+  "arm_R_ref_armor_finger_mid1",
+  "arm_R_ref_armor_finger_mid2",
+  "arm_R_ref_armor_finger_mid3",
+  "arm_R_ref_armor_finger_mid4",
+  "arm_R_ref_armor_finger_tip1",
+  "arm_R_ref_armor_finger_tip2",
+  "arm_R_ref_armor_finger_tip3",
+  "arm_R_ref_armor_finger_tip4",
+  "arm_R_ref_armor_thumb",
+  "arm_R_ref_armor_thumb_mid",
+  "arm_R_ref_armor_thumb_tip",
+  "arm_R_ref_pin_finger1",
+  "arm_R_ref_pin_finger2",
+  "arm_R_ref_pin_finger3",
+  "arm_R_ref_pin_finger4",
+  "arm_R_ref_pin_fingermid1",
+  "arm_R_ref_pin_fingermid2",
+  "arm_R_ref_pin_fingermid3",
+  "arm_R_ref_pin_fingermid4",
+  "arm_R_ref_pin_fingertip1",
+  "arm_R_ref_pin_fingertip2",
+  "arm_R_ref_pin_fingertip3",
+  "arm_R_ref_pin_fingertip4",
+  "arm_R_ref_pin_thumb",
+  "arm_R_ref_pin_thumbmid",
+  "arm_R_ref_pin_thumbtip",
+  "arm_R_shoulder_joint",
+  "arm_R_shoulder_med_bcap",
+  "arm_R_shoulder_med_bdisc",
+  "arm_R_shoulder_med_bhub",
+  "arm_R_shoulder_med_bhub_bolt1",
+  "arm_R_shoulder_med_bhub_bolt2",
+  "arm_R_shoulder_med_bhub_bolt3",
+  "arm_R_shoulder_med_bhub_bolt4",
+  "arm_R_shoulder_med_brecess",
+  "arm_R_shoulder_med_bring",
+  "arm_R_shoulder_med_fcap",
+  "arm_R_shoulder_med_fdisc",
+  "arm_R_shoulder_med_fhub",
+  "arm_R_shoulder_med_fhub_bolt1",
+  "arm_R_shoulder_med_fhub_bolt2",
+  "arm_R_shoulder_med_fhub_bolt3",
+  "arm_R_shoulder_med_fhub_bolt4",
+  "arm_R_shoulder_med_frecess",
+  "arm_R_shoulder_med_fring",
+  "arm_R_thumb",
+  "arm_R_thumb_mid",
+  "arm_R_thumb_tip",
+  "arm_R_upper_arm",
+  "arm_R_upper_arm_core",
+  "arm_R_wrist_cuff",
+  "foot_L_ankle_piston_rod",
+  "foot_L_boot_ankle",
+  "foot_L_boot_bolt1",
+  "foot_L_boot_bolt2",
+  "foot_L_boot_heel",
+  "foot_L_boot_sole",
+  "foot_L_boot_toe",
+  "foot_L_r2_ankle_axle",
+  "foot_L_r2_ankle_bearing",
+  "foot_L_r2_ankle_hinge",
+  "foot_L_r2_ankle_rod_joint",
+  "foot_L_r4_toe_bumper",
+  "foot_L_toe_seam",
+  "foot_R_ankle_piston_rod",
+  "foot_R_boot_ankle",
+  "foot_R_boot_bolt1",
+  "foot_R_boot_bolt2",
+  "foot_R_boot_heel",
+  "foot_R_boot_sole",
+  "foot_R_boot_toe",
+  "foot_R_r2_ankle_axle",
+  "foot_R_r2_ankle_bearing",
+  "foot_R_r2_ankle_hinge",
+  "foot_R_r2_ankle_rod_joint",
+  "foot_R_r4_toe_bumper",
+  "foot_R_toe_seam",
+  "helmet_L_collar_bolt",
+  "helmet_L_ear_disc_cap",
+  "helmet_L_ear_disc_disc",
+  "helmet_L_ear_disc_hub",
+  "helmet_L_ear_disc_hub_bolt1",
+  "helmet_L_ear_disc_hub_bolt2",
+  "helmet_L_ear_disc_hub_bolt3",
+  "helmet_L_ear_disc_hub_bolt4",
+  "helmet_L_ear_disc_recess",
+  "helmet_L_ear_disc_ring",
+  "helmet_R_collar_bolt",
+  "helmet_R_ear_disc_cap",
+  "helmet_R_ear_disc_disc",
+  "helmet_R_ear_disc_hub",
+  "helmet_R_ear_disc_hub_bolt1",
+  "helmet_R_ear_disc_hub_bolt2",
+  "helmet_R_ear_disc_hub_bolt3",
+  "helmet_R_ear_disc_hub_bolt4",
+  "helmet_R_ear_disc_recess",
+  "helmet_R_ear_disc_ring",
+  "helmet_chin_vent",
+  "helmet_collar",
+  "helmet_helmet",
+  "helmet_jaw",
+  "helmet_neck",
+  "helmet_neck_ring1",
+  "helmet_neck_ring2",
+  "helmet_r4_chin_inner_seal",
+  "helmet_r4_visor_cyan",
+  "helmet_visor",
+  "helmet_visor_frame",
+  "kneecap_L_knee",
+  "kneecap_L_knee_bolt1",
+  "kneecap_L_knee_bolt2",
+  "kneecap_L_knee_groove",
+  "kneecap_R_knee",
+  "kneecap_R_knee_bolt1",
+  "kneecap_R_knee_bolt2",
+  "kneecap_R_knee_groove",
+  "pelvis_L_belt_bolt",
+  "pelvis_R_belt_bolt",
+  "pelvis_ab_plate_lower",
+  "pelvis_ab_plate_upper",
+  "pelvis_belt",
+  "pelvis_belt_buckle",
+  "pelvis_buckle_slot",
+  "pelvis_buckle_tongue",
+  "pelvis_cod_groove",
+  "pelvis_codpiece",
+  "pelvis_orange_detail_1",
+  "pelvis_orange_detail_2",
+  "pelvis_orange_detail_4",
+  "pelvis_orange_detail_5",
+  "pelvis_pelvis_core",
+  "pelvis_seat",
+  "pelvis_spine_ring1",
+  "pelvis_spine_ring2",
+  "pelvis_spine_ring3",
+  "pelvis_waist",
+  "shin_L_ankle_core",
+  "shin_L_ankle_insert",
+  "shin_L_ankle_piston",
+  "shin_L_calf_insert",
+  "shin_L_knee_core",
+  "shin_L_knee_joint",
+  "shin_L_knee_med_icap",
+  "shin_L_knee_med_idisc",
+  "shin_L_knee_med_ihub",
+  "shin_L_knee_med_ihub_bolt1",
+  "shin_L_knee_med_ihub_bolt2",
+  "shin_L_knee_med_ihub_bolt3",
+  "shin_L_knee_med_ihub_bolt4",
+  "shin_L_knee_med_irecess",
+  "shin_L_knee_med_iring",
+  "shin_L_knee_med_ocap",
+  "shin_L_knee_med_odisc",
+  "shin_L_knee_med_ohub",
+  "shin_L_knee_med_ohub_bolt1",
+  "shin_L_knee_med_ohub_bolt2",
+  "shin_L_knee_med_ohub_bolt3",
+  "shin_L_knee_med_ohub_bolt4",
+  "shin_L_knee_med_orecess",
+  "shin_L_knee_med_oring",
+  "shin_L_knee_piston_eye_bot1",
+  "shin_L_knee_piston_eye_bot2",
+  "shin_L_knee_piston_rod1",
+  "shin_L_knee_piston_rod2",
+  "shin_L_shin",
+  "shin_L_shin_bolt1",
+  "shin_L_shin_bolt2",
+  "shin_L_shin_chevron",
+  "shin_R_ankle_core",
+  "shin_R_ankle_insert",
+  "shin_R_ankle_piston",
+  "shin_R_calf_insert",
+  "shin_R_knee_core",
+  "shin_R_knee_joint",
+  "shin_R_knee_med_icap",
+  "shin_R_knee_med_idisc",
+  "shin_R_knee_med_ihub",
+  "shin_R_knee_med_ihub_bolt1",
+  "shin_R_knee_med_ihub_bolt2",
+  "shin_R_knee_med_ihub_bolt3",
+  "shin_R_knee_med_ihub_bolt4",
+  "shin_R_knee_med_irecess",
+  "shin_R_knee_med_iring",
+  "shin_R_knee_med_ocap",
+  "shin_R_knee_med_odisc",
+  "shin_R_knee_med_ohub",
+  "shin_R_knee_med_ohub_bolt1",
+  "shin_R_knee_med_ohub_bolt2",
+  "shin_R_knee_med_ohub_bolt3",
+  "shin_R_knee_med_ohub_bolt4",
+  "shin_R_knee_med_orecess",
+  "shin_R_knee_med_oring",
+  "shin_R_knee_piston_eye_bot1",
+  "shin_R_knee_piston_eye_bot2",
+  "shin_R_knee_piston_rod1",
+  "shin_R_knee_piston_rod2",
+  "shin_R_shin",
+  "shin_R_shin_bolt1",
+  "shin_R_shin_bolt2",
+  "shin_R_shin_chevron",
+  "thigh_L_hip_joint",
+  "thigh_L_hip_med_cap",
+  "thigh_L_hip_med_disc",
+  "thigh_L_hip_med_hub",
+  "thigh_L_hip_med_hub_bolt1",
+  "thigh_L_hip_med_hub_bolt2",
+  "thigh_L_hip_med_hub_bolt3",
+  "thigh_L_hip_med_hub_bolt4",
+  "thigh_L_hip_med_recess",
+  "thigh_L_hip_med_ring",
+  "thigh_L_knee_cable",
+  "thigh_L_knee_piston_body1",
+  "thigh_L_knee_piston_body2",
+  "thigh_L_knee_piston_eye_top1",
+  "thigh_L_knee_piston_eye_top2",
+  "thigh_L_thigh",
+  "thigh_L_thigh_bolt1",
+  "thigh_L_thigh_bolt2",
+  "thigh_L_thigh_bolt3",
+  "thigh_L_thigh_bolt4",
+  "thigh_L_thigh_core",
+  "thigh_L_thigh_hatch_bolt1",
+  "thigh_L_thigh_hatch_bolt2",
+  "thigh_L_thigh_plate",
+  "thigh_L_thigh_trim",
+  "thigh_R_hip_joint",
+  "thigh_R_hip_med_cap",
+  "thigh_R_hip_med_disc",
+  "thigh_R_hip_med_hub",
+  "thigh_R_hip_med_hub_bolt1",
+  "thigh_R_hip_med_hub_bolt2",
+  "thigh_R_hip_med_hub_bolt3",
+  "thigh_R_hip_med_hub_bolt4",
+  "thigh_R_hip_med_recess",
+  "thigh_R_hip_med_ring",
+  "thigh_R_knee_cable",
+  "thigh_R_knee_piston_body1",
+  "thigh_R_knee_piston_body2",
+  "thigh_R_knee_piston_eye_top1",
+  "thigh_R_knee_piston_eye_top2",
+  "thigh_R_thigh",
+  "thigh_R_thigh_bolt1",
+  "thigh_R_thigh_bolt2",
+  "thigh_R_thigh_bolt3",
+  "thigh_R_thigh_bolt4",
+  "thigh_R_thigh_core",
+  "thigh_R_thigh_hatch_bolt1",
+  "thigh_R_thigh_hatch_bolt2",
+  "thigh_R_thigh_plate",
+  "thigh_R_thigh_trim",
+  "torso_L_back_grille",
+  "torso_L_back_grille_frame",
+  "torso_L_back_lower_panel",
+  "torso_L_back_side_grille",
+  "torso_L_back_side_grille_frame",
+  "torso_L_back_slot",
+  "torso_L_back_triangle",
+  "torso_L_chest_vent",
+  "torso_L_hose",
+  "torso_L_hose_clamp",
+  "torso_L_ref_back_mount1",
+  "torso_L_ref_back_mount2",
+  "torso_L_ref_back_mount_screw1",
+  "torso_L_ref_back_mount_screw2",
+  "torso_L_ref_back_panel1",
+  "torso_L_ref_back_panel2",
+  "torso_L_shoulder_block",
+  "torso_L_shoulder_block_core",
+  "torso_L_shoulder_block_lower",
+  "torso_L_shoulder_bolt1",
+  "torso_L_shoulder_bolt2",
+  "torso_R_back_grille",
+  "torso_R_back_grille_frame",
+  "torso_R_back_lower_panel",
+  "torso_R_back_side_grille",
+  "torso_R_back_side_grille_frame",
+  "torso_R_back_slot",
+  "torso_R_back_triangle",
+  "torso_R_chest_vent",
+  "torso_R_hose",
+  "torso_R_hose_clamp",
+  "torso_R_ref_back_mount1",
+  "torso_R_ref_back_mount2",
+  "torso_R_ref_back_mount_screw1",
+  "torso_R_ref_back_mount_screw2",
+  "torso_R_ref_back_panel1",
+  "torso_R_ref_back_panel2",
+  "torso_R_shoulder_block",
+  "torso_R_shoulder_block_core",
+  "torso_R_shoulder_block_lower",
+  "torso_R_shoulder_bolt1",
+  "torso_R_shoulder_bolt2",
+  "torso_back_bolt1",
+  "torso_back_bolt2",
+  "torso_back_bolt3",
+  "torso_back_bolt4",
+  "torso_back_lower_grille",
+  "torso_back_lower_grille_frame",
+  "torso_back_panel",
+  "torso_back_panel_bolt1",
+  "torso_back_panel_bolt2",
+  "torso_back_spine_fins",
+  "torso_back_top_vent",
+  "torso_back_top_vent_frame",
+  "torso_backpack",
+  "torso_backpack_lower",
+  "torso_chest",
+  "torso_chest_band",
+  "torso_chest_chevron",
+  "torso_chest_seam_dn",
+  "torso_chest_seam_up",
+  "torso_orange_detail_3",
+  "torso_orange_detail_6",
+  "torso_r5_sensor_inner_bezel",
+  "torso_r5_sensor_light_ring",
+  "torso_r5_sensor_outer_bezel",
+  "torso_r5_sensor_retainers",
+  "torso_rib_plate",
+  "torso_rib_stripe",
+  "torso_sensor",
+  "torso_sensor_bezel",
+  "torso_sensor_housing",
+  "torso_torso_core"
+ ],
+ "name_de": "RoboterBasic-02",
+ "parts": [
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_ab_plate_lower",
+   "name_de": "AbPlate_Lower",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_ab_plate_upper",
+   "name_de": "AbPlate_Upper",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_core",
+   "name_de": "AnkleCore_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_core",
+   "name_de": "AnkleCore_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_insert",
+   "name_de": "AnkleInsert_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_insert",
+   "name_de": "AnkleInsert_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_ankle_piston_rod",
+   "name_de": "AnklePistonRod_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_ankle_piston_rod",
+   "name_de": "AnklePistonRod_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_piston",
+   "name_de": "AnklePiston_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_piston",
+   "name_de": "AnklePiston_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_bolt1",
+   "name_de": "BackBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_bolt2",
+   "name_de": "BackBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_bolt3",
+   "name_de": "BackBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_bolt4",
+   "name_de": "BackBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_back_grille_frame",
+   "name_de": "BackGrilleFrame_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_back_grille_frame",
+   "name_de": "BackGrilleFrame_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_back_grille",
+   "name_de": "BackGrille_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_back_grille",
+   "name_de": "BackGrille_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_lower_grille",
+   "name_de": "BackLowerGrille",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_lower_grille_frame",
+   "name_de": "BackLowerGrilleFrame",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_back_lower_panel",
+   "name_de": "BackLowerPanel_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_back_lower_panel",
+   "name_de": "BackLowerPanel_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_panel",
+   "name_de": "BackPanel",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_panel_bolt1",
+   "name_de": "BackPanelBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_panel_bolt2",
+   "name_de": "BackPanelBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_back_side_grille_frame",
+   "name_de": "BackSideGrilleFrame_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_back_side_grille_frame",
+   "name_de": "BackSideGrilleFrame_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_back_side_grille",
+   "name_de": "BackSideGrille_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_back_side_grille",
+   "name_de": "BackSideGrille_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_back_slot",
+   "name_de": "BackSlot_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_back_slot",
+   "name_de": "BackSlot_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_spine_fins",
+   "name_de": "BackSpineFins",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_top_vent",
+   "name_de": "BackTopVent",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_back_top_vent_frame",
+   "name_de": "BackTopVentFrame",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_back_triangle",
+   "name_de": "BackTriangle_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_back_triangle",
+   "name_de": "BackTriangle_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_backpack",
+   "name_de": "Backpack",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_backpack_lower",
+   "name_de": "Backpack_Lower",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_belt",
+   "name_de": "Belt",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_L_belt_bolt",
+   "name_de": "BeltBolt_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_R_belt_bolt",
+   "name_de": "BeltBolt_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_belt_buckle",
+   "name_de": "BeltBuckle",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_boot_ankle",
+   "name_de": "BootAnkle_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_boot_ankle",
+   "name_de": "BootAnkle_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_boot_bolt1",
+   "name_de": "BootBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_boot_bolt1",
+   "name_de": "BootBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_boot_bolt2",
+   "name_de": "BootBolt2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_boot_bolt2",
+   "name_de": "BootBolt2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_boot_heel",
+   "name_de": "BootHeel_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_boot_heel",
+   "name_de": "BootHeel_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_boot_sole",
+   "name_de": "BootSole_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_boot_sole",
+   "name_de": "BootSole_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_boot_toe",
+   "name_de": "BootToe_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_boot_toe",
+   "name_de": "BootToe_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_buckle_slot",
+   "name_de": "BuckleSlot",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_buckle_tongue",
+   "name_de": "BuckleTongue",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_calf_insert",
+   "name_de": "CalfInsert_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_calf_insert",
+   "name_de": "CalfInsert_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_chest",
+   "name_de": "Chest",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_chest_band",
+   "name_de": "ChestBand",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_chest_chevron",
+   "name_de": "ChestChevron",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_chest_seam_dn",
+   "name_de": "ChestSeam_Dn",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_chest_seam_up",
+   "name_de": "ChestSeam_Up",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_chest_vent",
+   "name_de": "ChestVent_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_chest_vent",
+   "name_de": "ChestVent_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_chin_vent",
+   "name_de": "ChinVent",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_cod_groove",
+   "name_de": "CodGroove",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_codpiece",
+   "name_de": "Codpiece",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar",
+   "name_de": "Collar",
+   "role": "graphite"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_collar_bolt",
+   "name_de": "CollarBolt_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_collar_bolt",
+   "name_de": "CollarBolt_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_cap",
+   "name_de": "EarDisc_LCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_disc",
+   "name_de": "EarDisc_LDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_hub",
+   "name_de": "EarDisc_LHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_hub_bolt1",
+   "name_de": "EarDisc_LHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_hub_bolt2",
+   "name_de": "EarDisc_LHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_hub_bolt3",
+   "name_de": "EarDisc_LHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_hub_bolt4",
+   "name_de": "EarDisc_LHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_recess",
+   "name_de": "EarDisc_LRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_L_ear_disc_ring",
+   "name_de": "EarDisc_LRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_cap",
+   "name_de": "EarDisc_RCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_disc",
+   "name_de": "EarDisc_RDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_hub",
+   "name_de": "EarDisc_RHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_hub_bolt1",
+   "name_de": "EarDisc_RHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_hub_bolt2",
+   "name_de": "EarDisc_RHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_hub_bolt3",
+   "name_de": "EarDisc_RHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_hub_bolt4",
+   "name_de": "EarDisc_RHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_recess",
+   "name_de": "EarDisc_RRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_R_ear_disc_ring",
+   "name_de": "EarDisc_RRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_cable",
+   "name_de": "ElbowCable_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_cable",
+   "name_de": "ElbowCable_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_inner_cap",
+   "name_de": "ElbowInnerCap_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_inner_cap",
+   "name_de": "ElbowInnerCap_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_inner_ring",
+   "name_de": "ElbowInnerRing_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_inner_ring",
+   "name_de": "ElbowInnerRing_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_cap",
+   "name_de": "ElbowMed_LCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_disc",
+   "name_de": "ElbowMed_LDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_hub",
+   "name_de": "ElbowMed_LHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_hub_bolt1",
+   "name_de": "ElbowMed_LHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_hub_bolt2",
+   "name_de": "ElbowMed_LHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_hub_bolt3",
+   "name_de": "ElbowMed_LHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_hub_bolt4",
+   "name_de": "ElbowMed_LHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_recess",
+   "name_de": "ElbowMed_LRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow_med_ring",
+   "name_de": "ElbowMed_LRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_cap",
+   "name_de": "ElbowMed_RCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_disc",
+   "name_de": "ElbowMed_RDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_hub",
+   "name_de": "ElbowMed_RHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_hub_bolt1",
+   "name_de": "ElbowMed_RHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_hub_bolt2",
+   "name_de": "ElbowMed_RHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_hub_bolt3",
+   "name_de": "ElbowMed_RHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_hub_bolt4",
+   "name_de": "ElbowMed_RHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_recess",
+   "name_de": "ElbowMed_RRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow_med_ring",
+   "name_de": "ElbowMed_RRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_elbow",
+   "name_de": "Elbow_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_elbow",
+   "name_de": "Elbow_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger1",
+   "name_de": "Finger1_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger1",
+   "name_de": "Finger1_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger2",
+   "name_de": "Finger2_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger2",
+   "name_de": "Finger2_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger3",
+   "name_de": "Finger3_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger3",
+   "name_de": "Finger3_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger4",
+   "name_de": "Finger4_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger4",
+   "name_de": "Finger4_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_mid1",
+   "name_de": "FingerMid1_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_mid1",
+   "name_de": "FingerMid1_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_mid2",
+   "name_de": "FingerMid2_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_mid2",
+   "name_de": "FingerMid2_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_mid3",
+   "name_de": "FingerMid3_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_mid3",
+   "name_de": "FingerMid3_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_mid4",
+   "name_de": "FingerMid4_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_mid4",
+   "name_de": "FingerMid4_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_tip1",
+   "name_de": "FingerTip1_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_tip1",
+   "name_de": "FingerTip1_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_tip2",
+   "name_de": "FingerTip2_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_tip2",
+   "name_de": "FingerTip2_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_tip3",
+   "name_de": "FingerTip3_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_tip3",
+   "name_de": "FingerTip3_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_finger_tip4",
+   "name_de": "FingerTip4_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_finger_tip4",
+   "name_de": "FingerTip4_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_forearm_bolt1",
+   "name_de": "ForearmBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_forearm_bolt1",
+   "name_de": "ForearmBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_forearm_bolt2",
+   "name_de": "ForearmBolt2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_forearm_bolt2",
+   "name_de": "ForearmBolt2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_forearm_core",
+   "name_de": "ForearmCore_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_forearm_core",
+   "name_de": "ForearmCore_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_forearm_inner_plate",
+   "name_de": "ForearmInnerPlate_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_forearm_inner_plate",
+   "name_de": "ForearmInnerPlate_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_forearm_plate",
+   "name_de": "ForearmPlate_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_forearm_plate",
+   "name_de": "ForearmPlate_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_forearm",
+   "name_de": "Forearm_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_forearm",
+   "name_de": "Forearm_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_hand_plate",
+   "name_de": "HandPlate_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_hand_plate",
+   "name_de": "HandPlate_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_helmet",
+   "name_de": "Helmet",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_joint",
+   "name_de": "HipJoint_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_joint",
+   "name_de": "HipJoint_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_cap",
+   "name_de": "HipMed_LCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_disc",
+   "name_de": "HipMed_LDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_hub",
+   "name_de": "HipMed_LHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_hub_bolt1",
+   "name_de": "HipMed_LHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_hub_bolt2",
+   "name_de": "HipMed_LHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_hub_bolt3",
+   "name_de": "HipMed_LHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_hub_bolt4",
+   "name_de": "HipMed_LHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_recess",
+   "name_de": "HipMed_LRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_med_ring",
+   "name_de": "HipMed_LRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_cap",
+   "name_de": "HipMed_RCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_disc",
+   "name_de": "HipMed_RDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_hub",
+   "name_de": "HipMed_RHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_hub_bolt1",
+   "name_de": "HipMed_RHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_hub_bolt2",
+   "name_de": "HipMed_RHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_hub_bolt3",
+   "name_de": "HipMed_RHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_hub_bolt4",
+   "name_de": "HipMed_RHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_recess",
+   "name_de": "HipMed_RRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_med_ring",
+   "name_de": "HipMed_RRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_hose_clamp",
+   "name_de": "HoseClamp_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_hose_clamp",
+   "name_de": "HoseClamp_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_hose",
+   "name_de": "Hose_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_hose",
+   "name_de": "Hose_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_jaw",
+   "name_de": "Jaw",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_L_knee_bolt1",
+   "name_de": "KneeBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_R_knee_bolt1",
+   "name_de": "KneeBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_L_knee_bolt2",
+   "name_de": "KneeBolt2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_R_knee_bolt2",
+   "name_de": "KneeBolt2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_knee_cable",
+   "name_de": "KneeCable_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_knee_cable",
+   "name_de": "KneeCable_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_core",
+   "name_de": "KneeCore_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_core",
+   "name_de": "KneeCore_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_L_knee_groove",
+   "name_de": "KneeGroove_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_R_knee_groove",
+   "name_de": "KneeGroove_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_joint",
+   "name_de": "KneeJoint_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_joint",
+   "name_de": "KneeJoint_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_icap",
+   "name_de": "KneeMed_L_ICap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_idisc",
+   "name_de": "KneeMed_L_IDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ihub",
+   "name_de": "KneeMed_L_IHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ihub_bolt1",
+   "name_de": "KneeMed_L_IHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ihub_bolt2",
+   "name_de": "KneeMed_L_IHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ihub_bolt3",
+   "name_de": "KneeMed_L_IHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ihub_bolt4",
+   "name_de": "KneeMed_L_IHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_irecess",
+   "name_de": "KneeMed_L_IRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_iring",
+   "name_de": "KneeMed_L_IRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ocap",
+   "name_de": "KneeMed_L_OCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_odisc",
+   "name_de": "KneeMed_L_ODisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ohub",
+   "name_de": "KneeMed_L_OHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ohub_bolt1",
+   "name_de": "KneeMed_L_OHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ohub_bolt2",
+   "name_de": "KneeMed_L_OHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ohub_bolt3",
+   "name_de": "KneeMed_L_OHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_ohub_bolt4",
+   "name_de": "KneeMed_L_OHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_orecess",
+   "name_de": "KneeMed_L_ORecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_med_oring",
+   "name_de": "KneeMed_L_ORing",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_icap",
+   "name_de": "KneeMed_R_ICap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_idisc",
+   "name_de": "KneeMed_R_IDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ihub",
+   "name_de": "KneeMed_R_IHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ihub_bolt1",
+   "name_de": "KneeMed_R_IHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ihub_bolt2",
+   "name_de": "KneeMed_R_IHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ihub_bolt3",
+   "name_de": "KneeMed_R_IHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ihub_bolt4",
+   "name_de": "KneeMed_R_IHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_irecess",
+   "name_de": "KneeMed_R_IRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_iring",
+   "name_de": "KneeMed_R_IRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ocap",
+   "name_de": "KneeMed_R_OCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_odisc",
+   "name_de": "KneeMed_R_ODisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ohub",
+   "name_de": "KneeMed_R_OHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ohub_bolt1",
+   "name_de": "KneeMed_R_OHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ohub_bolt2",
+   "name_de": "KneeMed_R_OHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ohub_bolt3",
+   "name_de": "KneeMed_R_OHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_ohub_bolt4",
+   "name_de": "KneeMed_R_OHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_orecess",
+   "name_de": "KneeMed_R_ORecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_med_oring",
+   "name_de": "KneeMed_R_ORing",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_knee_piston_body1",
+   "name_de": "KneePistonBody1_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_knee_piston_body1",
+   "name_de": "KneePistonBody1_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_knee_piston_body2",
+   "name_de": "KneePistonBody2_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_knee_piston_body2",
+   "name_de": "KneePistonBody2_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_eye_bot1",
+   "name_de": "KneePistonEyeBot1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_eye_bot1",
+   "name_de": "KneePistonEyeBot1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_eye_bot2",
+   "name_de": "KneePistonEyeBot2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_eye_bot2",
+   "name_de": "KneePistonEyeBot2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_knee_piston_eye_top1",
+   "name_de": "KneePistonEyeTop1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_knee_piston_eye_top1",
+   "name_de": "KneePistonEyeTop1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_knee_piston_eye_top2",
+   "name_de": "KneePistonEyeTop2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_knee_piston_eye_top2",
+   "name_de": "KneePistonEyeTop2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_rod1",
+   "name_de": "KneePistonRod1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_rod1",
+   "name_de": "KneePistonRod1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_piston_rod2",
+   "name_de": "KneePistonRod2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_piston_rod2",
+   "name_de": "KneePistonRod2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_L_knee",
+   "name_de": "Knee_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "kneecap_R_knee",
+   "name_de": "Knee_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_neck",
+   "name_de": "Neck",
+   "role": "graphite"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_neck_ring1",
+   "name_de": "NeckRing1",
+   "role": "metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_neck_ring2",
+   "name_de": "NeckRing2",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_orange_detail_1",
+   "name_de": "OrangeDetail_1",
+   "role": "accent"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_orange_detail_2",
+   "name_de": "OrangeDetail_2",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_orange_detail_3",
+   "name_de": "OrangeDetail_3",
+   "role": "accent"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_orange_detail_4",
+   "name_de": "OrangeDetail_4",
+   "role": "accent"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_orange_detail_5",
+   "name_de": "OrangeDetail_5",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_orange_detail_6",
+   "name_de": "OrangeDetail_6",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_palm",
+   "name_de": "Palm_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_palm",
+   "name_de": "Palm_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_pelvis_core",
+   "name_de": "PelvisCore",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_r2_ankle_axle",
+   "name_de": "R2_AnkleAxle_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_r2_ankle_axle",
+   "name_de": "R2_AnkleAxle_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_r2_ankle_bearing",
+   "name_de": "R2_AnkleBearing_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_r2_ankle_bearing",
+   "name_de": "R2_AnkleBearing_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_r2_ankle_hinge",
+   "name_de": "R2_AnkleHinge_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_r2_ankle_hinge",
+   "name_de": "R2_AnkleHinge_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_r2_ankle_rod_joint",
+   "name_de": "R2_AnkleRodJoint_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_r2_ankle_rod_joint",
+   "name_de": "R2_AnkleRodJoint_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r2_hand_screw1",
+   "name_de": "R2_HandScrew1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r2_hand_screw1",
+   "name_de": "R2_HandScrew1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r2_hand_screw2",
+   "name_de": "R2_HandScrew2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r2_hand_screw2",
+   "name_de": "R2_HandScrew2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r2_wrist_axle",
+   "name_de": "R2_WristAxle_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r2_wrist_axle",
+   "name_de": "R2_WristAxle_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r2_wrist_bearing",
+   "name_de": "R2_WristBearing_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r2_wrist_bearing",
+   "name_de": "R2_WristBearing_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r2_wrist_gimbal",
+   "name_de": "R2_WristGimbal_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r2_wrist_gimbal",
+   "name_de": "R2_WristGimbal_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger1",
+   "name_de": "R3_Grip_Finger1_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger1",
+   "name_de": "R3_Grip_Finger1_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger2",
+   "name_de": "R3_Grip_Finger2_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger2",
+   "name_de": "R3_Grip_Finger2_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger3",
+   "name_de": "R3_Grip_Finger3_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger3",
+   "name_de": "R3_Grip_Finger3_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger4",
+   "name_de": "R3_Grip_Finger4_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger4",
+   "name_de": "R3_Grip_Finger4_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_mid1",
+   "name_de": "R3_Grip_FingerMid1_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_mid1",
+   "name_de": "R3_Grip_FingerMid1_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_mid2",
+   "name_de": "R3_Grip_FingerMid2_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_mid2",
+   "name_de": "R3_Grip_FingerMid2_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_mid3",
+   "name_de": "R3_Grip_FingerMid3_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_mid3",
+   "name_de": "R3_Grip_FingerMid3_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_mid4",
+   "name_de": "R3_Grip_FingerMid4_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_mid4",
+   "name_de": "R3_Grip_FingerMid4_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_tip1",
+   "name_de": "R3_Grip_FingerTip1_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_tip1",
+   "name_de": "R3_Grip_FingerTip1_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_tip2",
+   "name_de": "R3_Grip_FingerTip2_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_tip2",
+   "name_de": "R3_Grip_FingerTip2_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_tip3",
+   "name_de": "R3_Grip_FingerTip3_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_tip3",
+   "name_de": "R3_Grip_FingerTip3_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_finger_tip4",
+   "name_de": "R3_Grip_FingerTip4_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_finger_tip4",
+   "name_de": "R3_Grip_FingerTip4_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_thumb_mid",
+   "name_de": "R3_Grip_ThumbMid_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_thumb_mid",
+   "name_de": "R3_Grip_ThumbMid_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_thumb_tip",
+   "name_de": "R3_Grip_ThumbTip_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_thumb_tip",
+   "name_de": "R3_Grip_ThumbTip_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_grip_thumb",
+   "name_de": "R3_Grip_Thumb_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_grip_thumb",
+   "name_de": "R3_Grip_Thumb_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_knuckle_pad1",
+   "name_de": "R3_KnucklePad1_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_knuckle_pad1",
+   "name_de": "R3_KnucklePad1_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_knuckle_pad2",
+   "name_de": "R3_KnucklePad2_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_knuckle_pad2",
+   "name_de": "R3_KnucklePad2_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_knuckle_pad3",
+   "name_de": "R3_KnucklePad3_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_knuckle_pad3",
+   "name_de": "R3_KnucklePad3_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_knuckle_pad4",
+   "name_de": "R3_KnucklePad4_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_knuckle_pad4",
+   "name_de": "R3_KnucklePad4_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_palm_center",
+   "name_de": "R3_PalmCenter_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_palm_center",
+   "name_de": "R3_PalmCenter_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_palm_heel",
+   "name_de": "R3_PalmHeel_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_palm_heel",
+   "name_de": "R3_PalmHeel_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_palm_screw1",
+   "name_de": "R3_PalmScrew1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_palm_screw1",
+   "name_de": "R3_PalmScrew1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_palm_screw2",
+   "name_de": "R3_PalmScrew2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_palm_screw2",
+   "name_de": "R3_PalmScrew2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_palm_screw3",
+   "name_de": "R3_PalmScrew3_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_palm_screw3",
+   "name_de": "R3_PalmScrew3_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger1",
+   "name_de": "R3_PinEnds_Finger1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger1",
+   "name_de": "R3_PinEnds_Finger1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger2",
+   "name_de": "R3_PinEnds_Finger2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger2",
+   "name_de": "R3_PinEnds_Finger2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger3",
+   "name_de": "R3_PinEnds_Finger3_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger3",
+   "name_de": "R3_PinEnds_Finger3_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger4",
+   "name_de": "R3_PinEnds_Finger4_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger4",
+   "name_de": "R3_PinEnds_Finger4_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_mid1",
+   "name_de": "R3_PinEnds_FingerMid1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_mid1",
+   "name_de": "R3_PinEnds_FingerMid1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_mid2",
+   "name_de": "R3_PinEnds_FingerMid2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_mid2",
+   "name_de": "R3_PinEnds_FingerMid2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_mid3",
+   "name_de": "R3_PinEnds_FingerMid3_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_mid3",
+   "name_de": "R3_PinEnds_FingerMid3_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_mid4",
+   "name_de": "R3_PinEnds_FingerMid4_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_mid4",
+   "name_de": "R3_PinEnds_FingerMid4_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_tip1",
+   "name_de": "R3_PinEnds_FingerTip1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_tip1",
+   "name_de": "R3_PinEnds_FingerTip1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_tip2",
+   "name_de": "R3_PinEnds_FingerTip2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_tip2",
+   "name_de": "R3_PinEnds_FingerTip2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_tip3",
+   "name_de": "R3_PinEnds_FingerTip3_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_tip3",
+   "name_de": "R3_PinEnds_FingerTip3_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_finger_tip4",
+   "name_de": "R3_PinEnds_FingerTip4_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_finger_tip4",
+   "name_de": "R3_PinEnds_FingerTip4_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_thumb_mid",
+   "name_de": "R3_PinEnds_ThumbMid_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_thumb_mid",
+   "name_de": "R3_PinEnds_ThumbMid_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_thumb_tip",
+   "name_de": "R3_PinEnds_ThumbTip_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_thumb_tip",
+   "name_de": "R3_PinEnds_ThumbTip_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_pin_ends_thumb",
+   "name_de": "R3_PinEnds_Thumb_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_pin_ends_thumb",
+   "name_de": "R3_PinEnds_Thumb_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_thenar_pad",
+   "name_de": "R3_ThenarPad_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_thenar_pad",
+   "name_de": "R3_ThenarPad_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_thumb_socket_cap",
+   "name_de": "R3_ThumbSocketCap_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_thumb_socket_cap",
+   "name_de": "R3_ThumbSocketCap_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_thumb_socket",
+   "name_de": "R3_ThumbSocket_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_thumb_socket",
+   "name_de": "R3_ThumbSocket_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_wrist_boltminus1",
+   "name_de": "R3_WristBolt-1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_wrist_boltminus1",
+   "name_de": "R3_WristBolt-1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_wrist_bolt1",
+   "name_de": "R3_WristBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_wrist_bolt1",
+   "name_de": "R3_WristBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_wrist_gaiter",
+   "name_de": "R3_WristGaiter_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_wrist_gaiter",
+   "name_de": "R3_WristGaiter_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_wrist_holderminus1",
+   "name_de": "R3_WristHolder-1_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_wrist_holderminus1",
+   "name_de": "R3_WristHolder-1_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_wrist_holder1",
+   "name_de": "R3_WristHolder1_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_wrist_holder1",
+   "name_de": "R3_WristHolder1_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_r3_wrist_saddle",
+   "name_de": "R3_WristSaddle_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_r3_wrist_saddle",
+   "name_de": "R3_WristSaddle_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_r4_chin_inner_seal",
+   "name_de": "R4_ChinInnerSeal",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_r4_toe_bumper",
+   "name_de": "R4_ToeBumper_L",
+   "role": "rubber"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_r4_toe_bumper",
+   "name_de": "R4_ToeBumper_R",
+   "role": "rubber"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_r4_visor_cyan",
+   "name_de": "R4_VisorCyan",
+   "role": "energy"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_r5_sensor_inner_bezel",
+   "name_de": "R5_SensorInnerBezel",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_r5_sensor_light_ring",
+   "name_de": "R5_SensorLightRing",
+   "role": "energy"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_r5_sensor_outer_bezel",
+   "name_de": "R5_SensorOuterBezel",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_r5_sensor_retainers",
+   "name_de": "R5_SensorRetainers",
+   "role": "metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger1",
+   "name_de": "RefArmor_Finger1_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger1",
+   "name_de": "RefArmor_Finger1_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger2",
+   "name_de": "RefArmor_Finger2_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger2",
+   "name_de": "RefArmor_Finger2_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger3",
+   "name_de": "RefArmor_Finger3_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger3",
+   "name_de": "RefArmor_Finger3_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger4",
+   "name_de": "RefArmor_Finger4_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger4",
+   "name_de": "RefArmor_Finger4_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_mid1",
+   "name_de": "RefArmor_FingerMid1_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_mid1",
+   "name_de": "RefArmor_FingerMid1_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_mid2",
+   "name_de": "RefArmor_FingerMid2_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_mid2",
+   "name_de": "RefArmor_FingerMid2_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_mid3",
+   "name_de": "RefArmor_FingerMid3_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_mid3",
+   "name_de": "RefArmor_FingerMid3_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_mid4",
+   "name_de": "RefArmor_FingerMid4_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_mid4",
+   "name_de": "RefArmor_FingerMid4_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_tip1",
+   "name_de": "RefArmor_FingerTip1_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_tip1",
+   "name_de": "RefArmor_FingerTip1_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_tip2",
+   "name_de": "RefArmor_FingerTip2_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_tip2",
+   "name_de": "RefArmor_FingerTip2_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_tip3",
+   "name_de": "RefArmor_FingerTip3_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_tip3",
+   "name_de": "RefArmor_FingerTip3_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_finger_tip4",
+   "name_de": "RefArmor_FingerTip4_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_finger_tip4",
+   "name_de": "RefArmor_FingerTip4_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_thumb_mid",
+   "name_de": "RefArmor_ThumbMid_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_thumb_mid",
+   "name_de": "RefArmor_ThumbMid_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_thumb_tip",
+   "name_de": "RefArmor_ThumbTip_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_thumb_tip",
+   "name_de": "RefArmor_ThumbTip_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_armor_thumb",
+   "name_de": "RefArmor_Thumb_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_armor_thumb",
+   "name_de": "RefArmor_Thumb_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_ref_back_mount1",
+   "name_de": "RefBackMount1_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_ref_back_mount1",
+   "name_de": "RefBackMount1_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_ref_back_mount2",
+   "name_de": "RefBackMount2_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_ref_back_mount2",
+   "name_de": "RefBackMount2_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_ref_back_mount_screw1",
+   "name_de": "RefBackMountScrew1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_ref_back_mount_screw1",
+   "name_de": "RefBackMountScrew1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_ref_back_mount_screw2",
+   "name_de": "RefBackMountScrew2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_ref_back_mount_screw2",
+   "name_de": "RefBackMountScrew2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_ref_back_panel1",
+   "name_de": "RefBackPanel1_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_ref_back_panel1",
+   "name_de": "RefBackPanel1_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_L_ref_back_panel2",
+   "name_de": "RefBackPanel2_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_R_ref_back_panel2",
+   "name_de": "RefBackPanel2_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_finger1",
+   "name_de": "RefPin_finger1_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_finger1",
+   "name_de": "RefPin_finger1_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_finger2",
+   "name_de": "RefPin_finger2_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_finger2",
+   "name_de": "RefPin_finger2_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_finger3",
+   "name_de": "RefPin_finger3_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_finger3",
+   "name_de": "RefPin_finger3_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_finger4",
+   "name_de": "RefPin_finger4_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_finger4",
+   "name_de": "RefPin_finger4_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingermid1",
+   "name_de": "RefPin_fingermid1_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingermid1",
+   "name_de": "RefPin_fingermid1_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingermid2",
+   "name_de": "RefPin_fingermid2_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingermid2",
+   "name_de": "RefPin_fingermid2_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingermid3",
+   "name_de": "RefPin_fingermid3_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingermid3",
+   "name_de": "RefPin_fingermid3_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingermid4",
+   "name_de": "RefPin_fingermid4_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingermid4",
+   "name_de": "RefPin_fingermid4_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingertip1",
+   "name_de": "RefPin_fingertip1_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingertip1",
+   "name_de": "RefPin_fingertip1_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingertip2",
+   "name_de": "RefPin_fingertip2_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingertip2",
+   "name_de": "RefPin_fingertip2_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingertip3",
+   "name_de": "RefPin_fingertip3_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingertip3",
+   "name_de": "RefPin_fingertip3_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_fingertip4",
+   "name_de": "RefPin_fingertip4_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_fingertip4",
+   "name_de": "RefPin_fingertip4_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_thumb",
+   "name_de": "RefPin_thumb_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_thumb",
+   "name_de": "RefPin_thumb_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_thumbmid",
+   "name_de": "RefPin_thumbmid_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_thumbmid",
+   "name_de": "RefPin_thumbmid_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_ref_pin_thumbtip",
+   "name_de": "RefPin_thumbtip_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_ref_pin_thumbtip",
+   "name_de": "RefPin_thumbtip_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_rib_plate",
+   "name_de": "RibPlate",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_rib_stripe",
+   "name_de": "RibStripe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_seat",
+   "name_de": "Seat",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_sensor",
+   "name_de": "Sensor",
+   "role": "glass"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_sensor_bezel",
+   "name_de": "SensorBezel",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_sensor_housing",
+   "name_de": "SensorHousing",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_bolt1",
+   "name_de": "ShinBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_bolt1",
+   "name_de": "ShinBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_bolt2",
+   "name_de": "ShinBolt2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_bolt2",
+   "name_de": "ShinBolt2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_chevron",
+   "name_de": "ShinChevron_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_chevron",
+   "name_de": "ShinChevron_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin",
+   "name_de": "Shin_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin",
+   "name_de": "Shin_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_L_shoulder_block_core",
+   "name_de": "ShoulderBlockCore_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_R_shoulder_block_core",
+   "name_de": "ShoulderBlockCore_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_L_shoulder_block_lower",
+   "name_de": "ShoulderBlockLower_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_R_shoulder_block_lower",
+   "name_de": "ShoulderBlockLower_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_L_shoulder_block",
+   "name_de": "ShoulderBlock_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_R_shoulder_block",
+   "name_de": "ShoulderBlock_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_L_shoulder_bolt1",
+   "name_de": "ShoulderBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_R_shoulder_bolt1",
+   "name_de": "ShoulderBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_L_shoulder_bolt2",
+   "name_de": "ShoulderBolt2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "torso_R_shoulder_bolt2",
+   "name_de": "ShoulderBolt2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_joint",
+   "name_de": "ShoulderJoint_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_joint",
+   "name_de": "ShoulderJoint_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bcap",
+   "name_de": "ShoulderMed_L_BCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bdisc",
+   "name_de": "ShoulderMed_L_BDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bhub",
+   "name_de": "ShoulderMed_L_BHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bhub_bolt1",
+   "name_de": "ShoulderMed_L_BHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bhub_bolt2",
+   "name_de": "ShoulderMed_L_BHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bhub_bolt3",
+   "name_de": "ShoulderMed_L_BHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bhub_bolt4",
+   "name_de": "ShoulderMed_L_BHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_brecess",
+   "name_de": "ShoulderMed_L_BRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_bring",
+   "name_de": "ShoulderMed_L_BRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fcap",
+   "name_de": "ShoulderMed_L_FCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fdisc",
+   "name_de": "ShoulderMed_L_FDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fhub",
+   "name_de": "ShoulderMed_L_FHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fhub_bolt1",
+   "name_de": "ShoulderMed_L_FHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fhub_bolt2",
+   "name_de": "ShoulderMed_L_FHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fhub_bolt3",
+   "name_de": "ShoulderMed_L_FHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fhub_bolt4",
+   "name_de": "ShoulderMed_L_FHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_frecess",
+   "name_de": "ShoulderMed_L_FRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_med_fring",
+   "name_de": "ShoulderMed_L_FRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bcap",
+   "name_de": "ShoulderMed_R_BCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bdisc",
+   "name_de": "ShoulderMed_R_BDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bhub",
+   "name_de": "ShoulderMed_R_BHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bhub_bolt1",
+   "name_de": "ShoulderMed_R_BHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bhub_bolt2",
+   "name_de": "ShoulderMed_R_BHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bhub_bolt3",
+   "name_de": "ShoulderMed_R_BHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bhub_bolt4",
+   "name_de": "ShoulderMed_R_BHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_brecess",
+   "name_de": "ShoulderMed_R_BRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_bring",
+   "name_de": "ShoulderMed_R_BRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fcap",
+   "name_de": "ShoulderMed_R_FCap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fdisc",
+   "name_de": "ShoulderMed_R_FDisc",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fhub",
+   "name_de": "ShoulderMed_R_FHub",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fhub_bolt1",
+   "name_de": "ShoulderMed_R_FHubBolt1",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fhub_bolt2",
+   "name_de": "ShoulderMed_R_FHubBolt2",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fhub_bolt3",
+   "name_de": "ShoulderMed_R_FHubBolt3",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fhub_bolt4",
+   "name_de": "ShoulderMed_R_FHubBolt4",
+   "role": "metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_frecess",
+   "name_de": "ShoulderMed_R_FRecess",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_med_fring",
+   "name_de": "ShoulderMed_R_FRing",
+   "role": "metal"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_spine_ring1",
+   "name_de": "SpineRing1",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_spine_ring2",
+   "name_de": "SpineRing2",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_spine_ring3",
+   "name_de": "SpineRing3",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_bolt1",
+   "name_de": "ThighBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_bolt1",
+   "name_de": "ThighBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_bolt2",
+   "name_de": "ThighBolt2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_bolt2",
+   "name_de": "ThighBolt2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_bolt3",
+   "name_de": "ThighBolt3_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_bolt3",
+   "name_de": "ThighBolt3_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_bolt4",
+   "name_de": "ThighBolt4_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_bolt4",
+   "name_de": "ThighBolt4_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_core",
+   "name_de": "ThighCore_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_core",
+   "name_de": "ThighCore_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_hatch_bolt1",
+   "name_de": "ThighHatchBolt1_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_hatch_bolt1",
+   "name_de": "ThighHatchBolt1_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_hatch_bolt2",
+   "name_de": "ThighHatchBolt2_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_hatch_bolt2",
+   "name_de": "ThighHatchBolt2_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_plate",
+   "name_de": "ThighPlate_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_plate",
+   "name_de": "ThighPlate_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_trim",
+   "name_de": "ThighTrim_L",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_trim",
+   "name_de": "ThighTrim_R",
+   "role": "metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh",
+   "name_de": "Thigh_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh",
+   "name_de": "Thigh_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_thumb_mid",
+   "name_de": "ThumbMid_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_thumb_mid",
+   "name_de": "ThumbMid_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_thumb_tip",
+   "name_de": "ThumbTip_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_thumb_tip",
+   "name_de": "ThumbTip_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_thumb",
+   "name_de": "Thumb_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_thumb",
+   "name_de": "Thumb_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_toe_seam",
+   "name_de": "ToeSeam_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_toe_seam",
+   "name_de": "ToeSeam_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_torso_core",
+   "name_de": "TorsoCore",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_arm_core",
+   "name_de": "UpperArmCore_L",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_arm_core",
+   "name_de": "UpperArmCore_R",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_arm",
+   "name_de": "UpperArm_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_arm",
+   "name_de": "UpperArm_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_visor",
+   "name_de": "Visor",
+   "role": "graphite"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_visor_frame",
+   "name_de": "VisorFrame",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_waist",
+   "name_de": "Waist",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_wrist_cuff",
+   "name_de": "WristCuff_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_wrist_cuff",
+   "name_de": "WristCuff_R",
+   "role": "shell"
+  }
+ ],
+ "provenance": {
+  "kind": "gemessen",
+  "source": "robot_v2.blend SHA256 67a350c19aec60241c86d0b2b0937469960d06c52422275844dcb8a24400d578; headless Weltgeometrie, Frame 1, Blender 5.2.2"
+ },
+ "skin": "feldoliv",
+ "skin_de": "Feld-Oliv",
+ "sockets": [
+  "Socket_Ankle_L",
+  "Socket_Ankle_R",
+  "Socket_Elbow_L",
+  "Socket_Elbow_R",
+  "Socket_Hand",
+  "Socket_Hip_L",
+  "Socket_Hip_R",
+  "Socket_Knee_L",
+  "Socket_Knee_R",
+  "Socket_Neck",
+  "Socket_Shoulder_L",
+  "Socket_Shoulder_R",
+  "Socket_Waist",
+  "Socket_Wrist_L",
+  "Socket_Wrist_R"
+ ],
+ "triangles": 264549,
+ "type": {
+  "name_de": "RoboterBasic-02",
+  "num": 2
+ },
+ "version": 1,
+ "warnings": []
+}

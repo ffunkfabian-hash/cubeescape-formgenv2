@@ -41,7 +41,7 @@
    const sheet=pick('[data-sheet]');sheet.href='sheets/'+entry.id+'.dc.html';sheet.hidden=false;
    const same=items.filter(i=>i.kind===entry.kind&&i.has_3d),at=same.findIndex(i=>i.id===entry.id);
    for(const [selector,other] of [['[data-prev]',same[at-1]],['[data-next]',same[at+1]]]){
-     if(other){const a=pick(selector);a.href='3d.html?id='+encodeURIComponent(other.id);a.hidden=false}
+     if(other){const a=pick(selector),skin=query.get('skin');a.href='3d.html?id='+encodeURIComponent(other.id)+(skin?'&skin='+encodeURIComponent(skin):'');a.hidden=false}   // Skin bleibt beim Blättern
    }
  }
  function chooser(meshes,model,group){
@@ -55,10 +55,49 @@
    select.replaceChildren(new Option('Gesamtmodell','all'),...(families.length?[level('Baugruppen',families.map(f=>[f.id,f.de])),level('Einzelteile',rows)]:rows.map(([g,label])=>new Option(label,g))));
    select.value=group;pick('[data-view]').hidden=false;
    select.onchange=()=>{
-     const next=new URLSearchParams({id:model.id});
-     if(select.value!=='all')next.set('baugruppe',select.value);
+     const next=new URLSearchParams(location.search);next.set('id',model.id);        // bleibt: gewählter Skin
+     if(select.value!=='all')next.set('baugruppe',select.value);else next.delete('baugruppe');
      location.search=next.toString();
    };
+ }
+ // Farbskin wechseln: Materialien heißen wie ihre Rolle (Roboter `shell`, Waffen `MT_shell_color`); nur reine Farbskins, Textur-Skins fehlen im Katalog.
+ function skinSwitch(root,entry,render){
+   const list=(window.formgenCatalog.skins||{})[entry.kind]||[];
+   if(!list.length)return;
+   const label=pick('[data-skin]'),select=pick('[data-skin-select]');
+   const role=m=>m.name.replace(/^MT_/,'').replace(/_color$/,'');
+   const baseOf=m=>({color:m.color.clone(),emissive:m.emissive?m.emissive.clone():null});
+   const seen=new Map(),byRole=new Map();      // Originale beim Start; Klone des Pinsels (markierung.js) kommen beim nächsten Wechsel dazu und erben die Ursprungsfarbe ihrer Rolle
+   const collect=initial=>root.traverse(o=>{if(o.isMesh)for(const m of [].concat(o.material))if(!seen.has(m.uuid)){
+     const entry={m,base:initial?baseOf(m):null};seen.set(m.uuid,entry);
+     if(initial&&!byRole.has(role(m)))byRole.set(role(m),entry.base)}});
+   collect(true);
+   const own=list.find(s=>s.id===entry.skin_id);
+   select.replaceChildren(new Option('Original'+(own?' ('+own.de+')':''),''),...list.map(s=>new Option(s.de,s.id)));
+   function apply(id){
+     const skin=list.find(s=>s.id===id);
+     collect(false);
+     for(const {m,base} of seen.values()){
+       const hex=skin&&skin.roles[role(m)],origin=base||byRole.get(role(m));
+       if(hex){
+         m.color.set(hex);
+         if(origin.emissive&&origin.emissive.getHex()!==0){      // Leuchtstärke des Originals behalten, nur der Farbton wechselt
+           const peak=Math.max(origin.emissive.r,origin.emissive.g,origin.emissive.b)/Math.max(origin.color.r,origin.color.g,origin.color.b,1e-6);
+           m.emissive.copy(m.color).multiplyScalar(peak);
+         }
+       }else{m.color.copy(origin.color);if(origin.emissive)m.emissive.copy(origin.emissive)}
+     }
+     render();
+   }
+   select.onchange=()=>{
+     const next=new URLSearchParams(location.search);
+     if(select.value)next.set('skin',select.value);else next.delete('skin');
+     history.replaceState(null,'','?'+next.toString());
+     apply(select.value);
+   };
+   const first=query.get('skin');
+   if(first&&list.some(s=>s.id===first)){select.value=first;apply(first)}
+   label.hidden=false;
  }
  async function show(entry,model){
    const {scene:root,parser}=await new GLTFLoader().parseAsync(bytes(model.glb).buffer,'');
@@ -108,6 +147,7 @@
    resize();reset();new ResizeObserver(resize).observe(stage);
    const button=pick('[data-reset]');button.disabled=false;button.onclick=reset;
    chooser(meshes,model,group);
+   skinSwitch(root,entry,render);
    window.formgenEnableAnnotation({T,stage,canvas,meshes,group,camera,controls,radius,render,
      model:{...model,kind:entry.kind,name:entry.name}});
  }

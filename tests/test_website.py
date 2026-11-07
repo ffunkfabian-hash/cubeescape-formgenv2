@@ -97,6 +97,38 @@ class PagesTests(Fixture):
         self.assertIn('Kopf', text)
         self.assertIn('3d.html?id=RA01&amp;baugruppe=torso', text)
 
+    def test_robot_page_filters_lines_and_shows_skin_colors(self):
+        sheet(self.out, 'RC01', robot(id='RC01', line='signal', skin='signal', skin_de='Signal', line_info={'letter': 'C', 'name': 'Signal'}))
+        sheet(self.out, 'RA01', robot(line_info={'letter': 'A', 'name': 'Basic'}, skin='weiss_graphit', skin_de='Weiß-Graphit'))
+        viewer.build(self.out, self.cache)
+        text = self.page('roboter.html')
+        self.assertLess(text.index('Linie Basic'), text.index('Linie Signal'))      # nach Kennbuchstabe, nicht nach Name
+        self.assertIn('<option value="C">C · Signal</option>', text)
+        self.assertIn('data-variant="C"', text)
+        self.assertIn('class="swatches"', text)
+        self.assertIn('background:#D8601F', text)         # Schale von Signal
+
+    def test_weapon_cards_show_the_skin_colors_of_their_variant(self):
+        sheet(self.out, 'BA01', {**weapon('BA01', 'A', 'Baseline'), 'variant': {'letter': 'A', 'name': 'Baseline', 'skin': 'polar'}})
+        sheet(self.out, 'BB01', {**weapon('BB01', 'B', 'Long Reach'), 'variant': {'letter': 'B', 'name': 'Long Reach', 'skin': 'tarnung'}}, glb=False)
+        viewer.build(self.out, self.cache)
+        text = self.page('waffen.html')
+        self.assertIn('background:#E8EBEE', text)                 # Schale von Polar
+        self.assertEqual(text.count('class="swatches"'), 1)      # Tarnung ist eine Textur, kein Farbpunkt
+
+    def test_catalog_carries_color_skins_for_the_3d_page(self):
+        viewer.build(self.out, self.cache)
+        data = json.loads(self.page('web/catalog.js').removeprefix('window.formgenCatalog=').removesuffix(';\n'))
+        robot_ids = {s['id'] for s in data['skins']['robot']}
+        weapon_ids = {s['id'] for s in data['skins']['weapon']}
+        self.assertLessEqual({'weiss_graphit', 'nachtwache', 'signal', 'feldoliv', 'kobaltblau'}, robot_ids)
+        self.assertTrue(robot_ids.isdisjoint(weapon_ids))
+        self.assertNotIn('tarnung', weapon_ids)           # Textur-Skins sind keine reine Farbe
+        for skin in data['skins']['robot'] + data['skins']['weapon']:
+            self.assertTrue(all(re.fullmatch(r'#[0-9A-Fa-f]{6}', hex_) for hex_ in skin['roles'].values()), skin['id'])
+            self.assertIn('shell', skin['roles'])
+        self.assertIn('data-skin-select', self.page('3d.html'))
+
     def test_sheets_without_known_format_stay_out(self):
         self.assertEqual([i['id'] for i in viewer.items(self.out)], ['BA01', 'BB01', 'RA01'])
         viewer.build(self.out, self.cache)

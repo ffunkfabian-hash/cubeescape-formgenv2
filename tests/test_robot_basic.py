@@ -3,6 +3,7 @@ import json
 import re
 import struct
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -202,8 +203,8 @@ class KeyTest(unittest.TestCase):
 
 
 class LinesTest(unittest.TestCase):
-    def test_register_has_both_basic_types_of_line_a(self):
-        self.assertEqual(list(lines.sheets()), ['RA01', 'RA02'])
+    def test_register_has_five_lines_of_both_basic_types(self):
+        self.assertEqual(list(lines.sheets()), [f'R{line}{num:02d}' for line in 'ABCDE' for num in (1, 2)])
         e = lines.sheets()['RA01']
         self.assertEqual((e['skin'], e['type']['name_de'], e['line']['name']), ('weiss_graphit', 'RoboterBasic-01', 'Basic'))
         e = lines.sheets()['RA02']
@@ -213,12 +214,43 @@ class LinesTest(unittest.TestCase):
         reg = lines.load()
         before = lines.sheets(reg)
         more = dict(types=reg['types'] + [dict(num=3, name_de='RoboterBasic-03', module='formgen.models.robot.roboterbasic_02', since='0.12')],
-                    lines=[dict(reg['lines'][0], types=[1, 2, 3])])
+                    lines=[dict(reg['lines'][0], types=[1, 2, 3])] + reg['lines'][1:])
         sheets = lines.sheets(lines.validate(more['types'], more['lines']))
-        self.assertEqual(list(sheets), ['RA01', 'RA02', 'RA03'])
+        self.assertEqual(set(sheets), set(before) | {'RA03'})
+        self.assertEqual(list(sheets)[:3], ['RA01', 'RA02', 'RA03'])      # Reihenfolge: Linie, dann Typ
         for sid in before:
             self.assertEqual(sheets[sid], before[sid])
             self.assertEqual(pipeline.source_hash(sheets[sid]), pipeline.source_hash(before[sid]))
+
+    def test_every_line_is_a_complete_robot_livery_and_changes_only_known_parameters(self):
+        """0.12: Linien B–E sind Farblinien; ihr Skin deckt alle Rollen von weiss_graphit, Parameter dürfen nur vorhandene Schlüssel setzen."""
+        skins = tomllib.loads((ROOT / 'skins.toml').read_text())['skins']
+        base_roles = set(skins['weiss_graphit']['roles'])
+        reg = lines.load()
+        for line in reg['lines']:
+            skin = skins[line['skin']]
+            self.assertTrue(skin.get('robot'), line['letter'])
+            self.assertEqual(skin['kind'], 'Farbe')
+            self.assertEqual(set(skin['roles']), base_roles, line['letter'])
+            self.assertEqual(set(skin['finish']), set(skins['weiss_graphit']['finish']), line['letter'])
+        self.assertEqual(len({line['skin'] for line in reg['lines']}), len(reg['lines']), 'jede Linie hat ihren eigenen Skin')
+        for sid, entry in lines.sheets(reg).items():
+            module = lines.module_of(entry)
+            lines.merge(module.PARAMS, entry['params'])      # unbekannter Schlüssel wirft
+
+    def test_list_prints_the_register_and_builds_nothing(self):
+        import contextlib
+        import io
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), mock.patch.object(pipeline, 'run', side_effect=AssertionError('--list darf nichts bauen')):
+            self.assertEqual(pipeline.main(['--list']), 0)
+        rows = buf.getvalue().strip().splitlines()
+        self.assertEqual([r.split()[0] for r in rows], list(lines.sheets()))
+        self.assertIn('"arm_bulk": 1.42', next(r for r in rows if r.startswith('RC01')))
+
+    def test_liveries_stay_out_of_the_weapon_skin_list(self):
+        for skin in ('nachtwache', 'signal', 'feldoliv', 'kobaltblau'):
+            self.assertNotIn(skin, variants._skins())
 
     def test_rules(self):
         types = [dict(num=1, name_de='x', module='formgen.models.robot.x', since='0.9')]
