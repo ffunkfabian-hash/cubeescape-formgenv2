@@ -62,7 +62,7 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 452.9,
+  "depth": 471.5,
   "height": 1655.6,
   "width": 1471.8
  },
@@ -121,7 +121,7 @@
  "kind": "robot",
  "line": "field olive",
  "line_info": {
-  "idea": "Matter Feldeinsatz in Oliv mit schlankeren Armen",
+  "idea": "Matter Feldeinsatz in Oliv: schlanke Arme und Beine, schmale Schulter, dafür das große Feldgepäck",
   "letter": "D",
   "name": "Field Olive",
   "since": "0.12"
@@ -2756,7 +2756,7 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 286881,
+ "triangles": 286521,
  "type": {
   "name_de": "RoboterBasic-01",
   "num": 1

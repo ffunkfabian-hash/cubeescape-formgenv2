@@ -62,7 +62,7 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 452.9,
+  "depth": 468.3,
   "height": 1655.6,
   "width": 1471.8
  },
@@ -121,7 +121,7 @@
  "kind": "robot",
  "line": "signal",
  "line_info": {
-  "idea": "Warnorange Arbeitsroboter mit kräftigeren Armen",
+  "idea": "Warnorange Arbeitsroboter, schwer gebaut: kräftige Arme, breite Schulter, starke Beine, großes Rückenmodul",
   "letter": "C",
   "name": "Signal",
   "since": "0.12"
@@ -2756,7 +2756,7 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 286881,
+ "triangles": 283901,
  "type": {
   "name_de": "RoboterBasic-01",
   "num": 1

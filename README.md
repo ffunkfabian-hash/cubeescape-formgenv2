@@ -1,6 +1,6 @@
-# Formgen v2 · Livery
+# Formgen v2 · Gantry
 
-0.12 – **Roboterlinien B–E und Skinwechsel in der 3D-Ansicht** ([Bericht](docs/versions/0.12.md)). 0.11 – **RoboterBasic-02 als `RA02` neben RoboterBasic-01** ([Bericht](docs/versions/0.11.md)). 0.10 – **RoboterBasic-01 mit Fasen, Weiß-Graphit am AAA-Licht gemessen** ([Bericht](docs/versions/0.10.md)). Seit 0.9 **Waffen und Roboter auf einer Website mit 3D und Markierung.** Einstieg `out/index.html`, offline per `file://` ([Website](docs/website.md)). Heute zwei Basic-Roboter, RoboterBasic-01 (`RA01`) und RoboterBasic-02 (`RA02`), fest in diesem Repo, ohne Verbindung zu Critic ([Roboter](docs/robot.md)).
+0.13 – **Bauteilproportionen der Roboterlinien B–E** ([Bericht](docs/versions/0.13.md)). 0.12 – **Roboterlinien B–E und Skinwechsel in der 3D-Ansicht** ([Bericht](docs/versions/0.12.md)). 0.11 – **RoboterBasic-02 als `RA02` neben RoboterBasic-01** ([Bericht](docs/versions/0.11.md)). 0.10 – **RoboterBasic-01 mit Fasen, Weiß-Graphit am AAA-Licht gemessen** ([Bericht](docs/versions/0.10.md)). Seit 0.9 **Waffen und Roboter auf einer Website mit 3D und Markierung.** Einstieg `out/index.html`, offline per `file://` ([Website](docs/website.md)). Heute zwei Basic-Roboter, RoboterBasic-01 (`RA01`) und RoboterBasic-02 (`RA02`), fest in diesem Repo, ohne Verbindung zu Critic ([Roboter](docs/robot.md)).
 
 **Varianten der echten BALLON-Spielwaffen, jetzt mit Design-Serien.** Zwölf Linien × 17 Typen = 204 Konzeptblätter auf dem neuesten
 BALLON-Spielpiloten je Typ (BASIC-16/17 ohne Piloten: Formstudie, im Blatt gekennzeichnet): acht Parameterlinien aus BALLON-Bausteinen (Visier v3,

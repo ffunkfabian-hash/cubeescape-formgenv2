@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.0 Gantry — Bauteilproportionen der Roboterlinien
+
+- Roboter: `PARAMS['proportion']` mit vier Faktoren (Schulter, Rumpf, Beine, Rückenmodul) für beide Basic-Typen; Linien B–E setzen sie im Register, dazu `arm_bulk`. Die acht Linienblätter weichen in der kleinsten Ansicht 0,86–0,96 (IoU) von A ab und untereinander 0,81–0,93 ([Roboter](docs/robot.md#proportionen-013)). Standard 1,0 ändert nichts, A und die Abnahme von RA01 bleiben.
+- RA02: Fehler behoben, bei dem jede Profiländerung Konstruktorteile ohne gemessenes Gegenstück anhängte (30 bei den Beinen, ein Teil bei −9922 mm); neue Teile entstehen nur noch für Merkmale, die der Standard nicht kennt.
+- Neu: `python -m formgen.robot.variety` misst die Vielfalt der Roboterlinien (Silhouetten-IoU in drei Ansichten).
+- [Bericht](docs/versions/0.13.md)
+
 ## 0.12.0 Livery — Roboterlinien B–E, Skinwechsel in der 3D-Ansicht
 
 - Roboter: vier neue Linien Night Watch (B), Signal (C), Field Olive (D), Cobalt Line (E) für beide Basic-Typen, zusammen zehn Blätter `RA01`–`RE02`. Eigener Skin je Linie (`nachtwache`, `signal`, `feldoliv`, `kobaltblau`, nur Farben, `robot = true`), C und D ändern zusätzlich den Armquerschnitt (`arm_bulk`). `python -m formgen.robot --list` zeigt das Register ([Roboter](docs/robot.md#linien-und-liveries-012)).

@@ -62,7 +62,7 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 452.9,
+  "depth": 443.6,
   "height": 1655.6,
   "width": 1471.8
  },
@@ -121,7 +121,7 @@
  "kind": "robot",
  "line": "cobalt line",
  "line_info": {
-  "idea": "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Form unverändert",
+  "idea": "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Läuferbau: Panzerschulter über schlanken Beinen, flaches Rückenmodul",
   "letter": "E",
   "name": "Cobalt Line",
   "since": "0.12"
@@ -2756,7 +2756,7 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 286881,
+ "triangles": 284357,
  "type": {
   "name_de": "RoboterBasic-01",
   "num": 1

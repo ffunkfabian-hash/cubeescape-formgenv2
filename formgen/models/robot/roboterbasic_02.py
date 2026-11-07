@@ -16,7 +16,7 @@ from types import SimpleNamespace
 
 import numpy as np
 
-from formgen.models.robot import arm, body, rig
+from formgen.models.robot import arm, body, proportion, rig
 from formgen.models.robot import roboterbasic_02_parameters as profiles
 
 SOURCE = 'robot_v2.blend SHA256 67a350c19aec60241c86d0b2b0937469960d06c52422275844dcb8a24400d578; headless Weltgeometrie, Frame 1, Blender 5.2.2'
@@ -71,6 +71,7 @@ REFERENCE_PARAMS = dict(
         toes={s:_point('foot_'+s, 'tail')[:2].tolist() for s in 'RL'},
         knee_pole={s:(_point('shin_'+s)-(_point('thigh_'+s)+_point('foot_'+s))/2).tolist() for s in 'RL'}),
     arm_bulk=1.0,
+    proportion=dict(proportion.NEUTRAL),     # 0.13: Faktoren auf Schulter-, Rumpf-, Bein- und Rückenprofile, 1,0 = gemessen (proportion.py)
     pose=dict(upper=((_point('upperarm_L','tail')-_point('upperarm_L'))*[-1,1,1]).tolist(),
               fore=((_point('forearm_L','tail')-_point('forearm_L'))*[-1,1,1]).tolist(),
               fingers='relaxed', shoulder_open=0, origin='gemessen'),
@@ -260,6 +261,7 @@ def _transform(params, row, frames):
 
 
 def parts(params=PARAMS):
+    params=proportion.apply(params)
     frames=_frames(params);out=[]
     for row in profiles.templates(params,PARAMS,_TEMPLATES,_BASE_FRAMES):
         shape={k:row[k] for k in ('shape','points','vertices','faces','rings','cuts','items') if k in row}
