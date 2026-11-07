@@ -474,8 +474,12 @@ def templates(params, defaults, rows, base_frames):
     keys = ('upper_arm', 'torso', 'pelvis', 'legs', 'arm_drop', 'forearm', 'hand', 'replace')
     if all(_same(params[k], defaults[k]) for k in keys):
         return rows
+    plan, replaced = None, []
     if params['replace']:
-        raise NotImplementedError('Ersatzmodus je Einzelteil (params.replace): folgt in 0.14')
+        # 0.14 Ersatzmodus: erst die gemessenen Teile der Einzelteile in params['replace'] gegen eingepasste Konstruktorteile tauschen
+        # (roboterbasic_02_replace); die übrigen Teile gehen danach unverändert den Feldweg unten (Varianten, Proportionen).
+        from . import roboterbasic_02_replace as replacement
+        rows, replaced, plan = replacement.build(params, defaults, rows, base_frames)
     rows = associate(rows)
     before, after = _canonical(defaults), _canonical(params)
     bounds = measurements(rows, base_frames)
@@ -524,6 +528,8 @@ def templates(params, defaults, rows, base_frames):
     # nearest sibling in the SAME constructor family and anatomical segment.
     for key, new in after.items():
         if key in assigned or key in before:      # nur Merkmale, die der Standard nicht kennt; ein Konstruktorteil ohne gemessenes Gegenstück (shin_core, brief) ist kein Merkmal
+            continue
+        if plan is not None and plan.owner(key) in plan.replace:      # Ersatzmodus baut das Merkmal schon mit seinem Einzelteil
             continue
         family, pid = key
         _, label, segment, _, role, _ = new
@@ -586,4 +592,4 @@ def templates(params, defaults, rows, base_frames):
                 # body.upper_arm replacement profiles have their own dimensions.
                 part['apply_arm_bulk'] = True
             out.append(part)
-    return out
+    return out + replaced

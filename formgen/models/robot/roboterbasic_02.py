@@ -17,6 +17,7 @@ import numpy as np
 
 from formgen.models.robot import arm, body, catalog, helmet, proportion, rig
 from formgen.models.robot import roboterbasic_02_parameters as profiles
+from formgen.models.robot import roboterbasic_02_replace as replacement
 
 SOURCE = 'robot_v2.blend SHA256 67a350c19aec60241c86d0b2b0937469960d06c52422275844dcb8a24400d578; headless Weltgeometrie, Frame 1, Blender 5.2.2'
 HEIGHT = 1848.919751
@@ -267,8 +268,9 @@ def parts(params=PARAMS):
     for row in profiles.templates(params,PARAMS,_TEMPLATES,_BASE_FRAMES):
         shape={k:row[k] for k in ('shape','points','vertices','faces','rings','cuts','items') if k in row}
         p=_map_shape(shape,_transform(params,row,frames))
-        p.update(id=row['id'],assembly=_assembly(row),role=row['role'],label=row['source_object'],
-                 source_object=row['source_object'],segment=row['bone'],bevel=0,
+        # Gemessene Teile tragen weder label noch bevel (Fasen stecken im Netz); Ersatzteile (0.14) bringen beides aus dem Konstruktor.
+        p.update(id=row['id'],assembly=_assembly(row),role=row['role'],label=row.get('label',row['source_object']),
+                 source_object=row['source_object'],segment=row['bone'],bevel=row.get('bevel',0),
                  provenance=deepcopy(row.get('provenance',dict(kind='gemessen',source=SOURCE))))
         if row['assembly']=='arms' or row.get('mount_frame'):
             p['transform_provenance']=dict(kind='Annahme',source=f'Nutzerkorrektur: Schultern naeher zur Brust, Default je{SHOULDER_INSET:g}mm innen; Gelenk-/Armkette folgt dem Kontrollskelett.')
@@ -286,6 +288,8 @@ def parts(params=PARAMS):
 
 
 def anchors(params=PARAMS):
+    params=catalog.apply(params,num=2,measured=True)     # 0.14: document() reicht unangewendete params; Grundform: dasselbe Objekt
+    swap=replacement.part_map(params,_TEMPLATES)        # Ersatzmodus: Ankerlage aus dem gemessenen Teil, Teil-ID des Ersatzteils
     frames=_frames(params)
     rows={p['source_object']:p for p in _TEMPLATES}
     choices=[('Neck','Neck','neck'),('Waist','Waist','spine')]
@@ -299,13 +303,15 @@ def anchors(params=PARAMS):
     result={}
     for name,obj,bone in choices:
         row=rows[obj];point=_transform(params,row,frames)(_point(bone))
-        result['Socket_'+name]=dict(at=_fux(point),part=row['id'],source=SOURCE)
+        result['Socket_'+name]=dict(at=_fux(point),part=swap.get(row['id'],row['id']),source=SOURCE)
     result['Socket_Hand']=deepcopy(result['Socket_Wrist_R'])
     return result
 
 
 def joints(params=PARAMS):
     """Limits are assumptions, degrees about author axes; no animation claim."""
+    params=catalog.apply(params,num=2,measured=True)
+    swap=replacement.part_map(params,_TEMPLATES)
     out=[]
     for name,anchor in anchors(params).items():
         if name=='Socket_Hand':continue
@@ -320,7 +326,7 @@ def joints(params=PARAMS):
     for bone in sorted({p['bone'] for p in _TEMPLATES}-covered):
         row=next(p for p in _TEMPLATES if p['bone']==bone)
         pivot=_fux(_transform(params,row,frames)(_point(bone)))
-        out.append(dict(bone=bone,part=row['id'],pivot=pivot,
+        out.append(dict(bone=bone,part=swap.get(row['id'],row['id']),pivot=pivot,
                         limits_deg=dict(f=[-30,30],u=[-30,30],x=[0,100]),
                         provenance=dict(kind='Annahme',source='Pivot gemessen laut SOURCE; Grenzen Entwurf, keine Bewegungsfreigabe')))
     return out
