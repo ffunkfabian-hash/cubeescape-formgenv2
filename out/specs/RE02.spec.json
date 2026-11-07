@@ -117,7 +117,7 @@
  "kind": "robot",
  "line": "cobalt line",
  "line_info": {
-  "idea": "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Form unverändert",
+  "idea": "Kobaltblaue Schale mit hellem Zyan als Leuchtfarbe, Läuferbau: Panzerschulter über schlanken Beinen, flaches Rückenmodul",
   "letter": "E",
   "name": "Cobalt Line",
   "since": "0.12"
@@ -4028,7 +4028,7 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 264549,
+ "triangles": 263351,
  "type": {
   "name_de": "RoboterBasic-02",
   "num": 2

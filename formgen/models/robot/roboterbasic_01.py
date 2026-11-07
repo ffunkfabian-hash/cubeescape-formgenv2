@@ -15,7 +15,7 @@ from pathlib import Path
 
 import numpy as np
 
-from formgen.models.robot import arm, body, kit, rig
+from formgen.models.robot import arm, body, kit, proportion, rig
 
 SOURCE = 'BALLON 14bd78d basic/robot/studies/a_waechter.py, Nutzerziel RoboterBasic-01 (05.11.2026)'
 HELMET = Path(__file__).with_name('helmet_h80.json')
@@ -28,6 +28,7 @@ REFERENCE_PARAMS = dict(
                   ankles={'R': (-170, -70), 'L': (150, 12)}, toes={'R': (-236, -224), 'L': (190, -150)},
                   knee_pole={'R': (-0.3, -1, 0), 'L': (0.1, -1, 0)}),
     arm_bulk=1.30,                     # Querschnitt Ober-/Unterarm zusätzlich zu arm.ARM_BULK
+    proportion=dict(proportion.NEUTRAL),     # 0.13: Faktoren auf Schulter-, Rumpf-, Bein- und Rückenprofile, 1,0 = Vorgabe (proportion.py)
     arm_drop=('upper_body', 'upper_shell'),
     upper_arm=dict(rows=[(10, 62, 60, 0), (150, 70, 68, 2), (290, 56, 54, 0)], ball=60, shell=(-110, 110), ch=20),
     pose=dict(upper=(-0.24, 0.04, -1.0), fore=(-0.05, -0.32, -1.0), fingers='relaxed', shoulder_open=0, origin='Vorgabe'),
@@ -137,6 +138,7 @@ def _shoulder_frame(side, torso, joint_local, degrees):
 
 
 def parts(params=PARAMS):
+    params = proportion.apply(params)
     sk, frames = rig_of(params)
     head = body.head(params['head'])
     trunk = body.torso(params['torso']) + body.pelvis(params['pelvis']) + body.legs(params['legs'])

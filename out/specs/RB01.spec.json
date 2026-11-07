@@ -62,7 +62,7 @@
   }
  ],
  "dimensions_mm": {
-  "depth": 452.9,
+  "depth": 440.5,
   "height": 1655.6,
   "width": 1471.8
  },
@@ -121,7 +121,7 @@
  "kind": "robot",
  "line": "night watch",
  "line_info": {
-  "idea": "Dunkle Nachtstreife mit warmem Orange als Leuchtfarbe, Form unverändert",
+  "idea": "Dunkle Nachtstreife mit warmem Orange als Leuchtfarbe, schmal gebaut: kleine Schulter, schlanke Beine, kompaktes Rückenmodul",
   "letter": "B",
   "name": "Night Watch",
   "since": "0.12"
@@ -2756,7 +2756,7 @@
   "Socket_Wrist_L",
   "Socket_Wrist_R"
  ],
- "triangles": 286881,
+ "triangles": 285377,
  "type": {
   "name_de": "RoboterBasic-01",
   "num": 1
