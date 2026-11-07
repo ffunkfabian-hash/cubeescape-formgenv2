@@ -1,9 +1,10 @@
 # Roboter
 
-Zwei Basic-Typen im Register: RoboterBasic-01 (Blatt `RA01`, Grundform wie BA01 bei den Waffen, dieses Dokument) und RoboterBasic-02 (Blatt `RA02`, Abschnitt [RoboterBasic-02](#roboterbasic-02)). Weitere Typen und Linien sind im Aufbau vorgesehen.
+Zwei Basic-Typen im Register: RoboterBasic-01 (Blatt `RA01`, Grundform wie BA01 bei den Waffen, dieses Dokument) und RoboterBasic-02 (Blatt `RA02`, Abschnitt [RoboterBasic-02](#roboterbasic-02)). Seit 0.12 gibt es fünf Linien (A–E) mit beiden Typen, zusammen zehn Blätter, siehe [Linien](#linien-und-liveries-012).
 
 ```sh
 .venv/bin/python -m formgen.robot                     # Geometrie, GLB, Spec, Prompts, Ansichten, Blatt, Vorschau (ohne --force nur Fehlendes)
+.venv/bin/python -m formgen.robot --list              # Register: Blatt, Linie, Typ, Skin, Parameter; baut nichts
 .venv/bin/python -m formgen.viewer                    # Website neu bauen
 .venv/bin/python -m formgen.robot.silhouette <referenz.glb> --referenzhaltung [--typ 2 | --ohne-helm]
 ```
@@ -61,6 +62,20 @@ Für einen weiteren Typ: Modul anlegen, unter `[[types]]` eintragen, Nummer in `
 | Haltung | Grundhaltung A-Position |
 | Abnahme | je Typ eigene Referenz über `python -m formgen.robot.silhouette`, in der Haltung der Referenz; IoU ≥ 0,90, Bänder 0,92–1,08 |
 
+## Linien und Liveries (0.12)
+
+Eine Linie ist eine Livery: eigener Skin, dieselbe Form, dazu höchstens der Armquerschnitt. Jede Linie gilt für beide Typen, Blatt-ID `R<Linie><NN>`.
+
+| Linie | Name | Skin | `arm_bulk` 01 / 02 | Idee |
+|---|---|---|---|---|
+| A | Basic | `weiss_graphit` | 1,30 / 1,00 (Grundform) | Grundform, unverändert |
+| B | Night Watch | `nachtwache` | wie A | dunkle Schale, Orange als Leuchtfarbe |
+| C | Signal | `signal` | 1,42 / 1,12 | Warnorange, kräftigere Arme |
+| D | Field Olive | `feldoliv` | 1,18 / 0,92 | Oliv, schlankere Arme |
+| E | Cobalt Line | `kobaltblau` | wie A | blaue Schale, helles Zyan |
+
+Herkunft der Zahlen: Farben und `arm_bulk` sind Annahmen am Entwurf, am Bild gesichtet; der Armquerschnitt ist der einzige Formparameter, den ich für beide Typen gleichermaßen genutzt habe (der Test `test_every_line_is_a_complete_robot_livery…` prüft nur, dass jeder gesetzte Schlüssel in `PARAMS` des Typs existiert). Teile-IDs, Anker, Baugruppen und Abnahme bleiben die der Typen; die Silhouettenabnahme gilt für Linie A, die Liveries ändern nur Querschnitte der Arme. Jeder Skin deckt alle neun Rollen von `weiss_graphit` samt `finish` ab, trägt `robot = true` (nie für Waffen wählbar) und hat noch keinen `aaa`-Block: Die Eingangsfarben für Cycles sind nicht gemessen, GLB, Blatt und 3D-Seite zeigen die Hexwerte. Ein Skin kommt im Katalog der Website auch als Wahl in der 3D-Ansicht vor, auf jedem Roboter ([Website](website.md#skinwechsel)).
+
 ## Fasen
 
 `bevel.evaluate(document)` ist der Auswertungsweg des Roboters: `geom.evaluate` baut Formen und Fugen, danach fast `bevel.py` jedes Teil. `geom._bevel` kann nur Konvexes, und `geom.py` steht in allen Waffenschlüsseln.
@@ -79,7 +94,7 @@ Teile mit Fugen klemmen örtlich je Ecke: Der Boolean hinterlässt Kleinstkanten
 
 ## Skin
 
-Standard ist `weiss_graphit` in `skins.toml`, Farben aus den Materialien des Referenz-GLB. Weitere Skins kommen später. `[skins.weiss_graphit.finish]` hält Metall/Rauheit je Rolle für GLB und Cycles, optional `spec` nur für Cycles; das Raster-Blatt nutzt nur die Farben. `[skins.weiss_graphit.aaa]` hält die Eingangsfarben für Cycles (wie `aaa_color` der Rollen): `roles` bleibt die Wirkung, GLB und Blatt zeigen sie unverändert.
+Standard ist `weiss_graphit` in `skins.toml`, Farben aus den Materialien des Referenz-GLB. Die Liveries der Linien B–E stehen daneben ([Linien](#linien-und-liveries-012)). `[skins.weiss_graphit.finish]` hält Metall/Rauheit je Rolle für GLB und Cycles, optional `spec` nur für Cycles; das Raster-Blatt nutzt nur die Farben. `[skins.weiss_graphit.aaa]` hält die Eingangsfarben für Cycles (wie `aaa_color` der Rollen): `roles` bleibt die Wirkung, GLB und Blatt zeigen sie unverändert.
 
 Abnahme am AAA-Licht, kein Teil der Pipeline; das GLB bleibt die Lieferung:
 

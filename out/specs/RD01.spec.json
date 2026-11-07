@@ -1,0 +1,2766 @@
+{
+ "assemblies": [
+  {
+   "de": "Kopf",
+   "group": "head",
+   "id": "head",
+   "parts": 61
+  },
+  {
+   "de": "Oberkörper",
+   "group": "upper_body",
+   "id": "upper_body",
+   "parts": 59
+  },
+  {
+   "de": "Becken",
+   "group": "upper_body",
+   "id": "pelvis",
+   "parts": 36
+  },
+  {
+   "de": "Schulter",
+   "group": "arms",
+   "id": "shoulders",
+   "parts": 42
+  },
+  {
+   "de": "Oberarm",
+   "group": "arms",
+   "id": "upper_arms",
+   "parts": 10
+  },
+  {
+   "de": "Unterarm",
+   "group": "arms",
+   "id": "forearms",
+   "parts": 24
+  },
+  {
+   "de": "Hände",
+   "group": "arms",
+   "id": "hands",
+   "parts": 106
+  },
+  {
+   "de": "Oberschenkel",
+   "group": "legs",
+   "id": "thighs",
+   "parts": 20
+  },
+  {
+   "de": "Unterschenkel",
+   "group": "legs",
+   "id": "shins",
+   "parts": 48
+  },
+  {
+   "de": "Füße",
+   "group": "legs",
+   "id": "feet",
+   "parts": 18
+  }
+ ],
+ "dimensions_mm": {
+  "depth": 452.9,
+  "height": 1655.6,
+  "width": 1471.8
+ },
+ "format": "formgenv2/robot-sheet-spec",
+ "forms": {
+  "box": 42,
+  "cyl": 111,
+  "hull": 12,
+  "loft": 25,
+  "plate": 36,
+  "surface": 58,
+  "tube": 20,
+  "wrap": 120
+ },
+ "groups": [
+  {
+   "assemblies": [
+    "head"
+   ],
+   "de": "Kopf",
+   "id": "head",
+   "parts": 61
+  },
+  {
+   "assemblies": [
+    "upper_body",
+    "pelvis"
+   ],
+   "de": "Oberkörper",
+   "id": "upper_body",
+   "parts": 95
+  },
+  {
+   "assemblies": [
+    "shoulders",
+    "upper_arms",
+    "forearms",
+    "hands"
+   ],
+   "de": "Arme",
+   "id": "arms",
+   "parts": 182
+  },
+  {
+   "assemblies": [
+    "thighs",
+    "shins",
+    "feet"
+   ],
+   "de": "Beine",
+   "id": "legs",
+   "parts": 86
+  }
+ ],
+ "id": "RD01",
+ "kind": "robot",
+ "line": "field olive",
+ "line_info": {
+  "idea": "Matter Feldeinsatz in Oliv mit schlankeren Armen",
+  "letter": "D",
+  "name": "Field Olive",
+  "since": "0.12"
+ },
+ "measured_parts": [
+  "helmet_back_box",
+  "helmet_back_box_connector_a",
+  "helmet_back_box_connector_b",
+  "helmet_back_box_mount",
+  "helmet_brim",
+  "helmet_cheek_l",
+  "helmet_cheek_r",
+  "helmet_chin",
+  "helmet_collar",
+  "helmet_collar_dip_plate",
+  "helmet_collar_panel_floor_l",
+  "helmet_collar_panel_floor_r",
+  "helmet_collar_slot_floor_l",
+  "helmet_collar_slot_floor_r",
+  "helmet_collar_socket_floor_l",
+  "helmet_collar_socket_floor_r",
+  "helmet_core",
+  "helmet_crown",
+  "helmet_detail_01",
+  "helmet_detail_02",
+  "helmet_detail_03",
+  "helmet_detail_04",
+  "helmet_detail_05",
+  "helmet_detail_06",
+  "helmet_detail_07",
+  "helmet_detail_08",
+  "helmet_detail_09",
+  "helmet_detail_10",
+  "helmet_detail_11",
+  "helmet_detail_12",
+  "helmet_detail_13",
+  "helmet_detail_14",
+  "helmet_detail_15",
+  "helmet_detail_16",
+  "helmet_detail_17",
+  "helmet_detail_18",
+  "helmet_forehead_plate_l",
+  "helmet_forehead_plate_r",
+  "helmet_jaw_insert_l",
+  "helmet_jaw_insert_r",
+  "helmet_jaw_insert_slot_l",
+  "helmet_jaw_insert_slot_r",
+  "helmet_jaw_l",
+  "helmet_jaw_r",
+  "helmet_mask_gap_a",
+  "helmet_mask_gap_b",
+  "helmet_mouth_insert",
+  "helmet_mouth_rail_l",
+  "helmet_mouth_rail_r",
+  "helmet_neck_ring",
+  "helmet_rear_panel",
+  "helmet_screws_back_box",
+  "helmet_screws_chin",
+  "helmet_screws_side",
+  "helmet_screws_upper",
+  "helmet_shell",
+  "helmet_visor_l",
+  "helmet_visor_r"
+ ],
+ "name_de": "RoboterBasic-01",
+ "parts": [
+  {
+   "assembly": "pelvis",
+   "id": "pelvis_core",
+   "name_de": "Becken",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "belt",
+   "name_de": "Gürtelring",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "belt_trim",
+   "name_de": "Gürtelkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "brief",
+   "name_de": "Schrittstück",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "buckle",
+   "name_de": "Schließe",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "buckle_inset",
+   "name_de": "Schließenfeld",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset",
+   "name_de": "Lendenplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_stripe_a",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_stripe_b",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_r",
+   "name_de": "Beintasche",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_r_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_r_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_r_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_r_top",
+   "name_de": "Beintasche oben",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_r_top_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_r_axle",
+   "name_de": "Hüftgelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_r_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_r_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_r_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "belt_box_r",
+   "name_de": "Gürtelmodul",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "belt_box_r_trim",
+   "name_de": "Modulkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_l",
+   "name_de": "Beintasche",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_l_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_l_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_l_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_l_top",
+   "name_de": "Beintasche oben",
+   "role": "shell"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "tasset_side_l_top_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_l_axle",
+   "name_de": "Hüftgelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_l_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_l_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "hip_l_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "belt_box_l",
+   "name_de": "Gürtelmodul",
+   "role": "graphite"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "belt_box_l_trim",
+   "name_de": "Modulkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "pelvis",
+   "id": "butt",
+   "name_de": "Gesäßplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_core",
+   "name_de": "Taillenkern",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "torso_core",
+   "name_de": "Rumpf",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "collar",
+   "name_de": "Kragen",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "collar_trim",
+   "name_de": "Kragenkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "gorget",
+   "name_de": "Halsring",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "gorget_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "bridge_r",
+   "name_de": "Schultersteg",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "bridge_r_groove",
+   "name_de": "Stegvertiefung",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "bridge_l",
+   "name_de": "Schultersteg",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "bridge_l_groove",
+   "name_de": "Stegvertiefung",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "abs_a",
+   "name_de": "Bauchplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "abs_b",
+   "name_de": "Bauchplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "abs_a_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_piston_r_cyl",
+   "name_de": "Taillenkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_piston_r_rod",
+   "name_de": "Taillenkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_piston_r_collar",
+   "name_de": "Taillenkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_piston_l_cyl",
+   "name_de": "Taillenkolben",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_piston_l_rod",
+   "name_de": "Taillenkolben (Stange)",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "waist_piston_l_collar",
+   "name_de": "Taillenkolben (Manschette)",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest",
+   "name_de": "Brustplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "emblem_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "emblem_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "emblem_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "emblem_bezel",
+   "name_de": "Lichtfassung",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "emblem_lamp",
+   "name_de": "Statuslicht",
+   "role": "energy"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "solar",
+   "name_de": "Sonnenplatte",
+   "role": "anodized"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "solar_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "solar_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "solar_bolt_a",
+   "name_de": "Bolzen",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "solar_bolt_b",
+   "name_de": "Bolzen",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "rib_r",
+   "name_de": "Rippenplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "rib_r_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "rib_r_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "rib_l",
+   "name_de": "Rippenplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "rib_l_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "rib_l_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_light_r_bezel",
+   "name_de": "Lichtfassung",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_light_r_lamp",
+   "name_de": "Statuslicht",
+   "role": "energy"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_light_l_bezel",
+   "name_de": "Lichtfassung",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_light_l_lamp",
+   "name_de": "Statuslicht",
+   "role": "energy"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_stripe_a",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "chest_stripe_b",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "back",
+   "name_de": "Rückenplatte",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "back_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "back_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "backpack",
+   "name_de": "Rückenmodul",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "backpack_shell",
+   "name_de": "Rückenmodulschale",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "nozzle_r",
+   "name_de": "Düse",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "nozzle_r_trim",
+   "name_de": "Düsenkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "nozzle_r_core",
+   "name_de": "Düsenkern",
+   "role": "anodized"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "pack_cable_r",
+   "name_de": "Leitung",
+   "role": "rubber"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "nozzle_l",
+   "name_de": "Düse",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "nozzle_l_trim",
+   "name_de": "Düsenkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "nozzle_l_core",
+   "name_de": "Düsenkern",
+   "role": "anodized"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "pack_cable_l",
+   "name_de": "Leitung",
+   "role": "rubber"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "backpack_bezel",
+   "name_de": "Lichtfassung",
+   "role": "trim"
+  },
+  {
+   "assembly": "upper_body",
+   "id": "backpack_lamp",
+   "name_de": "Statuslicht",
+   "role": "energy"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_r_axle",
+   "name_de": "Schultergelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_r_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_r_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_r_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r",
+   "name_de": "Schulterpanzer",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_stripe_a",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_stripe_b",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare2",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare2_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare2_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_flare2_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_r_band",
+   "name_de": "Panzerfuge",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_r_med_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_r_med_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_r_med_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_l_axle",
+   "name_de": "Schultergelenk",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_l_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_l_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_l_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l",
+   "name_de": "Schulterpanzer",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_stripe_a",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_stripe_b",
+   "name_de": "Akzentstreifen",
+   "role": "accent"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare2",
+   "name_de": "Schulterlage",
+   "role": "shell"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare2_rim_a",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare2_rim_b",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_flare2_edge",
+   "name_de": "Zierkante",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "pauldron_l_band",
+   "name_de": "Panzerfuge",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_l_med_disc",
+   "name_de": "Medaillon",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_l_med_ring",
+   "name_de": "Medaillonring",
+   "role": "trim"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "shoulder_l_med_hub",
+   "name_de": "Medaillonnabe",
+   "role": "graphite"
+  },
+  {
+   "assembly": "head",
+   "id": "neck",
+   "name_de": "Hals",
+   "role": "graphite"
+  },
+  {
+   "assembly": "head",
+   "id": "neck_ring",
+   "name_de": "Wirbelring",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "neck_trim",
+   "name_de": "Halskante",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_hip_ball",
+   "name_de": "Hüftkugel rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_core",
+   "name_de": "Oberschenkel rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_cuff",
+   "name_de": "Hüftmanschette rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_cuff_trim",
+   "name_de": "Manschettenkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_shell",
+   "name_de": "Oberschenkelschale rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_shell_rim_a",
+   "name_de": "Zierkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_shell_rim_b",
+   "name_de": "Zierkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_stripe_a",
+   "name_de": "Akzentstreifen rechts",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_stripe_b",
+   "name_de": "Akzentstreifen rechts",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_R_thigh_seam_0",
+   "name_de": "Fuge rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_axle",
+   "name_de": "Kniegelenk rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_disc",
+   "name_de": "Medaillon rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_ring",
+   "name_de": "Medaillonring rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_hub",
+   "name_de": "Medaillonnabe rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_cap",
+   "name_de": "Kniekappe rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_knee_cap_edge",
+   "name_de": "Zierkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_core",
+   "name_de": "Schienbein rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_shell",
+   "name_de": "Schienbeinschale rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_shell_rim_a",
+   "name_de": "Zierkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_shell_rim_b",
+   "name_de": "Zierkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_plate",
+   "name_de": "Schienbeinlage rechts",
+   "role": "anodized"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_bolt_a",
+   "name_de": "Bolzen rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_bolt_b",
+   "name_de": "Bolzen rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_light_bezel",
+   "name_de": "Lichtfassung rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_shin_light_lamp",
+   "name_de": "Statuslicht rechts",
+   "role": "energy"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_calf",
+   "name_de": "Wadenplatte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_piston_a_cyl",
+   "name_de": "Knöchelkolben rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_piston_a_rod",
+   "name_de": "Knöchelkolben (Stange) rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_piston_a_collar",
+   "name_de": "Knöchelkolben (Manschette) rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_piston_b_cyl",
+   "name_de": "Knöchelkolben rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_piston_b_rod",
+   "name_de": "Knöchelkolben (Stange) rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_ankle_piston_b_collar",
+   "name_de": "Knöchelkolben (Manschette) rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_boot_cuff",
+   "name_de": "Stiefelschaft rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_R_boot_cuff_edge",
+   "name_de": "Zierkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_ankle_axle",
+   "name_de": "Knöchel rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_ankle_disc",
+   "name_de": "Medaillon rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_ankle_ring",
+   "name_de": "Medaillonring rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_ankle_hub",
+   "name_de": "Medaillonnabe rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_foot_core",
+   "name_de": "Fuß rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_toe_cap",
+   "name_de": "Zehenkappe rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_heel_cap",
+   "name_de": "Fersenkappe rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_sole",
+   "name_de": "Sohle rechts",
+   "role": "rubber"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_R_toe_cap_edge",
+   "name_de": "Zierkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_hip_ball",
+   "name_de": "Hüftkugel links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_core",
+   "name_de": "Oberschenkel links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_cuff",
+   "name_de": "Hüftmanschette links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_cuff_trim",
+   "name_de": "Manschettenkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_shell",
+   "name_de": "Oberschenkelschale links",
+   "role": "shell"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_shell_rim_a",
+   "name_de": "Zierkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_shell_rim_b",
+   "name_de": "Zierkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_stripe_a",
+   "name_de": "Akzentstreifen links",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_stripe_b",
+   "name_de": "Akzentstreifen links",
+   "role": "accent"
+  },
+  {
+   "assembly": "thighs",
+   "id": "thigh_L_thigh_seam_0",
+   "name_de": "Fuge links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_axle",
+   "name_de": "Kniegelenk links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_disc",
+   "name_de": "Medaillon links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_ring",
+   "name_de": "Medaillonring links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_hub",
+   "name_de": "Medaillonnabe links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_cap",
+   "name_de": "Kniekappe links",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_knee_cap_edge",
+   "name_de": "Zierkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_core",
+   "name_de": "Schienbein links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_shell",
+   "name_de": "Schienbeinschale links",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_shell_rim_a",
+   "name_de": "Zierkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_shell_rim_b",
+   "name_de": "Zierkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_plate",
+   "name_de": "Schienbeinlage links",
+   "role": "anodized"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_bolt_a",
+   "name_de": "Bolzen links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_bolt_b",
+   "name_de": "Bolzen links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_light_bezel",
+   "name_de": "Lichtfassung links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_shin_light_lamp",
+   "name_de": "Statuslicht links",
+   "role": "energy"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_calf",
+   "name_de": "Wadenplatte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_piston_a_cyl",
+   "name_de": "Knöchelkolben links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_piston_a_rod",
+   "name_de": "Knöchelkolben (Stange) links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_piston_a_collar",
+   "name_de": "Knöchelkolben (Manschette) links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_piston_b_cyl",
+   "name_de": "Knöchelkolben links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_piston_b_rod",
+   "name_de": "Knöchelkolben (Stange) links",
+   "role": "trim"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_ankle_piston_b_collar",
+   "name_de": "Knöchelkolben (Manschette) links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_boot_cuff",
+   "name_de": "Stiefelschaft links",
+   "role": "shell"
+  },
+  {
+   "assembly": "shins",
+   "id": "shin_L_boot_cuff_edge",
+   "name_de": "Zierkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_ankle_axle",
+   "name_de": "Knöchel links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_ankle_disc",
+   "name_de": "Medaillon links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_ankle_ring",
+   "name_de": "Medaillonring links",
+   "role": "trim"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_ankle_hub",
+   "name_de": "Medaillonnabe links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_foot_core",
+   "name_de": "Fuß links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_toe_cap",
+   "name_de": "Zehenkappe links",
+   "role": "shell"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_heel_cap",
+   "name_de": "Fersenkappe links",
+   "role": "shell"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_sole",
+   "name_de": "Sohle links",
+   "role": "rubber"
+  },
+  {
+   "assembly": "feet",
+   "id": "foot_L_toe_cap_edge",
+   "name_de": "Zierkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_elbow",
+   "name_de": "Ellbogengelenk rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_elbow_disc",
+   "name_de": "Ellbogenscheibe rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_elbow_ring",
+   "name_de": "Ellbogenring rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_elbow_hub",
+   "name_de": "Ellbogennabe rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_body",
+   "name_de": "Unterarmkörper rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_shell",
+   "name_de": "Unterarmschale rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_inset",
+   "name_de": "Akzentlinie rechts",
+   "role": "accent"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_top",
+   "name_de": "Handgelenkplatte rechts",
+   "role": "anodized"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_bolt_a",
+   "name_de": "Bolzen rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_bolt_b",
+   "name_de": "Bolzen rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_cuff",
+   "name_de": "Stulpe rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_R_fore_cuff_trim",
+   "name_de": "Stulpenkante rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_wrist_block",
+   "name_de": "Kardanblock rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_wrist_pin",
+   "name_de": "Kardanbolzen rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_palm",
+   "name_de": "Handfläche rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_back_plate",
+   "name_de": "Handrückenschale rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_back_inset",
+   "name_de": "Handrücken-Akzentlinie rechts",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_knuckles",
+   "name_de": "Knöchelwelle rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_knuckle_guard",
+   "name_de": "Knöchelschutz rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_thumb_mount",
+   "name_de": "Daumensockel rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_0_core",
+   "name_de": "Finger 1 Glied 1 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_0_plate",
+   "name_de": "Finger 1 Glied 1 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_0_joint",
+   "name_de": "Finger 1 Gelenk 1 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_1_core",
+   "name_de": "Finger 1 Glied 2 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_1_plate",
+   "name_de": "Finger 1 Glied 2 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_1_joint",
+   "name_de": "Finger 1 Gelenk 2 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_2_core",
+   "name_de": "Finger 1 Glied 3 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_2_plate",
+   "name_de": "Finger 1 Glied 3 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f0_2_joint",
+   "name_de": "Finger 1 Gelenk 3 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_0_core",
+   "name_de": "Finger 2 Glied 1 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_0_plate",
+   "name_de": "Finger 2 Glied 1 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_0_joint",
+   "name_de": "Finger 2 Gelenk 1 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_1_core",
+   "name_de": "Finger 2 Glied 2 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_1_plate",
+   "name_de": "Finger 2 Glied 2 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_1_joint",
+   "name_de": "Finger 2 Gelenk 2 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_2_core",
+   "name_de": "Finger 2 Glied 3 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_2_plate",
+   "name_de": "Finger 2 Glied 3 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f1_2_joint",
+   "name_de": "Finger 2 Gelenk 3 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_0_core",
+   "name_de": "Finger 3 Glied 1 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_0_plate",
+   "name_de": "Finger 3 Glied 1 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_0_joint",
+   "name_de": "Finger 3 Gelenk 1 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_1_core",
+   "name_de": "Finger 3 Glied 2 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_1_plate",
+   "name_de": "Finger 3 Glied 2 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_1_joint",
+   "name_de": "Finger 3 Gelenk 2 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_2_core",
+   "name_de": "Finger 3 Glied 3 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_2_plate",
+   "name_de": "Finger 3 Glied 3 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f2_2_joint",
+   "name_de": "Finger 3 Gelenk 3 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_0_core",
+   "name_de": "Finger 4 Glied 1 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_0_plate",
+   "name_de": "Finger 4 Glied 1 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_0_joint",
+   "name_de": "Finger 4 Gelenk 1 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_1_core",
+   "name_de": "Finger 4 Glied 2 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_1_plate",
+   "name_de": "Finger 4 Glied 2 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_1_joint",
+   "name_de": "Finger 4 Gelenk 2 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_2_core",
+   "name_de": "Finger 4 Glied 3 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_2_plate",
+   "name_de": "Finger 4 Glied 3 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_f3_2_joint",
+   "name_de": "Finger 4 Gelenk 3 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_0_core",
+   "name_de": "Daumen Glied 1 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_0_plate",
+   "name_de": "Daumen Glied 1 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_0_joint",
+   "name_de": "Daumengelenk 1 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_1_core",
+   "name_de": "Daumen Glied 2 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_1_plate",
+   "name_de": "Daumen Glied 2 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_1_joint",
+   "name_de": "Daumengelenk 2 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_2_core",
+   "name_de": "Daumen Glied 3 rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_2_plate",
+   "name_de": "Daumen Glied 3 Platte rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_R_t_2_joint",
+   "name_de": "Daumengelenk 3 rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_R_shoulder_ball",
+   "name_de": "Schulterkugel rechts",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_core",
+   "name_de": "Oberarmkörper rechts",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_shell_r",
+   "name_de": "Oberarmschale rechts",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_stripe_a",
+   "name_de": "Akzentstreifen rechts",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_stripe_b",
+   "name_de": "Akzentstreifen rechts",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_R_upper_seam",
+   "name_de": "Oberarmfuge rechts",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_elbow",
+   "name_de": "Ellbogengelenk links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_elbow_disc",
+   "name_de": "Ellbogenscheibe links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_elbow_ring",
+   "name_de": "Ellbogenring links",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_elbow_hub",
+   "name_de": "Ellbogennabe links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_body",
+   "name_de": "Unterarmkörper links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_shell",
+   "name_de": "Unterarmschale links",
+   "role": "shell"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_inset",
+   "name_de": "Akzentlinie links",
+   "role": "accent"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_top",
+   "name_de": "Handgelenkplatte links",
+   "role": "anodized"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_bolt_a",
+   "name_de": "Bolzen links",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_bolt_b",
+   "name_de": "Bolzen links",
+   "role": "trim"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_cuff",
+   "name_de": "Stulpe links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "forearms",
+   "id": "arm_L_fore_cuff_trim",
+   "name_de": "Stulpenkante links",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_wrist_block",
+   "name_de": "Kardanblock links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_wrist_pin",
+   "name_de": "Kardanbolzen links",
+   "role": "trim"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_palm",
+   "name_de": "Handfläche links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_back_plate",
+   "name_de": "Handrückenschale links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_back_inset",
+   "name_de": "Handrücken-Akzentlinie links",
+   "role": "accent"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_knuckles",
+   "name_de": "Knöchelwelle links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_knuckle_guard",
+   "name_de": "Knöchelschutz links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_thumb_mount",
+   "name_de": "Daumensockel links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_0_core",
+   "name_de": "Finger 1 Glied 1 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_0_plate",
+   "name_de": "Finger 1 Glied 1 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_0_joint",
+   "name_de": "Finger 1 Gelenk 1 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_1_core",
+   "name_de": "Finger 1 Glied 2 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_1_plate",
+   "name_de": "Finger 1 Glied 2 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_1_joint",
+   "name_de": "Finger 1 Gelenk 2 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_2_core",
+   "name_de": "Finger 1 Glied 3 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_2_plate",
+   "name_de": "Finger 1 Glied 3 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f0_2_joint",
+   "name_de": "Finger 1 Gelenk 3 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_0_core",
+   "name_de": "Finger 2 Glied 1 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_0_plate",
+   "name_de": "Finger 2 Glied 1 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_0_joint",
+   "name_de": "Finger 2 Gelenk 1 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_1_core",
+   "name_de": "Finger 2 Glied 2 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_1_plate",
+   "name_de": "Finger 2 Glied 2 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_1_joint",
+   "name_de": "Finger 2 Gelenk 2 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_2_core",
+   "name_de": "Finger 2 Glied 3 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_2_plate",
+   "name_de": "Finger 2 Glied 3 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f1_2_joint",
+   "name_de": "Finger 2 Gelenk 3 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_0_core",
+   "name_de": "Finger 3 Glied 1 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_0_plate",
+   "name_de": "Finger 3 Glied 1 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_0_joint",
+   "name_de": "Finger 3 Gelenk 1 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_1_core",
+   "name_de": "Finger 3 Glied 2 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_1_plate",
+   "name_de": "Finger 3 Glied 2 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_1_joint",
+   "name_de": "Finger 3 Gelenk 2 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_2_core",
+   "name_de": "Finger 3 Glied 3 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_2_plate",
+   "name_de": "Finger 3 Glied 3 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f2_2_joint",
+   "name_de": "Finger 3 Gelenk 3 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_0_core",
+   "name_de": "Finger 4 Glied 1 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_0_plate",
+   "name_de": "Finger 4 Glied 1 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_0_joint",
+   "name_de": "Finger 4 Gelenk 1 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_1_core",
+   "name_de": "Finger 4 Glied 2 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_1_plate",
+   "name_de": "Finger 4 Glied 2 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_1_joint",
+   "name_de": "Finger 4 Gelenk 2 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_2_core",
+   "name_de": "Finger 4 Glied 3 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_2_plate",
+   "name_de": "Finger 4 Glied 3 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_f3_2_joint",
+   "name_de": "Finger 4 Gelenk 3 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_0_core",
+   "name_de": "Daumen Glied 1 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_0_plate",
+   "name_de": "Daumen Glied 1 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_0_joint",
+   "name_de": "Daumengelenk 1 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_1_core",
+   "name_de": "Daumen Glied 2 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_1_plate",
+   "name_de": "Daumen Glied 2 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_1_joint",
+   "name_de": "Daumengelenk 2 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_2_core",
+   "name_de": "Daumen Glied 3 links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_2_plate",
+   "name_de": "Daumen Glied 3 Platte links",
+   "role": "shell"
+  },
+  {
+   "assembly": "hands",
+   "id": "arm_L_t_2_joint",
+   "name_de": "Daumengelenk 3 links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "shoulders",
+   "id": "arm_L_shoulder_ball",
+   "name_de": "Schulterkugel links",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_core",
+   "name_de": "Oberarmkörper links",
+   "role": "graphite"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_shell_r",
+   "name_de": "Oberarmschale links",
+   "role": "shell"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_stripe_a",
+   "name_de": "Akzentstreifen links",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_stripe_b",
+   "name_de": "Akzentstreifen links",
+   "role": "accent"
+  },
+  {
+   "assembly": "upper_arms",
+   "id": "arm_L_upper_seam",
+   "name_de": "Oberarmfuge links",
+   "role": "trim"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_crown",
+   "name_de": "Crown",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_cheek_r",
+   "name_de": "Cheek_R",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_cheek_l",
+   "name_de": "Cheek_L",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_mouth_insert",
+   "name_de": "Mouth_Insert",
+   "role": "rubber"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_mouth_rail_r",
+   "name_de": "MouthRail_R",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_mouth_rail_l",
+   "name_de": "MouthRail_L",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_mask_gap_a",
+   "name_de": "MaskGap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_mask_gap_b",
+   "name_de": "MaskGap",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_shell",
+   "name_de": "Shell",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_visor_r",
+   "name_de": "Visor_R",
+   "role": "reticle_cyan"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_visor_l",
+   "name_de": "Visor_L",
+   "role": "reticle_cyan"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_brim",
+   "name_de": "Brim",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_01",
+   "name_de": "Helmdetail 1",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_02",
+   "name_de": "Helmdetail 2",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_03",
+   "name_de": "Helmdetail 3",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_04",
+   "name_de": "Helmdetail 4",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_05",
+   "name_de": "Helmdetail 5",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_06",
+   "name_de": "Helmdetail 6",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_07",
+   "name_de": "Helmdetail 7",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_08",
+   "name_de": "Helmdetail 8",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_09",
+   "name_de": "Helmdetail 9",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_10",
+   "name_de": "Helmdetail 10",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_11",
+   "name_de": "Helmdetail 11",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_12",
+   "name_de": "Helmdetail 12",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_13",
+   "name_de": "Helmdetail 13",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_14",
+   "name_de": "Helmdetail 14",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_screws_upper",
+   "name_de": "Screws_Upper",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_core",
+   "name_de": "Core",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_rear_panel",
+   "name_de": "RearPanel",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar",
+   "name_de": "Collar",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar_slot_floor_r",
+   "name_de": "CollarSlotFloor_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar_panel_floor_r",
+   "name_de": "CollarPanelFloor_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar_socket_floor_r",
+   "name_de": "CollarSocketFloor_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar_slot_floor_l",
+   "name_de": "CollarSlotFloor_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar_panel_floor_l",
+   "name_de": "CollarPanelFloor_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar_socket_floor_l",
+   "name_de": "CollarSocketFloor_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_collar_dip_plate",
+   "name_de": "CollarDipPlate",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_15",
+   "name_de": "Helmdetail 15",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_neck_ring",
+   "name_de": "NeckRing",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_chin",
+   "name_de": "Chin",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_jaw_r",
+   "name_de": "Jaw_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_jaw_l",
+   "name_de": "Jaw_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_jaw_insert_r",
+   "name_de": "Jaw_Insert_R",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_jaw_insert_slot_r",
+   "name_de": "Jaw_InsertSlot_R",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_jaw_insert_l",
+   "name_de": "Jaw_Insert_L",
+   "role": "shell"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_jaw_insert_slot_l",
+   "name_de": "Jaw_InsertSlot_L",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_screws_chin",
+   "name_de": "Screws_Chin",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_screws_side",
+   "name_de": "Screws_Side",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_back_box_mount",
+   "name_de": "BackBox_Mount",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_back_box",
+   "name_de": "BackBox",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_16",
+   "name_de": "Helmdetail 16",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_17",
+   "name_de": "Helmdetail 17",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_detail_18",
+   "name_de": "Helmdetail 18",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_back_box_connector_a",
+   "name_de": "BackBox_Connector",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_back_box_connector_b",
+   "name_de": "BackBox_Connector",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_screws_back_box",
+   "name_de": "Screws_BackBox",
+   "role": "dark_metal"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_forehead_plate_r",
+   "name_de": "ForeheadPlate_R",
+   "role": "anodized"
+  },
+  {
+   "assembly": "head",
+   "id": "helmet_forehead_plate_l",
+   "name_de": "ForeheadPlate_L",
+   "role": "anodized"
+  }
+ ],
+ "provenance": {
+  "kind": "Vorgabe",
+  "source": "BALLON 14bd78d basic/robot/studies/a_waechter.py, Nutzerziel RoboterBasic-01 (05.11.2026)"
+ },
+ "skin": "feldoliv",
+ "skin_de": "Feld-Oliv",
+ "sockets": [
+  "Socket_Ankle_L",
+  "Socket_Ankle_R",
+  "Socket_Elbow_L",
+  "Socket_Elbow_R",
+  "Socket_Hand",
+  "Socket_Hip_L",
+  "Socket_Hip_R",
+  "Socket_Knee_L",
+  "Socket_Knee_R",
+  "Socket_Neck",
+  "Socket_Shoulder_L",
+  "Socket_Shoulder_R",
+  "Socket_Waist",
+  "Socket_Wrist_L",
+  "Socket_Wrist_R"
+ ],
+ "triangles": 286881,
+ "type": {
+  "name_de": "RoboterBasic-01",
+  "num": 1
+ },
+ "version": 1,
+ "warnings": []
+}

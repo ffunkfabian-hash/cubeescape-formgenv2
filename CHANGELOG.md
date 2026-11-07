@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.0 Livery — Roboterlinien B–E, Skinwechsel in der 3D-Ansicht
+
+- Roboter: vier neue Linien Night Watch (B), Signal (C), Field Olive (D), Cobalt Line (E) für beide Basic-Typen, zusammen zehn Blätter `RA01`–`RE02`. Eigener Skin je Linie (`nachtwache`, `signal`, `feldoliv`, `kobaltblau`, nur Farben, `robot = true`), C und D ändern zusätzlich den Armquerschnitt (`arm_bulk`). `python -m formgen.robot --list` zeigt das Register ([Roboter](docs/robot.md#linien-und-liveries-012)).
+- Website: Die 3D-Seite wechselt den Skin live (Roboter: Roboter-Skins, Waffen: Farbskins), der Skin steht in der Adresse und bleibt beim Blättern. Roboterseite mit Suche und Linienfilter, Farbpunkte des Skins auf Roboter- und Waffenkarten, Roboter nach Kennbuchstabe sortiert ([Website](docs/website.md#skinwechsel)).
+- [Bericht](docs/versions/0.12.md)
+
 ## 0.11.4 Patch skinfix
 
 - Blatt: Der Haupt-Skin der Variante steht als erstes, markiertes Feld in der Skin-Übersicht; bisher fehlte er bei 8 von 12 Linien.
