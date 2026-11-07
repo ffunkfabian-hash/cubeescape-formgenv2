@@ -77,7 +77,7 @@ REFERENCE_PARAMS = dict(
               fingers='relaxed', shoulder_open=0, origin='gemessen'),
     head=dict(neck=NECK_LENGTH),
     # 0.14 Kitbash: Wahl je Einzelteil (catalog), Ersatzmodus je Einzelteil (leer = alles gemessen), Kopfvarianten (helmet.py)
-    variants=dict(catalog.BASIC['variants']), replace=[], helmet=dict(helmet.NEUTRAL),
+    variants=dict(catalog.BASIC['variants']), replace=[], helmet=deepcopy(helmet.NEUTRAL),
 )
 REFERENCE_PARAMS.update(profiles.extras())
 # Vorgabe01 cf294c4: gemeinsame A-Position; die Winkel sind Entwurfsannahmen,

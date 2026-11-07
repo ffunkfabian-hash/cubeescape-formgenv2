@@ -57,7 +57,7 @@ REFERENCE_PARAMS = catalog.options(dict(
         calf=True, ankle_pistons=True, lights=True, ankle_r=40,
         foot=[(-100, 64, 44, -66), (-30, 70, 56, -56), (70, 72, 48, -64), (160, 66, 34, -78), (222, 54, 22, -88)]),
     # 0.14 Kitbash: Wahl je Einzelteil (catalog), Unterarm- und Handmaße (arm.py), Kopfvarianten (helmet.py); Standard = Grundform
-    variants=dict(catalog.BASIC['variants']), forearm=dict(arm.FOREARM), hand=dict(arm.HAND), helmet=dict(helmet.NEUTRAL),
+    variants=dict(catalog.BASIC['variants']), forearm=dict(arm.FOREARM), hand=dict(arm.HAND), helmet=copy.deepcopy(helmet.NEUTRAL),
 ))
 
 # Zwei Ebenen nach Nutzerentscheid 05.11.2026: zehn Einzelteile (Feld `assembly`) und darüber vier Baugruppen (Feld `group`); je Einzelteil beide
