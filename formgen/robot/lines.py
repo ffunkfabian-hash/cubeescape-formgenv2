@@ -1,4 +1,9 @@
-"""Register der Roboter (data/robots.toml): Basic-Typen und Linien, Blatt = Linie × Typ, wie formgen.variants bei den Waffen."""
+"""Register der Roboter (data/robots.toml): Basic-Typen und Linien, Blatt = Linie × Typ, wie formgen.variants bei den Waffen.
+
+Registerversion 2 (0.14 Kitbash): je Linie optional `[lines.parts]`, die Wahl je Einzelteil aus dem Varianten-Baukasten
+(formgen/models/robot/catalog), z. B. `shoulders = "SH-C"`; fehlende Einzelteile bleiben bei der Grundform. Version 1 (ohne `version`)
+wird beim Laden migriert: keine Wahl, also lauter Grundformen.
+"""
 from __future__ import annotations
 
 import copy
@@ -7,9 +12,12 @@ import re
 import tomllib
 from pathlib import Path
 
+from formgen.models.robot import catalog
+
 ROOT = Path(__file__).resolve().parents[2]
 REGISTER = ROOT / 'data/robots.toml'
 SCHEMA = 'formgenv2/robot-register'
+VERSION = 2
 LETTERS = set('ABCDEFGHJKLMNPQRSTUVWXYZ')
 RESERVED = {'R01', 'R02'}
 GROUPS = dict(head=('head',), upper_body=('upper_body', 'pelvis'), arms=('shoulders', 'upper_arms', 'forearms', 'hands'), legs=('thighs', 'shins', 'feet'))
@@ -22,7 +30,20 @@ def load(path=REGISTER):
     data = tomllib.loads(Path(path).read_text())
     if data.get('schema') != SCHEMA:
         raise ValueError(f'Register: Schema {data.get("schema")!r} unbekannt')
+    data = migrate(data)
     return validate(data['types'], data['lines'])
+
+
+def migrate(data):
+    """Register auf VERSION heben: v1 kennt keine Teilewahl (alle Linien Grundform), v2 hat `parts` je Linie optional."""
+    version = data.get('version', 1)
+    if version == 1:
+        if any('parts' in e for e in data['lines']):
+            raise ValueError('Register v1: `parts` gibt es erst ab Version 2')
+        return dict(data, version=VERSION)
+    if version != VERSION:
+        raise ValueError(f'Register: Version {version!r} unbekannt')
+    return data
 
 
 def validate(types, entries):
@@ -36,6 +57,7 @@ def validate(types, entries):
             if key not in t:
                 raise ValueError(f"Typ {t['num']}: Feld {key} fehlt")
     seen, names = set(), set()
+    kit = catalog.load()
     for e in entries:
         letter, name = e.get('letter'), e.get('name', '')
         if letter not in LETTERS:
@@ -52,6 +74,11 @@ def validate(types, entries):
         unknown = set(e['types']) - set(nums)
         if unknown or not e['types']:
             raise ValueError(f'Linie {letter}: unbekannte Typen {sorted(unknown)}')
+        for assembly, vid in e.get('parts', {}).items():
+            try:
+                catalog.parse(assembly, vid, kit)
+            except ValueError as err:
+                raise ValueError(f'Linie {letter}: {err}') from None
     return dict(types=types, lines=entries)
 
 
@@ -64,12 +91,23 @@ def sheet_id(line, num) -> str:
 
 def merge(base, overrides, path=''):
     """Vollständige Parameter einer Linie; ein unbekannter Schlüssel ist ein Fehler, nie eine stille Ergänzung."""
-    out = copy.deepcopy(base)
-    for key, value in overrides.items():
-        if key not in out:
-            raise ValueError(f'Linie: unbekannter Parameter {path}{key}')
-        out[key] = merge(out[key], value, f'{path}{key}.') if isinstance(value, dict) and isinstance(out[key], dict) else value
+    return catalog.merge(base, overrides, path, what='Linie')
+
+
+def params_of(entry):
+    """Vollständige Parameter eines Blatts: PARAMS des Typs, Linienparameter, dann die Teilewahl als PARAMS['variants'] (Buchstaben)."""
+    module = module_of(entry)
+    out = merge(module.PARAMS, entry['params'])
+    if entry.get('parts'):
+        out['variants'] = dict(out['variants'], **{a: vid.split('-')[1] for a, vid in entry['parts'].items()})
     return out
+
+
+def variants_of(entry, kit=None):
+    """Gewählte Varianten aller Einzelteile (Grundform, wo die Linie nichts wählt), JSON-fähig für Spec und --list."""
+    kit = catalog.load() if kit is None else kit
+    chosen = entry.get('parts', {})
+    return [(catalog.parse(a, chosen[a], kit) if a in chosen else kit[a][catalog.BASE]).info() for a in catalog.ASSEMBLIES]
 
 
 def sheets(register=None):
@@ -81,6 +119,8 @@ def sheets(register=None):
         for num in line['types']:
             out[sheet_id(line, num)] = dict(line={k: line[k] for k in ('letter', 'name', 'since', 'idea')}, type=types[num], skin=line['skin'],
                                             params=line.get('params', {}).get(str(num), {}))
+            if line.get('parts'):           # nur bei einer Wahl: Einträge ohne Wahl (Linie A) bleiben wie in Version 1
+                out[sheet_id(line, num)]['parts'] = dict(sorted(line['parts'].items()))
     return out
 
 

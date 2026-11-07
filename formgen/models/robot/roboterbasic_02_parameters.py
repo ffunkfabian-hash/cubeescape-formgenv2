@@ -16,7 +16,7 @@ from copy import deepcopy
 import numpy as np
 
 from formgen import geom
-from . import arm, body, kit
+from . import arm, body, catalog, kit
 
 PROVENANCE = {
     'reference': 'Vorgabe01: BALLON 14bd78d; Parameter und Einheiten aus RoboterBasic-01',
@@ -119,7 +119,8 @@ def extras():
     Die Profilzahlen sind deklarierte Referenzkoordinaten, keine erfundenen
     02-Messwerte. ``measurements`` liefert die tatsaechlichen 02-Profilgrenzen.
     """
-    out = deepcopy(_REFERENCE)
+    out = catalog.options(deepcopy(_REFERENCE))
+    out.update(forearm=deepcopy(arm.FOREARM), hand=deepcopy(arm.HAND))     # 0.14: Unterarm- und Handmaße wie RA01 (arm.py)
     out['torso'].update(waist_pistons=False, gorget=None, bridges=None)
     out['torso']['pauldron'].update(flare=None, flare2=None, stripes=False, grooves=())
     out['pelvis']['belt_boxes'] = False
@@ -381,7 +382,7 @@ def _canonical(params):
                              ('pelvis', body.pelvis), ('legs', body.legs)):
         for row in function(params[family]):
             out[(family, row[0])] = row
-    for row in arm.parts():
+    for row in arm.parts(params['forearm'], params['hand']):
         if row[0] not in params['arm_drop']:
             out[('arm', row[0])] = row
     return out
@@ -470,9 +471,11 @@ def templates(params, defaults, rows, base_frames):
     new feature switches add actual kit geometry, removed features drop their
     associated source parts. All lengths remain mm and all angles degrees.
     """
-    keys = ('upper_arm', 'torso', 'pelvis', 'legs', 'arm_drop')
+    keys = ('upper_arm', 'torso', 'pelvis', 'legs', 'arm_drop', 'forearm', 'hand', 'replace')
     if all(_same(params[k], defaults[k]) for k in keys):
         return rows
+    if params['replace']:
+        raise NotImplementedError('Ersatzmodus je Einzelteil (params.replace): folgt in 0.14')
     rows = associate(rows)
     before, after = _canonical(defaults), _canonical(params)
     bounds = measurements(rows, base_frames)

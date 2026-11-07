@@ -12,11 +12,10 @@ from copy import deepcopy
 import json
 import math
 from pathlib import Path
-from types import SimpleNamespace
 
 import numpy as np
 
-from formgen.models.robot import arm, body, proportion, rig
+from formgen.models.robot import arm, body, catalog, helmet, proportion, rig
 from formgen.models.robot import roboterbasic_02_parameters as profiles
 
 SOURCE = 'robot_v2.blend SHA256 67a350c19aec60241c86d0b2b0937469960d06c52422275844dcb8a24400d578; headless Weltgeometrie, Frame 1, Blender 5.2.2'
@@ -76,6 +75,8 @@ REFERENCE_PARAMS = dict(
               fore=((_point('forearm_L','tail')-_point('forearm_L'))*[-1,1,1]).tolist(),
               fingers='relaxed', shoulder_open=0, origin='gemessen'),
     head=dict(neck=NECK_LENGTH),
+    # 0.14 Kitbash: Wahl je Einzelteil (catalog), Ersatzmodus je Einzelteil (leer = alles gemessen), Kopfvarianten (helmet.py)
+    variants=dict(catalog.BASIC['variants']), replace=[], helmet=dict(helmet.NEUTRAL),
 )
 REFERENCE_PARAMS.update(profiles.extras())
 # Vorgabe01 cf294c4: gemeinsame A-Position; die Winkel sind Entwurfsannahmen,
@@ -138,7 +139,7 @@ def _frames(params):
         skeleton[key]={s:tuple(v) for s,v in skeleton[key].items()}
     sk=body.skeleton(skeleton)
     frames=rig.body_segments(sk)
-    lengths=SimpleNamespace(**{k:getattr(arm,k) for k in dir(arm) if not k.startswith('__')})
+    lengths=arm.dims(params['hand'])
     arm_ratio=params['dimensions']['arm_length']/_MEASURED_ARM_LENGTH
     lengths.UPPER_MM, lengths.FORE_MM = _UPPER*arm_ratio, _FORE*arm_ratio
     frames.update(rig.arm_segments(sk,lengths,params['pose']))
@@ -261,7 +262,7 @@ def _transform(params, row, frames):
 
 
 def parts(params=PARAMS):
-    params=proportion.apply(params)
+    params=proportion.apply(catalog.apply(params,num=2,measured=True))
     frames=_frames(params);out=[]
     for row in profiles.templates(params,PARAMS,_TEMPLATES,_BASE_FRAMES):
         shape={k:row[k] for k in ('shape','points','vertices','faces','rings','cuts','items') if k in row}
@@ -281,7 +282,7 @@ def parts(params=PARAMS):
         while parent and parent not in ids:parent=parents.get(parent)
         if parent:part['parent_part']=parent
         else:part.pop('parent_part',None)
-    return out
+    return helmet.ra02(out,params,frames)
 
 
 def anchors(params=PARAMS):

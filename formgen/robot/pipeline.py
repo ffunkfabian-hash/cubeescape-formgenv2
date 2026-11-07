@@ -36,7 +36,7 @@ def source_hash(entry) -> str:
 
 def document_for(sid, entry):
     module = lines.module_of(entry)
-    document = module.document(lines.merge(module.PARAMS, entry['params']), sheet_id=sid, line=entry['line']['name'].lower(), name=entry['type']['name_de'])
+    document = module.document(lines.params_of(entry), sheet_id=sid, line=entry['line']['name'].lower(), name=entry['type']['name_de'])
     document['info']['skin'] = entry['skin']        # Materialkacheln des Blatts zeigen die Farben des Skins
     return document
 
@@ -120,7 +120,9 @@ def main(argv=None) -> int:
     sheets = lines.sheets()
     if a.list:
         for sid, e in sheets.items():
-            print(f"{sid}  Linie {e['line']['letter']} {e['line']['name']:<12} {e['type']['name_de']:<16} Skin {e['skin']:<13} {json.dumps(e['params'], sort_keys=True) if e['params'] else '-'}")
+            chosen = ', '.join(f"{v['id']} {v['name']}" for v in lines.variants_of(e) if v['letter'] != 'A') or 'Grundform'
+            print(f"{sid}  Linie {e['line']['letter']} {e['line']['name']:<12} {e['type']['name_de']:<16} Skin {e['skin']:<13} Teile {chosen}  "
+                  f"{json.dumps(e['params'], sort_keys=True) if e['params'] else '-'}")
         return 0
     unknown = [i for i in a.ids if i not in sheets]
     if unknown:

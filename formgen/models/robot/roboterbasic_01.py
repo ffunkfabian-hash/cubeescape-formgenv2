@@ -15,13 +15,13 @@ from pathlib import Path
 
 import numpy as np
 
-from formgen.models.robot import arm, body, kit, proportion, rig
+from formgen.models.robot import arm, body, catalog, helmet, kit, proportion, rig
 
 SOURCE = 'BALLON 14bd78d basic/robot/studies/a_waechter.py, Nutzerziel RoboterBasic-01 (05.11.2026)'
 HELMET = Path(__file__).with_name('helmet_h80.json')
 DATA_FILES = (HELMET,)      # Schnittstelle Basic-Typ: Datendateien des Modells, gehen in den Cache-Schlüssel
 
-REFERENCE_PARAMS = dict(
+REFERENCE_PARAMS = catalog.options(dict(
     skeleton=dict(waist=(0, 0, 1010), neck=(22, -18, 1405), pelvis=(22, 0, 834), head_h=270, head_off=(-14, 6),
                   torso_hint=(0.2, -1, 0), head_hint=(0.42, -1, 0), shoulder=(276, 0, 300),
                   hip_x=120, hip_z=40, thigh=395, shin=385, foot_h=112,
@@ -56,7 +56,9 @@ REFERENCE_PARAMS = dict(
         shin=[(30, 72, 76, 0), (140, 82, 88, -4), (280, 68, 72, -2), (385, 58, 60, 0)], shin_shell=(-96, 96),
         calf=True, ankle_pistons=True, lights=True, ankle_r=40,
         foot=[(-100, 64, 44, -66), (-30, 70, 56, -56), (70, 72, 48, -64), (160, 66, 34, -78), (222, 54, 22, -88)]),
-)
+    # 0.14 Kitbash: Wahl je Einzelteil (catalog), Unterarm- und Handmaße (arm.py), Kopfvarianten (helmet.py); Standard = Grundform
+    variants=dict(catalog.BASIC['variants']), forearm=dict(arm.FOREARM), hand=dict(arm.HAND), helmet=dict(helmet.NEUTRAL),
+))
 
 # Zwei Ebenen nach Nutzerentscheid 05.11.2026: zehn Einzelteile (Feld `assembly`) und darüber vier Baugruppen (Feld `group`); je Einzelteil beide
 # Körperseiten, das Becken gehört zur Baugruppe Oberkörper. Explosion nur zur Darstellung.
@@ -90,20 +92,9 @@ for _a in ASSEMBLIES:
     _a['group_de'] = GROUPS[_a['group']]
     _a['provenance'] = dict(kind='Annahme', source='Explosionsversatz nur zur Darstellung, mm (f,u,x)')
 
-_TRUNK = dict(head='head', torso='upper_body', pelvis='pelvis', thigh='thighs', shin='shins', foot='feet')
-_ARM = dict(upper='upper_arms', fore='forearms')
-
-
 def _assembly(pid, kind):
-    """Einzelteil eines Bauteils; zur Schulter gehören die Teile von Segment SHOULDER_* der Referenz (21 je Seite), beschrieben im Rumpf- bzw. Oberarmrahmen."""
-    if pid.startswith(('pauldron_', 'shoulder_')):
-        return 'shoulders'
-    if kind == 'hand' or re.fullmatch(r'(f\d|t)_\d', kind):
-        return 'hands'
-    found = _TRUNK.get(kind) or _ARM.get(kind)
-    if not found:
-        raise ValueError(f'{pid}: Segment {kind} gehört zu keinem Einzelteil')
-    return found
+    """Einzelteil eines Bauteils (catalog.assembly_of, gemeinsam mit dem Ersatzmodus von RA02)."""
+    return catalog.assembly_of(pid, kind)
 
 
 def _helmet(frames):
@@ -123,7 +114,7 @@ def _helmet(frames):
 def rig_of(params):
     sk = body.skeleton(params['skeleton'])
     frames = rig.body_segments(sk)
-    frames.update(rig.arm_segments(sk, arm, params['pose']))
+    frames.update(rig.arm_segments(sk, arm.dims(params['hand']), params['pose']))
     return sk, frames
 
 
@@ -138,11 +129,11 @@ def _shoulder_frame(side, torso, joint_local, degrees):
 
 
 def parts(params=PARAMS):
-    params = proportion.apply(params)
+    params = proportion.apply(catalog.apply(params, num=1))
     sk, frames = rig_of(params)
     head = body.head(params['head'])
     trunk = body.torso(params['torso']) + body.pelvis(params['pelvis']) + body.legs(params['legs'])
-    limbs = arm._bulk([p for p in arm.parts() if p[0] not in set(params['arm_drop'])], params['arm_bulk']) + body.upper_arm(params['upper_arm'])
+    limbs = arm._bulk([p for p in arm.parts(params['forearm'], params['hand']) if p[0] not in set(params['arm_drop'])], params['arm_bulk']) + body.upper_arm(params['upper_arm'])
     out = []
     for name, (R, o, side, kind) in frames.items():
         if name.startswith('arm_'):
@@ -158,7 +149,7 @@ def parts(params=PARAMS):
         for pid, de, seg, form, role, p in limbs:
             R, o, _, _ = frames[f'arm_{side}_{seg}']
             out.append(kit.part(f'arm_{side}_{pid}', de, f'arm_{side}_{seg}', form, role, p, (R, o), sx, _assembly(pid, seg), side))
-    return out + _helmet(frames)
+    return out + helmet.ra01(_helmet(frames), params, frames)
 
 
 def anchors(params=PARAMS):

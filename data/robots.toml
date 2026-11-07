@@ -2,7 +2,10 @@
 # [[types]]: Basic-Typen mit eigenem Modellmodul unter formgen/models/robot/ (Schnittstelle siehe docs/robot.md).
 # [[lines]]: Kennbuchstabe A–Z ohne I/O, englischer Name 1–3 Wörter ≤ 16 Zeichen, gilt für die genannten Typen; `params.<num>` überschreibt
 # nur vorhandene Schlüssel von PARAMS des Typs. Vergebene IDs sind ewig; R01 und R02 (Contour) bleiben reserviert.
+# Version 2 (0.14 Kitbash): `[lines.parts]` wählt je Einzelteil eine Variante aus dem Baukasten formgen/models/robot/catalog (ID `<Kürzel>-<Buchstabe>`,
+# z. B. shoulders = "SH-C"); fehlende Einzelteile bleiben bei der Grundform A. Version 1 ohne `version` wird beim Laden migriert (formgen/robot/lines.py).
 schema = "formgenv2/robot-register"
+version = 2
 
 [[types]]
 num = 1

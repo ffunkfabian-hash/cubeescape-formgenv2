@@ -54,6 +54,11 @@ FINGER_POSES = {
     'pinch':    dict(f=[[46, 56, 36], [70, 80, 56], [74, 82, 58], [76, 84, 60]], t=[46, 18, 34]),
 }
 
+# 0.14 Kitbash: Maße von Unterarm und Hand als Parameter (PARAMS['forearm'], PARAMS['hand'] beider Typen); leer = die Konstanten oben.
+# Schnittstelle: parts(fore, hand) baut die Teile, dims(hand) liefert die Maße für rig.arm_segments (Finger, Daumen, Längen).
+FOREARM: dict = {}
+HAND: dict = {}
+
 APOTHEM = 0.924   # Achteck: Abstand Fläche/Achse = 0,924 × Eckradius
 
 
@@ -102,8 +107,18 @@ def _bulk(P, k):
     return out
 
 
-def parts():
-    """Teile je Segment: (id, de, segment, form, rolle, params). Maße in mm im Segmentrahmen."""
+def dims(hand=None):
+    """Maße der Armkette für rig.arm_segments: Konstanten dieses Moduls, überschrieben durch PARAMS['hand'] (0.14)."""
+    from types import SimpleNamespace
+    out = SimpleNamespace(**{k: v for k, v in globals().items() if k.isupper()})
+    for key, value in (hand or {}).items():
+        if key.upper() in vars(out):
+            setattr(out, key.upper(), value)
+    return out
+
+
+def parts(fore=None, hand=None):
+    """Teile je Segment: (id, de, segment, form, rolle, params). Maße in mm im Segmentrahmen; fore/hand: PARAMS['forearm'], PARAMS['hand']."""
     P = []
     # Oberarm (meist außerhalb des Bildes): Graphitkörper, Cremeschale mit Pfeilschnitt zum Ellbogen
     P += [('upper_body', 'Oberarmkörper', 'upper', 'hull', 'graphite',

@@ -1,8 +1,14 @@
-"""Blatt-Spec des Roboters `formgenv2/robot-sheet-spec`; reine Datenoperation auf dem ausgewerteten Dokument."""
+"""Blatt-Spec des Roboters `formgenv2/robot-sheet-spec`; reine Datenoperation auf dem ausgewerteten Dokument.
+
+0.14 Kitbash: optionales Feld `variants` (Wahl je Einzelteil, alle zehn mit ID, Name, Idee, Herkunft, RA02-Weg), nur wenn die Linie eine
+Wahl trifft; Specs ohne Wahl (Linie A) bleiben bytegleich. `migrate` ergänzt bei einer Spec ohne Feld die Grundformen.
+"""
 from __future__ import annotations
 
 import tomllib
 from pathlib import Path
+
+from formgen.models.robot import catalog
 
 ROOT = Path(__file__).resolve().parents[2]
 FORMAT = 'formgenv2/robot-sheet-spec'
@@ -23,6 +29,14 @@ def _groups(document, counts):
 
 
 def build(document, entry) -> dict:
+    from . import lines
+    out = _build(document, entry)
+    if entry.get('parts'):
+        out['variants'] = lines.variants_of(entry)
+    return out
+
+
+def _build(document, entry) -> dict:
     (low, high) = document['bounds_m']
     counts = {}
     for p in document['parts']:
@@ -47,4 +61,7 @@ def migrate(spec: dict) -> dict:
         raise ValueError(f"Fremdes Format {spec.get('format')!r}")
     if spec.get('version') != VERSION:
         raise ValueError(f"Roboter-Spec Version {spec.get('version')!r} unbekannt")
+    if 'variants' not in spec:          # vor 0.14 oder Linie ohne Wahl: lauter Grundformen
+        kit = catalog.load()
+        spec = dict(spec, variants=[kit[a][catalog.BASE].info() for a in catalog.ASSEMBLIES])
     return spec
