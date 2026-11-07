@@ -6,6 +6,10 @@
 - Website: Die 3D-Seite wechselt den Skin live (Roboter: Roboter-Skins, Waffen: Farbskins), der Skin steht in der Adresse und bleibt beim Blättern. Roboterseite mit Suche und Linienfilter, Farbpunkte des Skins auf Roboter- und Waffenkarten, Roboter nach Kennbuchstabe sortiert ([Website](docs/website.md#skinwechsel)).
 - [Bericht](docs/versions/0.12.md)
 
+## 0.11.5 Patch pin42
+
+- Pin auf Agent Tools 0.42.0 (`e1c2ddf`), Lader `ce` folgt; sonst keine Änderung.
+
 ## 0.11.4 Patch skinfix
 
 - Blatt: Der Haupt-Skin der Variante steht als erstes, markiertes Feld in der Skin-Übersicht; bisher fehlte er bei 8 von 12 Linien.
