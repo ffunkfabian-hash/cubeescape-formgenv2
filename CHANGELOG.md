@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.2 Patch ci-voll (nur CI)
+
+- Neuer PR-Check `check / quick`: volle Testsuite wie `./check` auf Linux mit BALLON am gepinnten Commit, verteilt auf drei Teiljobs nach Testklassen (etwa 20 min); Blender-, GPU-, Bild- und JavaScriptCore-Tests bleiben beim Nachtlauf auf dem Mac.
+
 ## 0.14.1 Patch skin-blaettern (Nachbesserung 0.12)
 
 - 3D-Seite: Die Links für vor und zurück nehmen einen auf der Seite gewählten Skin mit; bisher galten sie nur für den Skin beim Laden. Doku 0.12 berichtigt (PR-Link, Silhouettenabnahme C/D offen, Merge-Ja).

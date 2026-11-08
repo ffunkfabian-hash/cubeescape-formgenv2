@@ -1,0 +1,108 @@
+# Volle Testsuite als PR-Check (Nutzer 07.11.2026, ersetzt Entscheidung 301). Öffentliches Repo: Standard-Linux-Runner
+# kosten keine Minuten - globale Regel "GitHub Actions sparsam". Dieselben Prüfungen wie `.ce-repo.json` › check.quick
+# (Skript `check`: Syntax aller .py, dann alle Tests unter tests/) mit BALLON am gepinnten Commit aus config.toml.
+# Blender-, GPU- und Bildstufen (FORMGEN_RENDER_TESTS, FORMGEN_GOLDEN_IMAGES) bleiben beim Nachtlauf auf dem Mac.
+# Ein Job allein sprengte 45 min (Lauf 42417855005, lokal 30 min); daher drei Teiljobs nach Testklassen und der Sammeljob
+# `quick`, dessen Name der PR-Check bleibt. Push nur auf main, andere Branches über ihren Pull Request, Doku löst nichts aus.
+name: check
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["**.md", "docs/**", ".claude/**", ".agents/**"]
+  pull_request:
+    paths-ignore: ["**.md", "docs/**", ".claude/**", ".agents/**"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: tests (${{ matrix.shard }}/3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: BALLON (gepinnter Commit aus config.toml, nur gelesen)
+        run: |
+          commit=$(sed -n 's/^commit = "\(.*\)"/\1/p' config.toml | head -1)
+          git clone -q https://github.com/ffunkfabian-hash/cubeescape-ballon.git "$RUNNER_TEMP/ballon"
+          git -C "$RUNNER_TEMP/ballon" checkout -q "$commit"
+          echo "FORMGEN_BALLON_REPO=$RUNNER_TEMP/ballon" >> "$GITHUB_ENV"
+      - name: Abhängigkeiten (.venv wie check.quick erwartet)
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+      - name: Syntax aller .py (wie ./check)
+        run: .venv/bin/python -c "import pathlib; [compile(p.read_text(), str(p), 'exec') for d in ('formgen', 'tests') for p in pathlib.Path(d).rglob('*.py')]"
+      - name: Testklassen für Teil ${{ matrix.shard }}
+        # Jede Klasse aus `discover -s tests` landet in genau einem Teil (Gewicht = lokal gemessene Sekunden, sonst 2);
+        # neue Testdateien laufen damit ohne Pflege mit. Ladefehler bleiben als eigener Eintrag und schlagen im Teil fehl.
+        run: |
+          .venv/bin/python - ${{ matrix.shard }} 3 > "$RUNNER_TEMP/ids.txt" <<'PY'
+          import sys, unittest
+          sys.path.insert(0, 'tests')
+          shard, total = int(sys.argv[1]), int(sys.argv[2])
+          # Gemessen am Mac 07.11.2026, sechs Läufe parallel: Klassen in Sekunden; ganze Module (geteilt durch ihre Klassen)
+          WEIGHT = {
+              'test_robot_catalog_body.BuildTest': 447, 'test_robot_catalog_body.VarietyTest': 254,
+              'test_series.VarietyTests': 210, 'test_asset.AssetCacheTests': 206, 'test_variety.RegisterVarietyTests': 169,
+              'test_robot_proportion.VarietyTest': 76, 'test_robot_catalog_arms.VariantTest': 65,
+              'test_variety.SeedTests': 39, 'test_build.BuildTests': 31, 'test_robot_basic.ModelTest': 18,
+              'test_robot_basic.AssetTest': 11, 'test_robot_basic.SilhouetteTest': 11, 'test_robot_basic.ContractTest': 10,
+              'test_robot_basic.SpecTest': 10, 'test_robot_basic.SheetTest': 10, 'test_series.ShellTests': 8,
+              'test_pocket_bevel': 35, 'test_robot_helmet': 29, 'test_polyhedral_bevel': 24, 'test_points': 22,
+              'test_ballon_generator': 21, 'test_robot_catalog': 21, 'test_geom': 19, 'test_spec': 14, 'test_robot_bevel': 12,
+          }
+          classes = []
+          def walk(suite):
+              for t in suite:
+                  if isinstance(t, unittest.TestSuite):
+                      walk(t)
+                      continue
+                  name = f'{type(t).__module__}.{type(t).__qualname__}'
+                  if type(t).__module__ == 'unittest.loader':        # Import der Testdatei gescheitert: Modul selbst laufen lassen
+                      name = t._testMethodName
+                  if name not in classes:
+                      classes.append(name)
+          walk(unittest.defaultTestLoader.discover('tests', top_level_dir='tests'))
+          module = lambda c: c.split('.')[0]
+          count = {m: sum(module(c) == m for c in classes) for m in map(module, classes)}
+          weight = lambda c: WEIGHT.get(c, WEIGHT.get(module(c), 2 * count[module(c)]) / count[module(c)])
+          load = [0.0] * total
+          parts = [[] for _ in range(total)]
+          for name in sorted(classes, key=lambda c: (-weight(c), c)):
+              i = load.index(min(load))
+              load[i] += weight(name)
+              parts[i].append(name)
+          print(f'Teil {shard}/{total}: {len(parts[shard - 1])} von {len(classes)} Klassen, '
+                f'Schätzung {load[shard - 1]:.0f} s', file=sys.stderr)
+          print('\n'.join(sorted(parts[shard - 1])))
+          PY
+          cat "$RUNNER_TEMP/ids.txt"
+      - name: Tests Teil ${{ matrix.shard }}
+        env:
+          PYTHONPATH: tests
+        run: xargs -a "$RUNNER_TEMP/ids.txt" .venv/bin/python -m unittest -v --durations 15
+
+  quick:
+    if: always()
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Alle Teile grün
+        run: |
+          echo "Teiljobs: ${{ needs.tests.result }}"
+          test "${{ needs.tests.result }}" = success
