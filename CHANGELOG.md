@@ -1,6 +1,6 @@
 # Changelog
 
-## Patch ci-voll (nur CI, Version bleibt 0.14.1)
+## 0.14.2 Patch ci-voll (nur CI)
 
 - Neuer PR-Check `check / quick`: volle Testsuite wie `./check` auf Linux mit BALLON am gepinnten Commit, verteilt auf drei Teiljobs nach Testklassen (etwa 20 min); Blender-, GPU-, Bild- und JavaScriptCore-Tests bleiben beim Nachtlauf auf dem Mac.
 
