@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.4 Patch pin44-1
+
+- Pin auf Agent Tools 0.44.1 (`d39ccd9`), Lader `ce` folgt; sonst keine Änderung.
+
 ## 0.14.3 Patch pin-0431 (nur Werkzeugstand)
 
 - `tools_version` auf ce-agent-tools 0.43.1 (`8adca7d`): Postfach per Label `postfach` statt festem #16; `ce`-Lader neu geschrieben. `__version__` auf 0.14.3 (Cache-Schlüssel der Blätter werden dadurch veraltet).
