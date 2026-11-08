@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.5 Patch pin45
+
+- Pin auf Agent Tools 0.45.0 (`e5e0eb9`), Lader `ce` folgt; sonst keine Änderung.
+
 ## 0.14.4 Patch pin44-1
 
 - Pin auf Agent Tools 0.44.1 (`d39ccd9`), Lader `ce` folgt; sonst keine Änderung.
