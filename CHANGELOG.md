@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.3 Patch pin-0431 (nur Werkzeugstand)
+
+- `tools_version` auf ce-agent-tools 0.43.1 (`8adca7d`): Postfach per Label `postfach` statt festem #16; `ce`-Lader neu geschrieben. `__version__` bleibt unverändert (Cache-Schlüssel).
+
 ## 0.14.2 Patch ci-voll (nur CI)
 
 - Neuer PR-Check `check / quick`: volle Testsuite wie `./check` auf Linux mit BALLON am gepinnten Commit, verteilt auf drei Teiljobs nach Testklassen (etwa 20 min); Blender-, GPU-, Bild- und JavaScriptCore-Tests bleiben beim Nachtlauf auf dem Mac.
