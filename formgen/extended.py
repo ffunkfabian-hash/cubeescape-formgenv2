@@ -35,6 +35,8 @@ MODELS = {"e01": "e01_spearhead"}          # Kurzname → Modul; IDs ewig (META.
 # Vergeben ist nur die ID; ein Blattweg (formgen.pipeline) und die Website-Aufnahme folgen in einer eigenen Version.
 SHEETS = {"e01": "EA01"}
 SHEET_PATTERN = r"E[A-HJ-NP-Z]\d{2}"      # Linienbuchstabe nach der Variantenregel (ohne I/O)
+MODELS["e16"], SHEETS["e16"] = "e16_sweepguard", "EA16"   # 0.20 Riftguard: Schwert (Nahkampf)
+MODELS["e17"], SHEETS["e17"] = "e17_gorget", "EA17"       # 0.20 Riftguard: Glefe (Nahkampf)
 
 
 def sheet_id(key: str) -> str:

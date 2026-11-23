@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.0 Riftguard — EXTENDED-16 Schwert und EXTENDED-17 Glefe
+
+- Neu: EXTENDED-16 „Sweepguard“ (`formgen/models/extended/e16_sweepguard.py`), ein Einhand-Säbel mit geschwungener, dreistufig geschichteter Klinge, Creme-Korbbügel als Negativraum und Ladebogen als Blickfang.
+- Neu: EXTENDED-17 „Gorget“ (`formgen/models/extended/e17_gorget.py`), eine Glefe mit Rundschaft und vier Ringkragen im Takt, Keilklinge über der Schusslinie und Emitter-Laterne mit Fenster quer durch Rahmen und Schildflügel; Schnittstellen BGM-1 und BEC-1.
+- Blatt-IDs `EA16`/`EA17`; nur die ID, kein Blattweg, keine Website ([EXTENDED](docs/extended.md)). `tools/extended_render.py` additiv: `--ref` (Vergleich mit BASIC-Referenz) und Detailausschnitte für Langformen.
+- [Bericht](docs/versions/0.20.md)
+
 ## 0.15.0 Spearhead — EXTENDED-01, eigenständiges Automatikgewehr
 
 - Neu: EXTENDED-01 „Spearhead“ (`formgen/models/extended/e01_spearhead.py`), ein Sci-Fi-Automatikgewehr der BASIC-Familie mit eigener Silhouette (Speerspitze: Oberlinie fällt, Unterlinie steigt, Draufsicht verjüngt), Fuller-Schlitz als Negativraum und Energiekern als einzigem Blickfang; Schnittstellen BGM-1, BMW-R, BMZ-15, BRI-22 wie BASIC-01, BASIC-01 unverändert.

@@ -132,6 +132,41 @@ def sheets(key, a):
     print(target / "kontaktbogen.png", target / "vergleich_BA01.png")
 
 
+# 0.20 Riftguard (additiv): Vergleich mit einer beliebigen BASIC-Referenz statt BA01 – Ordner mit hero/side_left/front/top.png
+# (Nahkampf: BASIC-16/17 haben keine BA-Bilder in 0.8). Lange, schmale Formen bekommen Ausschnitte der Hero-Ansicht (--detail).
+def compare_ref(key, a):
+    target = a.out / a.tag
+    data = extended.load(key)
+    title = f"{data['META']['id']} {data['META']['name']} · Runde {a.tag}"
+    w, h = 800, 450
+    names = [v for v in ("hero", "side_left", "front", "top") if (a.ref / f"{v}.png").exists() and (target / f"{v}.png").exists()]
+    cmp = Image.new("RGB", (2 * w + 24, len(names) * (h + 34) + 16), "#808080")
+    d = ImageDraw.Draw(cmp)
+    for j, v in enumerate(names):
+        for i, (path, label) in enumerate(((a.ref / f"{v}.png", f"{a.ref.name} · {v}"), (target / f"{v}.png", f"{title} · {v}"))):
+            y = 8 + j * (h + 34)
+            cmp.paste(Image.open(path).convert("RGB").resize((w, h), Image.LANCZOS), (8 + i * (w + 8), y + 30))
+            d.text((12 + i * (w + 8), y + 4), label, fill="#111317", font=font(20))
+    cmp.save(target / f"vergleich_{a.ref.name}.png")
+    print(target / f"vergleich_{a.ref.name}.png")
+
+
+def details(key, a):
+    """Ausschnitte (Bruchteile x0, y0, x1, y1 des Bildes) je Ansicht aus DETAIL des Modells, auf 800 px Breite."""
+    target = a.out / a.tag
+    for i, (view, box) in enumerate(DETAIL.get(key, ())):
+        im = Image.open(target / f"{view}.png").convert("RGB")
+        W_, H_ = im.size
+        crop = im.crop((int(box[0] * W_), int(box[1] * H_), int(box[2] * W_), int(box[3] * H_)))
+        crop.resize((800, int(800 * crop.size[1] / crop.size[0])), Image.LANCZOS).save(target / f"detail_{i + 1}_{view}.png")
+
+
+DETAIL = {}
+DETAIL["e16"] = [("hero", (0.55, 0.12, 0.98, 0.55)), ("side", (0.02, 0.36, 0.40, 0.68))]   # 0.20: Griffbereich Schwert
+DETAIL["e17"] = [("hero", (0.0, 0.5, 0.42, 0.95)), ("side_left", (0.0, 0.38, 0.42, 0.62)),   # 0.20: Kopf und
+                 ("hero", (0.55, 0.25, 0.85, 0.62))]                                           # Abzugskragen Glefe
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("key", choices=sorted(extended.MODELS))
@@ -143,10 +178,14 @@ def main(argv=None):
     p.add_argument("--sheets", action="store_true", help="nur Bögen setzen")
     p.add_argument("--force", action="store_true", help="auch bei passendem Stempel neu rendern")
     p.add_argument("--out", type=Path, default=OUT)
+    p.add_argument("--ref", type=Path, help="Ordner der BASIC-Referenz (hero/side_left/front/top.png) für den Vergleich")
     a = p.parse_args(argv)
     if not a.sheets:
         render(a.key, a)
     sheets(a.key, a)
+    if a.ref:
+        compare_ref(a.key, a)
+    details(a.key, a)
     return 0
 
 
