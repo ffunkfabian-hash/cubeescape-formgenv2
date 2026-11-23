@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.19.0 Crucible — EXTENDED-10 und EXTENDED-11, Fusion und lineare Fusion
+
+- Neu: EXTENDED-10 „Bellmouth“ (`formgen/models/extended/e10_bellmouth.py`), ein kompaktes Fusionsgewehr (0,56 m) mit runder Ladetrommel, Glutring als einzigem Blickfang und weitem Streutrichter; Schnittstellen BGM-1, BEC-1, BMZ-15, BRI-22 und Visier F1 wie BASIC-10.
+- Neu: EXTENDED-11 „Collimator“ (`formgen/models/extended/e11_collimator.py`), ein langes lineares Fusionsgewehr (1,13 m) mit offenem Stabkäfig, quadratischen Fokusplatten in enger werdendem Takt und Fokuskegel; Linearkern als Blickfang, Zielfernrohr Z2 wie BASIC-11.
+- `formgen/extended.py`: Register e10/e11 (Blatt-IDs `EA10`, `EA11`), `side_iou` reicht den Rahmen durch (Langwaffen bis f 940). `tools/extended_render.py`: Leuchtrolle `charge_core` für Energiewaffen; e01 unverändert.
+- [Bericht](docs/versions/0.19.md)
+
 ## 0.15.0 Spearhead — EXTENDED-01, eigenständiges Automatikgewehr
 
 - Neu: EXTENDED-01 „Spearhead“ (`formgen/models/extended/e01_spearhead.py`), ein Sci-Fi-Automatikgewehr der BASIC-Familie mit eigener Silhouette (Speerspitze: Oberlinie fällt, Unterlinie steigt, Draufsicht verjüngt), Fuller-Schlitz als Negativraum und Energiekern als einzigem Blickfang; Schnittstellen BGM-1, BMW-R, BMZ-15, BRI-22 wie BASIC-01, BASIC-01 unverändert.
