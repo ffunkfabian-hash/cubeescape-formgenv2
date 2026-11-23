@@ -202,5 +202,32 @@ class TestRenderCache(unittest.TestCase):
             self.er.render("e01", self.a)
 
 
+    def test_incomplete_render_leaves_no_stamp(self):
+        """Blender läuft durch, liefert aber eine Ansicht nicht: Fehler, alte Bilder bleiben unbestempelt (nicht aktuell)."""
+        import argparse
+
+        def fake(cmd, **kw):
+            job = json.loads(Path(cmd[-1]).read_text())
+            out = Path(job["out"]) / "EXTENDED-01" / "views"
+            out.mkdir(parents=True)
+            for v in job["only"].split(","):
+                if v != self.drop:
+                    (out / f"{v}.png").write_bytes(b"neu")
+            return argparse.Namespace(returncode=0, stdout="", stderr="")
+        self.run.side_effect = fake
+        a = copy.copy(self.a)
+        a.force = True
+        self.drop = "top"
+        with self.assertRaisesRegex(RuntimeError, "nicht alle Ansichten"):
+            self.er.render("e01", a)
+        target = self.a.out / "t"
+        self.assertFalse((target / "render.json").exists())
+        self.assertEqual((target / "top.png").read_bytes(), b"")
+        self.drop = None   # Gegenprobe: vollständige Lieferung → Bilder ersetzt, Stempel geschrieben, danach aktuell
+        self.assertTrue(self.er.render("e01", a))
+        self.assertEqual((target / "top.png").read_bytes(), b"neu")
+        self.assertFalse(self.er.render("e01", self.a))
+
+
 if __name__ == "__main__":
     unittest.main()

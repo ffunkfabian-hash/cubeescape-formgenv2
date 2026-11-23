@@ -74,6 +74,7 @@ def render(key, a):
     if not a.force and current(target, want):
         print(target, "aktuell, kein Render (--force rendert neu)", flush=True)
         return False
+    (target / "render.json").unlink(missing_ok=True)   # ein abgebrochener Lauf hinterlässt keinen gültigen Stempel
     with tempfile.TemporaryDirectory(prefix=f"formgen-extended-{key}-") as tmp:
         tmp = Path(tmp)
         (tmp / "wrapper.py").write_text(WRAPPER)
@@ -88,6 +89,9 @@ def render(key, a):
         if run.returncode or "Traceback" in log:
             raise RuntimeError("\n".join(log.splitlines()[-30:]))
         wid = data["META"]["id"]
+        missing = [v for v in views(a) if not (tmp / "o" / wid / "views" / f"{v}.png").exists()]
+        if missing:   # vor dem Kopieren: alte Bilder dürften sonst mit neuem Stempel als aktuell gelten
+            raise RuntimeError(f"Blender lieferte nicht alle Ansichten: {missing}")
         for png in (tmp / "o" / wid / "views").glob("*.png"):
             shutil.copyfile(png, target / png.name)
         for ext in ("spec.json", "glb", "blend"):
