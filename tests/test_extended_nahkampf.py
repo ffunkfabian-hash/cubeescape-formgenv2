@@ -350,7 +350,7 @@ class TestRenderAdditions(unittest.TestCase):
     def test_compare_and_details(self):
         from PIL import Image
         self.er.compare_dir("e16", self.a)
-        cmp = Image.open(self.out / "r1" / "vergleich_B16.png")
+        cmp = Image.open(self.out / "r1" / "vergleich_ref_B16.png")
         self.assertEqual(cmp.size[1], 4 * (450 + 34) + 16, "vier Ansichtspaare")
         self.er.details("e16", self.a)
         made = sorted(p.name for p in (self.out / "r1").glob("detail_*.png"))
@@ -359,7 +359,7 @@ class TestRenderAdditions(unittest.TestCase):
         # Gegenprobe: fehlt eine Ansicht in der Referenz, fällt nur dieses Paar weg
         (self.ref / "top.png").unlink()
         self.er.compare_dir("e16", self.a)
-        self.assertEqual(Image.open(self.out / "r1" / "vergleich_B16.png").size[1], 3 * (450 + 34) + 16)
+        self.assertEqual(Image.open(self.out / "r1" / "vergleich_ref_B16.png").size[1], 3 * (450 + 34) + 16)
 
     def test_default_target_per_model(self):
         """Ohne --out rendert jedes neue Modell in einen eigenen Ordner; e01 bleibt bei <OUT>/<tag> (keine gegenseitigen Überschreibungen)."""
@@ -408,7 +408,7 @@ class TestRenderAdditions(unittest.TestCase):
         self.assertEqual(got["compare_ref"], ("e01", self.er.OUT), "e01 behält <OUT>")
         got = run("e16", "--tag", "r1")   # Gegenprobe
         self.assertFalse({"render_ref", "compare_ref", "compare_dir"} & set(got))
-        # Beide Bögen im selben Rundenordner überschreiben sich nicht: vergleich_BA16.png (Pilot) neben vergleich_B16.png (Ordner)
+        # Beide Bögen im selben Rundenordner überschreiben sich nicht: vergleich_BA16.png (Pilot) neben vergleich_ref_B16.png (Ordner)
         from PIL import Image
         (self.out / "BA16").mkdir()
         for v in ("hero", "side_left"):
@@ -416,7 +416,13 @@ class TestRenderAdditions(unittest.TestCase):
         self.a.basic = "16"
         self.er.compare_ref("e16", self.a)
         self.er.compare_dir("e16", self.a)
-        self.assertTrue({"vergleich_BA16.png", "vergleich_B16.png"} <= {p.name for p in (self.out / "r1").glob("vergleich_*.png")})
+        self.assertTrue({"vergleich_BA16.png", "vergleich_ref_B16.png"} <= {p.name for p in (self.out / "r1").glob("vergleich_*.png")})
+        # Regression (Richter Integration R2): heißt der Referenzordner selbst BA16, bleibt der Pilotvergleich erhalten
+        pilot = (self.out / "r1" / "vergleich_BA16.png").read_bytes()
+        self.a.ref = self.out / "BA16"
+        self.er.compare_dir("e16", self.a)
+        self.assertEqual((self.out / "r1" / "vergleich_BA16.png").read_bytes(), pilot, "compare_dir überschreibt compare_ref nicht")
+        self.assertTrue((self.out / "r1" / "vergleich_ref_BA16.png").exists())
 
     def test_e01_defaults_unchanged(self):
         """Die 0.15-Vorgaben bleiben: Standardordner 0.15, Ansichten, Wrapper (Stempel von e01 gelten weiter)."""

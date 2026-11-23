@@ -41,7 +41,7 @@ der Stempel `render.json` nicht passt; er enthält den Datensatz- und den Quellh
 Ansichten. `--force` rendert trotzdem neu.
 
 Seit 0.20 (Nahkampf) vergleicht `--ref <Ordner>` mit einer beliebigen BASIC-Referenz (Bilder `hero`, `side_left`, `front`, `top`;
-Ausgabe `vergleich_<Ordner>.png`), und `DETAIL` je Modell legt Ausschnitte für lange, schmale Formen an (`detail_<n>_<Ansicht>.png`).
+Ausgabe `vergleich_ref_<Ordner>.png`, getrennt von `vergleich_BA<NN>.png` aus `--basic`), und `DETAIL` je Modell legt Ausschnitte für lange, schmale Formen an (`detail_<n>_<Ansicht>.png`).
 Die e01-Ansichten und -Stempel bleiben unverändert. Ohne `--out` rendert jedes neue Modell nach `<OUT>/<Kurzname>/<tag>`,
 e01 weiter nach `<OUT>/<tag>`; so überschreibt derselbe Tag kein anderes Modell.
 `--ref <Ordner>` (vorhandene Bilder, `compare_dir`) und `--basic NN` aus 0.17 (Pilot im selben AAA-Weg, `compare_ref`)

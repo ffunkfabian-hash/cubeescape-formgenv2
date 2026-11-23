@@ -7,7 +7,7 @@
 Cache: Ein Tag rendert nur, wenn Bilder fehlen oder der Stempel `<out>/<tag>/render.json` (Datensatz-Hash, Quellhash, Kit-Snapshot,
 Wrapper, Samples, Auflösung, Ansichten) nicht passt; `--force` rendert trotzdem neu (Projektregel: nie ungefragt alles neu).
 
-0.20 (additiv): `--ref <Ordner>` setzt vergleich_<Ordner>.png gegen eine BASIC-Referenz, DETAIL je Modell legt detail_<n>_<Ansicht>.png
+0.20 (additiv): `--ref <Ordner>` setzt vergleich_ref_<Ordner>.png gegen eine BASIC-Referenz, DETAIL je Modell legt detail_<n>_<Ansicht>.png
 an; ohne --out rendern neue Modelle nach <OUT>/<Kurzname>/<tag>, e01 weiter nach <OUT>/<tag>.
 
 Ansichten: hero (eigenes HERO des Modells), hero_p (70 mm Perspektive), side (rechts), side_left, top, front, rear, dazu clay und
@@ -159,8 +159,9 @@ def compare_dir(key, a):
             y = 8 + j * (h + 34)
             cmp.paste(Image.open(path).convert("RGB").resize((w, h), Image.LANCZOS), (8 + i * (w + 8), y + 30))
             d.text((12 + i * (w + 8), y + 4), label, fill="#111317", font=font(20))
-    cmp.save(target / f"vergleich_{a.ref.name}.png")
-    print(target / f"vergleich_{a.ref.name}.png")
+    name = f"vergleich_ref_{a.ref.name}.png"   # eigenes Präfix: ein Ordner „BA16“ träfe sonst vergleich_BA<NN>.png von --basic
+    cmp.save(target / name)
+    print(target / name)
 
 
 def details(key, a):
