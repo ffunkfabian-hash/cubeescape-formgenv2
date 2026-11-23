@@ -56,6 +56,19 @@ def angle(p0, p1):
     return math.degrees(math.atan2(p1[0] - p0[0], p1[1] - p0[1]))
 
 
+def pair_iou(a, b, margin=20.0):
+    """Seiten-IoU mit einem Rahmen aus den Hüllen beider Teillisten (1 mm je Pixel, gemeinsamer Ursprung Socket_Hand).
+
+    Der Standardrahmen von `extended.side_mask` (f −420 … 780, u −200 … 320) beschneidet längere Modelle wie Schwert und Glefe
+    (EXTENDED-16/17) mit `ValueError`; je Paar gemessen bleibt der Vergleich mit jedem EXTENDED-Modell möglich (Koordination 0.17)."""
+    boxes = [x for p in list(a) + list(b) if (x := extended.bounds(p))]
+    f0, u0 = min(q[0][0] for q in boxes) - margin, min(q[0][1] for q in boxes) - margin
+    f1, u1 = max(q[1][0] for q in boxes) + margin, max(q[1][1] for q in boxes) + margin
+    frame = dict(lo=(math.floor(f0), math.floor(u0)), size=(math.ceil(f1 - f0) + 1, math.ceil(u1 - u0) + 1))
+    ma, mb = extended.side_mask(a, **frame), extended.side_mask(b, **frame)
+    return round(float((ma & mb).sum() / (ma | mb).sum()), 4)
+
+
 def length(parts):
     b = [x for p in parts if (x := extended.bounds(p))]
     return max(q[1][0] for q in b) - min(q[0][0] for q in b)
@@ -146,7 +159,9 @@ class Common:
 
     def test_own_silhouette(self):
         """Seiten-IoU < 0,85 gegen BASIC-NN und jedes vorhandene EXTENDED-Modell der Langwaffenklasse."""
-        self.assertLess(extended.side_iou(self.basic["PARTS"], self.parts), IOU_MAX)
+        self.assertLess(pair_iou(self.basic["PARTS"], self.parts), IOU_MAX)
+        self.assertAlmostEqual(pair_iou(self.basic["PARTS"], self.parts), extended.side_iou(self.basic["PARTS"], self.parts),
+                               delta=1e-4, msg="Paarrahmen misst wie der Standardrahmen, wenn beide hineinpassen")
         others = 0
         for key in extended.MODELS:
             if key == self.KEY:
@@ -154,12 +169,18 @@ class Common:
             other = extended.load(key, SNAP)
             if other["META"]["reference_length_m"] >= LONG_M:
                 others += 1
-                self.assertLess(extended.side_iou(other["PARTS"], self.parts), IOU_MAX, key)
+                self.assertLess(pair_iou(other["PARTS"], self.parts), IOU_MAX, key)
         self.assertGreaterEqual(others, 2, "mindestens EXTENDED-01 und das Schwestergewehr")
         # Gegenprobe: das Maß erkennt eine Kopie (IoU 1) und eine Linie (BASIC ohne Mündung bleibt über der Schwelle)
-        self.assertGreaterEqual(extended.side_iou(self.parts, copy.deepcopy(self.parts)), 0.99)
+        self.assertGreaterEqual(pair_iou(self.parts, copy.deepcopy(self.parts)), 0.99)
         trimmed = [p for p in self.basic["PARTS"] if not p["id"].startswith("muzzle")]
-        self.assertGreater(extended.side_iou(self.basic["PARTS"], trimmed), IOU_MAX)
+        self.assertGreater(pair_iou(self.basic["PARTS"], trimmed), IOU_MAX)
+        # Gegenprobe: ein Modell über 1,2 m (Lauf bis f 1400, Kolben bis f −500) bricht den Standardrahmen ab, den Paarrahmen nicht
+        long = copy.deepcopy(self.parts) + [dict(shape="cyl", axis="f", c=(100, 0), a0=-500, a1=1400, r=12, id="long", mat="metal")]
+        self.assertGreater(length(long), 1200)
+        with self.assertRaisesRegex(ValueError, "beschnitten"):
+            extended.side_iou(long, self.parts)
+        self.assertLess(pair_iou(long, self.parts), 1.0)
 
     def test_no_floating_parts(self):
         groups = extended.components(self.parts)
