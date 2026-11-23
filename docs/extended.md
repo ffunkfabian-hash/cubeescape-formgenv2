@@ -158,7 +158,7 @@ trennt die Form. Die Seite gewinnt dabei eine durchgehende Speedlinie.
 
 ### Formsprache
 
-Doppeldeck mit flacher, durchgehender Oberlinie; Querschnitt zweistöckig (Flachkasten 26 × 20 mm über Rundrohr Ø 20); Negativraum ist der
+Doppeldeck mit flacher, durchgehender Oberlinie; Querschnitt zweistöckig (Oberdeck 22 × 18 mm über Rundrohr Ø 20, 8 mm Luft); Negativraum ist der
 Schlitz zwischen Laufbuchse und Stirn, quer ganz offen; Blickfang die Kapselanzeige links am Verschlussblock; Front zweistufig
 (Schlittenstirn, 8 mm davor Mündungsring mit Krone). Creme 62 % der Seitenfläche über dem Griff. Gemessen r4: 0,197 m, 11 002 Dreiecke.
 

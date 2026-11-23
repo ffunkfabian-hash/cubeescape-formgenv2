@@ -13,9 +13,9 @@ Formsprache (Stilhandbuch BALLON §3)
 | Negativraum | Schlitz zwischen Schlitten und Laufrohr vom Verschlussblock bis zur Stirn, quer ganz offen; Auswurffenster rechts mit Laufkopf |
 | Blickfang | Kapselanzeige links am Verschlussblock: leuchtendes Stadionfenster (Munitionsstand) hinter Glas in blankem Rahmen, kameranah (eine Leuchtfunktion außer dem Visier) |
 | Zweiton-Blockung | Schlitten Lack (`shell`), Rahmen und Laufrohr Polymer (`graphite`), Griff `rubber`, Magazinboden `anodized`; Teilung Seite ≈ 62:38 (G) |
-| Querschnitt | Zweistock: Flachkasten (26 × 20 mm, große Kantenradien) über einem Rundrohr Ø 20, dazwischen 6,5 mm Luft |
+| Querschnitt | Zweistock: Oberdeck als Flachkasten (22 × 18 mm, große Kantenradien) über einem Rundrohr Ø 20, dazwischen 8 mm Luft |
 | Grafik | ein Chevronpaar vorn am Schlitten, ein Schriftzug rechts am Schlitten |
-| Front | zweistufig: Schlittenstirn oben, darunter das Laufrohr 6 mm weiter vorn mit Mündungsmulde und blanker Krone |
+| Front | zweistufig: Schlittenstirn oben, darunter das Laufrohr 8 mm weiter vorn mit Mündungsring (zwei Gasschlitze), Mündungsmulde und blanker Krone |
 | Übergänge | Rahmen geht vor dem Abzugsbügel in das Laufrohr über; Verschlussblock fällt mit einem Radius in den Schlitz |
 | Ergonomie | Griff BGM-1 wie die Familie (Socket_Hand 0/0), tiefe Laufachse (12 mm über der Griffoberkante), Schlittenfang und Magazinhalter links unter dem Daumen |
 | Akzente kameranah (A3) | Kapselanzeige, Schlittenfang, Magazinhalter links; Rillen am Verschlussblock zum Durchladen |
