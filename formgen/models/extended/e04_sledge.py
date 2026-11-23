@@ -9,24 +9,24 @@ Formsprache (Stilhandbuch BALLON §3)
 | Frage | EXTENDED-04 „Sledge“ |
 |---|---|
 | Leitmerkmal der Silhouette | Hammerkopf: ein schwerer Kopf (Prallkammer) vorn, schlanker Hals über offener Kehle, dahinter Rahmen mit freier Trommel; Oberlinie Sattel – Hals – Kopf |
-| Schichten | Rahmen (Graphit) → Creme-Oberbrücke mit Sattel → Hals 4 mm schmaler als der Rahmenkopf → Kopf breiter als alles (Draufsicht ebenfalls Hammer) → eloxierte Stirnplatte 2 mm vor dem Kopf |
+| Schichten | Rahmen (Graphit) → Creme-Oberbrücke mit Sattel → Hals (26 mm) 8 mm schmaler als der Rahmen → Kopf breiter als alles (Draufsicht ebenfalls Hammer) → eloxierte Stirnplatte 3 mm vor dem Kopf |
 | Negativraum | offene Kehle zwischen Rahmen und Kopf unter dem Hals; Prallkammer quer durch den Kopf, drei Prallplatten im Fenster, zwei Gasschlitze oben |
 | Blickfang | Zündauge links hinter der Trommel: runde Leuchtlinse mit blankem Ring (genau eine Leuchtfunktion außer dem Visier) |
-| Zweiton-Blockung | Oberbrücke mit Sattel und Kopf Lack (`shell`) als zwei helle Massen, dazwischen der Hals eloxiert (`anodized`, Laufmantel); Rahmen Polymer (`graphite`), Trommel, Kran und Prallplatten `dark_metal`, Stirnplatte und Hahn `anodized` |
+| Zweiton-Blockung | Oberbrücke mit Sattel und Kopf Lack (`shell`) als zwei helle Massen, dazwischen der Hals in Graphit wie der Rahmen (Laufmantel; eloxiert zeigte er Kratzsprenkel, r3); Rahmen Polymer (`graphite`), Trommel, Kran und Prallplatten `dark_metal`, Stirnplatte und Hahn `anodized` |
 | Querschnitt | Doppel-T: Brücke, Hals und Kopf mit durchgehender Längsnut je Seite (6 mm hoch, 3 mm tief); die Halsnut läuft auf Laufhöhe in die Prallkammer |
 | Grafik | ein Chevronpaar am Kieferblock des Kopfes, nach vorn zeigend; ein Schriftzug rechts am Hals |
 | Front | Kopf mit Fasen oben und unten → eloxierte Stirnplatte → Mündungsmulde → blanke Krone; Prallkammer und Gasschlitze dahinter |
 | Übergänge | Kiefer des Kopfes läuft mit schräger Rückseite zur Kehle; Sattel fällt mit einer Rampe auf den Hals |
 | Ergonomie | Griff BGM-1 wie die Familie (Socket_Hand 0/0), Hahnsporn unter der Visierlinie, Trommelriegel unter dem Daumen links |
 | Akzente kameranah (A3) | Zündauge, Trommelriegel und Hahn links hinten; Prallkammer mit drei breiten Platten statt vieler feiner |
-| Teilungen (A8) | Creme oben ≈ 70 %, Graphit unten ≈ 30 % der Seitenfläche über dem Griff |
+| Teilungen (A8) | Creme ≈ 32 % der Seitenfläche über dem Griff (G, Seitensilhouette): dunkles Fahrgestell, zwei helle Massen – keine 0,4–0,6-Teilung |
 | Lesbarkeit (A1/A7) | Seitensilhouette eigenständig gegen BASIC-04 und EXTENDED-01/05 (tests/test_extended_faustwaffen.py) |
 
 Schlichtheitsbudget: Leuchten 2 Funktionen (Zündauge; Visier: Klammern und Kornpunkt) · Grafik 1 Chevronpaar · Schrift 1 · Orange 1
 außerhalb des Visiers (Trommelriegel; dazu der Klemmhebel des Visiers) · Schrauben nur an der Stirnplatte.
 
 Herkunft der Zahlen: V = Vorgabe (Familie/Schnittstelle, BASIC-04 Pilot v2.1 bzw. `basic.common`), A = Annahme (Entwurf 0.18),
-G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.18, an den Renders r1–r3 gesichtet).
+G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.18, an den Renders r1–r4 gesichtet).
 Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
 """
 import math
@@ -109,7 +109,7 @@ P += [
          'auf den Rahmen gesetzt, je Seite 1 mm schmaler (Stufe)',
          [(-8, STRAP), (CYL_F[1] + 2.5, STRAP), (CYL_F[1] + 2.5, NECK[1]), (100, NECK[1]), (88, SADDLE), (-4, SADDLE), (-8, SADDLE - 4)],
          ST_W, bevel=R_MID, cuts=groove(-12, 80, 87, 93, ST_W)),
-    prof('neck', 'Hals', 'Neck', 'receiver', 'anodized', 'Laufmantel zwischen Brücke und Kopf; schlank über der offenen Kehle (r3: eloxiert statt Creme)',
+    prof('neck', 'Hals', 'Neck', 'receiver', 'graphite', 'Laufmantel zwischen Brücke und Kopf; schlank über der offenen Kehle (r4: Graphit wie der Rahmen)',
          'auf den Rahmenkopf gesetzt (Fuge 1 mm), unter der Brücke, vorn in den Kopf gesteckt',
          [(CYL_F[1] + 2.5, NECK[0]), (HEAD_F[0] + 2, NECK[0]), (HEAD_F[0] + 2, NECK[1]), (CYL_F[1] + 2.5, NECK[1])], NK_W, bevel=R_MID,
          cuts=groove(CYL_F[1], HEAD_F[0] + 4, 70, 76, NK_W)),
@@ -141,9 +141,9 @@ P += [
          'lackiert, beidseitig am Kieferblock', bevel=0,
          items=[dict(shape='prof', pts=[(f, 34), (f + 6, 34), (f + 13, 44.5), (f + 6, 55), (f, 55), (f + 7, 44.5)], w=0.3,
                      x=sx * (HD_W / 2 + 0.15)) for f in (216, 227) for sx in (1, -1)]),
-    # A: Hals rechts zwischen Rahmenkopf (102) und Kopf (200); linksbündig, läuft nach vorn bis ≈ 147 (0,62 × 4,2 × 12 Zeichen)
+    # A: Hals rechts zwischen Rahmenbug (110) und Kopf (190), unter der Längsnut; linksbündig, läuft nach vorn bis ≈ 149 (0,62 × 4,2 × 12 Zeichen)
     part('text_r', 'Schriftzug', 'Lettering', 'receiver', 'text', 'decal', 'Kennung „BASIC EX-04“ (einzige Schrift)',
-         'aufgedruckt (hell)', bevel=0, text='BASIC  EX-04', size=4.2, f=118, u=64.5, x=-NK_W / 2 - 0.05, side=-1, depth=0.12),
+         'aufgedruckt (hell auf Graphit)', bevel=0, text='BASIC  EX-04', size=4.2, f=118, u=64.5, x=-NK_W / 2 - 0.05, side=-1, depth=0.12),
 ]
 # ---------------------------------------------------------------- Griff, Abzug, Bügel (BGM-1 v2.1)
 P += grip_v21(top=GRIP_TOP)

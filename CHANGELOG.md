@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.0 Holster — EXTENDED-04 Handkanone und EXTENDED-05 Seitenwaffe
+
+- Neu: EXTENDED-04 „Sledge“ (`formgen/models/extended/e04_sledge.py`), Handkanone mit Hammerkopf: schwerer Kopf mit Prallkammer auf schlankem Hals über offener Kehle, Zündauge als Blickfang.
+- Neu: EXTENDED-05 „Duplex“ (`formgen/models/extended/e05_duplex.py`), kompakte Seitenwaffe als Doppeldeck: flacher Schlitten über tiefem Laufrohr, Schlitz dazwischen, Kapselanzeige als Blickfang.
+- Blatt-IDs `EA04`/`EA05` (nur ID); Tests `tests/test_extended_faustwaffen.py` ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.18.md)).
+
 ## 0.15.0 Spearhead — EXTENDED-01, eigenständiges Automatikgewehr
 
 - Neu: EXTENDED-01 „Spearhead“ (`formgen/models/extended/e01_spearhead.py`), ein Sci-Fi-Automatikgewehr der BASIC-Familie mit eigener Silhouette (Speerspitze: Oberlinie fällt, Unterlinie steigt, Draufsicht verjüngt), Fuller-Schlitz als Negativraum und Energiekern als einzigem Blickfang; Schnittstellen BGM-1, BMW-R, BMZ-15, BRI-22 wie BASIC-01, BASIC-01 unverändert.

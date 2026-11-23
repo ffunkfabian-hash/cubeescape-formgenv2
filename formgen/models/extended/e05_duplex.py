@@ -12,21 +12,21 @@ Formsprache (Stilhandbuch BALLON §3)
 | Schichten | Rahmen mit Laufrohr (Graphit) → Schlitten (Creme, 6 mm breiter als das Rohr, Fuge 1 mm; Oberdeck je Seite 2 mm eingezogen) → Kapselanzeige im Rahmen, 0,8 mm vorstehend |
 | Negativraum | Schlitz zwischen Schlitten und Laufrohr vom Verschlussblock bis zur Stirn, quer ganz offen; Auswurffenster rechts mit Laufkopf |
 | Blickfang | Kapselanzeige links am Verschlussblock: leuchtendes Stadionfenster (Munitionsstand) hinter Glas in blankem Rahmen, kameranah (eine Leuchtfunktion außer dem Visier) |
-| Zweiton-Blockung | Schlitten Lack (`shell`), Rahmen und Laufrohr Polymer (`graphite`), Griff `rubber`, Magazinboden `anodized`; Teilung Seite ≈ 65:35 |
+| Zweiton-Blockung | Schlitten Lack (`shell`), Rahmen und Laufrohr Polymer (`graphite`), Griff `rubber`, Magazinboden `anodized`; Teilung Seite ≈ 62:38 (G) |
 | Querschnitt | Zweistock: Flachkasten (26 × 20 mm, große Kantenradien) über einem Rundrohr Ø 20, dazwischen 6,5 mm Luft |
 | Grafik | ein Chevronpaar vorn am Schlitten, ein Schriftzug rechts am Schlitten |
 | Front | zweistufig: Schlittenstirn oben, darunter das Laufrohr 6 mm weiter vorn mit Mündungsmulde und blanker Krone |
 | Übergänge | Rahmen geht vor dem Abzugsbügel in das Laufrohr über; Verschlussblock fällt mit einem Radius in den Schlitz |
 | Ergonomie | Griff BGM-1 wie die Familie (Socket_Hand 0/0), tiefe Laufachse (12 mm über der Griffoberkante), Schlittenfang und Magazinhalter links unter dem Daumen |
 | Akzente kameranah (A3) | Kapselanzeige, Schlittenfang, Magazinhalter links; Rillen am Verschlussblock zum Durchladen |
-| Teilungen (A8) | Creme oben ≈ 65 %, Graphit unten ≈ 35 % der Seitenfläche über dem Griff |
+| Teilungen (A8) | Creme ≈ 62 % der Seitenfläche über dem Griff (G, Seitensilhouette), Graphit ≈ 38 % |
 | Lesbarkeit (A1/A7) | Seitensilhouette eigenständig gegen BASIC-05 und EXTENDED-01/04 (tests/test_extended_faustwaffen.py) |
 
 Schlichtheitsbudget: Leuchten 2 Funktionen (Kapselanzeige; Visier: Klammern und Kornpunkt) · Grafik 1 Chevronpaar · Schrift 1 · Orange 2
 außerhalb des Visiers (Schlittenfang, Magazinhalter; dazu der Klemmhebel des Visiers) · Schrauben keine.
 
 Herkunft der Zahlen: V = Vorgabe (Familie/Schnittstelle, BASIC-05 Pilot v2.1 bzw. `basic.common`), A = Annahme (Entwurf 0.18),
-G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.18, an den Renders r1–r3 gesichtet).
+G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.18, an den Renders r1–r4 gesichtet).
 Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
 """
 import math
@@ -127,8 +127,8 @@ P += [
          items=[dict(shape='prof', pts=[(f, 62.5), (f + 5, 62.5), (f + 11, 69), (f + 5, 75.5), (f, 75.5), (f + 6, 69)], w=0.3,
                      x=sx * (SL_W / 2 - 2 + 0.15)) for f in (118, 128) for sx in (1, -1)]),
     # A: Oberdeck rechts zwischen Verschlussblock (60) und Chevrons (118); linksbündig, läuft nach vorn bis ≈ 95 (0,62 × 3,6 × 12 Zeichen)
-    part('text_r', 'Schriftzug', 'Lettering', 'mechanism', 'text', 'decal', 'Kennung „BASIC EX-05“ (einzige Schrift)',
-         'aufgedruckt (hell)', bevel=0, text='BASIC  EX-05', size=3.6, f=68, u=65.5, x=-(SL_W / 2 - 2) - 0.05, side=-1, depth=0.12,
+    part('text_r', 'Schriftzug', 'Lettering', 'mechanism', 'text', 'anodized', 'Kennung „BASIC EX-05“ (einzige Schrift)',
+         'aufgedruckt (dunkel auf Creme wie BASIC-04; r3: hell auf Creme kaum lesbar)', bevel=0, text='BASIC  EX-05', size=3.6, f=68, u=65.5, x=-(SL_W / 2 - 2) - 0.05, side=-1, depth=0.12,
          parent_part='slide'),
 ]
 # ---------------------------------------------------------------- Griff, Abzug, Bügel (BGM-1 v2.1), Magazin auf der Griffachse

@@ -93,3 +93,79 @@ Die Checkliste folgt Stilhandbuch §3; Einzelheiten und die Herkunft jeder Zahl 
   anderer Quellhash, andere Samples, andere Auflösung, `--extra`, `--force` und ein fehlendes Bild starten Blender. Liefert Blender eine Ansicht nicht, bleibt das Ziel ohne
   Stempel.
 - Die Seitensilhouette meldet ein Teil, das über den Rasterrahmen ragt, statt es still zu beschneiden.
+
+## EXTENDED-04 „Sledge“
+
+Handkanone (Revolver) der Familie, 0.18 „Holster“. Belege außerhalb des Repos unter `~/Library/Caches/CubeEscapeFormgen2/0.18/belege/e04/`
+(Runden r1–r4, je Kontaktbogen, Clay, Explosion und `vergleich_BA04.png` neben BASIC-04 v2.1), Skizzen unter `…/0.18/belege/skizzen/`.
+
+### Formideen
+
+Seitensilhouetten mit Griff BGM-1 und Trommel (`skizzen_v1.png`, `skizzen_v2.png`); IoU gegen BA04, BA05 und EA01.
+
+| Idee | Architektur | BA04 | EA01 | Urteil |
+|---|---|---|---|---|
+| X Keule | Haube wird nach vorn tiefer, Unterlinie fällt zur Mündung | 0,71 | 0,24 | Gegenbewegung zur Speerspitze, also mit ihr verwandt |
+| **A Hammerkopf** | schwerer Kopf mit Prallkammer, schlanker Hals über offener Kehle | 0,73 | 0,22 | **gewählt** |
+| B Joch | tiefe Laufachse, Brücke und Lauf schließen ein großes Fenster | 0,49 | 0,23 | am fremdesten, aber das Fenster zeigt den Lauf (Motiv von EA01) |
+| C Trommelring | runde Creme-Trommelhaube, kurzer Lauf | 0,75 | 0,22 | rund und weich statt wuchtig, nah an der Perlschale |
+| D Stufenbrücke | erhöhte Visierbrücke hinten, gerader Kastenlauf | 0,71 | 0,25 | schwächste Geste |
+
+A trägt die Wucht in der Masse vorn und gibt Seite, Draufsicht und Front je ein eigenes Bild (Kopf breiter als Brücke und Hals). Der
+Querschnitt war zuerst als Walm mit Dachfasen gedacht; weil „Gewehre“ für EXTENDED-02 das Trapez mit Schulterfasen belegt, ist er ein
+Doppel-T mit Längsnuten.
+
+### Nachbesserung
+
+| Runde | gesehen | geändert |
+|---|---|---|
+| r1 → r2 | Hals 20 mm hoch und 118 mm lang, wirkt wie ein Werkzeugstiel; Kopf weit weg | Hals 28 mm, Kopf 10 mm näher; Rahmenbug schräg, Kehle als Trapez; Kopf 38 mm breit, Stirnplatte größer; Hahnsporn kräftiger |
+| r2 → r3 | Creme-Hals liest sich weiter als dünner Stiel, Hammer nicht eindeutig | Hals dunkel (Laufmantel): Sattel und Kopf stehen als zwei helle Massen |
+| r3 → r4 | eloxierter Hals zeigt auf 110 mm weiße Kratzsprenkel (Stilhandbuch §9) | Hals in Graphit wie der Rahmen |
+
+### Formsprache
+
+Checkliste und Herkunft der Zahlen stehen im Docstring des Moduls. Kurz: Oberlinie Sattel – Hals – Kopf; Doppel-T-Querschnitt mit
+durchgehender Längsnut; Negativraum in der offenen Kehle und in der Prallkammer mit drei Prallplatten und zwei Gasschlitzen; genau ein
+Blickfang, das runde Zündauge links hinter der Trommel; Front mehrstufig (Kopf mit Fasen, Stirnplatte, Mündungsmulde, Krone).
+Creme deckt nur 32 % der Seitenfläche über dem Griff (BA04 53 %): ein dunkles Fahrgestell mit zwei hellen Massen, keine Teilung um 50:50.
+Gemessen r4: 0,300 m, 19 096 Dreiecke.
+
+## EXTENDED-05 „Duplex“
+
+Seitenwaffe (Schlittenpistole) der Familie, 0.18 „Holster“. Belege unter `…/0.18/belege/e05/` (r1–r4, `vergleich_BA05.png`).
+
+### Formideen
+
+| Idee | Architektur | BA05 | EA01 | Urteil |
+|---|---|---|---|---|
+| A Schräglage | Parallelogramm-Schlitten, Stirn und Heck parallel zur Griffachse | 0,80 | 0,19 | verworfen: Parallelogramm ist EXTENDED-02 |
+| B Offener Schlitten | Oberseite vorn offen, Lauf liegt frei | 0,79 | 0,19 | Oberlinie hoch-tief-hoch wie E04, zu nah an BA05 |
+| C Stufenschlitten | Schlitten vorn eine Stufe tiefer | 0,82 | 0,20 | fallende Oberlinie (Speerspitze), zu nah an BA05 |
+| D Bogen | Oberlinie als Bogen, runde Nase | 0,80 | 0,19 | fällt zur Nase, zu nah an BA05 |
+| **E Doppeldeck** | flacher Schlitten über tiefem Laufrohr, Schlitz dazwischen | 0,62 | 0,16 | **gewählt** |
+
+Mit demselben Griff lagen alle Schlittenideen bei 0,79–0,82 gegen BA05. Erst die tiefe Laufachse (12 mm über dem Griff statt 40)
+trennt die Form. Die Seite gewinnt dabei eine durchgehende Speedlinie.
+
+### Nachbesserung
+
+| Runde | gesehen | geändert |
+|---|---|---|
+| r1 → r2 | Schlitz (6,5 mm) liest sich als Strich; Schlitten 192 mm, lang und kastig; Rahmen eine dünne Platte | Schlitz 8 mm, Schlitten 20 mm kürzer, Heck gerundet, Oberdeck je Seite 2 mm eingezogen, Rahmen als Wiege fürs Rohr; Blickfang von Leuchtring auf Kapselanzeige (Glutring ist EXTENDED-10) |
+| r2 → r3 | Rohrende glatt, Front ohne Stufe; Heckradius R 14 kaum sichtbar | Mündungsring mit zwei Gasschlitzen, Heck R 22, Laufbuchse kräftiger |
+| r3 → r4 | Schrift hell auf Creme kaum lesbar | Schrift dunkel (`anodized`) wie BASIC-04 |
+
+### Formsprache
+
+Doppeldeck mit flacher, durchgehender Oberlinie; Querschnitt zweistöckig (Flachkasten 26 × 20 mm über Rundrohr Ø 20); Negativraum ist der
+Schlitz zwischen Laufbuchse und Stirn, quer ganz offen; Blickfang die Kapselanzeige links am Verschlussblock; Front zweistufig
+(Schlittenstirn, 8 mm davor Mündungsring mit Krone). Creme 62 % der Seitenfläche über dem Griff. Gemessen r4: 0,197 m, 11 002 Dreiecke.
+
+### Prüfung EXTENDED-04/05
+
+`tests/test_extended_faustwaffen.py` prüft je Modell Felder, Blatt-IDs `EA04`/`EA05`, Weltpunkte (`variant.problems`), Familienschnittstellen
+(BGM-1, Kimme/Korn K1), Budgets (genau ein Blickfang außerhalb des Visiers), freie Visierlinie, Schrift auf ebener Fläche, Seiten-IoU
+< 0,85 gegen den eigenen BASIC-Typ und jedes EXTENDED-Modell bis 0,40 m, IoU < 0,70 im Paar, die Leitmotive (Hammerkopf breiter als Hals,
+freie Kehle; freier Schlitz), Zusammenhang, Länge und Quellhash ohne BASIC-Piloten. Jede Schranke hat eine Gegenprobe, die aus dem
+erwarteten Grund anschlägt (z. B. ein Unterlauf in der Kehle, ein Steg im Schlitz, ein Kopf über der Visierlinie).
