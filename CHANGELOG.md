@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.0 Holster — EXTENDED-04 Handkanone und EXTENDED-05 Seitenwaffe
+
+- Neu: EXTENDED-04 „Sledge“ (`formgen/models/extended/e04_sledge.py`), Handkanone mit Hammerkopf: schwerer Kopf mit Prallkammer auf schlankem Hals über offener Kehle, Zündauge als Blickfang.
+- Neu: EXTENDED-05 „Duplex“ (`formgen/models/extended/e05_duplex.py`), kompakte Seitenwaffe als Doppeldeck: flacher Schlitten über tiefem Laufrohr, Schlitz dazwischen, Kapselanzeige als Blickfang.
+- Blatt-IDs `EA04`/`EA05` (nur ID); Tests `tests/test_extended_faustwaffen.py` ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.18.md)).
+
 ## 0.17.0 Outrider — EXTENDED-02 und EXTENDED-03, Impuls- und Spähergewehr
 
 - Neu: EXTENDED-02 „Cadence“ (`formgen/models/extended/e02_cadence.py`), ein Impulsgewehr als Bullpup-Monoblock: Parallelogramm-Silhouette (Kolben, Stirn, Fugen, Schlitze und Magazin um 15° geneigt wie der Griff), Trapez-Querschnitt, drei offene Taktschlitze mit Impulsspulen, Taktfenster mit drei Leuchtbalken als Blickfang.
