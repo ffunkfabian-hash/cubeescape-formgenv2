@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.0 Crucible — EXTENDED-10 und EXTENDED-11, Fusion und lineare Fusion
+
+- Neu: EXTENDED-10 „Bellmouth“ (`formgen/models/extended/e10_bellmouth.py`), ein kompaktes Fusionsgewehr (0,56 m) mit runder Ladetrommel, Glutring als einzigem Blickfang und weitem Streutrichter; Schnittstellen BGM-1, BEC-1, BMZ-15, BRI-22 und Visier F1 wie BASIC-10.
+- Neu: EXTENDED-11 „Collimator“ (`formgen/models/extended/e11_collimator.py`), ein langes lineares Fusionsgewehr (1,13 m) mit offenem Stabkäfig, quadratischen Fokusplatten in enger werdendem Takt und Fokuskegel; Linearkern als Blickfang, Zielfernrohr Z2 wie BASIC-11.
+- `formgen/extended.py`: Register e10/e11 (Blatt-IDs `EA10`, `EA11`), `side_iou` reicht den Rahmen durch (Langwaffen bis f 940). `tools/extended_render.py`: Leuchtrolle `charge_core` für Energiewaffen; e01 unverändert.
+- [Bericht](docs/versions/0.19.md)
 ## 0.18.0 Holster — EXTENDED-04 Handkanone und EXTENDED-05 Seitenwaffe
 
 - Neu: EXTENDED-04 „Sledge“ (`formgen/models/extended/e04_sledge.py`), Handkanone mit Hammerkopf: schwerer Kopf mit Prallkammer auf schlankem Hals über offener Kehle, Zündauge als Blickfang.

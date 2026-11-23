@@ -38,6 +38,8 @@ MODELS.update(e04="e04_sledge", e05="e05_duplex")   # 0.18 „Holster“: Handka
 SHEETS = {"e01": "EA01"}
 SHEETS.update({"e02": "EA02", "e03": "EA03"})                  # 0.17 „Outrider“
 SHEETS.update(e04="EA04", e05="EA05")      # 0.18 „Holster“
+MODELS.update(e10="e10_bellmouth", e11="e11_collimator")   # 0.19 „Crucible“: Fusion und lineare Fusion
+SHEETS.update(e10="EA10", e11="EA11")                     # 0.19 „Crucible“
 SHEET_PATTERN = r"E[A-HJ-NP-Z]\d{2}"      # Linienbuchstabe nach der Variantenregel (ohne I/O)
 
 
@@ -189,8 +191,9 @@ def side_mask(parts, lo=(-420.0, -200.0), size=(1200, 520)) -> np.ndarray:
     return total
 
 
-def side_iou(a, b) -> float:
-    ma, mb = side_mask(a), side_mask(b)
+def side_iou(a, b, **frame) -> float:
+    """frame: lo/size wie side_mask (0.19: Langwaffen über f 780, z. B. EXTENDED-11, brauchen einen längeren Rahmen)."""
+    ma, mb = side_mask(a, **frame), side_mask(b, **frame)
     return round(float((ma & mb).sum() / (ma | mb).sum()), 4)
 
 

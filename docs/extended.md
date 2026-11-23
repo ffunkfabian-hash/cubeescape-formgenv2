@@ -12,6 +12,8 @@ Schiene BRI-22, Feuerwahlhebel und Ladehebel-Form, Schraubenköpfe sowie die Hil
 | `e03` | EXTENDED-03 „Meridian“ | `EA03` | `formgen/models/extended/e03_meridian.py` | Spähergewehr |
 | `e04` | EXTENDED-04 „Sledge“ | `EA04` | `formgen/models/extended/e04_sledge.py` | Handfeuerwaffe (Handkanone) |
 | `e05` | EXTENDED-05 „Duplex“ | `EA05` | `formgen/models/extended/e05_duplex.py` | Pistole (Seitenwaffe) |
+| `e10` | EXTENDED-10 „Bellmouth“ | `EA10` | `formgen/models/extended/e10_bellmouth.py` | Fusionsgewehr |
+| `e11` | EXTENDED-11 „Collimator“ | `EA11` | `formgen/models/extended/e11_collimator.py` | Lineares Fusionsgewehr |
 
 IDs sind ewig. Die Blatt-ID folgt dem Schema `E<Linie><NN>` (Nutzerentscheid vom 23.11.2026), analog zu `BA01` und `RA01`:
 Linie A ist die Grundform, NN die EXTENDED-Nummer, spätere Linien folgen als `EB01` usw. Sie steht in `formgen/extended.py` ›
@@ -245,3 +247,48 @@ Schlitz zwischen Laufbuchse und Stirn, quer ganz offen; Blickfang die Kapselanze
 < 0,85 gegen den eigenen BASIC-Typ und jedes EXTENDED-Modell bis 0,40 m, IoU < 0,70 im Paar, die Leitmotive (Hammerkopf breiter als Hals,
 freie Kehle; freier Schlitz), Zusammenhang, Länge und Quellhash ohne BASIC-Piloten. Jede Schranke hat eine Gegenprobe, die aus dem
 erwarteten Grund anschlägt (z. B. ein Unterlauf in der Kehle, ein Steg im Schlitz, ein Kopf über der Visierlinie).
+
+## EXTENDED-10 „Bellmouth“ und EXTENDED-11 „Collimator“ (0.19 „Crucible“)
+
+Beide Typen laden Energie auf und setzen sich deshalb bewusst voneinander ab: Das Fusionsgewehr streut, ist kurz und rund, das lineare
+Fusionsgewehr bündelt, ist lang, offen und quadratisch. Gleich bleiben die Familienschnittstellen BGM-1 (Griff), BEC-1 (Energiezelle),
+BMZ-15 (Mündung), BRI-22 (Schienen), die Visiere F1 „Bögen“ und Z2 „Gabel“, Kernachse und Visierlinie (66 mm), die Baugruppen und die
+Aktionen von BASIC-10/11. Energiewaffen haben keinen Hülsenauswurf.
+
+### Formideen
+
+Drei Ideen je Typ als Seitensilhouette mit Griff, Visier und Zelle der Familie (`…/0.19/belege/skizzen/skizzen_v1.png`). Die Spalten
+sind die Seiten-IoU gegen den eigenen BASIC-Typ und gegen EA01.
+
+| Idee | Architektur | IoU BASIC | IoU EA01 | Urteil |
+|---|---|---|---|---|
+| **E10-A Glocke** | Ladetrommel und Streutrichter vor kurzem Gehäuse, Ringschaft | 0,69 | 0,53 | **gewählt**: die Streuung wird zur Form |
+| E10-B Fächer | Blockgehäuse, vorn drei gespreizte Emitterlamellen | 0,71 | 0,54 | Lamellen lesen sich als Zähne (Stilhandbuch: verboten) |
+| E10-C Kessel | Bullpup, Kugelkessel über dem Griff, dünnes Rohr | 0,49 | 0,44 | am fremdesten, wirkt aber wie ein Werfer, das Rohr bündelt statt zu streuen |
+| **E11-A Kollimator** | Stabkäfig mit Fokusplatten in enger werdendem Takt, Fokuskegel | 0,62 | 0,47 | **gewählt**: die Bündelung wird zur Form |
+| E11-B Hängelauf | Oberzug mit darunter gehängtem Rohr, Spalt dazwischen | 0,67 | 0,48 | dasselbe Prinzip wie die Doppelschiene von BASIC-11 |
+| E11-C Teleskop | Rundrohr in vier Stufen nach vorn dünner | 0,65 | 0,53 | liest sich als Scharfschützenlauf; die Verjüngung liegt nahe an der Speerspitze |
+
+### Formsprache
+
+| | EXTENDED-10 „Bellmouth“ | EXTENDED-11 „Collimator“ |
+|---|---|---|
+| Leitmerkmal | Glocke: dicke Ladetrommel Ø 92, davor ein Trichter aus Hals und Mund (Ø 60 → 104) | Kollimator: vier blanke Stäbe, quadratische Fokusplatten im Takt 128 → 40 mm, Fokuskegel |
+| Silhouette | kurz (0,56 m), vorn breiter als hinten | lang (1,13 m), offen, gerade, vorn spitz |
+| Querschnitt | Drehkörper (Trommel, Trichter) über einem Gehäuse mit Tonnendach | Quadrat: Kastengehäuse mit Fasen, Platten 60 × 60, Stäbe auf den Ecken |
+| Blickfang | Glutring zwischen Trommel und Glocke | Linearkern im Käfig |
+| Negativraum | offener Glockenmund mit Streuscheibe, Ringschaft-Schlaufe | der ganze Käfig, Durchbruch im Optikbock, offen unter dem Schaftholm |
+| Front | Lippe → Trichter → Streuscheibe mit sechs Ports → Düse | Kennplatte → Fokuskragen → Kegel mit zwei Rillen → Krone |
+| Zweiton | Creme (Gehäuse, Trommel) über Graphit (Unteres Gehäuse, Wiege, Schaft); Trichter eloxiert | Creme (Gehäuse, Platten, Schaftplatte) über Graphit (Unteres Gehäuse, Unterzug, Holm) |
+| Grafik, Schrift | Kennring um die Trommel; „BASIC  EX-10“ rechts | lackierte Kennplatte; „BASIC  EX-11“ rechts |
+
+### Prüfung
+
+`tests/test_extended_fusion.py` prüft für beide Modelle Felder, Blatt-IDs, Anker, Weltpunkte und Aktionen wie BASIC-NN (`variant.problems`
+als Orakel), die Familienschnittstellen, die Budgets (genau ein Ladekern als Blickfang, höchstens drei Leuchtfunktionen), die Visierlinie,
+die Lage der Schrift, die Seiten-IoU unter 0,85 gegen BASIC-NN, gegen jedes andere EXTENDED-Modell und gegeneinander (Rahmen bis f 940,
+`side_iou(…, lo=…, size=…)`), den Gegensatz „Trichter öffnet / Kegel bündelt, Plattenabstand nach vorn kürzer“, den freien Kern zwischen
+den Stäben, die durchgehenden Ports der Streuscheibe, Zusammenhang, Länge und Quellhash. Gegenproben haben alle Regelprüfungen
+(Blatt-IDs, Weltpunkte, Schnittstellen, Budgets, Visierlinie, Schrift, Silhouette, Gegensatz, Ports, Käfig, Zusammenhang, Länge,
+Renderwerkzeug); Felder, Quellhash und Snapshot-Freigabe sind reine Bestandsprüfungen. `tools/extended_render.py` registriert BALLONs
+Leuchtrolle `charge_core` (`basic.pilot.energy_roles`) nur für Datensätze, die sie nutzen; Wrapper und Stempel von e01 bleiben gleich.
