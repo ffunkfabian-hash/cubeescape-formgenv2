@@ -8,6 +8,8 @@ Schiene BRI-22, Feuerwahlhebel und Ladehebel-Form, Schraubenköpfe sowie die Hil
 | Kurzname | ID | Blatt-ID | Modul | Typ |
 |---|---|---|---|---|
 | `e01` | EXTENDED-01 „Spearhead“ | `EA01` | `formgen/models/extended/e01_spearhead.py` | Automatikgewehr |
+| `e02` | EXTENDED-02 „Cadence“ | `EA02` | `formgen/models/extended/e02_cadence.py` | Impulsgewehr |
+| `e03` | EXTENDED-03 „Meridian“ | `EA03` | `formgen/models/extended/e03_meridian.py` | Spähergewehr |
 | `e04` | EXTENDED-04 „Sledge“ | `EA04` | `formgen/models/extended/e04_sledge.py` | Handfeuerwaffe (Handkanone) |
 | `e05` | EXTENDED-05 „Duplex“ | `EA05` | `formgen/models/extended/e05_duplex.py` | Pistole (Seitenwaffe) |
 
@@ -93,6 +95,80 @@ Die Checkliste folgt Stilhandbuch §3; Einzelheiten und die Herkunft jeder Zahl 
   anderer Quellhash, andere Samples, andere Auflösung, `--extra`, `--force` und ein fehlendes Bild starten Blender. Liefert Blender eine Ansicht nicht, bleibt das Ziel ohne
   Stempel.
 - Die Seitensilhouette meldet ein Teil, das über den Rasterrahmen ragt, statt es still zu beschneiden.
+
+## EXTENDED-02 „Cadence“ (0.17 „Outrider“)
+
+### Formideen
+
+Vier Ideen als Seitensilhouetten mit Griff und Magazin der Familie (`~/Library/Caches/CubeEscapeFormgen2/0.17/belege/skizzen/skizzen_v1.png`).
+Seiten-IoU gegen BA02 und EXTENDED-01:
+
+| Idee | Architektur | IoU BA02 | IoU E01 | Urteil |
+|---|---|---|---|---|
+| **A Monoblock-Bullpup** | Magazin hinter dem Griff, Kolben in der Schale, kurz und hoch | 0,61 | 0,55 | **gewählt** |
+| B Dreitakt-Segmente | konventionell, drei Haubensegmente mit Lücken | 0,82 | 0,68 | zu nah an BASIC-02 (Hülle gleich) |
+| C Stirnschild | Oberlinie steigt zu einer hohen, stumpfen Stirn | 0,74 | 0,66 | starke Geste, wirkt aber kopflastig |
+| D Über-Unter | zwei gestapelte Rohre | 0,77 | 0,66 | liest sich als Flinte |
+
+A trennt sich am klarsten von BASIC-02 und von der Speerspitze und bleibt ein Impulsgewehr: Salve, Kammer mit Spulen, Salvenanzeige.
+Aus B kommt der Takt der drei Spulen als Schlitzreihe dazu.
+
+### Formsprache
+
+- **Leitmerkmal Parallelogramm:** Kolbenende, Stirn, beide schrägen Fugen, die drei Taktschlitze, die Leuchtbalken und das Magazin
+  neigen sich um 15°, so viel wie der Griff BGM-1. Länge 0,70 m, Magazin hinter dem Griff (Bullpup).
+- **Querschnitt Trapez:** Schulterfasen 8 × 10 mm über die ganze Länge, oben 30 statt 46 mm.
+- **Negativraum:** drei Taktschlitze, oben offen und quer durch die Kammerhaube; darin je eine Impulsspule mit blankem Ring.
+- **Blickfang:** das Taktfenster links am Kolben, drei Leuchtbalken hinter Glas im blanken Rahmen; je Salvenschuss leuchtet einer.
+- **Schichten:** Kammerhaube 6 mm unter dem Kolbendeck und 1 mm je Seite schmaler, schräge Fuge; Paneele in Mulden; Stirnplatte 1,5 mm vor.
+- **Grafik und Schrift:** ein Schrägband parallel zur Stirn, die Schrift rechts zwischen Fuge und erstem Schlitz.
+- **Front:** vorgeneigte Stirn, eloxierte Stirnplatte, blanke Laufbuchse, achtkantige Mündung, dunkle Spitze, blanke Krone.
+- **Gleich wie BASIC-02:** Laufachse u 100, Holovisier H4 „Kasten“, Schnittstellen BGM-1, BMW-R, BMZ-15, BRI-22, Baugruppen, Aktionen
+  `fire_burst` (drei Schuss) und `reload_empty`.
+
+## EXTENDED-03 „Meridian“ (0.17 „Outrider“)
+
+### Formideen
+
+Vier Ideen im selben Skizzenbogen; Seiten-IoU gegen BA03 und EXTENDED-01:
+
+| Idee | Architektur | IoU BA03 | IoU E01 | Urteil |
+|---|---|---|---|---|
+| **A Rohrachse** | Rohrschaft, Trommel und Vorderrohr auf der Laufachse | 0,70 | 0,57 | **gewählt** |
+| B Teleskop | Rundrohr in drei kleiner werdenden Stufen | 0,79 | 0,60 | läuft wie die Speerspitze auf einen Punkt zu |
+| C Rahmenträger | Oberer Träger mit Zielfernrohr, Lauf frei im langen Fenster | 0,66 | 0,58 | langes Fenster wiederholt den Fuller-Schlitz |
+| D Kiel | schlankes Gehäuse, langer Kiel unter dem Lauf | 0,78 | 0,58 | zu nah an BASIC-03 |
+
+A ist eine einzige ruhige Geste mit parallelen Linien statt einer Spitze. Sie setzt sich am stärksten von EXTENDED-02 ab (kurz,
+hoch, kantig) und bleibt klar ein Spähergewehr: lang, Zielfernrohr, Einzelfeuer.
+
+### Formsprache
+
+- **Leitmerkmal koaxiale Rohrlinie:** Rohrschaft, Gehäusetrommel (r 26), Vorderrohr (r 22), Handschale, Stirn und Mündung sind
+  Zylinder auf der Laufachse u 96. Ober- und Unterlinie laufen gerade und parallel vom Schaft bis zur Stirn. Länge 0,91 m.
+- **Querschnitt Kreis:** Die Trommel hat seitliche Flächen bei |x| 23 für Auswurf, Paneele und Schrift, das Vorderrohr oben vier
+  Längsrillen.
+- **Negativraum:** das Fenster der Wangenbrücke über dem Rohrschaft und der offene Raum unter dem Rohrschaft.
+- **Blickfang:** die Meridianlinie, eine Ladeanzeige als Leuchtlinie in der linken oberen Rille.
+- **Schichten:** Trommel 4 mm über dem Vorderrohr mit blankem Kupplungsring, Handschale 3,5 mm über dem Rohr mit Lochreihe,
+  Stirnkappe 2,6 mm zurückgesetzt.
+- **Grafik und Schrift:** ein Farbring direkt vor der Handschale, die Schrift rechts auf der Trommelfläche vor dem Auswurffenster.
+- **Front:** runde Rohrstirn mit Fase, eloxierte Stirnkappe, blanke Krone, eingelassene dunkle Mündung (integrierter Dämpfer).
+- **Gleich wie BASIC-03:** Laufachse u 96, Zielfernrohr Z1 „Tropfen“ auf zwei Schienen BRI-22 (Visierhöhe 64 mm), Schnittstellen
+  BGM-1, BMW-R, BMZ-15, Baugruppen, Aktionen `fire_semi` und `reload_empty`.
+
+### Prüfung (beide Modelle)
+
+`tests/test_extended_gewehre.py` prüft je Modell mit Gegenproben: Felder, Typ und Blatt-ID, dieselben Aktionen und Schusszahl wie
+der BASIC-Pilot, Weltpunkte (`basic.variant.problems`), Schnittstellen, Budgets, Visierlinie, Seiten-IoU < 0,85 gegen BASIC-NN und
+jedes EXTENDED-Modell ab 0,6 m, Zusammenhang, Länge, Quellhash ohne BASIC-NN. Dazu die Leitmerkmale: bei 02 eine Neigung von 15°
+für Kolben, Stirn, Fugen, Schlitze, Leuchtbalken und Magazin, Durchblick in den Taktschlitzen, Leuchtbalken im offenen
+Fensterschacht (Runde 1 lagen sie im Vollmaterial); bei 03 alle Rohrteile auf der Laufachse, Rillen oben, Wangenfenster offen, Lage
+der Schrift. Das Paar muss sich unterscheiden (Seiten-IoU < 0,70, Bullpup gegen konventionell, Trapez gegen Kreis), und
+`--basic NN` rendert nur Fehlendes oder Veraltetes.
+
+`tools/extended_render.py e02 --tag r4 --basic 02 --out <Ziel>` rendert zusätzlich den Piloten BASIC-02 im selben AAA-Weg nach
+`<Ziel>/BA02/` und setzt `vergleich_BA02.png`.
 
 ## EXTENDED-04 „Sledge“
 
