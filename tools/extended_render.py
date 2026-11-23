@@ -177,11 +177,11 @@ def main(argv=None):
     p.add_argument("--extra", action="store_true", help="zusätzlich clay und exploded")
     p.add_argument("--sheets", action="store_true", help="nur Bögen setzen")
     p.add_argument("--force", action="store_true", help="auch bei passendem Stempel neu rendern")
-    p.add_argument("--out", type=Path, default=OUT)
+    p.add_argument("--out", type=Path, default=None, help="Zielordner (Standard: OUT, neue Modelle OUT/<Kurzname>)")
     p.add_argument("--ref", type=Path, help="Ordner der BASIC-Referenz (hero/side_left/front/top.png) für den Vergleich")
     a = p.parse_args(argv)
-    if a.key != "e01" and a.out == OUT:   # 0.20 (Richter): neue Modelle je Kurzname getrennt, e01 behält seinen 0.15-Pfad
-        a.out = OUT / a.key
+    if a.out is None:   # 0.20 (Richter): ohne --out neue Modelle je Kurzname getrennt, e01 behält seinen 0.15-Pfad
+        a.out = OUT if a.key == "e01" else OUT / a.key
     if not a.sheets:
         render(a.key, a)
     sheets(a.key, a)

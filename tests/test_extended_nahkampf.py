@@ -376,6 +376,10 @@ class TestRenderAdditions(unittest.TestCase):
                 mock.patch.object(self.er, "sheets", lambda key, a: None), mock.patch.object(self.er, "details", lambda key, a: None):
             self.er.main(["e16", "--tag", "r1", "--out", str(self.out)])   # Gegenprobe: ein ausdrückliches --out gilt unverändert
         self.assertEqual(seen["x"], self.out)
+        with mock.patch.object(self.er, "render", lambda key, a: seen.__setitem__("x", a.out)), \
+                mock.patch.object(self.er, "sheets", lambda key, a: None), mock.patch.object(self.er, "details", lambda key, a: None):
+            self.er.main(["e16", "--tag", "r1", "--out", str(self.er.OUT)])   # auch wenn es dem Standardpfad gleicht
+        self.assertEqual(seen["x"], self.er.OUT)
 
     def test_e01_defaults_unchanged(self):
         """Die 0.15-Vorgaben bleiben: Standardordner 0.15, Ansichten, Wrapper (Stempel von e01 gelten weiter)."""
