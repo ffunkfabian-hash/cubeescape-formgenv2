@@ -381,6 +381,43 @@ class TestRenderAdditions(unittest.TestCase):
             self.er.main(["e16", "--tag", "r1", "--out", str(self.er.OUT)])   # auch wenn es dem Standardpfad gleicht
         self.assertEqual(seen["x"], self.er.OUT)
 
+    def test_basic_and_ref_side_by_side(self):
+        """Integration mit 0.17: `--basic NN` (render_ref/compare_ref) und `--ref` (compare_dir) laufen nebeneinander, beide mit dem
+        Standardziel je Kurzname; `--sheets` rendert den Piloten nicht. Gegenprobe: ohne beide Schalter entsteht kein Vergleich."""
+        from unittest import mock
+        calls = []
+
+        def run(*argv):
+            calls.clear()
+            rec = lambda name: (lambda *args: calls.append((name, args[0], args[-1].out)))   # noqa: E731
+            with mock.patch.object(self.er, "render", rec("render")), mock.patch.object(self.er, "sheets", rec("sheets")), \
+                    mock.patch.object(self.er, "render_ref", rec("render_ref")), mock.patch.object(self.er, "compare_ref", rec("compare_ref")), \
+                    mock.patch.object(self.er, "compare_dir", rec("compare_dir")), mock.patch.object(self.er, "details", rec("details")):
+                self.er.main(list(argv))
+            return {name: (first, out) for name, first, out in calls}
+
+        got = run("e02", "--tag", "r1", "--basic", "02")
+        self.assertEqual(got["render_ref"], ("02", self.er.OUT / "e02"), "Pilot BA02 im Ordner des Modells")
+        self.assertEqual(got["compare_ref"], ("e02", self.er.OUT / "e02"))
+        self.assertNotIn("compare_dir", got)
+        got = run("e16", "--tag", "r1", "--basic", "16", "--ref", str(self.ref))
+        self.assertEqual({k for k in got} & {"render_ref", "compare_ref", "compare_dir"}, {"render_ref", "compare_ref", "compare_dir"})
+        self.assertEqual(len({out for _, out in got.values()}), 1, "alle Schritte schreiben ins selbe Ziel")
+        got = run("e01", "--tag", "r1", "--basic", "01", "--sheets")
+        self.assertNotIn("render_ref", got, "--sheets: nur Bögen, kein Pilot-Render")
+        self.assertEqual(got["compare_ref"], ("e01", self.er.OUT), "e01 behält <OUT>")
+        got = run("e16", "--tag", "r1")   # Gegenprobe
+        self.assertFalse({"render_ref", "compare_ref", "compare_dir"} & set(got))
+        # Beide Bögen im selben Rundenordner überschreiben sich nicht: vergleich_BA16.png (Pilot) neben vergleich_B16.png (Ordner)
+        from PIL import Image
+        (self.out / "BA16").mkdir()
+        for v in ("hero", "side_left"):
+            Image.new("RGB", (160, 90), "#999").save(self.out / "BA16" / f"{v}.png")
+        self.a.basic = "16"
+        self.er.compare_ref("e16", self.a)
+        self.er.compare_dir("e16", self.a)
+        self.assertTrue({"vergleich_BA16.png", "vergleich_B16.png"} <= {p.name for p in (self.out / "r1").glob("vergleich_*.png")})
+
     def test_e01_defaults_unchanged(self):
         """Die 0.15-Vorgaben bleiben: Standardordner 0.15, Ansichten, Wrapper (Stempel von e01 gelten weiter)."""
         self.assertTrue(str(self.er.OUT).endswith("0.15/belege"))
@@ -392,6 +429,7 @@ class TestRenderAdditions(unittest.TestCase):
             self.er.main(["--help"])
         self.assertIn("--ref", buf.getvalue())
         self.assertIn("--out", buf.getvalue())
+        self.assertIn("--basic", buf.getvalue(), "0.17 bleibt neben --ref")
 
 
 if __name__ == "__main__":
