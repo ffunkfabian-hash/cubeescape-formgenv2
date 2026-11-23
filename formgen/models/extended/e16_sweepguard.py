@@ -142,7 +142,7 @@ FOOT = clip_u(GUARD_OUT, SEAM_U - 0.5, False)
 BOW_LINE = bezier((108, -40), (96, -74), (-72, -76), (-90, -16))
 BOW = band(BOW_LINE, 13.0)
 
-# Ladebogen: drei Segmente auf einem Kreisbogen, r 9–13, je 30° mit 6° Fuge, im Paneel des Creme-Oberteils
+# Ladebogen: drei Segmente auf einem Kreisbogen, r 10,5–16, je 30° mit 6° Fuge, im Paneel des Creme-Oberteils
 ARC_C, ARC_R = (92.0, 8.0), (10.5, 16.0)   # A (Runde 3, r2 r 9–13 zu klein)
 
 
@@ -204,7 +204,7 @@ P += [
     box('charge_switch', 'Ladeschalter', 'Charge switch', 'grip_controls', 'accent', 'Löst den geladenen Hieb aus (Daumen)',
         'in der Schalterbahn der Daumenrampe geführt', 66, 74, 40, 45.5, 9, bevel=R_FINE,
         move=dict(kind='translate', pivot=(70, 42, 0), vector_mm=(6, 0, 0), event='charge')),
-    # A: rechts auf dem Paneel, linksbündig nach vorn: 0,62 × 4 × 12 ≈ 30 mm ab f 76 → bis 106 (Paneel 68–114 bei u 0–4)
+    # A: rechts auf dem Paneel, linksbündig nach vorn: 0,62 × 4 × 12 ≈ 30 mm ab f 76 → bis 106 (Paneel 72–112 bei u −1–3)
     part('text_r', 'Schriftzug', 'Lettering', 'guard', 'text', 'decal', 'Kennung „BASIC EX-16“ (einzige Schrift)', 'aufgedruckt',
          bevel=0, text='BASIC  EX-16', size=4.0, f=76, u=-1, x=-HALF_G + 0.8 - 0.65, side=-1, depth=0.12),
 ]

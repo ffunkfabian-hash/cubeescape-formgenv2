@@ -7,6 +7,9 @@
 Cache: Ein Tag rendert nur, wenn Bilder fehlen oder der Stempel `<out>/<tag>/render.json` (Datensatz-Hash, Quellhash, Kit-Snapshot,
 Wrapper, Samples, Auflösung, Ansichten) nicht passt; `--force` rendert trotzdem neu (Projektregel: nie ungefragt alles neu).
 
+0.20 (additiv): `--ref <Ordner>` setzt vergleich_<Ordner>.png gegen eine BASIC-Referenz, DETAIL je Modell legt detail_<n>_<Ansicht>.png
+an; ohne --out rendern neue Modelle nach <OUT>/<Kurzname>/<tag>, e01 weiter nach <OUT>/<tag>.
+
 Ansichten: hero (eigenes HERO des Modells), hero_p (70 mm Perspektive), side (rechts), side_left, top, front, rear, dazu clay und
 exploded aus demselben Lauf. Hintergrund mittelgrau, ohne Bloom (Projektregel). Ausgabe außerhalb des Repos:
 <out>/<tag>/<Ansicht>.png, <out>/<tag>/kontaktbogen.png, <out>/<tag>/vergleich_BA01.png, <out>/<tag>/<id>.spec.json.
@@ -155,6 +158,8 @@ def details(key, a):
     """Ausschnitte (Bruchteile x0, y0, x1, y1 des Bildes) je Ansicht aus DETAIL des Modells, auf 800 px Breite."""
     target = a.out / a.tag
     for i, (view, box) in enumerate(DETAIL.get(key, ())):
+        if not (target / f"{view}.png").exists():   # wie compare_ref: fehlende Ansicht überspringen
+            continue
         im = Image.open(target / f"{view}.png").convert("RGB")
         W_, H_ = im.size
         crop = im.crop((int(box[0] * W_), int(box[1] * H_), int(box[2] * W_), int(box[3] * H_)))
