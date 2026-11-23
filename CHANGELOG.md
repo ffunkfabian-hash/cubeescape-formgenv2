@@ -6,6 +6,18 @@
 - Neu: EXTENDED-11 „Collimator“ (`formgen/models/extended/e11_collimator.py`), ein langes lineares Fusionsgewehr (1,13 m) mit offenem Stabkäfig, quadratischen Fokusplatten in enger werdendem Takt und Fokuskegel; Linearkern als Blickfang, Zielfernrohr Z2 wie BASIC-11.
 - `formgen/extended.py`: Register e10/e11 (Blatt-IDs `EA10`, `EA11`), `side_iou` reicht den Rahmen durch (Langwaffen bis f 940). `tools/extended_render.py`: Leuchtrolle `charge_core` für Energiewaffen; e01 unverändert.
 - [Bericht](docs/versions/0.19.md)
+## 0.18.0 Holster — EXTENDED-04 Handkanone und EXTENDED-05 Seitenwaffe
+
+- Neu: EXTENDED-04 „Sledge“ (`formgen/models/extended/e04_sledge.py`), Handkanone mit Hammerkopf: schwerer Kopf mit Prallkammer auf schlankem Hals über offener Kehle, Zündauge als Blickfang.
+- Neu: EXTENDED-05 „Duplex“ (`formgen/models/extended/e05_duplex.py`), kompakte Seitenwaffe als Doppeldeck: flacher Schlitten über tiefem Laufrohr, Schlitz dazwischen, Kapselanzeige als Blickfang.
+- Blatt-IDs `EA04`/`EA05` (nur ID); Tests `tests/test_extended_faustwaffen.py` ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.18.md)).
+
+## 0.17.0 Outrider — EXTENDED-02 und EXTENDED-03, Impuls- und Spähergewehr
+
+- Neu: EXTENDED-02 „Cadence“ (`formgen/models/extended/e02_cadence.py`), ein Impulsgewehr als Bullpup-Monoblock: Parallelogramm-Silhouette (Kolben, Stirn, Fugen, Schlitze und Magazin um 15° geneigt wie der Griff), Trapez-Querschnitt, drei offene Taktschlitze mit Impulsspulen, Taktfenster mit drei Leuchtbalken als Blickfang.
+- Neu: EXTENDED-03 „Meridian“ (`formgen/models/extended/e03_meridian.py`), ein Spähergewehr als koaxiale Rohrlinie: Rohrschaft, Gehäusetrommel und kanneliertes Vorderrohr auf der Laufachse, runde Stirn mit eingelassener Mündung, Wangenbrücke als Negativraum, Meridianlinie als Blickfang.
+- `tools/extended_render.py --basic NN` rendert den eigenen BASIC-Piloten im selben AAA-Weg als Vergleich (additiv, eigener Stempel); Blatt-IDs `EA02`, `EA03` (nur ID).
+- [Bericht](docs/versions/0.17.md)
 
 ## 0.15.0 Spearhead — EXTENDED-01, eigenständiges Automatikgewehr
 
