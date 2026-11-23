@@ -137,7 +137,7 @@ def sheets(key, a):
 
 # 0.20 Riftguard (additiv): Vergleich mit einer beliebigen BASIC-Referenz statt BA01 – Ordner mit hero/side_left/front/top.png
 # (Nahkampf: BASIC-16/17 haben keine BA-Bilder in 0.8). Lange, schmale Formen bekommen Ausschnitte der Hero-Ansicht (--detail).
-def compare_ref(key, a):
+def compare_dir(key, a):
     target = a.out / a.tag
     data = extended.load(key)
     title = f"{data['META']['id']} {data['META']['name']} · Runde {a.tag}"
@@ -158,7 +158,7 @@ def details(key, a):
     """Ausschnitte (Bruchteile x0, y0, x1, y1 des Bildes) je Ansicht aus DETAIL des Modells, auf 800 px Breite."""
     target = a.out / a.tag
     for i, (view, box) in enumerate(DETAIL.get(key, ())):
-        if not (target / f"{view}.png").exists():   # wie compare_ref: fehlende Ansicht überspringen
+        if not (target / f"{view}.png").exists():   # wie compare_dir: fehlende Ansicht überspringen
             continue
         im = Image.open(target / f"{view}.png").convert("RGB")
         W_, H_ = im.size
@@ -191,7 +191,7 @@ def main(argv=None):
         render(a.key, a)
     sheets(a.key, a)
     if a.ref:
-        compare_ref(a.key, a)
+        compare_dir(a.key, a)
     details(a.key, a)
     return 0
 

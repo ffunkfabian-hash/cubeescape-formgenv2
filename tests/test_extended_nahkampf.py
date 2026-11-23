@@ -349,7 +349,7 @@ class TestRenderAdditions(unittest.TestCase):
 
     def test_compare_and_details(self):
         from PIL import Image
-        self.er.compare_ref("e16", self.a)
+        self.er.compare_dir("e16", self.a)
         cmp = Image.open(self.out / "r1" / "vergleich_B16.png")
         self.assertEqual(cmp.size[1], 4 * (450 + 34) + 16, "vier Ansichtspaare")
         self.er.details("e16", self.a)
@@ -358,7 +358,7 @@ class TestRenderAdditions(unittest.TestCase):
         self.assertNotIn("e01", self.er.DETAIL, "e01 unverändert: keine Ausschnitte")
         # Gegenprobe: fehlt eine Ansicht in der Referenz, fällt nur dieses Paar weg
         (self.ref / "top.png").unlink()
-        self.er.compare_ref("e16", self.a)
+        self.er.compare_dir("e16", self.a)
         self.assertEqual(Image.open(self.out / "r1" / "vergleich_B16.png").size[1], 3 * (450 + 34) + 16)
 
     def test_default_target_per_model(self):
