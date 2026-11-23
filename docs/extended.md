@@ -83,5 +83,7 @@ Die Checkliste folgt Stilhandbuch §3; Einzelheiten und die Herkunft jeder Zahl 
 - Keine schwebenden Teile. Gegenprobe: ein um 40 mm versetzter Kernrahmen bildet eine eigene Gruppe.
 - Länge.
 - Der Quellhash enthält keinen BASIC-01-Piloten.
-- Das Renderwerkzeug überspringt einen aktuellen Tag. Gegenproben: andere Samples, `--extra`, `--force` und ein fehlendes Bild starten
-  Blender.
+- Das Renderwerkzeug überspringt einen aktuellen Tag. Gegenproben, jede gegen einen frisch gültigen Stempel: andere Samples, andere
+  Auflösung, `--extra`, `--force` und ein fehlendes Bild starten Blender. Liefert Blender eine Ansicht nicht, bleibt das Ziel ohne
+  Stempel.
+- Die Seitensilhouette meldet ein Teil, das über den Rasterrahmen ragt, statt es still zu beschneiden.

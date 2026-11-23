@@ -23,7 +23,7 @@ Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
   Ladehebel vorn links (Stützhand), Magazinhalter links; Akzent-Bedienfunktionen: Ladehebel, Magazinhalter, Feuerwahlhebel (3).
 
 Herkunft der Zahlen: V = Vorgabe (Familie/Schnittstelle, BASIC-01 Pilot v2.1 bzw. `basic.common`), A = Annahme (Entwurf 0.15),
-G = gemessen. Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
+G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.15, an den Renders r1–r3 gesichtet). Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
 """
 from basic.arms.ego import GRIPS as _EGO
 from basic.common import (part, prof, box, cyl, rot, cut_box, screws, mirror, rail, selector, charging_handle, grip_v21,

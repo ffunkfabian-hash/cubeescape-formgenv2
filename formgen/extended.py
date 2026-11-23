@@ -77,17 +77,21 @@ def source(key: str = "e01", snap: Path | None = None) -> dict:
         for node in ast.walk(ast.parse(p.read_bytes())):
             names = []
             if isinstance(node, ast.ImportFrom) and node.module and not node.level:
-                names = [node.module]
+                names = [node.module] + [f"{node.module}.{a.name}" for a in node.names]   # `from basic import reticles`
             elif isinstance(node, ast.Import):
                 names = [a.name for a in node.names]
             for n in names:
                 if n.split(".")[0] != "basic" or n in seen:
                     continue
                 seen.add(n)
-                cand = snap.joinpath(*n.split(".")).with_suffix(".py")
-                if cand.is_file():
-                    files[cand.relative_to(snap).as_posix()] = hashlib.sha256(cand.read_bytes()).hexdigest()
-                    todo.append(cand)
+                parts = n.split(".")
+                cands = [snap.joinpath(*parts).with_suffix(".py")]
+                cands += [snap.joinpath(*parts[:i], "__init__.py") for i in range(1, len(parts) + 1)]   # Paket-Init läuft mit
+                for cand in cands:
+                    rel = cand.relative_to(snap).as_posix() if cand.is_file() else None
+                    if rel and rel not in files:
+                        files[rel] = hashlib.sha256(cand.read_bytes()).hexdigest()
+                        todo.append(cand)
     files = dict(sorted(files.items()))
     return {"files": files, "source_sha256": hashlib.sha256(canonical(files)).hexdigest()}
 
@@ -168,6 +172,8 @@ def side_mask(parts, lo=(-420.0, -200.0), size=(1200, 520)) -> np.ndarray:
                 for poly in _side_polys(c):
                     d.polygon(px(poly), fill=0)
         total |= np.asarray(im, bool)
+    if total[0].any() or total[-1].any() or total[:, 0].any() or total[:, -1].any():
+        raise ValueError(f"Seitensilhouette am Rasterrand beschnitten (Rahmen ab {lo}, {size} mm)")
     return total
 
 

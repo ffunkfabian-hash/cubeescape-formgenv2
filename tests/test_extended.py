@@ -5,6 +5,7 @@ des Stilhandbuchs (Leuchtfunktionen, Akzent-Bedienfunktionen, eine Schrift, ein 
 Laufachse, Eigenständigkeit gegen BASIC-01 in der Seitensilhouette und Zusammenhang aller Teile. Gegenproben: BA01 gegen sich selbst,
 ein abgelöstes Teil, ein überzähliges Leuchtteil.
 """
+import argparse
 import copy
 import importlib
 import json
@@ -110,6 +111,7 @@ class TestSpearhead(unittest.TestCase):
         extra = self.parts + [dict(self.ids["ammo_counter"], id="extra_glow")]
         self.assertGreater(len(lights(extra)), len(lights(self.parts)))
         self.assertEqual(len(lights(extra + [dict(self.ids["ammo_counter"], id="x2")])), 5)
+        self.assertGreater(len(lights(extra + [dict(self.ids["ammo_counter"], id="x2")])), 3)   # die Schranke schlägt an
 
     def test_lettering_on_receiver(self):
         """Die Schrift (linksbündig, rechts läuft sie nach vorn) liegt ganz auf der ebenen Gehäusefläche vor der Klingenfuge.
@@ -134,6 +136,9 @@ class TestSpearhead(unittest.TestCase):
         # Gegenprobe: eine Parameterlinie (BA01 ohne Mündung) bleibt über der Schwelle – das Maß trennt Linie und eigene Form
         trimmed = [p for p in self.basic["PARTS"] if p["id"] not in ("muzzle", "muzzle_crown")]
         self.assertGreater(extended.side_iou(self.basic["PARTS"], trimmed), IOU_MAX)
+        long = [dict(self.ids["barrel"], id="long", a1=900)]   # Gegenprobe: ein Teil über den Rasterrahmen wird gemeldet, nicht beschnitten
+        with self.assertRaisesRegex(ValueError, "beschnitten"):
+            extended.side_mask(self.parts + long)
 
     def test_no_floating_parts(self):
         groups = extended.components(self.parts)
@@ -156,6 +161,8 @@ class TestSpearhead(unittest.TestCase):
         self.assertIn("formgen/models/extended/e01_spearhead.py", a["files"])
         self.assertIn("basic/common.py", a["files"])
         self.assertNotIn("basic/pilot/w01_auto_rifle_v21.py", a["files"], "kein Umbau von BASIC-01")
+        self.assertIn("basic/reticles.py", a["files"])   # `from basic import reticles` in basic/common.py
+        self.assertIn("basic/__init__.py", a["files"])
 
     def test_snapshot_released(self):
         self.assertFalse(any(n == "basic" or n.startswith("basic.") for n in sys.modules))
@@ -167,45 +174,51 @@ class TestRenderCache(unittest.TestCase):
     """`tools/extended_render.py` rendert nur Fehlendes oder Veraltetes (Projektregel); Blender wird hier nie gestartet."""
 
     def setUp(self):
-        import argparse
         import tempfile
         from unittest import mock
+        saved = list(sys.path)   # extended_render setzt beim Import selbst ROOT auf sys.path
+        self.addCleanup(lambda: sys.path.__setitem__(slice(None), saved))
         sys.path.insert(0, str(extended.ROOT / "tools"))
-        try:
-            self.er = importlib.import_module("extended_render")
-        finally:
-            sys.path.remove(str(extended.ROOT / "tools"))
+        self.er = importlib.import_module("extended_render")
         self.tmp = tempfile.TemporaryDirectory()
         self.a = argparse.Namespace(out=Path(self.tmp.name), tag="t", samples=96, res=1600, gpu=False, extra=False, force=False)
         self.run = mock.patch.object(self.er.subprocess, "run", side_effect=RuntimeError("Blender gestartet")).start()
         self.addCleanup(mock.patch.stopall)
         self.addCleanup(self.tmp.cleanup)
+        self.fresh()
+
+    def fresh(self):
+        """Ziel mit allen Bildern und passendem Stempel für self.a (vor jedem Fall neu, weil render() den Stempel löscht)."""
         target = self.a.out / "t"
-        target.mkdir()
-        for v in self.er.views(self.a):
+        target.mkdir(exist_ok=True)
+        for v in self.er.views(argparse.Namespace(extra=True)):
             (target / f"{v}.png").write_bytes(b"")
         want = self.er.stamp("e01", self.a, extended.load("e01", SNAP), ballon_kit.snapshot())
         (target / "render.json").write_text(json.dumps(want))
+        self.assertTrue(self.er.current(target, want))
 
     def test_current_skips(self):
         self.assertFalse(self.er.render("e01", self.a))
         self.run.assert_not_called()
 
-    def test_stale_or_missing_or_force_renders(self):   # Gegenproben: jede Abweichung startet Blender
-        for change in (dict(samples=128), dict(extra=True), dict(force=True)):
-            a = copy.copy(self.a)
-            vars(a).update(change)
-            with self.assertRaisesRegex(RuntimeError, "Blender gestartet"):
-                self.er.render("e01", a)
-        (self.a.out / "t" / "top.png").unlink()
-        with self.assertRaisesRegex(RuntimeError, "Blender gestartet"):
-            self.er.render("e01", self.a)
-
+    def test_stale_or_missing_or_force_renders(self):
+        """Gegenproben: jede Abweichung startet Blender, jeder Fall gegen einen frisch gültigen Stempel."""
+        cases = {"samples": dict(samples=128), "res": dict(res=800), "extra": dict(extra=True), "force": dict(force=True),
+                 "missing": {}}
+        for name, change in cases.items():
+            with self.subTest(name):
+                self.fresh()
+                self.run.reset_mock()
+                if name == "missing":
+                    (self.a.out / "t" / "top.png").unlink()
+                a = copy.copy(self.a)
+                vars(a).update(change)
+                with self.assertRaisesRegex(RuntimeError, "Blender gestartet"):
+                    self.er.render("e01", a)
+                self.run.assert_called_once()
 
     def test_incomplete_render_leaves_no_stamp(self):
         """Blender läuft durch, liefert aber eine Ansicht nicht: Fehler, alte Bilder bleiben unbestempelt (nicht aktuell)."""
-        import argparse
-
         def fake(cmd, **kw):
             job = json.loads(Path(cmd[-1]).read_text())
             out = Path(job["out"]) / "EXTENDED-01" / "views"
