@@ -64,7 +64,9 @@ def check(entries: list[dict], skins: set[str] | None = None) -> None:
         for key, value in v.get("params", {}).items():
             _check_param(letter, key, value)
         types = v.get("types", list(TYPES))
-        if not types or any(t not in TYPES for t in types):
+        if "architecture" in v.get("params", {}) and (types != ["01"] or set(v["params"]) != {"architecture"}):
+            raise VariantError("Trestle ist ein eigenständiger Entwurf ausschließlich für Typ 01")
+        if not isinstance(types, list) or not types or any(t not in TYPES for t in types) or len(set(types)) != len(types):
             raise VariantError(f"{letter}: types nur aus 01–17")
 
 
@@ -73,7 +75,10 @@ def _number(x) -> bool:
 
 
 def _check_param(letter, key, value):
-    if key == "drop":
+    if key == "architecture":
+        if value != "trestle":
+            raise VariantError(f"{letter}: unbekannte Architektur {value!r}")
+    elif key == "drop":
         if not (isinstance(value, list) and value and all(isinstance(x, str) and x for x in value)):
             raise VariantError(f"{letter}: drop muss eine Liste von Teil-ID-Mustern sein")
     elif key in PARAMS or key in INTS:
@@ -178,13 +183,16 @@ def _toml(value):
     return repr(value)
 
 
-def new(letter, name, idea, since, skin="standard", params=None, path: Path = REGISTRY, base="pilot") -> dict:
+def new(letter, name, idea, since, skin="standard", params=None, path: Path = REGISTRY, base="pilot", types=None) -> dict:
     entries = load(path)
     entry = {"letter": letter, "name": name, "idea": idea, "since": since, "skin": skin, "base": base, "params": params or {}}
+    if types is not None:
+        entry["types"] = types
     check(entries + [entry], _skins())
     text = Path(path).read_text()
     block = (f'\n[[variants]]\nletter = {_toml(letter)}\nname = {_toml(name)}\nidea = {_toml(idea)}\n'
              f'since = {_toml(since)}\nskin = {_toml(skin)}\n' + (f'base = {_toml(base)}\n' if base != "standard" else "")
+             + (f'types = {_toml(types)}\n' if types is not None else '')
              + '[variants.params]\n'
              + "".join(f"{k} = {_toml(v)}\n" for k, v in (params or {}).items()))
     candidate = text.rstrip("\n") + "\n" + block
@@ -202,6 +210,7 @@ def main(argv=None) -> int:
     n.add_argument("letter"); n.add_argument("name"); n.add_argument("idea")
     n.add_argument("--since", default=None); n.add_argument("--skin", default="standard")
     n.add_argument("--base", default="pilot", choices=BASES)
+    n.add_argument("--types", help="BASIC-Nummern, kommagetrennt")
     n.add_argument("--param", action="append", default=[], metavar="KEY=JSON", help="z. B. front=1.1, mag=[0.8,0.9], sight='[\"zinken\"]'")
     a = p.parse_args(argv)
     if a.cmd == "list":
@@ -211,11 +220,12 @@ def main(argv=None) -> int:
     from . import __version__
     try:
         params = {k: json.loads(v) for k, v in (item.split("=", 1) for item in a.param)}
-        e = new(a.letter, a.name, a.idea, a.since or ".".join(__version__.split(".")[:2]), a.skin, params, base=a.base)
+        e = new(a.letter, a.name, a.idea, a.since or ".".join(__version__.split(".")[:2]), a.skin, params, base=a.base, types=a.types.split(",") if a.types else None)
     except (VariantError, ValueError) as error:
         print(f"abgelehnt: {error}", file=sys.stderr)
         return 1
-    print(f"eingetragen: {e['letter']} · {e['name']} → Blätter B{e['letter']}01 … B{e['letter']}17")
+    span = ", ".join(sheets([e]))
+    print(f"eingetragen: {e['letter']} · {e['name']} → {span}")
     return 0
 
 

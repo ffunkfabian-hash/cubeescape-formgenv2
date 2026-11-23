@@ -245,3 +245,12 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 `FORMGEN_GOLDEN_IMAGES=1 python -m unittest tests.test_golden` ist die **Gesamtabnahme** (voller Vergleich aller Golden-Dateien,
 `FORMGEN_GOLDEN_MODELS` nicht setzen). `FORMGEN_GOLDEN_MODELS=BA01,…` ist eine ausdrücklich benannte Teilabnahme; im Bericht nennen.
+
+
+## EXTENDED-02 Trestle
+
+`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Der Registereintrag beschränkt Linie T auf BASIC-01. Sein Parameter `architecture = "trestle"` wählt die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
+
+Der Entwurf übernimmt von BASIC-01 die cremefarbene Schale über graphitfarbenen Kontaktflächen. In V1 lieferten die Modelle `codex/parallax/models/assault.py` und `codex/fluxbloom/models/assault.py` zwei unterschiedliche Beispiele dafür, wie sich Gehäuse und Negativraum im Seitenriss entwickeln lassen. Unter den drei ersten Skizzen hatte die offene Brücke die klarste Innenkontur. Seitliche Typenschilder, kurze Lamellenfelder und ein einzelnes orangefarbenes Bandpaar gliedern die größeren Flächen.
+
+Blatt-Spec 4 erlaubt den Architekturparameter und die zugehörige Generatoroperation. Viewer und Release-Paket für BT01 benötigen Formgen v2 ab 0.16.0. Ältere Leser weisen Spec 4 als unbekannte Version zurück. Die Migration 3 → 4 erhält alle Nutzdaten. Der Generator schreibt herkömmliche Linien weiter als Version 3. Neue auf einen Typ begrenzte Linien werden mit `formgen.variants new … --types 01` angelegt.

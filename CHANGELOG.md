@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16 Trestle
+
+- EXTENDED-02 als einzelnes Spielmodell auf Blatt BT01. Die Geometrie entsteht aus eigenen Konturen und Materialrollen der BASIC-Familie.
+- Registereinträge können über die CLI auf einzelne BASIC-Typen begrenzt werden. Blatt-Spec 4 ergänzt den Architekturparameter.
+- [Versionsbericht](docs/versions/0.16.md)
+
 ## 0.14.5 Patch pin45
 
 - Pin auf Agent Tools 0.45.0 (`e5e0eb9`), Lader `ce` folgt; sonst keine Änderung.

@@ -688,7 +688,23 @@ def vary(data, variant, num, snap=None):
     sid = variants.sheet_id(variant["letter"], num)
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
-    ops, added = _apply(model, params, num, _kit(snap), notes)
+    if params.get("architecture") == "trestle":
+        from .models.weapons import trestle
+        if num != "01":
+            raise GeneratorError("Trestle setzt BASIC-01 voraus")
+        model["PARTS"], model["ANCHORS"], model["POINTS"] = trestle.build()
+        # Gleicher Ursprung wie die übrigen Spielmodelle: Mitte der hinteren Hand.
+        hand = model["ANCHORS"]["Socket_Hand"]["at"][:]
+        for axis, offset in enumerate(hand[:2]):
+            for part in model["PARTS"]:
+                _map(part, axis, lambda value: value - offset)
+            for point in _located(model):
+                point["at"][axis] -= offset
+        model["ACTIONS"] = {}
+        notes = [{"kind": "Annahme", "reason": "Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/trestle.py."}]
+        ops, added = [{"op": "architecture", "kind": "trestle"}], set()
+    else:
+        ops, added = _apply(model, params, num, _kit(snap), notes)
     _keep_accents(model, before, added, notes)
     _finish(model, notes)
     return model, {"sid": sid, "params": params, "draws": draws, "ops": ops, "notes": notes, "before": before}
@@ -716,6 +732,9 @@ def generate(data, variant, num, source, snap=None, base="standard"):
              ["Grundform", shape],
              ["BALLON-Quellhash", source["source_sha256"][:12]],
              ["Skin", variant.get("skin", "standard")]]
+    if params.get("architecture"):
+        facts.append(["Entwurf", "EXTENDED-02 · Trestle"])
+        provenance = {"kind": "Annahme", "source": "Eigenständige Außenformen nach Silhouettenstudie. Familienreferenz: " + shape}
     if kit_ops:
         facts.append(["Baukasten", " · ".join(f"{o['op']} {o.get('kind') or o.get('count')}" for o in kit_ops)])
     if draws:
@@ -724,6 +743,8 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "name_en": f"{meta['type_en']} · {variant['name']}",
             "summary": f"{meta.get('summary', '')} Linie {variant['letter']} „{variant['name']}“: {variant['idea']}",
             "provenance": provenance, "facts": facts}
+    if params.get("architecture"):
+        info["summary"] = variant["idea"]
     parts = []
     for p in model["PARTS"]:
         q = {k: v for k, v in p.items() if k not in ("en", "func", "attach", "iface")}

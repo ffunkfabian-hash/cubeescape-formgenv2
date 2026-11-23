@@ -159,6 +159,16 @@ class BuiltGlbSkinTests(unittest.TestCase):
 
 @unittest.skipIf(SNAP is None, REASON)
 class KitModelTests(unittest.TestCase):
+    def test_trestle_export_is_the_independent_static_shell(self):
+        data, result = kit_model("BT01")
+        self.assertEqual(result["META"]["id"], "BT01")
+        self.assertEqual(result["META"]["variant"], "EXTENDED-02")
+        self.assertFalse(result["ACTIONS"])
+        self.assertEqual(set(result["POINTS"]), set(data["POINTS"]))
+        original = {part["id"] for part in data["PARTS"]}
+        self.assertFalse(original & {part["id"] for part in result["PARTS"]})
+        self.assertEqual(result["ANCHORS"]["Socket_Hand"]["at"], [0, 0, 0])
+
     def test_baseline_is_ballons_dataset_for_all_types(self):
         # Linie A = BALLONs Grundmodul bit für bit (Pilot bzw. Formstudie; inkl. r_in der Zielfernrohre, Baugruppen wie deklariert)
         for num in ballon.TYPES:

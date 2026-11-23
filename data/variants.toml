@@ -176,3 +176,14 @@ sight = ["holo_pille", "boegen", "scope_tropfen"]
 grip = "v21"
 front = [1.0, 1.06]
 limbs = [1.16, 1.24]
+
+[[variants]]
+letter = "T"
+name = "Trestle"
+idea = "EXTENDED-02 · Die offene Rückenbrücke überspannt zwei versetzte Keilschalen. Ein kurzer, facettierter Bug und eine geneigte Kassette schließen die Silhouette ab."
+since = "0.16"
+skin = "standard"
+base = "pilot"
+types = ["01"]
+[variants.params]
+architecture = "trestle"

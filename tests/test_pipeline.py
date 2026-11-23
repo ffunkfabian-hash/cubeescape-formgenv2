@@ -27,7 +27,7 @@ class RegisterTests(unittest.TestCase):
     def test_registered_variants_follow_rule_and_ids(self):
         entries = variants.load()
         sheets = variants.sheets(entries)
-        self.assertEqual(len(sheets), 17 * len(entries))
+        self.assertEqual(set(sheets), {f"B{letter}{num}" for letter in "ABCDEFGHJKLM" for num in variants.TYPES} | {"BT01"})
         self.assertIn("BA01", sheets); self.assertIn("BC17", sheets)
         self.assertEqual(variants.parse_sheet("BB07"), ("B", "07"))
 
@@ -47,6 +47,24 @@ class RegisterTests(unittest.TestCase):
             variants.check([ENTRY, dict(ENTRY, name="Other")])         # Buchstabe doppelt
         with self.assertRaises(variants.VariantError):
             variants.check([dict(ENTRY, skin="neon")], {"standard"})
+
+    def test_architecture_cli_roundtrip_and_invalid_combinations(self):
+        from functools import partial
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "variants.toml"
+            path.write_text("schema = 2\n")
+            write_here = partial(variants.new, path=path)
+            args = ["new", "T", "Trestle", "Probe", "--types", "01", "--param", 'architecture="trestle"']
+            with mock.patch.object(variants, "new", write_here):
+                self.assertEqual(variants.main(args), 0)
+            entries = variants.load(path)
+            self.assertEqual(list(variants.sheets(entries)), ["BT01"])
+            self.assertEqual(entries[0]["params"], {"architecture": "trestle"})
+            for values in ({"types": ["02"]}, {"types": ["01", "02"]},
+                           {"params": {"architecture": "unknown"}},
+                           {"params": {"architecture": "trestle", "front": 1.1}}):
+                with self.subTest(values=values), self.assertRaises(variants.VariantError):
+                    variants.check([dict(entries[0], **values)])
 
     def test_new_appends_and_rejects_without_writing(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -164,20 +182,25 @@ class SpecMigrationTests(unittest.TestCase):
         old = json.loads((ROOT / "tests/fixtures/BA04.spec-v1.json").read_text())   # 0.2-Blatt-Spec, unverändert
         self.assertEqual(old["format_version"], 1)
         new = wspec.migrate(copy.deepcopy(old))
-        self.assertEqual(new["format_version"], 3)
+        self.assertEqual(new["format_version"], 4)
         self.assertEqual((new["base"], new["variant"]["base"], new["contract"], new["pilot"]), ("standard", "standard", None, None))
         self.assertEqual(new["variation"], {"seed": variants.seed("BA04"), "draws": {}, "values": {}})
         self.assertEqual({k: v for k, v in new.items() if k not in ("format_version", "base", "variation", "contract", "variant", "pilot")},
                          {k: v for k, v in old.items() if k not in ("format_version", "variant")})
 
-    def test_real_v2_specs_migrate_to_valid_v3(self):
+    def test_v3_migration_preserves_the_complete_baseline(self):
+        original = json.loads((ROOT / "out/specs/BA01.spec.json").read_text())
+        self.assertEqual(original["format_version"], 3)
+        self.assertEqual(wspec.migrate(original), dict(original, format_version=4))
+
+    def test_real_v2_specs_migrate_to_valid_v4(self):
         # 0.4-Blatt-Specs unverändert: Pilot-Linie D (v21) und Formstudie ohne Piloten (16)
         for name, pilot in (("BD01", {"module": "basic/pilot/w01_auto_rifle_v21.py", "version": "2.1"}), ("BA16", None)):
             with self.subTest(name=name):
                 old = json.loads((ROOT / f"tests/fixtures/{name}.spec-v2.json").read_text())
                 self.assertEqual(old["format_version"], 2)
                 new = wspec.migrate(copy.deepcopy(old))
-                self.assertEqual((new["format_version"], new["pilot"]), (3, pilot))
+                self.assertEqual((new["format_version"], new["pilot"]), (4, pilot))
                 self.assertEqual({k: v for k, v in new.items() if k not in ("format_version", "pilot")},
                                  {k: v for k, v in old.items() if k != "format_version"})
 
