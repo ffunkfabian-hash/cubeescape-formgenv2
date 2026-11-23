@@ -3,6 +3,23 @@
 from . import trestle
 
 
+def offset(points, d):
+    """Polygon (f, u) parallel versetzt: d > 0 nach außen, d < 0 nach innen (Gehrung an jeder Ecke)."""
+    n = len(points)
+    turn = 1 if sum(points[i][0]*points[(i+1)%n][1]-points[(i+1)%n][0]*points[i][1] for i in range(n)) > 0 else -1
+    def line(a, b):
+        df, du = b[0]-a[0], b[1]-a[1]
+        k = (df*df+du*du)**.5
+        nf, nu = turn*du/k*d, -turn*df/k*d
+        return (a[0]+nf, a[1]+nu), (df, du)
+    out = []
+    for i in range(n):
+        (p, r), (q, s) = line(points[i-1], points[i]), line(points[i], points[(i+1)%n])
+        t = ((q[0]-p[0])*s[1]-(q[1]-p[1])*s[0])/(r[0]*s[1]-r[1]*s[0])
+        out.append((round(p[0]+t*r[0], 3), round(p[1]+t*r[1], 3)))
+    return out
+
+
 def build():
     family, _, _ = trestle.build()
     # Griff und Sichtfenster sind sichtbare Gleichteile der Trestle-Linie.
@@ -34,9 +51,17 @@ def build():
     plate('body_spine', 'receiver', 'graphite', 'Freiliegender Gehäusekiel',
           [(-151,109),(-134,120),(-112,116),(6,106),(71,94),(121,85),(129,51),
            (98,38),(55,35),(13,37),(-8,48),(-59,61),(-99,78),(-143,83)], 44, 3)
+    # BASIC-02 setzt sein Seitenpaneel in eine Mulde (Stufe statt Schrauben). Vesper senkt das Typenschild
+    # ebenso ein: Mulde 1,2 mm umlaufend, Boden bei x ±23,2 (Schalenfläche ±24,5). Maße: Annahme.
+    badge = [(-118,102),(-104,115),(-70,119),(-51,114),(-58,100),(-103,98)]
     plate('aft_cowl', 'receiver', 'shell', 'Gefaltete hintere Schale',
           [(-136,99),(-120,119),(-83,130),(-54,130),(25,111),(52,99),(36,78),
-           (1,73),(-52,79),(-73,88),(-121,88)], 49, 3)
+           (1,73),(-52,79),(-73,88),(-121,88)], 49, 3,
+          cuts=[dict(shape='prof', pts=offset(badge, 1.2), w=3, x=side*24.7) for side in (1, -1)])
+    # Schalenabschluss wie die blanke Deckplatten-Kante von BASIC-02: schmaler Kragen über dem Hinterende,
+    # 0,5 mm je Seite breiter als die Schale, folgt deren Kontur.
+    plate('aft_cowl_cap', 'receiver', 'trim', 'Blanker Schalenabschluss',
+          [(-121,88),(-136,99),(-120,119),(-116,120.2),(-131,99.4),(-117,88)], 50, .8)
     plate('bridge_shadow', 'receiver', 'dark_metal', 'Brückenunterkante',
           [(-105,118),(-67,145),(-53,149),(58,149),(109,123),(102,117),(55,138),(-48,138),(-84,120)], 32, 1.6)
     plate('bridge_fold', 'receiver', 'shell', 'Flache Rahmenbrücke',
@@ -72,8 +97,13 @@ def build():
     plate('cell_heel', 'ammo', 'dark_metal', 'Keramiksockel',
           [(62,5),(80,-1),(109,5),(116,12),(120,7),(114,-1),(81,-10),(67,-6)], 44, 1.7)
 
-    cap('front_gasket','dark_metal','Stirnschatten',237,264,55,45,8,1.4)
+    # Stirnkragen statt schmalem Stirnschatten: 50 mm statt 45 mm breit, damit die Draufsicht ohne Kerbe
+    # von der Schale (52) über Kragen (50) und Maske (48) zur Keramikstirn (39) gestaffelt schmaler wird.
+    cap('front_gasket','dark_metal','Stirnkragen',237,264,59,50,11,1.4)
     cap('front_mask','graphite','Breite geschlossene Stirnmaske',259,278,57,48,10,1.8)
+    # Blanke Kragenkante am Übergang zur Maske, je Seite 0,4 mm über dem Kragen und mit derselben Achtkant-Fase.
+    # Vorbild: die Deckplatten-Kante von BASIC-02 (Trim, eine Stufe größer als die Platte, an deren Ende).
+    cap('front_lip','trim','Blanke Kragenkante',258.4,260.6,59.8,50.8,11.4,.5)
     cap('front_glaze','anodized','Facettierte Keramikstirn',275,280,44,39,8,1.3)
     for idx, level in enumerate((71,81)):
         add(f'front_trace_{idx}','barrel','energy','Lichtsignatur','xprof',.5,f0=279.6,f1=280.8,
@@ -85,15 +115,22 @@ def build():
             f=121+i*29
             relief(f'porcelain_{i}','support','anodized','Rauchgraues Keramiksegment',
                    [(f,67),(f+15,96),(f+35,96),(f+22,69),(f+15,63),(f+4,63)],16.7,22,1.5)
+            # Metallene Stirnkante je Segment, übersetzt aus den Spulenringen von BASIC-02: trennt die drei
+            # dunklen Segmente auch schräg vom Lichtstreifen davor, ohne selbst als Lichtstreifen zu wirken.
+            relief(f'segment_edge_{i}','support','dark_metal','Segmentstirn',
+                   [(f+31.3,95.2),(f+34,95.2),(f+21.4,69.8),(f+18.7,69.8)],21.6,22.4,.25)
             if i<2:
                 relief(f'pulse_line_{i}','support','energy','Licht im Segmentzwischenraum',
                        [(f+23,66),(f+37,95),(f+41,95),(f+28,66)],16.8,18.8,.7)
         relief('cell_panel','ammo','shell','Kassettenwange',
                [(63,35),(80,42),(101,22),(104,14),(82,9),(74,12)],19.8,22.5,1)
-        relief('aft_badge','receiver','anodized','Eloxiertes Schriftfeld',
-               [(-118,102),(-104,115),(-70,119),(-51,114),(-58,100),(-103,98)],24.2,25.7,1)
+        relief('aft_badge','receiver','anodized','Eingelassenes Schriftfeld',badge,23.0,24.3,.8)
         add('word_'+suffix,'receiver','shell','Schriftzug','text',0,text='VESPER',f=-85,u=104,
-            x=side*25.85,side=side,depth=.3,size=7.3,align='CENTER')
+            x=side*24.55,side=side,depth=.3,size=7.3,align='CENTER')
+        # Impulsfenster: abgestufte Innenkante der hellen Schale (Ledge 2,6 mm, x 22,3–24,3) über den
+        # Keramiksegmenten (bis x 22); außen bleibt eine 1,7 mm tiefe Wand. Vorbild: BASIC-02-Kammerfenster.
+        plate('window_step_'+suffix,'support','shell','Abgestufte Fensterkante',offset(window,.3),2,.6,
+              x=side*23.3,cuts=[dict(shape='prof',pts=offset(window,-2.6),w=4,x=side*23.3)])
         relief('serial','support','dark_metal','Serienfeld',
                [(148,113),(155,118),(183,117),(178,112)],25.7,26.5,.5)
         for i in range(3):

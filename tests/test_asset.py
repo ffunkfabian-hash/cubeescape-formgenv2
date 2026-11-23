@@ -180,6 +180,27 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual({p["mat"] for k, p in parts.items() if k.startswith("pulse_line_")}, {"energy"})
         self.assertEqual(len([k for k in parts if k.startswith("porcelain_")]), 6)
 
+    def test_vesper_basic_details_are_seated_and_keep_53_mm(self):
+        # BASIC-Pass: jedes Anbauteil hat einen Sitz, die Gesamtbreite bleibt 53,0 mm über alle Teile
+        import numpy as np
+        from formgen import geom
+        from formgen.models.weapons import vesper
+        parts, anchors, _ = vesper.build()
+        by_id = {p["id"]: p for p in parts}
+        for key in ("front_lip", "aft_cowl_cap", "window_step_l", "window_step_r", "segment_edge_2_r"):
+            self.assertIn(key, by_id)
+        self.assertEqual(by_id["front_lip"]["mat"], "trim")
+        self.assertEqual(len(by_id["aft_cowl"]["cuts"]), 2)                     # Mulde für das Typenschild je Seite
+        cowl_face = by_id["aft_cowl"]["w"] / 2
+        self.assertLess(abs(by_id["aft_badge_l"]["x"]) + by_id["aft_badge_l"]["w"] / 2, cowl_face)   # eingelassen
+        self.assertLessEqual(by_id["front_gasket"]["pts"][2][0] * 2, 48 + 2)        # Kragen höchstens 1 mm je Seite über der Maske
+        model = dict(INFO=dict(id="BT02", kind="weapon", provenance=dict(kind="Annahme", source="Test")),
+                     ASSEMBLIES=[dict(id=a) for a in sorted({p["asm"] for p in parts})], PARTS=parts, ANCHORS=anchors)
+        result = geom.evaluate(model)
+        xs = np.concatenate([np.asarray(p["mesh"]["vertices"], float)[:, 0] for p in result["parts"] if p["mesh"]["vertices"]])
+        self.assertAlmostEqual((xs.max() - xs.min()) * 1000, 53.0, places=2)
+        self.assertFalse([p["id"] for p in result["parts"] if p.get("bevel_status") == "unsupported"])
+
     def test_baseline_is_ballons_dataset_for_all_types(self):
         # Linie A = BALLONs Grundmodul bit für bit (Pilot bzw. Formstudie; inkl. r_in der Zielfernrohre, Baugruppen wie deklariert)
         for num in ballon.TYPES:

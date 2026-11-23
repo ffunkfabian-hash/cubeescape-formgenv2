@@ -121,8 +121,8 @@
  },
  "counts": {
   "assemblies": 7,
-  "parts": 62,
-  "triangles": 18316
+  "parts": 72,
+  "triangles": 21032
  },
  "dimensions_mm": {
   "height": 215.41,
@@ -665,8 +665,8 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -114.73,
-     70.66
+     -115.87,
+     71.86
     ],
     "u": [
      50.0,
@@ -683,7 +683,31 @@
    "name_en": "aft cowl",
    "role": "shell",
    "shape": "prof",
-   "triangles": 560
+   "triangles": 624
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -115.66,
+     -96.42
+    ],
+    "u": [
+     65.0,
+     96.97
+    ],
+    "x": [
+     -25.0,
+     25.0
+    ]
+   },
+   "id": "aft_cowl_cap",
+   "moving": false,
+   "name_de": "Blanker Schalenabschluss",
+   "name_en": "aft cowl cap",
+   "role": "trim",
+   "shape": "prof",
+   "triangles": 536
   },
   {
    "assembly": "receiver",
@@ -957,17 +981,17 @@
      284.0
     ],
     "u": [
-     25.5,
-     80.5
+     23.5,
+     82.5
     ],
     "x": [
-     -22.5,
-     22.5
+     -25.0,
+     25.0
     ]
    },
    "id": "front_gasket",
    "moving": false,
-   "name_de": "Stirnschatten",
+   "name_de": "Stirnkragen",
    "name_en": "front gasket",
    "role": "dark_metal",
    "shape": "xprof",
@@ -994,6 +1018,30 @@
    "name_de": "Breite geschlossene Stirnmaske",
    "name_en": "front mask",
    "role": "graphite",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     278.4,
+     280.6
+    ],
+    "u": [
+     23.1,
+     82.9
+    ],
+    "x": [
+     -25.4,
+     25.4
+    ]
+   },
+   "id": "front_lip",
+   "moving": false,
+   "name_de": "Blanke Kragenkante",
+   "name_en": "front lip",
+   "role": "trim",
    "shape": "xprof",
    "triangles": 284
   },
@@ -1097,6 +1145,30 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
+     159.8,
+     174.9
+    ],
+    "u": [
+     46.8,
+     72.2
+    ],
+    "x": [
+     21.6,
+     22.4
+    ]
+   },
+   "id": "segment_edge_0_l",
+   "moving": false,
+   "name_de": "Segmentstirn",
+   "name_en": "segment edge 0 l",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
      164.27,
      181.74
     ],
@@ -1140,6 +1212,30 @@
    "role": "anodized",
    "shape": "prof",
    "triangles": 192
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     188.8,
+     203.9
+    ],
+    "u": [
+     46.8,
+     72.2
+    ],
+    "x": [
+     21.6,
+     22.4
+    ]
+   },
+   "id": "segment_edge_1_l",
+   "moving": false,
+   "name_de": "Segmentstirn",
+   "name_en": "segment edge 1 l",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "support",
@@ -1190,6 +1286,30 @@
    "triangles": 192
   },
   {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     217.8,
+     232.9
+    ],
+    "u": [
+     46.8,
+     72.2
+    ],
+    "x": [
+     21.6,
+     22.4
+    ]
+   },
+   "id": "segment_edge_2_l",
+   "moving": false,
+   "name_de": "Segmentstirn",
+   "name_en": "segment edge 2 l",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
@@ -1217,21 +1337,21 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -97.59,
-     -31.27
+     -97.64,
+     -31.23
     ],
     "u": [
      75.0,
      96.0
     ],
     "x": [
-     24.2,
-     25.7
+     23.0,
+     24.3
     ]
    },
    "id": "aft_badge_l",
    "moving": false,
-   "name_de": "Eloxiertes Schriftfeld",
+   "name_de": "Eingelassenes Schriftfeld",
    "name_en": "aft badge l",
    "role": "anodized",
    "shape": "prof",
@@ -1249,8 +1369,8 @@
      86.04
     ],
     "x": [
-     25.55,
-     26.15
+     24.25,
+     24.85
     ]
    },
    "id": "word_l",
@@ -1260,6 +1380,30 @@
    "role": "shell",
    "shape": "text",
    "triangles": 1196
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     127.77,
+     257.24
+    ],
+    "u": [
+     33.7,
+     79.3
+    ],
+    "x": [
+     22.3,
+     24.3
+    ]
+   },
+   "id": "window_step_l",
+   "moving": false,
+   "name_de": "Abgestufte Fensterkante",
+   "name_en": "window step l",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 496
   },
   {
    "assembly": "support",
@@ -1385,6 +1529,30 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
+     159.8,
+     174.9
+    ],
+    "u": [
+     46.8,
+     72.2
+    ],
+    "x": [
+     -22.4,
+     -21.6
+    ]
+   },
+   "id": "segment_edge_0_r",
+   "moving": false,
+   "name_de": "Segmentstirn",
+   "name_en": "segment edge 0 r",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
      164.27,
      181.74
     ],
@@ -1428,6 +1596,30 @@
    "role": "anodized",
    "shape": "prof",
    "triangles": 192
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     188.8,
+     203.9
+    ],
+    "u": [
+     46.8,
+     72.2
+    ],
+    "x": [
+     -22.4,
+     -21.6
+    ]
+   },
+   "id": "segment_edge_1_r",
+   "moving": false,
+   "name_de": "Segmentstirn",
+   "name_en": "segment edge 1 r",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "support",
@@ -1478,6 +1670,30 @@
    "triangles": 192
   },
   {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     217.8,
+     232.9
+    ],
+    "u": [
+     46.8,
+     72.2
+    ],
+    "x": [
+     -22.4,
+     -21.6
+    ]
+   },
+   "id": "segment_edge_2_r",
+   "moving": false,
+   "name_de": "Segmentstirn",
+   "name_en": "segment edge 2 r",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
@@ -1505,21 +1721,21 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -97.59,
-     -31.27
+     -97.64,
+     -31.23
     ],
     "u": [
      75.0,
      96.0
     ],
     "x": [
-     -25.7,
-     -24.2
+     -24.3,
+     -23.0
     ]
    },
    "id": "aft_badge_r",
    "moving": false,
-   "name_de": "Eloxiertes Schriftfeld",
+   "name_de": "Eingelassenes Schriftfeld",
    "name_en": "aft badge r",
    "role": "anodized",
    "shape": "prof",
@@ -1537,8 +1753,8 @@
      86.04
     ],
     "x": [
-     -26.15,
-     -25.55
+     -24.85,
+     -24.25
     ]
    },
    "id": "word_r",
@@ -1548,6 +1764,30 @@
    "role": "shell",
    "shape": "text",
    "triangles": 1196
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     127.77,
+     257.24
+    ],
+    "u": [
+     33.7,
+     79.3
+    ],
+    "x": [
+     -24.3,
+     -22.3
+    ]
+   },
+   "id": "window_step_r",
+   "moving": false,
+   "name_de": "Abgestufte Fensterkante",
+   "name_en": "window step r",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 496
   },
   {
    "assembly": "support",
