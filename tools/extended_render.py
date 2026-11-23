@@ -180,6 +180,8 @@ def main(argv=None):
     p.add_argument("--out", type=Path, default=OUT)
     p.add_argument("--ref", type=Path, help="Ordner der BASIC-Referenz (hero/side_left/front/top.png) für den Vergleich")
     a = p.parse_args(argv)
+    if a.key != "e01" and a.out == OUT:   # 0.20 (Richter): neue Modelle je Kurzname getrennt, e01 behält seinen 0.15-Pfad
+        a.out = OUT / a.key
     if not a.sheets:
         render(a.key, a)
     sheets(a.key, a)

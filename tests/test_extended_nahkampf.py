@@ -361,6 +361,22 @@ class TestRenderAdditions(unittest.TestCase):
         self.er.compare_ref("e16", self.a)
         self.assertEqual(Image.open(self.out / "r1" / "vergleich_B16.png").size[1], 3 * (450 + 34) + 16)
 
+    def test_default_target_per_model(self):
+        """Ohne --out rendert jedes neue Modell in einen eigenen Ordner; e01 bleibt bei <OUT>/<tag> (keine gegenseitigen Überschreibungen)."""
+        from unittest import mock
+        seen = {}
+        with mock.patch.object(self.er, "render", lambda key, a: seen.setdefault(key, a.out / a.tag)), \
+                mock.patch.object(self.er, "sheets", lambda key, a: None), mock.patch.object(self.er, "details", lambda key, a: None):
+            for key in ("e01", "e16", "e17"):
+                self.er.main([key, "--tag", "r1"])
+        self.assertEqual(seen["e01"], self.er.OUT / "r1")
+        self.assertEqual(seen["e16"], self.er.OUT / "e16" / "r1")
+        self.assertEqual(len(set(seen.values())), 3, "gleicher Tag, drei Ziele")
+        with mock.patch.object(self.er, "render", lambda key, a: seen.__setitem__("x", a.out)), \
+                mock.patch.object(self.er, "sheets", lambda key, a: None), mock.patch.object(self.er, "details", lambda key, a: None):
+            self.er.main(["e16", "--tag", "r1", "--out", str(self.out)])   # Gegenprobe: ein ausdrückliches --out gilt unverändert
+        self.assertEqual(seen["x"], self.out)
+
     def test_e01_defaults_unchanged(self):
         """Die 0.15-Vorgaben bleiben: Standardordner 0.15, Ansichten, Wrapper (Stempel von e01 gelten weiter)."""
         self.assertTrue(str(self.er.OUT).endswith("0.15/belege"))
