@@ -193,13 +193,23 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual(len(by_id["aft_cowl"]["cuts"]), 2)                     # Mulde für das Typenschild je Seite
         cowl_face = by_id["aft_cowl"]["w"] / 2
         self.assertLess(abs(by_id["aft_badge_l"]["x"]) + by_id["aft_badge_l"]["w"] / 2, cowl_face)   # eingelassen
-        self.assertLessEqual(by_id["front_gasket"]["pts"][2][0] * 2, 48 + 2)        # Kragen höchstens 1 mm je Seite über der Maske
+        half = lambda key: by_id[key]["pts"][2][0]                                  # Achtkant: halbe Breite
+        self.assertAlmostEqual(half("front_lip") - half("front_mask"), 0.4)        # Maskenkante 0,4 mm je Seite
+        self.assertLessEqual(half("front_gasket"), half("front_mask"))             # Bug wird nach vorn nicht breiter
         model = dict(INFO=dict(id="BT02", kind="weapon", provenance=dict(kind="Annahme", source="Test")),
                      ASSEMBLIES=[dict(id=a) for a in sorted({p["asm"] for p in parts})], PARTS=parts, ANCHORS=anchors)
         result = geom.evaluate(model)
         xs = np.concatenate([np.asarray(p["mesh"]["vertices"], float)[:, 0] for p in result["parts"] if p["mesh"]["vertices"]])
         self.assertAlmostEqual((xs.max() - xs.min()) * 1000, 53.0, places=2)
         self.assertFalse([p["id"] for p in result["parts"] if p.get("bevel_status") == "unsupported"])
+        box = {p["id"]: (np.min(p["mesh"]["vertices"], axis=0), np.max(p["mesh"]["vertices"], axis=0))
+               for p in result["parts"] if p["mesh"]["vertices"]}
+        seats = {"front_lip": "front_mask", "aft_cowl_cap": "aft_cowl", "aft_badge_l": "aft_cowl",
+                 "window_step_l": "pulse_mantle", "window_step_r": "pulse_mantle",
+                 **{f"segment_edge_{i}_{s}": f"porcelain_{i}_{s}" for i in range(3) for s in "lr"}}
+        for part, carrier in seats.items():                                     # jedes Anbauteil berührt seinen Träger
+            (a0, a1), (b0, b1) = box[part], box[carrier]
+            self.assertTrue(np.all(a0 <= b1 + 1e-6) and np.all(b0 <= a1 + 1e-6), part)
 
     def test_baseline_is_ballons_dataset_for_all_types(self):
         # Linie A = BALLONs Grundmodul bit für bit (Pilot bzw. Formstudie; inkl. r_in der Zielfernrohre, Baugruppen wie deklariert)

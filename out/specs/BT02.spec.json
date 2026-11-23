@@ -981,17 +981,17 @@
      284.0
     ],
     "u": [
-     23.5,
-     82.5
+     25.5,
+     80.5
     ],
     "x": [
-     -25.0,
-     25.0
+     -22.5,
+     22.5
     ]
    },
    "id": "front_gasket",
    "moving": false,
-   "name_de": "Stirnkragen",
+   "name_de": "Stirnschatten",
    "name_en": "front gasket",
    "role": "dark_metal",
    "shape": "xprof",
@@ -1029,17 +1029,17 @@
      280.6
     ],
     "u": [
-     23.1,
-     82.9
+     24.1,
+     81.9
     ],
     "x": [
-     -25.4,
-     25.4
+     -24.4,
+     24.4
     ]
    },
    "id": "front_lip",
    "moving": false,
-   "name_de": "Blanke Kragenkante",
+   "name_de": "Blanke Maskenkante",
    "name_en": "front lip",
    "role": "trim",
    "shape": "xprof",
@@ -1369,8 +1369,8 @@
      86.04
     ],
     "x": [
-     24.25,
-     24.85
+     23.85,
+     24.45
     ]
    },
    "id": "word_l",
@@ -1753,8 +1753,8 @@
      86.04
     ],
     "x": [
-     -24.85,
-     -24.25
+     -24.45,
+     -23.85
     ]
    },
    "id": "word_r",

@@ -97,13 +97,13 @@ def build():
     plate('cell_heel', 'ammo', 'dark_metal', 'Keramiksockel',
           [(62,5),(80,-1),(109,5),(116,12),(120,7),(114,-1),(81,-10),(67,-6)], 44, 1.7)
 
-    # Stirnkragen statt schmalem Stirnschatten: 50 mm statt 45 mm breit, damit die Draufsicht ohne Kerbe
-    # von der Schale (52) über Kragen (50) und Maske (48) zur Keramikstirn (39) gestaffelt schmaler wird.
-    cap('front_gasket','dark_metal','Stirnkragen',237,264,59,50,11,1.4)
+    cap('front_gasket','dark_metal','Stirnschatten',237,264,55,45,8,1.4)
     cap('front_mask','graphite','Breite geschlossene Stirnmaske',259,278,57,48,10,1.8)
-    # Blanke Kragenkante am Übergang zur Maske, je Seite 0,4 mm über dem Kragen und mit derselben Achtkant-Fase.
-    # Vorbild: die Deckplatten-Kante von BASIC-02 (Trim, eine Stufe größer als die Platte, an deren Ende).
-    cap('front_lip','trim','Blanke Kragenkante',258.4,260.6,59.8,50.8,11.4,.5)
+    # Abschlussstück der Stirn: blanke Kante am Hinterende der Maske, je Seite 0,4 mm über der Maske, Ecke so
+    # gewählt, dass auch die Achtkant-Fase 0,4 mm Abstand hält (10 + 0,4·(2−√2)). Vorbild: die Deckplatten-Kante
+    # von BASIC-02 (Trim, eine Stufe größer als die Platte, an deren Ende). Der schmalere Stirnschatten (45 mm)
+    # bleibt als dunkle Fuge davor; die Draufsicht behält dadurch die schlanke Staffel 52 | 45 | 48,8 → 48 → 39 mm.
+    cap('front_lip','trim','Blanke Maskenkante',258.4,260.6,57.8,48.8,10.234,.5)
     cap('front_glaze','anodized','Facettierte Keramikstirn',275,280,44,39,8,1.3)
     for idx, level in enumerate((71,81)):
         add(f'front_trace_{idx}','barrel','energy','Lichtsignatur','xprof',.5,f0=279.6,f1=280.8,
@@ -124,9 +124,10 @@ def build():
                        [(f+23,66),(f+37,95),(f+41,95),(f+28,66)],16.8,18.8,.7)
         relief('cell_panel','ammo','shell','Kassettenwange',
                [(63,35),(80,42),(101,22),(104,14),(82,9),(74,12)],19.8,22.5,1)
+        # Schriftfeld 0,2 mm unter der Schalenfläche, Schrift (x ±0,3) endet bei 24,45 knapp darunter.
         relief('aft_badge','receiver','anodized','Eingelassenes Schriftfeld',badge,23.0,24.3,.8)
         add('word_'+suffix,'receiver','shell','Schriftzug','text',0,text='VESPER',f=-85,u=104,
-            x=side*24.55,side=side,depth=.3,size=7.3,align='CENTER')
+            x=side*24.15,side=side,depth=.3,size=7.3,align='CENTER')
         # Impulsfenster: abgestufte Innenkante der hellen Schale (Ledge 2,6 mm, x 22,3–24,3) über den
         # Keramiksegmenten (bis x 22); außen bleibt eine 1,7 mm tiefe Wand. Vorbild: BASIC-02-Kammerfenster.
         plate('window_step_'+suffix,'support','shell','Abgestufte Fensterkante',offset(window,.3),2,.6,
