@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.15.0 Spearhead — EXTENDED-01, eigenständiges Automatikgewehr
+
+- Neu: EXTENDED-01 „Spearhead“ (`formgen/models/extended/e01_spearhead.py`), ein Sci-Fi-Automatikgewehr der BASIC-Familie mit eigener Silhouette (Speerspitze: Oberlinie fällt, Unterlinie steigt, Draufsicht verjüngt), Fuller-Schlitz als Negativraum und Energiekern als einzigem Blickfang; Schnittstellen BGM-1, BMW-R, BMZ-15, BRI-22 wie BASIC-01, BASIC-01 unverändert.
+- Neu: `formgen/extended.py` (Lader im BALLON-Snapshot, Quellhash, Seitensilhouette, Zusammenhang) und `tools/extended_render.py` (AAA-Ansichten mit BALLONs unverändertem `blender_build`, Kontaktbogen, Vergleich mit BA01).
+- Blatt-ID `EA01` (Schema `E<Linie><NN>`, Nutzerentscheid); Blattweg und Website-Aufnahme folgen in einer eigenen Version ([EXTENDED](docs/extended.md)).
+- [Bericht](docs/versions/0.15.md)
+
 ## 0.14.5 Patch pin45
 
 - Pin auf Agent Tools 0.45.0 (`e5e0eb9`), Lader `ce` folgt; sonst keine Änderung.
