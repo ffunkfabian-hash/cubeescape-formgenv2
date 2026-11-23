@@ -23,7 +23,20 @@ else:
 
 IOU_MAX = 0.85                 # Annahme wie BALLON A1 und test_extended
 SIGHT_RANGE = (60.0, 80.0)     # Vorgabe Visier-Standard
-FRAME = dict(lo=(-460.0, -200.0), size=(1400, 520))   # A: Rahmen für Langwaffen (E11 bis f 800)
+FRAME_MARGIN = 20.0           # A: Rand um die gemeinsame Hülle (mm), damit nichts am Raster anliegt
+
+
+def frame(*part_lists, margin=FRAME_MARGIN):
+    """Gemeinsamer Rasterrahmen (lo, size) aus den Hüllquadern aller Teillisten – je Paar, damit lange Modelle (Glefe 1,6 m) nicht
+    am festen Rahmen beschnitten werden (Koordination Welle 1). Gleicher Rahmen für beide Masken, 1 mm je Pixel wie side_mask."""
+    bs = [b for parts in part_lists for p in parts if (b := extended.bounds(p))]
+    f0, u0 = min(b[0][0] for b in bs) - margin, min(b[0][1] for b in bs) - margin
+    f1, u1 = max(b[1][0] for b in bs) + margin, max(b[1][1] for b in bs) + margin
+    return dict(lo=(f0, u0), size=(int(f1 - f0) + 2, int(u1 - u0) + 2))
+
+
+def iou(a, b):
+    return extended.side_iou(a, b, **frame(a, b))
 OWN = {"e10": ("10", "fusion_rifle", "EXTENDED-10", "EA10", "e10_bellmouth"),
        "e11": ("11", "linear_fusion_rifle", "EXTENDED-11", "EA11", "e11_collimator")}
 LIGHT_MATS = ("energy", "charge_core")
@@ -178,14 +191,18 @@ class TestFusionPair(unittest.TestCase):
         """Seiten-IoU < 0,85 gegen den eigenen BASIC-Typ, gegen jedes andere EXTENDED-Modell und gegeneinander."""
         for k, d in self.data.items():
             with self.subTest(k):
-                self.assertLess(extended.side_iou(self.basic[k]["PARTS"], d["PARTS"], **FRAME), IOU_MAX)
+                self.assertLess(iou(self.basic[k]["PARTS"], d["PARTS"]), IOU_MAX)
                 for o, parts in self.others.items():
-                    self.assertLess(extended.side_iou(parts, d["PARTS"], **FRAME), IOU_MAX, o)
-        self.assertLess(extended.side_iou(self.data["e10"]["PARTS"], self.data["e11"]["PARTS"], **FRAME), IOU_MAX)
+                    self.assertLess(iou(parts, d["PARTS"]), IOU_MAX, o)
+        self.assertLess(iou(self.data["e10"]["PARTS"], self.data["e11"]["PARTS"]), IOU_MAX)
         b11 = self.basic["e11"]["PARTS"]   # Gegenproben: gleiche Form 1,0; eine Parameterlinie bleibt über der Schwelle
-        self.assertGreaterEqual(extended.side_iou(b11, b11, **FRAME), 0.99)
+        self.assertGreaterEqual(iou(b11, b11), 0.99)
         trimmed = [p for p in b11 if p["id"] not in ("muzzle", "muzzle_crown")]
-        self.assertGreater(extended.side_iou(b11, trimmed, **FRAME), IOU_MAX)
+        self.assertGreater(iou(b11, trimmed), IOU_MAX)
+        # Gegenprobe: ein Modell über 1,4 m (Stange bis f 1300, Glefe-Größe) bricht den Vergleich nicht mehr ab
+        pole = [dict(self.ids["e11"]["linear_core"], id="pole", a0=-400, a1=1300, r=12)]
+        self.assertLess(iou(pole, self.data["e10"]["PARTS"]), IOU_MAX)
+        self.assertGreater(length(pole), 1400)
         with self.assertRaisesRegex(ValueError, "beschnitten"):   # Gegenprobe: E11 passt nicht in den Standardrahmen (bis f 780)
             extended.side_mask(self.data["e11"]["PARTS"])
 
