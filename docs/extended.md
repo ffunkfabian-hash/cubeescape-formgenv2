@@ -134,5 +134,7 @@ sind die Seiten-IoU gegen den eigenen BASIC-Typ und gegen EA01.
 als Orakel), die Familienschnittstellen, die Budgets (genau ein Ladekern als Blickfang, höchstens drei Leuchtfunktionen), die Visierlinie,
 die Lage der Schrift, die Seiten-IoU unter 0,85 gegen BASIC-NN, gegen jedes andere EXTENDED-Modell und gegeneinander (Rahmen bis f 940,
 `side_iou(…, lo=…, size=…)`), den Gegensatz „Trichter öffnet / Kegel bündelt, Plattenabstand nach vorn kürzer“, den freien Kern zwischen
-den Stäben, Zusammenhang, Länge und Quellhash. Jede Prüfung hat eine Gegenprobe. `tools/extended_render.py` registriert BALLONs
+den Stäben, die durchgehenden Ports der Streuscheibe, Zusammenhang, Länge und Quellhash. Gegenproben haben alle Regelprüfungen
+(Blatt-IDs, Weltpunkte, Schnittstellen, Budgets, Visierlinie, Schrift, Silhouette, Gegensatz, Ports, Käfig, Zusammenhang, Länge,
+Renderwerkzeug); Felder, Quellhash und Snapshot-Freigabe sind reine Bestandsprüfungen. `tools/extended_render.py` registriert BALLONs
 Leuchtrolle `charge_core` (`basic.pilot.energy_roles`) nur für Datensätze, die sie nutzen; Wrapper und Stempel von e01 bleiben gleich.

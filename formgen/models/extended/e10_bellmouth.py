@@ -172,9 +172,9 @@ P += [
         cuts=[dict(shape='cyl', axis='f', c=(BORE, 0), a0=BELL[0] - 1, a1=BELL[1] + 1, r=R_IN[1], r1=R_MOUTH, segs=56)]),
     cyl('bell_lip', 'Glockenlippe', 'Bell lip', 'barrel', 'trim', 'Blanke Stirnkante des Trichters', 'vorn auf die Glocke gepresst',
         'f', (BORE, 0), BELL[1] - 3, BELL[1] + 0.8, R_BELL[1] + 0.6, r_in=R_MOUTH - 1.4, segs=56, bevel=0.5),
-    cyl('scatter_disc', 'Streuscheibe', 'Scatter disc', 'barrel', 'dark_metal', 'Teilt die Salve auf sechs Ports',
+    cyl('scatter_disc', 'Streuscheibe', 'Scatter disc', 'barrel', 'dark_metal', 'Teilt die Salve auf sechs durchgehende Ports',
         'im Glockenhals verschraubt', 'f', (BORE, 0), DISC_F - 4, DISC_F + 2, R_IN[0] + 1.2, segs=56, bevel=R_FINE,
-        cuts=[dict(shape='cyl', axis='f', c=(BORE + 16 * math.sin(a), 16 * math.cos(a)), a0=DISC_F - 2, a1=DISC_F + 4, r=3.4, segs=16)
+        cuts=[dict(shape='cyl', axis='f', c=(BORE + 16 * math.sin(a), 16 * math.cos(a)), a0=DISC_F - 6, a1=DISC_F + 4, r=3.4, segs=16)
               for a in (math.radians(d) for d in range(0, 360, 60))]),
     cyl('nozzle', 'Düse', 'Nozzle', 'barrel', 'dark_metal', 'Zentrale Düse vor der Streuscheibe; Kernende', 'auf die Streuscheibe geschraubt',
         'f', (BORE, 0), DISC_F + 1, TIP_F - 3, 10, r1=6.5, segs=32, bevel=R_FINE, iface='BMZ-15'),

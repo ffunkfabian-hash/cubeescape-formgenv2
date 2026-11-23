@@ -3,8 +3,9 @@
 Prüft die Datensätze ohne Blender: Felder und IDs, Weltpunkte (BALLONs `variant.problems` als Orakel), Familienschnittstellen, Budgets
 des Stilhandbuchs (≤ 3 Leuchtfunktionen, genau ein Blickfang, ≤ 3 Akzent-Bedienfunktionen, eine Schrift, ein Grafikelement), Visierlinie,
 Schrift auf ebener Fläche, Seiten-IoU < 0,85 gegen den eigenen BASIC-Typ und jedes vorhandene EXTENDED-Modell, die Gegensätze der beiden
-Typen (gestreut/kurz gegen gebündelt/lang), Zusammenhang, Länge, Quellhash und den Rollen-Vorspann des Renderwerkzeugs. Jede Prüfung hat
-eine Gegenprobe, die aus dem erwarteten Grund rot wird.
+Typen (gestreut/kurz gegen gebündelt/lang), die Ports der Streuscheibe, Zusammenhang, Länge, Quellhash und den Rollen-Vorspann des
+Renderwerkzeugs. Jede Regelprüfung hat eine Gegenprobe, die aus dem erwarteten Grund rot wird; Felder, Quellhash und Snapshot-Freigabe
+sind Bestandsprüfungen.
 """
 import copy
 import importlib
@@ -122,13 +123,15 @@ class TestFusionPair(unittest.TestCase):
             extended._purge()
 
     def test_family_interfaces(self):
+        def problems(ids):
+            out = [k for k, want in (("grip", "BGM-1"), ("energy_cell", "BEC-1"), ("cell_lip", "BEC-1")) if ids[k].get("iface") != want]
+            return out + ([] if "BMZ-15" in {p.get("iface") for p in ids.values()} else ["BMZ-15"])
         for k, ids in self.ids.items():
             with self.subTest(k):
-                self.assertEqual(ids["grip"]["iface"], "BGM-1")
+                self.assertEqual(problems(ids), [])
                 self.assertEqual(ids["grip"]["mat"], "rubber")
-                self.assertEqual(ids["energy_cell"]["iface"], "BEC-1")
-                self.assertEqual(ids["cell_lip"]["iface"], "BEC-1")
-                self.assertIn("BMZ-15", {p.get("iface") for p in ids.values()})
+        bad = dict(self.ids["e10"], energy_cell=dict(self.ids["e10"]["energy_cell"], iface="BMW-R"))   # Gegenprobe: Magazin statt Zelle
+        self.assertEqual(problems(bad), ["energy_cell"])
 
     def test_budgets(self):
         for k, d in self.data.items():
@@ -145,12 +148,14 @@ class TestFusionPair(unittest.TestCase):
         self.assertGreater(len(lights(two + [dict(core, id="core3")])), 3)
 
     def test_sight_line(self):
+        def height(d):
+            return d["ANCHORS"]["Socket_Eye"]["at"][1] - d["ANCHORS"]["Socket_Muzzle"]["at"][1]
         for k, d in self.data.items():
             with self.subTest(k):
-                bore = d["ANCHORS"]["Socket_Muzzle"]["at"][1]
-                eye = d["ANCHORS"]["Socket_Eye"]["at"][1]
-                self.assertGreaterEqual(eye - bore, SIGHT_RANGE[0])
-                self.assertLessEqual(eye - bore, SIGHT_RANGE[1])
+                self.assertTrue(SIGHT_RANGE[0] <= height(d) <= SIGHT_RANGE[1], height(d))
+        raised = copy.deepcopy(self.data["e10"])   # Gegenprobe: Visier 20 mm höher liegt außerhalb des Vertrags
+        raised["ANCHORS"]["Socket_Eye"]["at"] = tuple(v + (20 if i == 1 else 0) for i, v in enumerate(raised["ANCHORS"]["Socket_Eye"]["at"]))
+        self.assertGreater(height(raised), SIGHT_RANGE[1])
 
     def test_lettering_on_flat_face(self):
         """E10: rechts auf dem Unteren Gehäuse vor dem Zellentrichter; E11: rechts auf dem Gehäuse zwischen Paneelmulde und Grundplatte."""
@@ -199,6 +204,15 @@ class TestFusionPair(unittest.TestCase):
         self.assertEqual(spacing_problems(fs), [], fs)
         self.assertTrue(spacing_problems([200, 300, 400, 500]))                           # Gegenprobe: gleicher Takt
 
+    def test_scatter_ports_go_through(self):
+        """E10: die sechs Ports durchdringen die Streuscheibe ganz (Richter R1: 2 mm Boden blieben stehen)."""
+        def blind(disc):
+            return [c for c in disc["cuts"] if c["a0"] > disc["a0"] or c["a1"] < disc["a1"]]
+        disc = self.ids["e10"]["scatter_disc"]
+        self.assertEqual(len(disc["cuts"]), 6)
+        self.assertEqual(blind(disc), [])
+        self.assertEqual(len(blind(dict(disc, cuts=[dict(c, a0=disc["a0"] + 2) for c in disc["cuts"]]))), 6)   # Gegenprobe: Sackloch
+
     def test_cage_shows_core(self):
         """E11: in der Seitenansicht liegt der Kern frei zwischen den Stäben (mindestens 6 mm Luft je Seite)."""
         core = self.ids["e11"]["linear_core"]
@@ -226,6 +240,8 @@ class TestFusionPair(unittest.TestCase):
         for k, d in self.data.items():
             with self.subTest(k):
                 self.assertAlmostEqual(length(d["PARTS"]) / 1000, d["META"]["reference_length_m"], delta=0.005)
+        longer = self.data["e10"]["PARTS"] + [dict(self.ids["e10"]["nozzle_tip"], id="probe", a0=330, a1=360)]   # Gegenprobe: +35 mm
+        self.assertGreater(abs(length(longer) / 1000 - self.data["e10"]["META"]["reference_length_m"]), 0.005)
 
     def test_source_hash(self):
         for k, (num, _, _, _, mod) in OWN.items():
