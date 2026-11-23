@@ -85,3 +85,39 @@ Vorschlag: META `id = 'EXTENDED-01'`, keine Blatt-ID in 0.15; Aufnahme in Pipeli
 
 Danach: Seitensilhouetten der Ideen als schnelle Skizze (Rastermaske oder Blender-Kurzrender), Auswahl begründen, bauen, AAA-Renders
 aus ≥ 5 Perspektiven sichten, nachbessern (mindestens zwei Runden), Belege und Bericht.
+
+---
+
+## Stand Sitzung 2 (23.11.2026) – gebaut, Runde 1 gerendert; Übergabe wegen Kontextgrenze (Hook > 150 000 Tokens)
+
+**Gewählt: F „Speerspitze“** (Skizzen `~/Library/Caches/CubeEscapeFormgen2/0.15/belege/skizzen/skizzen_v1.png`, Seiten-IoU gegen BA01:
+A Kielbogen 0,79 · B Brücke 0,67 · D Zange 0,77 · F Speerspitze 0,75). Begründung: stärkste einzelne Geste (Oberlinie fällt, Unterlinie
+steigt zur Spitze, Draufsicht verjüngt), eindeutig Automatikgewehr, Familie über Zweiton/Kern/Paneele, baubar als Schnitt aus Seiten-,
+Draufsicht- (`taper`) und Querprofil; aus D übernommen: Negativraum als Fuller-Schlitz. B ist am fremdesten, liest sich aber als
+konventioneller Tragegriff; A wirkt wie die BASIC-Haube; D wirkt wie eine Energiewaffe.
+
+**Im Commit (WIP, noch kein PR):**
+- `formgen/models/extended/e01_spearhead.py` – Modell, 63 Teile, Docstring mit Formsprache-Checkliste, Zahlen mit Herkunft V/A/G;
+  eigene `EGO_GRIPS` (Kontakte auf diesem Modell), `HERO` von links vorn (Kern zur Kamera).
+- `formgen/extended.py` – Lader (Snapshot nur während des Imports), Quellhash, Seitensilhouette `side_mask`/`side_iou`,
+  Hüllquader `bounds`, Zusammenhang `components`.
+- `tools/extended_render.py` – AAA-Lauf über BALLONs unverändertes `blender_build.main` (Ansichten hero, hero_p, side_left, side, top,
+  front, rear; `--extra` clay/exploded), Kontaktbogen und Vergleich mit BA01. Aufruf mit **absoluten Pfaden** (die Sperre wechselt das
+  Verzeichnis): `W=$PWD; ./ce lock gpu -- $W/.venv/bin/python $W/tools/extended_render.py e01 --tag r2 --res 1280 --gpu --extra`
+  (etwa 3 min ohne Wartezeit).
+- `tests/test_extended.py` – 11 Tests grün (Felder, `variant.problems`, Budgets, Visierlinie 70 mm, Seiten-IoU 0,805 < 0,85 mit
+  Gegenproben, Zusammenhang mit Gegenprobe, Länge, Quellhash ohne BASIC-01-Pilot).
+
+**Runde 1** (`…/0.15/belege/r1/kontaktbogen.png`, `vergleich_BA01.png`, Spec: 32 204 Dreiecke, 0,901 m): Keil in der Seite gut,
+Kern-Sechseck trägt als Blickfang, Fachwerkschaft mit Puffer gut lesbar, Sechskant-Kompensator gut. **Nachbessern (Runde 2):**
+1. Fuller-Schlitz liest sich als dunkler Streifen, nicht als Negativraum: höher in die Creme-Klinge legen, höher machen (≥ 24 mm),
+   weniger/kleinere Kühlringe, Gasrohr raus, damit Hintergrund durchscheint.
+2. Draufsicht: Verjüngung kaum sichtbar → stärker (z. B. 44 → 16 mm) und früher beginnen; Mittelrippe schmaler.
+3. Chevrons zu klein und zu weit vorn → größer, näher an den Kern bzw. an die Klingenwurzel.
+4. Linke Seite hinten unruhig (Paneel + Anzeige + Kern + Ladehebel): Paneel links kürzen oder Anzeige ins Paneel.
+5. Magazin wirkt kurz/schlicht; Bodenplattenspitze unsichtbar → Spitze deutlicher, Magazin etwas länger.
+6. Prüfen: Schrift rechts (Lage/Leserichtung) und Hero-Nahaufnahme (Kern, Rahmen, Ladehebel-Nut).
+Danach Runde 3 nur mit dem Fehlgeschlagenen; Versionsbump `__version__` 0.15.0 zuletzt (LESSONS: macht Blätter veraltet).
+
+**Offen:** Runde 2 und 3, `docs/extended.md`, `docs/versions/0.15.md`, CHANGELOG, README-Zeile, `./check`, Richter `./ce judge`
+(`~/.claude/templates/pruefung.md`), PR auf `claude/formgenv2-0.15-spearhead`. Blatt-ID/Website nur als Frage an den Nutzer.
