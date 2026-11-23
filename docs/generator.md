@@ -249,7 +249,9 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 ## EXTENDED-02 Trestle
 
-`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Der Registereintrag beschränkt Linie T auf BASIC-01. Sein Parameter `architecture = "trestle"` wählt die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
+`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 und BASIC-02. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
+
+`python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die kurze Front fasst drei Keramiksegmente und zwei Lichtstreifen in einem tiefen Fenster. Beide Modelle teilen Griff und Visier.
 
 Der Entwurf übernimmt von BASIC-01 die cremefarbene Schale über graphitfarbenen Kontaktflächen. In V1 lieferten die Modelle `codex/parallax/models/assault.py` und `codex/fluxbloom/models/assault.py` zwei unterschiedliche Beispiele dafür, wie sich Gehäuse und Negativraum im Seitenriss entwickeln lassen. Unter den drei ersten Skizzen hatte die offene Brücke die klarste Innenkontur. Seitliche Typenschilder, kurze Lamellenfelder und ein einzelnes orangefarbenes Bandpaar gliedern die größeren Flächen.
 

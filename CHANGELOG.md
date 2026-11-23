@@ -2,7 +2,11 @@
 
 ## 0.16 Trestle
 
+- BT02 Vesper ergänzt die Linie um ein 53 mm breites Impulsgewehr mit offenem Rücken und tiefem Keramikfenster.
+
 - EXTENDED-02 als einzelnes Spielmodell auf Blatt BT01. Die Geometrie entsteht aus eigenen Konturen und Materialrollen der BASIC-Familie.
+- Abgesenkter Kamm mit montiertem kompaktem Visier und seitlichem Leuchtfenster, auch in Blatt und Vorschau sichtbar.
+- Neu geformter Übergang zwischen Schaft und Gehäuse. Das Vordergehäuse fasst die tiefer liegenden Lamellen in einem offenen Seitenfenster.
 - Registereinträge können über die CLI auf einzelne BASIC-Typen begrenzt werden. Blatt-Spec 4 ergänzt den Architekturparameter.
 - [Versionsbericht](docs/versions/0.16.md)
 

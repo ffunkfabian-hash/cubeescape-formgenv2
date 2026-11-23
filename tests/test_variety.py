@@ -62,6 +62,51 @@ class SeedTests(unittest.TestCase):
 
 @unittest.skipIf(SNAP is None, REASON)
 class KitTests(unittest.TestCase):
+    def test_trestle_sight_sits_on_lowered_flat_crown_and_is_shown(self):
+        from formgen.build import select_document
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        document = geom.evaluate(model.normalize(author))
+        parts = document["parts"]
+        crown = next(part for part in parts if part["id"] == "crown")
+        lo, hi = np.array(crown["bounds_m"])
+        # Obergrenze aus dem freigelegten, abgesenkten Scheitel im Modellraum.
+        self.assertAlmostEqual(hi[2], 0.132)
+        body = [part for part in parts if not part["id"].startswith("optic_")]
+        self.assertAlmostEqual(max(part["bounds_m"][1][2] for part in body), hi[2])
+        foot = next(part for part in parts if part["id"] == "optic_foot")
+        self.assertLessEqual(foot["bounds_m"][0][2], hi[2])
+        self.assertGreater(foot["bounds_m"][1][2], hi[2])
+        hero = {p["id"] for p in select_document(document, "hero")["parts"]}
+        self.assertTrue({"optic_foot", "optic_pane", "optic_hood"} <= hero)
+        mesh = crown["mesh"]
+        surface = geom._as_manifold(mesh["vertices"], mesh["faces"])
+        for fx in (0.1, 0.5, 0.9):
+            for fy in (0.15, 0.5, 0.85):
+                x, y = lo[:2] + (hi[:2] - lo[:2]) * [fx, fy]
+                hits = surface.ray_cast((x, y, hi[2] + 0.01), (x, y, lo[2] - 0.01))
+                self.assertTrue(hits, (x, y))
+                self.assertAlmostEqual(hits[0].position[2], hi[2])
+
+    def test_trestle_front_window_and_nameplate_have_depth(self):
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = {p["id"]: p for p in geom.evaluate(model.normalize(author))["parts"]}
+        for case, inset, through in (("fore_cuff", "louvre_2", True), ("flank", "badge", False)):
+            mesh = parts[case]["mesh"]
+            shell = geom._as_manifold(mesh["vertices"], mesh["faces"])
+            for side, suffix in ((1, "l"), (-1, "r")):
+                lo, hi = np.array(parts[inset + "_" + suffix]["bounds_m"])
+                _, y, z = (lo + hi) / 2
+                outer = max(side * lo[0], side * hi[0])
+                self.assertLess(outer, parts[case]["bounds_m"][1][0])
+                hits = shell.ray_cast((side * 0.05, y, z), (-side * 0.05, y, z))
+                if through:
+                    self.assertFalse(hits, "Die Lamelle muss durch das Schalenfenster sichtbar sein")
+                else:
+                    self.assertTrue(hits, "Die Tasche des Typenschilds braucht einen Boden")
+                    self.assertLess(side * hits[0].position[0], outer)
+
     def gen(self, num, base="standard", **params):
         return generator.build(dict(BASE, letter="J", name="Probe", base=base, params=params), num, SNAP)
 

@@ -232,7 +232,10 @@ def build(document, views):
                         if p.get('label') and p.get('label') not in named and not p.get('sight') and p.get('assembly') != 'sight'})
     if remaining:
         legend += '<p class="legend-note">Weitere Bauteile: ' + esc(', '.join(remaining)) + '</p>'
-    hero = '<div class="hero-panel">' + panel(views, hero_key, 'Isometrie' if sight else 'Isometrie · ohne Wechselvisier', size=(1440, 960), callouts=True) + legend + '</div>'
+    hero_caption = 'Isometrie' if sight else 'Isometrie · ohne Wechselvisier'
+    if document['info'].get('hero_with_sight'):
+        hero_caption = 'Isometrie · mit montiertem Visier'
+    hero = '<div class="hero-panel">' + panel(views, hero_key, hero_caption, size=(1440, 960), callouts=True) + legend + '</div>'
     orthos = '<div class="orthos">' + ''.join(panel(views, key, title, references=True) for key, title in ORTHOS) + '</div>'
     body = header(document, 'Visier · Konzeptblatt' if sight else 'Waffe · Konzeptblatt XL') + warnings_html(warnings)
     body += section('Form & Aufbau', '<div class="hero-layout">' + hero + orthos + '</div>',

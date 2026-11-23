@@ -689,10 +689,12 @@ def vary(data, variant, num, snap=None):
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
     if params.get("architecture") == "trestle":
-        from .models.weapons import trestle
-        if num != "01":
-            raise GeneratorError("Trestle setzt BASIC-01 voraus")
-        model["PARTS"], model["ANCHORS"], model["POINTS"] = trestle.build()
+        from .models.weapons import trestle, vesper
+        designs = {"01": trestle, "02": vesper}
+        if num not in designs:
+            raise GeneratorError("Trestle setzt BASIC-01 oder BASIC-02 voraus")
+        design = designs[num]
+        model["PARTS"], model["ANCHORS"], model["POINTS"] = design.build()
         # Gleicher Ursprung wie die übrigen Spielmodelle: Mitte der hinteren Hand.
         hand = model["ANCHORS"]["Socket_Hand"]["at"][:]
         for axis, offset in enumerate(hand[:2]):
@@ -701,7 +703,7 @@ def vary(data, variant, num, snap=None):
             for point in _located(model):
                 point["at"][axis] -= offset
         model["ACTIONS"] = {}
-        notes = [{"kind": "Annahme", "reason": "Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/trestle.py."}]
+        notes = [{"kind": "Annahme", "reason": f"Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/{design.__name__.split('.')[-1]}.py."}]
         ops, added = [{"op": "architecture", "kind": "trestle"}], set()
     else:
         ops, added = _apply(model, params, num, _kit(snap), notes)
@@ -745,6 +747,11 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "provenance": provenance, "facts": facts}
     if params.get("architecture"):
         info["summary"] = variant["idea"]
+        info["hero_with_sight"] = True
+        if num == "02":
+            info["name_de"] = "Impulsgewehr · Vesper"
+            info["name_en"] = "Pulse Rifle · Vesper"
+            info["summary"] = "EXTENDED-02 · Kurzer, facettierter Bug mit tiefem Keramikfenster unter einer offenen Rahmenbrücke."
     parts = []
     for p in model["PARTS"]:
         q = {k: v for k, v in p.items() if k not in ("en", "func", "attach", "iface")}

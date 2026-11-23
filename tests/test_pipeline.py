@@ -27,7 +27,7 @@ class RegisterTests(unittest.TestCase):
     def test_registered_variants_follow_rule_and_ids(self):
         entries = variants.load()
         sheets = variants.sheets(entries)
-        self.assertEqual(set(sheets), {f"B{letter}{num}" for letter in "ABCDEFGHJKLM" for num in variants.TYPES} | {"BT01"})
+        self.assertEqual(set(sheets), {f"B{letter}{num}" for letter in "ABCDEFGHJKLM" for num in variants.TYPES} | {"BT01", "BT02"})
         self.assertIn("BA01", sheets); self.assertIn("BC17", sheets)
         self.assertEqual(variants.parse_sheet("BB07"), ("B", "07"))
 
@@ -60,7 +60,8 @@ class RegisterTests(unittest.TestCase):
             entries = variants.load(path)
             self.assertEqual(list(variants.sheets(entries)), ["BT01"])
             self.assertEqual(entries[0]["params"], {"architecture": "trestle"})
-            for values in ({"types": ["02"]}, {"types": ["01", "02"]},
+            variants.check([dict(entries[0], types=["01", "02"])])
+            for values in ({"types": ["03"]}, {"types": ["01", "03"]},
                            {"params": {"architecture": "unknown"}},
                            {"params": {"architecture": "trestle", "front": 1.1}}):
                 with self.subTest(values=values), self.assertRaises(variants.VariantError):

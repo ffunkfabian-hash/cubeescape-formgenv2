@@ -64,10 +64,10 @@ def check(entries: list[dict], skins: set[str] | None = None) -> None:
         for key, value in v.get("params", {}).items():
             _check_param(letter, key, value)
         types = v.get("types", list(TYPES))
-        if "architecture" in v.get("params", {}) and (types != ["01"] or set(v["params"]) != {"architecture"}):
-            raise VariantError("Trestle ist ein eigenständiger Entwurf ausschließlich für Typ 01")
         if not isinstance(types, list) or not types or any(t not in TYPES for t in types) or len(set(types)) != len(types):
             raise VariantError(f"{letter}: types nur aus 01–17")
+        if "architecture" in v.get("params", {}) and (set(types) - {"01", "02"} or set(v["params"]) != {"architecture"}):
+            raise VariantError("Trestle unterstützt nur die eigenständigen Entwürfe für Typ 01 und 02")
 
 
 def _number(x) -> bool:

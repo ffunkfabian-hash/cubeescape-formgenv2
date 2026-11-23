@@ -1,10 +1,10 @@
 {
  "anchors": {
   "Socket_Eye": {
-   "part": "arch_liner",
+   "part": "optic_pane",
    "position_mm": [
-    -18.0,
-    138.0,
+    0.0,
+    141.0,
     0.0
    ]
   },
@@ -117,18 +117,18 @@
     "Socket_Hand": "graphite",
     "Socket_SupportHand": "graphite"
    },
-   "sight_line_mm": 77
+   "sight_line_mm": 80
   }
  },
  "counts": {
   "assemblies": 7,
-  "parts": 85,
-  "triangles": 24288
+  "parts": 90,
+  "triangles": 26496
  },
  "dimensions_mm": {
-  "height": 251.35,
+  "height": 244.15,
   "length": 704.24,
-  "width": 68.5
+  "width": 63.5
  },
  "format": "formgenv2/weapon-sheet-spec",
  "format_version": 4,
@@ -186,11 +186,11 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -267.95,
-     -52.02
+     -265.96,
+     -147.19
     ],
     "u": [
-     21.47,
+     23.04,
      109.0
     ],
     "x": [
@@ -204,7 +204,7 @@
    "name_en": "cheek",
    "role": "shell",
    "shape": "prof",
-   "triangles": 536
+   "triangles": 608
   },
   {
    "assembly": "stock",
@@ -235,10 +235,10 @@
    "extent_mm": {
     "f": [
      -253.15,
-     -110.75
+     -150.56
     ],
     "u": [
-     97.15,
+     102.17,
      115.0
     ],
     "x": [
@@ -252,22 +252,22 @@
    "name_en": "comb",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 212
+   "triangles": 284
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -133.85,
-     166.09
+     -177.99,
+     141.0
     ],
     "u": [
-     10.09,
-     92.6
+     10.06,
+     101.0
     ],
     "x": [
-     -27.5,
-     27.5
+     -22.0,
+     22.0
     ]
    },
    "id": "keel",
@@ -276,17 +276,17 @@
    "name_en": "keel",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 896
+   "triangles": 792
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -146.29,
-     61.45
+     -152.0,
+     66.57
     ],
     "u": [
-     49.17,
+     52.0,
      105.0
     ],
     "x": [
@@ -300,18 +300,18 @@
    "name_en": "flank",
    "role": "shell",
    "shape": "prof",
-   "triangles": 512
+   "triangles": 648
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     29.83,
-     293.0
+     31.96,
+     308.28
     ],
     "u": [
-     44.0,
-     87.0
+     42.0,
+     84.0
     ],
     "x": [
      -21.5,
@@ -324,18 +324,18 @@
    "name_en": "throat",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 220
+   "triangles": 560
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     101.69,
-     324.75
+     104.19,
+     321.54
     ],
     "u": [
-     44.0,
-     89.0
+     43.0,
+     90.94
     ],
     "x": [
      -30.5,
@@ -348,22 +348,22 @@
    "name_en": "fore cuff",
    "role": "shell",
    "shape": "prof",
-   "triangles": 492
+   "triangles": 1196
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     102.96,
-     249.21
+     118.77,
+     247.6
     ],
     "u": [
-     26.43,
-     60.0
+     28.0,
+     54.0
     ],
     "x": [
-     -24.5,
-     24.5
+     -23.5,
+     23.5
     ]
    },
    "id": "palm",
@@ -372,18 +372,18 @@
    "name_en": "palm",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 428
+   "triangles": 368
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -96.32,
-     180.56
+     -96.46,
+     180.68
     ],
     "u": [
-     79.63,
-     156.0
+     79.44,
+     123.0
     ],
     "x": [
      -20.0,
@@ -396,18 +396,18 @@
    "name_en": "arch liner",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 668
+   "triangles": 368
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -105.05,
-     182.68
+     -105.38,
+     183.04
     ],
     "u": [
-     82.59,
-     162.0
+     82.4,
+     129.0
     ],
     "x": [
      -23.5,
@@ -420,18 +420,18 @@
    "name_en": "arch",
    "role": "shell",
    "shape": "prof",
-   "triangles": 620
+   "triangles": 476
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -68.85,
-     -48.15
+     -68.75,
+     -48.25
     ],
     "u": [
-     106.18,
-     138.55
+     102.31,
+     119.25
     ],
     "x": [
      -24.05,
@@ -450,12 +450,12 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -48.85,
-     -37.15
+     -48.76,
+     -37.24
     ],
     "u": [
-     122.18,
-     147.66
+     109.98,
+     124.17
     ],
     "x": [
      -24.05,
@@ -474,16 +474,16 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -26.82,
-     93.74
+     -35.22,
+     112.22
     ],
     "u": [
-     158.11,
-     165.0
+     126.0,
+     132.0
     ],
     "x": [
-     -15.5,
-     15.5
+     -17.5,
+     17.5
     ]
    },
    "id": "crown",
@@ -492,46 +492,46 @@
    "name_en": "crown",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 200
+   "triangles": 132
   },
   {
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -7.0,
-     13.0
+     -11.78,
+     10.78
     ],
     "u": [
-     162.0,
-     168.0
+     120.0,
+     125.0
     ],
     "x": [
-     -13.0,
-     13.0
+     -24.6,
+     -22.8
     ]
    },
    "id": "sight_tile",
    "moving": false,
-   "name_de": "Optisches Keramikfenster",
+   "name_de": "Seitliches Keramikfenster",
    "name_en": "sight tile",
    "role": "anodized",
-   "shape": "xprof",
-   "triangles": 284
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -6.0,
-     -4.0
+     -7.91,
+     0.91
     ],
     "u": [
-     167.3,
-     168.7
+     121.0,
+     123.5
     ],
     "x": [
-     -6.5,
-     6.5
+     -25.1,
+     -24.3
     ]
    },
    "id": "sight_lens",
@@ -539,8 +539,128 @@
    "name_de": "Optikindikator",
    "name_en": "sight lens",
    "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -20.0,
+     37.66
+    ],
+    "u": [
+     131.0,
+     138.0
+    ],
+    "x": [
+     -18.0,
+     18.0
+    ]
+   },
+   "id": "optic_foot",
+   "moving": false,
+   "name_de": "Visierfuß",
+   "name_en": "optic foot",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 164
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -8.0,
+     8.0
+    ],
+    "u": [
+     130.5,
+     161.5
+    ],
+    "x": [
+     -21.0,
+     21.0
+    ]
+   },
+   "id": "optic_hood",
+   "moving": false,
+   "name_de": "Facettierter Fensterrahmen",
+   "name_en": "optic hood",
+   "role": "anodized",
+   "shape": "frame",
+   "triangles": 640
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -1.0,
+     0.5
+    ],
+    "u": [
+     134.0,
+     158.0
+    ],
+    "x": [
+     -17.5,
+     17.5
+    ]
+   },
+   "id": "optic_pane",
+   "moving": false,
+   "name_de": "Getönte Sichtscheibe",
+   "name_en": "optic pane",
+   "role": "glass",
    "shape": "xprof",
-   "triangles": 300
+   "triangles": 284
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -11.79,
+     27.38
+    ],
+    "u": [
+     134.0,
+     152.0
+    ],
+    "x": [
+     18.3,
+     21.3
+    ]
+   },
+   "id": "optic_cheek_l",
+   "moving": false,
+   "name_de": "Visierwange",
+   "name_en": "optic cheek l",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 332
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -11.79,
+     27.38
+    ],
+    "u": [
+     134.0,
+     152.0
+    ],
+    "x": [
+     -21.3,
+     -18.3
+    ]
+   },
+   "id": "optic_cheek_r",
+   "moving": false,
+   "name_de": "Visierwange",
+   "name_en": "optic cheek r",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 332
   },
   {
    "assembly": "barrel",
@@ -914,13 +1034,13 @@
      97.0
     ],
     "x": [
-     29.75,
-     32.25
+     25.75,
+     28.75
     ]
    },
    "id": "badge_l",
    "moving": false,
-   "name_de": "Typenschild",
+   "name_de": "Eingelassenes Typenschild",
    "name_en": "badge l",
    "role": "anodized",
    "shape": "prof",
@@ -955,7 +1075,7 @@
    "extent_mm": {
     "f": [
      -240.52,
-     -144.59
+     -167.52
     ],
     "u": [
      72.21,
@@ -978,12 +1098,12 @@
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     85.23,
+     88.23,
      141.78
     ],
     "u": [
      -53.81,
-     23.9
+     18.8
     ],
     "x": [
      20.75,
@@ -1074,16 +1194,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     173.41,
+     165.1,
      279.67
     ],
     "u": [
-     64.01,
-     79.0
+     61.0,
+     82.0
     ],
     "x": [
-     30.25,
-     32.65
+     21.25,
+     23.05
     ]
    },
    "id": "fore_insert_l",
@@ -1092,22 +1212,22 @@
    "name_en": "fore insert l",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 172
+   "triangles": 208
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     197.21,
-     207.79
+     197.27,
+     208.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     32.45,
-     34.25
+     22.75,
+     25.95
     ]
    },
    "id": "louvre_0_l",
@@ -1122,16 +1242,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     210.21,
-     220.79
+     210.27,
+     221.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     32.45,
-     34.25
+     22.75,
+     25.95
     ]
    },
    "id": "louvre_1_l",
@@ -1146,16 +1266,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     223.21,
-     233.79
+     223.27,
+     234.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     32.45,
-     34.25
+     22.75,
+     25.95
     ]
    },
    "id": "louvre_2_l",
@@ -1170,16 +1290,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     236.21,
-     246.79
+     236.27,
+     247.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     32.45,
-     34.25
+     22.75,
+     25.95
     ]
    },
    "id": "louvre_3_l",
@@ -1194,16 +1314,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     249.21,
-     259.79
+     249.27,
+     260.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     32.45,
-     34.25
+     22.75,
+     25.95
     ]
    },
    "id": "louvre_4_l",
@@ -1314,16 +1434,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     29.4,
+     48.34,
      93.69
     ],
     "u": [
      41.0,
-     57.94
+     56.93
     ],
     "x": [
-     27.25,
-     29.45
+     21.75,
+     23.95
     ]
    },
    "id": "index_case_l",
@@ -1332,22 +1452,22 @@
    "name_en": "index case l",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 184
+   "triangles": 204
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     50.09,
-     57.41
+     60.08,
+     65.92
     ],
     "u": [
      46.0,
      51.0
     ],
     "x": [
-     29.15,
-     30.15
+     23.75,
+     24.75
     ]
    },
    "id": "status_0_l",
@@ -1362,16 +1482,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     59.09,
-     66.41
+     67.08,
+     72.92
     ],
     "u": [
      46.0,
      51.0
     ],
     "x": [
-     29.15,
-     30.15
+     23.75,
+     24.75
     ]
    },
    "id": "status_1_l",
@@ -1386,16 +1506,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     68.09,
-     75.41
+     74.08,
+     79.92
     ],
     "u": [
      46.0,
      51.0
     ],
     "x": [
-     29.15,
-     30.15
+     23.75,
+     24.75
     ]
    },
    "id": "status_2_l",
@@ -1514,8 +1634,8 @@
      85.53
     ],
     "x": [
-     32.05,
-     32.75
+     28.5,
+     29.2
     ]
    },
    "id": "name_l",
@@ -1562,13 +1682,13 @@
      97.0
     ],
     "x": [
-     -32.25,
-     -29.75
+     -28.75,
+     -25.75
     ]
    },
    "id": "badge_r",
    "moving": false,
-   "name_de": "Typenschild",
+   "name_de": "Eingelassenes Typenschild",
    "name_en": "badge r",
    "role": "anodized",
    "shape": "prof",
@@ -1603,7 +1723,7 @@
    "extent_mm": {
     "f": [
      -240.52,
-     -144.59
+     -167.52
     ],
     "u": [
      72.21,
@@ -1626,12 +1746,12 @@
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     85.23,
+     88.23,
      141.78
     ],
     "u": [
      -53.81,
-     23.9
+     18.8
     ],
     "x": [
      -23.25,
@@ -1722,16 +1842,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     173.41,
+     165.1,
      279.67
     ],
     "u": [
-     64.01,
-     79.0
+     61.0,
+     82.0
     ],
     "x": [
-     -32.65,
-     -30.25
+     -23.05,
+     -21.25
     ]
    },
    "id": "fore_insert_r",
@@ -1740,22 +1860,22 @@
    "name_en": "fore insert r",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 172
+   "triangles": 208
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     197.21,
-     207.79
+     197.27,
+     208.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     -34.25,
-     -32.45
+     -25.95,
+     -22.75
     ]
    },
    "id": "louvre_0_r",
@@ -1770,16 +1890,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     210.21,
-     220.79
+     210.27,
+     221.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     -34.25,
-     -32.45
+     -25.95,
+     -22.75
     ]
    },
    "id": "louvre_1_r",
@@ -1794,16 +1914,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     223.21,
-     233.79
+     223.27,
+     234.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     -34.25,
-     -32.45
+     -25.95,
+     -22.75
     ]
    },
    "id": "louvre_2_r",
@@ -1818,16 +1938,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     236.21,
-     246.79
+     236.27,
+     247.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     -34.25,
-     -32.45
+     -25.95,
+     -22.75
     ]
    },
    "id": "louvre_3_r",
@@ -1842,16 +1962,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     249.21,
-     259.79
+     249.27,
+     260.73
     ],
     "u": [
-     67.0,
-     76.0
+     64.0,
+     79.0
     ],
     "x": [
-     -34.25,
-     -32.45
+     -25.95,
+     -22.75
     ]
    },
    "id": "louvre_4_r",
@@ -1962,16 +2082,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     29.4,
+     48.34,
      93.69
     ],
     "u": [
      41.0,
-     57.94
+     56.93
     ],
     "x": [
-     -29.45,
-     -27.25
+     -23.95,
+     -21.75
     ]
    },
    "id": "index_case_r",
@@ -1980,22 +2100,22 @@
    "name_en": "index case r",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 184
+   "triangles": 204
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     50.09,
-     57.41
+     60.08,
+     65.92
     ],
     "u": [
      46.0,
      51.0
     ],
     "x": [
-     -30.15,
-     -29.15
+     -24.75,
+     -23.75
     ]
    },
    "id": "status_0_r",
@@ -2010,16 +2130,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     59.09,
-     66.41
+     67.08,
+     72.92
     ],
     "u": [
      46.0,
      51.0
     ],
     "x": [
-     -30.15,
-     -29.15
+     -24.75,
+     -23.75
     ]
    },
    "id": "status_1_r",
@@ -2034,16 +2154,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     68.09,
-     75.41
+     74.08,
+     79.92
     ],
     "u": [
      46.0,
      51.0
     ],
     "x": [
-     -30.15,
-     -29.15
+     -24.75,
+     -23.75
     ]
    },
    "id": "status_2_r",
@@ -2162,8 +2282,8 @@
      85.53
     ],
     "x": [
-     -32.75,
-     -32.05
+     -29.2,
+     -28.5
     ]
    },
    "id": "name_r",

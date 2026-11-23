@@ -184,6 +184,6 @@ idea = "EXTENDED-02 · Die offene Rückenbrücke überspannt zwei versetzte Keil
 since = "0.16"
 skin = "standard"
 base = "pilot"
-types = ["01"]
+types = ["01", "02"]
 [variants.params]
 architecture = "trestle"

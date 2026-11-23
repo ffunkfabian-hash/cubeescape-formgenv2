@@ -99,7 +99,8 @@ def kit_model(data: dict, model: dict, run: dict) -> dict:
     result = {"META": copy.deepcopy(data["META"]), "PARTS": parts, "ASSEMBLIES": copy.deepcopy(data["ASSEMBLIES"]),
               "ANCHORS": copy.deepcopy(model["ANCHORS"]), "POINTS": copy.deepcopy(model.get("POINTS") or {}), "ACTIONS": actions}
     if run.get("params", {}).get("architecture") == "trestle":
-        result["META"].update(id=run["sid"], variant="EXTENDED-02", name="Trestle", nick="Trestle",
+        design_name = "Vesper" if data["META"]["num"] in (2, "02") else "Trestle"
+        result["META"].update(id=run["sid"], variant="EXTENDED-02", name=design_name, nick=design_name,
                               summary="Eigenständiges statisches Sci-Fi-Spielmodell")
         result["ASSEMBLIES"] = copy.deepcopy(model["ASSEMBLIES"])
     return result

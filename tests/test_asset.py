@@ -169,6 +169,17 @@ class KitModelTests(unittest.TestCase):
         self.assertFalse(original & {part["id"] for part in result["PARTS"]})
         self.assertEqual(result["ANCHORS"]["Socket_Hand"]["at"], [0, 0, 0])
 
+    def test_vesper_is_a_static_pulse_rifle_with_its_own_shell(self):
+        pilot, model = kit_model("BT02")
+        self.assertEqual(model["META"]["nick"], "Vesper")
+        self.assertEqual(model["META"]["id"], "BT02")
+        self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+        self.assertFalse(model["ACTIONS"])
+        parts = {p["id"]: p for p in model["PARTS"]}
+        self.assertIn("cuts", parts["pulse_mantle"])
+        self.assertEqual({p["mat"] for k, p in parts.items() if k.startswith("pulse_line_")}, {"energy"})
+        self.assertEqual(len([k for k in parts if k.startswith("porcelain_")]), 6)
+
     def test_baseline_is_ballons_dataset_for_all_types(self):
         # Linie A = BALLONs Grundmodul bit für bit (Pilot bzw. Formstudie; inkl. r_in der Zielfernrohre, Baugruppen wie deklariert)
         for num in ballon.TYPES:
