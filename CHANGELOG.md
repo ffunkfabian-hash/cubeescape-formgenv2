@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.22.0 Torrent — EXTENDED-06 Maschinenpistole und EXTENDED-15 Maschinengewehr
+
+- Neu: EXTENDED-06 „Wishbone“ (`formgen/models/extended/e06_wishbone.py`), eine kompakte Maschinenpistole als Gabelbein: Der Magazinschacht ist zugleich Vordergriff und steht 24° nach vorn gespreizt, der Griff 15° nach hinten; T-Querschnitt (Creme-Deck kragt über den Graphit-Rumpf), Kinnstirn parallel zum Schacht, dreieckiges Λ-Fenster als Blickfang.
+- Neu: EXTENDED-15 „Flywheel“ (`formgen/models/extended/e15_flywheel.py`), ein Maschinengewehr mit großer Gurttrommel quer unter dem Gehäuse als Schwungrad (offene Nabe, fünf Speichen, eine davon leuchtet als Füllstand) und Kühlmantel mit Kreuz-Querschnitt; Schnittstellen BGM-1, BAB-1, BMZ-15, BRI-22 und Visier H6 L wie BASIC-15.
+- Blatt-IDs `EA06`/`EA15` (nur ID); Tests `tests/test_extended_dauerfeuer.py` ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.22.md)).
+
 ## 0.20.0 Riftguard — EXTENDED-16 Schwert und EXTENDED-17 Glefe
 
 - Neu: EXTENDED-16 „Sweepguard“ (`formgen/models/extended/e16_sweepguard.py`), ein Einhand-Säbel mit geschwungener, dreistufig geschichteter Klinge, Creme-Korbbügel als Negativraum und Ladebogen als Blickfang.

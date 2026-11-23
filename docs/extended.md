@@ -16,6 +16,8 @@ Schiene BRI-22, Feuerwahlhebel und Ladehebel-Form, Schraubenköpfe sowie die Hil
 | `e11` | EXTENDED-11 „Collimator“ | `EA11` | `formgen/models/extended/e11_collimator.py` | Lineares Fusionsgewehr |
 | `e16` | EXTENDED-16 „Sweepguard“ | `EA16` | `formgen/models/extended/e16_sweepguard.py` | Schwert |
 | `e17` | EXTENDED-17 „Gorget“ | `EA17` | `formgen/models/extended/e17_gorget.py` | Glefe |
+| `e06` | EXTENDED-06 „Wishbone“ | `EA06` | `formgen/models/extended/e06_wishbone.py` | Maschinenpistole |
+| `e15` | EXTENDED-15 „Flywheel“ | `EA15` | `formgen/models/extended/e15_flywheel.py` | Maschinengewehr |
 
 IDs sind ewig. Die Blatt-ID folgt dem Schema `E<Linie><NN>` (Nutzerentscheid vom 23.11.2026), analog zu `BA01` und `RA01`:
 Linie A ist die Grundform, NN die EXTENDED-Nummer, spätere Linien folgen als `EB01` usw. Sie steht in `formgen/extended.py` ›
@@ -353,3 +355,86 @@ EXTENDED-Modell, die Absetzung Schwert ↔ Glefe (Klingen- und Schaftanteil, Ein
 abgeschlossene Lücke der Seitensilhouette (Gegenproben ohne Bügel und ohne Fenster), Schrift auf der Trägerfläche, Schildflügel
 spiegelgleich mit deckungsgleichem Fenster, Länge, Blatt-IDs, Quellhash ohne BASIC-Modul und die Renderzusätze.
 Eine Testzuordnung (`test_map.json`) führt dieses Repo nicht; `./check` findet die Datei über `unittest discover`.
+
+## EXTENDED-06 „Wishbone“ und EXTENDED-15 „Flywheel“ (Dauerfeuer, 0.22 „Torrent“)
+
+Beide Typen sind Dauerfeuerwaffen und entstanden in einer Sitzung, damit sie sich gezielt voneinander absetzen: Die Maschinenpistole ist
+kompakt und wendig (0,42 m), ihre Form entsteht aus zwei gespreizten Schenkeln unter einem kurzen Gehäuse. Das Maschinengewehr ist schwer
+(0,98 m) und trägt seine große Munitionsversorgung als Rad unter dem Gehäuse. Keine Form der Welle 1 kehrt wieder: kein Parallelogramm,
+kein Sechseck, keine Rohrlinie, kein Trichter, keine Chevrons, kein Takt aus Schlitzen, Platten oder Kragen.
+
+### Formideen
+
+Je vier Seitensilhouetten mit Griff BGM-1 und Visier (`~/Library/Caches/CubeEscapeFormgen2/0.22/belege/skizzen/skizzen_v1.png`), IoU im
+Rahmen aus den Hüllen beider Modelle; „max EA“ ist der höchste Wert gegen die neun Modelle der Welle 1.
+
+| Idee | Architektur | IoU BASIC | max EA | Urteil |
+|---|---|---|---|---|
+| **E06-A Gabelbein** | Magazinschacht als Vordergriff, 24° nach vorn gespreizt; Griff und Schacht bilden ein Λ | 0,53 | 0,49 (EA10) | **gewählt**: eine Geste, die nur eine kompakte Waffe tragen kann |
+| E06-B Tiefachse | hoher Block hinten, Lauf tief auf Handhöhe | 0,46 | 0,48 (EA10) | liest sich als Kamera oder Werkzeug; tiefe Achse ist EXTENDED-05 |
+| E06-C Kreuz | Magazin quer links, flacher Kasten | 0,57 | 0,45 (EA10) | in der Seite beliebig, das Merkmal liegt nur in Draufsicht und Front |
+| E06-D Oberdeck | Magazin längs auf dem Gehäuse | 0,60 | 0,51 (EA10) | zwei Decks übereinander wie EXTENDED-05 |
+| **E15-A Schwungrad** | große Trommel quer unter dem Gehäuse, langer Mantel | 0,65 | 0,62 (EA01) | **gewählt**: der Kreis ist in der Seite einzigartig und zeigt die Munitionsmenge |
+| E15-B Kielwanne | tiefer Kastenbauch vom Griff bis zum Handschutz | 0,62 | 0,55 (EA01) | schwer, aber derselbe Kasten vor dem Griff wie BASIC-15 |
+| E15-C Buckel | hoher Munitionsturm auf dem Gehäuse, Visier hinten | 0,60 | 0,57 (EA01) | der Turm verdeckt die Visierlinie, das Visier muss nach hinten |
+| E15-D Kastenschaft | Munitionskasten als Schaft, dünner langer Lauf | 0,65 | 0,63 (EA02) | Magazin hinter dem Griff ist EXTENDED-02 (Bullpup) |
+
+A trägt bei der MP die Spreizung als einzige große Geste: Der Schacht ist zugleich Vordergriff, also entsteht die Form aus der
+Funktion. B–D wiederholen Motive der Welle 1 oder lesen sich nur aus einer Richtung. Beim MG zeigt nur A die große Munitionsversorgung
+als eigene Form, statt sie in einen Kasten zu packen. Beide Wahlen setzen sich zueinander ab: Winkel gegen Kreis, kompakt gegen lang.
+
+### Formsprache
+
+| | EXTENDED-06 „Wishbone“ (Maschinenpistole) | EXTENDED-15 „Flywheel“ (Maschinengewehr) |
+|---|---|---|
+| Leitmotiv | Gabelbein: Schacht als Vordergriff 24° nach vorn, Griff 15° nach hinten; Kinnstirn und Λ-Fenster folgen den Schenkeln | Schwungrad: Gurttrommel Ø 156 quer unter dem Gehäuse, fünf Speichen, offene Nabe |
+| Silhouette | kurz (0,42 m), Λ unter einem kurzen Gehäuse, Wangenstufe hinter dem Visierturm | lang (0,98 m), gerade Oberlinie, Rad zwischen Griff und Stützhand, gerippter Mantel |
+| Querschnitt | T: Creme-Deck 48 mm kragt 6 mm je Seite über den Graphit-Rumpf (36 mm), Rückenleiste oben | Kreuz: Kühlmantel mit vier Rippen (Hochrippen Creme, Seitenrippen Graphit) um den runden Kern; Gehäuse 56 mm breit |
+| Blickfang | Λ-Fenster links am Deck: dreieckige Munitionsanzeige, Seiten 15° und 24° | Leuchtspeiche links an der Trommel: Füllstand hinter Glas im blanken Rahmen |
+| Negativraum | Gabelzwickel: Abzugsraum zwischen Griff, Schacht, Rumpf und Bügel; darunter öffnet sich das Λ | offene Nabe Ø 36 quer durch die Trommel; Luft zwischen den Mantelrippen |
+| Front | Kinnstirn 24° mit Stirnplatte → Laufbuchse → runder Kompensator mit Seitenports → Krone | gefaste Rippenenden → Mantelkragen → runde Bremse mit Kreuzports → Krone |
+| Zweiton | Creme-Deck über Graphit-Rumpf und Graphit-Schacht; Magazin Creme | Creme-Gehäuse, -Deckel, -Mantelträger, -Kolben, -Trommelscheiben über Graphit (Unteres Gehäuse, Handschutz, Kranz, Kiel) |
+| Grafik, Schrift | Orange-Längsstreifen links vorn am Deck; „BASIC  EX-06“ rechts am Deck | Orange-Querband am Kolben; „BASIC  EX-15“ rechts am Gehäuse |
+| Bedienung (Orange) | Ladehebel, Magazinhalter, Feuerwahlhebel | Ladehebel, Deckelriegel, Feuerwahlhebel |
+| Familie | BGM-1, BMW-R (gerades Magazin im Schachtgriff), BMZ-15, BRI-22, Holovisier H2 „Pille“ wie BASIC-06 | BGM-1, BAB-1 (Einhängeplatte), BMZ-15, BRI-22, Holovisier H6 „Achteck“ L wie BASIC-15 |
+
+Gleich wie der BASIC-Typ bleiben Baugruppen, Anker, Weltpunkte und Aktionen (`fire_auto`, `reload_empty` bzw. `reload` mit Deckel und
+Trommel). Die Trommel ist eine Gurttrommel: Der Gurt läuft im geschlossenen Zuführhals links ins Gehäuse, Glieder und Hülsen fliegen
+rechts aus wie bei BASIC-15.
+
+### Nachbesserung
+
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.22/belege/e06/r1–r5` und `…/e15/r1–r5`, je mit Kontaktbogen, Clay, Explosion und
+`vergleich_BA06.png` bzw. `vergleich_BA15.png` (Pilot im selben AAA-Weg unter `e06/BA06`, `e15/BA15`).
+
+| Typ | Runde | gesehen | geändert |
+|---|---|---|---|
+| E06 | r1 → r2 | Körper ein glatter Kasten, Kolben ohne Form; Schiene über das ganze Deck wie BASIC-01; Ladehebel drängt sich neben das Λ-Fenster; Kompensator klein; T-Überstand kaum zu sehen | Wangenstufe hinter dem Visierturm, Kolbenkappe so breit wie das Deck; Schiene nur unter dem Visier; Ladehebel hinten links; Kompensator Ø 27 mit drei Ports; Deck 48 mm (Überstand 6 mm) |
+| E06 | r2 → r3 | Heck so hoch wie die Front, die MP wirkt wie eine Pistole mit langem Heck | Rumpfunterkante steigt zum Kolben (u 40 → 68), der Kolben verjüngt sich; Paneele mitgeführt |
+| E06 | r3 → r4 | Rahmen des Λ-Fensters ragt über die Deckkante; Wangenstufe zaghaft; Draufsicht eine glatte Fläche | Fenster tiefer, Rahmen oben gekappt; Wangenstufe 12 mm; Rückenleiste 20 mm breit (zuerst als Schnitt) |
+| E06 | r4 → r5 | Schnitt der Rückenleiste gibt Schattierungsfehler quer über die Deckflanke, das Fenster wirkt grau | Rückenleiste als eigenes Teil auf dem Deck; Fenster und Leuchtdreieck wieder klar |
+| E15 | r1 → r2 | langer dünner Stab mit Rad; Mantel liest sich als Schiene mit Schlitz; Kolbenpaneele wirken wie Fenster; Bremse klein | Mantel 288 → 242 mm, Kern Ø 44, Rippen r 40 × 10, Seitenrippen Graphit (Kreuz lesbar); Kolben mit Graphit-Kiel statt Paneelen, 180 mm; Bremse Ø 36 |
+| E15 | r2 → r3 | Wangenauflage ein dunkles Rechteck wie ein Loch; Zuführhals eine flache dunkle Platte; Trommelgriff ein Klotz | Wangenauflage entfernt; Zuführhals verjüngt sich zur Trommel, drei Schrauben; Trommelgriff 24 statt 34 mm |
+| E15 | r3 → r5 | 34 876 Dreiecke (Ziel 20 k, Grenze 50 k) | Segmente der Rundteile gesenkt (Trommel 48, Nabe, Kern, Kragen 32, Bremse 24): 30 436 Dreiecke |
+
+### Motivzeilen (für die Familie)
+
+| Typ | Leitmotiv | Silhouette | Querschnitt | Blickfang | Negativraum | Front |
+|---|---|---|---|---|---|---|
+| EA06 MP „Wishbone“ | Gabelbein: Schachtgriff 24° vorn, Griff 15° hinten | kurz 0,42 m, Λ unter kurzem Gehäuse, Wangenstufe | T (Deck kragt über Rumpf), Rückenleiste | Λ-Fenster (Dreieck 15°/24°) links am Deck | geschlossener Gabelzwickel | Kinnstirn 24° mit Stirnplatte, runder Kompensator mit Seitenports |
+| EA15 MG „Flywheel“ | Schwungrad: Gurttrommel Ø 156 quer unter dem Gehäuse | lang 0,98 m, gerade Oberlinie, Rad zwischen Griff und Stützhand | Kreuz (Kühlmantel mit vier Rippen) | Leuchtspeiche links an der Trommel | offene Nabe Ø 36 | gefaste Rippenenden, Mantelkragen, runde Bremse mit Kreuzports |
+
+### Prüfung
+
+`tests/test_extended_dauerfeuer.py` prüft beide Modelle: Felder, Typ und Feuerart wie BASIC-NN, Blatt-IDs, Anker, Weltpunkte und Aktionen
+(`variant.problems` als Orakel), Familienschnittstellen, Budgets (genau ein Blickfang links außerhalb des Visiers, ≤ 3 Akzent-Bedienfunktionen,
+eine Schrift, ein Grafikelement), Visierlinie 60–80 mm, Schrift auf der freien Seitenfläche, Seiten-IoU < 0,85 gegen BASIC-NN und jedes
+andere EXTENDED-Modell sowie < 0,70 im Paar (Rahmen aus den Hüllen beider Modelle wie `test_extended_fusion`), die Leitmotive (Spreizung
+24° gegen Griff, Magazin, Kinnstirn und Λ-Fenster auf den Schenkeln; Gabelzwickel als geschlossene Lücke der Seitensilhouette; T-Überstand
+≥ 5 mm; Trommel quer, Ø ≥ 140, zwischen Griff und Stützhand, Nabe quer durch alle Trommelteile und in der Seite frei; vier Mantelrippen
+≥ 8 mm), kompakt gegen schwer, Zusammenhang, Länge und Quellhash ohne BASIC-Piloten. Jede Regelprüfung hat eine Gegenprobe (z. B. senkrechter
+Schacht, Abzugsbügel entfernt, bündiges Deck, Achse in der Nabe, Sackloch, zarte Rippen, Glefe im Standardrahmen). Ausnahme beim
+Zusammenhang: Kontur, Glas und Absehen des Holovisiers H2 stehen frei vor dem Emitter, beim Piloten BASIC-06 genauso (der Test belegt es).
+
+Gemessen (Spec der letzten Runde): EA06 0,415 m, 20 418 Dreiecke (r5); EA15 0,978 m, 30 436 Dreiecke (r5, über dem Ziel 20 k, unter der
+Grenze 50 k: Trommel, Nabe und Mantel sind Rundkörper).
