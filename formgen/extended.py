@@ -41,6 +41,8 @@ SHEETS.update(e04="EA04", e05="EA05")      # 0.18 „Holster“
 MODELS.update(e10="e10_bellmouth", e11="e11_collimator")   # 0.19 „Crucible“: Fusion und lineare Fusion
 SHEETS.update(e10="EA10", e11="EA11")                     # 0.19 „Crucible“
 SHEET_PATTERN = r"E[A-HJ-NP-Z]\d{2}"      # Linienbuchstabe nach der Variantenregel (ohne I/O)
+MODELS["e16"], SHEETS["e16"] = "e16_sweepguard", "EA16"   # 0.20 Riftguard: Schwert (Nahkampf)
+MODELS["e17"], SHEETS["e17"] = "e17_gorget", "EA17"       # 0.20 Riftguard: Glefe (Nahkampf)
 
 
 def sheet_id(key: str) -> str:

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.0 Riftguard — EXTENDED-16 Schwert und EXTENDED-17 Glefe
+
+- Neu: EXTENDED-16 „Sweepguard“ (`formgen/models/extended/e16_sweepguard.py`), ein Einhand-Säbel mit geschwungener, dreistufig geschichteter Klinge, Creme-Korbbügel als Negativraum und Ladebogen als Blickfang.
+- Neu: EXTENDED-17 „Gorget“ (`formgen/models/extended/e17_gorget.py`), eine Glefe mit Rundschaft und vier Ringkragen im Takt, Keilklinge über der Schusslinie und Emitter-Laterne mit Fenster quer durch Rahmen und Schildflügel; Schnittstellen BGM-1 und BEC-1.
+- Blatt-IDs `EA16`/`EA17`; nur die ID, kein Blattweg, keine Website ([EXTENDED](docs/extended.md)). `tools/extended_render.py` additiv: `--ref` (Vergleich mit BASIC-Referenz) und Detailausschnitte für Langformen.
+- [Bericht](docs/versions/0.20.md)
+
 ## 0.19.0 Crucible — EXTENDED-10 und EXTENDED-11, Fusion und lineare Fusion
 
 - Neu: EXTENDED-10 „Bellmouth“ (`formgen/models/extended/e10_bellmouth.py`), ein kompaktes Fusionsgewehr (0,56 m) mit runder Ladetrommel, Glutring als einzigem Blickfang und weitem Streutrichter; Schnittstellen BGM-1, BEC-1, BMZ-15, BRI-22 und Visier F1 wie BASIC-10.
