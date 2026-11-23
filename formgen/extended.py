@@ -34,6 +34,8 @@ MODELS = {"e01": "e01_spearhead"}          # Kurzname → Modul; IDs ewig (META.
 # Blatt-ID je Kurzname (Nutzerentscheid 23.11.2026): E<Linie><NN>, Linie A = Grundform, NN = EXTENDED-Nummer; ewig wie BA01/RA01.
 # Vergeben ist nur die ID; ein Blattweg (formgen.pipeline) und die Website-Aufnahme folgen in einer eigenen Version.
 SHEETS = {"e01": "EA01"}
+MODELS.update(e10="e10_bellmouth", e11="e11_collimator")   # 0.19 „Crucible“: Fusion und lineare Fusion
+SHEETS.update(e10="EA10", e11="EA11")                     # 0.19 „Crucible“
 SHEET_PATTERN = r"E[A-HJ-NP-Z]\d{2}"      # Linienbuchstabe nach der Variantenregel (ohne I/O)
 
 
@@ -185,8 +187,9 @@ def side_mask(parts, lo=(-420.0, -200.0), size=(1200, 520)) -> np.ndarray:
     return total
 
 
-def side_iou(a, b) -> float:
-    ma, mb = side_mask(a), side_mask(b)
+def side_iou(a, b, **frame) -> float:
+    """frame: lo/size wie side_mask (0.19: Langwaffen über f 780, z. B. EXTENDED-11, brauchen einen längeren Rahmen)."""
+    ma, mb = side_mask(a, **frame), side_mask(b, **frame)
     return round(float((ma & mb).sum() / (ma | mb).sum()), 4)
 
 

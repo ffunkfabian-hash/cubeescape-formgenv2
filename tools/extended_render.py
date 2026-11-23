@@ -38,6 +38,15 @@ argv = ['--views', '--aaa', '--only', job['only'], '--samples', str(job['samples
 BB.main(W=job['model'], base=None, argv=argv + (['--gpu'] if job['gpu'] else []))
 '''
 BA01 = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.8/belege/aaa"
+# 0.19 (EXTENDED-10/11): Energiewaffen nutzen BALLONs Leuchtrollen aus `basic.pilot.energy_roles` (z. B. `charge_core`). Das Waffenmodul
+# läuft in Blender nicht, also registriert eine Importzeile die Rollen – nur für Datensätze, die sie nutzen (e01: Wrapper und Stempel gleich).
+CHARGE_MATS = ("charge_core", "pin_glow", "draw_light")
+
+
+def wrapper(data):
+    if not any(p.get("mat") in CHARGE_MATS for p in data["PARTS"]):
+        return WRAPPER
+    return WRAPPER.replace("import tools.blender_build as BB", "import basic.pilot.energy_roles\nimport tools.blender_build as BB")
 
 
 def font(size):
@@ -53,7 +62,7 @@ def stamp(key, a, data, kit):
     """Alles, was die Bilder bestimmt (gpu nicht: gleiche Szene, nur anderes Gerät)."""
     digest = hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
     return {"key": key, "data_sha256": digest, "source_sha256": extended.source(key)["source_sha256"], "kit": Path(kit).name,
-            "wrapper_sha256": hashlib.sha256(WRAPPER.encode()).hexdigest(), "samples": a.samples, "res": a.res,
+            "wrapper_sha256": hashlib.sha256(wrapper(data).encode()).hexdigest(), "samples": a.samples, "res": a.res,
             "views": list(views(a))}
 
 
@@ -77,7 +86,7 @@ def render(key, a):
     (target / "render.json").unlink(missing_ok=True)   # ein abgebrochener Lauf hinterlässt keinen gültigen Stempel
     with tempfile.TemporaryDirectory(prefix=f"formgen-extended-{key}-") as tmp:
         tmp = Path(tmp)
-        (tmp / "wrapper.py").write_text(WRAPPER)
+        (tmp / "wrapper.py").write_text(wrapper(data))
         only = ",".join(views(a))
         job = {"snapshot": str(kit), "model": data, "out": str(tmp / "o"), "only": only, "samples": a.samples, "res": a.res,
                "gpu": a.gpu}
