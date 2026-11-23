@@ -92,6 +92,21 @@ class TestSpearhead(unittest.TestCase):
         self.assertGreater(len(lights(extra)), len(lights(self.parts)))
         self.assertEqual(len(lights(extra + [dict(self.ids["ammo_counter"], id="x2")])), 5)
 
+    def test_lettering_on_receiver(self):
+        """Die Schrift (linksbündig, rechts läuft sie nach vorn) liegt ganz auf der ebenen Gehäusefläche vor der Klingenfuge.
+
+        Länge ≈ 0,62 × Größe je Zeichen (Annahme, Barlow/Blender-Standardschrift großzügig); r2 lag bei f 184 und lief in die Chevrons."""
+        t = self.ids["text_r"]
+        upper = self.ids["upper"]
+        f_join = max(q[0] for q in upper["pts"])
+        end = t["f"] + 0.62 * t["size"] * len(t["text"]) if t["side"] == -1 else t["f"]
+        start = t["f"] if t["side"] == -1 else t["f"] - 0.62 * t["size"] * len(t["text"])
+        self.assertLess(end, f_join - 5, "Schrift läuft über die Fuge Gehäuse/Klinge")
+        self.assertGreater(start, min(q[0] for q in upper["pts"]))
+        self.assertAlmostEqual(abs(t["x"]), upper["w"] / 2, delta=0.2)
+        port = next(c for c in upper["cuts"] if c.get("x") == -upper["w"] / 2 and c.get("f0") == 28)
+        self.assertGreater(start, port["f1"], "Schrift auf dem Auswurffenster")
+
     def test_sight_line(self):
         bore = self.ids["barrel"]["c"][0]
         eye = self.data["ANCHORS"]["Socket_Eye"]["at"][1]

@@ -7,15 +7,16 @@ mit BALLONs unverändertem `tools/blender_build.main` (`tools/extended_render.py
 
 Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
 - Leitmerkmal: Speerspitze. Die Oberlinie fällt ab dem Gehäuse nach vorn, die Unterlinie steigt vom Handschutz zur Spitze; in der
-  Draufsicht verjüngt sich die Klinge von 44 auf 20 mm. Höhe am Gehäuseende des Handschutzes 80 mm, an der Spitze 30 mm.
-- Negativraum: ein durchgehender, nach vorn zulaufender Fuller-Schlitz quer durch Klinge und Handschutz zeigt Lauf und Kühlringe;
+  Draufsicht verjüngt sich die Klinge von 44 auf 20 mm. Höhe an der Fuge Gehäuse/Klinge 80 mm, vor der Stirnfase (f 500) 27 mm.
+- Negativraum: ein durchgehender, nach vorn zulaufender Fuller-Schlitz quer durch die Creme-Klinge zeigt Lauf und Kühlringe vor dem
+  Graphitboden des Handschutzes;
   dazu der Dreiecksdurchbruch im Fachwerkschaft mit sichtbarem Puffer.
 - Schichten: Mittelrippe (eloxiert) 2,5 mm über der Klinge, Deckplatte 3 mm über dem Gehäuse, Seitenpaneele in Mulden, Kernrahmen
-  1,7 mm vorstehend; Unterteil 1 mm je Seite schmaler als das Oberteil.
+  1,7 mm vorstehend, Munitionsanzeige auf der Deckplatte (zum Auge); Unterteil 1 mm je Seite schmaler als das Oberteil.
 - Zweiton: Creme oben (Gehäuse, Klinge, Schaft, Magazin) über Graphit unten (Unterteil, Handschutz); die Trennfuge ist eine Gerade,
   die vom Schaft zur Spitze leicht steigt (Teilung am Gehäuse 58:42, gesamt etwa 65:35).
 - Blickfang (genau einer): Energiekern links als langgezogenes Sechseck mit Spitze nach vorn (Speermotiv), Glas, blanker Rahmen.
-- Grafik: ein Chevronpaar (Akzent) an den Klingenflanken vor dem Schlitzende, nach vorn zeigend; eine Schrift rechts am Gehäuse.
+- Grafik: ein Chevronpaar (Akzent) an der Klingenwurzel vor dem Schlitz, nach vorn zeigend; eine Schrift rechts am Gehäuse.
 - Front mehrstufig: Klingenspitze mit Fasen oben/unten und in der Draufsicht, blanke Laufbuchse, kurzer freier Lauf, sechskantiger
   Kompensator mit Schlitzen und blanker Krone.
 - Ergonomie: Griff BGM-1 wie die Familie (Socket_Hand 0/0), Handstopp-Sporn unten am Handschutz vor der Stützhand, Gummipolster,
@@ -92,8 +93,10 @@ def half_blade(f):
     raise ValueError(f)
 
 
-# Fuller-Schlitz (A): läuft nach vorn zu, unten von u 91 auf 100,5, oben von 114 auf 112; quer durch Klinge und Handschutz
-SLOT = [(232, 91.0), (420, 100.5), (420, 112.0), (232, 114.0)]
+# Fuller-Schlitz (A, Runde 2): in der Creme-Klinge, Unterkante 3 mm unter der Trennfuge (Graphitboden sichtbar), Oberkante fällt von
+# u 130 auf 120 – 30 mm hoch hinten, 13 mm vorn; quer durch, Hintergrund über dem Lauf sichtbar
+SLOT_F = (246, 420)
+SLOT = [(SLOT_F[0], split(SLOT_F[0]) - 3), (SLOT_F[1], split(SLOT_F[1]) - 3), (SLOT_F[1], 120.0), (SLOT_F[0], 130.0)]
 SLOT_CUT = dict(shape='prof', pts=SLOT, w=80)
 CORE = dict(fc=62, uc=118, length=72, height=24, tip=16)   # A: Kern links, Fenster f 26–98, u 106–130
 
@@ -127,10 +130,10 @@ P += [
         'auf das Obere Gehäuse gesetzt, Stufe 3 mm', -116, -48, TOP - 1, TOP + 3, 36, bevel=R_SMALL),
     box('top_cover_trim', 'Deckplatten-Kante', 'Top cover trim', 'receiver', 'trim', 'Blanke Zierkante der Deckplatte',
         'vorn an der Deckplatte', -52, -47, TOP - 1, TOP + 3.6, 37, bevel=0.4),
-    box('counter_bezel', 'Anzeigenrahmen', 'Counter bezel', 'receiver', 'anodized', 'Fasst die Munitionsanzeige',
-        'auf das Obere Gehäuse geschraubt', -36, -6, 114, 130, 2.4, bevel=0.6, x=HALF + 0.6),
-    box('ammo_counter', 'Munitionsanzeige', 'Ammo counter', 'receiver', 'energy', 'Füllstand; zurückhaltendes Leuchtfeld',
-        'im Anzeigenrahmen', -32, -10, 116.5, 127.5, 1.0, bevel=0.2, x=HALF + 1.6),
+    box('counter_bezel', 'Anzeigenrahmen', 'Counter bezel', 'receiver', 'anodized', 'Fasst die Munitionsanzeige (zum Auge)',
+        'auf die Deckplatte geschraubt', -102, -66, TOP + 2.6, TOP + 4.6, 22, bevel=0.6),
+    box('ammo_counter', 'Munitionsanzeige', 'Ammo counter', 'receiver', 'energy', 'Füllstand oben, im Blick beim Zielen',
+        'im Anzeigenrahmen', -98, -70, TOP + 4.2, TOP + 5.0, 15, bevel=0.2),
     prof('core_glow', 'Energiekern', 'Energy core', 'receiver', 'energy', 'Leuchtende Antriebszelle (Blickfang)', 'hinter dem Kernglas',
          lozenge(**CORE, grow=-1.5), 1.6, bevel=0, x=HALF - 3.4),
     prof('core_lens', 'Kernglas', 'Core lens', 'receiver', 'glass', 'Schützt den Kern', 'im Kernfenster', lozenge(**CORE, grow=-0.4),
@@ -143,8 +146,9 @@ P += [
     part('mag_release', 'Magazinhalter', 'Magazine release', 'grip_controls', 'cyl', 'accent', 'Löst das Magazin',
          'Druckknopf links', bevel=R_FINE, axis='x', c=(66, 60), a0=19, a1=23.5, r=5, segs=20,
          move=dict(kind='translate', pivot=(66, 60, 21), vector_mm=(0, 0, -2.5), event='reload')),
+    # A (Runde 3): freie Gehäusefläche rechts zwischen Auswurffenster (88) und Fuge (196); linksbündig, läuft nach vorn bis ≈ 154
     part('text_r', 'Schriftzug', 'Lettering', 'receiver', 'text', 'decal', 'Kennung „BASIC EX-01“ (einzige Schrift)',
-         'aufgedruckt', bevel=0, text='BASIC  EX-01', size=5.0, f=184, u=128.5, x=-HALF - 0.05, side=-1, depth=0.12),
+         'aufgedruckt', bevel=0, text='BASIC  EX-01', size=5.0, f=118, u=128.5, x=-HALF - 0.05, side=-1, depth=0.12),
 ]
 # Verschluss im Auswurffenster rechts
 P += [
@@ -172,7 +176,7 @@ P += [
     prof('spine', 'Mittelrippe', 'Spine rib', 'receiver', 'anodized', 'Versteift die Klinge; Leitlinie bis zur Spitze',
          'auf Gehäuse und Klinge geschraubt, Stufe 2,5 mm',
          [(66, TOP - 1), (F_JOIN, TOP - 1), (492, top(492) - 1), (484, top(484) + 2.5), (F_JOIN, TOP + 2.5), (72, TOP + 2.5)], 14,
-         bevel=R_FINE),
+         bevel=R_FINE, cuts=taper([(60, 7.4), (F_JOIN, 7.0), (496, 2.6)], 100, 160)),
     part('spine_screws', 'Rippenschrauben', 'Spine screws', 'receiver', 'multi', 'trim', 'Halten die Mittelrippe', 'in der Rippe',
          bevel=0.2, items=[dict(shape='cyl', axis='u', c=(f, 0), a0=(top(f) if f > F_JOIN else TOP) + 2, a1=(top(f) if f > F_JOIN else TOP) + 3,
                                 r=1.5, segs=12) for f in (80, 190, 330, 470)]),
@@ -187,8 +191,8 @@ P += [
          'seitlich', bevel=0.2, items=mirror(screws([(206, 74), (206, 90)], HALF - 1.2, r=1.8, h=0.8))),
     part('chevron', 'Chevronband', 'Chevron band', 'receiver', 'multi', 'accent', 'Lackiertes Chevronpaar (einziges Grafikelement)',
          'lackiert, beidseitig an der Klingenflanke', bevel=0,
-         items=[dict(shape='prof', pts=[(f, 114.5), (f + 7, 114.5), (f + 15, 120.5), (f + 7, 126.5), (f, 126.5), (f + 8, 120.5)],
-                     w=0.6, x=sx * (half_blade(f + 7.5) + 0.05)) for f in (382, 396) for sx in (1, -1)]),
+         items=[dict(shape='prof', pts=[(f, 106), (f + 9, 106), (f + 21, 119), (f + 9, 132), (f, 132), (f + 12, 119)],
+                     w=0.6, x=sx * (half_blade(f + 10.5) + 0.05)) for f in (204, 222) for sx in (1, -1)]),
 ]
 # ---------------------------------------------------------------- Lauf, Kühlringe, Mündung
 P += [
@@ -198,9 +202,7 @@ P += [
         + [cut_box(518, 538, BORE + 8.6, BORE + 12, 3), cut_box(518, 538, BORE - 12, BORE - 8.6, 3)]),
     part('heatsink', 'Kühlringe', 'Heat sink', 'barrel', 'multi', 'dark_metal', 'Führt Laufwärme ab; im Fuller-Schlitz sichtbar',
          'auf den Lauf gepresst', bevel=0.4, smooth=True,
-         items=[dict(shape='cyl', axis='f', c=(BORE, 0), a0=244 + 17 * i, a1=250 + 17 * i, r=13.5 - 0.25 * i, segs=24) for i in range(10)]),
-    cyl('gas_tube', 'Gasrohr', 'Gas tube', 'barrel', 'metal', 'Treibgas zum Verschluss; über dem Lauf im Schlitz sichtbar',
-        'zwischen Gasblock und Gehäuse', 'f', (BORE + 14, 0), 200, 430, 2.6, segs=12),
+         items=[dict(shape='cyl', axis='f', c=(BORE, 0), a0=262 + 34 * i, a1=270 + 34 * i, r=12.5, segs=24) for i in range(5)]),
     cyl('nose_bushing', 'Laufbuchse', 'Barrel bushing', 'barrel', 'trim', 'Führt den Lauf in der Klingenspitze; blanke Stufe',
         'in die Klingenspitze gepresst', 'f', (BORE, 0), F_TIP - 4, F_TIP + 3, 12.5, r_in=10.2, segs=24, bevel=0.5),
     cyl('muzzle', 'Kompensator', 'Compensator', 'barrel', 'anodized', 'Sechskant-Mündungsteil mit Schlitzen; Socket_Muzzle',
@@ -218,17 +220,17 @@ P += [dict(p, id='selector_r', de='Feuerwahlhebel rechts', en='Fire selector rig
 P += charging_handle(164, 127, x=HALF + 0.5, travel=58)
 # ---------------------------------------------------------------- Magazin: gerade, 10° nach vorn geneigt, Fenster, Bodenplatte mit Spitze
 _mc, _tilt = (108, 72), 10      # A: Neigung 10° (BASIC-01 8° mit Krümmung)
-_m = rifle_mag(88, 72, depth=40, length=134, tilt=_tilt, w=24)
+_m = rifle_mag(88, 72, depth=40, length=144, tilt=_tilt, w=24)
 for p in _m:
     if p['id'] == 'magazine':
-        p['pts'] = rot([(88, 72), (128, 72), (130, 10), (131, -52), (91, -52), (89, 10)], _mc, _tilt)
+        p['pts'] = rot([(88, 72), (128, 72), (130, 10), (131, -62), (91, -62), (89, 10)], _mc, _tilt)
         p['de'], p['func'] = 'Magazin', 'Hält die Patronen; gerade, nach vorn geneigt; entnehmbar'
         p['cuts'] = ([dict(shape='prof', pts=rot([(98, uu), (124, uu), (124, uu + 2.2), (98, uu + 2.2)], _mc, _tilt), w=3, x=sx * 12)
-                      for uu in (-28, -38) for sx in (1, -1)]
+                      for uu in (-34, -44, -54) for sx in (1, -1)]
                      + [dict(shape='prof', pts=rot([(100, 36), (100, -14), (106, -20), (118, -20), (118, 36)], _mc, _tilt), w=8, x=10)])
     if p['id'] == 'magazine_base':
         p['mat'] = 'anodized'
-        p['pts'] = rot([(87, -51.5), (133, -51.5), (142, -58), (134, -62), (87, -62)], _mc, _tilt)
+        p['pts'] = rot([(87, -61.5), (133, -61.5), (150, -67), (138, -73), (87, -73)], _mc, _tilt)
     if p['id'] == 'magazine_round':
         p['mat'] = 'brass'
 P += _m
@@ -241,7 +243,7 @@ P += [
     part('mag_rounds', 'Patronen im Fenster', 'Visible rounds', 'ammo', 'multi', 'brass', 'Zeigt den Füllstand', 'im Magazin',
          bevel=0.3, parent_part='magazine', items=_rounds, smooth=True),
     prof('mag_rib', 'Magazinrippe', 'Magazine rib', 'ammo', 'graphite', 'Griffkante vorn; trägt die Bodenplatte',
-         'vorn am Magazin', rot([(127, 4), (133, 4), (134, -51), (128, -51)], _mc, _tilt), 20, bevel=R_FINE, parent_part='magazine'),
+         'vorn am Magazin', rot([(127, 4), (133, 4), (134, -61), (128, -61)], _mc, _tilt), 20, bevel=R_FINE, parent_part='magazine'),
 ]
 # ---------------------------------------------------------------- Schaft: Fachwerk mit sichtbarem Puffer
 _sl = lambda f: 136 - (-150 - f) * 10 / 126 if f < -150 else 136   # noqa: E731 – A: Oberkante Schaftrücken, fällt nach hinten
