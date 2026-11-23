@@ -25,7 +25,9 @@ IDs sind ewig. Eine Blatt-ID und die Aufnahme auf die Website gibt es noch nicht
 W=$PWD; ./ce lock gpu -- $W/.venv/bin/python $W/tools/extended_render.py e01 --tag r3 --res 1600 --gpu --extra
 ```
 
-Die Pfade müssen absolut sein, weil die Sperre das Arbeitsverzeichnis wechselt.
+Die Pfade müssen absolut sein, weil die Sperre das Arbeitsverzeichnis wechselt. Ein Tag rendert nur neu, wenn Bilder fehlen oder
+der Stempel `render.json` nicht passt; er enthält den Datensatz- und den Quellhash, den Kit-Snapshot, Samples, Auflösung und
+Ansichten. `--force` rendert trotzdem neu.
 
 ## EXTENDED-01 „Spearhead“
 
@@ -81,3 +83,5 @@ Die Checkliste folgt Stilhandbuch §3; Einzelheiten und die Herkunft jeder Zahl 
 - Keine schwebenden Teile. Gegenprobe: ein um 40 mm versetzter Kernrahmen bildet eine eigene Gruppe.
 - Länge.
 - Der Quellhash enthält keinen BASIC-01-Piloten.
+- Das Renderwerkzeug überspringt einen aktuellen Tag. Gegenproben: andere Samples, `--extra`, `--force` und ein fehlendes Bild starten
+  Blender.

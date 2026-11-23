@@ -7,10 +7,12 @@ ein abgelöstes Teil, ein überzähliges Leuchtteil.
 """
 import copy
 import importlib
+import json
+from pathlib import Path
 import sys
 import unittest
 
-from formgen import ballon, extended
+from formgen import ballon, ballon_kit, extended
 
 try:
     SNAP = ballon.snapshot()
@@ -30,6 +32,23 @@ def lights(parts):
 def accent_functions(parts):
     """Akzent-Bedienfunktionen außerhalb des Visiers; beidseitige Hebel zählen einmal (Suffix _r)."""
     return sorted({p["id"].removesuffix("_r") for p in parts if p["mat"] == "accent" and p.get("move") and p["asm"] != "sight"})
+
+
+def lettering_problems(t, upper):
+    """Lage der Schrift gegen die ebene Gehäusefläche: Fuge zur Klinge (vorn), Gehäuseende, Seite, Auswurffenster rechts."""
+    length = 0.62 * t["size"] * len(t["text"])   # Annahme: Zeichenbreite ≈ 0,62 × Größe (großzügig)
+    start, end = (t["f"], t["f"] + length) if t["side"] == -1 else (t["f"] - length, t["f"])
+    out = []
+    if end >= max(q[0] for q in upper["pts"]) - 5:
+        out.append("über der Fuge")
+    if start <= min(q[0] for q in upper["pts"]):
+        out.append("hinter dem Gehäuse")
+    if abs(abs(t["x"]) - upper["w"] / 2) > 0.2:
+        out.append("nicht auf der Seitenfläche")
+    port = next(c for c in upper["cuts"] if c.get("x") == -upper["w"] / 2 and c.get("f0") == 28)
+    if t["side"] == -1 and start < port["f1"] and end > port["f0"]:
+        out.append("auf dem Auswurffenster")
+    return out
 
 
 @unittest.skipIf(SNAP is None, REASON)
@@ -96,16 +115,10 @@ class TestSpearhead(unittest.TestCase):
         """Die Schrift (linksbündig, rechts läuft sie nach vorn) liegt ganz auf der ebenen Gehäusefläche vor der Klingenfuge.
 
         Länge ≈ 0,62 × Größe je Zeichen (Annahme, Barlow/Blender-Standardschrift großzügig); r2 lag bei f 184 und lief in die Chevrons."""
-        t = self.ids["text_r"]
         upper = self.ids["upper"]
-        f_join = max(q[0] for q in upper["pts"])
-        end = t["f"] + 0.62 * t["size"] * len(t["text"]) if t["side"] == -1 else t["f"]
-        start = t["f"] if t["side"] == -1 else t["f"] - 0.62 * t["size"] * len(t["text"])
-        self.assertLess(end, f_join - 5, "Schrift läuft über die Fuge Gehäuse/Klinge")
-        self.assertGreater(start, min(q[0] for q in upper["pts"]))
-        self.assertAlmostEqual(abs(t["x"]), upper["w"] / 2, delta=0.2)
-        port = next(c for c in upper["cuts"] if c.get("x") == -upper["w"] / 2 and c.get("f0") == 28)
-        self.assertGreater(start, port["f1"], "Schrift auf dem Auswurffenster")
+        self.assertEqual(lettering_problems(self.ids["text_r"], upper), [])
+        self.assertEqual(lettering_problems(dict(self.ids["text_r"], f=184), upper), ["über der Fuge"])   # Gegenprobe: Lage r2
+        self.assertEqual(lettering_problems(dict(self.ids["text_r"], f=60), upper), ["auf dem Auswurffenster"])
 
     def test_sight_line(self):
         bore = self.ids["barrel"]["c"][0]
@@ -147,6 +160,46 @@ class TestSpearhead(unittest.TestCase):
     def test_snapshot_released(self):
         self.assertFalse(any(n == "basic" or n.startswith("basic.") for n in sys.modules))
         self.assertNotIn(str(SNAP), sys.path)
+
+
+@unittest.skipIf(SNAP is None, REASON)
+class TestRenderCache(unittest.TestCase):
+    """`tools/extended_render.py` rendert nur Fehlendes oder Veraltetes (Projektregel); Blender wird hier nie gestartet."""
+
+    def setUp(self):
+        import argparse
+        import tempfile
+        from unittest import mock
+        sys.path.insert(0, str(extended.ROOT / "tools"))
+        try:
+            self.er = importlib.import_module("extended_render")
+        finally:
+            sys.path.remove(str(extended.ROOT / "tools"))
+        self.tmp = tempfile.TemporaryDirectory()
+        self.a = argparse.Namespace(out=Path(self.tmp.name), tag="t", samples=96, res=1600, gpu=False, extra=False, force=False)
+        self.run = mock.patch.object(self.er.subprocess, "run", side_effect=RuntimeError("Blender gestartet")).start()
+        self.addCleanup(mock.patch.stopall)
+        self.addCleanup(self.tmp.cleanup)
+        target = self.a.out / "t"
+        target.mkdir()
+        for v in self.er.views(self.a):
+            (target / f"{v}.png").write_bytes(b"")
+        want = self.er.stamp("e01", self.a, extended.load("e01", SNAP), ballon_kit.snapshot())
+        (target / "render.json").write_text(json.dumps(want))
+
+    def test_current_skips(self):
+        self.assertFalse(self.er.render("e01", self.a))
+        self.run.assert_not_called()
+
+    def test_stale_or_missing_or_force_renders(self):   # Gegenproben: jede Abweichung startet Blender
+        for change in (dict(samples=128), dict(extra=True), dict(force=True)):
+            a = copy.copy(self.a)
+            vars(a).update(change)
+            with self.assertRaisesRegex(RuntimeError, "Blender gestartet"):
+                self.er.render("e01", a)
+        (self.a.out / "t" / "top.png").unlink()
+        with self.assertRaisesRegex(RuntimeError, "Blender gestartet"):
+            self.er.render("e01", self.a)
 
 
 if __name__ == "__main__":

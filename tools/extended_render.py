@@ -4,11 +4,15 @@
   ~/Claude/cubeescape-nexogen/ce lock gpu -- .venv/bin/python tools/extended_render.py e01 --tag r1 --gpu
   .venv/bin/python tools/extended_render.py e01 --tag r1 --sheets      # nur Bögen aus vorhandenen Bildern
 
+Cache: Ein Tag rendert nur, wenn Bilder fehlen oder der Stempel `<out>/<tag>/render.json` (Datensatz-Hash, Quellhash, Kit-Snapshot,
+Wrapper, Samples, Auflösung, Ansichten) nicht passt; `--force` rendert trotzdem neu (Projektregel: nie ungefragt alles neu).
+
 Ansichten: hero (eigenes HERO des Modells), hero_p (70 mm Perspektive), side (rechts), side_left, top, front, rear, dazu clay und
 exploded aus demselben Lauf. Hintergrund mittelgrau, ohne Bloom (Projektregel). Ausgabe außerhalb des Repos:
 <out>/<tag>/<Ansicht>.png, <out>/<tag>/kontaktbogen.png, <out>/<tag>/vergleich_BA01.png, <out>/<tag>/<id>.spec.json.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -41,15 +45,39 @@ def font(size):
     return ImageFont.truetype(str(path), size) if path.exists() else ImageFont.load_default()
 
 
+def views(a):
+    return VIEWS + (("clay", "exploded") if a.extra else ())
+
+
+def stamp(key, a, data, kit):
+    """Alles, was die Bilder bestimmt (gpu nicht: gleiche Szene, nur anderes Gerät)."""
+    digest = hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
+    return {"key": key, "data_sha256": digest, "source_sha256": extended.source(key)["source_sha256"], "kit": Path(kit).name,
+            "wrapper_sha256": hashlib.sha256(WRAPPER.encode()).hexdigest(), "samples": a.samples, "res": a.res,
+            "views": list(views(a))}
+
+
+def current(target, want):
+    """True, wenn Stempel gleich und alle Ansichten vorhanden sind."""
+    path = target / "render.json"
+    if not path.exists() or any(not (target / f"{v}.png").exists() for v in want["views"]):
+        return False
+    return json.loads(path.read_text()) == want
+
+
 def render(key, a):
     data = extended.load(key)
     kit = ballon_kit.snapshot()
     target = a.out / a.tag
     target.mkdir(parents=True, exist_ok=True)
+    want = stamp(key, a, data, kit)
+    if not a.force and current(target, want):
+        print(target, "aktuell, kein Render (--force rendert neu)", flush=True)
+        return False
     with tempfile.TemporaryDirectory(prefix=f"formgen-extended-{key}-") as tmp:
         tmp = Path(tmp)
         (tmp / "wrapper.py").write_text(WRAPPER)
-        only = ",".join(VIEWS + (("clay", "exploded") if a.extra else ()))
+        only = ",".join(views(a))
         job = {"snapshot": str(kit), "model": data, "out": str(tmp / "o"), "only": only, "samples": a.samples, "res": a.res,
                "gpu": a.gpu}
         (tmp / "job.json").write_text(json.dumps(job, ensure_ascii=False))
@@ -66,7 +94,9 @@ def render(key, a):
             src = tmp / "o" / wid / f"{wid}.{ext}"
             if src.exists():
                 shutil.copyfile(src, target / src.name)
+    (target / "render.json").write_text(json.dumps(want, ensure_ascii=False, indent=1))
     print(target, sorted(p.name for p in target.glob("*.png")), flush=True)
+    return True
 
 
 def sheets(key, a):
@@ -107,6 +137,7 @@ def main(argv=None):
     p.add_argument("--gpu", action="store_true", help="nur unter `ce lock gpu`")
     p.add_argument("--extra", action="store_true", help="zusätzlich clay und exploded")
     p.add_argument("--sheets", action="store_true", help="nur Bögen setzen")
+    p.add_argument("--force", action="store_true", help="auch bei passendem Stempel neu rendern")
     p.add_argument("--out", type=Path, default=OUT)
     a = p.parse_args(argv)
     if not a.sheets:
