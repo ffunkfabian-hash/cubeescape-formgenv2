@@ -27,7 +27,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from formgen import asset, ballon_kit, extended  # noqa: E402
+from formgen import asset, ballon, ballon_kit, extended  # noqa: E402
 
 OUT = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.15/belege"
 VIEWS = ("hero", "hero_p", "side_left", "side", "top", "front", "rear")
@@ -41,6 +41,15 @@ argv = ['--views', '--aaa', '--only', job['only'], '--samples', str(job['samples
 BB.main(W=job['model'], base=None, argv=argv + (['--gpu'] if job['gpu'] else []))
 '''
 BA01 = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.8/belege/aaa"
+# 0.19 (EXTENDED-10/11): Energiewaffen nutzen BALLONs Leuchtrollen aus `basic.pilot.energy_roles` (z. B. `charge_core`). Das Waffenmodul
+# läuft in Blender nicht, also registriert eine Importzeile die Rollen – nur für Datensätze, die sie nutzen (e01: Wrapper und Stempel gleich).
+CHARGE_MATS = ("charge_core", "pin_glow", "draw_light")
+
+
+def wrapper(data):
+    if not any(p.get("mat") in CHARGE_MATS for p in data["PARTS"]):
+        return WRAPPER
+    return WRAPPER.replace("import tools.blender_build as BB", "import basic.pilot.energy_roles\nimport tools.blender_build as BB")
 
 
 def font(size):
@@ -56,7 +65,7 @@ def stamp(key, a, data, kit):
     """Alles, was die Bilder bestimmt (gpu nicht: gleiche Szene, nur anderes Gerät)."""
     digest = hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
     return {"key": key, "data_sha256": digest, "source_sha256": extended.source(key)["source_sha256"], "kit": Path(kit).name,
-            "wrapper_sha256": hashlib.sha256(WRAPPER.encode()).hexdigest(), "samples": a.samples, "res": a.res,
+            "wrapper_sha256": hashlib.sha256(wrapper(data).encode()).hexdigest(), "samples": a.samples, "res": a.res,
             "views": list(views(a))}
 
 
@@ -80,7 +89,7 @@ def render(key, a):
     (target / "render.json").unlink(missing_ok=True)   # ein abgebrochener Lauf hinterlässt keinen gültigen Stempel
     with tempfile.TemporaryDirectory(prefix=f"formgen-extended-{key}-") as tmp:
         tmp = Path(tmp)
-        (tmp / "wrapper.py").write_text(WRAPPER)
+        (tmp / "wrapper.py").write_text(wrapper(data))
         only = ",".join(views(a))
         job = {"snapshot": str(kit), "model": data, "out": str(tmp / "o"), "only": only, "samples": a.samples, "res": a.res,
                "gpu": a.gpu}
@@ -172,6 +181,62 @@ DETAIL["e17"] = [("hero", (0.0, 0.5, 0.42, 0.95)), ("side_left", (0.0, 0.38, 0.4
                  ("hero", (0.55, 0.25, 0.85, 0.62))]                                           # Abzugskragen Glefe
 
 
+# 0.17 „Outrider“ (additiv, `--basic NN`): Vergleich mit dem eigenen BASIC-Typ statt BA01 – der Pilot BASIC-NN läuft durch denselben AAA-Weg
+# (Grundmodul = Pilot, damit EJECT/EGO-Felder vollständig sind) nach <out>/BA<NN>/ mit eigenem Stempel; Bogen vergleich_BA<NN>.png.
+REF_VIEWS = ("hero", "side_left")
+REF_WRAPPER = WRAPPER.replace("base=None", "base=job['base']")
+
+
+def render_ref(num, a):
+    snap = ballon_kit.snapshot()
+    base = ballon.resolve_base(snap, num, "pilot")
+    module = ".".join(ballon.module_file(snap, num, base).relative_to(snap).with_suffix("").parts)
+    data = extended.load_basic(num)
+    target = a.out / f"BA{num}"
+    target.mkdir(parents=True, exist_ok=True)
+    want = {"ref": num, "module": module, "data_sha256": hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False,
+            default=str).encode()).hexdigest(), "kit": Path(snap).name, "wrapper_sha256": hashlib.sha256(REF_WRAPPER.encode()).hexdigest(),
+            "samples": a.samples, "res": a.res, "views": list(REF_VIEWS)}
+    if not a.force and current(target, want):
+        return False
+    (target / "render.json").unlink(missing_ok=True)
+    with tempfile.TemporaryDirectory(prefix=f"formgen-extended-BA{num}-") as tmp:
+        tmp = Path(tmp)
+        (tmp / "wrapper.py").write_text(REF_WRAPPER)
+        job = {"snapshot": str(snap), "model": data, "base": module, "out": str(tmp / "o"), "only": ",".join(REF_VIEWS),
+               "samples": a.samples, "res": a.res, "gpu": a.gpu}
+        (tmp / "job.json").write_text(json.dumps(job, ensure_ascii=False))
+        run = subprocess.run([asset.settings()["blender"], "-b", "--factory-startup", "-P", str(tmp / "wrapper.py"), "--",
+                              str(tmp / "job.json")], capture_output=True, text=True)
+        log = run.stdout + run.stderr
+        (target / "blender.log").write_text(log)
+        views_dir = next((tmp / "o").glob("*/views"), None)
+        if run.returncode or "Traceback" in log or views_dir is None or any(not (views_dir / f"{v}.png").exists() for v in REF_VIEWS):
+            raise RuntimeError("\n".join(log.splitlines()[-30:]))
+        for v in REF_VIEWS:
+            shutil.copyfile(views_dir / f"{v}.png", target / f"{v}.png")
+    (target / "render.json").write_text(json.dumps(want, ensure_ascii=False, indent=1))
+    return True
+
+
+def compare_ref(key, a):
+    """vergleich_BA<NN>.png: Hero und linke Seite des Modells neben dem gerenderten BASIC-NN."""
+    target, ref = a.out / a.tag, a.out / f"BA{a.basic}"
+    data = extended.load(key)
+    title = f"{data['META']['id']} {data['META']['name']} · Runde {a.tag}"
+    w, h = 800, 450
+    cmp = Image.new("RGB", (2 * w + 24, 2 * (h + 34) + 16), "#808080")
+    d = ImageDraw.Draw(cmp)
+    for j, (r, own) in enumerate((("hero.png", "hero.png"), ("side_left.png", "side_left.png"))):
+        for i, (path, label) in enumerate(((ref / r, f"BASIC-{a.basic} (Pilot, gleicher AAA-Weg)"), (target / own, title))):
+            y = 8 + j * (h + 34)
+            if path.exists():
+                cmp.paste(Image.open(path).convert("RGB").resize((w, h), Image.LANCZOS), (8 + i * (w + 8), y + 30))
+            d.text((12 + i * (w + 8), y + 4), label, fill="#111317", font=font(20))
+    cmp.save(target / f"vergleich_BA{a.basic}.png")
+    print(target / f"vergleich_BA{a.basic}.png")
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("key", choices=sorted(extended.MODELS))
@@ -184,12 +249,17 @@ def main(argv=None):
     p.add_argument("--force", action="store_true", help="auch bei passendem Stempel neu rendern")
     p.add_argument("--out", type=Path, default=None, help="Zielordner (Standard: OUT, neue Modelle OUT/<Kurzname>)")
     p.add_argument("--ref", type=Path, help="Ordner der BASIC-Referenz (hero/side_left/front/top.png) für den Vergleich")
+    p.add_argument("--basic", help="0.17: BASIC-Nummer (z. B. 02) als Vergleich im selben AAA-Weg rendern")
     a = p.parse_args(argv)
     if a.out is None:   # 0.20 (Richter): ohne --out neue Modelle je Kurzname getrennt, e01 behält seinen 0.15-Pfad
         a.out = OUT if a.key == "e01" else OUT / a.key
     if not a.sheets:
         render(a.key, a)
     sheets(a.key, a)
+    if getattr(a, "basic", None):
+        if not a.sheets:
+            render_ref(a.basic, a)
+        compare_ref(a.key, a)
     if a.ref:
         compare_dir(a.key, a)
     details(a.key, a)
