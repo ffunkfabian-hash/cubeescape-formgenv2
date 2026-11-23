@@ -77,5 +77,5 @@ Lies `docs/uebergabe-0.15-spearhead.md` (Vokabular, Renderweg, Sperren) und die 
 
 Je Sitzung eine **Version** (`./ce session reserve <Name> --about … --model …`, Opus `high`), `./check`, Richter `./ce judge`
 (`~/.claude/templates/pruefung.md`), PR auf den eigenen Branch, Bericht als PR-Beschreibung mit Belegpfaden. Kein Merge ohne Ja des Nutzers.
-Keine Blatt-ID, keine Website-Aufnahme (Entscheidung des Nutzers steht aus). Kontextgrenze (Hook > 150 000 Tokens): Stand in einer
-committeten Übergabedatei auf dem eigenen Branch festhalten und in einer frischen Sitzung fortsetzen.
+Keine Blatt-ID, keine Website-Aufnahme (Entscheidung des Nutzers steht aus). **Kontextlänge ist irrelevant** (Nutzer 23.11.2026):
+bei der Hook-Meldung > 150 000 Tokens nicht übergeben, in derselben Sitzung bis zum PR weiterarbeiten.
