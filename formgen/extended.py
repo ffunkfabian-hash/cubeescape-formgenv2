@@ -31,6 +31,14 @@ from .cache import canonical
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / "formgen/models/extended"
 MODELS = {"e01": "e01_spearhead"}          # Kurzname → Modul; IDs ewig (META.id)
+# Blatt-ID je Kurzname (Nutzerentscheid 23.11.2026): E<Linie><NN>, Linie A = Grundform, NN = EXTENDED-Nummer; ewig wie BA01/RA01.
+# Vergeben ist nur die ID; ein Blattweg (formgen.pipeline) und die Website-Aufnahme folgen in einer eigenen Version.
+SHEETS = {"e01": "EA01"}
+SHEET_PATTERN = r"E[A-HJ-NP-Z]\d{2}"      # Linienbuchstabe nach der Variantenregel (ohne I/O)
+
+
+def sheet_id(key: str) -> str:
+    return SHEETS[key]
 FIELDS = ("META", "PARTS", "ASSEMBLIES", "ANCHORS", "POINTS", "ACTIONS", "EJECT", "EGO_GRIPS", "EXPLODE", "HERO")
 MM_PX = 1.0
 

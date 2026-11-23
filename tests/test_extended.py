@@ -113,6 +113,25 @@ class TestSpearhead(unittest.TestCase):
         self.assertEqual(len(lights(extra + [dict(self.ids["ammo_counter"], id="x2")])), 5)
         self.assertGreater(len(lights(extra + [dict(self.ids["ammo_counter"], id="x2")])), 3)   # die Schranke schlägt an
 
+    def test_sheet_id(self):
+        """Blatt-ID EA01 (Nutzerentscheid 23.11.2026): Format, Register = META, eindeutig, kein Zusammenstoß mit Waffen und Robotern."""
+        import re
+        from formgen import variants
+        from formgen.robot import lines
+        sids = list(extended.SHEETS.values())
+        self.assertEqual(extended.sheet_id("e01"), "EA01")
+        self.assertEqual(self.data["META"]["sheet_id"], "EA01")
+        self.assertEqual(set(extended.SHEETS), set(extended.MODELS), "jedes Modell hat genau eine Blatt-ID")
+        self.assertEqual(len(set(sids)), len(sids), "Blatt-IDs doppelt")
+        for sid in sids:
+            self.assertRegex(sid, f"^{extended.SHEET_PATTERN}$")
+        taken = set(variants.sheets()) | set(lines.sheets())
+        self.assertEqual(taken & set(sids), set())
+        # Gegenproben: das Muster lehnt Waffen-/Roboter-IDs und gesperrte Linienbuchstaben ab, die Kollisionsprüfung greift
+        for bad in ("BA01", "RA01", "EI01", "EO01", "EA1", "EA001"):
+            self.assertNotRegex(bad, f"^{extended.SHEET_PATTERN}$")
+        self.assertTrue(taken & {"BA01"})
+
     def test_lettering_on_receiver(self):
         """Die Schrift (linksbündig, rechts läuft sie nach vorn) liegt ganz auf der ebenen Gehäusefläche vor der Klingenfuge.
 

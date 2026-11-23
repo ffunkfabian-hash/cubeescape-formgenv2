@@ -23,15 +23,16 @@ Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
   Ladehebel vorn links (Stützhand), Magazinhalter links; Akzent-Bedienfunktionen: Ladehebel, Magazinhalter, Feuerwahlhebel (3).
 
 Herkunft der Zahlen: V = Vorgabe (Familie/Schnittstelle, BASIC-01 Pilot v2.1 bzw. `basic.common`), A = Annahme (Entwurf 0.15),
-G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.15, an den Renders r1–r3 gesichtet). Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
+G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.15, an den Renders r1–r3 gesichtet).
+Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
 """
 from basic.arms.ego import GRIPS as _EGO
 from basic.common import (part, prof, box, cyl, rot, cut_box, screws, mirror, rail, selector, charging_handle, grip_v21,
                           reflex_sight_v21, rifle_mag, R_BODY, R_MID, R_SMALL, R_FINE)
 from basic.variant import collect
 
-META = dict(id='EXTENDED-01', num='E01', type='auto_rifle', type_de='Automatikgewehr', type_en='Auto Rifle', family='BASIC',
-            name='Spearhead', nick='Speerspitze', ammo='primary', fire='full_auto',
+META = dict(id='EXTENDED-01', num='E01', sheet_id='EA01', type='auto_rifle', type_de='Automatikgewehr', type_en='Auto Rifle',
+            family='BASIC', name='Spearhead', nick='Speerspitze', ammo='primary', fire='full_auto',
             reference_length_m=0.901, reference_length_source='A: Entwurf 0.15 (BASIC-01 0,93 m als Rahmen, V)',
             inspired_by='BASIC-01 Familie; Formgen v1 Keil (g02) und Facetten (KJ02) als Haltung',
             summary='Automatikgewehr mit Speerspitzen-Klinge, Fuller-Schlitz und Fachwerkschaft (EXTENDED-Reihe).')

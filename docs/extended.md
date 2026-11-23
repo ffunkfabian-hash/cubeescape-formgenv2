@@ -5,11 +5,14 @@ und eigene Formarchitektur, gebaut im Vokabular des BALLON-Kits. Es ist kein Gen
 Umbau eines Piloten. Aus `basic.common` kommen nur die genormten Familienschnittstellen: Griffmodul BGM-1, Holovisier H0 auf der
 Schiene BRI-22, Feuerwahlhebel und Ladehebel-Form, Schraubenköpfe sowie die Hilfen `rot`, `cut_box` und `mirror`.
 
-| Kurzname | ID | Modul | Typ |
-|---|---|---|---|
-| `e01` | EXTENDED-01 „Spearhead“ | `formgen/models/extended/e01_spearhead.py` | Automatikgewehr |
+| Kurzname | ID | Blatt-ID | Modul | Typ |
+|---|---|---|---|---|
+| `e01` | EXTENDED-01 „Spearhead“ | `EA01` | `formgen/models/extended/e01_spearhead.py` | Automatikgewehr |
 
-IDs sind ewig. Eine Blatt-ID und die Aufnahme auf die Website gibt es noch nicht; darüber entscheidet der Nutzer.
+IDs sind ewig. Die Blatt-ID folgt dem Schema `E<Linie><NN>` (Nutzerentscheid vom 23.11.2026), analog zu `BA01` und `RA01`:
+Linie A ist die Grundform, NN die EXTENDED-Nummer, spätere Linien folgen als `EB01` usw. Sie steht in `formgen/extended.py` ›
+`SHEETS` und in `META.sheet_id`. Vergeben ist bisher nur die ID; ein Blattweg über `formgen.pipeline` und die Aufnahme auf die
+Website folgen in einer eigenen Version.
 
 ## Werkzeuge
 
@@ -74,6 +77,7 @@ Die Checkliste folgt Stilhandbuch §3; Einzelheiten und die Herkunft jeder Zahl 
 `tests/test_extended.py` prüft:
 
 - Felder und eindeutige IDs.
+- Blatt-ID: Format `E<Linie><NN>`, Register gleich META, eindeutig, kein Zusammenstoß mit Waffen- und Roboterblättern.
 - Weltpunkte mit `basic.variant.problems` als Orakel.
 - Budgets: höchstens drei Leuchtfunktionen und drei Akzent-Bedienfunktionen, genau eine Schrift und ein Grafikelement.
 - Visierlinie 60–80 mm über der Laufachse.
