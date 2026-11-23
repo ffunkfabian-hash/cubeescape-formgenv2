@@ -203,8 +203,17 @@ class TestRenderCache(unittest.TestCase):
 
     def test_stale_or_missing_or_force_renders(self):
         """Gegenproben: jede Abweichung startet Blender, jeder Fall gegen einen frisch gültigen Stempel."""
+        from unittest import mock
+        load, source = extended.load, extended.source
+
+        def other_data(key, snap=None):
+            data = load(key, snap)
+            data["PARTS"][0]["bevel"] = 9.9
+            return data
+        patches = {"data": mock.patch.object(self.er.extended, "load", other_data),
+                   "source": mock.patch.object(self.er.extended, "source", lambda k: dict(source(k), source_sha256="0" * 64))}
         cases = {"samples": dict(samples=128), "res": dict(res=800), "extra": dict(extra=True), "force": dict(force=True),
-                 "missing": {}}
+                 "missing": {}, "data": {}, "source": {}}
         for name, change in cases.items():
             with self.subTest(name):
                 self.fresh()
@@ -213,8 +222,9 @@ class TestRenderCache(unittest.TestCase):
                     (self.a.out / "t" / "top.png").unlink()
                 a = copy.copy(self.a)
                 vars(a).update(change)
-                with self.assertRaisesRegex(RuntimeError, "Blender gestartet"):
-                    self.er.render("e01", a)
+                with patches.get(name, mock.patch.dict({})):
+                    with self.assertRaisesRegex(RuntimeError, "Blender gestartet"):
+                        self.er.render("e01", a)
                 self.run.assert_called_once()
 
     def test_incomplete_render_leaves_no_stamp(self):
