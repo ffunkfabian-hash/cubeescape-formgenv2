@@ -5,18 +5,18 @@ BASIC-16: aus `basic.common` kommen nur Formhelfer (`part`, `prof`, `box`, `cyl`
 Geladen über `formgen.extended`, gerendert mit BALLONs unverändertem `tools/blender_build.main` (`tools/extended_render.py`).
 
 Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
-- Leitmerkmal: Schwung. Einschneidige Säbelklinge, deren Rücken auf einem Bogen steigt (58 mm Stich auf 730 mm), mit Rückenabsatz
+- Leitmerkmal: Schwung. Einschneidige Säbelklinge, deren Rücken auf einem Bogen steigt (54 mm Stich auf 730 mm), mit Rückenabsatz
   (Clip) zur Spitze; der Creme-Korbbügel unter dem Griff nimmt denselben Schwung zurück zum Knauf auf. Einhandgriff, Klinge dominiert
-  (79 % der Länge).
+  (76 % der Länge, G am Datensatz).
 - Querschnitt: dreistufig geschichtet statt Fase – Creme-Rückenschiene 11 mm, Klingenkörper 7 mm, blanke Schneide 3 mm; je Seite 2 mm
   Stufe (Familienschichtung 2–3 mm). Kein Hohlschliff, kein Fuller.
-- Negativraum: der Handraum zwischen Griff und Korbbügel (lichte Höhe ≈ 37 mm), aus jeder Seitenansicht offen.
+- Negativraum: der Handraum zwischen Griff und Korbbügel (lichte Höhe ≈ 42 mm unter der Griffmitte, G), aus jeder Seitenansicht offen.
 - Zweiton: Creme (Parierblock, Bügel, Knaufkragen, Rückenschiene) umschließt als Rahmen die dunkle Hand (Gummigriff, Graphitfuß,
   eloxierter Klingenschuh); Klinge metallisch.
 - Blickfang (genau einer): Ladebogen links – drei Leuchtsegmente auf einem Kreisbogen im eloxierten Paneel, konzentrisch zum Bügel.
 - Grafik: ein schräges Orange-Band über der Rückenschiene, parallel zur Schuhkante; eine Schrift rechts auf dem Paneel.
 - Front mehrstufig: Spitze, Schneidenstufe, Klingenschuh mit Schrägkante, Parierblock mit Daumenrampe, Bügel darunter, Knauf.
-- Ergonomie: Socket_Hand mittig auf dem Griff (Einhand, 112 mm), Daumenrampe mit Ladeschalter (einzige Orange-Bedienfunktion),
+- Ergonomie: Socket_Hand mittig auf dem Griff (Einhand, 120 mm einschließlich je 4 mm Einstand), Daumenrampe mit Ladeschalter (einzige Orange-Bedienfunktion),
   Knaufkragen als Anlage für die zweite Hand beim beidhändigen Hieb (Socket_SupportHand).
 - Kein Visier, kein Magazin, kein Hülsenauswurf, keine Ego-Griffe (wie BASIC-16, Formgen v1 `wtypes.MELEE`).
 
@@ -39,7 +39,7 @@ ASSEMBLIES = [   # V: Baugruppen wie BASIC-16 (assemblies('blade', 'guard', 'gri
     dict(id='grip_controls', de='Griff und Bedienung', en='Grip and controls'),
 ]
 
-F_GRIP = (-56, 56)      # A: Einhandgriff 112 mm (BASIC-16 Zweihand 194 mm, V)
+F_GRIP = (-56, 56)      # A: freie Grifflänge 112 mm, je 4 mm Einstand → 120 mm (BASIC-16 Zweihand 194 mm, V)
 F_GUARD = (56, 122)     # A: Parierblock
 F_ROOT = 104            # A: Klingenwurzel im Parierblock
 F0, FC, FT = 122, 852, 918   # A: Klinge frei ab Parierblock, Rückenabsatz (Clip), Spitze

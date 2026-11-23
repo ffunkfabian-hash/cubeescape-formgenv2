@@ -148,3 +148,4 @@ kein Visier- und kein Magazinteil (Gegenprobe EXTENDED-01), Budgets, Zusammenhan
 EXTENDED-Modell, die Absetzung Schwert ↔ Glefe (Klingen- und Schaftanteil, Einhandgriff, Stufen gegen Keil), Negativraum als
 abgeschlossene Lücke der Seitensilhouette (Gegenproben ohne Bügel und ohne Fenster), Schrift auf der Trägerfläche, Schildflügel
 spiegelgleich mit deckungsgleichem Fenster, Länge, Blatt-IDs, Quellhash ohne BASIC-Modul und die Renderzusätze.
+Eine Testzuordnung (`test_map.json`) führt dieses Repo nicht; `./check` findet die Datei über `unittest discover`.

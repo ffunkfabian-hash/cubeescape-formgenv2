@@ -8,7 +8,7 @@ Geladen über `formgen.extended`, gerendert mit BALLONs unverändertem `tools/bl
 Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
 - Leitmerkmal: Ringkragen im Takt. Der lange runde Graphitschaft (70 % der Länge) trägt vier Creme-Kragen – Endkragen, Abzugskragen,
   Zellenkragen, Kopfkragen –, alle mit derselben nach vorn unten vorgeneigten Stirn (Anlauf 14 mm auf 54 mm). Der Schaft dominiert,
-  der Kopf ist kompakt (Klinge 340 mm, BASIC-17 390 mm).
+  der Kopf ist kompakt (Klinge 370 mm, BASIC-17 390 mm, V).
 - Querschnitt: Schaft rund, Kragen als gefaste Rechteckquerschnitte, Klinge als Keil (Querprofil `xprof`) mit 10 mm Rückenfläche
   unten und blanker Schneide oben; Spitze als Meißelschnitt (Tanto), kein Speerblatt.
 - Negativraum: die Laterne – Emitter und Spulen liegen frei in einem Fenster, das quer durch Laternenrahmen und beide Schildflügel geht;
