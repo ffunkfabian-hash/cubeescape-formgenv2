@@ -42,9 +42,34 @@ def main():
     wid = W.META['id'] + (f"-{W.META['variant']}" if W.META.get('variant') else '')
     for ext in ('glb', 'spec.json'):
         shutil.copyfile(os.path.join(os.environ['BASIC_OUT'], wid, f'{wid}.{ext}'), os.path.join(out, f'{sid}.{ext}'))
+    if sid == 'BT04' and 'reload' in W.ACTIONS:
+        write_seal_clip(bpy, BB, W, os.path.join(out, f'{sid}.glb'))
     if job.get('package'):
         package(job, W, bpy, kit, BB)
     print(f"[formgen-asset] {sid}: {name} gebaut", flush=True)
+
+
+def write_seal_clip(bpy, builder, model, path):
+    """Die 30-Hz-Quelldaten mit halben Frames verlustfrei in einen GLB-Clip schreiben."""
+    scene = bpy.context.scene
+    action = model.ACTIONS['reload']
+    scene.render.fps = 60
+    scene.frame_start = 0
+    scene.frame_end = int(action['frames'] * 2)
+    root = bpy.data.objects[model.META['id']]
+    root['reload_events'] = [{'time': frame / 30, 'name': name} for frame, name in action['events']]
+    parts = {part['id']: part for part in model.PARTS}
+    for name, keys in action['keys'].items():
+        obj = bpy.data.objects[name]
+        # Die Lichtfelder bleiben am Medaillon. Nur ihr lokaler Versatz ändert sich.
+        for frame, value in keys:
+            builder.apply_move(obj, parts[name]['move'], value)
+            obj.keyframe_insert(data_path='location', frame=frame * 2)
+    scene.frame_set(0)
+    bpy.ops.export_scene.gltf(filepath=path, export_apply=True, export_extras=True,
+                              export_animation_mode='ACTIVE_ACTIONS',
+                              export_nla_strips_merged_animation_name='reload',
+                              export_frame_range=True, export_force_sampling=True)
 
 
 def dataset(job, W):

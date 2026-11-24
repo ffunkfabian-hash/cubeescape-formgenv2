@@ -238,7 +238,7 @@ class KitModelTests(unittest.TestCase):
                   "sight_frame", [-109.6, 161, 0]),
                  ("BT03", heron, "c0c6e9b816e594295acec2bd824991ee2f531c18fb8e15093ddc9b158d0086b1",
                   "scope_objective", [-18.0, 161, 0]),
-                 ("BT04", cairn, "d0eae4fba8857404b3bbeef156fafb0e4ffc813634772d63ef39a95871ed1fe0",
+                 ("BT04", cairn, "f0ef311a1ef3aaf009cae29497667a9cbb55d06b4732bd45d7dae51e64c8f413",
                   "sight_rear", [-70, 103, 0]),
                  ("BT05", swift, "5db7f8d754ca498b21d13eebb67722facce20c81f2db3f5090632d64397f7a87",
                   "eye_tile", [-42, 100, 0]))
@@ -356,8 +356,40 @@ class KitModelTests(unittest.TestCase):
                 self.assertEqual(model["META"]["id"], sid)
                 self.assertEqual(model["META"]["nick"], name)
                 self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
-                self.assertFalse(model["ACTIONS"])
+                self.assertEqual(set(model["ACTIONS"]), {"reload"} if sid == "BT04" else set())
                 self.assertIn(feature, {p["id"] for p in model["PARTS"]})
+
+    def test_cairn_seal_commits_only_when_the_last_arc_closes(self):
+        _, model = kit_model("BT04")
+        action = model["ACTIONS"]["reload"]
+        self.assertEqual(action["events"], [(7.5, "seal_contact"), (25.5, "rounds_in")])
+        self.assertEqual(action["frames"], 39)
+        self.assertEqual(model["ANCHORS"]["Socket_MagWell"]["part"], "coin_l")
+        self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
+        moving = {p["id"] for p in model["PARTS"] if p.get("move")}
+        expected = {f"seal_arc_{i:02}" for i in range(18)} | {"seal_stamp"}
+        self.assertEqual(moving, expected)
+        self.assertEqual(set(action["keys"]), expected)
+        for i in range(18):
+            self.assertEqual(action["keys"][f"seal_arc_{i:02}"],
+                             [(0, 0), (7.5+i, 0), (8.5+i, 1), (39, 1)])
+        self.assertEqual(action["keys"]["seal_stamp"][-2:], [(25.5, 1), (39, 1)])
+
+    @unittest.skipUnless((OUT / "assets/BT04.glb").is_file(), "lokalen BT04-Export prüfen")
+    def test_exported_seal_clip_has_one_track_per_light_and_commit_time(self):
+        doc = asset.glb_json(OUT / "assets/BT04.glb")
+        clip, = doc["animations"]
+        self.assertEqual(clip["name"], "reload")
+        targets = [channel["target"] for channel in clip["channels"]]
+        self.assertEqual({target["path"] for target in targets}, {"translation"})
+        _, model = kit_model("BT04")
+        self.assertCountEqual([doc["nodes"][target["node"]]["name"] for target in targets],
+                              model["ACTIONS"]["reload"]["keys"].keys())
+        root = next(node for node in doc["nodes"] if node["name"] == "BT04")
+        self.assertEqual(root["extras"]["reload_events"],
+                         [{"time": .25, "name": "seal_contact"}, {"time": .85, "name": "rounds_in"}])
+        duration = max(doc["accessors"][sample["input"]]["max"][0] for sample in clip["samplers"])
+        self.assertAlmostEqual(duration, 1.3, places=5)
 
     def test_baseline_is_ballons_dataset_for_all_types(self):
         # Linie A = BALLONs Grundmodul bit für bit (Pilot bzw. Formstudie; inkl. r_in der Zielfernrohre, Baugruppen wie deklariert)

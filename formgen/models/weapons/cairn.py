@@ -1,9 +1,55 @@
 """Cairn (BT04), statische Außenform. Schichtkonturen und Relief sind Formannahmen."""
 
 from copy import deepcopy
+from math import cos, radians, sin
 
 from ... import ballon
 from .sidearm_shell import Shell
+
+
+# Zeiten aus der freigegebenen Skizze, in BALLON-Frames bei 30 Hz.
+CONTACT = 7.5
+COMMIT = 25.5
+END = 39
+ARC_COUNT = 18
+
+
+def reload_action():
+    keys = {}
+    for i in range(ARC_COUNT):
+        start = CONTACT + i
+        keys[f'seal_arc_{i:02}'] = [(0, 0), (start, 0), (start + 1, 1), (END, 1)]
+    keys['seal_stamp'] = [(0, 0), (COMMIT - .5, 0), (COMMIT, 1), (END, 1)]
+    return dict(de='Ladesiegel aufprägen', frames=END, keys=keys,
+                events=[(CONTACT, 'seal_contact'), (COMMIT, 'rounds_in')],
+                view=(.85, .45, .3))
+
+
+def add_seal(s):
+    # Flache Anzeige im ausgesparten Medaillon. Die Leuchtflächen treten
+    # durch dessen Boden; beide Endlagen bleiben innerhalb der bisherigen Breite.
+    def inset(key, label, shape, **params):
+        s.add(key, 'receiver', 'energy', label, shape, .055,
+              move=dict(kind='translate', pivot=(72, 62, 21), vector_mm=(0, 0, .9)),
+              **params)
+
+    def arc_point(radius, degree):
+        angle = radians(degree)
+        return (round(72 + radius * sin(angle), 4), round(62 + radius * cos(angle), 4))
+
+    for i in range(ARC_COUNT):
+        # Drei Leuchtfelder je Segment; sechs dunkle Fugen bleiben sichtbar.
+        start = i * 20 + (3 if i % 3 == 0 else 0)
+        end = (i + 1) * 20 - (3 if i % 3 == 2 else 0)
+        angles = (start, (start + end) / 2, end)
+        outline = [arc_point(17, a) for a in angles] + [arc_point(14, a) for a in reversed(angles)]
+        inset(f'seal_arc_{i:02}', 'Lichtbogen', 'prof', pts=outline, x=21, w=.3)
+    marks = []
+    for height in (-3.5, 2):
+        outline = [(64, 61+height), (69, 65+height), (80, 65+height),
+                   (80, 63+height), (70, 63+height), (65, 59+height)]
+        marks.append(dict(shape='prof', pts=outline, x=21, w=.3))
+    inset('seal_stamp', 'Doppeltes Prägezeichen', 'multi', items=marks)
 
 
 def build(pilot=None):
@@ -57,6 +103,10 @@ def build(pilot=None):
             a, b = sorted((side * inner, side * outer))
             s.add(key+'_'+end, 'receiver', role, 'Facettiertes Seitenmedaillon',
                   'cyl', .75, axis='x', c=(72,62), a0=a, a1=b, r=radius, segs=12)
+            if key == 'coin' and end == 'l':
+                s.parts[-1]['cuts'] = [dict(shape='cyl', axis='x', c=(72,62),
+                                            a0=21.55, a1=24, r=18.4, segs=48)]
+    add_seal(s)
     s.inlay('slate_band', 'barrel', 'accent', 'Einzelne schräge Farbmarke',
             [(170,70),(177,70),(191,81),(185,81)], 19.9, 20.65)
     s.inlay('name_plate', 'barrel', 'graphite', 'Dunkles Schriftfeld',
@@ -67,9 +117,10 @@ def build(pilot=None):
 
     s.parts.extend(deepcopy(p) for p in pilot['PARTS'] if p['asm'] == 'sight')
     refs = {'Socket_Hand': ('grip_cast', [0,0,0]), 'Socket_SupportHand': ('grip_panel_l', [-4,-34,17]),
+            'Socket_MagWell': ('coin_l', [72,62,22.415]),
             'Socket_Muzzle': ('nose_glaze', [269,68,0])}
     points = {'grip.grip': refs['Socket_Hand'], 'grip.support': refs['Socket_SupportHand'],
-              'grip.mag': ('medallion_l', [72,62,18]), 'grip.charge': ('rear_stone', [-15,71,18]),
+              'grip.mag': refs['Socket_MagWell'], 'grip.charge': ('rear_stone', [-15,71,18]),
               'eject': ('core', [39,59,-17])}
     parts, anchors, points = s.finish(refs, points)
     for key in ('Socket_Eye', 'Socket_Sight', 'Socket_Reticle'):

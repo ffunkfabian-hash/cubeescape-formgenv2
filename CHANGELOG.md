@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.30.0 Imprint — Ladesiegel
+
+- Cairns linkes Medaillon trägt einen animierten Lichtring und das Prägezeichen. Der GLB-Clip und die abbrechbare Nachladevorschau im Viewer verwenden denselben Übergabezeitpunkt. [Versionsbericht](docs/versions/0.30.md)
+
 ## 0.29.0 Strata — Cairn
 
 - Cairn (BT04) erhält eine geschichtete Außenform und die offene Visierung von BASIC-04. Die Gesamtbreite beträgt 44,83 mm. [Versionsbericht](docs/versions/0.29.md)

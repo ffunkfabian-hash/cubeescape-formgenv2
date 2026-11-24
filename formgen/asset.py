@@ -102,7 +102,7 @@ def kit_model(data: dict, model: dict, run: dict) -> dict:
         design_name = variants.TRESTLE_NAMES[str(data["META"]["num"]).zfill(2)]
         designation = variants.TRESTLE_EXTENDED_ID if run["sid"] == "BT01" else design_name
         result["META"].update(id=run["sid"], variant=designation, name=design_name, nick=design_name,
-                              summary="Eigenständiges statisches Sci-Fi-Spielmodell")
+                              summary="Cairn mit animiertem Ladesiegel" if run["sid"] == "BT04" else "Eigenständiges statisches Sci-Fi-Spielmodell")
         result["ASSEMBLIES"] = copy.deepcopy(model["ASSEMBLIES"])
     return result
 

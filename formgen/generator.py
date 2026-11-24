@@ -711,7 +711,7 @@ def vary(data, variant, num, snap=None):
                 _map(part, axis, lambda value: value - offset)
             for point in _located(model):
                 point["at"][axis] -= offset
-        model["ACTIONS"] = {}
+        model["ACTIONS"] = {"reload": cairn.reload_action()} if num == "04" else {}
         notes = [{"kind": "Annahme", "reason": f"Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/{design.__name__.split('.')[-1]}.py."}]
         ops, added = [{"op": "architecture", "kind": "trestle"}], set()
     else:

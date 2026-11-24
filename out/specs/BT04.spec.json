@@ -16,6 +16,14 @@
     0.0
    ]
   },
+  "Socket_MagWell": {
+   "part": "coin_l",
+   "position_mm": [
+    72.0,
+    62.0,
+    22.41
+   ]
+  },
   "Socket_Muzzle": {
    "part": "nose_glaze",
    "position_mm": [
@@ -121,8 +129,8 @@
  },
  "counts": {
   "assemblies": 4,
-  "parts": 32,
-  "triangles": 10292
+  "parts": 51,
+  "triangles": 14820
  },
  "dimensions_mm": {
   "height": 163.84,
@@ -540,7 +548,7 @@
    "name_en": "coin l",
    "role": "anodized",
    "shape": "cyl",
-   "triangles": 188
+   "triangles": 956
   },
   {
    "assembly": "receiver",
@@ -589,6 +597,462 @@
    "role": "anodized",
    "shape": "cyl",
    "triangles": 188
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     72.73,
+     77.81
+    ],
+    "u": [
+     75.16,
+     78.98
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_00",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 00",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     76.79,
+     82.93
+    ],
+    "u": [
+     72.72,
+     77.97
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_01",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 01",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     81.02,
+     86.23
+    ],
+    "u": [
+     69.65,
+     75.0
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_02",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 02",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     84.49,
+     88.73
+    ],
+    "u": [
+     64.44,
+     69.7
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_03",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 03",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     85.79,
+     89.0
+    ],
+    "u": [
+     59.06,
+     64.94
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_04",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 04",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 308
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     84.49,
+     88.73
+    ],
+    "u": [
+     54.3,
+     59.56
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_05",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 05",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     81.02,
+     86.23
+    ],
+    "u": [
+     49.0,
+     54.35
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_06",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 06",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     76.79,
+     82.93
+    ],
+    "u": [
+     46.03,
+     51.28
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_07",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 07",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     72.73,
+     77.81
+    ],
+    "u": [
+     45.02,
+     48.84
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_08",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 08",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     66.19,
+     71.27
+    ],
+    "u": [
+     45.02,
+     48.84
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_09",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 09",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     61.07,
+     67.21
+    ],
+    "u": [
+     46.03,
+     51.28
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_10",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 10",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     57.77,
+     62.98
+    ],
+    "u": [
+     49.0,
+     54.35
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_11",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 11",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     55.27,
+     59.51
+    ],
+    "u": [
+     54.3,
+     59.56
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_12",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 12",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     55.0,
+     58.21
+    ],
+    "u": [
+     59.06,
+     64.94
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_13",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 13",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 308
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     55.27,
+     59.51
+    ],
+    "u": [
+     64.44,
+     69.7
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_14",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 14",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     57.77,
+     62.98
+    ],
+    "u": [
+     69.65,
+     75.0
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_15",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 15",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     61.07,
+     67.21
+    ],
+    "u": [
+     72.72,
+     77.97
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_16",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 16",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     66.19,
+     71.27
+    ],
+    "u": [
+     75.16,
+     78.98
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_17",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 17",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     64.0,
+     80.0
+    ],
+    "u": [
+     55.5,
+     67.0
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_stamp",
+   "moving": true,
+   "name_de": "Doppeltes Prägezeichen",
+   "name_en": "seal stamp",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 40
   },
   {
    "assembly": "barrel",
@@ -962,5 +1426,15 @@
    "architecture": "trestle"
   }
  },
- "warnings": []
+ "warnings": [
+  "seal_arc_00: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_01: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_07: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_08: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_09: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_10: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_16: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_17: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_stamp: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert"
+ ]
 }
