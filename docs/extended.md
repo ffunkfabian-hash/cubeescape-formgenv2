@@ -717,9 +717,9 @@ Bogen hat kein Magazin und keinen Auswurf; das Spurgewehr ist hülsenlos, seine 
 
 ### Nachbesserung
 
-Belege: `~/Library/Caches/CubeEscapeFormgen2/0.28/belege/e07/r1–r5` und `…/e12/r1–r5`, je sieben Ansichten, Clay, Explosion,
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.28/belege/e07/r1–r5` und `…/e12/r1–r6`, je sieben Ansichten, Clay, Explosion,
 Kontaktbogen und `vergleich_BA07.png` bzw. `vergleich_BA12.png` (Piloten im selben AAA-Weg unter `e07/BA07`, `e12/BA12`); r5 ist der
-AAA-Lauf (1600 px, 96 Samples) mit den Nahaufnahmen `detail_<n>_<Ansicht>.png`.
+AAA-Lauf (1600 px, 96 Samples) mit den Nahaufnahmen `detail_<n>_<Ansicht>.png`; e12/r6 ist der Stand nach Richter R2.
 
 | Typ | Runde | gesehen | geändert |
 |---|---|---|---|
@@ -730,6 +730,7 @@ AAA-Lauf (1600 px, 96 Samples) mit den Nahaufnahmen `detail_<n>_<Ansicht>.png`.
 | E12 | r1 → r2 | hinter dem Auge eine lange Creme-Planke mit flachen Seiten, Kastenkappe hinten | Spindel hinten niedriger, Schaftkappe als Oval, Flankenpaneel als Stadion |
 | E12 | r2 → r3 | (Messung am GLB) die Draufsicht-Schnitte wirkten nicht: BALLONs `mesh_plan` richtet Normalen nicht aus, ein Profil gegen den Uhrzeigersinn schneidet nicht | alle Draufsicht-Profile über `cw()` im Uhrzeigersinn (auch Taschen, Wurfarme, Schelle, Streifen und Befiederung von E07); Test mit Gegenprobe |
 | E12 | r3 → r4 | die Spindel liest sich trotzdem als Balken: die Zweiton-Fuge ist eine gerade Linie, das Paneel liegt in einer zu tiefen Stadion-Mulde (Flecken am Ende) | Fuge als Bogen (tief in der Mitte, steigt zu beiden Spitzen); stärkere Verjüngung hinten (Schaftende 42 mm hoch, Draufsicht 17 mm halbe Breite); Paneel und Mulde schmiegen sich ans Oval (Querprofil), unter der Schiene |
+| E12 | r5 → r6 | (Richter R2) der Test versprach ≥ 3 mm Luft zwischen Spule und Augenlaibung, prüfte aber nur Kollisionsfreiheit; real 1,65 mm | Flansche nach innen (f 172–222, mittig im Auge), Test verlangt 3 mm Luft zur 3 mm starken Laibung |
 
 ### Motivzeilen (für die Familie)
 

@@ -58,7 +58,7 @@ TUBE1 = 452                  # A: Rohrende = Kegelansatz
 TIP = 500                    # A: Stirn der Fokuslinse (Socket_Muzzle)
 CELL = (94, 136)             # A: Energiezelle im Bauch vor dem Abzugsbügel (BASIC-12 86–126, V; Bügel bis f 83)
 EYE = (122, 272, 29.0)       # A: Auge: Spitze hinten, Spitze vorn, halbe Höhe in der Mitte; Mitte auf der Strahlachse
-SPOOL = (166, 230, 20.0)     # A: Fokusspule: Flansch hinten, Flansch vorn, Flanschradius
+SPOOL = (172, 222, 20.0)     # A: Fokusspule: Flansch hinten, Flansch vorn, Flanschradius (Richter R2: ≥ 3 mm Luft zur Laibung)
 SUP = (330, 410)             # A: Griffband der Stützhand auf dem Fokusrohr (BASIC-12 218–300, V)
 
 

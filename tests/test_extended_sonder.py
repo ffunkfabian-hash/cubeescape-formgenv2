@@ -409,7 +409,7 @@ class TestSonder(unittest.TestCase):
             out = []
             for q in flanges["items"]:
                 for f in (q["a0"], q["a1"]):
-                    if q["r"] > c["eye_h"](f, -3.0) + 1e-6:
+                    if q["r"] > c["eye_h"](f, -6.0) + 1e-6:   # Laibung 3 mm stark, dazu 3 mm Luft (Richter R2)
                         out.append("Spule streift das Auge")
                         break
             if axle["a0"] > c["EYE"][0] or axle["a1"] < c["EYE"][1]:
