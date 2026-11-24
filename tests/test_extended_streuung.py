@@ -344,18 +344,23 @@ class TestStreuung(unittest.TestCase):
         self.assertLess(twin(flat), 5.0)
 
     def test_brace_pump_and_eye(self):
-        """Der Mantel repetiert nach hinten und bleibt vor dem Gehäuse; das Zwillingsauge hat zwei Anzeigen nebeneinander."""
-        c, ids = self.consts["e08"], self.ids["e08"]
+        """Der Mantel repetiert nach hinten und trifft dabei kein festes Teil (Richter R2: Laufkragen); Zwillingsauge mit zwei Anzeigen."""
+        c, ids, P = self.consts["e08"], self.ids["e08"], self.data["e08"]["PARTS"]
         mv = ids["pump"]["move"]
         self.assertLess(mv["vector_mm"][0], -40)
-        self.assertGreaterEqual(c["PUMP"][0] + mv["vector_mm"][0], c["RF"][1] + 1, "Mantel schlägt nicht ans Gehäuse")
         self.assertEqual(ids["bolt"]["move"]["vector_mm"], mv["vector_mm"], "Verschluss läuft mit dem Mantel")
+        moving = {p["id"] for p in P if p["id"] == "pump" or p.get("parent_part") == "pump"}
+        (_, u0, x0), (_, u1, x1) = extended.bounds(ids["pump"])
+
+        def problems(travel):
+            sweep = ((c["PUMP"][0] - travel, u0, x0), (c["PUMP"][0], u1, x1))
+            return hits(P, sweep, skip=moving | {"barrel"})   # die Läufe laufen durch die Mantelbohrungen
+        self.assertEqual(problems(-mv["vector_mm"][0]), [])
+        self.assertEqual(problems(62), ["barrel_collars"])   # Gegenprobe: alter Hub 62 mm läuft in die Laufkragen
         eyes = ids["chamber_eyes"]["items"]
         self.assertEqual(len(eyes), 2)
         self.assertEqual(len({q["c"][1] for q in eyes}), 1, "auf gleicher Höhe")
         self.assertGreater(abs(eyes[0]["c"][0] - eyes[1]["c"][0]), 2 * eyes[0]["r"], "nebeneinander, getrennt")
-        long_pump = c["PUMP"][0] - 2 * abs(mv["vector_mm"][0])   # Gegenprobe: doppelter Hub schlägt ans Gehäuse
-        self.assertLess(long_pump, c["RF"][1] + 1)
 
     # ---------------------------------------------------------------- Leitmotiv Panzerhaube (E13)
     def test_mantlet_hood(self):
