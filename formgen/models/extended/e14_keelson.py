@@ -70,7 +70,7 @@ HATCH_HINGE = (sum(SLOT[:2]) / 2, BORE + 38, -33)
 R0, R1, R2 = 84, 172, 232     # A: Rakete im Schacht: Heck, Beginn Gefechtskopf, Spitze (148 mm; BASIC-14 156 mm, V); passt in den Schacht
 LOWER = 240              # V: Hub der Rakete beim Einsetzen von oben (wie BASIC-14)
 SADDLE = (-336, -150)    # A: Schultersattel f0, f1
-LOCK = (52, 92, 152.0)   # A: Zielerfassungsraute f0, f1, Mitte u (links vor dem Visierausleger)
+LOCK = (66, 106, float(BORE))   # A: Zielerfassungsraute f0, f1, Mitte u (links vor dem Visier; Richter R1: auf Achshöhe, wo die Schale am steilsten ist)
 RANGE_WIN = (90, 101)    # A: Fenster des Entfernungsmessers in der Stirn unter der Bohrung (u0, u1; Runde 3: lag in der Bohrung)
 
 _t = math.tan(math.radians(FLANK))
@@ -131,6 +131,9 @@ KEEL_LINE = ([(-112, 109)] + s_curve((-112, 109), (-44, GRIP_TOP + 0.5), n=10)[1
 _keel_cut = dict(shape='prof', pts=KEEL_LINE + [(F1 + 14, SEAM), (F1 + 14, -80), (-130, -80), (-130, 109)], w=120)
 SUP = (258, 16)          # A: Stützhand unter dem Bauch (tiefster Punkt)
 
+_lx = hull_x(LOCK[2] + 15.5)   # A: engste Stelle der gewölbten Schale über die Rautenhöhe (Richter R1: flache Mulde lag sonst über der Leuchte)
+LOCK_FLOOR = _lx - 3.2         # A: Muldenboden; Leuchte, Glas und Rahmen liegen davor und unter der Schale
+
 P = []
 # ---------------------------------------------------------------- Rumpf: Schale (Creme), Kiel (Graphit), Kegel, Abgasrohr
 _bore_cut = dict(shape='cyl', axis='f', c=(BORE, 0), a0=F0 - 2, a1=F1 + 8, r=R_IN, segs=48)
@@ -140,7 +143,7 @@ P += [
          'Grundkörper; mit dem Kiel an der Fuge verschraubt', bevel=R_MID, f0=F0, f1=F1, cu=0, pts=SHELL_X,
          cuts=[_bore_cut, cut_box(SLOT[0], SLOT[1], BORE + 6, BORE + R_HULL + 4, 2 * SLOT[2]),
                dict(shape='prof', pts=[(LOCK[0] - 5, LOCK[2]), ((LOCK[0] + LOCK[1]) / 2, LOCK[2] + 15), (LOCK[1] + 5, LOCK[2]),
-                                       ((LOCK[0] + LOCK[1]) / 2, LOCK[2] - 15)], w=6.0, x=hull_x(LOCK[2]) + 0.8)]   # Mulde der Raute
+                                       ((LOCK[0] + LOCK[1]) / 2, LOCK[2] - 15)], w=12.0, x=LOCK_FLOOR + 6.0)]   # Mulde der Raute
          + [dict(shape='prof', pts=[(F1 - 14, BORE + R_HULL + 2), (F1 + 2, BORE + R_HULL + 2), (F1 + 2, BORE + R_HULL - 8)], w=120)]),   # Stirnfase oben
     part('keel', 'Kiel', 'Keel', 'receiver', 'xprof', 'graphite',
          'Tiefer Kiel unter dem Startrohr: Elektronik, Batterie, Gegenmasse; trägt Griffmodul und Stützhand',
@@ -192,7 +195,6 @@ P += [
          side=-1, depth=0.12),
 ]
 # ---------------------------------------------------------------- Zielerfassungsraute (Blickfang)
-_lx = hull_x(LOCK[2])
 _lm = (LOCK[0] + LOCK[1]) / 2
 
 
@@ -202,13 +204,13 @@ def diamond(d):
 
 P += [
     part('lock_frame', 'Rautenrahmen', 'Lock frame', 'receiver', 'prof', 'trim', 'Blanker Rahmen der Zielerfassungsraute',
-         'in die Mulde geschraubt', bevel=0.4, pts=diamond(3.0), w=1.6, x=_lx - 1.4,
-         cuts=[dict(shape='prof', pts=diamond(0.4), w=6, x=_lx - 1.4)]),
+         'in die Mulde geschraubt', bevel=0.4, pts=diamond(3.0), w=1.6, x=LOCK_FLOOR + 2.2,
+         cuts=[dict(shape='prof', pts=diamond(0.4), w=6, x=LOCK_FLOOR + 2.2)]),
     prof('lock_glass', 'Rautenglas', 'Lock glass', 'receiver', 'glass', 'Schützt die Anzeige', 'im Rahmen', diamond(0.4), 0.6, bevel=0,
-         x=_lx - 1.8),
+         x=LOCK_FLOOR + 2.0),
     part('lock_light', 'Zielerfassung', 'Target lock', 'receiver', 'prof', 'energy',
          'Leuchtende Raute: Rakete geladen und Ziel erfasst; Blickfang links neben dem Visier', 'unter dem Glas in der Mulde', bevel=0.3,
-         pts=diamond(-2.0), w=1.2, x=_lx - 2.8, move=dict(kind='glow', pivot=None, event='ready', max=5.0)),
+         pts=diamond(-2.0), w=1.2, x=LOCK_FLOOR + 0.6, move=dict(kind='glow', pivot=None, event='ready', max=5.0)),
 ]
 # ---------------------------------------------------------------- Heck: Heckring, Düse
 RING_R = R_REAR + 5

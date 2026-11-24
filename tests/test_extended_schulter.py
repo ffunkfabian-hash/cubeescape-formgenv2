@@ -238,6 +238,36 @@ class TestSchulter(unittest.TestCase):
         head = self.data["e14"]["PARTS"] + [dict(self.ids["e14"]["rocket_head"], id="kopf", mat="accent")]
         self.assertEqual(len(graphics(head)), 2)             # Gegenprobe: oranger Gefechtskopf wie BASIC-14 wäre zweite Grafik
 
+    def test_beacon_exposed(self):
+        """Richter R1: Der Blickfang liegt frei – vor dem Muldenboden, hinter dem Glas, unter der engsten Stelle der gewölbten Schale.
+        E14: Raute in einer Mulde mit Boden unter der engsten Schalenstelle; E09: Libelle steht über den Muldengrund hinaus."""
+        c, ids = self.consts["e14"], self.ids["e14"]
+        mulde = [q for q in ids["hull"]["cuts"] if q.get("shape") == "prof" and abs(q.get("x", 0) - (c["LOCK_FLOOR"] + 6.0)) < 1e-6]
+        self.assertEqual(len(mulde), 1)
+        floor = mulde[0]["x"] - mulde[0]["w"] / 2
+        surface = min(c["hull_x"](u) for _, u in ids["lock_frame"]["pts"])
+
+        def problems(light, glass, frame):
+            out = []
+            lo, hi = light["x"] - light["w"] / 2, light["x"] + light["w"] / 2
+            if lo < floor - 0.01 or hi < floor + 0.5:
+                out.append("Leuchte verdeckt")
+            if glass["x"] - glass["w"] / 2 < hi:
+                out.append("Glas hinter der Leuchte")
+            if frame["x"] + frame["w"] / 2 > surface:
+                out.append("Rahmen steht über die Schale")
+            return out
+        self.assertEqual(problems(ids["lock_light"], ids["lock_glass"], ids["lock_frame"]), [])
+        buried = dict(ids["lock_light"], x=floor - 1.0)    # Gegenprobe: Stand vor R1 (Leuchte auf/hinter dem Muldenboden)
+        self.assertIn("Leuchte verdeckt", problems(buried, ids["lock_glass"], ids["lock_frame"]))
+        c9, i9 = self.consts["e09"], self.ids["e09"]
+        cut = [q for q in i9["upper"]["cuts"] if q.get("shape") == "cyl"][0]
+
+        def level_problems(fluid):
+            return [] if fluid["c"][1] + fluid["r"] > cut["c"][1] - cut["r"] + 3 and i9["level_glass"]["r"] > fluid["r"] else ["Libelle verdeckt"]
+        self.assertEqual(level_problems(i9["level_fluid"]), [])
+        self.assertEqual(level_problems(dict(i9["level_fluid"], c=(cut["c"][0], cut["c"][1] - 8))), ["Libelle verdeckt"])   # Gegenprobe
+
     def test_sight_line(self):
         """Z3 66 ± 4 mm über der Laufachse (wie BASIC-09); W2 auf Achshöhe 66 ± 4 mm links neben der Achse (wie BASIC-14)."""
         def offset(d):

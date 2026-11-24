@@ -624,7 +624,7 @@ Kontaktbogen; r4 als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA09.png` bzw
 
 ### Prüfung
 
-`tests/test_extended_schulter.py` prüft beide Modelle (23 Tests). Abgedeckt sind:
+`tests/test_extended_schulter.py` prüft beide Modelle (24 Tests). Abgedeckt sind:
 
 - Felder, Typ und Feuerart wie BASIC-NN, Blatt-IDs, Anker, Weltpunkte und Aktionen (`variant.problems` als Orakel).
 - Familienschnittstellen und Budgets: genau ein Blickfang links, höchstens drei Akzent-Bedienfunktionen, eine Schrift, ein Grafikelement.
@@ -637,7 +637,10 @@ Kontaktbogen; r4 als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA09.png` bzw
 - Raute mit Gürtel, ein Teil vom Butt bis zur Stirn, kein angesetzter Kolbenkörper; Libelle mit sichtbarer Blase in der Mitte.
 - Rumpf: Tropfen oben rund, Kiel unten schmal, Bauch ≥ 60 mm unter dem Rohr, Stirn und Kielhacke höher.
 - Sattel als Wiege mit Bogen ≥ 15 mm hinter dem Auge; Rakete passt durch den Schacht.
+- Blickfang frei (Richter R1): Leuchte vor dem Muldenboden, Glas davor, Rahmen unter der engsten Stelle der gewölbten Schale.
 - Gestaltete Querschnitte, Detaildichte mindestens wie der Pilot, keine Selbstschnitte, Absetzung Gewehr/Werfer, Zusammenhang, Länge und Quellhash.
+
+Eine Testzuordnung (`test_map.json`) führt dieses Repo nicht; `./check` findet die Datei über `unittest discover`.
 
 Jede Regelprüfung hat eine Gegenprobe mit erwartetem Grund (z. B. durchgehender Vorderschaft, Keilkolben wie r1, Kasten statt Raute,
 Blase am Rand, flacher Bauch, Kastenkiel, Muffe statt Wiege, Startrohr Ø 112 vor dem Visier, kürzerer Schacht). Die Tests fanden in r3
