@@ -1,9 +1,9 @@
 {
  "anchors": {
   "Socket_Eye": {
-   "part": "glass_tile",
+   "part": "sight_rear",
    "position_mm": [
-    -5.0,
+    -70.0,
     103.0,
     0.0
    ]
@@ -17,19 +17,35 @@
    ]
   },
   "Socket_Muzzle": {
-   "part": "nose_ceramic",
+   "part": "nose_glaze",
    "position_mm": [
-    213.0,
-    62.0,
+    269.0,
+    68.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    248.0,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_rear",
+   "position_mm": [
+    0.0,
+    103.0,
     0.0
    ]
   },
   "Socket_SupportHand": {
-   "part": "grip_cast",
+   "part": "grip_panel_l",
    "position_mm": [
-    1.0,
-    2.0,
-    0.0
+    -4.0,
+    -34.0,
+    17.0
    ]
   }
  },
@@ -43,11 +59,6 @@
    "de": "Lauf / Emitter",
    "en": "Barrel / emitter",
    "id": "barrel"
-  },
-  {
-   "de": "Munitionsversorgung",
-   "en": "Ammunition feed",
-   "id": "ammo"
   },
   {
    "de": "Visier",
@@ -98,24 +109,25 @@
   },
   "variant": {
    "accent_functions": [
-    "Versetzte Schalenmarkierung"
+    "Einzelne schräge Farbmarke",
+    "Spannt den Fuß"
    ],
    "hand_roles": {
     "Socket_Hand": "graphite",
-    "Socket_SupportHand": "graphite"
+    "Socket_SupportHand": "rubber"
    },
-   "sight_line_mm": 41
+   "sight_line_mm": 35.0
   }
  },
  "counts": {
-  "assemblies": 5,
-  "parts": 34,
-  "triangles": 10888
+  "assemblies": 4,
+  "parts": 32,
+  "triangles": 10292
  },
  "dimensions_mm": {
-  "height": 161.88,
-  "length": 248.98,
-  "width": 53.0
+  "height": 163.84,
+  "length": 311.49,
+  "width": 44.83
  },
  "format": "formgenv2/weapon-sheet-spec",
  "format_version": 4,
@@ -130,6 +142,7 @@
     "kind": "Annahme",
     "reason": "leere Baugruppe ohne Teile (in BALLON nur deklariert)",
     "removed": [
+     "ammo",
      "mechanism"
     ]
    }
@@ -149,45 +162,45 @@
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -33.14,
-     42.02
+     -40.25,
+     35.86
     ],
     "u": [
-     -48.0,
-     60.91
+     -56.64,
+     48.91
     ],
     "x": [
-     -18.5,
-     18.5
+     -15.5,
+     15.5
     ]
    },
    "id": "grip_cast",
    "moving": false,
-   "name_de": "Geschwungene Griffschale",
+   "name_de": "Schräger Griffkörper",
    "name_en": "grip cast",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 636
+   "triangles": 620
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -21.77,
-     19.77
+     -29.75,
+     15.79
     ],
     "u": [
-     -36.88,
-     31.71
+     -43.83,
+     34.77
     ],
     "x": [
-     18.15,
-     20.1
+     15.1,
+     17.3
     ]
    },
    "id": "grip_panel_l",
    "moving": false,
-   "name_de": "Eingesetzte Griffwange",
+   "name_de": "Eingelassene Griffwange",
    "name_en": "grip panel l",
    "role": "rubber",
    "shape": "prof",
@@ -197,214 +210,262 @@
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -21.77,
-     19.77
+     -29.75,
+     15.79
     ],
     "u": [
-     -36.88,
-     31.71
+     -43.83,
+     34.77
     ],
     "x": [
-     -20.1,
-     -18.15
+     -17.3,
+     -15.1
     ]
    },
    "id": "grip_panel_r",
    "moving": false,
-   "name_de": "Eingesetzte Griffwange",
+   "name_de": "Eingelassene Griffwange",
    "name_en": "grip panel r",
    "role": "rubber",
    "shape": "prof",
    "triangles": 412
   },
   {
-   "assembly": "ammo",
+   "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -34.38,
-     12.34
+     -42.49,
+     11.35
     ],
     "u": [
-     -52.88,
-     -37.22
+     -58.84,
+     -39.79
     ],
     "x": [
-     -20.5,
-     20.5
+     -17.9,
+     17.9
     ]
    },
    "id": "heel",
    "moving": false,
-   "name_de": "Gestufter Griffabschluss",
+   "name_de": "Abgesetzte Griffsohle",
    "name_en": "heel",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 384
+   "triangles": 492
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     20.53,
-     82.55
+     17.49,
+     74.49
     ],
     "u": [
-     -4.0,
-     37.26
+     -6.0,
+     39.44
     ],
     "x": [
-     -8.5,
-     8.5
+     -7.0,
+     7.0
     ]
    },
    "id": "bow",
    "moving": false,
-   "name_de": "Offener kantiger Griffbogen",
+   "name_de": "Offene Griffspange",
    "name_en": "bow",
-   "role": "dark_metal",
+   "role": "graphite",
    "shape": "prof",
-   "triangles": 560
+   "triangles": 644
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     38.0,
-     49.49
+     32.1,
+     42.76
     ],
     "u": [
-     22.21,
-     45.78
+     17.13,
+     39.91
     ],
     "x": [
-     -5.0,
-     5.0
+     -4.5,
+     4.5
     ]
    },
    "id": "pendant",
    "moving": false,
-   "name_de": "Kleine Innenzunge",
+   "name_de": "Dunkle Innenzunge",
    "name_en": "pendant",
-   "role": "graphite",
+   "role": "dark_metal",
    "shape": "prof",
-   "triangles": 560
+   "triangles": 500
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -26.11,
-     174.57
+     -33.38,
+     265.68
     ],
     "u": [
-     25.0,
+     22.0,
      89.0
     ],
     "x": [
-     -21.0,
-     21.0
+     -17.9,
+     17.9
     ]
    },
    "id": "core",
    "moving": false,
-   "name_de": "Dunkler Mittelblock",
+   "name_de": "Dunkle Mittelfuge",
    "name_en": "core",
    "role": "graphite",
+   "shape": "prof",
+   "triangles": 620
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -34.37,
+     66.95
+    ],
+    "u": [
+     52.1,
+     92.0
+    ],
+    "x": [
+     -19.5,
+     19.5
+    ]
+   },
+   "id": "rear_stone",
+   "moving": false,
+   "name_de": "Hohe hintere Keramikschulter",
+   "name_en": "rear stone",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 592
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -11.6,
+     27.54
+    ],
+    "u": [
+     87.0,
+     92.1
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "aft_seat",
+   "moving": false,
+   "name_de": "Dunkle Deckkante",
+   "name_en": "aft seat",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     80.27,
+     263.57
+    ],
+    "u": [
+     62.0,
+     91.0
+    ],
+    "x": [
+     -20.2,
+     20.2
+    ]
+   },
+   "id": "fore_stone",
+   "moving": false,
+   "name_de": "Lange obere Keramiklage",
+   "name_en": "fore stone",
+   "role": "shell",
    "shape": "prof",
    "triangles": 476
   },
   {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -30.46,
-     59.26
-    ],
-    "u": [
-     49.0,
-     96.0
-    ],
-    "x": [
-     -23.0,
-     23.0
-    ]
-   },
-   "id": "aft_shield",
-   "moving": false,
-   "name_de": "Hintere Keramikschulter",
-   "name_en": "aft shield",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 240
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     73.72,
-     202.87
-    ],
-    "u": [
-     55.0,
-     95.0
-    ],
-    "x": [
-     -24.5,
-     24.5
-    ]
-   },
-   "id": "keystone",
-   "moving": false,
-   "name_de": "Gestufte obere Bugschale",
-   "name_en": "keystone",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 396
-  },
-  {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     117.21,
-     207.61
+     234.32,
+     259.74
     ],
     "u": [
-     29.0,
-     62.9
+     87.0,
+     92.1
     ],
     "x": [
-     -21.5,
-     21.5
+     -11.0,
+     11.0
     ]
    },
-   "id": "chin_shell",
+   "id": "fore_seat",
    "moving": false,
-   "name_de": "Abgesetztes Unterkinn",
-   "name_en": "chin shell",
+   "name_de": "Abgesetzte vordere Deckkante",
+   "name_en": "fore seat",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 224
+   "triangles": 152
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     194.0,
-     212.0
+     101.26,
+     252.24
     ],
     "u": [
-     38.0,
-     86.0
+     30.0,
+     54.8
     ],
     "x": [
-     -23.0,
-     23.0
+     -18.2,
+     18.2
     ]
    },
-   "id": "nose_rim",
+   "id": "keel",
    "moving": false,
-   "name_de": "Breite Stirnfassung",
-   "name_en": "nose rim",
+   "name_de": "Kurze untere Keramiklage",
+   "name_en": "keel",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 608
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     255.0,
+     268.0
+    ],
+    "u": [
+     51.5,
+     84.5
+    ],
+    "x": [
+     -15.5,
+     15.5
+    ]
+   },
+   "id": "nose_tile",
+   "moving": false,
+   "name_de": "Geschlossene Stirnkachel",
+   "name_en": "nose tile",
    "role": "graphite",
    "shape": "xprof",
    "triangles": 284
@@ -413,310 +474,142 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     209.0,
-     214.0
+     266.0,
+     269.0
     ],
     "u": [
-     42.5,
-     81.5
+     55.5,
+     80.5
     ],
     "x": [
-     -19.0,
-     19.0
+     -12.0,
+     12.0
     ]
    },
-   "id": "nose_ceramic",
+   "id": "nose_glaze",
    "moving": false,
-   "name_de": "Geschlossene Keramikstirn",
-   "name_en": "nose ceramic",
+   "name_de": "Stirneinlage",
+   "name_en": "nose glaze",
    "role": "anodized",
    "shape": "xprof",
    "triangles": 284
   },
   {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     213.8,
-     214.6
-    ],
-    "u": [
-     55.8,
-     58.2
-    ],
-    "x": [
-     -8.0,
-     8.0
-    ]
-   },
-   "id": "nose_inlay_0",
-   "moving": false,
-   "name_de": "Eingelegte Lichtkerbe",
-   "name_en": "nose inlay 0",
-   "role": "energy",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     213.8,
-     214.6
-    ],
-    "u": [
-     63.8,
-     66.2
-    ],
-    "x": [
-     -8.0,
-     8.0
-    ]
-   },
-   "id": "nose_inlay_1",
-   "moving": false,
-   "name_de": "Eingelegte Lichtkerbe",
-   "name_en": "nose inlay 1",
-   "role": "energy",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     38.99,
-     89.01
+     47.85,
+     96.15
     ],
     "u": [
-     35.99,
-     86.01
+     37.85,
+     86.15
     ],
     "x": [
-     19.0,
-     23.9
+     16.8,
+     20.5
     ]
    },
-   "id": "round_base_l",
+   "id": "medallion_l",
    "moving": false,
-   "name_de": "Facettierte Keramikwange",
-   "name_en": "round base l",
-   "role": "graphite",
+   "name_de": "Facettiertes Seitenmedaillon",
+   "name_en": "medallion l",
+   "role": "dark_metal",
    "shape": "cyl",
-   "triangles": 252
+   "triangles": 188
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     40.8,
-     87.2
+     51.72,
+     92.28
     ],
     "u": [
-     37.8,
-     84.2
+     41.72,
+     82.28
     ],
     "x": [
-     23.6,
-     24.7
-    ]
-   },
-   "id": "ring_l",
-   "moving": false,
-   "name_de": "Facettierte Keramikwange",
-   "name_en": "ring l",
-   "role": "metal",
-   "shape": "cyl",
-   "triangles": 220
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     42.13,
-     85.87
-    ],
-    "u": [
-     39.13,
-     82.87
-    ],
-    "x": [
-     24.4,
-     26.2
+     20.1,
+     22.41
     ]
    },
    "id": "coin_l",
    "moving": false,
-   "name_de": "Facettierte Keramikwange",
+   "name_de": "Facettiertes Seitenmedaillon",
    "name_en": "coin l",
    "role": "anodized",
    "shape": "cyl",
-   "triangles": 252
+   "triangles": 188
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     38.99,
-     89.01
+     47.85,
+     96.15
     ],
     "u": [
-     35.99,
-     86.01
+     37.85,
+     86.15
     ],
     "x": [
-     -23.9,
-     -19.0
+     -20.5,
+     -16.8
     ]
    },
-   "id": "round_base_r",
+   "id": "medallion_r",
    "moving": false,
-   "name_de": "Facettierte Keramikwange",
-   "name_en": "round base r",
-   "role": "graphite",
+   "name_de": "Facettiertes Seitenmedaillon",
+   "name_en": "medallion r",
+   "role": "dark_metal",
    "shape": "cyl",
-   "triangles": 252
+   "triangles": 188
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     40.8,
-     87.2
+     51.72,
+     92.28
     ],
     "u": [
-     37.8,
-     84.2
+     41.72,
+     82.28
     ],
     "x": [
-     -24.7,
-     -23.6
-    ]
-   },
-   "id": "ring_r",
-   "moving": false,
-   "name_de": "Facettierte Keramikwange",
-   "name_en": "ring r",
-   "role": "metal",
-   "shape": "cyl",
-   "triangles": 220
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     42.13,
-     85.87
-    ],
-    "u": [
-     39.13,
-     82.87
-    ],
-    "x": [
-     -26.2,
-     -24.4
+     -22.41,
+     -20.1
     ]
    },
    "id": "coin_r",
    "moving": false,
-   "name_de": "Facettierte Keramikwange",
+   "name_de": "Facettiertes Seitenmedaillon",
    "name_en": "coin r",
    "role": "anodized",
    "shape": "cyl",
-   "triangles": 252
+   "triangles": 188
   },
   {
-   "assembly": "receiver",
+   "assembly": "barrel",
    "extent_mm": {
     "f": [
-     55.11,
-     66.89
+     170.25,
+     190.76
     ],
     "u": [
-     58.0,
-     68.0
+     70.0,
+     81.0
     ],
     "x": [
-     26.0,
-     26.5
+     19.9,
+     20.65
     ]
    },
-   "id": "coin_dash_l",
+   "id": "slate_band_l",
    "moving": false,
-   "name_de": "Kurzer Lichtindex",
-   "name_en": "coin dash l",
-   "role": "energy",
-   "shape": "prof",
-   "triangles": 140
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     55.11,
-     66.89
-    ],
-    "u": [
-     58.0,
-     68.0
-    ],
-    "x": [
-     -26.5,
-     -26.0
-    ]
-   },
-   "id": "coin_dash_r",
-   "moving": false,
-   "name_de": "Kurzer Lichtindex",
-   "name_en": "coin dash r",
-   "role": "energy",
-   "shape": "prof",
-   "triangles": 140
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     110.2,
-     131.8
-    ],
-    "u": [
-     77.0,
-     93.0
-    ],
-    "x": [
-     24.1,
-     24.9
-    ]
-   },
-   "id": "cap_band_l",
-   "moving": false,
-   "name_de": "Versetzte Schalenmarkierung",
-   "name_en": "cap band l",
-   "role": "accent",
-   "shape": "prof",
-   "triangles": 140
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     110.2,
-     131.8
-    ],
-    "u": [
-     77.0,
-     93.0
-    ],
-    "x": [
-     -24.9,
-     -24.1
-    ]
-   },
-   "id": "cap_band_r",
-   "moving": false,
-   "name_de": "Versetzte Schalenmarkierung",
-   "name_en": "cap band r",
+   "name_de": "Einzelne schräge Farbmarke",
+   "name_en": "slate band l",
    "role": "accent",
    "shape": "prof",
    "triangles": 140
@@ -725,71 +618,95 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     138.34,
-     190.73
+     170.25,
+     190.76
     ],
     "u": [
-     38.02,
-     53.98
+     70.0,
+     81.0
     ],
     "x": [
-     21.2,
-     23.0
+     -20.65,
+     -19.9
     ]
    },
-   "id": "lower_panel_l",
+   "id": "slate_band_r",
    "moving": false,
-   "name_de": "Keramikfeld am Kinn",
-   "name_en": "lower panel l",
-   "role": "shell",
+   "name_de": "Einzelne schräge Farbmarke",
+   "name_en": "slate band r",
+   "role": "accent",
    "shape": "prof",
-   "triangles": 212
+   "triangles": 140
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     138.34,
-     190.73
+     111.22,
+     159.81
     ],
     "u": [
-     38.02,
-     53.98
+     72.0,
+     82.0
     ],
     "x": [
-     -23.0,
-     -21.2
+     19.9,
+     20.7
     ]
    },
-   "id": "lower_panel_r",
+   "id": "name_plate_l",
    "moving": false,
-   "name_de": "Keramikfeld am Kinn",
-   "name_en": "lower panel r",
-   "role": "shell",
+   "name_de": "Dunkles Schriftfeld",
+   "name_en": "name plate l",
+   "role": "graphite",
    "shape": "prof",
-   "triangles": 212
+   "triangles": 192
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     155.99,
-     172.16
+     111.22,
+     159.81
     ],
     "u": [
-     42.95,
-     46.87
+     72.0,
+     82.0
     ],
     "x": [
-     22.83,
-     23.27
+     -20.7,
+     -19.9
+    ]
+   },
+   "id": "name_plate_r",
+   "moving": false,
+   "name_de": "Dunkles Schriftfeld",
+   "name_en": "name plate r",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 192
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     129.28,
+     142.85
+    ],
+    "u": [
+     74.76,
+     78.05
+    ],
+    "x": [
+     20.64,
+     21.08
     ]
    },
    "id": "word_l",
    "moving": false,
    "name_de": "Modellschriftzug",
    "name_en": "word l",
-   "role": "graphite",
+   "role": "shell",
    "shape": "text",
    "triangles": 856
   },
@@ -797,169 +714,217 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     155.84,
-     172.01
+     129.15,
+     142.72
     ],
     "u": [
-     42.95,
-     46.87
+     74.76,
+     78.05
     ],
     "x": [
-     -23.27,
-     -22.83
+     -21.08,
+     -20.64
     ]
    },
    "id": "word_r",
    "moving": false,
    "name_de": "Modellschriftzug",
    "name_en": "word r",
-   "role": "graphite",
+   "role": "shell",
    "shape": "text",
    "triangles": 856
   },
   {
-   "assembly": "sight",
+   "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -21.24,
-     16.43
+     -21.92,
+     -6.15
     ],
     "u": [
-     81.24,
-     104.75
+     -37.88,
+     -29.11
     ],
     "x": [
-     -13.5,
-     13.5
+     16.9,
+     17.65
     ]
    },
-   "id": "bridge_aft",
+   "id": "heel_inset_l",
    "moving": false,
-   "name_de": "Brückenanstieg",
-   "name_en": "bridge aft",
-   "role": "shell",
+   "name_de": "Flacher Griffindex",
+   "name_en": "heel inset l",
+   "role": "anodized",
    "shape": "prof",
-   "triangles": 136
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -21.92,
+     -6.15
+    ],
+    "u": [
+     -37.88,
+     -29.11
+    ],
+    "x": [
+     -17.65,
+     -16.9
+    ]
+   },
+   "id": "heel_inset_r",
+   "moving": false,
+   "name_de": "Flacher Griffindex",
+   "name_en": "heel inset r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     61.79,
-     99.57
+     -4.0,
+     18.0
     ],
     "u": [
-     89.18,
-     104.83
+     91.5,
+     98.0
     ],
     "x": [
-     -13.0,
-     13.0
+     -11.5,
+     11.5
     ]
    },
-   "id": "bridge_front",
+   "id": "sight_mount",
    "moving": false,
-   "name_de": "Vorderes Brückenbein",
-   "name_en": "bridge front",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 156
+   "name_de": "Kimmenfuß",
+   "name_en": "Rear base",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
   },
   {
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -8.36,
-     81.4
+     0.0,
+     13.77
     ],
     "u": [
-     97.26,
-     109.0
+     92.8,
+     95.59
     ],
     "x": [
-     -15.0,
-     15.0
+     11.5,
+     13.3
     ]
    },
-   "id": "brow",
+   "id": "sight_clamp",
    "moving": false,
-   "name_de": "Flaches Sensorband",
-   "name_en": "brow",
-   "role": "graphite",
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
    "shape": "prof",
-   "triangles": 452
+   "triangles": 76
   },
   {
    "assembly": "sight",
    "extent_mm": {
     "f": [
+     -0.0,
+     7.87
+    ],
+    "u": [
+     97.5,
+     105.0
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "sight_rear",
+   "moving": false,
+   "name_de": "Kimmenblatt",
+   "name_en": "Rear blade",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.1,
+     0.3
+    ],
+    "u": [
+     99.4,
+     104.2
+    ],
+    "x": [
+     -5.25,
+     5.25
+    ]
+   },
+   "id": "sight_status",
+   "moving": false,
+   "name_de": "Leuchtklammern",
+   "name_en": "Glow brackets",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     240.0,
+     256.0
+    ],
+    "u": [
+     91.5,
+     102.2
+    ],
+    "x": [
      -6.0,
-     -2.0
-    ],
-    "u": [
-     98.0,
-     108.0
-    ],
-    "x": [
-     -13.0,
-     13.0
+     6.0
     ]
    },
-   "id": "glass_tile",
+   "id": "sight_front",
    "moving": false,
-   "name_de": "Facettiertes Sichtfenster",
-   "name_en": "glass tile",
-   "role": "glass",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "grip_controls",
-   "extent_mm": {
-    "f": [
-     -11.92,
-     0.92
-    ],
-    "u": [
-     -25.94,
-     -20.06
-    ],
-    "x": [
-     19.8,
-     20.65
-    ]
-   },
-   "id": "grip_index_l",
-   "moving": false,
-   "name_de": "Griffmarke",
-   "name_en": "grip index l",
-   "role": "dark_metal",
-   "shape": "prof",
+   "name_de": "Korn",
+   "name_en": "Front sight",
+   "role": "sight_anod",
+   "shape": "multi",
    "triangles": 140
   },
   {
-   "assembly": "grip_controls",
+   "assembly": "sight",
    "extent_mm": {
     "f": [
-     -11.92,
-     0.92
+     247.5,
+     248.1
     ],
     "u": [
-     -25.94,
-     -20.06
+     100.72,
+     102.48
     ],
     "x": [
-     -20.65,
-     -19.8
+     -0.88,
+     0.88
     ]
    },
-   "id": "grip_index_r",
+   "id": "sight_glass",
    "moving": false,
-   "name_de": "Griffmarke",
-   "name_en": "grip index r",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 140
+   "name_de": "Kornpunkt",
+   "name_en": "Front dot",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 60
   }
  ],
  "pilot": {

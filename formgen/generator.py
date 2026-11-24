@@ -699,8 +699,8 @@ def vary(data, variant, num, snap=None):
                 geometry = design.build()
         elif num == "02":
             geometry = vesper.build(snap=snap)
-        elif num == "03":
-            geometry = heron.build(pilot=data)
+        elif num in ("03", "04"):
+            geometry = design.build(pilot=data)
         else:
             geometry = design.build()
         model["PARTS"], model["ANCHORS"], model["POINTS"] = geometry
@@ -763,7 +763,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
         summaries = {
             "02": "Offener Heckrahmen und drei getrennte Impulssegmente mit je einem leuchtenden Fenster.",
             "03": "Offene Heckwange, lange helle Gabel und das tropfenförmige Originalvisier von BASIC-03.",
-            "04": "Eine facettierte runde Keramikwange sitzt zwischen den gestuften Hauptkörpern.",
+            "04": "Zwei helle Keramiklagen fassen eine dunkle Fuge ein. Seitlich sitzt ein facettiertes Medaillon, oben die offene Visierung von BASIC-04.",
             "05": "Eine federförmige Keilschale und eine offene Ferse prägen den flachen Seitenriss.",
         }
         info["summary"] = summaries.get(num, variant["idea"])

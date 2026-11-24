@@ -139,6 +139,21 @@ class KitTests(unittest.TestCase):
         self.assertEqual({p["id"] for p in meshes if max(abs(v[0]) for v in p["bounds_m"]) >= 0.02349},
                          {"fore_chevron_l", "fore_chevron_r"})
 
+    def test_cairn_width_matches_basic_04_across_both_medallions(self):
+        widths = {}
+        for sid in ("BA04", "BT04"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            meshes = geom.evaluate(model.normalize(author))["parts"]
+            bounds = np.asarray([part["bounds_m"] for part in meshes]) * 1000
+            widths[sid] = bounds[:, 1, 0].max() - bounds[:, 0, 0].min()
+            if sid == "BT04":
+                self.assertEqual({p["id"] for p in meshes
+                                  if max(abs(v[0]) for v in p["bounds_m"]) >= 0.02241},
+                                 {"coin_l", "coin_r"})
+        self.assertAlmostEqual(widths["BT04"], 44.83, delta=0.005)
+        self.assertAlmostEqual(widths["BA04"], widths["BT04"], delta=0.005)
+
     def test_trestle_front_window_and_nameplate_have_depth(self):
         entry = variants.sheets()["BT01"]
         author, _ = generator.build(entry["variant"], entry["num"], SNAP)

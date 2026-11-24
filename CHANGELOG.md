@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.29.0 Strata — Cairn
+
+- Cairn (BT04) erhält eine geschichtete Außenform und die offene Visierung von BASIC-04. Die Gesamtbreite beträgt 44,83 mm. [Versionsbericht](docs/versions/0.29.md)
+
 ## 0.27.0 Plume — Heron
 
 - Heron (BT03) erhält eine offene Heckwange, eine zweigeteilte Front und das vollständige Z1 „Tropfen“ von BA03. Die Breite über alle Teile beträgt 47,0 mm. [Versionsbericht](docs/versions/0.27.md)
