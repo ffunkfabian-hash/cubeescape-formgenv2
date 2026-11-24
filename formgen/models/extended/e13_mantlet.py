@@ -131,7 +131,7 @@ P += [
         'im Visiersitz verschraubt', SADDLE[0] + 1, SADDLE[1] - 1, RAIL_U - 9.6, RAIL_U - 8.0, 2 * GASSE - 0.4, bevel=R_FINE),
     part('gasse_edges', 'Gassenkanten', 'Channel edges', 'receiver', 'multi', 'trim', 'Blanke Kanten der Visiergasse',
          'oben auf die Gassenwände geklebt', bevel=0.3,
-         items=[dict(shape='prof', pts=hood_curve(SADDLE[0] + 2, 200, -1.2) + hood_curve(200, SADDLE[0] + 2, 0.6)[::-1], w=3.0,
+         items=[dict(shape='prof', pts=hood_curve(SADDLE[0] + 2, 200, -1.2) + hood_curve(200, SADDLE[0] + 2, 0.6), w=3.0,   # R1: ohne Umkehr
                      x=sx * (GASSE + 1.5)) for sx in (1, -1)]),
     prof('lower', 'Unteres Gehäuse', 'Lower receiver', 'receiver', 'graphite', 'Griffmodul, Abzugsgruppe, Magazinschacht',
          'unter der Haube, Fuge 1 mm', [(H0 + 8, SPLIT - 1), (MAG[0] - 7, SPLIT - 1), (MAG[0] - 7, 63), (MAG[1] + 7, 63),

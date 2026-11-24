@@ -491,8 +491,8 @@ Trommel von BASIC-13; `Socket_LoadingGate` liegt am Magazinboden.
 
 ### Nachbesserung
 
-Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r7` und `…/e13/r1–r7`, je mit Kontaktbogen, Clay und Explosion; r7 als
-AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13.png` (Pilot im selben AAA-Weg unter `e08/BA08`, `e13/BA13`).
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r7` und `…/e13/r1–r8`, je mit Kontaktbogen, Clay und Explosion; e08/r7 und e13/r8
+als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13.png` (Pilot im selben AAA-Weg unter `e08/BA08`, `e13/BA13`).
 
 | Typ | Runde | gesehen | geändert |
 |---|---|---|---|
@@ -508,6 +508,7 @@ AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13.png
 | E13 | r4 → r5 | (Test) Magazin ragte in den Abzugsbügel (f 64 gegen Bügel bis 83) | Magazin ab f 90, Front 20 mm nach vorn |
 | E13 | r5 → r6 | Ringspalt r 40 schnitt seitlich durch die 64 mm breite Haube; Lauf mit Gummimanschette und vier Ringen wirkte wie ein Kameraobjektiv | Lauf Ø 54 mit Blendenkragen statt Spalt; Handschutzkiel statt Manschette; ein gefaster Mündungsring |
 | E13 | r6 → r7 | vorn fiel die Wölbung nur 16 mm; Daumenmulde im Kolben wirkt wie ein Fenster | Scheitel nach vorn (f 30), Schirm 10 mm tiefer (Fall 26 mm); Kolben ohne Mulde |
+| E13 | r7 → r8 | (Richter R1) Profil der Gassenkanten selbstschneidend: beide Hälften liefen vorwärts | Umkehr entfernt; Test `test_profiles_simple` prüft alle Profile beider Modelle |
 
 ### Motivzeilen (für die Familie)
 

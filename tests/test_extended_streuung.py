@@ -100,6 +100,22 @@ def top_profile(pts, x):
     return best
 
 
+def crossing(pts):
+    """Erstes Paar nicht benachbarter Kanten eines Polygons, die sich echt schneiden (selbstschneidendes Profil), sonst None."""
+    def side(a, b, c):
+        return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+    edges = list(zip(pts, pts[1:] + pts[:1]))
+    n = len(edges)
+    for i in range(n):
+        for j in range(i + 2, n):
+            if i == 0 and j == n - 1:
+                continue
+            (a, b), (c, d) = edges[i], edges[j]
+            if side(a, b, c) * side(a, b, d) < -1e-9 and side(c, d, a) * side(c, d, b) < -1e-9:
+                return i, j
+    return None
+
+
 def enclosed(parts, f, u):
     """True, wenn der Punkt (f, u) in der Seitensilhouette frei ist und die Lücke ringsum geschlossen ist (Negativraum)."""
     fr = frame(parts)
@@ -460,6 +476,23 @@ class TestStreuung(unittest.TestCase):
             bs = [b for p in parts if (b := extended.bounds(p)) and p["asm"] not in ("sight", "grip_controls")]
             return max(b[1][1] for b in bs) - min(b[0][1] for b in bs)
         self.assertGreater(height(self.data["e13"]["PARTS"]) / l13, 1.5 * height(self.data["e08"]["PARTS"]) / l8, "Werfer gedrungener")
+
+    def test_profiles_simple(self):
+        """Kein Seiten- oder Querprofil schneidet sich selbst (Richter R1 fand einen gekreuzten Kantenstreifen)."""
+        def problems(parts):
+            out = []
+            for p in parts:
+                for q in (p["items"] if p.get("shape") == "multi" else [p]):
+                    if q.get("shape") in ("prof", "xprof") and crossing([tuple(v) for v in q["pts"]]):
+                        out.append(p["id"])
+            return sorted(set(out))
+        for k, d in self.data.items():
+            with self.subTest(k):
+                self.assertEqual(problems(d["PARTS"]), [])
+        edges = self.ids["e13"]["gasse_edges"]   # Gegenprobe: zweite Hälfte umgekehrt wie vor der Korrektur
+        half = len(edges["items"][0]["pts"]) // 2
+        bad = dict(edges, items=[dict(q, pts=q["pts"][:half] + q["pts"][half:][::-1]) for q in edges["items"]])
+        self.assertEqual(problems([bad]), ["gasse_edges"])
 
     def test_no_floating_parts(self):
         for k, d in self.data.items():
