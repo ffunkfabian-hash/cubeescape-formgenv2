@@ -346,6 +346,19 @@ class KitModelTests(unittest.TestCase):
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
 
+    def test_lark_keeps_the_b1_game_anchors_and_bow_actions(self):
+        pilot, model = kit_model("BT07")
+        self.assertEqual(model["META"]["type"], "combat_bow")
+        self.assertEqual(model["META"]["nick"], "Lark")
+        optics = [part for part in pilot["PARTS"] if part["asm"] == "sight"]
+        self.assertEqual(len(optics), 16)
+        self.assertEqual(canonical([part for part in model["PARTS"] if part["asm"] == "sight"]), canonical(optics))
+        for key in ("ANCHORS", "POINTS", "ACTIONS"):
+            self.assertEqual(canonical(model[key]), canonical(pilot[key]), key)
+        self.assertEqual(set(model["ACTIONS"]), {"draw_hold_release", "let_down"})
+        self.assertEqual(model["ANCHORS"]["Socket_Eye"]["sight_type"], "pins")
+        self.assertTrue(model["ANCHORS"]["Socket_Eye"]["std"])
+
     def test_tern_keeps_the_basic_06_h2_and_game_anchors(self):
         pilot, model = kit_model("BT06")
         self.assertEqual(model["META"]["type"], "submachine_gun")

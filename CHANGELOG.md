@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.33.0 Quill — Lark
+
+- Lark ergänzt Linie T als Bogen BT07 mit 68,77 mm Gesamtbreite und dem B1-Pinvisier von BASIC-07. [Versionsbericht](docs/versions/0.33.md)
+
 ## 0.32.0 Windward — Tern
 
 - Tern ergänzt Linie T als Maschinenpistole BT06 mit 47,00 mm Gesamtbreite und dem H2-Visier aus BASIC-06. [Versionsbericht](docs/versions/0.32.md)

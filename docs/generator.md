@@ -249,7 +249,7 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 ## EXTENDED-18 Trestle (BT01)
 
-`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-06. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
+`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-07. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
 
 `python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die drei hellen Impulssegmente auf dem dunklen Kern tragen je ein Keramikinlay und eine Lichtmarke pro Seite. Der offene Heckrahmen und die Gesamtbreite von 51,0 mm folgen BASIC-02. Vesper verwendet denselben H4-Baustein „Kasten“ wie der BA02-Pilot. Das Modul liefert Gehäuse, Glas, Absehen und die dazugehörigen Unity-Zielanker. Der gemeinsame Griff stammt aus der ursprünglichen T-Linie.
 
@@ -260,6 +260,8 @@ Heron (BT03) übernimmt das vollständige Z1 „Tropfen“ samt Augen-, Visier-,
 Swift (BT05) erhält eine diagonal aufsteigende helle Front und einen Griff mit offener Ferse. Die dunklen Griffwangen bestimmen die Gesamtbreite von 33,50 mm. Die sechs sichtbaren Teile und drei Zielanker der offenen Visierung stammen aus BASIC-05. Die Visierteile sind wie beim BA05-Piloten der oberen Schale zugeordnet.
 
 Tern (BT06) ergänzt die Linie T als Maschinenpistole. Die beiden Schulterfelder begrenzen die Außenbreite auf 47,00 mm. Das H2 „Pille“ übernimmt alle zwölf Visierteile und die drei Zielanker aus BASIC-06. Der Einzelbau läuft über `python -m formgen.pipeline BT06`.
+
+Lark (BT07) ergänzt Linie T als Bogen. Die 904,72 mm hohe Fassung besitzt ein offenes, kantiges Mittelstück und eine seitliche Statuskapsel. Das B1 mit drei Pins, die Spielanker und die Aktionsdaten stammen aus BASIC-07. Die Gesamtbreite einschließlich des seitlich versetzten B1 beträgt 68,77 mm. Der Einzelbau läuft über `python -m formgen.pipeline BT07`.
 
 BT01 trägt das H0-Visier auf dem BRI-22. Nutzerentscheid für Variante A vom 24.11.2026: Nur BT01 hat eine Visierlinie 105 mm über dem Mündungsanker. Die Augenposition liegt auf der Visierlinie 90 mm hinter dem Glas. Die Anker werden mit der Außenhaut zum Ursprung der hinteren Hand verschoben. Der Entwurf übernimmt von BASIC-01 die cremefarbene Schale über graphitfarbenen Kontaktflächen. In V1 lieferten die Modelle `codex/parallax/models/assault.py` und `codex/fluxbloom/models/assault.py` zwei unterschiedliche Beispiele dafür, wie sich Gehäuse und Negativraum im Seitenriss entwickeln lassen. Unter den drei ersten Skizzen hatte die offene Brücke die klarste Innenkontur. Seitliche Typenschilder, kurze Lamellenfelder und ein einzelnes orangefarbenes Bandpaar gliedern die größeren Flächen.
 

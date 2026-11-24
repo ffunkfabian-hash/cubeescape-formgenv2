@@ -689,16 +689,21 @@ def vary(data, variant, num, snap=None):
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
     if params.get("architecture") == "trestle":
-        from .models.weapons import cairn, heron, swift, tern, trestle, vesper
-        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern}
+        from .models.weapons import cairn, heron, lark, swift, tern, trestle, vesper
+        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark}
         if num not in designs:
             raise GeneratorError(f"Für BASIC-{num} gibt es keinen Trestle-Entwurf")
         design = designs[num]
+        ops = [{"op": "architecture", "kind": "trestle"}]
         if num == "01":
             with ballon.snapshot_imports(snap or ballon.snapshot()):
                 geometry = design.build()
         elif num == "02":
             geometry = vesper.build(snap=snap)
+        elif num == "07":
+            # Kompakte Silhouette über dieselbe Formoperation wie die übrigen Bogenlinien.
+            ops.append(limbs(model, lark.LIMB_FACTOR))
+            geometry = lark.build(pilot=model)
         else:
             geometry = design.build(pilot=data)
         model["PARTS"], model["ANCHORS"], model["POINTS"] = geometry
@@ -709,9 +714,11 @@ def vary(data, variant, num, snap=None):
                 _map(part, axis, lambda value: value - offset)
             for point in _located(model):
                 point["at"][axis] -= offset
-        model["ACTIONS"] = {"reload": cairn.reload_action()} if num == "04" else {}
+        # Der Bogen übernimmt die beiden Spielaktionen aus seinem BALLON-Piloten.
+        if num != "07":
+            model["ACTIONS"] = {"reload": cairn.reload_action()} if num == "04" else {}
         notes = [{"kind": "Annahme", "reason": f"Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/{design.__name__.split('.')[-1]}.py."}]
-        ops, added = [{"op": "architecture", "kind": "trestle"}], set()
+        added = set()
     else:
         ops, added = _apply(model, params, num, _kit(snap), notes)
     _keep_accents(model, before, added, notes)
@@ -764,6 +771,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "04": "Zwei helle Keramiklagen fassen eine dunkle Fuge ein. Seitlich sitzt ein facettiertes Medaillon, oben die offene Visierung von BASIC-04.",
             "05": "Eine helle Feder zieht sich zur kompakten Front. Die offene Ferse und die niedrige Visierung von BASIC-05 prägen die Silhouette.",
             "06": "Ein offener Heckrahmen, zwei helle Schalen und eine kurze dunkle Handauflage prägen Tern. Das Holovisier H2 stammt aus BASIC-06.",
+            "07": "Ein kompakter Bogen mit geknickter Keramikschulter, dunklem Mittelstück und seitlicher Statuskapsel. Das B1-Pinvisier stammt aus BASIC-07.",
         }
         info["summary"] = summaries.get(num, variant["idea"])
     parts = []

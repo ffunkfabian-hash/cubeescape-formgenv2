@@ -168,6 +168,19 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_lark_preserves_the_asymmetric_basic_07_width_including_the_b1(self):
+        for sid in ("BA07", "BT07"):
+            with self.subTest(sid=sid):
+                entry = variants.sheets()[sid]
+                author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+                parts = geom.evaluate(model.normalize(author))["parts"]
+                low, left_part = min((p["bounds_m"][0][0], p["id"]) for p in parts)
+                high, right_part = max((p["bounds_m"][1][0], p["id"]) for p in parts)
+                height = max(p["bounds_m"][1][2] for p in parts) - min(p["bounds_m"][0][2] for p in parts)
+                self.assertAlmostEqual(height * 1000, {"BA07": 1015.67, "BT07": 904.72}[sid], delta=.01)
+                self.assertEqual((left_part, right_part), ("sight_pin_screws", "riser"))
+                np.testing.assert_allclose([low * 1000, high * 1000], [-24.52, 44.25], rtol=0, atol=.005)
+
     def test_tern_total_width_matches_basic_06(self):
         for sid in ("BA06", "BT06"):
             with self.subTest(sid=sid):
