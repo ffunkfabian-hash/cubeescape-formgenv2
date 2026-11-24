@@ -261,3 +261,5 @@ MODELS["e06"], SHEETS["e06"] = "e06_wishbone", "EA06"     # 0.22 Torrent: Maschi
 MODELS["e15"], SHEETS["e15"] = "e15_flywheel", "EA15"     # 0.22 Torrent: Maschinengewehr (Dauerfeuer)
 MODELS["e08"], SHEETS["e08"] = "e08_brace", "EA08"        # 0.23 Breacher: Schrotflinte (Streuung)
 MODELS["e13"], SHEETS["e13"] = "e13_mantlet", "EA13"      # 0.23 Breacher: Granatwerfer (Streuung)
+MODELS["e09"], SHEETS["e09"] = "e09_theodolite", "EA09"   # 0.25 Pauldron: Scharfschützengewehr (Schulter)
+MODELS["e14"], SHEETS["e14"] = "e14_keelson", "EA14"      # 0.25 Pauldron: Raketenwerfer (Schulter)
