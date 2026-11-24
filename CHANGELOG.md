@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.25.0 Pauldron — EXTENDED-09 Scharfschützengewehr und EXTENDED-14 Raketenwerfer
+
+- Neu: EXTENDED-09 „Theodolite“ (`formgen/models/extended/e09_theodolite.py`), ein Repetier-Scharfschützengewehr als Messinstrument: Der Rautenrumpf mit Gürtel steht auf drei Stützen (Magazin, Zweibeinpylon, Einbein) und spannt dazwischen frei. Der Kolben ist Teil des Rumpfs, Blickfang ist eine Libelle.
+- Neu: EXTENDED-14 „Keelson“ (`formgen/models/extended/e14_keelson.py`), ein Raketenwerfer mit Rumpf: Das Startrohr liegt als Deck auf einem tiefen Kiel mit Tropfenquerschnitt, die Stirn ist ein Tropfen. Der Schultersattel ist ein kleiner Kiel, Blickfang ist eine Zielerfassungsraute; die Sicht am Seitenvisier W2 bleibt frei wie bei BASIC-14.
+- Blatt-IDs `EA09`/`EA14` (nur ID); Tests `tests/test_extended_schulter.py` mit genauem Seitenmaß für Querprofile ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.25.md)).
+
 ## 0.23.0 Breacher — EXTENDED-08 Schrotflinte und EXTENDED-13 Granatwerfer
 
 - Neu: EXTENDED-08 „Brace“ (`formgen/models/extended/e08_brace.py`), eine Vorderschaftrepetierflinte mit zwei Läufen nebeneinander: Brillen-Querschnitt (zwei Wülste) in Gehäuse, Schiebemantel und Mündungsjoch, offener Brillenspalt zwischen den freien Läufen, Zwillingsauge als Blickfang; die Streuung liest sich als Breite statt als Trichter.
