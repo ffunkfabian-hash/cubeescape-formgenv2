@@ -128,6 +128,17 @@ class KitTests(unittest.TestCase):
         front_widths = [np.ptp(bounds[key][:, 0]) for key in ("front_gasket", "front_mask", "front_glaze")]
         np.testing.assert_allclose(front_widths, [40, 34, 27], atol=0.1, rtol=0)
 
+    def test_heron_total_width_matches_basic_03_including_the_scope(self):
+        entry = variants.sheets()["BT03"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        meshes = geom.evaluate(model.normalize(author))["parts"]
+        bounds = np.asarray([p["bounds_m"] for p in meshes]) * 1000
+        # Die beidseitigen Keilfelder bestimmen das Außenmaß. Auch Schrift und Z1 zählen mit.
+        np.testing.assert_allclose([bounds[:, 0, 0].min(), bounds[:, 1, 0].max()], [-23.5, 23.5],
+                                   rtol=0, atol=0.01)
+        self.assertEqual({p["id"] for p in meshes if max(abs(v[0]) for v in p["bounds_m"]) >= 0.02349},
+                         {"fore_chevron_l", "fore_chevron_r"})
+
     def test_trestle_front_window_and_nameplate_have_depth(self):
         entry = variants.sheets()["BT01"]
         author, _ = generator.build(entry["variant"], entry["num"], SNAP)

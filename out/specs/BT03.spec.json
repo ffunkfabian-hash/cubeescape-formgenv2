@@ -1,10 +1,10 @@
 {
  "anchors": {
   "Socket_Eye": {
-   "part": "rear_glass",
+   "part": "scope_objective",
    "position_mm": [
-    -103.0,
-    135.0,
+    2.0,
+    138.0,
     0.0
    ]
   },
@@ -19,8 +19,32 @@
   "Socket_Muzzle": {
    "part": "beak_tile",
    "position_mm": [
-    471.0,
+    538.0,
     71.0,
+    0.0
+   ]
+  },
+  "Socket_Objective": {
+   "part": "scope_rim",
+   "position_mm": [
+    92.0,
+    138.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "scope_glass",
+   "position_mm": [
+    87.5,
+    138.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "scope_eyepiece",
+   "position_mm": [
+    -28.0,
+    138.0,
     0.0
    ]
   },
@@ -110,24 +134,26 @@
   },
   "variant": {
    "accent_functions": [
-    "Brückenmarkierung"
+    "Höhenverstellung (Bedienelement)",
+    "Schultermarkierung",
+    "Spannt den Klemmfuß werkzeuglos"
    ],
    "hand_roles": {
     "Socket_Hand": "graphite",
     "Socket_SupportHand": "graphite"
    },
-   "sight_line_mm": 64
+   "sight_line_mm": 67
   }
  },
  "counts": {
   "assemblies": 7,
-  "parts": 53,
-  "triangles": 16756
+  "parts": 60,
+  "triangles": 21792
  },
  "dimensions_mm": {
-  "height": 207.41,
-  "length": 762.24,
-  "width": 53.0
+  "height": 210.9,
+  "length": 868.56,
+  "width": 47.0
  },
  "format": "formgenv2/weapon-sheet-spec",
  "format_version": 4,
@@ -425,688 +451,496 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -290.74,
-     -259.15
+     -328.68,
+     -293.36
     ],
     "u": [
-     19.46,
-     109.29
-    ],
-    "x": [
-     -21.0,
-     21.0
-    ]
-   },
-   "id": "tail_pad",
-   "moving": false,
-   "name_de": "Abgesetzter Schaftrücken",
-   "name_en": "tail pad",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 248
-  },
-  {
-   "assembly": "stock",
-   "extent_mm": {
-    "f": [
-     -275.95,
-     -115.28
-    ],
-    "u": [
-     43.52,
-     117.0
-    ],
-    "x": [
-     -20.5,
-     20.5
-    ]
-   },
-   "id": "tail_cowl",
-   "moving": false,
-   "name_de": "Obere Schaftschale",
-   "name_en": "tail cowl",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 596
-  },
-  {
-   "assembly": "stock",
-   "extent_mm": {
-    "f": [
-     -264.52,
-     -156.43
-    ],
-    "u": [
-     108.53,
-     122.0
-    ],
-    "x": [
-     -17.5,
-     17.5
-    ]
-   },
-   "id": "tail_rest",
-   "moving": false,
-   "name_de": "Wangenauflage",
-   "name_en": "tail rest",
-   "role": "rubber",
-   "shape": "prof",
-   "triangles": 296
-  },
-  {
-   "assembly": "stock",
-   "extent_mm": {
-    "f": [
-     -275.95,
-     -98.12
-    ],
-    "u": [
-     20.31,
-     74.72
-    ],
-    "x": [
-     -12.0,
-     12.0
-    ]
-   },
-   "id": "tail_stay",
-   "moving": false,
-   "name_de": "Rücklaufende Schaftstrebe",
-   "name_en": "tail stay",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 204
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -135.26,
-     227.6
-    ],
-    "u": [
-     15.29,
-     101.74
-    ],
-    "x": [
-     -21.0,
-     21.0
-    ]
-   },
-   "id": "spine",
-   "moving": false,
-   "name_de": "Durchlaufender Kiel",
-   "name_en": "spine",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 712
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -121.12,
-     118.86
-    ],
-    "u": [
-     54.0,
-     110.0
-    ],
-    "x": [
-     -24.5,
-     24.5
-    ]
-   },
-   "id": "main_shell",
-   "moving": false,
-   "name_de": "Geschweifte Hauptschale",
-   "name_en": "main shell",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 532
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     -100.65,
-     -43.46
-    ],
-    "u": [
-     1.32,
-     62.77
-    ],
-    "x": [
-     -18.0,
-     18.0
-    ]
-   },
-   "id": "cell_fairing",
-   "moving": false,
-   "name_de": "Hintere Formkassette",
-   "name_en": "cell fairing",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 228
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     -102.71,
-     -58.49
-    ],
-    "u": [
-     -0.91,
-     16.28
+     16.73,
+     113.21
     ],
     "x": [
      -19.5,
      19.5
     ]
    },
-   "id": "cell_band",
+   "id": "tail_pad",
    "moving": false,
-   "name_de": "Sockelabschluss",
-   "name_en": "cell band",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 512
-  },
-  {
-   "assembly": "support",
-   "extent_mm": {
-    "f": [
-     109.35,
-     202.0
-    ],
-    "u": [
-     45.0,
-     92.0
-    ],
-    "x": [
-     -22.5,
-     22.5
-    ]
-   },
-   "id": "fore_knuckle",
-   "moving": false,
-   "name_de": "Schatten am Schalenanfang",
-   "name_en": "fore knuckle",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 224
-  },
-  {
-   "assembly": "support",
-   "extent_mm": {
-    "f": [
-     124.47,
-     250.81
-    ],
-    "u": [
-     45.28,
-     98.0
-    ],
-    "x": [
-     -26.0,
-     26.0
-    ]
-   },
-   "id": "fore_root",
-   "moving": false,
-   "name_de": "Abgesetzte Vorderwange",
-   "name_en": "fore root",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 572
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     186.18,
-     462.05
-    ],
-    "u": [
-     64.08,
-     91.0
-    ],
-    "x": [
-     -13.0,
-     13.0
-    ]
-   },
-   "id": "upper_beak",
-   "moving": false,
-   "name_de": "Facettierter oberer Schnabel",
-   "name_en": "upper beak",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 380
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     222.14,
-     447.88
-    ],
-    "u": [
-     76.04,
-     93.0
-    ],
-    "x": [
-     -15.5,
-     15.5
-    ]
-   },
-   "id": "beak_crown",
-   "moving": false,
-   "name_de": "Lange schmale Deckschale",
-   "name_en": "beak crown",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 272
-  },
-  {
-   "assembly": "support",
-   "extent_mm": {
-    "f": [
-     148.9,
-     451.66
-    ],
-    "u": [
-     33.0,
-     73.0
-    ],
-    "x": [
-     -16.0,
-     16.0
-    ]
-   },
-   "id": "lower_beak",
-   "moving": false,
-   "name_de": "Ansteigende untere Spange",
-   "name_en": "lower beak",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 608
-  },
-  {
-   "assembly": "support",
-   "extent_mm": {
-    "f": [
-     152.92,
-     317.93
-    ],
-    "u": [
-     27.0,
-     45.8
-    ],
-    "x": [
-     -16.5,
-     16.5
-    ]
-   },
-   "id": "palm_sweep",
-   "moving": false,
-   "name_de": "Unterkante der Spange",
-   "name_en": "palm sweep",
+   "name_de": "Geneigte Heckkante",
+   "name_en": "tail pad",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 344
+   "triangles": 212
   },
   {
-   "assembly": "barrel",
+   "assembly": "stock",
    "extent_mm": {
     "f": [
-     441.0,
-     468.0
+     -312.93,
+     -101.96
     ],
     "u": [
-     59.5,
-     82.5
-    ],
-    "x": [
-     -16.0,
-     16.0
-    ]
-   },
-   "id": "beak_end",
-   "moving": false,
-   "name_de": "Geschlossene Schnabelspitze",
-   "name_en": "beak end",
-   "role": "graphite",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     466.0,
-     471.0
-    ],
-    "u": [
-     62.0,
-     80.0
-    ],
-    "x": [
-     -12.5,
-     12.5
-    ]
-   },
-   "id": "beak_tile",
-   "moving": false,
-   "name_de": "Keramische Stirn",
-   "name_en": "beak tile",
-   "role": "anodized",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     470.7,
-     471.5
-    ],
-    "u": [
-     69.6,
-     72.4
-    ],
-    "x": [
-     -6.0,
-     6.0
-    ]
-   },
-   "id": "tip_glyph",
-   "moving": false,
-   "name_de": "Heller Stirnindex",
-   "name_en": "tip glyph",
-   "role": "energy",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -104.01,
-     -35.29
-    ],
-    "u": [
-     101.19,
-     135.0
-    ],
-    "x": [
-     -17.0,
-     17.0
-    ]
-   },
-   "id": "aft_pier",
-   "moving": false,
-   "name_de": "Hinterer Brückenanstieg",
-   "name_en": "aft pier",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 308
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     30.06,
-     91.37
-    ],
-    "u": [
-     96.12,
-     130.88
-    ],
-    "x": [
-     -16.0,
-     16.0
-    ]
-   },
-   "id": "fore_pier",
-   "moving": false,
-   "name_de": "Vorderes Brückenbein",
-   "name_en": "fore pier",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 356
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     74.52,
-     101.49
-    ],
-    "u": [
-     93.05,
-     100.0
-    ],
-    "x": [
-     -19.0,
-     19.0
-    ]
-   },
-   "id": "fore_seat",
-   "moving": false,
-   "name_de": "Brückenschuh",
-   "name_en": "fore seat",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 172
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -100.27,
-     116.4
-    ],
-    "u": [
-     124.0,
-     152.0
-    ],
-    "x": [
-     -17.0,
-     17.0
-    ]
-   },
-   "id": "sensor_body",
-   "moving": false,
-   "name_de": "Flacher Sensorkörper",
-   "name_en": "sensor body",
-   "role": "anodized",
-   "shape": "prof",
-   "triangles": 572
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -82.9,
-     72.88
-    ],
-    "u": [
-     143.0,
-     152.0
-    ],
-    "x": [
-     -18.0,
-     18.0
-    ]
-   },
-   "id": "sensor_crest",
-   "moving": false,
-   "name_de": "Gebrochene Sensorhaube",
-   "name_en": "sensor crest",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 224
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -103.0,
-     -91.0
-    ],
-    "u": [
-     124.0,
-     146.0
-    ],
-    "x": [
-     -19.0,
-     19.0
-    ]
-   },
-   "id": "sensor_heel",
-   "moving": false,
-   "name_de": "Hinterer Sensorabschluss",
-   "name_en": "sensor heel",
-   "role": "graphite",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -104.0,
-     -102.6
-    ],
-    "u": [
-     127.5,
-     142.5
-    ],
-    "x": [
-     -14.5,
-     14.5
-    ]
-   },
-   "id": "rear_glass",
-   "moving": false,
-   "name_de": "Rückseitiges Glasfeld",
-   "name_en": "rear glass",
-   "role": "glass",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     105.0,
-     120.0
-    ],
-    "u": [
-     124.5,
-     153.5
+     29.16,
+     116.0
     ],
     "x": [
      -20.0,
      20.0
     ]
    },
-   "id": "sensor_nose",
+   "id": "tail_cowl",
    "moving": false,
-   "name_de": "Vordere Sensorfassung",
-   "name_en": "sensor nose",
-   "role": "graphite",
-   "shape": "xprof",
-   "triangles": 284
+   "name_de": "Lange Heckschale mit offenem Fenster",
+   "name_en": "tail cowl",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 916
   },
   {
-   "assembly": "sight",
+   "assembly": "stock",
    "extent_mm": {
     "f": [
-     119.5,
-     121.0
+     -287.72,
+     -171.05
     ],
     "u": [
-     128.0,
-     150.0
+     111.0,
+     122.0
     ],
     "x": [
      -16.5,
      16.5
     ]
    },
-   "id": "sensor_glass",
+   "id": "tail_rest",
    "moving": false,
-   "name_de": "Vorderes Facettenglas",
-   "name_en": "sensor glass",
-   "role": "glass",
-   "shape": "xprof",
-   "triangles": 284
+   "name_de": "Abgesetzte obere Auflage",
+   "name_en": "tail rest",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -307.85,
+     -112.18
+    ],
+    "u": [
+     20.19,
+     73.0
+    ],
+    "x": [
+     -15.5,
+     15.5
+    ]
+   },
+   "id": "tail_stay",
+   "moving": false,
+   "name_de": "Dunkler Fensterabschluss",
+   "name_en": "tail stay",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 452
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -150.96,
+     179.98
+    ],
+    "u": [
+     16.0,
+     109.0
+    ],
+    "x": [
+     -20.5,
+     20.5
+    ]
+   },
+   "id": "spine",
+   "moving": false,
+   "name_de": "Durchgehender Unterkörper",
+   "name_en": "spine",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 532
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -144.04,
+     153.11
+    ],
+    "u": [
+     52.0,
+     115.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "main_shell",
+   "moving": false,
+   "name_de": "Gestufte lange Seitenwange",
+   "name_en": "main shell",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 532
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -59.42,
+     13.51
+    ],
+    "u": [
+     111.0,
+     117.5
+    ],
+    "x": [
+     -14.5,
+     14.5
+    ]
+   },
+   "id": "aft_pier",
+   "moving": false,
+   "name_de": "Hintere Deckstufe",
+   "name_en": "aft pier",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 116
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     50.47,
+     104.56
+    ],
+    "u": [
+     102.0,
+     107.5
+    ],
+    "x": [
+     -13.5,
+     13.5
+    ]
+   },
+   "id": "fore_seat",
+   "moving": false,
+   "name_de": "Vordere Deckstufe",
+   "name_en": "fore seat",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 116
   },
   {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     -93.0,
-     -56.14
+     -108.77,
+     -45.28
     ],
     "u": [
-     13.05,
-     41.98
+     -4.77,
+     61.88
     ],
     "x": [
-     17.8,
-     19.0
+     -17.0,
+     17.0
     ]
    },
-   "id": "cell_side_l",
+   "id": "cell_fairing",
    "moving": false,
-   "name_de": "Kassettenwange",
-   "name_en": "cell side l",
+   "name_de": "Hintere Keramikkassette",
+   "name_en": "cell fairing",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 248
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -110.67,
+     -53.32
+    ],
+    "u": [
+     -8.83,
+     15.39
+    ],
+    "x": [
+     -18.5,
+     18.5
+    ]
+   },
+   "id": "cell_band",
+   "moving": false,
+   "name_de": "Schräger Kassettenabschluss",
+   "name_en": "cell band",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 692
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     120.21,
+     248.51
+    ],
+    "u": [
+     46.0,
+     101.94
+    ],
+    "x": [
+     -19.5,
+     19.5
+    ]
+   },
+   "id": "fore_knuckle",
+   "moving": false,
+   "name_de": "Schmale Halsfuge",
+   "name_en": "fore knuckle",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 224
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     135.39,
+     296.72
+    ],
+    "u": [
+     47.0,
+     105.0
+    ],
+    "x": [
+     -22.0,
+     22.0
+    ]
+   },
+   "id": "fore_root",
+   "moving": false,
+   "name_de": "Abgesetzter Gabelansatz",
+   "name_en": "fore root",
    "role": "shell",
    "shape": "prof",
-   "triangles": 212
+   "triangles": 432
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     221.05,
+     516.03
+    ],
+    "u": [
+     65.09,
+     93.98
+    ],
+    "x": [
+     -12.5,
+     12.5
+    ]
+   },
+   "id": "upper_beak",
+   "moving": false,
+   "name_de": "Oberer Gabelarm",
+   "name_en": "upper beak",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 440
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     238.94,
+     481.93
+    ],
+    "u": [
+     80.0,
+     101.0
+    ],
+    "x": [
+     -14.5,
+     14.5
+    ]
+   },
+   "id": "beak_crown",
+   "moving": false,
+   "name_de": "Helle Federkante",
+   "name_en": "beak crown",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 260
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     157.18,
+     492.78
+    ],
+    "u": [
+     29.0,
+     68.0
+    ],
+    "x": [
+     -14.5,
+     14.5
+    ]
+   },
+   "id": "lower_beak",
+   "moving": false,
+   "name_de": "Aufsteigende untere Feder",
+   "name_en": "lower beak",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 420
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     155.96,
+     329.02
+    ],
+    "u": [
+     25.0,
+     43.77
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "palm_sweep",
+   "moving": false,
+   "name_de": "Dunkle Unterkante",
+   "name_en": "palm sweep",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 416
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     478.2,
+     533.37
+    ],
+    "u": [
+     63.0,
+     80.87
+    ],
+    "x": [
+     -12.0,
+     12.0
+    ]
+   },
+   "id": "beak_end",
+   "moving": false,
+   "name_de": "Gestufte Spitze",
+   "name_en": "beak end",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 208
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     523.08,
+     538.57
+    ],
+    "u": [
+     66.08,
+     75.92
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "beak_tile",
+   "moving": false,
+   "name_de": "Facettierte Stirn",
+   "name_en": "beak tile",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 148
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     535.0,
+     539.87
+    ],
+    "u": [
+     70.0,
+     72.0
+    ],
+    "x": [
+     -5.0,
+     5.0
+    ]
+   },
+   "id": "tip_glyph",
+   "moving": false,
+   "name_de": "Stirnmarke",
+   "name_en": "tip glyph",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -91.71,
-     -28.28
+     -121.71,
+     -45.31
     ],
     "u": [
      79.0,
-     98.0
+     100.98
     ],
     "x": [
-     24.25,
-     25.4
+     21.7,
+     22.95
     ]
    },
-   "id": "name_field_l",
+   "id": "maker_plate_l",
    "moving": false,
-   "name_de": "Eloxiertes Schriftfeld",
-   "name_en": "name field l",
-   "role": "graphite",
+   "name_de": "Typenschild",
+   "name_en": "maker plate l",
+   "role": "anodized",
    "shape": "prof",
-   "triangles": 172
+   "triangles": 192
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -71.18,
-     -48.82
+     -94.5,
+     -71.5
     ],
     "u": [
-     84.94,
-     89.7
+     85.94,
+     90.84
     ],
     "x": [
-     25.2,
-     25.8
+     22.87,
+     23.23
     ]
    },
    "id": "name_l",
@@ -1121,184 +955,136 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     145.19,
-     201.68
+     164.31,
+     245.55
     ],
     "u": [
-     67.02,
-     87.0
+     64.13,
+     93.96
     ],
     "x": [
-     25.75,
-     26.5
+     21.7,
+     23.5
     ]
    },
    "id": "fore_chevron_l",
    "moving": false,
-   "name_de": "Vorderes Keilfeld",
+   "name_de": "Keil am Gabelansatz",
    "name_en": "fore chevron l",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 416
+   "triangles": 500
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     264.34,
-     366.67
+     299.29,
+     400.7
     ],
     "u": [
-     77.01,
-     84.0
+     80.02,
+     89.0
     ],
     "x": [
-     12.8,
-     14.2
+     12.2,
+     13.3
     ]
    },
    "id": "beak_inset_l",
    "moving": false,
-   "name_de": "Seitliches Facettenfeld",
+   "name_de": "Facettenstreifen",
    "name_en": "beak inset l",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 116
+   "triangles": 176
   },
   {
-   "assembly": "sight",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     7.18,
-     23.82
+     -39.89,
+     -30.11
     ],
     "u": [
-     134.0,
-     138.0
+     93.0,
+     105.0
     ],
     "x": [
-     16.8,
-     17.7
-    ]
-   },
-   "id": "sensor_index_l",
-   "moving": false,
-   "name_de": "Sensorindex",
-   "name_en": "sensor index l",
-   "role": "energy",
-   "shape": "prof",
-   "triangles": 140
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -83.9,
-     -70.09
-    ],
-    "u": [
-     106.41,
-     126.11
-    ],
-    "x": [
-     16.8,
-     17.6
+     21.75,
+     22.45
     ]
    },
    "id": "bridge_band_0_l",
    "moving": false,
-   "name_de": "Brückenmarkierung",
+   "name_de": "Schultermarkierung",
    "name_en": "bridge band 0 l",
    "role": "accent",
    "shape": "prof",
    "triangles": 140
   },
   {
-   "assembly": "sight",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -69.91,
-     -62.09
+     -29.89,
+     -20.11
     ],
     "u": [
-     116.91,
-     132.88
+     93.0,
+     105.0
     ],
     "x": [
-     16.8,
-     17.6
+     21.75,
+     22.45
     ]
    },
    "id": "bridge_band_1_l",
    "moving": false,
-   "name_de": "Brückenmarkierung",
+   "name_de": "Schultermarkierung",
    "name_en": "bridge band 1 l",
    "role": "accent",
    "shape": "prof",
    "triangles": 140
   },
   {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     -93.0,
-     -56.14
-    ],
-    "u": [
-     13.05,
-     41.98
-    ],
-    "x": [
-     -19.0,
-     -17.8
-    ]
-   },
-   "id": "cell_side_r",
-   "moving": false,
-   "name_de": "Kassettenwange",
-   "name_en": "cell side r",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 212
-  },
-  {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -91.71,
-     -28.28
+     -121.71,
+     -45.31
     ],
     "u": [
      79.0,
-     98.0
+     100.98
     ],
     "x": [
-     -25.4,
-     -24.25
+     -22.95,
+     -21.7
     ]
    },
-   "id": "name_field_r",
+   "id": "maker_plate_r",
    "moving": false,
-   "name_de": "Eloxiertes Schriftfeld",
-   "name_en": "name field r",
-   "role": "graphite",
+   "name_de": "Typenschild",
+   "name_en": "maker plate r",
+   "role": "anodized",
    "shape": "prof",
-   "triangles": 172
+   "triangles": 192
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -71.18,
-     -48.82
+     -94.5,
+     -71.5
     ],
     "u": [
-     84.94,
-     89.7
+     85.94,
+     90.84
     ],
     "x": [
-     -25.8,
-     -25.2
+     -23.23,
+     -22.87
     ]
    },
    "id": "name_r",
@@ -1313,121 +1099,529 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     145.19,
-     201.68
+     164.31,
+     245.55
     ],
     "u": [
-     67.02,
-     87.0
+     64.13,
+     93.96
     ],
     "x": [
-     -26.5,
-     -25.75
+     -23.5,
+     -21.7
     ]
    },
    "id": "fore_chevron_r",
    "moving": false,
-   "name_de": "Vorderes Keilfeld",
+   "name_de": "Keil am Gabelansatz",
    "name_en": "fore chevron r",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 416
+   "triangles": 500
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     264.34,
-     366.67
+     299.29,
+     400.7
     ],
     "u": [
-     77.01,
-     84.0
+     80.02,
+     89.0
     ],
     "x": [
-     -14.2,
-     -12.8
+     -13.3,
+     -12.2
     ]
    },
    "id": "beak_inset_r",
    "moving": false,
-   "name_de": "Seitliches Facettenfeld",
+   "name_de": "Facettenstreifen",
    "name_en": "beak inset r",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 116
+   "triangles": 176
   },
   {
-   "assembly": "sight",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     7.18,
-     23.82
+     -39.89,
+     -30.11
     ],
     "u": [
-     134.0,
-     138.0
+     93.0,
+     105.0
     ],
     "x": [
-     -17.7,
-     -16.8
-    ]
-   },
-   "id": "sensor_index_r",
-   "moving": false,
-   "name_de": "Sensorindex",
-   "name_en": "sensor index r",
-   "role": "energy",
-   "shape": "prof",
-   "triangles": 140
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -83.9,
-     -70.09
-    ],
-    "u": [
-     106.41,
-     126.11
-    ],
-    "x": [
-     -17.6,
-     -16.8
+     -22.45,
+     -21.75
     ]
    },
    "id": "bridge_band_0_r",
    "moving": false,
-   "name_de": "Brückenmarkierung",
+   "name_de": "Schultermarkierung",
    "name_en": "bridge band 0 r",
    "role": "accent",
    "shape": "prof",
    "triangles": 140
   },
   {
-   "assembly": "sight",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -69.91,
-     -62.09
+     -29.89,
+     -20.11
     ],
     "u": [
-     116.91,
-     132.88
+     93.0,
+     105.0
     ],
     "x": [
-     -17.6,
-     -16.8
+     -22.45,
+     -21.75
     ]
    },
    "id": "bridge_band_1_r",
    "moving": false,
-   "name_de": "Brückenmarkierung",
+   "name_de": "Schultermarkierung",
    "name_en": "bridge band 1 r",
    "role": "accent",
    "shape": "prof",
    "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -26.0,
+     0.0
+    ],
+    "u": [
+     117.5,
+     128.2
+    ],
+    "x": [
+     -13.6,
+     13.6
+    ]
+   },
+   "id": "scope_mount_r",
+   "moving": true,
+   "name_de": "Rohrsattel",
+   "name_en": "Scope saddle",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 196
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -22.0,
+     -12.0
+    ],
+    "u": [
+     125.61,
+     150.39
+    ],
+    "x": [
+     -12.39,
+     12.39
+    ]
+   },
+   "id": "scope_strap",
+   "moving": false,
+   "name_de": "Spannband",
+   "name_en": "Scope strap",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -8.0,
+     49.45
+    ],
+    "u": [
+     128.53,
+     147.47
+    ],
+    "x": [
+     -9.47,
+     9.47
+    ]
+   },
+   "id": "scope_tube",
+   "moving": false,
+   "name_de": "Mittelrohr",
+   "name_en": "Scope tube",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -28.0,
+     -6.0
+    ],
+    "u": [
+     127.03,
+     148.97
+    ],
+    "x": [
+     -10.97,
+     10.97
+    ]
+   },
+   "id": "scope_eyepiece",
+   "moving": false,
+   "name_de": "Okular",
+   "name_en": "Eyepiece",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 320
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -29.0,
+     -26.5
+    ],
+    "u": [
+     126.64,
+     149.36
+    ],
+    "x": [
+     -11.36,
+     11.36
+    ]
+   },
+   "id": "scope_eye_trim",
+   "moving": false,
+   "name_de": "Okularkante",
+   "name_en": "Eyepiece trim",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 960
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -25.0,
+     -24.0
+    ],
+    "u": [
+     129.03,
+     146.97
+    ],
+    "x": [
+     -8.97,
+     8.97
+    ]
+   },
+   "id": "scope_ocular_glass",
+   "moving": false,
+   "name_de": "Okularlinse",
+   "name_en": "Ocular lens",
+   "role": "glass_scope",
+   "shape": "cyl",
+   "triangles": 156
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     14.75,
+     24.7
+    ],
+    "u": [
+     145.5,
+     152.5
+    ],
+    "x": [
+     -4.98,
+     4.98
+    ]
+   },
+   "id": "scope_turret",
+   "moving": false,
+   "name_de": "Höhenturm",
+   "name_en": "Elevation turret",
+   "role": "accent",
+   "shape": "cyl",
+   "triangles": 380
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     15.74,
+     23.7
+    ],
+    "u": [
+     134.02,
+     141.98
+    ],
+    "x": [
+     -13.5,
+     -7.5
+    ]
+   },
+   "id": "scope_turret_w",
+   "moving": false,
+   "name_de": "Seitenturm",
+   "name_en": "Windage turret",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 380
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     87.5,
+     88.0
+    ],
+    "u": [
+     124.03,
+     151.97
+    ],
+    "x": [
+     -13.97,
+     13.97
+    ]
+   },
+   "id": "scope_glass",
+   "moving": false,
+   "name_de": "Objektivlinse",
+   "name_en": "Objective lens",
+   "role": "glass_scope",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     47.45,
+     66.72
+    ],
+    "u": [
+     124.66,
+     151.34
+    ],
+    "x": [
+     -13.34,
+     13.34
+    ]
+   },
+   "id": "scope_objective",
+   "moving": false,
+   "name_de": "Objektiv",
+   "name_en": "Objective bell",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 384
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     66.72,
+     68.22
+    ],
+    "u": [
+     124.66,
+     151.34
+    ],
+    "x": [
+     -13.34,
+     13.34
+    ]
+   },
+   "id": "scope_step",
+   "moving": false,
+   "name_de": "Absatz",
+   "name_en": "Step",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 384
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     68.22,
+     86.0
+    ],
+    "u": [
+     120.59,
+     155.41
+    ],
+    "x": [
+     -17.41,
+     17.41
+    ]
+   },
+   "id": "scope_objective_b",
+   "moving": false,
+   "name_de": "Objektiv vorn",
+   "name_en": "Objective front",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 384
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     86.0,
+     92.0
+    ],
+    "u": [
+     119.01,
+     156.99
+    ],
+    "x": [
+     -18.99,
+     18.99
+    ]
+   },
+   "id": "scope_rim",
+   "moving": false,
+   "name_de": "Objektivring",
+   "name_en": "Objective ring",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 512
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     90.5,
+     92.1
+    ],
+    "u": [
+     122.68,
+     153.32
+    ],
+    "x": [
+     -15.32,
+     15.32
+    ]
+   },
+   "id": "scope_crown",
+   "moving": false,
+   "name_de": "Objektivkante",
+   "name_en": "Objective trim",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 1536
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     62.0,
+     92.0
+    ],
+    "u": [
+     107.5,
+     113.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "scope_mount_f",
+   "moving": false,
+   "name_de": "Klemmfuß vorn",
+   "name_en": "Front sight mount",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     66.0,
+     87.54
+    ],
+    "u": [
+     107.8,
+     110.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     76.0,
+     90.0
+    ],
+    "u": [
+     113.0,
+     125.28
+    ],
+    "x": [
+     -14.13,
+     14.13
+    ]
+   },
+   "id": "scope_keel",
+   "moving": false,
+   "name_de": "Tropfensockel",
+   "name_en": "Drop base",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 104
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     87.45,
+     87.5
+    ],
+    "u": [
+     136.38,
+     139.62
+    ],
+    "x": [
+     -1.62,
+     1.62
+    ]
+   },
+   "id": "sight_reticle",
+   "moving": false,
+   "name_de": "Absehen Fadenkreuz",
+   "name_en": "Reticle Crosshair",
+   "role": "reticle_cyan",
+   "shape": "multi",
+   "triangles": 124
   }
  ],
  "pilot": {
@@ -1465,5 +1659,13 @@
    "architecture": "trestle"
   }
  },
- "warnings": []
+ "warnings": [
+  "scope_mount_r: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_eyepiece: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_objective: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_step: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_objective_b: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_rim: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "scope_keel: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert"
+ ]
 }

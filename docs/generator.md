@@ -253,7 +253,7 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 `python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die drei hellen Impulssegmente auf dem dunklen Kern tragen je ein Keramikinlay und eine Lichtmarke pro Seite. Der offene Heckrahmen und die Gesamtbreite von 51,0 mm folgen BASIC-02. Vesper verwendet denselben H4-Baustein „Kasten“ wie der BA02-Pilot. Das Modul liefert Gehäuse, Glas, Absehen und die dazugehörigen Unity-Zielanker. Der gemeinsame Griff stammt aus der ursprünglichen T-Linie.
 
-`python -m formgen.pipeline BT03` baut das Scout-Gewehr Heron aus `formgen/models/weapons/heron.py`. Eine flache Sensorkapsel schließt die obere Brücke. Die vordere Spange steigt bis zur geschlossenen Spitze an und lässt darunter eine lange Öffnung im Profil erkennen.
+Heron (BT03) übernimmt das vollständige Z1 „Tropfen“ samt Augen-, Visier-, Absehen- und Objektivanker aus dem BA03-Piloten. Die helle Gabel und die offene Heckwange bilden zwei Fenster im Seitenriss. Die Breite einschließlich Schrift und Optik beträgt 47,0 mm. Der Aufruf lautet `python -m formgen.pipeline BT03`.
 
 `python -m formgen.pipeline BT04 BT05` baut die beiden Seitenwaffen. Cairn hat eine gestufte Front und runde Keramikwangen. Bei Swift folgen die schmalen Außenschalen einer Keilkontur bis zur geschlossenen Spitze. Die Griffwange und der Kern teilen einen Durchbruch an der Ferse.
 

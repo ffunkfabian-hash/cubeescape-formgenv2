@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.27.0 Plume — Heron
+
+- Heron (BT03) erhält eine offene Heckwange, eine zweigeteilte Front und das vollständige Z1 „Tropfen“ von BA03. Die Breite über alle Teile beträgt 47,0 mm. [Versionsbericht](docs/versions/0.27.md)
+
 ## 0.26.0 Lamella — Vesper
 
 - Vesper (BT02) erhält einen offenen Heckrahmen und drei getrennte Impulssegmente mit je einer eigenen Lichtmarke. Vesper übernimmt das vollständige H4 „Kasten“ von BASIC-02 samt Ring-Punkt-Absehen und drei Zielankern für Unity. Die Gesamtbreite beträgt wie bei BASIC-02 51,0 mm. [Versionsbericht](docs/versions/0.26.md)

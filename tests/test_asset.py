@@ -232,12 +232,12 @@ class KitModelTests(unittest.TestCase):
 
     def test_trestle_family_keeps_its_geometry_and_existing_anchors(self):
         from formgen.models.weapons import cairn, heron, swift, vesper
-        # BT02 nach dem beauftragten Neuaufbau in 0.26, BT03–BT05 vor dem BASIC-Pass.
-        # Die vollständige Geometrie bleibt je Modell über einen eigenen Hash abgesichert.
+        # BT02 ab 0.26, BT03 ab 0.27. Bei BT03 wird das Z1 zusätzlich und vollständig
+        # gegen die gepinnte BA03-Quelle geprüft, einschließlich ihrer plattformspezifischen Float-Werte.
         cases = (("BT02", vesper, "7729de5c3a94ec44c1d80dfbd3505c11cfff89b0d6d3fcab836b4381aba45d35",
                   "sight_frame", [-109.6, 161, 0]),
-                 ("BT03", heron, "0d689a3648bb0d074b51ed55a298505e22ba576a93e0abbe3373f8db9874af17",
-                  "rear_glass", [-123, 158, 0]),
+                 ("BT03", heron, "c0c6e9b816e594295acec2bd824991ee2f531c18fb8e15093ddc9b158d0086b1",
+                  "scope_objective", [-18.0, 161, 0]),
                  ("BT04", cairn, "bd2d752f8ea5c4e2e59c3d7e365d76bb2164e1656410468e302d17ab1db99737",
                   "glass_tile", [-60, 118, 0]),
                  ("BT05", swift, "5db7f8d754ca498b21d13eebb67722facce20c81f2db3f5090632d64397f7a87",
@@ -245,7 +245,8 @@ class KitModelTests(unittest.TestCase):
         for sid, design, digest, eye_part, eye_at in cases:
             with self.subTest(sid=sid):
                 parts, anchors, points = design.build()
-                geometry = [{k: v for k, v in p.items() if k not in ("de", "en", "func", "attach")} for p in parts]
+                frozen = [p for p in parts if p["asm"] != "sight"] if sid == "BT03" else parts
+                geometry = [{k: v for k, v in p.items() if k not in ("de", "en", "func", "attach")} for p in frozen]
                 self.assertEqual(hashlib.sha256(canonical(geometry)).hexdigest(), digest)
                 self.assertEqual(anchors["Socket_Eye"]["part"], eye_part)
                 self.assertEqual(anchors["Socket_Eye"]["at"], eye_at)
@@ -313,9 +314,27 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
         self.assertFalse(model["ACTIONS"])
         parts = {part["id"]: part for part in model["PARTS"]}
-        self.assertTrue({"upper_beak", "lower_beak", "sensor_body", "sensor_glass"} <= parts.keys())
+        self.assertTrue({"upper_beak", "lower_beak", "scope_tube", "scope_glass"} <= parts.keys())
+        self.assertNotIn("sensor_body", parts)
         self.assertEqual(parts["upper_beak"]["asm"], "barrel")
         self.assertEqual(parts["lower_beak"]["asm"], "support")
+
+    def test_heron_exports_every_original_scout_scope_part_and_socket(self):
+        from formgen.models.weapons import heron
+        pilot, exported = kit_model("BT03")
+        parts, anchors, _ = heron.build(pilot)
+        donor = {p["id"]: p for p in pilot["PARTS"] if p["asm"] == "sight"}
+        self.assertEqual({p["id"]: p for p in parts if p["asm"] == "sight"}, donor)
+        self.assertEqual({p["id"] for p in exported["PARTS"] if p["asm"] == "sight"}, donor.keys())
+        self.assertEqual(len(donor), 18)
+        hand = anchors["Socket_Hand"]["at"]
+        for key in ("Socket_Eye", "Socket_Sight", "Socket_Reticle", "Socket_Objective"):
+            original = pilot["ANCHORS"][key]
+            actual = exported["ANCHORS"][key]
+            self.assertEqual(actual["part"], original["part"])
+            self.assertEqual(actual["at"], [v - off for v, off in zip(original["at"], hand)])
+        self.assertTrue(exported["ANCHORS"]["Socket_Eye"]["std"])
+        self.assertEqual(exported["ANCHORS"]["Socket_Eye"]["sight_type"], "scope")
 
     def test_extended_sidearms_use_their_own_static_silhouette(self):
         for sid, name, feature in (("BT04", "Cairn", "coin_l"), ("BT05", "Swift", "grip_cheek")):
