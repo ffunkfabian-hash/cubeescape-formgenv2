@@ -101,9 +101,17 @@ def top_profile(pts, x):
 
 
 def crossing(pts):
-    """Erstes Paar nicht benachbarter Kanten eines Polygons, die sich echt schneiden (selbstschneidendes Profil), sonst None."""
+    """Erster Fehler eines Polygons: doppelter Punkt, Kante der Länge null oder zwei nicht benachbarte Kanten, die sich schneiden oder
+    berühren (Richter R7: auch Berührpunkte zählen), sonst None."""
     def side(a, b, c):
         return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+
+    def on(a, b, c):   # c liegt auf der Strecke a-b
+        return abs(side(a, b, c)) < 1e-6 and min(a[0], b[0]) - 1e-6 <= c[0] <= max(a[0], b[0]) + 1e-6 \
+            and min(a[1], b[1]) - 1e-6 <= c[1] <= max(a[1], b[1]) + 1e-6
+    keys = [(round(x, 6), round(u, 6)) for x, u in pts]
+    if len(set(keys)) < len(keys):
+        return "doppelter Punkt"
     edges = list(zip(pts, pts[1:] + pts[:1]))
     n = len(edges)
     for i in range(n):
@@ -112,7 +120,9 @@ def crossing(pts):
                 continue
             (a, b), (c, d) = edges[i], edges[j]
             if side(a, b, c) * side(a, b, d) < -1e-9 and side(c, d, a) * side(c, d, b) < -1e-9:
-                return i, j
+                return (i, j)
+            if on(a, b, c) or on(a, b, d) or on(c, d, a) or on(c, d, b):
+                return (i, j)
     return None
 
 
@@ -629,7 +639,7 @@ class TestStreuung(unittest.TestCase):
         def problems(parts):
             out = []
             for p in parts:
-                for q in (p["items"] if p.get("shape") == "multi" else [p]):
+                for q in (p["items"] if p.get("shape") == "multi" else [p]) + list(p.get("cuts") or ()):   # R7: auch Schnittprofile
                     if q.get("shape") in ("prof", "xprof") and crossing([tuple(v) for v in q["pts"]]):
                         out.append(p["id"])
             return sorted(set(out))
@@ -640,6 +650,11 @@ class TestStreuung(unittest.TestCase):
         half = len(edges["items"][0]["pts"]) // 2
         bad = dict(edges, items=[dict(q, pts=q["pts"][:half] + q["pts"][half:][::-1]) for q in edges["items"]])
         self.assertEqual(problems([bad]), ["gasse_edges"])
+        c = self.consts["e08"]   # Gegenprobe R7: Fensterkreise, die sich nur berühren (Abstand = 2 r), geben einen Berührpunkt
+        touch = [dict(id="fenster", shape="box", cuts=[dict(shape="prof", pts=[(0.0, 0.0), (10.0, 0.0), (5.0, 5.0), (10.0, 10.0), (0.0, 10.0),
+                                                                              (5.0, 5.0)])])]
+        self.assertEqual(problems(touch), ["fenster"])
+        self.assertGreater(2 * c["WIN_R"] - abs(c["WIN"][0][0] - c["WIN"][1][0]), 4.0, "Fensterkreise überlappen (Taille offen)")
 
     def test_no_floating_parts(self):
         for k, d in self.data.items():

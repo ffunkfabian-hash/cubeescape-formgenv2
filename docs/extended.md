@@ -475,7 +475,7 @@ Visierlinie, das Visier blickt durch einen Kanal in der Wölbung, vorn kragt ein
 | | EXTENDED-08 „Brace“ (Schrotflinte) | EXTENDED-13 „Mantlet“ (Granatwerfer) |
 |---|---|---|
 | Leitmotiv | Brille: zwei Läufe nebeneinander, eine Pumpe als Schiebemantel repetiert beide Kammern | Panzerhaube: Helmwölbung über dem Verschluss, Schirm über der Stirn, aus der der dicke Lauf tritt |
-| Silhouette | flach und lang (0,79 m), gerade Oberlinie vom Kolben bis zum Joch; der Mantel ist die große Masse vor dem Gehäuse, davor laufen die Läufe frei | kurz und gedrungen (0,65 m): Wölbung steigt 56 mm vom Kolben zum Scheitel, fällt 26 mm in den Schirm; großes Kastenmagazin vor dem Griff |
+| Silhouette | flach und lang (0,79 m), gerade Oberlinie vom Kolben bis zum Joch; der Mantel ist die große Masse vor dem Gehäuse, davor laufen die Läufe frei | kurz und gedrungen (0,65 m): Wölbung steigt 52 mm vom Kolben zum Scheitel, fällt 26 mm in den Schirm; großes Kastenmagazin vor dem Griff |
 | Querschnitt | Brille: zwei Wülste über den Läufen in Gehäuse (mit Mittelsteg), Mantel, Joch und Kolbenhals; 66–72 mm breit; Flankenfeld 2,4 mm unter den Wülsten | U: zwei Haubenflanken beiderseits der 34 mm breiten Visiergasse, blanke Gassenkanten; Lauf rund Ø 54 |
 | Blickfang | Zwillingsauge links am Gehäuse: zwei runde Kammeranzeigen in einer Achter-Fassung | Ladeanzeige links an der Haube: Leuchtfenster in Geschossform (Spitzbogen nach vorn) |
 | Negativraum | Brillenspalt 12 mm zwischen den freien Läufen vom Mantel bis zum Joch; Kolbenspalt 12 mm zwischen den Wangen; Hubspalt zwischen Gehäuse und Mantel | Visiergasse als Kanal durch die Wölbung vom Visiersitz bis vor den Schirm; Schatten unter dem Schirm über dem Lauf |
@@ -492,7 +492,7 @@ Trommel von BASIC-13; `Socket_LoadingGate` liegt am Magazinboden.
 
 ### Nachbesserung
 
-Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r13` und `…/e13/r1–r13`, je mit Kontaktbogen, Clay und Explosion; e08/r7, e13/r8, e08/r10, e13/r11 und beide r13
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r14` und `…/e13/r1–r13`, je mit Kontaktbogen, Clay und Explosion; e08/r7, e13/r8, e08/r10, e13/r11, e13/r13 und e08/r14
 als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13.png` (Pilot im selben AAA-Weg unter `e08/BA08`, `e13/BA13`).
 
 | Typ | Runde | gesehen | geändert |
@@ -517,6 +517,7 @@ als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13
 | E13 | r9 → r10 | Lamellen lesen sich als drei Klötze | Lamellen als Schindeln: schräge Hinterkante, Oberkante fällt, größere Rundung |
 | E08 | r10 → r12 | (Nutzer „Noch eine Runde“, Koordination) Kolben von der Seite eine graue Platte mit stumpfer Kante; Hauptkörper Quader mit Details; Rückansicht nur Rechtecke | Brillenfenster quer durch beide Wangen mit blanker Fassung, Unterlinie gerade fallend mit gerundeter Spitze, Schaftkappe zurückgeneigt (R_BODY); Mantel, Kragen und Joch unten 4–5 mm eingezogen; Unteres Gehäuse nach unten 6,5 mm eingezogen, R_BODY; Kragenschrauben der Kammkappen entfallen |
 | E08 | r12 → r13 | 33 150 Dreiecke (Koordination: nicht wachsen) | 12 statt 16 Segmente je Wulst, 14 je Fensterkreis: 31 228 |
+| E08 | r13 → r14 | (Richter R7) die Fensterkreise berührten sich nur (Abstand = 2 r), das Schnittprofil hatte einen Berührpunkt und einen doppelten Schlusspunkt | Kreise 20 mm auseinander (Taille 17 mm), doppelte Punkte entfernt; `test_profiles_simple` prüft jetzt auch Schnittprofile und Berührpunkte |
 | E13 | r11 → r12 | (Koordination) Lamellen wirken wie Klötze auf der alten Kolbenplatte, ein angesetztes Teil; Unterbau, Magazin und Kiel Quader | Kolben als drei Creme-Schalen im Querschnitt der Haube, ohne Graphit-Kern, die Haube verjüngt sich hinten auf die erste Schale und endet auf Kammhöhe; Haubenunterkante, Unteres Gehäuse und Kiel eingezogen (R_BODY), Magazin mit gefasten Vorderkanten und eingezogenem Boden, Schachtlippe gefast |
 | E13 | r12 → r13 | Kolbenhals unter der Haube zu hoch (Schale bis u 54) | Unterlinie beginnt bei u 66 und fällt zur Schulter; Unteres Gehäuse hinten passend angehoben |
 | E13 | r10 → r11 | (Richter R5) die neue Auswurfklappe bewegte sich im Schussablauf nicht und deckte beim Auswurf das Fenster | Auswurfschieber gleitet in zwei Leisten 64 mm nach vorn, öffnet vor dem Auswurf (Frame 5) und schließt danach; Test mit Gegenproben; Bewegungsbeleg `e13/schieber/schieber.mp4` |

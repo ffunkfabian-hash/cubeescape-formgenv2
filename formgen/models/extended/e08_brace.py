@@ -247,7 +247,7 @@ _cheek = [(_NECK + 1, _TOPL[0][1] - _CAPH - 1), (_SB, _TOPL[1][1] - _CAPH - 1), 
 # Runde 12 (Koordination: der Spaltkolben war nur von oben lesbar): Brillenfenster – zwei verschmolzene Kreise quer durch beide Wangen,
 # die Brille in der Seitenansicht; die Wangen werden zu zwei Rahmen um das Fenster.
 WIN_R = 13.0             # A: Radius der Fensterkreise (Steg ≥ 8 mm zu Kamm und Unterlinie)
-WIN = [(_NECK - 28, 72.0), (_NECK - 54, 72.0)]                      # A: Kreismitten (f, u)
+WIN = [(_NECK - 31, 72.0), (_NECK - 51, 72.0)]                      # A: Kreismitten (f, u); 20 mm Abstand → Taille 17 mm (Richter R7)
 
 
 def window(d=0.0, n=14):
@@ -258,7 +258,9 @@ def window(d=0.0, n=14):
     a = math.degrees(math.asin(h / r))
     front = [(f1 + r * math.cos(math.radians(t)), u + r * math.sin(math.radians(t))) for t in [180 - a - (360 - 2 * a) * i / n for i in range(n + 1)]]
     rear = [(f2 + r * math.cos(math.radians(t)), u + r * math.sin(math.radians(t))) for t in [-a - (360 - 2 * a) * i / n for i in range(n + 1)]]
-    return front + rear
+    pts = front + rear
+    pts = [q for i, q in enumerate(pts) if i == 0 or abs(q[0] - pts[i - 1][0]) + abs(q[1] - pts[i - 1][1]) > 1e-6]
+    return pts[:-1] if abs(pts[-1][0] - pts[0][0]) + abs(pts[-1][1] - pts[0][1]) < 1e-6 else pts   # Richter R7: ohne doppelten Schlusspunkt
 _cap = [(_NECK + 1, _TOPL[0][1]), (_SB, _TOPL[1][1]), (_SB, _TOPL[1][1] - _CAPH), (_NECK + 1, _TOPL[0][1] - _CAPH)]
 P += [
     part('stock_neck', 'Kolbenhals', 'Stock neck', 'stock', 'xprof', 'graphite',
