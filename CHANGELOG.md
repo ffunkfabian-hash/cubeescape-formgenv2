@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.23.0 Breacher — EXTENDED-08 Schrotflinte und EXTENDED-13 Granatwerfer
+
+- Neu: EXTENDED-08 „Brace“ (`formgen/models/extended/e08_brace.py`), eine Vorderschaftrepetierflinte mit zwei Läufen nebeneinander: Brillen-Querschnitt (zwei Wülste) in Gehäuse, Schiebemantel und Mündungsjoch, offener Brillenspalt zwischen den freien Läufen, Zwillingsauge als Blickfang; die Streuung liest sich als Breite statt als Trichter.
+- Neu: EXTENDED-13 „Mantlet“ (`formgen/models/extended/e13_mantlet.py`), ein halbautomatischer Granatwerfer mit Panzerhaube: Helmwölbung über dem Verschluss mit Schirm über der Stirn, Visiergasse durch die Wölbung, Kastenmagazin vor dem Griff statt Trommel, Ladeanzeige in Geschossform.
+- Blatt-IDs `EA08`/`EA13` (nur ID); Tests `tests/test_extended_streuung.py` ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.23.md)).
+
 ## 0.22.0 Torrent — EXTENDED-06 Maschinenpistole und EXTENDED-15 Maschinengewehr
 
 - Neu: EXTENDED-06 „Wishbone“ (`formgen/models/extended/e06_wishbone.py`), eine kompakte Maschinenpistole als Gabelbein: Der Magazinschacht ist zugleich Vordergriff und steht 24° nach vorn gespreizt, der Griff 15° nach hinten; T-Querschnitt (Creme-Deck kragt über den Graphit-Rumpf), Kinnstirn parallel zum Schacht, dreieckiges Λ-Fenster als Blickfang.

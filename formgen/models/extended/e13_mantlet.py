@@ -7,18 +7,20 @@ genormte Familienschnittstellen (Griffmodul BGM-1, Visier W1 „D-Linse“ auf S
 
 Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
 - Leitmerkmal Panzerhaube: Über dem Verschluss wölbt sich eine schwere Creme-Haube wie ein Helm. Hinten steigt sie aus dem Kolben,
-  oben trägt sie in einem Sattel das Visier, vorn endet sie in einer steilen Stirn (Blende), aus der der dicke Lauf in einem dunklen
-  Ringspalt tritt. Die Wölbung nimmt den Bogenschuss auf; ein Bogenstreifen auf den Flanken folgt ihr.
+  oben sitzt das Visier in einer Gasse durch die Wölbung, vorn kragt sie als Schirm über die Stirn (Blende), aus der der dicke Lauf
+  tritt. Die Wölbung nimmt den Bogenschuss auf; ein Bogenstreifen auf den Flanken folgt ihr.
 - Silhouette: kurz und gedrungen (0,65 m), Kuppel über einem großen Kastenmagazin vor dem Griff, kurzer dicker Lauf.
-- Querschnitt: Haube mit flachen Flanken und aufgesetztem Kamm (Stufe aus breiter Schale und schmalem Grat); Lauf rund Ø 60.
-- Negativraum: der Ringspalt der Blende um den Lauf (10 mm breit, 30 mm tief) und der Visiersattel, eine Mulde im Kamm, in der das Visier sitzt.
+- Querschnitt: U – zwei Haubenflanken beiderseits der Visiergasse mit blanken Gassenkanten; Lauf rund Ø 54.
+- Negativraum: die Visiergasse, ein 34 mm breiter Kanal durch die Wölbung vom Visiersitz bis zum Schirm, durch den das Visier blickt;
+  dazu der Schatten unter dem Schirm über dem Lauf.
 - Blickfang (genau einer): die Ladeanzeige links an der Haube, ein Leuchtfenster in Geschossform (Spitzbogen nach vorn); sie leuchtet, wenn
   eine Granate in der Kammer liegt.
 - Zweiton: die Creme-Haube ist die einzige helle Masse über einem Graphit-Fahrgestell (Unteres Gehäuse, Magazin, Lauf, Kolben).
-- Schichten: Kamm 3 mm über der Haube, Blendenring in der Stirn zurückgesetzt, Paneele in Mulden, Magazinboden 3 mm breiter als das Magazin.
+- Schichten: Schirm 34 mm über der Stirn, Gassenboden 1,6 mm über dem Gassengrund, Blendenkragen 3,5 mm um den Lauf, Paneele in
+  Mulden, Magazinboden 3 mm breiter als das Magazin.
 - Grafik: der Bogenstreifen beidseitig (einziges Grafikelement); eine Schrift rechts hinten an der Haube.
-- Front mehrstufig: Mündungsring mit Stufenkrone → dicker Lauf mit Griffmanschette → Ringspalt mit Blendenring → steile Haubenstirn.
-- Ergonomie: Griff BGM-1 (Socket_Hand 0/0), Stützhand an der Griffmanschette unter dem Lauf, Magazinhalter links vorn am Magazinschacht,
+- Front mehrstufig: gefaster Mündungsring mit Krone → dicker Lauf über dem Handschutzkiel → Blendenkragen → Stirn → Schirm darüber.
+- Ergonomie: Griff BGM-1 (Socket_Hand 0/0), Stützhand am Handschutzkiel unter dem Lauf, Magazinhalter links vorn am Magazinschacht,
   Ladehebel links an der Haube; Akzent-Bedienfunktionen: Magazinhalter, Ladehebel (2).
 
 Herkunft der Zahlen: V = Vorgabe (Familie/Schnittstelle, BASIC-13 Pilot v2.1 bzw. `basic.common`), A = Annahme (Entwurf 0.23),
@@ -50,25 +52,23 @@ ASSEMBLIES = [
 
 GRIP_TOP = 40            # V: Griffoberkante wie BASIC-13
 BORE = 102               # A: Laufachse (BASIC-13 112, V)
-BAR_R = 30.0             # V: Lauf Ø 60 wie BASIC-13
+BAR_R = 27.0             # A: Lauf Ø 54 (BASIC-13 Ø 60, V); Runde 5: schlanker, damit die Haube ihn an der Stirn fasst
 CH_R = 21.5              # V: Bohrung Ø 43 (40-mm-Granate, BASIC-13 CH_R)
 HALF = 32.0              # A: halbe Haubenbreite (64 mm; BASIC-13 Gehäuse 48, V)
 SPLIT = 70               # A: Unterkante der Haube hinten / Fuge zum Unteren Gehäuse
 H0, H1 = -100, 224       # A: Haube hinten / Stirn unten (die Stirn ist 10 mm zurückgeneigt; Runde 4: 20 mm weiter vorn, Magazin vor dem Bügel)
-APEX = (-6.0, 176.0)     # A: Scheitel der Haubenflanken (f, u) auf Höhe der Visierlinie; die Visiergasse hält die Sicht frei
+APEX = (30.0, 176.0)     # A: Scheitel der Haubenflanken (f, u) auf Höhe der Visierlinie; die Visiergasse hält die Sicht frei
 REAR_U = 120             # A: Haube hinten auf Kammhöhe
-BROW = (248.0, 160.0)    # A: Schirmspitze (Runde 3: die Haube kragt über die Stirn vor wie ein Helmschirm; Runde 4: 12 mm dicke Stirnkante)
-BROW_LOW = 148           # A: Unterkante der Schirmstirn
-FACE_TOP = (214.0, 146.0)  # A: Stirn oben unter dem Schirm (Ringspalt bis u 142 + 4 mm Lippe)
+BROW = (248.0, 150.0)    # A: Schirmspitze (Runde 3: Haube kragt über die Stirn vor wie ein Helmschirm; Runde 7: Scheitel vor, Schirm 10 mm tiefer)
+BROW_LOW = 140           # A: Unterkante der Schirmstirn; der Schirm fällt nach vorn wie ein Helmvisier
+FACE_TOP = (214.0, 146.0)  # A: Stirn oben unter dem Schirm (14 mm über dem Blendenkragen)
 CHIN = 56                # A: Unterkante der Stirn (Blende reicht unter den Lauf)
 RAIL_U = 150             # A: Schienenoberkante in der Visiergasse; Visierlinie 176 = 74 mm über der Laufachse (Vertrag 60–80)
 GASSE = 17.0             # A: halbe Breite der Visiergasse (34 mm; Glas 26 mm)
 SADDLE = (-58, 22)       # A: Sitz des Visiers am hinteren Ende der Gasse (f0, f1)
-MOUTH_R = BAR_R + 10     # A: Ringspalt der Blende (Negativraum) 10 mm breit
-MOUTH_D = 30             # A: Tiefe des Ringspalts
 BARREL = (170, 352)      # A: Lauf f0 (in der Haube) / f1
 MUZ = (346, 372)         # A: Mündungsring
-SLEEVE = (258, 326)      # A: Griffmanschette (Stützhand)
+GUARD = (240, 330)       # A: Handschutzkiel unter dem Lauf (Stützhand)
 MAG = (90, 200, -22)     # A: Magazin f0, f1, Boden u (zwei Granaten übereinander, Ø 42 + Wand); 7 mm vor dem Abzugsbügel (Runde 4)
 MAG_W = 52               # A: Magazinbreite
 PORT = (88, 150, 82, 116)   # A: Auswurffenster rechts (Hülse 40 mm)
@@ -122,8 +122,7 @@ P += [
     prof('hood', 'Panzerhaube', 'Mantlet hood', 'receiver', 'shell',
          'Schwere Haube über Verschluss und Kammer; Stirn als Blende um den Lauf, oben der Visiersattel',
          'Grundkörper; mit dem Unteren Gehäuse über zwei Querbolzen (fest)', HOOD, 2 * HALF, bevel=R_MID,
-         cuts=[dict(shape='cyl', axis='f', c=(BORE, 0), a0=FACE_TOP[0] - MOUTH_D, a1=H1 + 1, r=MOUTH_R, segs=48),   # Ringspalt der Blende
-               cut_box(*PORT, 24, x=-HALF),                                                          # Auswurffenster rechts
+         cuts=[cut_box(*PORT, 24, x=-HALF),                                                          # Auswurffenster rechts
                dict(shape='prof', pts=offset(_lamp, 3.5), w=6.0, x=HALF + 0.6),                      # Mulde der Ladeanzeige
                cut_box(-90, -30, 80, 104, 3.0, x=HALF + 0.6), cut_box(-90, -30, 80, 104, 3.0, x=-HALF - 0.6),   # Paneelmulden
                cut_box(SADDLE[0], SADDLE[1], RAIL_U - 8.6, 220, 2 * GASSE),                              # Visiersitz
@@ -149,9 +148,8 @@ P += [
          bevel=0.2, items=mirror(screws([(-84, 86), (-84, 98), (-36, 86), (-36, 98)], HALF - 0.2, r=1.6, h=0.8))),
     part('takedown_pins', 'Querbolzen', 'Takedown pins', 'receiver', 'multi', 'metal', 'Verbinden Haube und Unteres Gehäuse',
          'quer durch das Untere Gehäuse (lösbar)', bevel=0.4, items=mirror(screws([(H0 + 16, 62), (MAG[1] + 2, 66)], HALF - 1, r=3.6, h=1.0))),
-    cyl('mouth_ring', 'Blendenring', 'Mantlet ring', 'barrel', 'anodized', 'Grund des Ringspalts; führt den Lauf in der Blende',
-        'im Ringspalt verschraubt', 'f', (BORE, 0), FACE_TOP[0] - MOUTH_D - 1, FACE_TOP[0] - MOUTH_D + 5, MOUTH_R + 0.5, r_in=BAR_R - 0.5, segs=48,
-        bevel=0.6, smooth=True),
+    cyl('mouth_ring', 'Blendenkragen', 'Mantlet collar', 'barrel', 'anodized', 'Fasst den Lauf in der Haubenstirn',
+        'in die Stirn geschraubt', 'f', (BORE, 0), FACE_TOP[0] - 4, H1 + 3, BAR_R + 3.5, r_in=BAR_R - 0.5, segs=48, bevel=0.8, smooth=True),
     box('bolt', 'Verschluss', 'Bolt', 'mechanism', 'metal', 'Lädt die Granate aus dem Magazin; läuft beim Schuss zurück',
         'in der Haube geführt', PORT[0] - 50, PORT[1] - 2, 86, 112, 40, bevel=R_SMALL,
         move=dict(kind='translate', pivot=((PORT[0] + PORT[1]) / 2, BORE, 0), vector_mm=(-56, 0, 0), event='fire',
@@ -198,14 +196,15 @@ P += [
 P += [
     cyl('barrel', 'Abschusslauf', 'Launch tube', 'barrel', 'graphite', 'Kurzer dicker Lauf; tritt aus der Blende',
         'in der Haube verschraubt', 'f', (BORE, 0), BARREL[0], BARREL[1], BAR_R, r_in=CH_R, segs=48, bevel=R_SMALL, smooth=True),
-    cyl('forend', 'Griffmanschette', 'Grip sleeve', 'support', 'rubber', 'Rutschfeste Manschette für die Stützhand',
-        'auf den Lauf gezogen', 'f', (BORE, 0), SLEEVE[0], SLEEVE[1], BAR_R + 3.5, r_in=BAR_R - 0.5, segs=48, bevel=R_SMALL, smooth=True),
-    cyl('hand_stop', 'Handstopp', 'Hand stop', 'support', 'anodized', 'Ring vor der Manschette; hält die Stützhand',
-        'auf den Lauf geklemmt', 'f', (BORE, 0), SLEEVE[1], SLEEVE[1] + 8, BAR_R + 6, r_in=BAR_R - 0.5, segs=48, bevel=R_SMALL, smooth=True),
-    cyl('muzzle', 'Mündungsring', 'Muzzle ring', 'barrel', 'anodized', 'Verstärkt die Mündung; Stufenkrone',
-        'auf das Laufende geschraubt', 'f', (BORE, 0), MUZ[0], MUZ[1] - 8, BAR_R + 4, r_in=CH_R, segs=48, bevel=R_SMALL, smooth=True),
-    cyl('muzzle_step', 'Mündungsstufe', 'Muzzle step', 'barrel', 'anodized', 'Zweite Stufe der Krone', 'vorn am Mündungsring',
-        'f', (BORE, 0), MUZ[1] - 8, MUZ[1] - 1, BAR_R + 1, r_in=CH_R, segs=48, bevel=R_SMALL, smooth=True),
+    prof('forend', 'Handschutzkiel', 'Handguard keel', 'support', 'graphite', 'Flacher Kiel unter dem Lauf für die Stützhand',
+         'unter den Lauf geschraubt', [(GUARD[0], BORE - BAR_R + 4), (GUARD[1], BORE - BAR_R + 4), (GUARD[1], BORE - BAR_R - 12),
+                                     (GUARD[1] - 6, BORE - BAR_R - 18), (GUARD[0] + 10, BORE - BAR_R - 14), (GUARD[0], BORE - BAR_R - 6)], 36,
+         bevel=R_MID),
+    prof('forend_pad', 'Griffpolster', 'Grip pad', 'support', 'rubber', 'Rutschfeste Unterseite des Kiels', 'unten auf den Kiel geklebt',
+         [(GUARD[0] + 14, BORE - BAR_R - 12), (GUARD[1] - 12, BORE - BAR_R - 14.5), (GUARD[1] - 12, BORE - BAR_R - 18),
+          (GUARD[0] + 14, BORE - BAR_R - 16)], 28, bevel=R_SMALL),
+    cyl('muzzle', 'Mündungsring', 'Muzzle ring', 'barrel', 'anodized', 'Verstärkt die Mündung; vorn gefast',
+        'auf das Laufende geschraubt', 'f', (BORE, 0), MUZ[0], MUZ[1] - 1, BAR_R + 5, r_in=CH_R, segs=48, bevel=R_MID, smooth=True),
     cyl('muzzle_crown', 'Mündungskrone', 'Muzzle crown', 'barrel', 'trim', 'Blanke Stirnkante um die Bohrung', 'vorn an der Mündungsstufe',
         'f', (BORE, 0), MUZ[1] - 2, MUZ[1] + 2, BAR_R - 2, r_in=CH_R + 0.5, segs=48, bevel=0.5, smooth=True),
 ]
@@ -218,10 +217,7 @@ _HW = HALF - 12             # A: halbe Kolbenbreite (40 mm). Runde 4: Kolben gan
 P += [
     prof('stock', 'Kolben', 'Stock', 'stock', 'graphite', 'Schulterstütze mit Kamm als Wangenauflage; Unterlinie fällt zur Schulter',
          'mit zwei Bolzen an die Haube (fest)', [(_S0 + 1, 54), (_S0 + 1, hood_top(_S0) - 2), (_S0 - 30, _COMB), (_SB, _COMB - 4),
-                                                   (_SB, 24), (_SB + 26, 26), (_S0 - 36, 58)], 2 * _HW, bevel=R_MID,
-         cuts=[dict(shape='prof', pts=[(_S0 - 34, 92), (_SB + 24, 98), (_SB + 30, 56), (_S0 - 44, 66)], w=2 * _HW + 2)]),   # Daumenmulde
-    prof('stock_web', 'Kolbensteg', 'Stock web', 'stock', 'graphite', 'Mittelsteg in der Daumenmulde (hält die Form)',
-         'im Kolben angeformt', [(_S0 - 34, 92), (_SB + 24, 98), (_SB + 30, 56), (_S0 - 44, 66)], 2 * _HW - 12, bevel=R_SMALL),
+                                                   (_SB, 24), (_SB + 26, 26), (_S0 - 36, 58)], 2 * _HW, bevel=R_MID),   # Runde 7: ohne Mulde
     prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter', 'auf das Kolbenende gesteckt',
          [(_SB + 1, 24), (_SB + 1, _COMB - 4), (_SB - 6, _COMB - 6), (_SB - 10, _COMB - 14), (_SB - 10, 32), (_SB - 6, 25)], 2 * _HW + 2,
          bevel=R_MID),
@@ -231,10 +227,10 @@ P += [
 PARTS = P
 
 # ---------------------------------------------------------------- Anker, Weltpunkte, Aktionen
-_sup = ((SLEEVE[0] + SLEEVE[1]) / 2, BORE - BAR_R - 3.5, 0)
+_sup = ((GUARD[0] + GUARD[1]) / 2, BORE - BAR_R - 17, 0)
 ANCHORS = {
     'Socket_Hand': dict(at=(0, 0, 0), part='grip', note='Haupthand, auf der Griffachse (V: BGM-1)'),
-    'Socket_SupportHand': dict(at=_sup, part='forend', note='Unterseite der Griffmanschette'),
+    'Socket_SupportHand': dict(at=_sup, part='forend', note='Unterseite des Handschutzkiels'),
     'Socket_Muzzle': dict(at=(MUZ[1] + 2, BORE, 0), part='muzzle_crown', note='Stirn der Mündungskrone auf der Laufachse'),
     'Socket_LoadingGate': dict(at=((MAG[0] + MAG[1]) / 2, MAG[2], 0), part='magazine', note='Magazinboden; Magazin von unten einsetzen'),
 }
@@ -245,7 +241,7 @@ EGO_GRIPS = {
     'grip':    dict(contact=(-3, -6, -16.5), palm=(0.15, 0.0, 1.0), fingers=(1.0, -0.06, 0.0), fingers_pose='trigger',
                     src='V: Griff BGM-1 wie die Familie'),
     'support': dict(contact=(_sup[0], _sup[1] - 1.5, -2), palm=(0.0, 1.0, -0.25), fingers=(0.08, 0.15, -1.0), fingers_pose='underhand',
-                    src='A: unter der Griffmanschette des Laufs'),
+                    src='A: unter dem Handschutzkiel des Laufs'),
     'mag':     dict(part='magazine', contact=((MAG[0] + MAG[1]) / 2, 20, MAG_W / 2 + 0.5), palm=(0.0, 0.0, -1.0), fingers=(1.0, 0.2, 0.0),
                     fingers_pose='mag_hold', src='A: links am Kastenmagazin, Hand greift von links unten'),
     'gate':    dict(contact=(MAG[1] - 6, 52, MAG_W / 2 + 7.5), palm=(0.0, 0.0, -1.0), fingers=(0.45, 0.9, 0.0), fingers_pose='pinch',

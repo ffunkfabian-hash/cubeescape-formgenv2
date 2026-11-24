@@ -5,7 +5,7 @@ Familienschnittstellen, Budgets des Stilhandbuchs (genau ein Blickfang links au�
 Schrift, ein Grafikelement), Visierlinie (Kimme/Korn wie BASIC-08, Holo im Vertrag 60–80 mm), Schrift auf ebener Fläche, Seiten-IoU
 < 0,85 gegen den eigenen BASIC-Typ, gegen jedes andere EXTENDED-Modell und gegeneinander (Rahmen aus den Hüllen beider Modelle), die
 Leitmotive (Brille: zwei Läufe nebeneinander mit offenem Brillenspalt, Wülste im Querschnitt, Zwillingsauge, Schiebemantel; Panzerhaube:
-Helmwölbung mit Schirm, Visiergasse, Ringspalt der Blende, Kastenmagazin statt Trommel, Ladeanzeige in Geschossform), die Absetzung der
+Helmwölbung mit Schirm, Visiergasse als Kanal durch die Wölbung, Kastenmagazin statt Trommel, Ladeanzeige in Geschossform), die Absetzung der
 beiden Typen, Zusammenhang, Länge und Quellhash. Jede Regelprüfung hat eine Gegenprobe, die aus dem erwarteten Grund rot wird; Felder,
 Quellhash und Snapshot-Freigabe sind Bestandsprüfungen.
 """
@@ -215,9 +215,7 @@ class TestStreuung(unittest.TestCase):
                 P = d["PARTS"]
                 self.assertEqual(len(lights(P)), 1, f"genau ein Blickfang außerhalb des Visiers: {lights(P)}")
                 glow = self.ids[k][lights(P)[0]]
-                xs = [q.get("x", 0) for q in glow.get("items", [glow])] if glow["shape"] == "multi" else [glow["x"]]
-                xs = [q["a0"] for q in glow["items"]] if glow["shape"] == "multi" else xs
-                self.assertGreater(min(xs), 0, "Blickfang links (Ego-Seite)")
+                self.assertGreater(extended.bounds(glow)[0][2], 0, "Blickfang ganz links (Ego-Seite)")
                 self.assertLessEqual(len(accent_functions(P)), 3, accent_functions(P))
                 self.assertEqual([p["id"] for p in P if p["shape"] == "text"], ["text_r"])
                 self.assertEqual(len(graphics(P)), 1, graphics(P))
@@ -232,6 +230,9 @@ class TestStreuung(unittest.TestCase):
         b08 = height(self.basic["e08"])
         self.assertLessEqual(abs(height(self.data["e08"]) - b08), IRON_TOL, "Kimme/Korn wie BASIC-08")
         self.assertEqual(self.data["e08"]["ANCHORS"]["Socket_Eye"]["sight_type"], "iron")
+        low = copy.deepcopy(self.data["e08"])   # Gegenprobe: Kimme 10 mm tiefer weicht von BASIC-08 ab
+        low["ANCHORS"]["Socket_Eye"]["at"] = tuple(v - (10 if i == 1 else 0) for i, v in enumerate(low["ANCHORS"]["Socket_Eye"]["at"]))
+        self.assertGreater(abs(height(low) - b08), IRON_TOL)
         self.assertTrue(HOLO_RANGE[0] <= height(self.data["e13"]) <= HOLO_RANGE[1], height(self.data["e13"]))
         raised = copy.deepcopy(self.data["e13"])   # Gegenprobe: Visier 20 mm höher liegt außerhalb des Vertrags
         raised["ANCHORS"]["Socket_Eye"]["at"] = tuple(v + (20 if i == 1 else 0) for i, v in enumerate(raised["ANCHORS"]["Socket_Eye"]["at"]))
@@ -342,19 +343,26 @@ class TestStreuung(unittest.TestCase):
 
     # ---------------------------------------------------------------- Leitmotiv Panzerhaube (E13)
     def test_mantlet_hood(self):
-        """Helmwölbung: die Haube steigt ≥ 40 mm vom Kolben zum Scheitel, fällt vorn in den Schirm, der über die Stirn kragt."""
+        """Helmwölbung: die Haube steigt ≥ 40 mm vom Kolben zum Scheitel, fällt ≥ 15 mm in den Schirm, der über die Stirn kragt."""
         c = self.consts["e13"]
-        top = c["hood_top"]
-        rise, drop = top(c["APEX"][0]) - top(c["H0"]), top(c["APEX"][0]) - top(c["BROW"][0])
-        self.assertGreaterEqual(rise, 40.0)
-        self.assertGreaterEqual(drop, 15.0)
+
+        def problems(top):
+            out = []
+            if top(c["APEX"][0]) - top(c["H0"]) < 40.0:
+                out.append("kein Anstieg")
+            if top(c["APEX"][0]) - top(c["BROW"][0]) < 15.0:
+                out.append("vorn flach")
+            if top(c["H0"] + 40) - top(c["H0"]) < 0.5 * (top(c["APEX"][0]) - top(c["H0"])):
+                out.append("Rücken gerade statt gewölbt")
+            return out
+        self.assertEqual(problems(c["hood_top"]), [])
         self.assertGreaterEqual(c["BROW"][0] - c["FACE_TOP"][0], 20.0, "Schirm kragt über die Stirn")
-        self.assertGreater(c["BROW"][1], c["BORE"] + c["BAR_R"] + 10, "Schirm liegt über dem Lauf")
+        self.assertGreater(c["BROW_LOW"], c["BORE"] + c["BAR_R"] + 8, "Schirm liegt über dem Lauf")
         hood = self.ids["e13"]["hood"]
-        self.assertAlmostEqual(max(u for _, u in hood["pts"]), top(c["APEX"][0]), delta=0.5, msg="Scheitel ist der höchste Punkt der Haube")
-        self.assertLess(top(c["H0"] + 40) - top(c["H0"]), rise, "Rücken gewölbt, nicht gerade")
-        flat = lambda f: c["APEX"][1]   # noqa: E731  Gegenprobe: flacher Deckel ohne Wölbung
-        self.assertLess(flat(c["APEX"][0]) - flat(c["H0"]), 40.0)
+        self.assertAlmostEqual(max(u for _, u in hood["pts"]), c["hood_top"](c["APEX"][0]), delta=0.5, msg="Scheitel ist der höchste Punkt")
+        self.assertEqual(problems(lambda f: 150.0), ["kein Anstieg", "vorn flach"])   # Gegenprobe: flacher Deckel
+        ramp = lambda f: 120 + 56 * min(1.0, max(0.0, (f - c["H0"]) / (c["APEX"][0] - c["H0"])))   # noqa: E731  Gegenprobe: Rampe
+        self.assertEqual(problems(ramp), ["vorn flach", "Rücken gerade statt gewölbt"])
 
     def test_mantlet_sight_channel(self):
         """Visiergasse: vor dem Glas ragt kein Teil in den Sichtkanal (Glasbreite), obwohl die Haubenflanken bis zur Linie reichen."""
@@ -384,37 +392,51 @@ class TestStreuung(unittest.TestCase):
         post = dict(id="pfosten", asm="receiver", shape="box", f0=100, f1=110, u0=150, u1=180, w=6)
         self.assertEqual(problems(self.data["e13"]["PARTS"] + [post], ids["hood"]["cuts"]), ["pfosten"])   # Gegenprobe: Pfosten im Kanal
 
-    def test_mantlet_ring_gap(self):
-        """Ringspalt der Blende: der Lauf tritt aus einem Schnitt, der ringsum ≥ 10 mm weiter und ≥ 20 mm tief ist."""
-        c, ids = self.consts["e13"], self.ids["e13"]
+    def test_mantlet_channel_depth(self):
+        """Visiergasse als Negativraum: ein Kanal ≥ 10 mm tief durch die Wölbung, ≥ 30 mm breit, vom Visiersitz bis vor den Schirm offen."""
+        c = self.consts["e13"]
 
-        def gap(hood, barrel):
-            mouth = [q for q in hood["cuts"] if q.get("shape") == "cyl" and q["axis"] == "f" and q["c"][0] == c["BORE"]]
-            if not mouth:
-                return 0.0, 0.0
-            q = mouth[0]
-            return q["r"] - barrel["r"], min(q["a1"], c["H1"]) - q["a0"]
-        width, depth = gap(ids["hood"], ids["barrel"])
-        self.assertGreaterEqual(width, GAP_MIN)
-        self.assertGreaterEqual(depth, 20.0)
-        self.assertGreater(ids["barrel"]["a1"], c["BROW"][0] + 60, "Lauf ragt deutlich vor den Schirm")
-        self.assertLess(gap(ids["hood"], dict(ids["barrel"], r=c["MOUTH_R"] - 2))[0], GAP_MIN)   # Gegenprobe: Lauf füllt den Spalt
+        def problems(floor, half, f1):
+            out = []
+            if c["hood_top"](c["APEX"][0]) - floor < 10.0:
+                out.append("zu flach")
+            if 2 * half < 30.0:
+                out.append("zu schmal")
+            if f1 < c["BROW"][0]:
+                out.append("endet in der Haube")
+            return out
+        gasse = [q for q in self.ids["e13"]["hood"]["cuts"] if q.get("shape", "box") == "box" and q["u0"] >= c["GASSE_FLOOR"] - 1]
+        self.assertEqual(len(gasse), 1)
+        g = gasse[0]
+        self.assertEqual(problems(g["u0"], g["w"] / 2, g["f1"]), [])
+        self.assertLessEqual(c["BROW"][1], g["u0"], "die Schirmstirn bleibt ganz (Gasse darüber)")
+        self.assertEqual(problems(c["hood_top"](c["APEX"][0]) - 4, g["w"] / 2, g["f1"]), ["zu flach"])   # Gegenprobe: Rille statt Gasse
+        self.assertEqual(problems(g["u0"], g["w"] / 2, c["APEX"][0] + 40), ["endet in der Haube"])        # Gegenprobe: Sackgasse
 
     def test_mantlet_box_magazine(self):
         """Kastenmagazin unter der Haube vor dem Abzugsbügel, nach unten zu wechseln – keine Trommel (BASIC-13 längs, EA15 quer)."""
         ids, c = self.ids["e13"], self.consts["e13"]
-        mag = ids["magazine"]
-        self.assertEqual(mag["shape"], "prof")
-        self.assertNotIn("drum", ids)
-        self.assertFalse([p["id"] for p in self.data["e13"]["PARTS"] if p["shape"] == "cyl" and p.get("axis") == "x" and p["r"] > 40],
-                         "keine Quertrommel")
         guard_f1 = max(q[0] for q in ids["trigger_guard"]["pts"])
-        self.assertGreater(min(q[0] for q in mag["pts"]), guard_f1, "vor dem Abzugsbügel")
-        self.assertEqual(mag["move"]["vector_mm"][0], 0)
-        self.assertLess(mag["move"]["vector_mm"][1], -80, "nach unten heraus")
-        drum = dict(mag, shape="cyl", axis="f", c=(66, 0), a0=98, a1=206, r=70)   # Gegenprobe: Trommel wie BASIC-13
-        self.assertNotEqual(drum["shape"], "prof")
-        lamp = ids["chamber_lamp"]["pts"]   # Ladeanzeige in Geschossform: eine Spitze vorn auf halber Höhe
+
+        def problems(parts):
+            pid = {p["id"]: p for p in parts}
+            mag, out = pid["magazine"], []
+            if mag["shape"] != "prof":
+                out.append("kein Kastenmagazin")
+            elif min(q[0] for q in mag["pts"]) <= guard_f1:
+                out.append("im Abzugsbügel")
+            if mag["move"]["vector_mm"][0] != 0 or mag["move"]["vector_mm"][1] > -80:
+                out.append("nicht nach unten")
+            if [p["id"] for p in parts if p["shape"] == "cyl" and p.get("axis") in ("x", "f") and p["r"] >= 60]:
+                out.append("Trommel")
+            return out
+        P = self.data["e13"]["PARTS"]
+        self.assertEqual(problems(P), [])
+        shifted = [dict(p, pts=[(f - 30, u) for f, u in p["pts"]]) if p["id"] == "magazine" else p for p in P]
+        self.assertEqual(problems(shifted), ["im Abzugsbügel"])              # Gegenprobe: Magazin 30 mm zurück (Runde 4)
+        drum = dict(id="drum", asm="ammo", shape="cyl", axis="f", c=(66, 0), a0=98, a1=206, r=70)
+        self.assertEqual(problems(P + [drum]), ["Trommel"])                   # Gegenprobe: Trommel wie BASIC-13
+        lamp = ids["chamber_lamp"]["pts"]   # Ladeanzeige in Geschossform: eine Spitze vorn auf halber Höhe, hinten gerade
         tip = max(lamp, key=lambda q: q[0])
         self.assertAlmostEqual(tip[1], c["LAMP"][2], delta=0.5)
         self.assertEqual(sum(1 for q in lamp if q[0] > tip[0] - 0.5), 1)
