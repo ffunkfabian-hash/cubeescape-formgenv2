@@ -218,7 +218,7 @@ class KitModelTests(unittest.TestCase):
                     "Socket_Eye": ("sight_frame", [-59.6, 166, 0]),
                     "Socket_Sight": ("sight_body", [-9, 166, 0]),
                     "Socket_Reticle": ("sight_glass", [30.4, 166, 0]),
-                    "Socket_Charge": ("charging_handle", [133, 77, 38]),
+                    "Socket_Charge": ("charging_handle", [133, 77, 26.1]),
                     "Socket_MagWell": ("keel", [98, 39, 0])}
         for name, (part, at) in expected.items():
             self.assertEqual(anchors[name]["part"], part)

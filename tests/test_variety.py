@@ -98,6 +98,15 @@ class KitTests(unittest.TestCase):
                 self.assertTrue(hits, (x, y))
                 self.assertAlmostEqual(hits[0].position[2], hi[2])
 
+    def test_trestle_width_matches_basic_01_including_kit(self):
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        bounds = np.asarray([part["bounds_m"] for part in parts])
+        extent_mm = 1000 * (bounds[:, 1].max(axis=0) - bounds[:, 0].min(axis=0))
+        # BA01-Spec: 52,2 mm über alle Teile. Länge und Höhe vom freigegebenen BT01.
+        np.testing.assert_allclose(extent_mm, [52.2, 704.24, 260.65], rtol=0, atol=0.1)
+
     def test_trestle_front_window_and_nameplate_have_depth(self):
         entry = variants.sheets()["BT01"]
         author, _ = generator.build(entry["variant"], entry["num"], SNAP)
