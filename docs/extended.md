@@ -543,4 +543,3 @@ und überlappte Lamellen, Detaildichte mindestens wie der BASIC-Pilot, seit Rund
 Höhe oder Einzugs-/Fasenschnitte mit Radius ≥ R_MID) und ein Kolben ohne angesetzten Kern, bündig aus der Haube, Flinte gegen Werfer (Länge, Bohrung, Pumpe gegen Magazin, gedrungen), Zusammenhang, Länge und Quellhash ohne BASIC-Piloten. Jede
 Regelprüfung hat eine Gegenprobe (z. B. Steg im Brillenspalt, volle Wange im Kolbenspalt, Blech statt Schirm, glatte Lamellen, ohne blanke Teile, abgeflachter Mantel, doppelter Hub, flacher Deckel, Gasse zu, Pfosten im
 Sichtkanal, Rille statt Gasse, Sackgasse). Der Magazintest fand in Runde 4 ein Magazin im Abzugsbügel, das im Render nicht auffiel.
-
