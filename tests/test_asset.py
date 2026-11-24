@@ -234,7 +234,7 @@ class KitModelTests(unittest.TestCase):
         from formgen.models.weapons import cairn, heron, swift, vesper
         # BT02 nach dem beauftragten Neuaufbau in 0.26, BT03–BT05 vor dem BASIC-Pass.
         # Die vollständige Geometrie bleibt je Modell über einen eigenen Hash abgesichert.
-        cases = (("BT02", vesper, "6cb14040a22384d6c34531721ddf7c4775cbd066f265a77857a8ab976fc7e3da",
+        cases = (("BT02", vesper, "a596719d30a894f3700723239d635fc36a847cca1e219893635c38740271499f",
                   "optic_hood", [-110.6, 161, 0]),
                  ("BT03", heron, "0d689a3648bb0d074b51ed55a298505e22ba576a93e0abbe3373f8db9874af17",
                   "rear_glass", [-123, 158, 0]),
@@ -282,6 +282,8 @@ class KitModelTests(unittest.TestCase):
         original = next(p for p in pilot["PARTS"] if p["id"] == "sight_reticle")
         mark = parts["sight_reticle"]
         self.assertEqual((mark["mat"], mark["drawn"]), (original["mat"], original["drawn"]))
+        expected_contours = [[[round(x, 6), round(y, 6)] for x, y in q["pts"]] for q in original["items"]]
+        self.assertEqual([[list(pt) for pt in q["pts"]] for q in mark["items"]], expected_contours)
         self.assertEqual(mark["parent_part"], "optic_pane")
         self.assertEqual([parts["optic_hood"][k] for k in ("ow", "oh", "iw", "ih")], [42, 31, 33, 22])
         eye, sight, reticle = [model["ANCHORS"][k] for k in ("Socket_Eye", "Socket_Sight", "Socket_Reticle")]

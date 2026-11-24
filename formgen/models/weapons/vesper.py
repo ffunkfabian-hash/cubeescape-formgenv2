@@ -120,7 +120,12 @@ def build(snap=None):
         from basic.reticles import SIGHT
         relief_mm = SIGHT['types']['reflex']['eye_relief_mm']
         eye_f = reticle_f - relief_mm
-        parts.append(drawn_reticle(glass_face, level, 'pulse_rifle', glass_face-eye_f, parent='optic_pane'))
+        mark = drawn_reticle(glass_face, level, 'pulse_rifle', glass_face-eye_f, parent='optic_pane')
+    # Die HUD-Kontur enthält trigonometrische Werte aus BALLON. Auf ein Nanometer
+    # im mm-Modell runden, damit libm-Unterschiede keine Modellbytes verändern.
+    for primitive in mark['items']:
+        primitive['pts'] = [(round(x, 6) or 0.0, round(y, 6) or 0.0) for x, y in primitive['pts']]
+    parts.append(mark)
 
     anchors = dict(Socket_Hand=('handle',[-20,23,0]), Socket_SupportHand=('chin',[165,35,0]),
                    Socket_Muzzle=('front_trace_1',[381.8,81,0]),
