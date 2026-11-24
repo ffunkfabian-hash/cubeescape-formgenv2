@@ -699,10 +699,8 @@ def vary(data, variant, num, snap=None):
                 geometry = design.build()
         elif num == "02":
             geometry = vesper.build(snap=snap)
-        elif num in ("03", "04"):
-            geometry = design.build(pilot=data)
         else:
-            geometry = design.build()
+            geometry = design.build(pilot=data)
         model["PARTS"], model["ANCHORS"], model["POINTS"] = geometry
         # Gleicher Ursprung wie die übrigen Spielmodelle: Mitte der hinteren Hand.
         hand = model["ANCHORS"]["Socket_Hand"]["at"][:]
@@ -764,7 +762,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "02": "Offener Heckrahmen und drei getrennte Impulssegmente mit je einem leuchtenden Fenster.",
             "03": "Offene Heckwange, lange helle Gabel und das tropfenförmige Originalvisier von BASIC-03.",
             "04": "Zwei helle Keramiklagen fassen eine dunkle Fuge ein. Seitlich sitzt ein facettiertes Medaillon, oben die offene Visierung von BASIC-04.",
-            "05": "Eine federförmige Keilschale und eine offene Ferse prägen den flachen Seitenriss.",
+            "05": "Eine helle Feder zieht sich zur kompakten Front. Die offene Ferse und die niedrige Visierung von BASIC-05 prägen die Silhouette.",
         }
         info["summary"] = summaries.get(num, variant["idea"])
     parts = []

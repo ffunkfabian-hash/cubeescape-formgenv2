@@ -232,7 +232,7 @@ class KitModelTests(unittest.TestCase):
 
     def test_trestle_family_keeps_its_geometry_and_existing_anchors(self):
         from formgen.models.weapons import cairn, heron, swift, vesper
-        # Nutzer-Neubauten BT03 (0.27) und BT04 (0.29): Außenform einfrieren,
+        # Nutzer-Neubauten BT03 (0.27), BT04 (0.29) und BT05 (0.31): Außenform einfrieren,
         # die vollständige Visierung separat mit dem jeweiligen BASIC-Piloten vergleichen.
         cases = (("BT02", vesper, "7729de5c3a94ec44c1d80dfbd3505c11cfff89b0d6d3fcab836b4381aba45d35",
                   "sight_frame", [-109.6, 161, 0]),
@@ -240,12 +240,12 @@ class KitModelTests(unittest.TestCase):
                   "scope_objective", [-18.0, 161, 0]),
                  ("BT04", cairn, "f0ef311a1ef3aaf009cae29497667a9cbb55d06b4732bd45d7dae51e64c8f413",
                   "sight_rear", [-70, 103, 0]),
-                 ("BT05", swift, "5db7f8d754ca498b21d13eebb67722facce20c81f2db3f5090632d64397f7a87",
-                  "eye_tile", [-42, 100, 0]))
+                 ("BT05", swift, "38f5497b02477a6ab344516c768c03b4127cdac04d76afc47e1cc3c84ef50f5c",
+                  "sight_rear", [-82, 103, 0]))
         for sid, design, digest, eye_part, eye_at in cases:
             with self.subTest(sid=sid):
                 parts, anchors, points = design.build()
-                frozen = [p for p in parts if p["asm"] != "sight"] if sid in ("BT03", "BT04") else parts
+                frozen = [p for p in parts if p["asm"] != "sight"] if sid in ("BT03", "BT04", "BT05") else parts
                 geometry = [{k: v for k, v in p.items() if k not in ("de", "en", "func", "attach")} for p in frozen]
                 self.assertEqual(hashlib.sha256(canonical(geometry)).hexdigest(), digest)
                 self.assertEqual(anchors["Socket_Eye"]["part"], eye_part)
@@ -337,7 +337,17 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual(exported["ANCHORS"]["Socket_Eye"]["sight_type"], "scope")
 
     def test_cairn_exports_the_complete_basic_04_open_sight(self):
-        pilot, model = kit_model("BT04")
+        self.check_open_sight("BT04")
+
+    def test_swift_exports_the_complete_basic_05_open_sight(self):
+        self.check_open_sight("BT05")
+        pilot, model = kit_model("BT05")
+        self.assertEqual(model["ANCHORS"]["Socket_Muzzle"]["at"][1], pilot["ANCHORS"]["Socket_Muzzle"]["at"][1])
+        self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
+        self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
+
+    def check_open_sight(self, sid):
+        pilot, model = kit_model(sid)
         original = [part for part in pilot["PARTS"] if part["asm"] == "sight"]
         self.assertEqual({part["id"] for part in original},
                          {"sight_mount", "sight_clamp", "sight_rear", "sight_status",

@@ -1,6 +1,5 @@
 """Cairn (BT04), statische Außenform. Schichtkonturen und Relief sind Formannahmen."""
 
-from copy import deepcopy
 from math import cos, radians, sin
 
 from ... import ballon
@@ -115,15 +114,10 @@ def build(pilot=None):
     s.inlay('heel_inset', 'grip_controls', 'anodized', 'Flacher Griffindex',
             [(-21,-34),(-6,-29),(-8,-33),(-22,-38)], 16.9, 17.65, .35)
 
-    s.parts.extend(deepcopy(p) for p in pilot['PARTS'] if p['asm'] == 'sight')
     refs = {'Socket_Hand': ('grip_cast', [0,0,0]), 'Socket_SupportHand': ('grip_panel_l', [-4,-34,17]),
             'Socket_MagWell': ('coin_l', [72,62,22.415]),
             'Socket_Muzzle': ('nose_glaze', [269,68,0])}
     points = {'grip.grip': refs['Socket_Hand'], 'grip.support': refs['Socket_SupportHand'],
               'grip.mag': refs['Socket_MagWell'], 'grip.charge': ('rear_stone', [-15,71,18]),
               'eject': ('core', [39,59,-17])}
-    parts, anchors, points = s.finish(refs, points)
-    for key in ('Socket_Eye', 'Socket_Sight', 'Socket_Reticle'):
-        anchors[key] = deepcopy(pilot['ANCHORS'][key])
-        anchors[key]['at'] = list(anchors[key]['at'])
-    return parts, anchors, points
+    return s.finish_with_open_sight(refs, points, pilot)

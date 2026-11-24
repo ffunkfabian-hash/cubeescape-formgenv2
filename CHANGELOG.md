@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.31.0 Pinion — Swift
+
+- Swift (BT05) erhält eine helle Federkontur, 33,50 mm Gesamtbreite und die offene Visierung von BASIC-05. [Versionsbericht](docs/versions/0.31.md)
+
 ## 0.30.0 Imprint — Ladesiegel
 
 - Cairns linkes Medaillon trägt einen animierten Lichtring und das Prägezeichen. Der GLB-Clip und die abbrechbare Nachladevorschau im Viewer verwenden denselben Übergabezeitpunkt. [Versionsbericht](docs/versions/0.30.md)

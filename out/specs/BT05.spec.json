@@ -1,10 +1,10 @@
 {
  "anchors": {
   "Socket_Eye": {
-   "part": "eye_tile",
+   "part": "sight_rear",
    "position_mm": [
-    -5.0,
-    82.0,
+    -82.0,
+    103.0,
     0.0
    ]
   },
@@ -16,20 +16,44 @@
     0.0
    ]
   },
-  "Socket_Muzzle": {
-   "part": "tip_tile",
+  "Socket_MagWell": {
+   "part": "heel_tip",
    "position_mm": [
-    192.0,
-    45.0,
+    -31.0,
+    -60.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "tip_inset",
+   "position_mm": [
+    200.0,
+    74.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    184.0,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_rear",
+   "position_mm": [
+    -12.0,
+    103.0,
     0.0
    ]
   },
   "Socket_SupportHand": {
-   "part": "grip_arch",
+   "part": "palm_wing_l",
    "position_mm": [
-    -1.0,
-    1.0,
-    0.0
+    -13.0,
+    -12.0,
+    16.75
    ]
   }
  },
@@ -99,24 +123,25 @@
   },
   "variant": {
    "accent_functions": [
-    "Keilmarkierung"
+    "Doppelfeder am Heck",
+    "Spannt den Fuß"
    ],
    "hand_roles": {
     "Socket_Hand": "graphite",
-    "Socket_SupportHand": "graphite"
+    "Socket_SupportHand": "rubber"
    },
-   "sight_line_mm": 37
+   "sight_line_mm": 29.0
   }
  },
  "counts": {
   "assemblies": 5,
-  "parts": 26,
-  "triangles": 10208
+  "parts": 29,
+  "triangles": 10404
  },
  "dimensions_mm": {
-  "height": 151.96,
-  "length": 240.14,
-  "width": 37.6
+  "height": 167.0,
+  "length": 254.86,
+  "width": 33.5
  },
  "format": "formgenv2/weapon-sheet-spec",
  "format_version": 4,
@@ -150,108 +175,156 @@
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     -43.41,
-     24.49
+     -54.53,
+     26.64
     ],
     "u": [
-     -61.73,
-     43.73
+     -60.94,
+     53.86
+    ],
+    "x": [
+     -13.5,
+     13.5
+    ]
+   },
+   "id": "grip_arch",
+   "moving": false,
+   "name_de": "Gefalteter Griffkern",
+   "name_en": "grip arch",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 976
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -47.6,
+     8.61
+    ],
+    "u": [
+     -54.0,
+     42.71
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "grip_cheek",
+   "moving": false,
+   "name_de": "Heller Saum um die offene Ferse",
+   "name_en": "grip cheek",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 1136
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -27.72,
+     5.81
+    ],
+    "u": [
+     -26.56,
+     31.77
+    ],
+    "x": [
+     14.7,
+     16.75
+    ]
+   },
+   "id": "palm_wing_l",
+   "moving": false,
+   "name_de": "Dunkle federförmige Griffwange",
+   "name_en": "palm wing l",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 360
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -27.72,
+     5.81
+    ],
+    "u": [
+     -26.56,
+     31.77
+    ],
+    "x": [
+     -16.75,
+     -14.7
+    ]
+   },
+   "id": "palm_wing_r",
+   "moving": false,
+   "name_de": "Dunkle federförmige Griffwange",
+   "name_en": "palm wing r",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 360
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -54.86,
+     -10.24
+    ],
+    "u": [
+     -62.0,
+     -46.56
     ],
     "x": [
      -14.5,
      14.5
     ]
    },
-   "id": "grip_arch",
-   "moving": false,
-   "name_de": "Gebogene Griffkontur",
-   "name_en": "grip arch",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 1024
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     -46.61,
-     4.83
-    ],
-    "u": [
-     -61.0,
-     28.68
-    ],
-    "x": [
-     -15.25,
-     15.25
-    ]
-   },
-   "id": "grip_cheek",
-   "moving": false,
-   "name_de": "Durchbrochene helle Ferse",
-   "name_en": "grip cheek",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 944
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     -47.74,
-     -10.5
-    ],
-    "u": [
-     -63.96,
-     -54.43
-    ],
-    "x": [
-     -15.75,
-     15.75
-    ]
-   },
    "id": "heel_tip",
    "moving": false,
-   "name_de": "Schmaler Fersenabschluss",
+   "name_de": "Abgesetzte Fersenspitze",
    "name_en": "heel tip",
-   "role": "dark_metal",
+   "role": "anodized",
    "shape": "prof",
-   "triangles": 524
+   "triangles": 548
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     8.0,
-     60.59
+     15.34,
+     61.77
     ],
     "u": [
-     -5.0,
-     28.47
+     5.0,
+     42.58
     ],
     "x": [
-     -6.0,
-     6.0
+     -5.5,
+     5.5
     ]
    },
    "id": "bow",
    "moving": false,
-   "name_de": "Schlanker offener Bogen",
+   "name_de": "Schmaler Griffbogen",
    "name_en": "bow",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 560
+   "triangles": 656
   },
   {
    "assembly": "grip_controls",
    "extent_mm": {
     "f": [
-     24.06,
-     35.65
+     28.11,
+     37.58
     ],
     "u": [
-     12.19,
-     34.81
+     24.0,
+     43.76
     ],
     "x": [
      -4.0,
@@ -260,151 +333,127 @@
    },
    "id": "inner_mark",
    "moving": false,
-   "name_de": "Geschwungene Innenzunge",
+   "name_de": "Innenmarke",
    "name_en": "inner mark",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 512
+   "triangles": 500
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -38.22,
-     169.65
+     -38.54,
+     197.0
     ],
     "u": [
-     22.0,
-     63.0
+     34.08,
+     87.76
     ],
     "x": [
-     -15.0,
-     15.0
+     -13.9,
+     13.9
     ]
    },
    "id": "keel",
    "moving": false,
-   "name_de": "Durchgehender Gehäusekiel",
+   "name_de": "Dunkler Rumpf mit ansteigender Unterkante",
    "name_en": "keel",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 444
+   "triangles": 620
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -45.21,
-     68.32
+     -39.45,
+     117.64
     ],
     "u": [
-     35.0,
-     71.0
+     56.49,
+     92.0
     ],
     "x": [
-     -17.0,
-     17.0
+     -15.6,
+     15.6
     ]
    },
-   "id": "rear_fold",
+   "id": "slide",
    "moving": false,
-   "name_de": "Nach hinten gezogene Hauptschale",
-   "name_en": "rear fold",
+   "name_de": "Helle Schulter mit rückwärts gezogenem Zipfel",
+   "name_en": "slide",
    "role": "shell",
    "shape": "prof",
-   "triangles": 464
+   "triangles": 704
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     69.49,
-     186.95
+     58.88,
+     197.38
     ],
     "u": [
-     39.0,
-     66.0
+     57.34,
+     92.0
     ],
     "x": [
-     -17.5,
-     17.5
+     -14.4,
+     14.4
     ]
    },
-   "id": "fore_fold",
+   "id": "quill",
    "moving": false,
-   "name_de": "Spitz auslaufende Vorderwange",
-   "name_en": "fore fold",
+   "name_de": "Lange helle Feder an der Front",
+   "name_en": "quill",
    "role": "shell",
    "shape": "prof",
-   "triangles": 412
+   "triangles": 548
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     66.44,
-     186.59
+     62.88,
+     190.83
     ],
     "u": [
-     28.0,
-     44.37
+     46.0,
+     69.51
     ],
     "x": [
-     -12.5,
-     12.5
+     -11.0,
+     11.0
     ]
    },
-   "id": "chin",
+   "id": "ventral",
    "moving": false,
-   "name_de": "Lange schmale Unterkante",
-   "name_en": "chin",
+   "name_de": "Schmale dunkle Gegenkante",
+   "name_en": "ventral",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 524
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     176.0,
-     190.0
-    ],
-    "u": [
-     37.0,
-     53.0
-    ],
-    "x": [
-     -13.0,
-     13.0
-    ]
-   },
-   "id": "tip_shadow",
-   "moving": false,
-   "name_de": "Eingefasste Spitze",
-   "name_en": "tip shadow",
-   "role": "graphite",
-   "shape": "xprof",
-   "triangles": 284
+   "triangles": 404
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
      188.0,
-     192.0
+     199.0
     ],
     "u": [
-     38.5,
-     51.5
+     65.5,
+     88.5
     ],
     "x": [
-     -11.5,
-     11.5
+     -12.0,
+     12.0
     ]
    },
    "id": "tip_tile",
    "moving": false,
-   "name_de": "Geschlossene Facettenspitze",
+   "name_de": "Geschlossene Stirnkachel",
    "name_en": "tip tile",
    "role": "dark_metal",
    "shape": "xprof",
@@ -414,191 +463,95 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     191.8,
-     192.4
+     198.0,
+     200.0
     ],
     "u": [
-     44.0,
-     46.0
+     69.0,
+     85.0
     ],
     "x": [
-     -5.0,
-     5.0
+     -8.5,
+     8.5
     ]
    },
-   "id": "tip_slash",
+   "id": "tip_inset",
    "moving": false,
-   "name_de": "Stirnindex",
-   "name_en": "tip slash",
-   "role": "energy",
+   "name_de": "Kleine Stirnfacette",
+   "name_en": "tip inset",
+   "role": "anodized",
    "shape": "xprof",
    "triangles": 284
   },
   {
-   "assembly": "sight",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -27.32,
-     10.35
+     -21.67,
+     12.62
     ],
     "u": [
-     62.22,
-     84.73
+     88.0,
+     92.2
     ],
     "x": [
-     -11.0,
-     11.0
+     -12.25,
+     12.25
     ]
    },
-   "id": "rear_pier",
+   "id": "aft_seat",
    "moving": false,
-   "name_de": "Rückwärtiger Bügelanstieg",
-   "name_en": "rear pier",
-   "role": "shell",
+   "name_de": "Dunkle hintere Deckkante",
+   "name_en": "aft seat",
+   "role": "dark_metal",
    "shape": "prof",
-   "triangles": 284
+   "triangles": 152
   },
   {
-   "assembly": "sight",
+   "assembly": "barrel",
    "extent_mm": {
     "f": [
-     49.56,
-     80.69
+     172.27,
+     195.71
     ],
     "u": [
-     64.0,
-     83.84
+     88.0,
+     92.2
     ],
     "x": [
-     -9.0,
-     9.0
+     -8.5,
+     8.5
     ]
    },
-   "id": "front_pier",
+   "id": "fore_seat",
    "moving": false,
-   "name_de": "Vorderer Bügelabschluss",
-   "name_en": "front pier",
-   "role": "anodized",
-   "shape": "prof",
-   "triangles": 428
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -12.39,
-     59.33
-    ],
-    "u": [
-     76.16,
-     88.0
-    ],
-    "x": [
-     -11.5,
-     11.5
-    ]
-   },
-   "id": "ribbon",
-   "moving": false,
-   "name_de": "Schwebende flache Visierkappe",
-   "name_en": "ribbon",
+   "name_de": "Dunkle vordere Deckkante",
+   "name_en": "fore seat",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 392
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -6.0,
-     -3.0
-    ],
-    "u": [
-     78.5,
-     85.5
-    ],
-    "x": [
-     -9.0,
-     9.0
-    ]
-   },
-   "id": "eye_tile",
-   "moving": false,
-   "name_de": "Getönte Sichtfläche",
-   "name_en": "eye tile",
-   "role": "glass",
-   "shape": "xprof",
-   "triangles": 284
+   "triangles": 152
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -29.85,
-     -17.15
+     -18.76,
+     29.73
     ],
     "u": [
-     51.09,
-     63.91
+     75.01,
+     85.99
     ],
     "x": [
-     16.8,
-     17.5
-    ]
-   },
-   "id": "mark_l",
-   "moving": false,
-   "name_de": "Keilmarkierung",
-   "name_en": "mark l",
-   "role": "accent",
-   "shape": "prof",
-   "triangles": 140
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -29.85,
-     -17.15
-    ],
-    "u": [
-     51.09,
-     63.91
-    ],
-    "x": [
-     -17.5,
-     -16.8
-    ]
-   },
-   "id": "mark_r",
-   "moving": false,
-   "name_de": "Keilmarkierung",
-   "name_en": "mark r",
-   "role": "accent",
-   "shape": "prof",
-   "triangles": 140
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -8.74,
-     31.74
-    ],
-    "u": [
-     49.0,
-     61.0
-    ],
-    "x": [
-     16.7,
-     17.8
+     15.3,
+     16.1
     ]
    },
    "id": "name_tile_l",
    "moving": false,
-   "name_de": "Schmales Schriftfeld",
+   "name_de": "Schriftfeld an der Schulter",
    "name_en": "name tile l",
-   "role": "anodized",
+   "role": "graphite",
    "shape": "prof",
    "triangles": 172
   },
@@ -606,23 +559,23 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -8.74,
-     31.74
+     -18.76,
+     29.73
     ],
     "u": [
-     49.0,
-     61.0
+     75.01,
+     85.99
     ],
     "x": [
-     -17.8,
-     -16.7
+     -16.1,
+     -15.3
     ]
    },
    "id": "name_tile_r",
    "moving": false,
-   "name_de": "Schmales Schriftfeld",
+   "name_de": "Schriftfeld an der Schulter",
    "name_en": "name tile r",
-   "role": "anodized",
+   "role": "graphite",
    "shape": "prof",
    "triangles": 172
   },
@@ -630,16 +583,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     4.72,
-     17.17
+     -0.58,
+     10.49
     ],
     "u": [
-     52.96,
-     56.11
+     79.26,
+     82.06
     ],
     "x": [
-     17.63,
-     18.07
+     15.93,
+     16.37
     ]
    },
    "id": "word_l",
@@ -654,16 +607,16 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     4.83,
-     17.28
+     -0.49,
+     10.58
     ],
     "u": [
-     52.96,
-     56.11
+     79.26,
+     82.06
     ],
     "x": [
-     -18.07,
-     -17.63
+     -16.37,
+     -15.93
     ]
    },
    "id": "word_r",
@@ -675,100 +628,244 @@
    "triangles": 608
   },
   {
-   "assembly": "barrel",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     85.33,
-     155.61
+     31.17,
+     45.82
     ],
     "u": [
-     50.1,
-     57.98
+     80.03,
+     84.97
     ],
     "x": [
-     17.2,
-     18.5
+     15.3,
+     16.05
     ]
    },
-   "id": "feather_l",
+   "id": "swift_mark_l",
    "moving": false,
-   "name_de": "Federförmiges Seitenfeld",
-   "name_en": "feather l",
-   "role": "anodized",
+   "name_de": "Doppelfeder am Heck",
+   "name_en": "swift mark l",
+   "role": "accent",
    "shape": "prof",
-   "triangles": 260
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     31.17,
+     45.82
+    ],
+    "u": [
+     80.03,
+     84.97
+    ],
+    "x": [
+     -16.05,
+     -15.3
+    ]
+   },
+   "id": "swift_mark_r",
+   "moving": false,
+   "name_de": "Doppelfeder am Heck",
+   "name_en": "swift mark r",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     85.33,
-     155.61
+     132.19,
+     159.81
     ],
     "u": [
-     50.1,
-     57.98
+     73.0,
+     81.95
     ],
     "x": [
-     -18.5,
-     -17.2
+     14.2,
+     14.85
     ]
    },
-   "id": "feather_r",
+   "id": "quill_glint_l",
    "moving": false,
-   "name_de": "Federförmiges Seitenfeld",
-   "name_en": "feather r",
-   "role": "anodized",
-   "shape": "prof",
-   "triangles": 260
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     99.15,
-     114.86
-    ],
-    "u": [
-     54.5,
-     56.5
-    ],
-    "x": [
-     18.35,
-     18.8
-    ]
-   },
-   "id": "glint_l",
-   "moving": false,
-   "name_de": "Kurzer Lichtindex",
-   "name_en": "glint l",
+   "name_de": "Kurzer Lichtstrich in der Feder",
+   "name_en": "quill glint l",
    "role": "energy",
    "shape": "prof",
-   "triangles": 100
+   "triangles": 112
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     99.15,
-     114.86
+     132.19,
+     159.81
     ],
     "u": [
-     54.5,
-     56.5
+     73.0,
+     81.95
     ],
     "x": [
-     -18.8,
-     -18.35
+     -14.85,
+     -14.2
     ]
    },
-   "id": "glint_r",
+   "id": "quill_glint_r",
    "moving": false,
-   "name_de": "Kurzer Lichtindex",
-   "name_en": "glint r",
+   "name_de": "Kurzer Lichtstrich in der Feder",
+   "name_en": "quill glint r",
    "role": "energy",
    "shape": "prof",
-   "triangles": 100
+   "triangles": 112
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -16.0,
+     6.0
+    ],
+    "u": [
+     91.5,
+     98.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": false,
+   "name_de": "Kimmenfuß",
+   "name_en": "Rear base",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -12.0,
+     1.77
+    ],
+    "u": [
+     92.8,
+     95.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -12.0,
+     -4.13
+    ],
+    "u": [
+     97.5,
+     105.0
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "sight_rear",
+   "moving": false,
+   "name_de": "Kimmenblatt",
+   "name_en": "Rear blade",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -12.1,
+     -11.7
+    ],
+    "u": [
+     99.4,
+     104.2
+    ],
+    "x": [
+     -5.25,
+     5.25
+    ]
+   },
+   "id": "sight_status",
+   "moving": false,
+   "name_de": "Leuchtklammern",
+   "name_en": "Glow brackets",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     176.0,
+     192.0
+    ],
+    "u": [
+     91.5,
+     102.2
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "sight_front",
+   "moving": false,
+   "name_de": "Korn",
+   "name_en": "Front sight",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     183.5,
+     184.1
+    ],
+    "u": [
+     100.72,
+     102.48
+    ],
+    "x": [
+     -0.88,
+     0.88
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Kornpunkt",
+   "name_en": "Front dot",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 60
   }
  ],
  "pilot": {

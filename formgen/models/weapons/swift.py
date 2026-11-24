@@ -1,60 +1,68 @@
-"""BT05 Swift, statisches Sci-Fi-Spielmodell. Alle Konturen und Abstände sind freie Formannahmen."""
+"""Swift (BT05), statisches Spielmodell. Außenkonturen und Fasen sind Formannahmen."""
 
+from ... import ballon
 from .sidearm_shell import Shell
 
 
-def build():
-    s=Shell('Swift')
-    # Eine helle obere Wange und eine schmale, offene Ferse bilden den diagonalen Griff.
-    grip_window=[(-68,-32),(-56,-17),(-49,-18),(-48,-25),(-58,-35)]
-    s.plate('grip_arch','grip_controls','graphite','Gebogene Griffkontur',
-            [(-56,62),(-24,58),(-12,43),(-22,15),(-37,-12),(-41,-31),(-54,-44),
-             (-78,-41),(-81,-32),(-68,-25),(-57,-2),(-49,26),(-51,40),(-60,48)],29,2.2,
-            cuts=[dict(shape='prof',pts=grip_window,w=43)])
-    s.plate('grip_cheek','ammo','shell','Durchbrochene helle Ferse',
-            [(-78,-25),(-60,16),(-50,43),(-38,47),(-32,38),(-35,20),(-51,-11),
-             (-41,-15),(-41,-28),(-53,-43),(-77,-43),(-84,-37)],30.5,1.25,
-            cuts=[dict(shape='prof',pts=grip_window,w=42)])
-    s.plate('heel_tip','ammo','dark_metal','Schmaler Fersenabschluss',
-            [(-83,-36),(-77,-40),(-54,-40),(-47,-37),(-52,-45),(-79,-46),(-85,-42)],31.5,1)
-    s.plate('bow','grip_controls','dark_metal','Schlanker offener Bogen',
-            [(-29,16),(-7,13),(7,18),(24,42),(19,47),(2,23),(-8,19),(-29,22)],12,1.1)
-    s.plate('inner_mark','grip_controls','graphite','Geschwungene Innenzunge',
-            [(-13,51),(-5,53),(-6,38),(-1,31),(-4,30),(-12,38)],8,.8)
-    s.plate('keel','receiver','graphite','Durchgehender Gehäusekiel',
-            [(-76,62),(-63,76),(-37,81),(65,77),(113,73),(133,64),(131,54),
-             (113,48),(67,46),(20,40),(-12,46),(-33,52),(-65,51)],30,1.8)
-    s.plate('rear_fold','receiver','shell','Nach hinten gezogene Hauptschale',
-            [(-83,63),(-67,83),(-43,89),(4,87),(32,82),(24,66),
-             (-3,60),(-32,60),(-48,53),(-70,55)],34,1.8)
-    s.plate('fore_fold','barrel','shell','Spitz auslaufende Vorderwange',
-            [(32,66),(39,82),(67,84),(113,78),(142,69),(151,63),(135,57),
-             (99,59),(57,62),(41,58)],35,1.7)
-    s.plate('chin','barrel','anodized','Lange schmale Unterkante',
-            [(32,56),(57,61),(104,59),(142,58),(150,63),(147,54),
-             (121,48),(76,49),(42,46),(29,49)],25,1.3)
-    s.facet('tip_shadow','barrel','graphite','Eingefasste Spitze',139,153,63,26,16,4)
-    s.facet('tip_tile','barrel','dark_metal','Geschlossene Facettenspitze',151,155,63,23,13,3,.8)
-    s.facet('tip_slash','barrel','energy','Stirnindex',154.8,155.4,63,10,2,.6,.25)
-    s.plate('rear_pier','sight','shell','Rückwärtiger Bügelanstieg',
-            [(-65,80),(-49,96),(-32,103),(-26,99),(-42,90),(-55,82)],22,1.1)
-    s.plate('front_pier','sight','anodized','Vorderer Bügelabschluss',
-            [(12,100),(20,102),(42,87),(44,82),(35,82),(24,91)],18,.9)
-    s.plate('ribbon','sight','graphite','Schwebende flache Visierkappe',
-            [(-50,95),(-37,105),(-6,106),(16,104),(23,100),(16,98),(-33,100),(-46,94)],23,1)
-    s.facet('eye_tile','sight','glass','Getönte Sichtfläche',-43,-40,100,18,7,1.7,.45)
-    s.inlay('mark','receiver','accent','Keilmarkierung',
-            [(-61,80),(-54,82),(-60,71),(-67,69)],16.8,17.5,.35)
-    s.inlay('name_tile','receiver','anodized','Schmales Schriftfeld',
-            [(-46,70),(-39,78),(-12,79),(-5,76),(-12,68),(-38,67)],16.7,17.8,.55)
-    s.word('receiver','shell',-26,71,17.85,4.5)
-    s.inlay('feather','barrel','anodized','Federförmiges Seitenfeld',
-            [(48,68),(59,76),(104,74),(119,70),(97,70),(61,71)],17.2,18.5,.45)
-    s.inlay('glint','barrel','energy','Kurzer Lichtindex',
-            [(62,72.6),(68,74.5),(78,74.2),(74,72.5)],18.35,18.8,.18)
-    refs={'Socket_Hand':('grip_arch',[-37,18,0]),'Socket_SupportHand':('grip_arch',[-38,19,0]),
-          'Socket_Muzzle':('tip_tile',[155,63,0]),'Socket_Eye':('eye_tile',[-42,100,0])}
-    points={'grip.grip':refs['Socket_Hand'],'grip.support':refs['Socket_SupportHand'],
-            'grip.mag':('heel_tip',[-66,-43,0]),'grip.charge':('rear_fold',[-34,75,16]),
-            'eject':('keel',[20,59,-14])}
-    return s.finish(refs,points)
+def build(pilot=None):
+    if pilot is None:
+        snap = ballon.snapshot()
+        pilot = ballon.load(snap, '05', ballon.resolve_base(snap, '05', 'pilot'))
+    s = Shell('Swift')
+    # Die beiden Griffwangen setzen die am BA05-GLB gemessene Gesamtbreite.
+    # Die Aussparung wird durch Kern und beide Flächen gemeinsam geschnitten.
+    window = [(-37,-42),(-26,-28),(-18,-25),(-19,-36),(-28,-44),(-36,-45)]
+    cut = dict(shape='prof', pts=window, w=40)
+    s.plate('grip_arch', 'grip_controls', 'graphite', 'Gefalteter Griffkern',
+            [(-19,54),(13,51),(27,37),(19,12),(3,-19),(-6,-48),(-20,-61),
+             (-44,-60),(-55,-51),(-47,-34),(-32,-9),(-18,24),(-25,36)], 27, 2.2, cuts=[cut])
+    s.plate('grip_cheek', 'grip_controls', 'shell', 'Heller Saum um die offene Ferse',
+            [(-17,39),(2,43),(9,34),(-2,8),(-17,-19),(-10,-26),(-13,-44),(-23,-54),
+             (-43,-54),(-48,-48),(-40,-30),(-25,-7),(-15,15),(-21,29)], 30, 1.5, cuts=[cut])
+    s.inlay('palm_wing', 'grip_controls', 'rubber', 'Dunkle federförmige Griffwange',
+            [(-13,27),(2,32),(6,24),(-2,4),(-15,-18),(-28,-27),(-22,-10),(-12,11)],
+            14.7, 16.75, .85)
+    s.plate('heel_tip', 'ammo', 'anodized', 'Abgesetzte Fersenspitze',
+            [(-54,-49),(-43,-55),(-21,-55),(-10,-46),(-12,-54),(-22,-62),
+             (-44,-62),(-55,-56)], 29, 1)
+    s.plate('bow', 'grip_controls', 'dark_metal', 'Schmaler Griffbogen',
+            [(17,13),(37,11),(48,18),(55,40),(62,43),(57,20),(47,8),(36,5),(15,7)], 11, 1.1)
+    s.plate('inner_mark', 'grip_controls', 'graphite', 'Innenmarke',
+            [(30,44),(36,42),(34,29),(38,24),(33,24),(28,31)], 8, .8)
+
+    s.plate('keel', 'receiver', 'graphite', 'Dunkler Rumpf mit ansteigender Unterkante',
+            [(-39,66),(-30,83),(-4,87),(52,86),(82,79),(146,82),(185,88),(197,81),
+             (197,67),(184,62),(138,59),(113,52),(65,47),(46,35),(21,34),
+             (8,42),(-10,46),(-31,48)], 27.8, 1.9)
+    # Die sechs BA05-Visierteile referenzieren die obere Schale als 'slide'.
+    s.plate('slide', 'receiver', 'shell', 'Helle Schulter mit rückwärts gezogenem Zipfel',
+            [(-40,69),(-33,85),(-19,92),(8,92),(27,88),(58,86),(86,79),(119,77),
+             (101,72),(64,72),(39,77),(16,76),(-6,64),(-31,56),(-24,65)], 31.2, 1.6)
+    s.plate('quill', 'barrel', 'shell', 'Lange helle Feder an der Front',
+            [(58,61),(76,68),(111,71),(133,77),(157,85),(177,92),(192,92),
+             (198,85),(189,81),(162,79),(140,70),(105,64),(78,63),(66,57)], 28.8, 1.3)
+    s.plate('ventral', 'barrel', 'anodized', 'Schmale dunkle Gegenkante',
+            [(62,51),(85,58),(111,60),(149,66),(183,66),(191,70),(190,63),
+             (168,57),(133,55),(106,49),(75,46)], 22, 1.2)
+    s.facet('tip_tile', 'barrel', 'dark_metal', 'Geschlossene Stirnkachel',
+            188, 199, 77, 24, 23, 4, 1)
+    s.facet('tip_inset', 'barrel', 'anodized', 'Kleine Stirnfacette',
+            198, 200, 77, 17, 16, 3, .55)
+    s.plate('aft_seat', 'receiver', 'dark_metal', 'Dunkle hintere Deckkante',
+            [(-22,89),(-17,92.2),(7,92.2),(13,89),(4,88),(-19,88)], 24.5, .52)
+    s.plate('fore_seat', 'barrel', 'graphite', 'Dunkle vordere Deckkante',
+            [(172,89),(176,92.2),(192,92.2),(196,90),(191,88),(176,88)], 17, .45)
+    s.inlay('name_tile', 'receiver', 'graphite', 'Schriftfeld an der Schulter',
+            [(-19,78),(-8,86),(23,85),(30,81),(17,78),(-9,75)], 15.3, 16.1, .45)
+    s.word('receiver', 'shell', 5, 79.3, 16.15, 4)
+    s.inlay('swift_mark', 'receiver', 'accent', 'Doppelfeder am Heck',
+            [(31,81),(37,85),(46,84),(39,80)], 15.3, 16.05, .25)
+    s.inlay('quill_glint', 'barrel', 'energy', 'Kurzer Lichtstrich in der Feder',
+            [(132,73),(150,80),(160,82),(154,79),(137,73)], 14.2, 14.85, .23)
+
+    refs = {'Socket_Hand': ('grip_arch', [0,0,0]), 'Socket_SupportHand': ('palm_wing_l', [-13,-12,16.75]),
+            'Socket_MagWell': ('heel_tip', [-31,-60,0]), 'Socket_Muzzle': ('tip_inset', [200, pilot['ANCHORS']['Socket_Muzzle']['at'][1], 0])}
+    points = {'grip.grip': refs['Socket_Hand'], 'grip.support': refs['Socket_SupportHand'],
+              'grip.mag': refs['Socket_MagWell'], 'grip.charge': ('slide', [-18,79,15]),
+              'eject': ('keel', [48,64,-13])}
+    return s.finish_with_open_sight(refs, points, pilot)

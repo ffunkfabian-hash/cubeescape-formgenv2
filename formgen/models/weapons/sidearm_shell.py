@@ -1,5 +1,7 @@
 """Gemeinsames Formgen-Vokabular für die sichtbaren Außenflächen der beiden Seitenwaffen."""
 
+from copy import deepcopy
+
 
 class Shell:
     def __init__(self, name):
@@ -35,3 +37,11 @@ class Shell:
         return (self.parts,
                 {k:dict(part=p, at=list(at), source='Annahme: Bezugspunkt des Spielmodells') for k,(p,at) in anchors.items()},
                 {k:dict(part=p, at=list(at)) for k,(p,at) in points.items()})
+
+    def finish_with_open_sight(self, refs, points, pilot):
+        self.parts.extend(deepcopy(part) for part in pilot['PARTS'] if part['asm'] == 'sight')
+        parts, anchors, points = self.finish(refs, points)
+        for key in ('Socket_Eye', 'Socket_Sight', 'Socket_Reticle'):
+            anchors[key] = deepcopy(pilot['ANCHORS'][key])
+            anchors[key]['at'] = list(anchors[key]['at'])
+        return parts, anchors, points

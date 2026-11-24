@@ -154,6 +154,20 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT04"], 44.83, delta=0.005)
         self.assertAlmostEqual(widths["BA04"], widths["BT04"], delta=0.005)
 
+    def test_swift_width_matches_basic_05_across_the_grip_inlays(self):
+        widths = {}
+        for sid in ("BA05", "BT05"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            parts = geom.evaluate(model.normalize(author))["parts"]
+            bounds = np.asarray([p["bounds_m"] for p in parts]) * 1000
+            widths[sid] = bounds[:, 1, 0].max() - bounds[:, 0, 0].min()
+            if sid == "BT05":
+                self.assertEqual({p["id"] for p in parts if max(abs(v[0]) for v in p["bounds_m"]) >= .01674},
+                                 {"palm_wing_l", "palm_wing_r"})
+        self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
+        self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
+
     def test_trestle_front_window_and_nameplate_have_depth(self):
         entry = variants.sheets()["BT01"]
         author, _ = generator.build(entry["variant"], entry["num"], SNAP)
