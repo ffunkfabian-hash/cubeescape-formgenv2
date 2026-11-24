@@ -5,7 +5,7 @@ Alle Maße sind die bisherigen Formannahmen; diese IDs bleiben bestehen.
 """
 
 
-def build():
+def build(*, optic_base=154):
     parts = []
 
     def add(key, group, role, label, shape, bevel, **geometry):
@@ -22,14 +22,17 @@ def build():
                (a-corner, b), (-a+corner, b), (-a, b-corner), (-a, -b+corner)]
         add(key, group, role, label, 'xprof', bevel, f0=start, f1=end, cu=level, pts=pts)
 
+    # Alle Fensterteile beziehen sich auf dieselbe Auflage. Der Standardwert
+    # erhält den Sitz der Bestandsmodelle. Die Form des Rahmens bleibt identisch.
+    u = optic_base
     plate('optic_foot', 'sight', 'graphite', 'Visierfuß',
-          [(-40, 154), (18, 154), (17, 158), (8, 161), (-29, 161), (-40, 158)], 36, 1.4)
+          [(-40,u),(18,u),(17,u+4),(8,u+7),(-29,u+7),(-40,u+4)], 36, 1.4)
     add('optic_hood', 'sight', 'anodized', 'Facettierter Fensterrahmen', 'frame', 0.8,
-        f0=-28, f1=-12, cu=169, ow=42, oh=31, iw=33, ih=22, r_out=4, r_in=2)
-    section('optic_pane', 'sight', 'glass', 'Getönte Sichtscheibe', -21, -19.5, 169, 35, 24, 3, 0.3)
+        f0=-28, f1=-12, cu=u+15, ow=42, oh=31, iw=33, ih=22, r_out=4, r_in=2)
+    section('optic_pane', 'sight', 'glass', 'Getönte Sichtscheibe', -21, -19.5, u+15, 35, 24, 3, 0.3)
     for side, suffix in ((1, 'l'), (-1, 'r')):
         plate('optic_cheek_' + suffix, 'sight', 'dark_metal', 'Visierwange',
-              [(-32, 157), (-27, 175), (-17, 175), (2, 160), (8, 157)], 3, 0.8, x=side*19.8)
+              [(-32,u+3),(-27,u+21),(-17,u+21),(2,u+6),(8,u+3)], 3, 0.8, x=side*19.8)
     plate('handle', 'grip_controls', 'graphite', 'Hinterer Griff',
           [(-19, 74), (18, 68), (4, 41), (-7, 14), (-12, -19), (-4, -23), (-8, -31), (-43, -30),
            (-48, -22), (-38, 17), (-35, 39)], 38, 3)

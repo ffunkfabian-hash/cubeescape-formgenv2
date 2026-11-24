@@ -251,7 +251,7 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 `python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-05. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
 
-`python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die kurze Front fasst drei Keramiksegmente und zwei Lichtstreifen in einem tiefen Fenster. Vesper behält sein eigenes statisches Sichtfenster. Der gemeinsame Griff stammt aus der ursprünglichen T-Linie.
+`python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die drei hellen Impulssegmente auf dem dunklen Kern tragen je ein Keramikinlay und eine Lichtmarke pro Seite. Der offene Heckrahmen und die Gesamtbreite von 51,0 mm folgen BASIC-02. Vespers flacher Rahmen trägt das gezeichnete BA02-Absehen. Augenpunkt, Visier und Absehen sind als Spielanker am Rahmen und Glas exportiert. Der gemeinsame Griff stammt aus der ursprünglichen T-Linie.
 
 `python -m formgen.pipeline BT03` baut das Scout-Gewehr Heron aus `formgen/models/weapons/heron.py`. Eine flache Sensorkapsel schließt die obere Brücke. Die vordere Spange steigt bis zur geschlossenen Spitze an und lässt darunter eine lange Öffnung im Profil erkennen.
 

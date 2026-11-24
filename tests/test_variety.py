@@ -107,6 +107,27 @@ class KitTests(unittest.TestCase):
         # BA01-Spec: 52,2 mm über alle Teile. Länge und Höhe vom freigegebenen BT01.
         np.testing.assert_allclose(extent_mm, [52.2, 704.24, 260.65], rtol=0, atol=0.1)
 
+    def test_vesper_width_matches_basic_02_and_front_steps_inward(self):
+        entry = variants.sheets()["BT02"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        bounds = {p["id"]: np.asarray(p["bounds_m"]) * 1000 for p in parts}
+        # Quelle: Gesamtbreite BA02 am GLB. Beide Außenkanten zählen einschließlich Beschriftung.
+        all_bounds = np.array(list(bounds.values()))
+        np.testing.assert_allclose([all_bounds[:, 0, 0].min(), all_bounds[:, 1, 0].max()],
+                                   [-25.5, 25.5], atol=0.05, rtol=0)
+        # In den zwei Fugen zwischen den drei Deckschalen bleibt der schmalere Kern sichtbar.
+        segments = ["pulse_mantle", "pulse_middle", "pulse_front"]
+        for rear, front in zip(segments, segments[1:]):
+            gap = bounds[rear][0, 1] - bounds[front][1, 1]
+            self.assertGreaterEqual(gap, 9.0)
+        core_width = np.ptp(bounds["well_floor"][:, 0])
+        self.assertAlmostEqual(core_width, 34.0, delta=0.1)
+        for key in segments:
+            self.assertAlmostEqual(np.ptp(bounds[key][:, 0]), 48.0, delta=0.1)
+        front_widths = [np.ptp(bounds[key][:, 0]) for key in ("front_gasket", "front_mask", "front_glaze")]
+        np.testing.assert_allclose(front_widths, [40, 34, 27], atol=0.1, rtol=0)
+
     def test_trestle_front_window_and_nameplate_have_depth(self):
         entry = variants.sheets()["BT01"]
         author, _ = generator.build(entry["variant"], entry["num"], SNAP)

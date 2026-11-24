@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.26.0 Lamella — Vesper
+
+- Vesper (BT02) erhält einen offenen Heckrahmen und drei getrennte Impulssegmente mit je einer eigenen Lichtmarke. Der flache Vesper-Rahmen trägt das Absehen von BASIC-02 mit Zielankern für Unity. Die Gesamtbreite beträgt wie bei BASIC-02 51,0 mm. [Versionsbericht](docs/versions/0.26.md)
+
 ## 0.24.0 Crossbeam — TRESTLE im BASIC-Pass
 
 - EXTENDED-18 auf Blatt BT01 mit H0, BASIC-Anbauteilen und eigenen Spielankern. BT02–BT05 behalten ihre Außenformen. [Versionsbericht](docs/versions/0.24.md)

@@ -1,9 +1,9 @@
 {
  "anchors": {
   "Socket_Eye": {
-   "part": "optic_pane",
+   "part": "optic_hood",
    "position_mm": [
-    0.0,
+    -90.6,
     138.0,
     0.0
    ]
@@ -19,8 +19,24 @@
   "Socket_Muzzle": {
    "part": "front_trace_1",
    "position_mm": [
-    300.0,
+    401.8,
     58.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "optic_pane",
+   "position_mm": [
+    -0.6,
+    138.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "optic_hood",
+   "position_mm": [
+    -8.0,
+    138.0,
     0.0
    ]
   },
@@ -110,7 +126,7 @@
   },
   "variant": {
    "accent_functions": [
-    "Bügelmarkierung"
+    "Seitliche Impulsmarke"
    ],
    "hand_roles": {
     "Socket_Hand": "graphite",
@@ -121,13 +137,13 @@
  },
  "counts": {
   "assemblies": 7,
-  "parts": 62,
-  "triangles": 18316
+  "parts": 67,
+  "triangles": 20036
  },
  "dimensions_mm": {
-  "height": 215.41,
-  "length": 542.8,
-  "width": 53.0
+  "height": 215.46,
+  "length": 697.8,
+  "width": 51.0
  },
  "format": "formgenv2/weapon-sheet-spec",
  "format_version": 4,
@@ -165,8 +181,8 @@
      37.66
     ],
     "u": [
-     131.0,
-     138.0
+     123.0,
+     130.0
     ],
     "x": [
      -18.0,
@@ -189,8 +205,8 @@
      8.0
     ],
     "u": [
-     130.5,
-     161.5
+     122.5,
+     153.5
     ],
     "x": [
      -21.0,
@@ -213,8 +229,8 @@
      0.5
     ],
     "u": [
-     134.0,
-     158.0
+     126.0,
+     150.0
     ],
     "x": [
      -17.5,
@@ -237,8 +253,8 @@
      27.38
     ],
     "u": [
-     134.0,
-     152.0
+     126.0,
+     144.0
     ],
     "x": [
      18.3,
@@ -261,8 +277,8 @@
      27.38
     ],
     "u": [
-     134.0,
-     152.0
+     126.0,
+     144.0
     ],
     "x": [
      -21.3,
@@ -545,167 +561,95 @@
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -242.0,
-     -213.11
+     -296.0,
+     -271.06
     ],
     "u": [
-     7.9,
-     97.2
+     2.73,
+     111.09
     ],
     "x": [
-     -23.5,
-     23.5
+     -20.5,
+     20.5
     ]
    },
    "id": "aft_pad",
    "moving": false,
-   "name_de": "Abgesetzte Schulterkante",
+   "name_de": "Heckabschluss",
    "name_en": "aft pad",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 228
+   "triangles": 212
   },
   {
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -225.94,
-     -109.23
+     -282.9,
+     -106.13
     ],
     "u": [
-     39.37,
-     110.0
+     11.0,
+     116.0
     ],
     "x": [
-     -21.5,
-     21.5
+     -19.0,
+     19.0
     ]
    },
    "id": "aft_shell",
    "moving": false,
-   "name_de": "Kurze Schaftwange",
+   "name_de": "Offener Winkelrahmen",
    "name_en": "aft shell",
-   "role": "shell",
+   "role": "graphite",
    "shape": "prof",
-   "triangles": 592
+   "triangles": 736
   },
   {
    "assembly": "stock",
    "extent_mm": {
     "f": [
-     -228.06,
-     -90.05
+     -277.0,
+     -117.09
     ],
     "u": [
-     10.51,
-     70.0
-    ],
-    "x": [
-     -13.5,
-     13.5
-    ]
-   },
-   "id": "aft_spine",
-   "moving": false,
-   "name_de": "Schräge untere Strebe",
-   "name_en": "aft spine",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 168
-  },
-  {
-   "assembly": "stock",
-   "extent_mm": {
-    "f": [
-     -216.29,
-     -131.65
-    ],
-    "u": [
-     99.24,
-     114.0
+     12.13,
+     57.0
     ],
     "x": [
      -17.0,
      17.0
     ]
    },
+   "id": "aft_spine",
+   "moving": false,
+   "name_de": "Untere Rahmenkante",
+   "name_en": "aft spine",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 404
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -257.11,
+     -167.54
+    ],
+    "u": [
+     111.24,
+     121.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
    "id": "aft_rest",
    "moving": false,
-   "name_de": "Wangenauflage",
+   "name_de": "Auflage auf dem Rahmen",
    "name_en": "aft rest",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 368
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -130.26,
-     148.31
-    ],
-    "u": [
-     12.0,
-     96.57
-    ],
-    "x": [
-     -22.0,
-     22.0
-    ]
-   },
-   "id": "body_spine",
-   "moving": false,
-   "name_de": "Freiliegender Gehäusekiel",
-   "name_en": "body spine",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 460
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -114.73,
-     70.66
-    ],
-    "u": [
-     50.0,
-     107.0
-    ],
-    "x": [
-     -24.5,
-     24.5
-    ]
-   },
-   "id": "aft_cowl",
-   "moving": false,
-   "name_de": "Gefaltete hintere Schale",
-   "name_en": "aft cowl",
    "role": "shell",
-   "shape": "prof",
-   "triangles": 560
-  },
-  {
-   "assembly": "receiver",
-   "extent_mm": {
-    "f": [
-     -83.87,
-     128.14
-    ],
-    "u": [
-     94.44,
-     126.0
-    ],
-    "x": [
-     -16.0,
-     16.0
-    ]
-   },
-   "id": "bridge_shadow",
-   "moving": false,
-   "name_de": "Brückenunterkante",
-   "name_en": "bridge shadow",
-   "role": "dark_metal",
    "shape": "prof",
    "triangles": 356
   },
@@ -713,69 +657,141 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -94.86,
-     136.08
+     -122.6,
+     130.62
     ],
     "u": [
-     96.11,
-     131.0
+     17.16,
+     108.99
     ],
     "x": [
-     -20.0,
-     20.0
+     -21.5,
+     21.5
+    ]
+   },
+   "id": "body_spine",
+   "moving": false,
+   "name_de": "Dunkler Gehäusesockel",
+   "name_en": "body spine",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 572
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -123.66,
+     122.71
+    ],
+    "u": [
+     62.0,
+     117.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "aft_cowl",
+   "moving": false,
+   "name_de": "Gerade obere Gehäuseschale",
+   "name_en": "aft cowl",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 224
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -102.18,
+     103.04
+    ],
+    "u": [
+     113.0,
+     121.0
+    ],
+    "x": [
+     -17.5,
+     17.5
+    ]
+   },
+   "id": "bridge_shadow",
+   "moving": false,
+   "name_de": "Flache Rückenfuge",
+   "name_en": "bridge shadow",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -76.55,
+     96.61
+    ],
+    "u": [
+     118.0,
+     122.0
+    ],
+    "x": [
+     -17.0,
+     17.0
     ]
    },
    "id": "bridge_fold",
    "moving": false,
-   "name_de": "Flache Rahmenbrücke",
+   "name_de": "Oberes Deck",
    "name_en": "bridge fold",
-   "role": "shell",
+   "role": "graphite",
    "shape": "prof",
-   "triangles": 476
+   "triangles": 188
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     114.66,
-     140.56
+     -102.52,
+     -71.3
     ],
     "u": [
-     95.0,
-     101.76
+     117.0,
+     123.0
     ],
     "x": [
-     -21.0,
-     21.0
+     -16.0,
+     16.0
     ]
    },
    "id": "bridge_seat",
    "moving": false,
-   "name_de": "Abgesetzter Brückenschuh",
+   "name_de": "Hintere Deckstufe",
    "name_en": "bridge seat",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 380
+   "triangles": 136
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -70.82,
-     -52.18
+     -91.86,
+     -82.14
     ],
     "u": [
-     101.03,
-     119.61
+     97.0,
+     106.0
     ],
     "x": [
-     -20.4,
-     20.4
+     -24.3,
+     24.3
     ]
    },
    "id": "bridge_mark_0",
    "moving": false,
-   "name_de": "Bügelmarkierung",
+   "name_de": "Seitliche Impulsmarke",
    "name_en": "bridge mark 0",
    "role": "accent",
    "shape": "prof",
@@ -785,21 +801,21 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -53.82,
-     -42.18
+     -80.86,
+     -71.14
     ],
     "u": [
-     111.72,
-     126.28
+     97.0,
+     106.0
     ],
     "x": [
-     -20.4,
-     20.4
+     -24.3,
+     24.3
     ]
    },
    "id": "bridge_mark_1",
    "moving": false,
-   "name_de": "Bügelmarkierung",
+   "name_de": "Seitliche Impulsmarke",
    "name_en": "bridge mark 1",
    "role": "accent",
    "shape": "prof",
@@ -809,12 +825,12 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -33.27,
-     75.26
+     -31.14,
+     49.09
     ],
     "u": [
-     127.0,
-     133.0
+     120.0,
+     123.0
     ],
     "x": [
      -15.5,
@@ -823,46 +839,22 @@
    },
    "id": "crest",
    "moving": false,
-   "name_de": "Scheitelleiste",
+   "name_de": "Flache Visierauflage",
    "name_en": "crest",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 132
+   "triangles": 128
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     91.35,
-     278.83
+     109.44,
+     352.54
     ],
     "u": [
-     12.0,
-     101.0
-    ],
-    "x": [
-     -26.0,
-     26.0
-    ]
-   },
-   "id": "pulse_mantle",
-   "moving": false,
-   "name_de": "Tiefe Impulsschale",
-   "name_en": "pulse mantle",
-   "role": "shell",
-   "shape": "prof",
-   "triangles": 944
-  },
-  {
-   "assembly": "support",
-   "extent_mm": {
-    "f": [
-     101.57,
-     265.93
-    ],
-    "u": [
-     22.0,
-     91.0
+     33.0,
+     93.0
     ],
     "x": [
      -17.0,
@@ -871,103 +863,175 @@
    },
    "id": "well_floor",
    "moving": false,
-   "name_de": "Zurückgesetzter Fenstergrund",
+   "name_de": "Durchgehender Kern der Impulsreihe",
    "name_en": "well floor",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 260
+   "triangles": 240
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     127.03,
-     274.04
+     117.16,
+     181.88
     ],
     "u": [
-     4.0,
-     34.04
+     51.0,
+     116.0
     ],
     "x": [
-     -19.0,
-     19.0
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "pulse_mantle",
+   "moving": false,
+   "name_de": "Impulssegment 1",
+   "name_en": "pulse mantle",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 800
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     191.16,
+     255.87
+    ],
+    "u": [
+     51.0,
+     113.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "pulse_middle",
+   "moving": false,
+   "name_de": "Impulssegment 2",
+   "name_en": "pulse middle",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 800
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     265.16,
+     329.86
+    ],
+    "u": [
+     51.0,
+     110.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "pulse_front",
+   "moving": false,
+   "name_de": "Impulssegment 3",
+   "name_en": "pulse front",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 848
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     118.28,
+     353.46
+    ],
+    "u": [
+     11.0,
+     60.19
+    ],
+    "x": [
+     -17.5,
+     17.5
     ]
    },
    "id": "chin",
    "moving": false,
-   "name_de": "Schwebende Bugkante",
+   "name_de": "Flache Unterkante der Impulsreihe",
    "name_en": "chin",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 452
+   "triangles": 500
   },
   {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     67.65,
-     137.13
+     73.2,
+     129.8
     ],
     "u": [
-     -27.6,
-     26.79
+     -57.0,
+     31.83
+    ],
+    "x": [
+     -18.5,
+     18.5
+    ]
+   },
+   "id": "cell",
+   "moving": false,
+   "name_de": "Abgesetzte kantige Kassette",
+   "name_en": "cell",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 432
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     80.27,
+     132.0
+    ],
+    "u": [
+     -61.96,
+     -44.88
+    ],
+    "x": [
+     -20.5,
+     20.5
+    ]
+   },
+   "id": "cell_heel",
+   "moving": false,
+   "name_de": "Kassettenunterkante",
+   "name_en": "cell heel",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 520
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     315.0,
+     363.0
+    ],
+    "u": [
+     32.5,
+     73.5
     ],
     "x": [
      -20.0,
      20.0
     ]
    },
-   "id": "cell",
-   "moving": false,
-   "name_de": "Flache Impulskassette",
-   "name_en": "cell",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 244
-  },
-  {
-   "assembly": "ammo",
-   "extent_mm": {
-    "f": [
-     82.68,
-     139.37
-    ],
-    "u": [
-     -32.75,
-     -11.79
-    ],
-    "x": [
-     -22.0,
-     22.0
-    ]
-   },
-   "id": "cell_heel",
-   "moving": false,
-   "name_de": "Keramiksockel",
-   "name_en": "cell heel",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 692
-  },
-  {
-   "assembly": "barrel",
-   "extent_mm": {
-    "f": [
-     257.0,
-     284.0
-    ],
-    "u": [
-     25.5,
-     80.5
-    ],
-    "x": [
-     -22.5,
-     22.5
-    ]
-   },
    "id": "front_gasket",
    "moving": false,
-   "name_de": "Stirnschatten",
+   "name_de": "Hals hinter der Stirn",
    "name_en": "front gasket",
    "role": "dark_metal",
    "shape": "xprof",
@@ -977,21 +1041,21 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     279.0,
-     298.0
+     359.0,
+     386.0
     ],
     "u": [
-     24.5,
-     81.5
+     37.0,
+     69.0
     ],
     "x": [
-     -24.0,
-     24.0
+     -17.0,
+     17.0
     ]
    },
    "id": "front_mask",
    "moving": false,
-   "name_de": "Breite geschlossene Stirnmaske",
+   "name_de": "Gestufter Vorbau",
    "name_en": "front mask",
    "role": "graphite",
    "shape": "xprof",
@@ -1001,21 +1065,21 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     295.0,
-     300.0
+     382.0,
+     401.0
     ],
     "u": [
-     31.0,
-     75.0
+     39.5,
+     66.5
     ],
     "x": [
-     -19.5,
-     19.5
+     -13.5,
+     13.5
     ]
    },
    "id": "front_glaze",
    "moving": false,
-   "name_de": "Facettierte Keramikstirn",
+   "name_de": "Keramische Endkappe",
    "name_en": "front glaze",
    "role": "anodized",
    "shape": "xprof",
@@ -1025,8 +1089,8 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     299.6,
-     300.8
+     400.6,
+     401.8
     ],
     "u": [
      46.6,
@@ -1049,8 +1113,8 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     299.6,
-     300.8
+     400.6,
+     401.8
     ],
     "u": [
      56.6,
@@ -1073,45 +1137,45 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     141.46,
-     175.42
+     134.36,
+     163.73
     ],
     "u": [
-     40.0,
-     73.0
+     74.04,
+     91.0
     ],
     "x": [
      16.7,
-     22.0
+     21.0
     ]
    },
    "id": "porcelain_0_l",
    "moving": false,
-   "name_de": "Rauchgraues Keramiksegment",
+   "name_de": "Keramikinlay",
    "name_en": "porcelain 0 l",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     164.27,
-     181.74
+     140.17,
+     157.83
     ],
     "u": [
-     43.0,
-     72.0
+     77.0,
+     83.0
     ],
     "x": [
-     16.8,
-     18.8
+     20.7,
+     21.6
     ]
    },
    "id": "pulse_line_0_l",
    "moving": false,
-   "name_de": "Licht im Segmentzwischenraum",
+   "name_de": "Lichtmarke",
    "name_en": "pulse line 0 l",
    "role": "energy",
    "shape": "prof",
@@ -1121,45 +1185,45 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     170.46,
-     204.42
+     208.36,
+     237.73
     ],
     "u": [
-     40.0,
-     73.0
+     74.04,
+     91.0
     ],
     "x": [
      16.7,
-     22.0
+     21.0
     ]
    },
    "id": "porcelain_1_l",
    "moving": false,
-   "name_de": "Rauchgraues Keramiksegment",
+   "name_de": "Keramikinlay",
    "name_en": "porcelain 1 l",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     193.27,
-     210.74
+     214.17,
+     231.83
     ],
     "u": [
-     43.0,
-     72.0
+     77.0,
+     83.0
     ],
     "x": [
-     16.8,
-     18.8
+     20.7,
+     21.6
     ]
    },
    "id": "pulse_line_1_l",
    "moving": false,
-   "name_de": "Licht im Segmentzwischenraum",
+   "name_de": "Lichtmarke",
    "name_en": "pulse line 1 l",
    "role": "energy",
    "shape": "prof",
@@ -1169,40 +1233,64 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     199.46,
-     233.42
+     282.36,
+     311.73
     ],
     "u": [
-     40.0,
-     73.0
+     74.04,
+     91.0
     ],
     "x": [
      16.7,
-     22.0
+     21.0
     ]
    },
    "id": "porcelain_2_l",
    "moving": false,
-   "name_de": "Rauchgraues Keramiksegment",
+   "name_de": "Keramikinlay",
    "name_en": "porcelain 2 l",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     288.17,
+     305.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     20.7,
+     21.6
+    ]
+   },
+   "id": "pulse_line_2_l",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 2 l",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     83.34,
-     123.69
+     82.07,
+     122.92
     ],
     "u": [
-     -13.86,
-     18.74
+     -47.97,
+     3.0
     ],
     "x": [
-     19.8,
-     22.5
+     18.1,
+     20.0
     ]
    },
    "id": "cell_panel_l",
@@ -1211,22 +1299,22 @@
    "name_en": "cell panel l",
    "role": "shell",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -97.59,
-     -31.27
+     -105.68,
+     -34.28
     ],
     "u": [
-     75.0,
-     96.0
+     78.0,
+     98.0
     ],
     "x": [
-     24.2,
-     25.7
+     23.6,
+     24.9
     ]
    },
    "id": "aft_badge_l",
@@ -1241,23 +1329,23 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -76.59,
-     -53.41
+     -81.59,
+     -58.41
     ],
     "u": [
-     80.93,
-     86.04
+     83.93,
+     89.04
     ],
     "x": [
-     25.55,
-     26.15
+     24.8,
+     25.4
     ]
    },
    "id": "word_l",
    "moving": false,
    "name_de": "Schriftzug",
    "name_en": "word l",
-   "role": "shell",
+   "role": "graphite",
    "shape": "text",
    "triangles": 1196
   },
@@ -1265,16 +1353,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     168.26,
-     202.77
+     132.21,
+     167.82
     ],
     "u": [
-     89.01,
-     94.99
+     102.0,
+     109.0
     ],
     "x": [
-     25.7,
-     26.5
+     23.7,
+     25.5
     ]
    },
    "id": "serial_l",
@@ -1297,8 +1385,8 @@
      47.0
     ],
     "x": [
-     21.8,
-     22.8
+     21.2,
+     22.2
     ]
    },
    "id": "index_0_l",
@@ -1321,8 +1409,8 @@
      47.0
     ],
     "x": [
-     21.8,
-     22.8
+     21.2,
+     22.2
     ]
    },
    "id": "index_1_l",
@@ -1345,8 +1433,8 @@
      47.0
     ],
     "x": [
-     21.8,
-     22.8
+     21.2,
+     22.2
     ]
    },
    "id": "index_2_l",
@@ -1361,45 +1449,45 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     141.46,
-     175.42
+     134.36,
+     163.73
     ],
     "u": [
-     40.0,
-     73.0
+     74.04,
+     91.0
     ],
     "x": [
-     -22.0,
+     -21.0,
      -16.7
     ]
    },
    "id": "porcelain_0_r",
    "moving": false,
-   "name_de": "Rauchgraues Keramiksegment",
+   "name_de": "Keramikinlay",
    "name_en": "porcelain 0 r",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     164.27,
-     181.74
+     140.17,
+     157.83
     ],
     "u": [
-     43.0,
-     72.0
+     77.0,
+     83.0
     ],
     "x": [
-     -18.8,
-     -16.8
+     -21.6,
+     -20.7
     ]
    },
    "id": "pulse_line_0_r",
    "moving": false,
-   "name_de": "Licht im Segmentzwischenraum",
+   "name_de": "Lichtmarke",
    "name_en": "pulse line 0 r",
    "role": "energy",
    "shape": "prof",
@@ -1409,45 +1497,45 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     170.46,
-     204.42
+     208.36,
+     237.73
     ],
     "u": [
-     40.0,
-     73.0
+     74.04,
+     91.0
     ],
     "x": [
-     -22.0,
+     -21.0,
      -16.7
     ]
    },
    "id": "porcelain_1_r",
    "moving": false,
-   "name_de": "Rauchgraues Keramiksegment",
+   "name_de": "Keramikinlay",
    "name_en": "porcelain 1 r",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
-     193.27,
-     210.74
+     214.17,
+     231.83
     ],
     "u": [
-     43.0,
-     72.0
+     77.0,
+     83.0
     ],
     "x": [
-     -18.8,
-     -16.8
+     -21.6,
+     -20.7
     ]
    },
    "id": "pulse_line_1_r",
    "moving": false,
-   "name_de": "Licht im Segmentzwischenraum",
+   "name_de": "Lichtmarke",
    "name_en": "pulse line 1 r",
    "role": "energy",
    "shape": "prof",
@@ -1457,40 +1545,64 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     199.46,
-     233.42
+     282.36,
+     311.73
     ],
     "u": [
-     40.0,
-     73.0
+     74.04,
+     91.0
     ],
     "x": [
-     -22.0,
+     -21.0,
      -16.7
     ]
    },
    "id": "porcelain_2_r",
    "moving": false,
-   "name_de": "Rauchgraues Keramiksegment",
+   "name_de": "Keramikinlay",
    "name_en": "porcelain 2 r",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     288.17,
+     305.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     -21.6,
+     -20.7
+    ]
+   },
+   "id": "pulse_line_2_r",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 2 r",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
   },
   {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     83.34,
-     123.69
+     82.07,
+     122.92
     ],
     "u": [
-     -13.86,
-     18.74
+     -47.97,
+     3.0
     ],
     "x": [
-     -22.5,
-     -19.8
+     -20.0,
+     -18.1
     ]
    },
    "id": "cell_panel_r",
@@ -1499,22 +1611,22 @@
    "name_en": "cell panel r",
    "role": "shell",
    "shape": "prof",
-   "triangles": 192
+   "triangles": 176
   },
   {
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -97.59,
-     -31.27
+     -105.68,
+     -34.28
     ],
     "u": [
-     75.0,
-     96.0
+     78.0,
+     98.0
     ],
     "x": [
-     -25.7,
-     -24.2
+     -24.9,
+     -23.6
     ]
    },
    "id": "aft_badge_r",
@@ -1529,23 +1641,23 @@
    "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -76.59,
-     -53.41
+     -81.59,
+     -58.41
     ],
     "u": [
-     80.93,
-     86.04
+     83.93,
+     89.04
     ],
     "x": [
-     -26.15,
-     -25.55
+     -25.4,
+     -24.8
     ]
    },
    "id": "word_r",
    "moving": false,
    "name_de": "Schriftzug",
    "name_en": "word r",
-   "role": "shell",
+   "role": "graphite",
    "shape": "text",
    "triangles": 1196
   },
@@ -1553,16 +1665,16 @@
    "assembly": "support",
    "extent_mm": {
     "f": [
-     168.26,
-     202.77
+     132.21,
+     167.82
     ],
     "u": [
-     89.01,
-     94.99
+     102.0,
+     109.0
     ],
     "x": [
-     -26.5,
-     -25.7
+     -25.5,
+     -23.7
     ]
    },
    "id": "serial_r",
@@ -1585,8 +1697,8 @@
      47.0
     ],
     "x": [
-     -22.8,
-     -21.8
+     -22.2,
+     -21.2
     ]
    },
    "id": "index_0_r",
@@ -1609,8 +1721,8 @@
      47.0
     ],
     "x": [
-     -22.8,
-     -21.8
+     -22.2,
+     -21.2
     ]
    },
    "id": "index_1_r",
@@ -1633,8 +1745,8 @@
      47.0
     ],
     "x": [
-     -22.8,
-     -21.8
+     -22.2,
+     -21.2
     ]
    },
    "id": "index_2_r",
@@ -1644,6 +1756,30 @@
    "role": "metal",
    "shape": "prof",
    "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -1.05,
+     -1.0
+    ],
+    "u": [
+     136.76,
+     139.24
+    ],
+    "x": [
+     -1.24,
+     1.24
+    ]
+   },
+   "id": "sight_reticle",
+   "moving": false,
+   "name_de": "Absehen Ring mit Punkt",
+   "name_en": "Reticle Ring and dot",
+   "role": "reticle_cyan",
+   "shape": "multi",
+   "triangles": 652
   }
  ],
  "pilot": {

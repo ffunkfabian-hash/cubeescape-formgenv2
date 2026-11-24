@@ -232,9 +232,10 @@ class KitModelTests(unittest.TestCase):
 
     def test_trestle_family_keeps_its_geometry_and_existing_anchors(self):
         from formgen.models.weapons import cairn, heron, swift, vesper
-        # Vor BASIC-Pass gemessen (PR26 + Nacharbeit): Teil-Geometrie, ohne Beschriftungsmetadaten.
-        cases = (("BT02", vesper, "cf576fa54776c8ffe8b1863c49e6a1af824efbbecbc491c7383e68fe5c316d7b",
-                  "optic_pane", [-20, 161, 0]),
+        # BT02 nach dem beauftragten Neuaufbau in 0.26, BT03–BT05 vor dem BASIC-Pass.
+        # Die vollständige Geometrie bleibt je Modell über einen eigenen Hash abgesichert.
+        cases = (("BT02", vesper, "6cb14040a22384d6c34531721ddf7c4775cbd066f265a77857a8ab976fc7e3da",
+                  "optic_hood", [-110.6, 161, 0]),
                  ("BT03", heron, "0d689a3648bb0d074b51ed55a298505e22ba576a93e0abbe3373f8db9874af17",
                   "rear_glass", [-123, 158, 0]),
                  ("BT04", cairn, "bd2d752f8ea5c4e2e59c3d7e365d76bb2164e1656410468e302d17ab1db99737",
@@ -268,9 +269,31 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
         self.assertFalse(model["ACTIONS"])
         parts = {p["id"]: p for p in model["PARTS"]}
-        self.assertIn("cuts", parts["pulse_mantle"])
+        for i, key in enumerate(("pulse_mantle", "pulse_middle", "pulse_front")):
+            self.assertIn("cuts", parts[key])
+            for side in ("l", "r"):
+                self.assertEqual(parts[f"pulse_line_{i}_{side}"]["mat"], "energy")
         self.assertEqual({p["mat"] for k, p in parts.items() if k.startswith("pulse_line_")}, {"energy"})
         self.assertEqual(len([k for k in parts if k.startswith("porcelain_")]), 6)
+
+    def test_vesper_keeps_its_frame_and_uses_the_basic_02_reticle(self):
+        pilot, model = kit_model("BT02")
+        parts = {p["id"]: p for p in model["PARTS"]}
+        original = next(p for p in pilot["PARTS"] if p["id"] == "sight_reticle")
+        mark = parts["sight_reticle"]
+        self.assertEqual((mark["mat"], mark["drawn"]), (original["mat"], original["drawn"]))
+        self.assertEqual(mark["parent_part"], "optic_pane")
+        self.assertEqual([parts["optic_hood"][k] for k in ("ow", "oh", "iw", "ih")], [42, 31, 33, 22])
+        eye, sight, reticle = [model["ANCHORS"][k] for k in ("Socket_Eye", "Socket_Sight", "Socket_Reticle")]
+        self.assertTrue(eye["std"])
+        self.assertEqual(eye["sight_type"], "reflex")
+        self.assertEqual([eye["part"], sight["part"], reticle["part"]], ["optic_hood", "optic_hood", "optic_pane"])
+        glass = parts["optic_pane"]
+        self.assertAlmostEqual(reticle["at"][0], glass["f0"] + 0.4)
+        self.assertEqual(reticle["at"][1:], [glass["cu"], 0])
+        self.assertEqual(sight["at"], [parts["optic_hood"]["f0"], glass["cu"], 0])
+        self.assertEqual(eye["at"], [glass["f0"] - original["drawn"]["dist_mm"], glass["cu"], 0])
+        self.assertTrue(all(q["f1"] == glass["f0"] and q["cu"] == glass["cu"] for q in mark["items"]))
 
     def test_heron_export_matches_scout_family_and_shows_both_beak_halves(self):
         pilot, model = kit_model("BT03")

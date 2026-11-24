@@ -697,6 +697,8 @@ def vary(data, variant, num, snap=None):
         if num == "01":
             with ballon.snapshot_imports(snap or ballon.snapshot()):
                 geometry = design.build()
+        elif num == "02":
+            geometry = vesper.build(snap=snap)
         else:
             geometry = design.build()
         model["PARTS"], model["ANCHORS"], model["POINTS"] = geometry
@@ -757,7 +759,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
         info["name_de"] = f"{meta['type_de']} · {design_name}"
         info["name_en"] = f"{meta['type_en']} · {design_name}"
         summaries = {
-            "02": "Kurzer, facettierter Bug mit tiefem Keramikfenster unter einer offenen Rahmenbrücke.",
+            "02": "Offener Heckrahmen und drei getrennte Impulssegmente mit je einem leuchtenden Fenster.",
             "03": "Eine schlanke Gabelspitze und ein flacher Sensorkörper zeichnen zwei lange Fenster in den Seitenriss.",
             "04": "Eine facettierte runde Keramikwange sitzt zwischen den gestuften Hauptkörpern.",
             "05": "Eine federförmige Keilschale und eine offene Ferse prägen den flachen Seitenriss.",
