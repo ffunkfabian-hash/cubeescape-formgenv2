@@ -5,10 +5,7 @@ from . import legacy_shared
 
 
 def build(snap=None):
-    # Das Glas sitzt mittig auf der bisherigen BT02-Spielvisierlinie.
-    family = legacy_shared.build(optic_base=146)
-    # Griff und Sichtfenster sind sichtbare Gleichteile der Trestle-Linie.
-    parts = [p for p in family if p['asm'] == 'grip_controls' or p['id'].startswith('optic_')]
+    parts = [p for p in legacy_shared.build() if p['asm'] == 'grip_controls']
 
     def add(key, group, material, name, shape, bevel, **geom):
         parts.append(dict(id=key, asm=group, mat=material, de=name, en=key.replace('_', ' '),
@@ -42,20 +39,22 @@ def build(snap=None):
     plate('body_spine','receiver','graphite','Dunkler Gehäusesockel',
           [(-143,118),(-119,132),(95,131),(111,113),(104,58),(94,43),(37,40),
            (18,55),(-11,55),(-45,67),(-95,71),(-139,88)], 43, 3)
+    # Lokale Vertiefung im sichtbaren Deck für das BA02-Modul.
+    sight_recess = dict(shape='box', f0=-66, f1=-9, u0=133, u1=150, w=60)
     plate('aft_cowl','receiver','shell','Gerade obere Gehäuseschale',
           [(-144,126),(-130,140),(82,140),(103,129),(98,91),(83,85),
-           (-100,85),(-139,94)], 48, 2.2)
+           (-100,85),(-139,94)], 48, 2.2, cuts=[sight_recess.copy()])
     plate('bridge_shadow','receiver','dark_metal','Flache Rückenfuge',
-          [(-123,137),(-109,144),(68,144),(84,139),(68,136),(-120,136)], 35, 1.2)
+          [(-123,137),(-109,144),(68,144),(84,139),(68,136),(-120,136)], 35, 1.2, cuts=[sight_recess.copy()])
     plate('bridge_fold','receiver','graphite','Oberes Deck',
-          [(-97,142),(-82,145),(33,145),(47,144),(73,143),(77,141)], 34, 1)
+          [(-97,142),(-82,145),(33,145),(47,144),(73,143),(77,141)], 34, 1, cuts=[sight_recess.copy()])
     plate('bridge_seat','receiver','anodized','Hintere Deckstufe',
           [(-123,141),(-111,146),(-91,146),(-94,142),(-104,140)], 32, .6)
     for i, f in enumerate((-112,-101)):
         plate(f'bridge_mark_{i}','receiver','accent','Seitliche Impulsmarke',
               [(f,120),(f+4,120),(f+10,129),(f+6,129)], 48.6, .3)
-    plate('crest','sight','graphite','Flache Visierauflage',
-          [(-52,144),(-43,146),(16,146),(30,144),(17,143),(-44,143)], 31, 1)
+    plate('crest','receiver','graphite','Flache Visierauflage',
+          [(-66,133),(-64,135.5),(-11,135.5),(-9,133),(-11,132),(-64,132)], 23, .5)
 
     # Die dunkle durchgehende Mitte ist in den Fugen sichtbar. Drei getrennte
     # Deckschalen werfen jeweils ein eigenes Profil in Seite und Draufsicht.
@@ -108,34 +107,23 @@ def build(snap=None):
             relief(f'index_{i}','receiver','metal','Indexsegment',
                    [(f,64),(f+4,64),(f+7,70),(f+3,70)],21.2,22.2,.3)
 
-    # Das Absehen ist das gezeichnete Spiel-HUD von BA02 im Vesper-Fenster.
-    # Alle drei Anker folgen dem tatsächlichen Glas beziehungsweise Rahmen.
-    glass = next(p for p in parts if p['id'] == 'optic_pane')
-    frame = next(p for p in parts if p['id'] == 'optic_hood')
-    glass_face, level = glass['f0'], glass['cu']
-    # BA02 setzt den Zielanker etwas hinter die sichtbare HUD-Ebene im Glas.
-    reticle_f = glass_face + 0.4
-    with ballon.snapshot_imports(snap or ballon.snapshot()):
-        from basic.common import drawn_reticle
-        from basic.reticles import SIGHT
-        relief_mm = SIGHT['types']['reflex']['eye_relief_mm']
-        eye_f = reticle_f - relief_mm
-        mark = drawn_reticle(glass_face, level, 'pulse_rifle', glass_face-eye_f, parent='optic_pane')
-    # Die HUD-Kontur enthält trigonometrische Werte aus BALLON. Auf ein Nanometer
-    # im mm-Modell runden, damit libm-Unterschiede keine Modellbytes verändern.
-    for primitive in mark['items']:
-        primitive['pts'] = [(round(x, 6) or 0.0, round(y, 6) or 0.0) for x, y in primitive['pts']]
-    parts.append(mark)
+    # Dasselbe H4 und dieselbe Klasse wie beim gepinnten BASIC-02-Piloten.
+    # Der gewählte Sitz hält das Absehen auf Vespers bisheriger Spielvisierlinie.
+    sight, aim = ballon.call(snap or ballon.snapshot(), 'holo_kasten', -60, 135, weapon_type='pulse_rifle')
+    for item in sight:
+        for profile in [item, *item.get('items', []), *item.get('cuts', [])]:
+            if profile.get('shape') == 'xprof':
+                # Ein Nanometer hält die gebogenen Kitkonturen und ihren Hash plattformstabil.
+                profile['pts'] = [(round(x, 6) or 0.0, round(y, 6) or 0.0) for x, y in profile['pts']]
+    parts.extend(sight)
 
     anchors = dict(Socket_Hand=('handle',[-20,23,0]), Socket_SupportHand=('chin',[165,35,0]),
-                   Socket_Muzzle=('front_trace_1',[381.8,81,0]),
-                   Socket_Sight=('optic_hood',[frame['f0'],level,0]),
-                   Socket_Reticle=('optic_pane',[reticle_f,level,0]),
-                   Socket_Eye=('optic_hood',[eye_f,level,0]))
+                   Socket_Muzzle=('front_trace_1',[381.8,81,0]))
     points = {'grip.grip':anchors['Socket_Hand'], 'grip.support':anchors['Socket_SupportHand'],
               'grip.mag':('cell',[86,17,0]),'grip.charge':('aft_cowl',[-30,101,24]),
               'eject':('body_spine',[39,65,-21])}
     sockets = {name:dict(part=part,at=list(at),source='Annahme: Bezugspunkt des Spielmodells')
                for name,(part,at) in anchors.items()}
-    sockets['Socket_Eye'].update(std=True, sight_type='reflex', source='BALLON: Reflexvisier-Spielstandard')
+    for name, anchor in aim.items():
+        sockets[name] = dict(anchor, at=list(anchor['at']), source='BALLON: H4 des BASIC-02-Piloten')
     return parts, sockets, {name:dict(part=part,at=list(at)) for name,(part,at) in points.items()}

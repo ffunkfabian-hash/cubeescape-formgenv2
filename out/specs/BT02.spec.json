@@ -1,9 +1,9 @@
 {
  "anchors": {
   "Socket_Eye": {
-   "part": "optic_hood",
+   "part": "sight_frame",
    "position_mm": [
-    -90.6,
+    -89.6,
     138.0,
     0.0
    ]
@@ -25,17 +25,17 @@
    ]
   },
   "Socket_Reticle": {
-   "part": "optic_pane",
+   "part": "sight_glass",
    "position_mm": [
-    -0.6,
+    0.4,
     138.0,
     0.0
    ]
   },
   "Socket_Sight": {
-   "part": "optic_hood",
+   "part": "sight_body",
    "position_mm": [
-    -8.0,
+    -39.0,
     138.0,
     0.0
    ]
@@ -126,22 +126,23 @@
   },
   "variant": {
    "accent_functions": [
-    "Seitliche Impulsmarke"
+    "Seitliche Impulsmarke",
+    "Spannt den Klemmfuß werkzeuglos"
    ],
    "hand_roles": {
     "Socket_Hand": "graphite",
     "Socket_SupportHand": "graphite"
    },
-   "sight_line_mm": 80
+   "sight_line_mm": 80.0
   }
  },
  "counts": {
   "assemblies": 7,
-  "parts": 67,
-  "triangles": 20036
+  "parts": 73,
+  "triangles": 21364
  },
  "dimensions_mm": {
-  "height": 215.46,
+  "height": 211.56,
   "length": 697.8,
   "width": 51.0
  },
@@ -173,126 +174,6 @@
  "name_de": "Impulsgewehr · Vesper",
  "name_en": "Pulse Rifle · Vesper",
  "parts": [
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -20.0,
-     37.66
-    ],
-    "u": [
-     123.0,
-     130.0
-    ],
-    "x": [
-     -18.0,
-     18.0
-    ]
-   },
-   "id": "optic_foot",
-   "moving": false,
-   "name_de": "Visierfuß",
-   "name_en": "optic foot",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 164
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -8.0,
-     8.0
-    ],
-    "u": [
-     122.5,
-     153.5
-    ],
-    "x": [
-     -21.0,
-     21.0
-    ]
-   },
-   "id": "optic_hood",
-   "moving": false,
-   "name_de": "Facettierter Fensterrahmen",
-   "name_en": "optic hood",
-   "role": "anodized",
-   "shape": "frame",
-   "triangles": 640
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -1.0,
-     0.5
-    ],
-    "u": [
-     126.0,
-     150.0
-    ],
-    "x": [
-     -17.5,
-     17.5
-    ]
-   },
-   "id": "optic_pane",
-   "moving": false,
-   "name_de": "Getönte Sichtscheibe",
-   "name_en": "optic pane",
-   "role": "glass",
-   "shape": "xprof",
-   "triangles": 284
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -11.79,
-     27.38
-    ],
-    "u": [
-     126.0,
-     144.0
-    ],
-    "x": [
-     18.3,
-     21.3
-    ]
-   },
-   "id": "optic_cheek_l",
-   "moving": false,
-   "name_de": "Visierwange",
-   "name_en": "optic cheek l",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 332
-  },
-  {
-   "assembly": "sight",
-   "extent_mm": {
-    "f": [
-     -11.79,
-     27.38
-    ],
-    "u": [
-     126.0,
-     144.0
-    ],
-    "x": [
-     -21.3,
-     -18.3
-    ]
-   },
-   "id": "optic_cheek_r",
-   "moving": false,
-   "name_de": "Visierwange",
-   "name_en": "optic cheek r",
-   "role": "dark_metal",
-   "shape": "prof",
-   "triangles": 332
-  },
   {
    "assembly": "grip_controls",
    "extent_mm": {
@@ -699,7 +580,7 @@
    "name_en": "aft cowl",
    "role": "shell",
    "shape": "prof",
-   "triangles": 224
+   "triangles": 596
   },
   {
    "assembly": "receiver",
@@ -723,7 +604,7 @@
    "name_en": "bridge shadow",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 132
+   "triangles": 532
   },
   {
    "assembly": "receiver",
@@ -747,7 +628,7 @@
    "name_en": "bridge fold",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 188
+   "triangles": 608
   },
   {
    "assembly": "receiver",
@@ -822,19 +703,19 @@
    "triangles": 140
   },
   {
-   "assembly": "sight",
+   "assembly": "receiver",
    "extent_mm": {
     "f": [
-     -31.14,
-     49.09
+     -45.77,
+     10.77
     ],
     "u": [
-     120.0,
-     123.0
+     109.0,
+     112.5
     ],
     "x": [
-     -15.5,
-     15.5
+     -11.5,
+     11.5
     ]
    },
    "id": "crest",
@@ -843,7 +724,7 @@
    "name_en": "crest",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 128
+   "triangles": 172
   },
   {
    "assembly": "support",
@@ -1761,8 +1642,272 @@
    "assembly": "sight",
    "extent_mm": {
     "f": [
-     -1.05,
-     -1.0
+     -40.0,
+     6.0
+    ],
+    "u": [
+     112.5,
+     118.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": true,
+   "name_de": "Visier-Klemmfuß",
+   "name_en": "Sight mount",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -28.0,
+     -6.46
+    ],
+    "u": [
+     112.8,
+     115.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -39.0,
+     -10.0
+    ],
+    "u": [
+     117.5,
+     124.0
+    ],
+    "x": [
+     -8.0,
+     8.0
+    ]
+   },
+   "id": "sight_body",
+   "moving": false,
+   "name_de": "Visiergehäuse",
+   "name_en": "Sight housing",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 180
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -10.71,
+     6.6
+    ],
+    "u": [
+     117.5,
+     127.6
+    ],
+    "x": [
+     -14.6,
+     14.6
+    ]
+   },
+   "id": "sight_base",
+   "moving": false,
+   "name_de": "Haubensockel",
+   "name_en": "Hood base",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -18.35,
+     -13.65
+    ],
+    "u": [
+     117.45,
+     122.15
+    ],
+    "x": [
+     -10.0,
+     -7.5
+    ]
+   },
+   "id": "sight_knob_w",
+   "moving": false,
+   "name_de": "Seitenverstellung",
+   "name_en": "Windage knob",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -19.14,
+     -12.86
+    ],
+    "u": [
+     116.66,
+     122.94
+    ],
+    "x": [
+     7.5,
+     10.0
+    ]
+   },
+   "id": "sight_battery",
+   "moving": false,
+   "name_de": "Batteriedeckel",
+   "name_en": "Battery cap",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -24.5,
+     -22.5
+    ],
+    "u": [
+     121.6,
+     123.4
+    ],
+    "x": [
+     -3.0,
+     3.0
+    ]
+   },
+   "id": "sight_emitter",
+   "moving": false,
+   "name_de": "Emitter",
+   "name_en": "Reticle emitter",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -6.0,
+     6.0
+    ],
+    "u": [
+     126.4,
+     149.6
+    ],
+    "x": [
+     -14.6,
+     14.6
+    ]
+   },
+   "id": "sight_frame",
+   "moving": false,
+   "name_de": "Haube",
+   "name_en": "Sight hood",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 432
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     5.6,
+     6.6
+    ],
+    "u": [
+     126.4,
+     149.6
+    ],
+    "x": [
+     -14.6,
+     14.6
+    ]
+   },
+   "id": "sight_frame_trim",
+   "moving": false,
+   "name_de": "Stirnkante",
+   "name_en": "Hood trim",
+   "role": "trim",
+   "shape": "xprof",
+   "triangles": 432
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -9.28,
+     -8.28
+    ],
+    "u": [
+     121.1,
+     125.1
+    ],
+    "x": [
+     -6.2,
+     5.9
+    ]
+   },
+   "id": "sight_status",
+   "moving": false,
+   "name_de": "Ziffernfeld",
+   "name_en": "Digit field",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 36
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.0,
+     0.8
+    ],
+    "u": [
+     128.0,
+     148.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Visierglas",
+   "name_en": "Sight glass",
+   "role": "glass_scope",
+   "shape": "xprof",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.05,
+     -0.0
     ],
     "u": [
      136.76,

@@ -2,9 +2,9 @@
 
 ## 0.26.0 Lamella — Vesper
 
-- Vesper (BT02) erhält einen offenen Heckrahmen und drei getrennte Impulssegmente mit je einer eigenen Lichtmarke. Der flache Vesper-Rahmen trägt das Absehen von BASIC-02 mit Zielankern für Unity. Die Gesamtbreite beträgt wie bei BASIC-02 51,0 mm. [Versionsbericht](docs/versions/0.26.md)
+- Vesper (BT02) erhält einen offenen Heckrahmen und drei getrennte Impulssegmente mit je einer eigenen Lichtmarke. Vesper übernimmt das vollständige H4 „Kasten“ von BASIC-02 samt Ring-Punkt-Absehen und drei Zielankern für Unity. Die Gesamtbreite beträgt wie bei BASIC-02 51,0 mm. [Versionsbericht](docs/versions/0.26.md)
 
-- Die Konturpunkte des gezeichneten Absehens werden auf ein Nanometer gerundet. So lässt sich der Modellhash auf macOS und Linux exakt prüfen.
+- Die gebogenen Konturen des H4 und seines gezeichneten Absehens werden auf ein Nanometer gerundet. So lässt sich der Modellhash auf macOS und Linux exakt prüfen.
 
 ## 0.24.0 Crossbeam — TRESTLE im BASIC-Pass
 

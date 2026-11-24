@@ -234,8 +234,8 @@ class KitModelTests(unittest.TestCase):
         from formgen.models.weapons import cairn, heron, swift, vesper
         # BT02 nach dem beauftragten Neuaufbau in 0.26, BT03–BT05 vor dem BASIC-Pass.
         # Die vollständige Geometrie bleibt je Modell über einen eigenen Hash abgesichert.
-        cases = (("BT02", vesper, "a596719d30a894f3700723239d635fc36a847cca1e219893635c38740271499f",
-                  "optic_hood", [-110.6, 161, 0]),
+        cases = (("BT02", vesper, "7729de5c3a94ec44c1d80dfbd3505c11cfff89b0d6d3fcab836b4381aba45d35",
+                  "sight_frame", [-109.6, 161, 0]),
                  ("BT03", heron, "0d689a3648bb0d074b51ed55a298505e22ba576a93e0abbe3373f8db9874af17",
                   "rear_glass", [-123, 158, 0]),
                  ("BT04", cairn, "bd2d752f8ea5c4e2e59c3d7e365d76bb2164e1656410468e302d17ab1db99737",
@@ -276,26 +276,35 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual({p["mat"] for k, p in parts.items() if k.startswith("pulse_line_")}, {"energy"})
         self.assertEqual(len([k for k in parts if k.startswith("porcelain_")]), 6)
 
-    def test_vesper_keeps_its_frame_and_uses_the_basic_02_reticle(self):
+    def test_vesper_uses_complete_basic_02_sight_and_its_anchors(self):
         pilot, model = kit_model("BT02")
-        parts = {p["id"]: p for p in model["PARTS"]}
-        original = next(p for p in pilot["PARTS"] if p["id"] == "sight_reticle")
-        mark = parts["sight_reticle"]
-        self.assertEqual((mark["mat"], mark["drawn"]), (original["mat"], original["drawn"]))
-        expected_contours = [[[round(x, 6), round(y, 6)] for x, y in q["pts"]] for q in original["items"]]
-        self.assertEqual([[list(pt) for pt in q["pts"]] for q in mark["items"]], expected_contours)
-        self.assertEqual(mark["parent_part"], "optic_pane")
-        self.assertEqual([parts["optic_hood"][k] for k in ("ow", "oh", "iw", "ih")], [42, 31, 33, 22])
-        eye, sight, reticle = [model["ANCHORS"][k] for k in ("Socket_Eye", "Socket_Sight", "Socket_Reticle")]
-        self.assertTrue(eye["std"])
-        self.assertEqual(eye["sight_type"], "reflex")
-        self.assertEqual([eye["part"], sight["part"], reticle["part"]], ["optic_hood", "optic_hood", "optic_pane"])
-        glass = parts["optic_pane"]
-        self.assertAlmostEqual(reticle["at"][0], glass["f0"] + 0.4)
-        self.assertEqual(reticle["at"][1:], [glass["cu"], 0])
-        self.assertEqual(sight["at"], [parts["optic_hood"]["f0"], glass["cu"], 0])
-        self.assertEqual(eye["at"], [glass["f0"] - original["drawn"]["dist_mm"], glass["cu"], 0])
-        self.assertTrue(all(q["f1"] == glass["f0"] and q["cu"] == glass["cu"] for q in mark["items"]))
+        source = {p["id"]: p for p in pilot["PARTS"] if p["asm"] == "sight"}
+        actual = {p["id"]: p for p in model["PARTS"] if p["asm"] == "sight"}
+        self.assertEqual(set(source), set(actual))
+        self.assertFalse(any(p["id"].startswith("optic_") for p in model["PARTS"]))
+
+        # Nutzerwechsel zum BA02-H4: vollständige Kit-Geometrie und Hierarchie
+        # nach derselben starren Verschiebung für alle Teile vergleichen.
+        def quantized(v):
+            if isinstance(v, dict):
+                return {k: quantized(n) for k, n in v.items()}
+            if isinstance(v, (tuple, list)):
+                return [quantized(n) for n in v]
+            return round(v, 6) if isinstance(v, float) else v
+
+        delta = [-28, -26, 0]  # Platzierung im exportierten Koordinatensystem von BT02
+        for key, part in source.items():
+            with self.subTest(part=key):
+                for axis, shift in enumerate(delta[:2]):
+                    generator._map(part, axis, lambda value: value + shift)
+                self.assertEqual(quantized(actual[key]), quantized(part))
+        for key in ("Socket_Eye", "Socket_Sight", "Socket_Reticle"):
+            expected, anchor = pilot["ANCHORS"][key], model["ANCHORS"][key]
+            self.assertEqual(anchor["part"], expected["part"])
+            for v, base, shift in zip(anchor["at"], expected["at"], delta):
+                self.assertAlmostEqual(v, base + shift)
+        self.assertTrue(model["ANCHORS"]["Socket_Eye"]["std"])
+        self.assertEqual(model["ANCHORS"]["Socket_Eye"]["sight_type"], "reflex")
 
     def test_heron_export_matches_scout_family_and_shows_both_beak_halves(self):
         pilot, model = kit_model("BT03")
