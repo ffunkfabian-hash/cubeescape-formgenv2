@@ -603,8 +603,8 @@ Achse, wie bei BASIC-14 also 20 mm neben der Visierlinie.
 
 ### Nachbesserung
 
-Belege: `~/Library/Caches/CubeEscapeFormgen2/0.25/belege/e09/r1–r4` und `…/e14/r1–r4`, je mit sieben Ansichten, Clay, Explosion und
-Kontaktbogen; r4 als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA09.png` bzw. `vergleich_BA14.png` (Piloten im selben AAA-Weg unter `e09/BA09`, `e14/BA14`).
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.25/belege/e09/r1–r4` und `…/e14/r1–r5`, je mit sieben Ansichten, Clay, Explosion und
+Kontaktbogen; e09/r4 und e14/r4–r5 (r5 nach Richter R1) als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA09.png` bzw. `vergleich_BA14.png` (Piloten im selben AAA-Weg unter `e09/BA09`, `e14/BA14`).
 
 | Typ | Runde | gesehen | geändert |
 |---|---|---|---|
