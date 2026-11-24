@@ -289,7 +289,7 @@ class TestSchulter(unittest.TestCase):
         d = self.data["e14"]
         eye = d["ANCHORS"]["Socket_Eye"]["at"]
         c = self.consts["e14"]
-        mount = {"sight_arm", "rail"}
+        mount = {"sight_arm", "rail", "sight_clamps", "clamp_screws"}
 
         def problems(parts):
             out = []
@@ -363,32 +363,44 @@ class TestSchulter(unittest.TestCase):
 
     # ---------------------------------------------------------------- Leitmotiv Stativ (E09)
     def test_theodolite_three_supports(self):
-        """Der Rautenrumpf steht auf drei Stützen – Griff mit Magazin, Zweibeinpylon, Einbein unter dem Kolben – und spannt dazwischen frei:
-        unter der Spannweite (Magazin → Pylon) und unter dem Kolbenbogen (Griff → Kolbenbein) bleibt die Seitensilhouette leer."""
+        """Der Rautenrumpf steht auf drei Stützen – Griff mit Magazin, Pylon, Kolbenbein – und spannt dazwischen frei: unter der Spannweite
+        (Magazin → Pylon) und unter dem Kolbenbogen (Griff → Kolbenbein) bleibt die Seitensilhouette leer. Runde 5 (Nutzer: dünne Stifte
+        unverständlich): Pylon und Kolbenbein stehen auf Gummisohlen, die sich nach unten verbreitern; kein dünner Stift hängt unter dem Rumpf."""
         c, ids, P = self.consts["e09"], self.ids["e09"], self.data["e09"]["PARTS"]
         under = c["_UNDER"]
-        span_u, pylon_u = c["SPAN"][2], c["PYLON"][2]
+        span_u = c["SPAN"][2]
 
         def problems(parts, line):
             out = []
+            pid = {p["id"]: p for p in parts}
             low = lambda f0, f1: min(u for f, u in line if f0 <= f <= f1)   # noqa: E731
             if span_u - low(c["PYLON"][0], c["PYLON"][1]) < 40:
                 out.append("kein Pylon")
-            if c["ARCH"][2] - extended.bounds(ids["monopod_foot"])[0][1] < 80:
-                out.append("kein Einbein")
+            if c["ARCH"][2] - extended.bounds(pid["toe_foot"])[0][1] < 60:
+                out.append("kein Kolbenbein")
             if free(parts, (c["SPAN"][0] + 10, span_u - 40, c["SPAN"][1] - 10, span_u - 2)) > 0.0:
                 out.append("Spannweite zu")
             if free(parts, (c["ARCH"][0] + 6, c["ARCH"][2] - 30, c["ARCH"][1] - 6, c["ARCH"][2] - 2)) > 0.0:
                 out.append("Kolbenbogen zu")
+            for q in parts:
+                if q["asm"] in ("support", "stock") and (q["shape"] == "tube" or (q["shape"] == "cyl" and q["axis"] == "u" and q["r"] < 8)):
+                    out.append(f"Stift {q['id']}")
             return out
         self.assertEqual(problems(P, under), [])
-        self.assertGreater(min(u for f, u in under if c["TOE"][0] <= f <= c["TOE"][1]), extended.bounds(ids["monopod_foot"])[0][1] + 40)
+        for pid in ("pylon_foot", "toe_foot"):
+            foot = ids[pid]
+            us = [u for _, u in foot["pts"]]
+            self.assertEqual(foot["mat"], "rubber")
+            self.assertGreaterEqual(max(us) - min(us), 8.0, f"{pid}: Sohle nicht zart")
+            self.assertGreaterEqual(width_at(foot["pts"], min(us) + 3) - width_at(foot["pts"], max(us) - 0.5), 10.0, f"{pid}: Sohle verbreitert")
         keel = dict(id="kiel", asm="receiver", shape="box", f0=c["SPAN"][0], f1=c["SPAN"][1], u0=20, u1=span_u + 1, w=20)
         self.assertEqual(problems(P + [keel], under), ["Spannweite zu"])          # Gegenprobe: durchgehender Vorderschaft
         slab = dict(id="platte", asm="stock", shape="box", f0=c["ARCH"][0] - 20, f1=c["ARCH"][1] + 20, u0=0, u1=c["ARCH"][2] + 1, w=30)
         self.assertEqual(problems(P + [slab], under), ["Kolbenbogen zu"])         # Gegenprobe: Keilkolben wie Runde 1
         flat = [(f, max(u, span_u)) if c["SPAN"][1] < f < c["NOSE"] else (f, u) for f, u in under]
         self.assertIn("kein Pylon", problems(P, flat))                            # Gegenprobe: ohne Pylon
+        pin = dict(id="monopod", asm="stock", shape="cyl", axis="u", c=(-297, 0), a0=-46, a1=-4, r=5.4)
+        self.assertEqual(problems(P + [pin], under), ["Stift monopod"])           # Gegenprobe: Einbeinstift wie Runde 1–4
 
     def test_theodolite_section(self):
         """Raute mit Gürtel: Oberschale und Kiel sind am Gürtel am breitesten und laufen schräg zu Deck und Kiel; der Gürtel ist senkrecht
@@ -483,6 +495,41 @@ class TestSchulter(unittest.TestCase):
         sleeve = dict(ids["saddle"], pts=c["drop"](c["R_REAR"] + 6, c["BORE"], 66))
         self.assertEqual(problems(sleeve, c["_sad_line"]), ["Muffe statt Wiege"])              # Gegenprobe: Runde 2
         self.assertEqual(len(ids["saddle_straps"]["items"]), 2)
+
+    def test_keelson_sight_console(self):
+        """Runde 5 (Nutzer: Visier „richtig“ befestigen): Die Konsole wächst aus Rumpfschale und Kiel (Wurzel in der Flanke, mindestens
+        30 mm hoch), hat einen tragfähigen Querschnitt (≥ 1200 mm², Spitze ≥ 12 mm hoch, ≥ 50 mm lang), trägt die Schiene unter dem Visier
+        auf ganzer Länge zwischen zwei Klemmleisten mit blanken Schrauben und hängt mit Rumpf und Visier zusammen."""
+        c, ids, P = self.consts["e14"], self.ids["e14"], self.data["e14"]["PARTS"]
+
+        def area(pts):
+            return abs(sum(x0 * u1 - x1 * u0 for (x0, u0), (x1, u1) in zip(pts, pts[1:] + pts[:1]))) / 2
+
+        def problems(arm):
+            out = []
+            pts = arm["pts"]
+            root = [u for x, u in pts if x <= c["hull_x"](u) - 1.5]
+            if not root or max(root) - min(root) < 30:
+                out.append("Wurzel nicht in der Flanke")
+            tip = max(x for x, _ in pts)
+            tip_us = [u for x, u in pts if x >= tip - 0.5]
+            if area(pts) < 1200 or max(tip_us) - min(tip_us) < 12 or arm["f1"] - arm["f0"] < 50:
+                out.append("zu dünn")
+            rail = ids["rail"]
+            if not (arm["f0"] <= rail["f0"] and arm["f1"] >= rail["f1"]) or tip < c["SIDE"] + rail["w"] / 2:
+                out.append("Schiene nicht getragen")
+            return out
+        self.assertEqual(problems(ids["sight_arm"]), [])
+        self.assertEqual(ids["sight_arm"]["mat"], "shell", "wächst aus der Creme-Schale")
+        self.assertEqual(len(ids["sight_clamps"]["items"]), 2)
+        self.assertGreaterEqual(len(ids["clamp_screws"]["items"]), 4)
+        self.assertEqual(ids["clamp_screws"]["mat"], "trim")
+        group = next(g for g in extended.components(P) if "sight_arm" in g)
+        self.assertTrue({"hull", "keel", "sight_mount"} <= set(group))
+        old = dict(ids["sight_arm"], f0=2, f1=40, pts=[(38, 92), (77, 98), (77, 106), (38, 112)])
+        self.assertIn("zu dünn", problems(old))                                            # Gegenprobe: dünner Winkel bis Runde 4
+        loose = dict(ids["sight_arm"], pts=[(x + 14, u) for x, u in ids["sight_arm"]["pts"]])
+        self.assertIn("Wurzel nicht in der Flanke", problems(loose))                       # Gegenprobe: Konsole stumpf angesetzt
 
     def test_keelson_loading(self):
         """Ladeschacht oben: die Rakete passt durch den Schacht, die Klappe deckt ihn, die Bohrung ist hinten geschlossen."""

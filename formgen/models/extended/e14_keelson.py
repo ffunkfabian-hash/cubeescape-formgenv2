@@ -15,13 +15,16 @@ Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
 - Querschnitt: Tropfen – Kreis r 46 um die Bohrung, Flanken tangential zum Kiel; Kielschale 1,5 mm unter der Rumpfschale abgesetzt.
 - Negativraum: die Schulterbucht unter dem Abgasrohr zwischen Rumpf und Sattel und der Sattelbogen über der Schulter; dazu der
   Ladeschacht oben unter der Klappe.
-- Blickfang (genau einer): die Zielerfassungsraute links neben dem Visierausleger, leuchtet bei Bereitschaft.
+- Blickfang (genau einer): die Zielerfassungsraute links neben dem Visierkonsole, leuchtet bei Bereitschaft.
 - Zweiton: Creme-Rumpfschale über Graphit-Kiel; Abgasrohr, Sattel und Griff Graphit.
+- Visierbefestigung (Runde 5): Konsole aus Schale und Kiel mit schräger Strebe, Schiene zwischen zwei Klemmleisten mit blanken Schrauben.
 - Schichten: Kielschale 1,5 mm unter der Schale, Kielpaneele in Mulden, Stirnplatte 3 mm vor der Stirn, Ladeklappe 2,6 mm über der Schale.
 - Grafik: eine orange Wasserlinie auf beiden Kielflanken (einziges Grafikelement); eine Schrift rechts auf der Schale.
 - Front mehrstufig: Tropfenstirn mit Fase → eloxierte Stirnplatte → blanker Bohrungsring → dunkles Futterrohr; unter der Bohrung das
   Fenster des Entfernungsmessers.
-- Ergonomie: Griff BGM-1 (Socket_Hand 0/0) unter dem Rumpfheck, Stützhand unter dem Bauch (Griffkiel), Schultersattel auf der Schulter,
+- Ergonomie: Griff BGM-1 (Socket_Hand 0/0) unter dem Rumpfheck, Stützhand unter dem Bauch (Griffkiel; kein Vordergriff wie BASIC-14:
+  der Bauch reicht bis u 16 hinab und ist selbst die Griffzone; ein hängender Griff bräche die Bauchlinie und wiederholte die Stützen
+  von E09), Schultersattel auf der Schulter,
   Ladeklappe oben schwenkt nach rechts, Klappenknopf links (wie BASIC-14). Akzent-Bedienfunktionen: Klappenknopf, Sicherung (2).
 
 Herkunft der Zahlen: V = Vorgabe (Familie/Schnittstelle, BASIC-14 Pilot v2.1 bzw. `basic.common`), A = Annahme (Entwurf 0.25),
@@ -59,8 +62,8 @@ R_REAR = 31.0            # A: Abgasrohr Ø 62 (BASIC-14 Heckrohr Ø 66, V)
 FLANK = 18.0             # A: Flankenwinkel des Tropfens gegen die Senkrechte
 SEAM = 100.5             # A: Fuge Rumpfschale/Kiel
 SIDE = 66.0              # V: Visier seitlich links, Visierlinie auf Achshöhe 66 mm neben der Achse (66 ± 4)
-DECK = BORE - sight_line(0)   # V: Schienenoberkante am Visierausleger (Holo: Schiene + 26)
-ARM = (2, 40)            # A: Visierausleger f0, f1
+DECK = BORE - sight_line(0)   # V: Schienenoberkante am Visierkonsole (Holo: Schiene + 26)
+ARM = (-4, 56)           # A: Visierkonsole f0, f1 (Runde 5: trägt die Schiene über ihre ganze Länge)
 F0, F1 = -12, 540        # A: Rumpfschale von der Kegelfuge bis zur Stirn
 CONE = (-96, F0)         # A: Kegel Abgasrohr → Rumpf (Runde 2: länger, läuft in die Schale)
 REAR0 = -350             # A: Ende des Abgasrohrs; Heckring dahinter
@@ -139,7 +142,7 @@ P = []
 _bore_cut = dict(shape='cyl', axis='f', c=(BORE, 0), a0=F0 - 2, a1=F1 + 8, r=R_IN, segs=48)
 P += [
     part('hull', 'Rumpfschale', 'Hull shell', 'barrel', 'xprof', 'shell',
-         'Startrohr als Deck: Tropfen oben um die Bohrung, trägt Visierausleger, Ladeschacht und Stirn',
+         'Startrohr als Deck: Tropfen oben um die Bohrung, trägt Visierkonsole, Ladeschacht und Stirn',
          'Grundkörper; mit dem Kiel an der Fuge verschraubt', bevel=R_MID, f0=F0, f1=F1, cu=0, pts=SHELL_X,
          cuts=[_bore_cut, cut_box(SLOT[0], SLOT[1], BORE + 6, BORE + R_HULL + 4, 2 * SLOT[2]),
                dict(shape='prof', pts=[(LOCK[0] - 5, LOCK[2]), ((LOCK[0] + LOCK[1]) / 2, LOCK[2] + 15), (LOCK[1] + 5, LOCK[2]),
@@ -248,15 +251,30 @@ P += [
     part('saddle_screws', 'Sattelschrauben', 'Saddle screws', 'stock', 'multi', 'trim', 'Spannschrauben der Bänder',
          'seitlich an den Bändern', bevel=0.2, items=mirror(screws([(SADDLE[0] + 36, BORE), (SADDLE[1] - 36, BORE)], R_REAR + 2.6, r=1.8, h=0.8))),
 ]
-# ---------------------------------------------------------------- Visierausleger, Schiene, Visier W2 seitlich links
+# ---------------------------------------------------------------- Visierkonsole, Schiene, Visier W2 seitlich links
+# Runde 5 (Nutzer: „Am Raketenwerfer muss das Visier noch ‚richtig‘ befestigt werden“): statt des dünnen Winkels eine Konsole, die aus
+# Rumpfschale und Kiel wächst – Wurzel in der Flanke, schräge Strebe unten, Kehle oben ins Deck –, darauf die Schiene zwischen zwei
+# Klemmleisten mit blanken Schrauben.
+CONSOLE_X = [(24, 82), (SIDE + 16, DECK - 22), (SIDE + 16, DECK - 8.5), (56, DECK - 8.5), (48, DECK - 6), (44, DECK), (41, BORE - 16),
+             (30, BORE - 16)]
 P += [
-    part('sight_arm', 'Visierausleger', 'Sight outrigger', 'support', 'xprof', 'anodized', 'Trägt die Schiene 66 mm links neben der Rohrachse',
-         'aus der Rumpfschale gewachsen (verschraubt)', bevel=R_SMALL, f0=ARM[0], f1=ARM[1], cu=0,
-         pts=[(R_HULL - 8, DECK - 22), (SIDE + 11, DECK - 16), (SIDE + 11, DECK - 8), (R_HULL - 8, DECK - 2)]),
+    part('sight_arm', 'Visierkonsole', 'Sight console', 'support', 'xprof', 'shell', 'Trägt die Schiene 66 mm links neben der Rohrachse',
+         'aus Rumpfschale und Kiel gewachsen, mit der Fuge verschraubt', bevel=R_MID, f0=ARM[0], f1=ARM[1], cu=0, pts=CONSOLE_X,
+         cuts=[dict(shape='plan', pts=[(f, 62), (f, 90), (f + sg * 14, 90)], u0=60, u1=130) for f, sg in ((ARM[0] - 0.5, 1), (ARM[1] + 0.5, -1))]),
+    part('sight_clamps', 'Klemmleisten', 'Rail clamps', 'support', 'multi', 'anodized', 'Klemmen die Schiene auf der Konsole',
+         'beiderseits der Schiene verschraubt', bevel=R_FINE,
+         items=[dict(shape='box', f0=ARM[0] + 4, f1=ARM[1] - 4, u0=DECK - 9, u1=DECK - 4.5, w=3.0, x=x) for x in (SIDE - 13.5, SIDE + 13.5)]),
+    part('clamp_screws', 'Klemmschrauben', 'Clamp screws', 'support', 'multi', 'trim', 'Spannen die Klemmleisten gegen die Schiene',
+         'quer durch die Klemmleisten', bevel=0.2,
+         items=[dict(shape='cyl', axis='x', c=(f, DECK - 6.8), a0=x - 1.0, a1=x + 1.0, r=1.4, segs=12)
+                for f in (ARM[0] + 10, ARM[1] - 10) for x in (SIDE - 15.6, SIDE + 15.6)]),
+    part('console_bolts', 'Konsolenbolzen', 'Console bolts', 'support', 'multi', 'metal', 'Verschrauben die Konsole mit der Fuge Schale/Kiel',
+         'unten an der Konsolenwurzel', bevel=0.4,
+         items=[dict(shape='cyl', axis='u', c=(f, 33.5), a0=81.8, a1=84.0, r=3.0, segs=16) for f in (ARM[0] + 12, ARM[1] - 12)]),
 ]
-_rail = [dict(p, mat='anodized', x=SIDE, attach='auf dem Visierausleger (fest)') for p in rail(ARM[0] - 2, ARM[0] + 48, DECK - 8)]
+_rail = [dict(p, mat='anodized', x=SIDE, attach='auf der Visierkonsole zwischen den Klemmleisten (fest)') for p in rail(ARM[0] + 4, ARM[0] + 54, DECK - 8)]
 P += _rail
-_sight, SIGHT_ANCHORS = side_mount(*entfernung(ARM[0], DECK, weapon_type='rocket_launcher'), SIDE)
+_sight, SIGHT_ANCHORS = side_mount(*entfernung(ARM[0] + 6, DECK, weapon_type='rocket_launcher'), SIDE)
 P += _sight
 # ---------------------------------------------------------------- Ladeschacht oben (wie BASIC-14: Rakete von oben, Klappe nach rechts)
 P += [

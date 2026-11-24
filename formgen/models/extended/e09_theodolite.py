@@ -6,8 +6,9 @@ und Hilfen (`cut_box`, `mirror`). Geladen über `formgen.extended`, gerendert mi
 (`tools/extended_render.py`).
 
 Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
-- Leitmerkmal Stativ (Theodolit): Das Gewehr ist ein Messinstrument, das auf drei Punkten steht – Griff mit Magazin, ein Zweibeinfuß
-  (Pylon) vorn unter dem Rumpf und ein Einbein unter der Kolbenspitze. Zwischen Magazin und Pylon spannt der Rumpf frei
+- Leitmerkmal Stativ (Theodolit): Das Gewehr ist ein Messinstrument, das auf drei Punkten steht – Griff mit Magazin, der Pylon vorn
+  unter dem Rumpf und das Kolbenbein; Pylon und Kolbenbein tragen Gummifüße im Rautenquerschnitt (Runde 5: keine dünnen Stifte mehr,
+  Nutzer). Zwischen Magazin und Pylon spannt der Rumpf frei
   (Spannweite), davor läuft der lange Lauf frei bis zur Bremse.
 - Silhouette: lang (1,18 m), gerade Deckslinie, die hinten zum Wangenkamm steigt; unten drei Stützen mit offenen Feldern dazwischen.
 - Querschnitt: Raute mit Gürtel – Oberschale und Kiel laufen schräg zur Gratlinie auf Laufhöhe, dort ein senkrechter Gürtel 13 mm hoch
@@ -19,7 +20,7 @@ Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
 - Grafik: ein Gratstreifen auf dem Gürtel beidseitig (einziges Grafikelement); eine Schrift rechts auf dem Gürtel.
 - Front mehrstufig: Mündungsbremse mit zwei Kammern und Krone → freier kannelierter Lauf → Laufbuchse → Stirnplatte → Pylon darunter.
 - Ergonomie: Griff BGM-1 (Socket_Hand 0/0), Stützhand am Pylon (Griffpolster), Kammerstängel links (die Stützhand repetiert, wie
-  BASIC-09), Wangenkamm 26 mm unter der Visierlinie. Akzent-Bedienfunktionen: Magazinhalter, Zweibeinriegel, Einbeinring (3).
+  BASIC-09), Wangenkamm 26 mm unter der Visierlinie. Akzent-Bedienfunktion: Magazinhalter (1).
 
 Herkunft der Zahlen: V = Vorgabe (Familie/Schnittstelle, BASIC-09 Pilot v2.1 bzw. `basic.common`), A = Annahme (Entwurf 0.25),
 G = gemessen; Zahlen ohne Kennung sind A (Entwurf 0.25, an den Renders gesichtet).
@@ -35,7 +36,7 @@ META = dict(id='EXTENDED-09', num='E09', sheet_id='EA09', type='sniper_rifle', t
             family='BASIC', name='Theodolite', nick='Stativ', ammo='special', fire='bolt_action',
             reference_length_m=1.178, reference_length_source='G: Hülle des Datensatzes 0.25 (BASIC-09 1,135 m gemessen als Rahmen, V)',
             inspired_by='BASIC-09 Familie; Formgen v1 als Haltung (eine mutige Gesamtarchitektur)',
-            summary='Repetier-Scharfschützengewehr als Messinstrument: Rautenrumpf auf drei Stützen (Magazin, Zweibeinpylon, Einbein), '
+            summary='Repetier-Scharfschützengewehr als Messinstrument: Rautenrumpf auf drei Stützen (Magazin, Pylon und Kolbenbein mit Gummifüßen), '
                     'Zielfernrohr Z3 und Libelle (EXTENDED-Reihe).')
 ASSEMBLIES = [
     dict(id='receiver', de='Hauptgehäuse', en='Receiver'),
@@ -62,11 +63,10 @@ BUTT, NOSE = -331, 496   # A: Kolbenende / Stirn des Rumpfs
 F_OBJ = 130              # V: Ringstirn Z3 wie BASIC-09 (Augenpunkt f 40)
 SEAT_F, FOOT_F = (-74, -24), (96, 134)   # A: Schienen hinten (auf dem Kamm) und vorn (auf dem Deck)
 SPAN = (205, 368, 70)    # A: Spannweite f0, f1 und Unterkante u (Rumpf 46 mm hoch zwischen Magazin und Pylon)
-PYLON = (398, 437, 10)   # A: Pylonfuß f0, f1, Unterkante (Zweibeinfuß; Stützhand)
+PYLON = (398, 437, 10)   # A: Pylon unten f0, f1, Unterkante (vordere Stütze; Stützhand)
 MAG = (76, 40, 44)       # A: Magazinschacht hinten f, Tiefe, Oberkante (fünf Patronen, BASIC-09 37 mm, V)
-TOE = (-312, -282, -8)   # A: Kolbenspitze f0, f1, Unterkante (trägt das Einbein)
-ARCH = (-226, -130, 64)  # A: Kolbenbogen f0, f1, Scheitel u (Runde 2: der Kolben spannt wie der Rumpf zwischen Griff und Einbein)
-MONO_F = -297            # A: Einbeinachse
+TOE = (-312, -282, -8)   # A: Kolbenbein unten f0, f1, Unterkante (trägt den Kolbenfuß)
+ARCH = (-226, -130, 64)  # A: Kolbenbogen f0, f1, Scheitel u (Runde 2: der Kolben spannt wie der Rumpf zwischen Griff und Kolbenbein)
 BOLT_F = (-45, 15)       # A: Verschluss in Ruhelage
 HANDLE_F = -35           # A: Kammerstängel am Verschluss
 KNOB = (HANDLE_F - 8, BORE - 14)   # A: Kammerknopf (f, u) links unter der Gratlinie (wie BASIC-09: schräg unten hinten)
@@ -120,6 +120,28 @@ _lo_cut = dict(shape='prof', pts=_UNDER + [(NOSE + 12, SEAM), (NOSE + 12, -60), 
 _bahn = [cut_box(HANDLE_F - 10, HANDLE_F + 8, BORE - 18, 112, 30, x=15), cut_box(HANDLE_F - BOLT_TRAVEL - 10, HANDLE_F + 8, 99, 112, 30, x=15)]
 PORT = (-50, -6, 90, 106)   # A: Auswurffenster rechts in der Oberschale
 
+FOOT_H = 9.0             # A: Sohlenhöhe (Runde 5)
+FOOT_SPREAD = 7.0        # A: Sohle unten je Seite 7 mm breiter als oben (Auflage)
+
+
+def FOOT_X(top, hw):
+    """Querschnitt einer Sohle (x, u): oben so breit wie die Fußplatte, unten 7 mm je Seite breiter, Kanten unten gerundet."""
+    b = top - FOOT_H
+    return [(hw, top), (-hw, top), (-(hw + FOOT_SPREAD), b + 3), (-(hw + FOOT_SPREAD - 2.5), b), (hw + FOOT_SPREAD - 2.5, b),
+            (hw + FOOT_SPREAD, b + 3)]
+
+
+def FOOT_PLAN(f0, f1, top, w, r=9.0):
+    """Sohle in der Draufsicht an allen vier Ecken mit r gerundet; w = halbe Breite unten."""
+    out = []
+    for fe, sg in ((f0, 1), (f1, -1)):
+        for sx in (1, -1):
+            arc = [(fe + sg * (r - r * math.cos(math.radians(a))), sx * (w - r + r * math.sin(math.radians(a)))) for a in range(0, 91, 15)]
+            out.append(dict(shape='plan', pts=[(fe - sg, sx * (w - r))] + arc + [(fe + sg * r, sx * (w + 5)), (fe - sg, sx * (w + 5))],
+                            u0=top - FOOT_H - 1, u1=top + 1))
+    return out
+
+
 P = []
 # ---------------------------------------------------------------- Rumpf: Oberschale (Creme) und Kiel (Graphit), Kolben inbegriffen
 P += [
@@ -131,7 +153,7 @@ P += [
          + [dict(shape='plan', pts=[(NOSE - 30, sx * 30), (NOSE + 2, sx * 30), (NOSE + 2, sx * 14), (NOSE - 30, sx * (HALF + 1))],
                  u0=BELT[1] - 1, u1=140) for sx in (1, -1)]),   # Stirn in der Draufsicht gefast
     part('lower', 'Kiel', 'Keel', 'receiver', 'xprof', 'graphite',
-         'Rautenrumpf unten: Kolbenlinie, Griffmodul, Magazinkragen, Spannweite und Zweibeinpylon in einem Stück',
+         'Rautenrumpf unten: Kolbenlinie, Griffmodul, Magazinkragen, Spannweite und Pylon in einem Stück',
          'unter der Oberschale, Fuge 1 mm', bevel=R_BODY, f0=BUTT, f1=NOSE, cu=0, pts=LOWER_X,
          cuts=[_lo_cut, cut_box(MAG[0] - 0.5, MAG[0] + MAG[1] + 0.5, 20, MAG[2] + 2, 25)] + _bahn[:1]
          + [dict(shape='plan', pts=[(PYLON[0] - 30, sx * 30), (PYLON[0] + 6, sx * 30), (PYLON[0] + 6, sx * 9), (PYLON[0] - 30, sx * 12)],
@@ -194,40 +216,34 @@ P += [
          'in die Schale eingesetzt', bevel=0.3, items=[dict(shape='box', f0=PORT[0] - 2, f1=PORT[1] + 2, u0=u, u1=u + 1.6, w=2.0, x=-HALF + 0.6)
                                                          for u in (PORT[2] - 1.8, PORT[3] + 0.2)]),
 ]
-# ---------------------------------------------------------------- Zweibeinpylon: Holme, Füße, Riegel, Griffpolster
-_lx40 = lower_x(40)
+# ---------------------------------------------------------------- Pylon: Griffpolster
 P += [
     part('pylon_pad', 'Pylonpolster', 'Pylon grip pad', 'support', 'multi', 'rubber', 'Griffzone der Stützhand an beiden Flanken des Pylons',
          'in die Schrägen eingelegt', bevel=R_SMALL,
          items=[dict(shape='xprof', f0=PYLON[0] + 8, f1=PYLON[1] - 6, cu=0, pts=strip(22, 56, 1.4, sx, lower_x)) for sx in (1, -1)]),
-    part('bipod_legs', 'Zweibeinholme', 'Bipod legs', 'support', 'multi', 'metal', 'Eingefahrene Holme des Zweibeins in den Pylonflanken; '
-         'fahren zum Auflegen 70 mm aus', 'in Nuten der Pylonflanken (gleiten)', bevel=0, smooth=True,
-         items=[dict(shape='tube', r=3.2, path=[(PYLON[1] - 3, 64, sx * (lower_x(64) + 0.6)), (PYLON[1] - 2, 38, sx * (lower_x(38) + 0.6)),
-                                                (PYLON[1] - 1, PYLON[2] + 2, sx * (lower_x(PYLON[2] + 2) + 0.6))]) for sx in (1, -1)],
-         move=dict(kind='translate', pivot=(PYLON[1] - 2, PYLON[2], 0), vector_mm=(0, -70, 0), event='deploy',
-                   note='Holme fahren nach unten aus (Auflage); im Schussablauf eingefahren')),
-    part('bipod_feet', 'Zweibeinfüße', 'Bipod feet', 'support', 'multi', 'rubber', 'Gummifüße der Holme unter dem Pylon',
-         'unten an den Holmen', bevel=R_FINE, smooth=True, parent_part='bipod_legs',
-         items=[dict(shape='cyl', axis='u', c=(PYLON[1] - 1, sx * (lower_x(PYLON[2] + 2) + 0.6)), a0=PYLON[2] - 6, a1=PYLON[2] + 3, r=5.6,
-                     segs=20) for sx in (1, -1)]),
-    cyl('bipod_latch', 'Zweibeinriegel', 'Bipod latch', 'grip_controls', 'accent', 'Gibt die Zweibeinholme frei', 'Druckknopf links am Pylon',
-        'x', (PYLON[1] + 8, 52), lower_x(52) - 1.5, lower_x(52) + 2.5, 3.6, segs=20,
-        move=dict(kind='translate', pivot=(PYLON[1] + 8, 52, lower_x(52)), vector_mm=(0, 0, -2.0), event='deploy',
-                  expect=((PYLON[1] + 8, 52, lower_x(52) + 2.5), (0, 0, -1)))),
 ]
-# ---------------------------------------------------------------- Einbein unter der Kolbenspitze
+# ---------------------------------------------------------------- Füße unter Pylon und Kolbenbein, Schaftkappe
 P += [
-    cyl('monopod_socket', 'Einbeinbuchse', 'Monopod socket', 'stock', 'trim', 'Blanker Ring, in dem das Einbein läuft', 'in die Kolbenspitze gepresst',
-        'u', (MONO_F, 0), TOE[2] - 3, TOE[2] + 2, 8.0, r_in=5.6, segs=32, bevel=0.4, smooth=True),
-    cyl('monopod', 'Einbein', 'Monopod', 'stock', 'metal', 'Drittes Bein des Stativs; fährt zum Auflegen aus',
-        'in der Kolbenspitze geführt (gleitet)', 'u', (MONO_F, 0), -46, TOE[2] + 4, 5.4, segs=24, bevel=R_FINE, smooth=True,
-        move=dict(kind='translate', pivot=(MONO_F, -46, 0), vector_mm=(0, -40, 0), event='deploy',
-                  expect=((MONO_F, -46, 0), (0, -1, 0)))),
-    cyl('monopod_ring', 'Einbeinring', 'Monopod ring', 'stock', 'accent', 'Stellring: klemmt das Einbein in der Höhe', 'um das Einbein',
-        'u', (MONO_F, 0), -24, -16, 8.2, r_in=5.5, segs=32, bevel=R_FINE, smooth=True, parent_part='monopod',
-        move=dict(kind='rotate', pivot=(MONO_F, -20, 0), axis='u', range_deg=(0, 90), event='deploy')),
-    cyl('monopod_foot', 'Einbeinfuß', 'Monopod foot', 'stock', 'rubber', 'Gummiteller des Einbeins', 'unten am Einbein',
-        'u', (MONO_F, 0), -54, -45, 11.0, r1=8.0, segs=32, bevel=R_SMALL, smooth=True, parent_part='monopod'),
+    # Runde 5 (Nutzer: „die zwei dünnen Pinner … und den Pinn am Schaft verstehe ich nicht“): keine Stifte mehr – Pylon und Kolbenbein
+    # stehen auf eigenen Füßen im Querschnitt des Rumpfs: eloxierte Fußplatte, darunter eine Gummisohle, die sich zur Auflage verbreitert.
+    part('pylon_plate', 'Pylonfußplatte', 'Pylon foot plate', 'support', 'xprof', 'anodized', 'Fußplatte unter dem Pylon; trägt die Sohle',
+         'unter den Pylon geschraubt', bevel=R_FINE, f0=PYLON[0] + 1, f1=PYLON[1] - 1, cu=0,
+         pts=[(lower_x(PYLON[2]) + 1.5, PYLON[2] + 1.5), (-(lower_x(PYLON[2]) + 1.5), PYLON[2] + 1.5),
+              (-(lower_x(PYLON[2]) + 3.0), PYLON[2] - 1.5), (lower_x(PYLON[2]) + 3.0, PYLON[2] - 1.5)]),
+    part('pylon_foot', 'Pylonfuß', 'Pylon foot', 'support', 'xprof', 'rubber', 'Gummisohle: vordere Auflage des Stativs (Sandsack, Brüstung)',
+         'unter die Fußplatte vulkanisiert', bevel=R_SMALL, f0=PYLON[0] - 1, f1=PYLON[1] + 1, cu=0, pts=FOOT_X(PYLON[2] - 1.5, lower_x(PYLON[2]) + 3.0),
+         cuts=FOOT_PLAN(PYLON[0] - 1, PYLON[1] + 1, PYLON[2] - 1.5, lower_x(PYLON[2]) + 3.0 + FOOT_SPREAD)),
+    part('toe_plate', 'Kolbenfußplatte', 'Toe foot plate', 'stock', 'xprof', 'anodized', 'Fußplatte unter dem Kolbenbein; trägt die Sohle',
+         'unter das Kolbenbein geschraubt', bevel=R_FINE, f0=TOE[0] + 1, f1=TOE[1] - 1, cu=0,
+         pts=[(KEEL_HW + 1.5, TOE[2] + 1.5), (-(KEEL_HW + 1.5), TOE[2] + 1.5), (-(KEEL_HW + 4.5), TOE[2] - 1.5), (KEEL_HW + 4.5, TOE[2] - 1.5)]),
+    part('toe_foot', 'Kolbenfuß', 'Toe foot', 'stock', 'xprof', 'rubber', 'Gummisohle: hintere Auflage des Stativs',
+         'unter die Fußplatte vulkanisiert', bevel=R_SMALL, f0=TOE[0] - 3, f1=TOE[1] + 3, cu=0, pts=FOOT_X(TOE[2] - 1.5, KEEL_HW + 4.5),
+         cuts=FOOT_PLAN(TOE[0] - 3, TOE[1] + 3, TOE[2] - 1.5, KEEL_HW + 4.5 + FOOT_SPREAD)),
+    part('foot_screws', 'Fußschrauben', 'Foot screws', 'support', 'multi', 'trim', 'Halten die Fußplatten',
+         'seitlich in den Fußplatten', bevel=0.2,
+         items=[dict(shape='cyl', axis='x', c=(f, u), a0=sx * (hw + 1.2), a1=sx * (hw + 2.4), r=1.3, segs=12)
+                for f, u, hw in ((PYLON[0] + 8, PYLON[2], lower_x(PYLON[2]) + 1.5), (PYLON[1] - 8, PYLON[2], lower_x(PYLON[2]) + 1.5),
+                                 (TOE[0] + 7, TOE[2], KEEL_HW + 2.5), (TOE[1] - 7, TOE[2], KEEL_HW + 2.5)) for sx in (1, -1)]),
     part('butt_pad', 'Schaftkappe', 'Butt pad', 'stock', 'xprof', 'rubber', 'Kappe im Rautenquerschnitt; Anlage an der Schulter',
          'auf das Kolbenende gesteckt', bevel=R_MID, f0=BUTT - 12, f1=BUTT + 1, cu=0,
          pts=[(DECK_HW - 1, 122.5), (HALF - 1, BELT[1]), (HALF - 1, BELT[0]), (KEEL_HW - 0.5, 4), (KEEL_HW - 3, 0.5),

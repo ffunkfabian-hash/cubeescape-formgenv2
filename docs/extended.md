@@ -584,16 +584,18 @@ Geste, die nur ein Präzisionsgewehr trägt. Aus D kam nichts dazu, aus C die Id
 
 | | EXTENDED-09 „Theodolite“ (Scharfschützengewehr) | EXTENDED-14 „Keelson“ (Raketenwerfer) |
 |---|---|---|
-| Leitmotiv | Stativ: ein Messinstrument auf drei Stützen – Griff mit Magazin, Zweibeinpylon, Einbein unter der Kolbenspitze | Rumpf: das Startrohr als Deck auf einem tiefen Kiel; ein zweiter, kleiner Kiel ist der Schultersattel |
+| Leitmotiv | Stativ: ein Messinstrument auf drei Stützen – Griff mit Magazin, Pylon und Kolbenbein; Pylon und Kolbenbein stehen auf Gummisohlen (Runde 5) | Rumpf: das Startrohr als Deck auf einem tiefen Kiel; ein zweiter, kleiner Kiel ist der Schultersattel |
 | Silhouette | lang (1,18 m), gerade Decklinie, hinten zum Wangenkamm gestuft; unten Spannweite (Magazin → Pylon) und Kolbenbogen (Griff → Kolbenbein) offen; langer freier Lauf | 0,92 m: gerade Decklinie vom Kegel bis zur Stirn, darunter ein flacher Bauch, der nach vorn zur Tropfenstirn und nach hinten als Kielhacke zum Abgasrohr steigt; Abgasrohr mit Sattel über der Schulter |
 | Querschnitt | Raute mit Gürtel: Oberschale und Kiel laufen schräg zu Deck (22–33 mm) und Kiel (12 mm), dazwischen ein senkrechter Gürtel 13 mm hoch mit der Fuge; derselbe Querschnitt bildet Kolben, Pylon und Schaftkappe | Tropfen: Kreis r 46 um die Bohrung, Flanken 18° zum Kiel; Kielschale 1,5 mm unter der Rumpfschale; Sattel und Stirnplatte im selben Tropfen |
-| Blickfang | Libelle links unter dem Zielfernrohr: leuchtendes Röhrchen mit blanker Blase, Kappen und drei Teilstrichen | Zielerfassungsraute links vor dem Visierausleger, leuchtet bei Bereitschaft |
+| Blickfang | Libelle links unter dem Zielfernrohr: leuchtendes Röhrchen mit blanker Blase, Kappen und drei Teilstrichen | Zielerfassungsraute links vor der Visierkonsole, leuchtet bei Bereitschaft |
 | Negativraum | Spannweite unter dem Rumpf zwischen Magazin und Pylon; Kolbenbogen zwischen Griff und Kolbenbein; J-Kammerbahn links | Schulterbucht unter dem Abgasrohr zwischen Kielhacke und Sattel; Sattelbogen über der Schulter; Ladeschacht unter der Klappe |
 | Front | Mündungsbremse mit zwei Kammern und Krone → freier kannelierter Lauf → Laufbuchse → Stirnplatte in Raute → Pylon darunter | Tropfenstirn: eloxierte Stirnplatte → blanker Bohrungsring → dunkles Futterrohr; darunter das Fenster des Entfernungsmessers; Rückansicht ebenfalls Tropfen |
-| Kolben | Kolben aus dem Rumpf: Oberschale und Kiel laufen als ein Teil bis zur Schaftkappe, der Kolbenbogen öffnet ihn, das Kolbenbein trägt das Einbein; Schaftkappe im Rautenquerschnitt | Schultersattel aus dem Leitmotiv: ein kleiner Tropfenkiel unter dem Abgasrohr, oben offen und mit zwei Spannbändern gehalten, unten ein Bogen über der Schulter, Enden als Keil |
+| Kolben | Kolben aus dem Rumpf: Oberschale und Kiel laufen als ein Teil bis zur Schaftkappe, der Kolbenbogen öffnet ihn, das Kolbenbein steht auf einer Gummisohle; Schaftkappe im Rautenquerschnitt | Schultersattel aus dem Leitmotiv: ein kleiner Tropfenkiel unter dem Abgasrohr, oben offen und mit zwei Spannbändern gehalten, unten ein Bogen über der Schulter, Enden als Keil |
 | Zweiton | Creme-Oberschale über Graphit-Kiel, Teilung an der Gürtelfuge vom Butt bis zur Stirn; Magazin Graphit | Creme-Rumpfschale über Graphit-Kiel; Abgasrohr, Sattel und Griff Graphit |
 | Grafik, Schrift | Gratstreifen auf dem Gürtel beidseitig; „BASIC  EX-09“ rechts auf dem Gürtel | orange Wasserlinie auf beiden Kielflanken; „BASIC  EX-14“ rechts auf der Schale in Achshöhe |
-| Bedienung (Orange) | Magazinhalter, Zweibeinriegel, Einbeinring | Klappenknopf, Sicherung |
+| Bedienung (Orange) | Magazinhalter | Klappenknopf, Sicherung |
+| Stützen, Befestigung (Runde 5) | Pylon und Kolbenbein enden in einer eloxierten Fußplatte (je zwei blanke Schrauben) und einer Gummisohle, die sich nach unten um 7 mm je Seite verbreitert und in der Draufsicht gerundet ist; keine Stifte | Visierkonsole aus Rumpfschale und Kiel: Wurzel in der Flanke, schräge Strebe unten, Kehle oben ins Deck, 60 mm lang; Schiene BRI-22 zwischen zwei eloxierten Klemmleisten mit vier blanken Schrauben, zwei Bolzen an der Wurzel |
+| Stützhand | am Pylon (Griffpolster) | unter dem Bauch (Griffkiel). Kein Vordergriff wie BASIC-14: Der Bauch reicht bis u 16 hinab und ist selbst die Griffzone; ein hängender Griff bräche die Bauchlinie und wiederholte die Stützen von E09 |
 | Familie | BGM-1, BMW-R, BMZ-15, Zielfernrohr Z3 „Lang“ auf zwei Schienen BRI-22, Visierhöhe 66 mm, Kammerstängel links wie BASIC-09 | BGM-1, W2 „Entfernung“ mit `side_mount` 66 mm links auf Achshöhe auf BRI-22, Ladeschacht oben, hülsenlose Rakete wie BASIC-14 |
 
 Gleich wie der BASIC-Typ bleiben Baugruppen, Anker, Weltpunkte und Aktionen (`fire_cycle`/`reload_empty` bzw. `fire`/`reload`). Der
@@ -603,8 +605,8 @@ Achse, wie bei BASIC-14 also 20 mm neben der Visierlinie.
 
 ### Nachbesserung
 
-Belege: `~/Library/Caches/CubeEscapeFormgen2/0.25/belege/e09/r1–r4` und `…/e14/r1–r5`, je mit sieben Ansichten, Clay, Explosion und
-Kontaktbogen; e09/r4 und e14/r4–r5 (r5 nach Richter R1) als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA09.png` bzw. `vergleich_BA14.png` (Piloten im selben AAA-Weg unter `e09/BA09`, `e14/BA14`).
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.25/belege/e09/r1–r5` und `…/e14/r1–r6`, je mit sieben Ansichten, Clay, Explosion und
+Kontaktbogen; e09/r4–r5 und e14/r4–r6 (r5 nach Richter R1, e09/r5 und e14/r6 nach der Sichtung) als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA09.png` bzw. `vergleich_BA14.png` (Piloten im selben AAA-Weg unter `e09/BA09`, `e14/BA14`).
 
 | Typ | Runde | gesehen | geändert |
 |---|---|---|---|
@@ -614,17 +616,20 @@ Kontaktbogen; e09/r4 und e14/r4–r5 (r5 nach Richter R1) als AAA-Lauf (1600 px,
 | E14 | r1 → r2 | Das Kielheck über dem Griff endet als senkrechte Kastenfläche; die Rumpfschale endet hinten mit einer flachen Scheibe; der Sattel wirkt wie ein angesetzter Block | Kielhacke: Das Heck läuft als S-Kurve in die Unterseite des Abgasrohrs; Kegel 84 mm statt 48 mm; Bauch 6 mm tiefer; Sattelenden als Keil |
 | E14 | r2 → r3 | Das Messfenster sitzt in der Bohrung (u 112–126 bei Bohrung ab u 112); der Sattel umschließt das Rohr ganz und wirkt wie eine Muffe | Fenster unter die Bohrung (u 90–101), Kiel vorn tiefer; Sattel als Wiege unter dem Rohr, oben offen, mit zwei eloxierten Spannbändern |
 | E14 | r3 → r4 | (Test) Rakete ragt 4 mm über den Schacht hinaus (f 84–240 gegen 80–236); Schrift 0,7 mm vor der gewölbten Schale; Tropfenflanken unter u −9 gekreuzt | Rakete f 84–232; Schrift in Achshöhe; Kielspitze u 8 |
+| E14 | r4 → r5 | (Richter R1) Leuchtfläche der Raute auf dem Muldenboden, verdeckt | Raute auf Achshöhe, Mulde unter der engsten Schalenstelle, Freilagetest |
+| E09 | r4 → r5 | (Nutzer nach der Sichtung) „die zwei dünnen Pinner vorne und den Pinn am Schaft verstehe ich nicht“: Zweibeinholme Ø 6 und Einbein Ø 11 lesen sich als Fremdkörper und sind auf Spielabstand zu zart | Stifte, Riegel und Stellring entfernt; Pylon und Kolbenbein enden in Fußplatte und Gummisohle im Rautenquerschnitt, die sich zur Auflage verbreitert. Das Stativ trägt ohne Stifte: Rumpf auf Magazin, Pylon und Kolbenbein. Entscheidung gegen ein sichtbares Klappzweibein: Holme mit Gelenk unter dem Pylon füllten die Spannweite, den Negativraum des Leitmotivs |
+| E14 | r5 → r6 | (Nutzer) „Am Raketenwerfer muss das Visier noch ‚richtig‘ befestigt werden“: dünner eloxierter Winkel neben dem Rohr, wirkt nicht befestigt | Visierkonsole aus Schale und Kiel (Wurzel 42 mm in der Flanke, schräge Strebe, Kehle ins Deck, 60 mm lang), Schiene über die ganze Länge zwischen zwei Klemmleisten mit vier blanken Schrauben, zwei Bolzen an der Wurzel; Prüfung des Zusammenhangs und des Mindestquerschnitts |
 
 ### Motivzeilen (für die Familie)
 
 | Typ | Leitmotiv | Silhouette | Querschnitt | Blickfang | Negativraum | Front |
 |---|---|---|---|---|---|---|
-| EA09 Scharfschützengewehr „Theodolite“ | Stativ: Rautenrumpf auf drei Stützen (Magazin, Zweibeinpylon, Einbein) | lang 1,18 m, gerade Decklinie mit Wangenkamm, unten drei Stützen mit offenen Feldern | Raute mit senkrechtem Gürtel (Creme oben, Graphit unten) | Libelle (Röhrchen mit Blase) links | Spannweite unter dem Rumpf, Kolbenbogen, J-Kammerbahn | Zweikammerbremse → freier Lauf → Laufbuchse → Rautenstirn mit Pylon; Kolben: Kolbenbein mit Einbein |
+| EA09 Scharfschützengewehr „Theodolite“ | Stativ: Rautenrumpf auf drei Stützen (Magazin, Pylon und Kolbenbein auf Gummisohlen) | lang 1,18 m, gerade Decklinie mit Wangenkamm, unten drei Stützen mit offenen Feldern | Raute mit senkrechtem Gürtel (Creme oben, Graphit unten) | Libelle (Röhrchen mit Blase) links | Spannweite unter dem Rumpf, Kolbenbogen, J-Kammerbahn | Zweikammerbremse → freier Lauf → Laufbuchse → Rautenstirn mit Pylon; Kolben: Kolbenbein mit Gummisohle |
 | EA14 Raketenwerfer „Keelson“ | Rumpf: Startrohr als Deck auf tiefem Kiel | 0,92 m, gerade Decklinie über flachem Bauch, Kielhacke, Abgasrohr mit Sattel | Tropfen (Kreis um die Bohrung, Flanken zum Kiel) | Zielerfassungsraute links | Schulterbucht, Sattelbogen, Ladeschacht | Tropfenstirn mit Bohrungsring und Messfenster darunter; Kolben: Schultersattel als kleiner Kiel |
 
 ### Prüfung
 
-`tests/test_extended_schulter.py` prüft beide Modelle (24 Tests). Abgedeckt sind:
+`tests/test_extended_schulter.py` prüft beide Modelle (25 Tests). Abgedeckt sind:
 
 - Felder, Typ und Feuerart wie BASIC-NN, Blatt-IDs, Anker, Weltpunkte und Aktionen (`variant.problems` als Orakel).
 - Familienschnittstellen und Budgets: genau ein Blickfang links, höchstens drei Akzent-Bedienfunktionen, eine Schrift, ein Grafikelement.
@@ -633,7 +638,10 @@ Kontaktbogen; e09/r4 und e14/r4–r5 (r5 nach Richter R1) als AAA-Lauf (1600 px,
 - Seiten-IoU < 0,85 gegen BASIC-NN und jedes andere EXTENDED-Modell und < 0,70 im Paar, im Standardmaß und im genauen Maß. Das genaue Maß
   rechnet ein Querprofil als Seitenprofil mit seinen Seitenschnitten; das Standardmaß zeichnet es als volles Rechteck und sieht weder
   Spannweite noch Kolbenbogen.
-- Stativ: Pylon ≥ 40 mm unter der Spannweite, Einbein ≥ 80 mm unter dem Kolbenbogen, Spannweite und Kolbenbogen in der Silhouette leer.
+- Stativ: Pylon ≥ 40 mm unter der Spannweite, Kolbenfuß ≥ 60 mm unter dem Kolbenbogen, Spannweite und Kolbenbogen in der Silhouette leer;
+  seit Runde 5 Gummisohlen ≥ 8 mm stark und unten ≥ 10 mm breiter, kein dünner Stift unter dem Rumpf (Gegenprobe: Einbein der Runden 1–4).
+- Visierkonsole (Runde 5): Wurzel ≥ 30 mm in der Flanke, Querschnitt ≥ 1200 mm², Spitze ≥ 12 mm hoch, trägt die Schiene auf ganzer Länge,
+  Klemmleisten mit blanken Schrauben, hängt mit Schale, Kiel und Visier zusammen (Gegenproben: dünner Winkel der Runden 1–4, stumpf angesetzte Konsole).
 - Raute mit Gürtel, ein Teil vom Butt bis zur Stirn, kein angesetzter Kolbenkörper; Libelle mit sichtbarer Blase in der Mitte.
 - Rumpf: Tropfen oben rund, Kiel unten schmal, Bauch ≥ 60 mm unter dem Rohr, Stirn und Kielhacke höher.
 - Sattel als Wiege mit Bogen ≥ 15 mm hinter dem Auge; Rakete passt durch den Schacht.
