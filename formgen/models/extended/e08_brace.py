@@ -8,10 +8,11 @@ Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
 - Leitmerkmal Brille: zwei Glattläufe liegen nebeneinander (Doppelflinte), eine Pumpe repetiert beide Kammern. Die Streuung liest sich als
   Breite: zwei Bohrungen nebeneinander statt einer Garbe aus einem Trichter. Die Brille kehrt im Querschnitt, im Mündungsjoch und im
   Blickfang (Zwillingsauge) wieder.
-- Silhouette: flach und lang (0,78 m), gerade Oberlinie vom Kolben bis zum Joch; der Schiebemantel (Pumpe) ist die große Masse vor dem
+- Silhouette: flach und lang (0,79 m), gerade Oberlinie vom Kolben bis zum Joch; der Schiebemantel (Pumpe) ist die große Masse vor dem
   Gehäuse, davor laufen die beiden Läufe frei bis zum Joch.
 - Querschnitt: liegendes Stadion mit zwei Bohrungen (Mantel, Joch); Gehäuse 66 mm breit (BASIC-08 42 mm).
 - Negativraum: der Brillenspalt, die 12 mm breite Gasse zwischen den freien Läufen vom Mantel bis zum Joch (von oben und unten offen);
+  im Kolben der Kolbenspalt (von oben) und das Brillenfenster quer durch beide Wangen (von der Seite, Runde 12);
   dazu der Hubspalt zwischen Gehäuse und Mantel, in dem Läufe und Führungsstangen frei liegen.
 - Blickfang (genau einer): das Zwillingsauge links am Gehäuse, zwei runde Kammeranzeigen in einer Achter-Fassung; je Lauf leuchtet eine.
 - Zweiton: Creme oben (Gehäuse, Kammkappe des Kolbens) über Graphit (Unteres Gehäuse, Kolben, Schiebemantel); Joch eloxiert.
@@ -30,12 +31,12 @@ Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
 """
 import math
 
-from basic.common import part, prof, box, cyl, cut_box, screws, mirror, rail, grip_v21, hoerner, R_MID, R_SMALL, R_FINE
+from basic.common import part, prof, box, cyl, cut_box, screws, mirror, rail, grip_v21, hoerner, R_BODY, R_MID, R_SMALL, R_FINE
 from basic.variant import collect
 
 META = dict(id='EXTENDED-08', num='E08', sheet_id='EA08', type='shotgun', type_de='Schrotflinte', type_en='Shotgun',
             family='BASIC', name='Brace', nick='Brille', ammo='special', fire='pump_action',
-            reference_length_m=0.784, reference_length_source='G: Hülle des Datensatzes 0.23 (BASIC-08 0,87 m gemessen als Rahmen, V)',
+            reference_length_m=0.788, reference_length_source='G: Hülle des Datensatzes 0.23 (BASIC-08 0,87 m gemessen als Rahmen, V)',
             inspired_by='BASIC-08 Familie; Formgen v1 F04 „Rubinpumpe“ als Haltung (Läufe nebeneinander)',
             summary='Vorderschaftrepetierflinte mit zwei Läufen nebeneinander im Schiebemantel und Mündungsjoch (EXTENDED-Reihe).')
 ASSEMBLIES = [
@@ -76,19 +77,25 @@ REC_D = 2.4              # A: Tiefe des Flankenfelds (Schichtung 2–3 mm)
 FLANK = HALF - REC_D     # Fläche im Flankenfeld (Schrift, Paneele)
 
 
-def twin(hw, u0, rb, uc, rw=0.0, ru=None, n=16):
+def twin(hw, u0, rb, uc, rw=0.0, ru=None, n=12, tuck=0.0, tu=None):
     """Brillen-Querschnitt (x, u): Flanken ±hw von u0 (Radius rb unten) bis uc, oben zwei Wülste um (±BX, uc) mit Radius hw − BX,
-    die tangential in die Flanken laufen; optional ein Mittelsteg der halben Breite rw bis ru (trägt die Schiene)."""
+    die tangential in die Flanken laufen; optional ein Mittelsteg der halben Breite rw bis ru (trägt die Schiene). tuck zieht die Flanke
+    unterhalb von tu um tuck mm ein (Runde 12: eingezogene Unterseite statt senkrechter Kastenwand)."""
     rh = hw - BX
     ru = uc if ru is None else ru
     a_in = math.degrees(math.acos(max(-1.0, (rw - BX) / rh))) if rw else 180.0
-    pts = [(hw - rb + rb * math.cos(math.radians(270 + 90 * i / n)), u0 + rb + rb * math.sin(math.radians(270 + 90 * i / n))) for i in range(n + 1)]
+    hb = hw - tuck
+    pts = [(hb - rb + rb * math.cos(math.radians(270 + 90 * i / n)), u0 + rb + rb * math.sin(math.radians(270 + 90 * i / n))) for i in range(n + 1)]
+    if tuck:
+        pts.append((hw, tu))
     pts += [(BX + rh * math.cos(math.radians(a_in * i / n)), uc + rh * math.sin(math.radians(a_in * i / n))) for i in range(n + 1)]
     if rw:
         pts += [(rw, ru), (-rw, ru)]
     pts += [(-BX + rh * math.cos(math.radians(180 - a_in + a_in * i / n)), uc + rh * math.sin(math.radians(180 - a_in + a_in * i / n)))
             for i in range(n + 1)]
-    pts += [(-hw + rb + rb * math.cos(math.radians(180 + 90 * i / n)), u0 + rb + rb * math.sin(math.radians(180 + 90 * i / n))) for i in range(n + 1)]
+    if tuck:
+        pts.append((-hw, tu))
+    pts += [(-hb + rb + rb * math.cos(math.radians(180 + 90 * i / n)), u0 + rb + rb * math.sin(math.radians(180 + 90 * i / n))) for i in range(n + 1)]
     return pts
 
 
@@ -114,7 +121,9 @@ P += [
     prof('lower', 'Unteres Gehäuse', 'Lower receiver', 'receiver', 'graphite', 'Griffmodul, Abzug, Ladeschacht mit Ladeklappe',
          'unter dem Gehäuse, Fuge 1 mm', [(RF[0] + 10, SPLIT - 1), (RF[1], SPLIT - 1), (RF[1], 46), (GATE[1] + 6, 34), (GATE[0] - 6, 34),
                                          (GATE[0] - 12, 42), (GATE[0] - 12, GRIP_TOP), (-52, GRIP_TOP), (RF[0] + 10, 58)], 2 * HALF - 4,
-         bevel=R_MID),
+         bevel=R_BODY, cuts=[dict(shape='xprof', f0=RF[0], f1=RF[1] + 1, cu=0, pts=[(sx * (HALF - 2.5), SPLIT - 6), (sx * (HALF + 2), SPLIT - 6),
+                                                                                (sx * (HALF + 2), 20), (sx * (HALF - 9), 20)][::sx])
+                             for sx in (1, -1)]),   # Runde 12: Flanken nach unten 6,5 mm eingezogen
     box('bolt', 'Verschluss', 'Bolt', 'mechanism', 'metal', 'Doppelverschluss; läuft mit dem Mantel zurück (im Fenster sichtbar)',
         'im Gehäuse geführt', PORT[0] - 4, PORT[1] - 2, 88, 108, 2 * HALF - 14, bevel=R_SMALL,
         move=dict(kind='translate', pivot=((PORT[0] + PORT[1]) / 2, BORE, 0), vector_mm=(-TRAVEL, 0, 0), event='pump',
@@ -127,7 +136,7 @@ P += [
          bevel=0.2, items=screws([(-52, 78), (-52, 90), (14, 78), (14, 90)], -FLANK - 1.1, r=1.6, h=0.8)
          + screws([(12, 78), (12, 90), (114, 78), (114, 90)], FLANK + 1.1, r=1.6, h=0.8)),
     part('takedown_pins', 'Querbolzen', 'Takedown pins', 'receiver', 'multi', 'metal', 'Verbinden Gehäuse und Unteres Gehäuse',
-         'quer durch das Untere Gehäuse (lösbar)', bevel=0.4, items=mirror(screws([(RF[0] + 18, 62), (RF[1] - 10, 60)], HALF - 2, r=3.4, h=1.0))),
+         'quer durch das Untere Gehäuse (lösbar)', bevel=0.4, items=mirror(screws([(RF[0] + 18, 64.5), (RF[1] - 10, 64.5)], HALF - 2, r=2.6, h=1.0))),
     box('loading_gate', 'Ladeklappe', 'Loading gate', 'ammo', 'dark_metal', 'Öffnung unten zum Einschieben einzelner Patronen',
         'im Boden des Ladeschachts (federnd)', GATE[0], GATE[1], 33.4, 35, 30, bevel=R_FINE),
     part('eye_bezel', 'Augenfassung', 'Eye bezel', 'receiver', 'multi', 'trim', 'Blanke Achter-Fassung der beiden Kammeranzeigen',
@@ -167,7 +176,7 @@ P += [
          items=[dict(shape='cyl', axis='f', c=(BORE, sx * BX), a0=RF[1] - 1, a1=RF[1] + 6, r=BAR_R + 2.5, r_in=BAR_R - 0.3, segs=32)
                 for sx in (1, -1)]),
     part('muzzle', 'Mündungsjoch', 'Muzzle yoke', 'barrel', 'xprof', 'anodized', 'Hält beide Laufenden; trägt den Kornsockel',
-         'auf die Laufenden geschraubt (lösbar)', bevel=R_SMALL, f0=YOKE[0], f1=YOKE[1], cu=0, pts=twin(PUMP_HALF + 1, YOKE_U[0], 10, YOKE_U[1], rw=7, ru=YOKE_U[1] + 8),
+         'auf die Laufenden geschraubt (lösbar)', bevel=R_SMALL, f0=YOKE[0], f1=YOKE[1], cu=0, pts=twin(PUMP_HALF + 1, YOKE_U[0], 8, YOKE_U[1], rw=7, ru=YOKE_U[1] + 8, tuck=4, tu=90),
          cuts=[dict(shape='xprof', f0=YOKE[0] - 1, f1=YOKE[1] + 1, cu=0, pts=h) for h in bores(BAR_R + 0.2)]),
     part('muzzle_crown', 'Mündungskronen', 'Muzzle crowns', 'barrel', 'multi', 'trim', 'Blanke Stirnkanten der beiden Bohrungen',
          'vorn am Joch', bevel=0.5,
@@ -182,17 +191,17 @@ _pm = dict(kind='translate', pivot=((PUMP[0] + PUMP[1]) / 2, 70, 0), vector_mm=(
 P += [
     part('pump', 'Schiebemantel (Pumpe)', 'Pump shroud', 'mechanism', 'xprof', 'graphite',
          'Umschließt beide Läufe und die Röhrenmagazine; die Stützhand repetiert: zurück und vor', 'gleitet auf den Läufen',
-         bevel=R_MID, f0=PUMP[0] + 9, f1=PUMP[1] - 11, cu=0, pts=twin(PUMP_HALF, PUMP_U[0], 14, PUMP_U[1], rw=4, ru=PUMP_U[1] + 6),
+         bevel=R_MID, f0=PUMP[0] + 9, f1=PUMP[1] - 11, cu=0, pts=twin(PUMP_HALF, PUMP_U[0], 12, PUMP_U[1], rw=4, ru=PUMP_U[1] + 6, tuck=5, tu=65),
          cuts=[dict(shape='xprof', f0=PUMP[0], f1=PUMP[1], cu=0, pts=h) for h in bores(BAR_R + 0.4)]
          + [cut_box(PUMP[0] + 24, PUMP[1] - 30, 64, 100, 2 * 1.6, x=sx * PUMP_HALF) for sx in (1, -1)],   # Griffelder (Runde 9)
          move=dict(_pm, expect=((PUMP[0] + 120, PUMP_U[0], 0), (-1, 0, 0)))),
     part('pump_rear', 'Mantelkragen hinten', 'Shroud rear collar', 'mechanism', 'xprof', 'anodized',
          'Hinterkante des Mantels, 1,5 mm über dem Körper, gefast', 'hinten auf den Mantel geschraubt', bevel=R_SMALL,
-         f0=PUMP[0], f1=PUMP[0] + 10, cu=0, pts=twin(PUMP_HALF + 1.5, PUMP_U[0] - 1.5, 15, PUMP_U[1], rw=4, ru=PUMP_U[1] + 7.5),
+         f0=PUMP[0], f1=PUMP[0] + 10, cu=0, pts=twin(PUMP_HALF + 1.5, PUMP_U[0] - 1.5, 13, PUMP_U[1], rw=4, ru=PUMP_U[1] + 7.5, tuck=5, tu=65),
          cuts=[dict(shape='xprof', f0=PUMP[0] - 1, f1=PUMP[0] + 11, cu=0, pts=h) for h in bores(BAR_R + 0.4)], parent_part='pump'),
     part('pump_front', 'Mantelstirn', 'Shroud nose', 'mechanism', 'xprof', 'anodized',
          'Stirn des Mantels: 2,5 mm über dem Körper, Fase zu den Läufen', 'vorn auf den Mantel geschraubt', bevel=R_MID,
-         f0=PUMP[1] - 12, f1=PUMP[1], cu=0, pts=twin(PUMP_HALF + 2.5, PUMP_U[0] - 2.5, 16, PUMP_U[1], rw=4, ru=PUMP_U[1] + 8.5),
+         f0=PUMP[1] - 12, f1=PUMP[1], cu=0, pts=twin(PUMP_HALF + 2.5, PUMP_U[0] - 2.5, 14, PUMP_U[1], rw=4, ru=PUMP_U[1] + 8.5, tuck=5, tu=65),
          cuts=[dict(shape='xprof', f0=PUMP[1] - 13, f1=PUMP[1] + 1, cu=0, pts=h) for h in bores(BAR_R + 0.4)], parent_part='pump'),
     part('pump_pad', 'Griffrippen', 'Grip ribs', 'mechanism', 'multi', 'rubber', 'Drei Längsrippen je Flanke für die Stützhand',
          'in die Griffelder des Mantels geklebt', bevel=0.6, parent_part='pump',
@@ -232,9 +241,24 @@ CHEEK = 16.0             # A: Wangenbreite je Seite
 _CX = SLOT / 2 + CHEEK / 2
 _NECK = _S0 - 30         # A: Ende des Halses
 _TOPL = [(_NECK, TOP - 8), (_SB, TOP - 10)]                        # A: Kammlinie der Wangen
-_BOT = [(_NECK, 58), (_NECK - 34, 64), (_SB + 24, 30), (_SB, 30)]  # A: Unterlinie: Hals steigt, dann fällt sie zur Kolbenspitze (Runde 10)
+_BOT = [(_NECK, 56), (_SB + 30, 30), (_SB + 8, 28), (_SB, 34)]      # A: Unterlinie fällt gerade zur Kolbenspitze, Spitze gerundet (Runde 12)
 _CAPH = 16               # A: Höhe der Creme-Kammkappe auf jeder Wange
 _cheek = [(_NECK + 1, _TOPL[0][1] - _CAPH - 1), (_SB, _TOPL[1][1] - _CAPH - 1), _BOT[3], _BOT[2], _BOT[1], (_NECK + 1, _BOT[0][1])]
+# Runde 12 (Koordination: der Spaltkolben war nur von oben lesbar): Brillenfenster – zwei verschmolzene Kreise quer durch beide Wangen,
+# die Brille in der Seitenansicht; die Wangen werden zu zwei Rahmen um das Fenster.
+WIN_R = 13.0             # A: Radius der Fensterkreise (Steg ≥ 8 mm zu Kamm und Unterlinie)
+WIN = [(_NECK - 28, 72.0), (_NECK - 54, 72.0)]                      # A: Kreismitten (f, u)
+
+
+def window(d=0.0, n=14):
+    """Brillenfenster als Seitenprofil: zwei Kreise (Radius WIN_R + d), deren Schnitt zur Acht verschmilzt."""
+    (f1, u), (f2, _) = WIN
+    r = WIN_R + d
+    h = math.sqrt(max(0.0, r * r - ((f1 - f2) / 2) ** 2))           # halbe Höhe der Taille
+    a = math.degrees(math.asin(h / r))
+    front = [(f1 + r * math.cos(math.radians(t)), u + r * math.sin(math.radians(t))) for t in [180 - a - (360 - 2 * a) * i / n for i in range(n + 1)]]
+    rear = [(f2 + r * math.cos(math.radians(t)), u + r * math.sin(math.radians(t))) for t in [-a - (360 - 2 * a) * i / n for i in range(n + 1)]]
+    return front + rear
 _cap = [(_NECK + 1, _TOPL[0][1]), (_SB, _TOPL[1][1]), (_SB, _TOPL[1][1] - _CAPH), (_NECK + 1, _TOPL[0][1] - _CAPH)]
 P += [
     part('stock_neck', 'Kolbenhals', 'Stock neck', 'stock', 'xprof', 'graphite',
@@ -247,15 +271,19 @@ P += [
                                     (_NECK - 1, sx * (HALF + 4))], u0=30, u1=140) for sx in (1, -1)]),   # Hals verjüngt sich zu den Wangen
     part('stock', 'Kolbenkamm', 'Stock comb', 'stock', 'multi', 'shell', 'Creme-Kammkappen der beiden Wangen; Wangenauflage',
          'auf die Wangen geschraubt, Fuge 1 mm', bevel=R_MID, items=[dict(shape='prof', pts=_cap, w=CHEEK, x=sx * _CX) for sx in (1, -1)]),
-    part('stock_keel', 'Kolbenwangen', 'Stock cheeks', 'stock', 'multi', 'graphite', 'Zwei Wangen mit offenem Kolbenspalt dazwischen',
-         'am Kolbenhals angeformt', bevel=R_MID, items=[dict(shape='prof', pts=_cheek, w=CHEEK, x=sx * _CX) for sx in (1, -1)]),
-    prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter; schließt beide Wangen',
-         'auf die Wangenenden gesteckt', [(_SB + 1, 30), (_SB + 1, TOP - 10), (_SB - 6, TOP - 12), (_SB - 10, TOP - 20), (_SB - 10, 38),
-                                          (_SB - 6, 31)], 2 * (SLOT / 2 + CHEEK) + 2, bevel=R_MID),
+    part('stock_keel', 'Kolbenwangen', 'Stock cheeks', 'stock', 'multi', 'graphite',
+         'Zwei Wangen mit offenem Kolbenspalt dazwischen und dem Brillenfenster quer hindurch', 'am Kolbenhals angeformt', bevel=R_BODY,
+         items=[dict(shape='prof', pts=_cheek, w=CHEEK, x=sx * _CX) for sx in (1, -1)],
+         cuts=[dict(shape='prof', pts=window(), w=80)]),
+    part('window_rims', 'Fensterfassung', 'Window rims', 'stock', 'multi', 'trim', 'Blanke Fassung des Brillenfensters außen an beiden Wangen',
+         'in die Wangen gepresst', bevel=0.4,
+         items=[dict(shape='prof', pts=window(2.5), w=1.6, x=sx * (_CX + CHEEK / 2 - 0.5)) for sx in (1, -1)],
+         cuts=[dict(shape='prof', pts=window(), w=80)]),
+    prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Schaftkappe: schließt beide Wangen, 4 mm zurückgeneigt, gerundet',
+         'auf die Wangenenden gesteckt', [(_SB + 1, 34), (_SB + 1, TOP - 10), (_SB - 8, TOP - 12), (_SB - 14, TOP - 22), (_SB - 12, 44),
+                                          (_SB - 6, 34)], 2 * (SLOT / 2 + CHEEK) + 2, bevel=R_BODY),
     part('stock_bolts', 'Kolbenbolzen', 'Stock bolts', 'stock', 'multi', 'trim', 'Halten den Hals am Gehäuse', 'quer durch den Kolbenhals',
          bevel=0.3, items=mirror(screws([(_S0 - 12, 90), (_S0 - 12, 66)], HALF - 2 - 0.2, r=2.4, h=1.0))),
-    part('cheek_screws', 'Wangenschrauben', 'Cheek screws', 'stock', 'multi', 'trim', 'Halten die Kammkappen', 'außen an den Wangen',
-         bevel=0.2, items=mirror(screws([(_NECK - 14, TOP - 16), (_SB + 18, TOP - 18)], _CX + CHEEK / 2 + 0.2, r=1.6, h=0.8))),
 ]
 # ---------------------------------------------------------------- Visier K2 „Hörner“: Kimme auf der Schiene, Korn auf dem Joch
 _sight, SIGHT_ANCHORS = hoerner(-36, YOKE[1] - 12, DECK, front_w=12)

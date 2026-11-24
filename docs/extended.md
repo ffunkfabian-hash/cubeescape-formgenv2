@@ -475,13 +475,13 @@ Visierlinie, das Visier blickt durch einen Kanal in der Wölbung, vorn kragt ein
 | | EXTENDED-08 „Brace“ (Schrotflinte) | EXTENDED-13 „Mantlet“ (Granatwerfer) |
 |---|---|---|
 | Leitmotiv | Brille: zwei Läufe nebeneinander, eine Pumpe als Schiebemantel repetiert beide Kammern | Panzerhaube: Helmwölbung über dem Verschluss, Schirm über der Stirn, aus der der dicke Lauf tritt |
-| Silhouette | flach und lang (0,78 m), gerade Oberlinie vom Kolben bis zum Joch; der Mantel ist die große Masse vor dem Gehäuse, davor laufen die Läufe frei | kurz und gedrungen (0,65 m): Wölbung steigt 56 mm vom Kolben zum Scheitel, fällt 26 mm in den Schirm; großes Kastenmagazin vor dem Griff |
+| Silhouette | flach und lang (0,79 m), gerade Oberlinie vom Kolben bis zum Joch; der Mantel ist die große Masse vor dem Gehäuse, davor laufen die Läufe frei | kurz und gedrungen (0,65 m): Wölbung steigt 56 mm vom Kolben zum Scheitel, fällt 26 mm in den Schirm; großes Kastenmagazin vor dem Griff |
 | Querschnitt | Brille: zwei Wülste über den Läufen in Gehäuse (mit Mittelsteg), Mantel, Joch und Kolbenhals; 66–72 mm breit; Flankenfeld 2,4 mm unter den Wülsten | U: zwei Haubenflanken beiderseits der 34 mm breiten Visiergasse, blanke Gassenkanten; Lauf rund Ø 54 |
 | Blickfang | Zwillingsauge links am Gehäuse: zwei runde Kammeranzeigen in einer Achter-Fassung | Ladeanzeige links an der Haube: Leuchtfenster in Geschossform (Spitzbogen nach vorn) |
 | Negativraum | Brillenspalt 12 mm zwischen den freien Läufen vom Mantel bis zum Joch; Kolbenspalt 12 mm zwischen den Wangen; Hubspalt zwischen Gehäuse und Mantel | Visiergasse als Kanal durch die Wölbung vom Visiersitz bis vor den Schirm; Schatten unter dem Schirm über dem Lauf |
 | Front | Brillenjoch mit zwei blanken Kronen und Kornsockel → Brillenspalt → Mantelstirn mit Handstopp | gefaster Mündungsring mit Krone → Lauf über dem Handschutzkiel → Blendenkragen → Stirn unter dem Schirm |
 | Zweiton | Creme-Gehäuse und Kammkappen über Graphit (Unteres Gehäuse, Kolbenhals und -wangen, Mantel); Joch, Mantelstirn und -kragen eloxiert | die Creme-Haube ist die einzige helle Masse über einem Graphit-Fahrgestell (Magazin, Lauf, Kolben, Unteres Gehäuse) |
-| Kolben (Runde 9) | Spaltkolben: ein Graphit-Hals nimmt die Wülste auf, verjüngt sich und teilt sich in zwei Wangen mit Creme-Kammkappen; dazwischen der offene Kolbenspalt | Nackenschutz: drei Creme-Lamellen wachsen aus der Haube, jede 3 mm tiefer und 3 mm schmaler, als Schindeln überlappt, auf einem Graphit-Kern |
+| Kolben (Runde 9/12) | Spaltkolben: ein Graphit-Hals nimmt die Wülste auf, verjüngt sich und teilt sich in zwei Wangen mit Creme-Kammkappen; dazwischen der offene Kolbenspalt, quer durch beide Wangen das Brillenfenster (zwei verschmolzene Kreise, blank gefasst); Schaftkappe zurückgeneigt | Nackenschutz als Fortsetzung der Haube: drei Creme-Schalen im Querschnitt der Haube (Schultern r 10, Kammrinne, eingezogene Unterkante), jede 3 mm tiefer und 4 mm schmaler und 6 mm in der vorigen; die Haube verjüngt sich hinten auf die erste Schale; kein Kern darunter |
 | Grafik, Schrift | zwei Orange-Querstreifen vorn am Gehäuse; „BASIC  EX-08“ rechts, dunkel auf Creme | Orange-Bogenstreifen parallel zur Wölbung; „BASIC  EX-13“ rechts hinten an der Haube |
 | Bedienung (Orange) | Pumpenriegel, Laufwähler (oben hinten, wie der Schieber einer Doppelflinte) | Magazinhalter, Ladehebel |
 | Familie | BGM-1, Kimme/Korn K2 „Hörner“ (Kimme auf kurzer Schiene BRI-22, Korn auf dem Joch), Visierlinie 39 mm über der Laufachse wie BASIC-08 | BGM-1, W1 „D-Linse“ auf BRI-22 wie BASIC-13, Visierlinie 74 mm |
@@ -492,7 +492,7 @@ Trommel von BASIC-13; `Socket_LoadingGate` liegt am Magazinboden.
 
 ### Nachbesserung
 
-Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r10` und `…/e13/r1–r11`, je mit Kontaktbogen, Clay und Explosion; e08/r7, e13/r8, e08/r10 und e13/r11
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r13` und `…/e13/r1–r13`, je mit Kontaktbogen, Clay und Explosion; e08/r7, e13/r8, e08/r10, e13/r11 und beide r13
 als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13.png` (Pilot im selben AAA-Weg unter `e08/BA08`, `e13/BA13`).
 
 | Typ | Runde | gesehen | geändert |
@@ -515,14 +515,18 @@ als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13
 | E08 | r9 → r10 | Wangen unten gerade, der Kolben wirkt von der Seite als Platte | Unterlinie mit steigendem Hals vor dem Abfall zur Kolbenspitze |
 | E13 | r8 → r9 | (Koordination) Schirm wirkt wie ein aufgelegtes Blech; Kolben fast gleich dem von E08; Detail unter BASIC-13 | Schirm wächst mit einer Kehle aus der Stirn (22 mm stark, 12 mm an der Spitze), Nase, Fase unter den Kanten, gerundete Ecken; Lamellenkolben; Auswurfklappe mit Scharnier, Nut des Ladehebels, Magazinplatten mit Schrauben, Kielschrauben; Gassenkanten bis zum Schirm |
 | E13 | r9 → r10 | Lamellen lesen sich als drei Klötze | Lamellen als Schindeln: schräge Hinterkante, Oberkante fällt, größere Rundung |
+| E08 | r10 → r12 | (Nutzer „Noch eine Runde“, Koordination) Kolben von der Seite eine graue Platte mit stumpfer Kante; Hauptkörper Quader mit Details; Rückansicht nur Rechtecke | Brillenfenster quer durch beide Wangen mit blanker Fassung, Unterlinie gerade fallend mit gerundeter Spitze, Schaftkappe zurückgeneigt (R_BODY); Mantel, Kragen und Joch unten 4–5 mm eingezogen; Unteres Gehäuse nach unten 6,5 mm eingezogen, R_BODY; Kragenschrauben der Kammkappen entfallen |
+| E08 | r12 → r13 | 33 150 Dreiecke (Koordination: nicht wachsen) | 12 statt 16 Segmente je Wulst, 14 je Fensterkreis: 31 228 |
+| E13 | r11 → r12 | (Koordination) Lamellen wirken wie Klötze auf der alten Kolbenplatte, ein angesetztes Teil; Unterbau, Magazin und Kiel Quader | Kolben als drei Creme-Schalen im Querschnitt der Haube, ohne Graphit-Kern, die Haube verjüngt sich hinten auf die erste Schale und endet auf Kammhöhe; Haubenunterkante, Unteres Gehäuse und Kiel eingezogen (R_BODY), Magazin mit gefasten Vorderkanten und eingezogenem Boden, Schachtlippe gefast |
+| E13 | r12 → r13 | Kolbenhals unter der Haube zu hoch (Schale bis u 54) | Unterlinie beginnt bei u 66 und fällt zur Schulter; Unteres Gehäuse hinten passend angehoben |
 | E13 | r10 → r11 | (Richter R5) die neue Auswurfklappe bewegte sich im Schussablauf nicht und deckte beim Auswurf das Fenster | Auswurfschieber gleitet in zwei Leisten 64 mm nach vorn, öffnet vor dem Auswurf (Frame 5) und schließt danach; Test mit Gegenproben; Bewegungsbeleg `e13/schieber/schieber.mp4` |
 
 ### Motivzeilen (für die Familie)
 
 | Typ | Leitmotiv | Silhouette | Querschnitt | Blickfang | Negativraum | Front |
 |---|---|---|---|---|---|---|
-| EA08 Schrotflinte „Brace“ | Brille: zwei Läufe nebeneinander, Pumpe als Schiebemantel | flach und lang 0,78 m, gerade Oberlinie, freie Läufe vor dem Mantel | Brille (zwei Wülste) in Gehäuse, Mantel und Joch | Zwillingsauge (zwei runde Kammeranzeigen) links | Brillenspalt zwischen den freien Läufen, Kolbenspalt zwischen den Wangen | Brillenjoch mit zwei Kronen und Kornsockel; Kolben: Spaltkolben |
-| EA13 Granatwerfer „Mantlet“ | Panzerhaube: Helmwölbung über dem Verschluss, Schirm über der Stirn | kurz und gedrungen 0,65 m, Wölbung über großem Kastenmagazin, dicker Lauf | U: Haubenflanken beiderseits der Visiergasse | Ladeanzeige in Geschossform links | Visiergasse durch die Wölbung, Kehle unter dem Schirm | Mündungsring → Lauf über Handschutzkiel → Blendenkragen → Stirn unter dem gefasten Schirm; Kolben: Nackenlamellen |
+| EA08 Schrotflinte „Brace“ | Brille: zwei Läufe nebeneinander, Pumpe als Schiebemantel | flach und lang 0,79 m, gerade Oberlinie, freie Läufe vor dem Mantel | Brille (zwei Wülste) in Gehäuse, Mantel und Joch | Zwillingsauge (zwei runde Kammeranzeigen) links | Brillenspalt zwischen den freien Läufen, Kolbenspalt und Brillenfenster im Kolben | Brillenjoch mit zwei Kronen und Kornsockel; Kolben: Spaltkolben mit Brillenfenster |
+| EA13 Granatwerfer „Mantlet“ | Panzerhaube: Helmwölbung über dem Verschluss, Schirm über der Stirn | kurz und gedrungen 0,65 m, Wölbung über großem Kastenmagazin, dicker Lauf | U: Haubenflanken beiderseits der Visiergasse | Ladeanzeige in Geschossform links | Visiergasse durch die Wölbung, Kehle unter dem Schirm | Mündungsring → Lauf über Handschutzkiel → Blendenkragen → Stirn unter dem gefasten Schirm; Kolben: Schalen als Fortsetzung der Haube |
 
 ### Prüfung
 
@@ -534,7 +538,8 @@ Modelle), die Leitmotive (zwei Läufe mit offenem Brillenspalt ≥ 10 mm; Wülst
 beim Hub kein festes Teil, Verschluss läuft mit; Zwillingsauge; Helmwölbung ≥ 40 mm Anstieg und Schirm über der Stirn; Sichtkanal vor dem Glas frei;
 Visiergasse ≥ 10 mm tief bis vor den Schirm; Kastenmagazin vor dem Abzugsbügel, keine Trommel; Ladeanzeige mit einer Spitze vorn),
 seit Runde 9 Flankenfeld (2–3 mm), Mantelstirn und -kragen, Griffrippen, offener Kolbenspalt, Schirmstärke mit Fase und Ecken, gestufte
-und überlappte Lamellen, Detaildichte mindestens wie der BASIC-Pilot, Flinte gegen Werfer (Länge, Bohrung, Pumpe gegen Magazin, gedrungen), Zusammenhang, Länge und Quellhash ohne BASIC-Piloten. Jede
+und überlappte Lamellen, Detaildichte mindestens wie der BASIC-Pilot, seit Runde 12 gestaltete Querschnitte der Hauptkörper (Breite ändert sich über die
+Höhe oder Einzugs-/Fasenschnitte mit Radius ≥ R_MID) und ein Kolben ohne angesetzten Kern, bündig aus der Haube, Flinte gegen Werfer (Länge, Bohrung, Pumpe gegen Magazin, gedrungen), Zusammenhang, Länge und Quellhash ohne BASIC-Piloten. Jede
 Regelprüfung hat eine Gegenprobe (z. B. Steg im Brillenspalt, volle Wange im Kolbenspalt, Blech statt Schirm, glatte Lamellen, ohne blanke Teile, abgeflachter Mantel, doppelter Hub, flacher Deckel, Gasse zu, Pfosten im
 Sichtkanal, Rille statt Gasse, Sackgasse). Der Magazintest fand in Runde 4 ein Magazin im Abzugsbügel, das im Render nicht auffiel.
 

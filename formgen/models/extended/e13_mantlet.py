@@ -9,7 +9,7 @@ Formsprache (Stilhandbuch BALLON §3; Auswahl und Skizzen: docs/extended.md)
 - Leitmerkmal Panzerhaube: Über dem Verschluss wölbt sich eine schwere Creme-Haube wie ein Helm. Hinten steigt sie aus dem Kolben,
   oben sitzt das Visier in einer Gasse durch die Wölbung, vorn kragt sie als Schirm über die Stirn (Blende), aus der der dicke Lauf
   tritt. Die Wölbung nimmt den Bogenschuss auf; ein Bogenstreifen auf den Flanken folgt ihr.
-- Silhouette: kurz und gedrungen (0,65 m), Kuppel über einem großen Kastenmagazin vor dem Griff, kurzer dicker Lauf.
+- Silhouette: kurz und gedrungen (0,65 m); der Kolben setzt die Haube als drei Creme-Schalen fort (Runde 12), Kuppel über einem großen Kastenmagazin vor dem Griff, kurzer dicker Lauf.
 - Querschnitt: U – zwei Haubenflanken beiderseits der Visiergasse mit blanken Gassenkanten; Lauf rund Ø 54.
 - Negativraum: die Visiergasse, ein 34 mm breiter Kanal durch die Wölbung vom Visiersitz bis zum Schirm, durch den das Visier blickt;
   dazu der Schatten unter dem Schirm über dem Lauf.
@@ -35,7 +35,7 @@ from basic.variant import collect
 
 META = dict(id='EXTENDED-13', num='E13', sheet_id='EA13', type='grenade_launcher', type_de='Granatwerfer', type_en='Grenade Launcher',
             family='BASIC', name='Mantlet', nick='Panzerhaube', ammo='heavy', fire='semi_auto',
-            reference_length_m=0.646, reference_length_source='G: Hülle des Datensatzes 0.23 (BASIC-13 0,67 m gemessen als Rahmen, V)',
+            reference_length_m=0.648, reference_length_source='G: Hülle des Datensatzes 0.23 (BASIC-13 0,67 m gemessen als Rahmen, V)',
             inspired_by='BASIC-13 Familie; Formgen v1 als Haltung (eine mutige Gesamtarchitektur)',
             summary='Halbautomatischer Granatwerfer mit Panzerhaube über dem Verschluss, Kastenmagazin und dickem Lauf aus der Blende '
                     '(EXTENDED-Reihe).')
@@ -58,7 +58,7 @@ HALF = 32.0              # A: halbe Haubenbreite (64 mm; BASIC-13 Gehäuse 48, V
 SPLIT = 70               # A: Unterkante der Haube hinten / Fuge zum Unteren Gehäuse
 H0, H1 = -100, 224       # A: Haube hinten / Stirn unten (die Stirn ist 10 mm zurückgeneigt; Runde 4: 20 mm weiter vorn, Magazin vor dem Bügel)
 APEX = (30.0, 176.0)     # A: Scheitel der Haubenflanken (f, u) auf Höhe der Visierlinie; die Visiergasse hält die Sicht frei
-REAR_U = 120             # A: Haube hinten auf Kammhöhe
+REAR_U = 124             # A: Haube hinten auf Kammhöhe; dort setzt die Kolbenschale bündig an (Runde 12)
 BROW = (248.0, 150.0)    # A: Schirmspitze (Runde 3: Haube kragt über die Stirn vor wie ein Helmschirm; Runde 7: Scheitel vor, Schirm 10 mm tiefer)
 BROW_LOW = 138           # A: Unterkante der Schirmstirn (Runde 9: Schirm 12 mm stark an der Spitze, 22 mm an der Stirn, Fase 8 mm)
 BROW_UNDER = 137         # A: Unterseite des Schirms über dem Blendenkragen (u 132,5)
@@ -75,6 +75,7 @@ MAG_W = 52               # A: Magazinbreite
 PORT = (88, 150, 82, 116)   # A: Auswurffenster rechts (Hülse 40 mm)
 PORT_SLIDE = 64          # A: Weg des Auswurfschiebers nach vorn (Fenster 62 mm lang); Richter R5: öffnet vor dem Auswurf
 LAMP = (34, 86, 98)      # A: Ladeanzeige f0, Spitze f1, Mitte u (Geschossform)
+STOCK_W = (54.0, 50.0, 46.0)  # A: Breite der Kolbenschalen (Runde 12); die Haube verjüngt sich hinten auf 56 mm
 
 
 def hood_top(f):
@@ -139,7 +140,11 @@ P += [
          + [dict(shape='plan', pts=[(BROW[0] - BROW_R, sx * (HALF + 1))]
                  + [(BROW[0] - BROW_R + BROW_R * math.sin(math.radians(a)), sx * (HALF - BROW_R + BROW_R * math.cos(math.radians(a))))
                     for a in range(0, 91, 15)] + [(BROW[0] + 4, sx * (HALF - BROW_R)), (BROW[0] + 4, sx * (HALF + 1))],
-                 u0=BROW_UNDER - 2, u1=180) for sx in (1, -1)]),                                       # gerundete Schirmecken
+                 u0=BROW_UNDER - 2, u1=180) for sx in (1, -1)]
+         + [dict(shape='plan', pts=[(H0 - 1, sx * (STOCK_W[0] / 2 + 1)), (H0 + 50, sx * (HALF + 0.5)), (H0 + 50, sx * (HALF + 4)),
+                                    (H0 - 1, sx * (HALF + 4))], u0=SPLIT - 1, u1=200) for sx in (1, -1)]   # hinten verjüngt (Runde 12)
+         + [dict(shape='xprof', f0=H0 - 1, f1=H1 + 2, cu=0, pts=[(sx * (HALF - 3), 50), (sx * (HALF + 2), 50), (sx * (HALF + 2), 80),
+                                                                  (sx * (HALF + 0.5), 80)][::sx]) for sx in (1, -1)]),   # Unterkante eingezogen
     box('gasse_floor', 'Gassenboden', 'Sight channel floor', 'receiver', 'anodized', 'Boden der Visiergasse; trägt die Schiene',
         'im Visiersitz verschraubt', SADDLE[0] + 1, SADDLE[1] - 1, RAIL_U - 9.6, RAIL_U - 8.0, 2 * GASSE - 0.4, bevel=R_FINE),
     part('gasse_edges', 'Gassenkanten', 'Channel edges', 'receiver', 'multi', 'trim', 'Blanke Kanten der Visiergasse',
@@ -148,11 +153,15 @@ P += [
                      x=sx * (GASSE + 1.5)) for sx in (1, -1)]),
     prof('lower', 'Unteres Gehäuse', 'Lower receiver', 'receiver', 'graphite', 'Griffmodul, Abzugsgruppe, Magazinschacht',
          'unter der Haube, Fuge 1 mm', [(H0 + 8, SPLIT - 1), (MAG[0] - 7, SPLIT - 1), (MAG[0] - 7, 63), (MAG[1] + 7, 63),
-                                       (MAG[1] + 7, 44), (MAG[0] - 7, 44), (MAG[0] - 7, GRIP_TOP), (-62, GRIP_TOP), (H0 + 8, 54)],
-         2 * HALF - 4, bevel=R_MID),
+                                       (MAG[1] + 7, 44), (MAG[0] - 7, 44), (MAG[0] - 7, GRIP_TOP), (-62, GRIP_TOP), (H0 + 8, 64)],
+         2 * HALF - 4, bevel=R_BODY, cuts=[dict(shape='xprof', f0=H0, f1=MAG[1] + 8, cu=0,
+                                               pts=[(sx * (HALF - 3.5), SPLIT - 4), (sx * (HALF + 2), SPLIT - 4), (sx * (HALF + 2), 30),
+                                                    (sx * (HALF - 9), 30)][::sx]) for sx in (1, -1)]),   # Runde 12: Flanken eingezogen
     prof('mag_well', 'Magazinschacht', 'Magazine well', 'ammo', 'graphite', 'Führt das Kastenmagazin; Lippe vorn',
          'unter der Haube angeformt', [(MAG[0] - 7, 64), (MAG[1] + 7, 64), (MAG[1] + 7, 34), (MAG[1] + 2, 30), (MAG[0] - 7, 30)],
-         MAG_W + 8, bevel=R_SMALL, cuts=[cut_box(MAG[0] - 0.5, MAG[1] + 0.5, 20, 64.5, MAG_W + 0.8)]),
+         MAG_W + 8, bevel=R_MID, cuts=[cut_box(MAG[0] - 0.5, MAG[1] + 0.5, 20, 64.5, MAG_W + 0.8)]
+         + [dict(shape='plan', pts=[(MAG[1] - 4, sx * (MAG_W / 2 + 5)), (MAG[1] + 8, sx * (MAG_W / 2 - 4)), (MAG[1] + 8, sx * 40),
+                                    (MAG[1] - 4, sx * 40)], u0=20, u1=70) for sx in (1, -1)]),   # Runde 12: Lippe vorn gefast
     box('side_panel_l', 'Seitenpaneel links', 'Side panel left', 'receiver', 'anodized', 'Wartungsdeckel über dem Schloss',
         'in die Mulde geschraubt (4 Schrauben)', -88, -32, 82, 102, 1.2, bevel=R_FINE, x=HALF - 0.8),
     box('side_panel_r', 'Seitenpaneel rechts', 'Side panel right', 'receiver', 'anodized', 'Wartungsdeckel über dem Schloss',
@@ -206,7 +215,13 @@ P += [
     prof('magazine', 'Kastenmagazin', 'Box magazine', 'ammo', 'graphite', 'Zwei 40-mm-Granaten übereinander; austauschbar',
          'im Magazinschacht (lösbar)', [(MAG[0], 66), (MAG[1], 66)] + [(MAG[1] - 34 + 34 * math.cos(math.radians(a)),
                                                                           MAG[2] + 34 + 34 * math.sin(math.radians(a))) for a in range(0, -91, -15)]
-         + [(MAG[0], MAG[2])], MAG_W, bevel=R_MID,
+         + [(MAG[0], MAG[2])], MAG_W, bevel=R_BODY,
+         cuts=[dict(shape='plan', pts=[(MAG[1] - 14, sx * (MAG_W / 2 + 1)), (MAG[1] + 1, sx * (MAG_W / 2 - 10)), (MAG[1] + 1, sx * 40),
+                                       (MAG[1] - 14, sx * 40)], u0=MAG[2] - 1, u1=67) for sx in (1, -1)]   # Vorderkante gefast (Runde 12)
+         + [dict(shape='plan', pts=[(MAG[0] - 1, sx * (MAG_W / 2 - 4)), (MAG[0] + 6, sx * (MAG_W / 2 + 1)), (MAG[0] - 1, sx * (MAG_W / 2 + 1))],
+                 u0=MAG[2] - 1, u1=67) for sx in (1, -1)]
+         + [dict(shape='xprof', f0=MAG[0] - 1, f1=MAG[1] + 1, cu=0, pts=[(sx * (MAG_W / 2 - 5), MAG[2] - 1), (sx * (MAG_W / 2 + 1), MAG[2] - 1),
+                                                                     (sx * (MAG_W / 2 + 1), MAG[2] + 24)][::sx]) for sx in (1, -1)],
          move=dict(kind='translate', pivot=((MAG[0] + MAG[1]) / 2, MAG[2], 0), vector_mm=(0, -120, 0), event='reload', removable=True,
                    expect=(((MAG[0] + MAG[1]) / 2, MAG[2], 0), (0, -1, 0)))),
     prof('mag_floor', 'Magazinboden', 'Magazine floor plate', 'ammo', 'rubber', 'Griffiger Boden; schützt beim Aufsetzen',
@@ -214,10 +229,10 @@ P += [
                                              (MAG[0] - 1.5, MAG[2] - 4)], MAG_W + 3, bevel=R_SMALL, parent_part='magazine'),
     part('mag_plates', 'Magazinplatten', 'Magazine side plates', 'ammo', 'multi', 'anodized', 'Verstärken die Magazinwände',
          'seitlich auf das Magazin geschraubt', bevel=R_FINE, parent_part='magazine',
-         items=[dict(shape='box', f0=MAG[0] + 10, f1=MAG[1] - 44, u0=MAG[2] + 14, u1=52, w=1.2, x=sx * (MAG_W / 2 + 0.4)) for sx in (1, -1)]),
+         items=[dict(shape='box', f0=MAG[0] + 10, f1=MAG[1] - 44, u0=MAG[2] + 26, u1=52, w=1.2, x=sx * (MAG_W / 2 + 0.4)) for sx in (1, -1)]),
     part('mag_screws', 'Magazinschrauben', 'Magazine screws', 'ammo', 'multi', 'trim', 'Halten die Magazinplatten', 'in den Platten',
          bevel=0.2, parent_part='magazine',
-         items=mirror(screws([(MAG[0] + 15, MAG[2] + 19), (MAG[0] + 15, 47), (MAG[1] - 49, MAG[2] + 19), (MAG[1] - 49, 47)],
+         items=mirror(screws([(MAG[0] + 15, MAG[2] + 31), (MAG[0] + 15, 47), (MAG[1] - 49, MAG[2] + 31), (MAG[1] - 49, 47)],
                              MAG_W / 2 + 1.0, r=1.6, h=0.8))),
     cyl('grenade', 'Granate', 'Grenade', 'ammo', 'dark_metal', 'Oberste Granate (an den Magazinlippen sichtbar)', 'im Magazin oben',
         'f', (BORE - 54, 0), MAG[0] + 34, MAG[0] + 96, 20.0, r1=12.0, segs=24, bevel=R_SMALL, smooth=True, parent_part='magazine'),
@@ -229,7 +244,9 @@ P += [
     prof('forend', 'Handschutzkiel', 'Handguard keel', 'support', 'graphite', 'Flacher Kiel unter dem Lauf für die Stützhand',
          'unter den Lauf geschraubt', [(GUARD[0], BORE - BAR_R + 4), (GUARD[1], BORE - BAR_R + 4), (GUARD[1], BORE - BAR_R - 12),
                                      (GUARD[1] - 6, BORE - BAR_R - 18), (GUARD[0] + 10, BORE - BAR_R - 14), (GUARD[0], BORE - BAR_R - 6)], 36,
-         bevel=R_MID),
+         bevel=R_BODY, cuts=[dict(shape='xprof', f0=GUARD[0] - 1, f1=GUARD[1] + 1, cu=0,
+                                  pts=[(sx * 10, BORE - BAR_R - 20), (sx * 19, BORE - BAR_R - 20), (sx * 19, BORE - BAR_R - 2)][::sx])
+                             for sx in (1, -1)]),   # Runde 12: Kielquerschnitt, unten verjüngt
     prof('forend_pad', 'Griffpolster', 'Grip pad', 'support', 'rubber', 'Rutschfeste Unterseite des Kiels', 'unten auf den Kiel geklebt',
          [(GUARD[0] + 14, BORE - BAR_R - 12), (GUARD[1] - 12, BORE - BAR_R - 14.5), (GUARD[1] - 12, BORE - BAR_R - 18),
           (GUARD[0] + 14, BORE - BAR_R - 16)], 28, bevel=R_SMALL),
@@ -245,31 +262,47 @@ P += grip_v21(top=GRIP_TOP)
 _S0, L_STOCK = H0, 162      # A: Kolbenlänge bis zur Kappe
 _SB = _S0 - L_STOCK
 _COMB = 124                 # A: Kammhöhe (Visierlinie 176 − 52 mm Wangenabstand)
-_HW = 17.0                  # A: halbe Breite des Kolbenkerns (34 mm)
-# Runde 9 (Koordination: Kolben aus dem Leitmotiv, Stufung, gestalteter Übergang): Nackenschutz wie am Helm. Drei Creme-Lamellen
-# wachsen aus der Haube, jede 3 mm tiefer und 3 mm schmaler als die vorige und überlappt von ihr; darunter der Graphit-Kern.
-LAMES = [(_S0 + 8, _S0 - 52, _COMB, 48.0), (_S0 - 46, _S0 - 106, _COMB - 3, 45.0), (_S0 - 100, _SB + 2, _COMB - 6, 42.0)]   # f0, f1, Oberkante, Breite
-LAME_H = 30                 # A: Lamellenhöhe
+# Runde 12 (Koordination: die Lamellen wirkten wie Klötze auf der alten Platte, ein angesetztes Teil): Der Kolben setzt die Haube fort.
+# Drei Creme-Schalen im Querschnitt der Haube – gerundete Schultern, Kammrinne als Fortsetzung der Visiergasse, eingezogene Unterkante –
+# werden nach hinten je 3 mm niedriger und 4 mm schmaler, jede steckt 6 mm in der vorigen; kein Kern darunter.
+LAMES = [(_S0 + 8, _S0 - 52, _COMB, STOCK_W[0]), (_S0 - 46, _S0 - 106, _COMB - 3, STOCK_W[1]), (_S0 - 100, _SB + 2, _COMB - 6, STOCK_W[2])]
+_UNDER = [(_S0 + 9, 66.0), (_SB + 26, 30.0), (_SB, 32.0)]   # A: Unterlinie des Kolbens: schlanker Hals unter der Haube, fällt zur Schulter (r13)
 
 
-def lame(f0, f1, top):
-    """Lamelle als Schindel: Oberkante leicht fallend, Hinterkante schräg (unten 14 mm kürzer), oben gerundet (Runde 10)."""
-    return [(f0, top), (f1 + 8, top - 1.5), (f1, top - 7), (f1 + 14, top - LAME_H), (f0, top - LAME_H)]
+def under(f, lift=0.0):
+    (fa, ua), (fb, ub) = _UNDER[0], _UNDER[1]
+    return ua + (ub - ua) * (fa - f) / (fa - fb) + lift
+
+
+def shell_section(w, top, bottom):
+    """Querschnitt einer Kolbenschale (x, u): Schultern r 10, Kammrinne 14 mm breit und 2,5 mm tief, Unterkante 4 mm eingezogen."""
+    hw, r, n = w / 2, 10.0, 6
+    pts = [(hw - 4 - 6 + 6 * math.cos(math.radians(270 + 90 * i / n)), bottom + 6 + 6 * math.sin(math.radians(270 + 90 * i / n))) for i in range(n + 1)]
+    pts += [(hw, top - 30)]
+    pts += [(hw - r + r * math.cos(math.radians(90 * i / n)), top - r + r * math.sin(math.radians(90 * i / n))) for i in range(n + 1)]
+    pts += [(7, top), (5, top - 2.5), (-5, top - 2.5), (-7, top)]
+    pts += [(-hw + r + r * math.cos(math.radians(90 + 90 * i / n)), top - r + r * math.sin(math.radians(90 + 90 * i / n))) for i in range(n + 1)]
+    pts += [(-hw, top - 30)]
+    pts += [(-hw + 4 + 6 + 6 * math.cos(math.radians(180 + 90 * i / n)), bottom + 6 + 6 * math.sin(math.radians(180 + 90 * i / n))) for i in range(n + 1)]
+    return pts
+
+
+def shell(pid, de, en, k, func):
+    f0, f1, top, w = LAMES[k]
+    rear = [(f1 - 1, top + 5), (f1 + 10, top + 5), (f1, top - 12)]          # Hinterkante oben schräg (Schindel)
+    return part(pid, de, en, 'stock', 'xprof', 'shell', func, 'steckt 6 mm in der vorigen Schale bzw. in der Haube', bevel=R_MID,
+                f0=f1, f1=f0, cu=0, pts=shell_section(w, top, under(f1, 2 * k) - 1),
+                cuts=[dict(shape='prof', pts=[(f1 - 1, 10), (f0 + 1, 10), (f0 + 1, under(f0, 2 * k)), (f1 - 1, under(f1, 2 * k))], w=w + 4),
+                      dict(shape='prof', pts=rear, w=w + 4)])
 
 
 P += [
-    prof('stock', 'Kolbenkern', 'Stock core', 'stock', 'graphite', 'Schulterstütze; trägt die Lamellen, Unterlinie fällt zur Schulter',
-         'mit zwei Bolzen an die Haube (fest)', [(_S0 + 1, 54), (_S0 + 1, 112), (_SB, 100), (_SB, 24), (_SB + 26, 26), (_S0 - 36, 58)],
-         2 * _HW, bevel=R_MID),
-    part('stock_lames', 'Nackenlamellen', 'Neck lames', 'stock', 'multi', 'shell',
-         'Drei gestufte Lamellen wie der Nackenschutz eines Helms; die vorderste trägt die Wange', 'auf den Kern geschraubt, je 6 mm überlappt',
-         bevel=R_BODY, items=[dict(shape='prof', pts=lame(f0, f1, top), w=w) for f0, f1, top, w in LAMES]),
-    prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter', 'auf das Kolbenende gesteckt',
-         [(_SB + 1, 24), (_SB + 1, _COMB - 10), (_SB - 6, _COMB - 12), (_SB - 10, _COMB - 20), (_SB - 10, 32), (_SB - 6, 25)], 2 * _HW + 6,
-         bevel=R_MID),
-    part('stock_bolts', 'Lamellenschrauben', 'Lame screws', 'stock', 'multi', 'trim', 'Halten die Lamellen am Kern', 'seitlich in den Lamellen',
-         bevel=0.3, items=[q for f0, f1, top, w in LAMES for q in mirror(screws([((f0 + f1) / 2 + 6, top - LAME_H / 2)], w / 2 + 0.2,
-                                                                                    r=2.0, h=0.8))]),
+    shell('stock', 'Kolbenschale', 'Stock shell', 0, 'Erste Schale des Kolbens; trägt die Wange, wächst aus der Haube'),
+    shell('stock_seg2', 'Kolbenschale Mitte', 'Stock shell middle', 1, 'Zweite Schale; 3 mm tiefer, 4 mm schmaler'),
+    shell('stock_seg3', 'Kolbenschale hinten', 'Stock shell rear', 2, 'Dritte Schale; trägt die Schaftkappe'),
+    prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Schaftkappe, gerundet und 4 mm zurückgeneigt', 'auf die hintere Schale gesteckt',
+         [(_SB + 3, 31), (_SB + 3, _COMB - 8), (_SB - 6, _COMB - 10), (_SB - 12, _COMB - 20), (_SB - 10, 40), (_SB - 4, 31)],
+         STOCK_W[2] - 4, bevel=R_BODY),
 ]
 PARTS = P
 

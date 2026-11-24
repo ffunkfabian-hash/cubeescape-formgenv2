@@ -504,8 +504,9 @@ class TestStreuung(unittest.TestCase):
         self.assertEqual(brow_problems(c["BROW_UNDER"], c["BROW_LOW"]), [])
         self.assertEqual(brow_problems(152.0, 146.0), ["Schirm an der Stirn zu dünn", "Schirmspitze zu dünn"])   # Gegenprobe: Blech
         cuts = ids["hood"]["cuts"]
-        self.assertEqual(len([q for q in cuts if q.get("shape") == "xprof"]), 2, "Fase unter beiden Schirmkanten")
-        self.assertEqual(len([q for q in cuts if q.get("shape") == "plan"]), 2, "beide Schirmecken gerundet")
+        brow = [q for q in cuts if q.get("shape") in ("xprof", "plan") and q.get("f0", min(f for f, _ in q.get("pts", [(0, 0)]))) >= c["FACE_TOP"][0] - 20]
+        self.assertEqual(len([q for q in brow if q["shape"] == "xprof"]), 2, "Fase unter beiden Schirmkanten")
+        self.assertEqual(len([q for q in brow if q["shape"] == "plan"]), 2, "beide Schirmecken gerundet")
 
         def lame_problems(lames, h0):
             out = []
@@ -520,8 +521,51 @@ class TestStreuung(unittest.TestCase):
         self.assertEqual(lame_problems(c["LAMES"], c["H0"]), [])
         flat = [(f0, f1, c["LAMES"][0][2], c["LAMES"][0][3]) for f0, f1, _, _ in c["LAMES"]]
         self.assertEqual(lame_problems(flat, c["H0"]), ["keine Stufe", "keine Stufe"])   # Gegenprobe: glatte Platte
-        self.assertGreater(c["LAMES"][-1][3], 2 * c["_HW"] + 4, "Lamellen stehen über den Kern")
         self.assertLess(c["LAMES"][0][3], 2 * c["HALF"], "unter der Haube schmaler")
+
+    def test_shaped_sections(self):
+        """Runde 12 (Koordination: Quader mit Details obendrauf): Die Hauptkörper haben gestaltete Querschnitte – Querprofil, dessen Breite
+        sich über die Höhe um ≥ 3 mm ändert (Wülste, eingezogene Flanken, Schultern), oder ein Seitenprofil mit Fasen-/Einzugsschnitten
+        (xprof/plan) und Radius ≥ R_MID. Der Kolben von E13 setzt die Haube fort: Creme-Schalen ohne Graphit-Kern, die erste steckt in der
+        Haube, bündig zur Haubenkante."""
+        main = {"e08": ("upper", "lower", "pump", "muzzle", "stock_neck"),
+                "e13": ("hood", "lower", "magazine", "forend", "stock", "stock_seg2", "stock_seg3")}
+
+        def boxy(p):
+            if p["shape"] == "xprof":
+                us = [u for _, u in p["pts"]]
+                lo, hi = min(us), max(us)
+                def width(u):
+                    pts = p["pts"]
+                    xs = [x0 + (x1 - x0) * (u - u0) / (u1 - u0) for (x0, u0), (x1, u1) in zip(pts, pts[1:] + pts[:1])
+                          if u0 != u1 and min(u0, u1) <= u <= max(u0, u1)]
+                    return max(xs) - min(xs) if xs else 0.0
+                widths = [width(lo + (hi - lo) * t) for t in (0.08, 0.5, 0.92)]
+                return max(widths) - min(widths) < 1.5
+            shaped = [q for q in p.get("cuts") or () if q.get("shape") in ("xprof", "plan")]
+            return not shaped or p.get("bevel", 0) < 3.0
+        for k, ids in main.items():
+            with self.subTest(k):
+                self.assertEqual([pid for pid in ids if boxy(self.ids[k][pid])], [])
+        plain = dict(self.ids["e13"]["lower"], cuts=[], bevel=3.0)          # Gegenprobe: Unterbau als glatter Kasten
+        self.assertTrue(boxy(plain))
+        flat = dict(self.ids["e08"]["pump"], pts=[(35, 56), (35, 117), (-35, 117), (-35, 56)])   # Gegenprobe: Rechteck-Querschnitt
+        self.assertTrue(boxy(flat))
+        c, ids = self.consts["e13"], self.ids["e13"]
+
+        def attached(parts, top0):
+            out = [p["id"] for p in parts if p["asm"] == "stock" and p["mat"] == "graphite"]
+            first = c["LAMES"][0]
+            if first[0] <= c["H0"]:
+                out.append("erste Schale nicht in der Haube")
+            if abs(top0 - c["hood_top"](c["H0"])) > 1.0:
+                out.append("Stufe zur Haube")
+            if first[3] > 2 * c["HALF"] - 6:
+                out.append("Schale breiter als die verjüngte Haube")
+            return out
+        self.assertEqual(attached(self.data["e13"]["PARTS"], c["LAMES"][0][2]), [])
+        core = dict(id="stock_core", asm="stock", mat="graphite", shape="box")
+        self.assertEqual(attached(self.data["e13"]["PARTS"] + [core], c["LAMES"][0][2] + 10), ["stock_core", "Stufe zur Haube"])   # Gegenprobe
 
     def test_detail_density(self):
         """Koordination Runde 9: Detaildichte mindestens wie BASIC – Einzelformen ≥ 90 % des Piloten, blanke Teile (Schrauben, Kanten)
@@ -535,7 +579,8 @@ class TestStreuung(unittest.TestCase):
                 self.assertGreaterEqual(forms(d["PARTS"], "trim"), forms(b, "trim"))
         self.assertIn("stock_neck", self.ids["e08"])
         self.assertNotIn("stock_lames", self.ids["e08"])
-        self.assertIn("stock_lames", self.ids["e13"])
+        shells = [self.ids["e13"][pid] for pid in ("stock", "stock_seg2", "stock_seg3")]   # Runde 12: Schalen statt Lamellen auf einem Kern
+        self.assertEqual({(p["shape"], p["mat"]) for p in shells}, {("xprof", "shell")})
         self.assertNotIn("stock_neck", self.ids["e13"])
         bare = [p for p in self.data["e13"]["PARTS"] if p["mat"] != "trim"]   # Gegenprobe: ohne blanke Teile unter BASIC-13
         self.assertLess(forms(bare, "trim"), forms(self.basic["e13"]["PARTS"], "trim"))
