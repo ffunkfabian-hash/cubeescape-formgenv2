@@ -255,7 +255,7 @@ class TestStreuung(unittest.TestCase):
         self.assertGreater(height(raised), HOLO_RANGE[1])
 
     def test_lettering_on_flat_face(self):
-        """E08: rechts auf der Gehäuseflanke zwischen Auswurffenster und Zwillingsstreifen; E13: rechts hinten auf der Haubenflanke
+        """E08: rechts im Flankenfeld zwischen Auswurffenster und Zwillingsstreifen; E13: rechts hinten auf der Haubenflanke
         zwischen Paneel und Auswurffenster, unter dem Bogenstreifen."""
         c8, c13 = self.consts["e08"], self.consts["e13"]
 
@@ -264,8 +264,8 @@ class TestStreuung(unittest.TestCase):
             a, b = text_span(t)
             h = 0.75 * t["size"]
             if k == "e08":
-                band_f0 = min(q["pts"][0][0] for q in self.ids[k]["band_side"]["items"])
-                lo, hi, u0, u1, half = c["PORT"][1] + 2, band_f0 - 2, c["SPLIT"] + 3, c["UC"] - 3, c["HALF"]
+                band_f0 = min(q["pts"][0][0] for q in self.ids[k]["band_side"]["items"])   # im Flankenfeld (Runde 9)
+                lo, hi, u0, u1, half = c["PORT"][1] + 2, min(band_f0, c["REC"][1]) - 2, c["REC"][2] + 1, c["REC"][3] - 1, c["FLANK"]
             else:
                 panel = self.ids[k]["side_panel_r"]
                 lo, hi, u0, u1, half = panel["f1"] + 2, c["PORT"][0] - 2, c["SPLIT"] + 4, c["hood_top"](b) - 24, c["HALF"]
@@ -462,6 +462,83 @@ class TestStreuung(unittest.TestCase):
         self.assertAlmostEqual(tip[1], c["LAMP"][2], delta=0.5)
         self.assertEqual(sum(1 for q in lamp if q[0] > tip[0] - 0.5), 1)
         self.assertEqual(len({round(q[0], 3) for q in lamp if q[0] <= c["LAMP"][0] + 0.01}), 1, "hinten gerade")
+
+    def test_brace_body_and_stock(self):
+        """Runde 9: Flankenfeld 2–3 mm unter den Wülsten; Mantel mit vorstehender Stirn und Hinterkante und Griffrippen; Spaltkolben
+        mit offenem Kolbenspalt (die Brille im Kolben) und einem Hals, der sich vom Gehäuse zu den Wangen verjüngt."""
+        c, ids, P = self.consts["e08"], self.ids["e08"], self.data["e08"]["PARTS"]
+        self.assertTrue(2.0 <= c["REC_D"] <= 3.0, "Schichtung 2–3 mm")
+        fields = [q for q in ids["upper"]["cuts"] if q.get("shape", "box") == "box" and (q["f0"], q["f1"], q["u0"], q["u1"]) == tuple(c["REC"])]
+        self.assertEqual(sorted(round(q["x"]) for q in fields), [-33, 33], "Flankenfeld beidseitig")
+        body = extended.bounds(ids["pump"])
+        for pid, step in (("pump_front", 2.0), ("pump_rear", 1.0)):
+            b = extended.bounds(ids[pid])
+            self.assertGreaterEqual(b[1][2] - body[1][2], step, pid)
+        self.assertGreaterEqual(len(ids["pump_pad"]["items"]), 6, "drei Griffrippen je Flanke")
+
+        def slot_problems(parts):
+            half = c["SLOT"] / 2 - 0.5
+            box = ((c["_SB"] + 2, 20, -half), (c["_NECK"] - 1, 140, half))   # im Hals ist der Spalt ein Schnitt (Hüllquader zählen ihn nicht)
+            return hits(parts, box, skip={"butt_pad"})
+        self.assertGreaterEqual(c["SLOT"], GAP_MIN)
+        self.assertEqual(slot_problems(P), [])
+        solid = [dict(p, items=[dict(q, w=2 * c["_CX"] + c["CHEEK"], x=0) for q in p["items"]]) if p["id"] == "stock_keel" else p for p in P]
+        self.assertEqual(slot_problems(solid), ["stock_keel"])   # Gegenprobe: volle Wange schließt den Spalt
+        self.assertTrue([q for q in ids["stock_neck"]["cuts"] if q.get("shape") == "plan"], "Hals verjüngt sich in der Draufsicht")
+
+    def test_mantlet_brow_and_stock(self):
+        """Runde 9: Schirm mit Materialstärke (≥ 18 mm an der Stirn, ≥ 10 mm an der Spitze), Fase und gerundeten Ecken, über dem
+        Blendenkragen; Lamellenkolben: jede Lamelle tiefer und schmaler als die vorige, überlappt, die erste wächst aus der Haube."""
+        c, ids = self.consts["e13"], self.ids["e13"]
+        top = c["hood_top"]
+
+        def brow_problems(under, low):
+            out = []
+            if top(c["FACE_TOP"][0] + 10) - under < 18.0:
+                out.append("Schirm an der Stirn zu dünn")
+            if c["BROW"][1] - low < 10.0:
+                out.append("Schirmspitze zu dünn")
+            if under - (c["BORE"] + c["BAR_R"] + 3.5) < 3.0:
+                out.append("Schirm liegt auf dem Kragen")
+            return out
+        self.assertEqual(brow_problems(c["BROW_UNDER"], c["BROW_LOW"]), [])
+        self.assertEqual(brow_problems(152.0, 146.0), ["Schirm an der Stirn zu dünn", "Schirmspitze zu dünn"])   # Gegenprobe: Blech
+        cuts = ids["hood"]["cuts"]
+        self.assertEqual(len([q for q in cuts if q.get("shape") == "xprof"]), 2, "Fase unter beiden Schirmkanten")
+        self.assertEqual(len([q for q in cuts if q.get("shape") == "plan"]), 2, "beide Schirmecken gerundet")
+
+        def lame_problems(lames, h0):
+            out = []
+            if lames[0][0] <= h0:
+                out.append("erste Lamelle nicht in der Haube")
+            for (f0, f1, t, w), (g0, g1, t2, w2) in zip(lames, lames[1:]):
+                if not 2.0 <= t - t2 <= 4.0 or not 2.0 <= w - w2 <= 4.0:
+                    out.append("keine Stufe")
+                if g0 - f1 < 4.0:
+                    out.append("keine Überlappung")
+            return out
+        self.assertEqual(lame_problems(c["LAMES"], c["H0"]), [])
+        flat = [(f0, f1, c["LAMES"][0][2], c["LAMES"][0][3]) for f0, f1, _, _ in c["LAMES"]]
+        self.assertEqual(lame_problems(flat, c["H0"]), ["keine Stufe", "keine Stufe"])   # Gegenprobe: glatte Platte
+        self.assertGreater(c["LAMES"][-1][3], 2 * c["_HW"] + 4, "Lamellen stehen über den Kern")
+        self.assertLess(c["LAMES"][0][3], 2 * c["HALF"], "unter der Haube schmaler")
+
+    def test_detail_density(self):
+        """Koordination Runde 9: Detaildichte mindestens wie BASIC – Einzelformen ≥ 90 % des Piloten, blanke Teile (Schrauben, Kanten)
+        mindestens so viele wie der Pilot; zwei eigene Kolben (Spalt gegen Lamellen)."""
+        def forms(P, mat=None):
+            return sum(len(p["items"]) if p["shape"] == "multi" else 1 for p in P if mat is None or p["mat"] == mat)
+        for k, d in self.data.items():
+            with self.subTest(k):
+                b = self.basic[k]["PARTS"]
+                self.assertGreaterEqual(forms(d["PARTS"]), 0.9 * forms(b))
+                self.assertGreaterEqual(forms(d["PARTS"], "trim"), forms(b, "trim"))
+        self.assertIn("stock_neck", self.ids["e08"])
+        self.assertNotIn("stock_lames", self.ids["e08"])
+        self.assertIn("stock_lames", self.ids["e13"])
+        self.assertNotIn("stock_neck", self.ids["e13"])
+        bare = [p for p in self.data["e13"]["PARTS"] if p["mat"] != "trim"]   # Gegenprobe: ohne blanke Teile unter BASIC-13
+        self.assertLess(forms(bare, "trim"), forms(self.basic["e13"]["PARTS"], "trim"))
 
     # ---------------------------------------------------------------- Absetzung, Zusammenhang, Länge, Quellhash
     def test_shotgun_versus_launcher(self):

@@ -30,7 +30,7 @@ Maße mm; f nach vorn, u nach oben, x nach links; Socket_Hand = (0, 0, 0).
 import math
 
 from basic.common import (part, prof, box, cyl, cut_box, screws, mirror, rail, charging_handle, grip_v21, d_linse,
-                          R_MID, R_SMALL, R_FINE)
+                          R_BODY, R_MID, R_SMALL, R_FINE)
 from basic.variant import collect
 
 META = dict(id='EXTENDED-13', num='E13', sheet_id='EA13', type='grenade_launcher', type_de='Granatwerfer', type_en='Grenade Launcher',
@@ -60,7 +60,8 @@ H0, H1 = -100, 224       # A: Haube hinten / Stirn unten (die Stirn ist 10 mm zu
 APEX = (30.0, 176.0)     # A: Scheitel der Haubenflanken (f, u) auf Höhe der Visierlinie; die Visiergasse hält die Sicht frei
 REAR_U = 120             # A: Haube hinten auf Kammhöhe
 BROW = (248.0, 150.0)    # A: Schirmspitze (Runde 3: Haube kragt über die Stirn vor wie ein Helmschirm; Runde 7: Scheitel vor, Schirm 10 mm tiefer)
-BROW_LOW = 140           # A: Unterkante der Schirmstirn; der Schirm fällt nach vorn wie ein Helmvisier
+BROW_LOW = 138           # A: Unterkante der Schirmstirn (Runde 9: Schirm 12 mm stark an der Spitze, 22 mm an der Stirn, Fase 8 mm)
+BROW_UNDER = 137         # A: Unterseite des Schirms über dem Blendenkragen (u 132,5)
 FACE_TOP = (214.0, 146.0)  # A: Stirn oben unter dem Schirm (14 mm über dem Blendenkragen)
 CHIN = 56                # A: Unterkante der Stirn (Blende reicht unter den Lauf)
 RAIL_U = 150             # A: Schienenoberkante in der Visiergasse; Visierlinie 176 = 74 mm über der Laufachse (Vertrag 60–80)
@@ -89,8 +90,12 @@ def hood_curve(f0, f1, du=0.0, n=24):
 
 
 _FT = BROW[0]
+# Runde 9 (Koordination: der Schirm wirkte wie ein aufgelegtes Blech): der Schirm wächst mit einer Kehle aus der Stirn, hat 12–22 mm
+# Materialstärke, eine Nase vorn, eine Fase unten und gerundete Ecken in der Draufsicht.
 HOOD = ([(H0, SPLIT), (MAG[0] - 6, SPLIT), (MAG[0] - 6, 64), (MAG[1] + 8, 64), (MAG[1] + 20, CHIN), (H1, CHIN), FACE_TOP,
-         (BROW[0], BROW_LOW)] + hood_curve(BROW[0], H0, n=40))
+         (FACE_TOP[0] + 3, BROW_UNDER + 4), (FACE_TOP[0] + 10, BROW_UNDER), (BROW[0] - 12, BROW_UNDER), (BROW[0] - 2, BROW_LOW),
+         (BROW[0] + 2, BROW[1] - 4)] + hood_curve(BROW[0], H0, n=40))
+BROW_R = 14.0            # A: Eckradius des Schirms in der Draufsicht
 GASSE_FLOOR = 160        # A: Boden der Gasse vor dem Visiersitz (Glasunterkante 163); der Schirm (u 156) bleibt ganz
 
 
@@ -126,12 +131,19 @@ P += [
                dict(shape='prof', pts=offset(_lamp, 3.5), w=6.0, x=HALF + 0.6),                      # Mulde der Ladeanzeige
                cut_box(-90, -30, 80, 104, 3.0, x=HALF + 0.6), cut_box(-90, -30, 80, 104, 3.0, x=-HALF - 0.6),   # Paneelmulden
                cut_box(SADDLE[0], SADDLE[1], RAIL_U - 8.6, 220, 2 * GASSE),                              # Visiersitz
-               cut_box(SADDLE[1] - 1, BROW[0] + 1, GASSE_FLOOR, 220, 2 * GASSE)]),                     # Visiergasse
+               cut_box(SADDLE[1] - 1, BROW[0] + 3, GASSE_FLOOR, 220, 2 * GASSE),                       # Visiergasse
+               cut_box(-84, 6, 104.5, 119.5, 6.0, x=HALF)]                                           # Nut des Ladehebels (Runde 9)
+         + [dict(shape='xprof', f0=FACE_TOP[0] - 14, f1=BROW[0] + 4, cu=0,                            # Fase unter den Schirmkanten
+                 pts=[(sx * (HALF + 1), 124), (sx * (HALF + 1), BROW_UNDER + 7), (sx * (HALF - 7), 124)][::sx]) for sx in (1, -1)]
+         + [dict(shape='plan', pts=[(BROW[0] - BROW_R, sx * (HALF + 1))]
+                 + [(BROW[0] - BROW_R + BROW_R * math.sin(math.radians(a)), sx * (HALF - BROW_R + BROW_R * math.cos(math.radians(a))))
+                    for a in range(0, 91, 15)] + [(BROW[0] + 4, sx * (HALF - BROW_R)), (BROW[0] + 4, sx * (HALF + 1))],
+                 u0=BROW_UNDER - 2, u1=180) for sx in (1, -1)]),                                       # gerundete Schirmecken
     box('gasse_floor', 'Gassenboden', 'Sight channel floor', 'receiver', 'anodized', 'Boden der Visiergasse; trägt die Schiene',
         'im Visiersitz verschraubt', SADDLE[0] + 1, SADDLE[1] - 1, RAIL_U - 9.6, RAIL_U - 8.0, 2 * GASSE - 0.4, bevel=R_FINE),
     part('gasse_edges', 'Gassenkanten', 'Channel edges', 'receiver', 'multi', 'trim', 'Blanke Kanten der Visiergasse',
          'oben auf die Gassenwände geklebt', bevel=0.3,
-         items=[dict(shape='prof', pts=hood_curve(SADDLE[0] + 2, 200, -1.2) + hood_curve(200, SADDLE[0] + 2, 0.6), w=3.0,   # R1: ohne Umkehr
+         items=[dict(shape='prof', pts=hood_curve(SADDLE[0] + 2, 222, -1.2) + hood_curve(222, SADDLE[0] + 2, 0.6), w=3.0,   # R1: ohne Umkehr
                      x=sx * (GASSE + 1.5)) for sx in (1, -1)]),
     prof('lower', 'Unteres Gehäuse', 'Lower receiver', 'receiver', 'graphite', 'Griffmodul, Abzugsgruppe, Magazinschacht',
          'unter der Haube, Fuge 1 mm', [(H0 + 8, SPLIT - 1), (MAG[0] - 7, SPLIT - 1), (MAG[0] - 7, 63), (MAG[1] + 7, 63),
@@ -172,6 +184,15 @@ P += [
     part('text_r', 'Schriftzug', 'Lettering', 'receiver', 'text', 'anodized', 'Kennung „BASIC  EX-13“ (einzige Schrift)',
          'aufgedruckt (dunkel auf Creme)', bevel=0, text='BASIC  EX-13', size=5.0, f=-24, u=86, x=-HALF - 0.05, side=-1, depth=0.12),
 ]
+P += [
+    prof('port_cover', 'Auswurfklappe', 'Ejection port cover', 'mechanism', 'anodized', 'Deckt das Auswurffenster ab',
+         'Scharnier an der Unterkante', [(PORT[0] + 2, PORT[2] + 2), (PORT[1] - 2, PORT[2] + 2), (PORT[1] - 2, PORT[3] - 2),
+                                         (PORT[0] + 2, PORT[3] - 2)], 1.6, bevel=R_FINE, x=-HALF - 0.4,
+         move=dict(kind='rotate', pivot=((PORT[0] + PORT[1]) / 2, PORT[2] + 2, -HALF - 1.2), axis='f', range_deg=(0, 75), event='fire',
+                   expect=(((PORT[0] + PORT[1]) / 2, PORT[3] - 2, -HALF - 1.2), (0, 0, -1)))),
+    cyl('port_hinge', 'Klappenscharnier', 'Port cover hinge', 'mechanism', 'trim', 'Drehachse der Auswurfklappe', 'unter dem Fenster',
+        'f', (PORT[2] + 1, -HALF - 1.4), PORT[0] + 4, PORT[1] - 4, 1.6, segs=12, bevel=0.2),
+]
 P += charging_handle(-26, 112, x=HALF + 0.5, travel=56)
 P[-1]['cuts'] = []
 P += [dict(p, mat='dark_metal', attach='auf dem Gassenboden (fest)') for p in rail(SADDLE[0] + 4, SADDLE[1] - 4, RAIL_U - 8)]
@@ -189,6 +210,13 @@ P += [
     prof('mag_floor', 'Magazinboden', 'Magazine floor plate', 'ammo', 'rubber', 'Griffiger Boden; schützt beim Aufsetzen',
          'unten auf das Magazin geschraubt', [(MAG[0] - 1.5, MAG[2] + 6), (MAG[1] - 36, MAG[2] + 6), (MAG[1] - 34, MAG[2] - 4),
                                              (MAG[0] - 1.5, MAG[2] - 4)], MAG_W + 3, bevel=R_SMALL, parent_part='magazine'),
+    part('mag_plates', 'Magazinplatten', 'Magazine side plates', 'ammo', 'multi', 'anodized', 'Verstärken die Magazinwände',
+         'seitlich auf das Magazin geschraubt', bevel=R_FINE, parent_part='magazine',
+         items=[dict(shape='box', f0=MAG[0] + 10, f1=MAG[1] - 44, u0=MAG[2] + 14, u1=52, w=1.2, x=sx * (MAG_W / 2 + 0.4)) for sx in (1, -1)]),
+    part('mag_screws', 'Magazinschrauben', 'Magazine screws', 'ammo', 'multi', 'trim', 'Halten die Magazinplatten', 'in den Platten',
+         bevel=0.2, parent_part='magazine',
+         items=mirror(screws([(MAG[0] + 15, MAG[2] + 19), (MAG[0] + 15, 47), (MAG[1] - 49, MAG[2] + 19), (MAG[1] - 49, 47)],
+                             MAG_W / 2 + 1.0, r=1.6, h=0.8))),
     cyl('grenade', 'Granate', 'Grenade', 'ammo', 'dark_metal', 'Oberste Granate (an den Magazinlippen sichtbar)', 'im Magazin oben',
         'f', (BORE - 54, 0), MAG[0] + 34, MAG[0] + 96, 20.0, r1=12.0, segs=24, bevel=R_SMALL, smooth=True, parent_part='magazine'),
 ]
@@ -203,6 +231,8 @@ P += [
     prof('forend_pad', 'Griffpolster', 'Grip pad', 'support', 'rubber', 'Rutschfeste Unterseite des Kiels', 'unten auf den Kiel geklebt',
          [(GUARD[0] + 14, BORE - BAR_R - 12), (GUARD[1] - 12, BORE - BAR_R - 14.5), (GUARD[1] - 12, BORE - BAR_R - 18),
           (GUARD[0] + 14, BORE - BAR_R - 16)], 28, bevel=R_SMALL),
+    part('forend_screws', 'Kielschrauben', 'Keel screws', 'support', 'multi', 'trim', 'Halten den Handschutzkiel am Lauf', 'seitlich am Kiel',
+         bevel=0.2, items=mirror(screws([(GUARD[0] + 8, BORE - BAR_R - 2), (GUARD[1] - 8, BORE - BAR_R - 2)], 18.2, r=1.8, h=0.8))),
     cyl('muzzle', 'Mündungsring', 'Muzzle ring', 'barrel', 'anodized', 'Verstärkt die Mündung; vorn gefast',
         'auf das Laufende geschraubt', 'f', (BORE, 0), MUZ[0], MUZ[1] - 1, BAR_R + 5, r_in=CH_R, segs=48, bevel=R_MID, smooth=True),
     cyl('muzzle_crown', 'Mündungskrone', 'Muzzle crown', 'barrel', 'trim', 'Blanke Stirnkante um die Bohrung', 'vorn an der Mündungsstufe',
@@ -213,16 +243,31 @@ P += grip_v21(top=GRIP_TOP)
 _S0, L_STOCK = H0, 162      # A: Kolbenlänge bis zur Kappe
 _SB = _S0 - L_STOCK
 _COMB = 124                 # A: Kammhöhe (Visierlinie 176 − 52 mm Wangenabstand)
-_HW = HALF - 12             # A: halbe Kolbenbreite (40 mm). Runde 4: Kolben ganz Graphit, Haube bleibt die einzige helle Masse
+_HW = 17.0                  # A: halbe Breite des Kolbenkerns (34 mm)
+# Runde 9 (Koordination: Kolben aus dem Leitmotiv, Stufung, gestalteter Übergang): Nackenschutz wie am Helm. Drei Creme-Lamellen
+# wachsen aus der Haube, jede 3 mm tiefer und 3 mm schmaler als die vorige und überlappt von ihr; darunter der Graphit-Kern.
+LAMES = [(_S0 + 8, _S0 - 52, _COMB, 48.0), (_S0 - 46, _S0 - 106, _COMB - 3, 45.0), (_S0 - 100, _SB + 2, _COMB - 6, 42.0)]   # f0, f1, Oberkante, Breite
+LAME_H = 30                 # A: Lamellenhöhe
+
+
+def lame(f0, f1, top):
+    """Lamelle als Schindel: Oberkante leicht fallend, Hinterkante schräg (unten 14 mm kürzer), oben gerundet (Runde 10)."""
+    return [(f0, top), (f1 + 8, top - 1.5), (f1, top - 7), (f1 + 14, top - LAME_H), (f0, top - LAME_H)]
+
+
 P += [
-    prof('stock', 'Kolben', 'Stock', 'stock', 'graphite', 'Schulterstütze mit Kamm als Wangenauflage; Unterlinie fällt zur Schulter',
-         'mit zwei Bolzen an die Haube (fest)', [(_S0 + 1, 54), (_S0 + 1, hood_top(_S0) - 2), (_S0 - 30, _COMB), (_SB, _COMB - 4),
-                                                   (_SB, 24), (_SB + 26, 26), (_S0 - 36, 58)], 2 * _HW, bevel=R_MID),   # Runde 7: ohne Mulde
+    prof('stock', 'Kolbenkern', 'Stock core', 'stock', 'graphite', 'Schulterstütze; trägt die Lamellen, Unterlinie fällt zur Schulter',
+         'mit zwei Bolzen an die Haube (fest)', [(_S0 + 1, 54), (_S0 + 1, 112), (_SB, 100), (_SB, 24), (_SB + 26, 26), (_S0 - 36, 58)],
+         2 * _HW, bevel=R_MID),
+    part('stock_lames', 'Nackenlamellen', 'Neck lames', 'stock', 'multi', 'shell',
+         'Drei gestufte Lamellen wie der Nackenschutz eines Helms; die vorderste trägt die Wange', 'auf den Kern geschraubt, je 6 mm überlappt',
+         bevel=R_BODY, items=[dict(shape='prof', pts=lame(f0, f1, top), w=w) for f0, f1, top, w in LAMES]),
     prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter', 'auf das Kolbenende gesteckt',
-         [(_SB + 1, 24), (_SB + 1, _COMB - 4), (_SB - 6, _COMB - 6), (_SB - 10, _COMB - 14), (_SB - 10, 32), (_SB - 6, 25)], 2 * _HW + 2,
+         [(_SB + 1, 24), (_SB + 1, _COMB - 10), (_SB - 6, _COMB - 12), (_SB - 10, _COMB - 20), (_SB - 10, 32), (_SB - 6, 25)], 2 * _HW + 6,
          bevel=R_MID),
-    part('stock_bolts', 'Kolbenbolzen', 'Stock bolts', 'stock', 'multi', 'trim', 'Halten den Kolben an der Haube', 'quer durch die Kolbenwurzel',
-         bevel=0.3, items=mirror(screws([(_S0 - 10, 108), (_S0 - 10, 66)], _HW - 0.2, r=2.4, h=1.0))),
+    part('stock_bolts', 'Lamellenschrauben', 'Lame screws', 'stock', 'multi', 'trim', 'Halten die Lamellen am Kern', 'seitlich in den Lamellen',
+         bevel=0.3, items=[q for f0, f1, top, w in LAMES for q in mirror(screws([((f0 + f1) / 2 + 6, top - LAME_H / 2)], w / 2 + 0.2,
+                                                                                    r=2.0, h=0.8))]),
 ]
 PARTS = P
 

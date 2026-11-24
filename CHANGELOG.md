@@ -4,6 +4,7 @@
 
 - Neu: EXTENDED-08 „Brace“ (`formgen/models/extended/e08_brace.py`), eine Vorderschaftrepetierflinte mit zwei Läufen nebeneinander: Brillen-Querschnitt (zwei Wülste) in Gehäuse, Schiebemantel und Mündungsjoch, offener Brillenspalt zwischen den freien Läufen, Zwillingsauge als Blickfang; die Streuung liest sich als Breite statt als Trichter.
 - Neu: EXTENDED-13 „Mantlet“ (`formgen/models/extended/e13_mantlet.py`), ein halbautomatischer Granatwerfer mit Panzerhaube: Helmwölbung über dem Verschluss mit Schirm über der Stirn, Visiergasse durch die Wölbung, Kastenmagazin vor dem Griff statt Trommel, Ladeanzeige in Geschossform.
+- Runde 9/10 nach der Sichtung: Spaltkolben (E08) und Lamellenkolben (E13), geschichtete Flanken und Mantel, Schirm mit Materialstärke und Fase, Detaildichte wie die Piloten.
 - Blatt-IDs `EA08`/`EA13` (nur ID); Tests `tests/test_extended_streuung.py` ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.23.md)).
 
 ## 0.22.0 Torrent — EXTENDED-06 Maschinenpistole und EXTENDED-15 Maschinengewehr

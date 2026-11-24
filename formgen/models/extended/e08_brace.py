@@ -71,6 +71,9 @@ PORT = (26, 92, 80, 106)  # A: Auswurffenster rechts (f0, f1, u0, u1)
 GATE = (100, 136)        # A: Ladeklappe im Ladeschacht
 EYES = [(-38.0, 85.0), (-14.0, 85.0)]   # A: Zwillingsauge (Mitten der Kammeranzeigen), links auf der Gehäuseflanke, kameranah
 EYE_R = 8.0
+REC = (-62, 130, SPLIT + 4, UC - 6)   # A: Flankenfeld (f0, f1, u0, u1), 2,4 mm unter den Kammerwülsten (Runde 9: Schulterstufe)
+REC_D = 2.4              # A: Tiefe des Flankenfelds (Schichtung 2–3 mm)
+FLANK = HALF - REC_D     # Fläche im Flankenfeld (Schrift, Paneele)
 
 
 def twin(hw, u0, rb, uc, rw=0.0, ru=None, n=16):
@@ -105,7 +108,7 @@ P += [
          bevel=R_MID, f0=RF[0], f1=RF[1], cu=0, pts=twin(HALF, SPLIT, 4, UC, rw=8, ru=TOP),   # Runde 3/5: Steg 16 mm zwischen den Kammerwülsten
          cuts=[cut_box(*PORT, 20, x=-HALF),                                                          # Auswurffenster rechts
                cut_box(EYES[0][0] - 13, EYES[1][0] + 13, EYES[0][1] - 12, EYES[0][1] + 12, 3.0, x=HALF + 0.6),   # Mulde der Fassung
-               cut_box(-66, 14, 74, 98, 3.0, x=-HALF - 0.6),                                          # Paneelmulde rechts
+               cut_box(*REC, 2 * REC_D, x=HALF), cut_box(*REC, 2 * REC_D, x=-HALF),                   # Flankenfelder (Runde 9)
                dict(shape='prof', pts=[(RF[0] - 1, TOP + 1), (RF[0] + 12, TOP + 1), (RF[0] - 1, TOP - 14)], w=2 * HALF + 2)]   # Heckfase
          + [cut_box(RF[0] + 6, RF[1] + 1, UC - 1.2, UC + 1.2, 3.0, x=sx * (HALF + 0.6)) for sx in (1, -1)]),   # Schulterfuge (Runde 4)
     prof('lower', 'Unteres Gehäuse', 'Lower receiver', 'receiver', 'graphite', 'Griffmodul, Abzug, Ladeschacht mit Ladeklappe',
@@ -117,9 +120,14 @@ P += [
         move=dict(kind='translate', pivot=((PORT[0] + PORT[1]) / 2, BORE, 0), vector_mm=(-TRAVEL, 0, 0), event='pump',
                   expect=((PORT[1] - 2, BORE, -HALF + 7), (-1, 0, 0)))),
     box('side_panel_r', 'Seitenpaneel rechts', 'Side panel right', 'receiver', 'anodized', 'Wartungsdeckel über dem Schloss',
-        'in die Mulde geschraubt (4 Schrauben)', -64, 12, 76, 96, 1.2, bevel=R_FINE, x=-HALF + 0.8),
-    part('panel_screws', 'Paneelschrauben', 'Panel screws', 'receiver', 'multi', 'trim', 'Halten das Seitenpaneel', 'im Paneel',
-         bevel=0.2, items=screws([(-59, 80), (-59, 92), (7, 80), (7, 92)], -HALF + 0.2, r=1.6, h=0.8)),
+        'im Flankenfeld verschraubt (4 Schrauben)', -56, 18, 75, 93, 1.2, bevel=R_FINE, x=-FLANK - 0.5),
+    box('side_panel_l', 'Seitenpaneel links', 'Side panel left', 'receiver', 'anodized', 'Deckel über dem Kammerwähler',
+        'im Flankenfeld verschraubt (4 Schrauben)', 8, 118, 75, 93, 1.2, bevel=R_FINE, x=FLANK + 0.5),
+    part('panel_screws', 'Paneelschrauben', 'Panel screws', 'receiver', 'multi', 'trim', 'Halten die Seitenpaneele', 'in den Paneelen',
+         bevel=0.2, items=screws([(-52, 78), (-52, 90), (14, 78), (14, 90)], -FLANK - 1.1, r=1.6, h=0.8)
+         + screws([(12, 78), (12, 90), (114, 78), (114, 90)], FLANK + 1.1, r=1.6, h=0.8)),
+    part('takedown_pins', 'Querbolzen', 'Takedown pins', 'receiver', 'multi', 'metal', 'Verbinden Gehäuse und Unteres Gehäuse',
+         'quer durch das Untere Gehäuse (lösbar)', bevel=0.4, items=mirror(screws([(RF[0] + 18, 62), (RF[1] - 10, 60)], HALF - 2, r=3.4, h=1.0))),
     box('loading_gate', 'Ladeklappe', 'Loading gate', 'ammo', 'dark_metal', 'Öffnung unten zum Einschieben einzelner Patronen',
         'im Boden des Ladeschachts (federnd)', GATE[0], GATE[1], 33.4, 35, 30, bevel=R_FINE),
     part('eye_bezel', 'Augenfassung', 'Eye bezel', 'receiver', 'multi', 'trim', 'Blanke Achter-Fassung der beiden Kammeranzeigen',
@@ -146,7 +154,7 @@ P += [
          items=[dict(shape='prof', pts=[(f, SPLIT + 4), (f + 5, SPLIT + 4), (f + 5, UC - 2), (f, UC - 2)], w=0.3, x=sx * (HALF + 0.15))
                 for f in (133, 141) for sx in (1, -1)]),
     part('text_r', 'Schriftzug', 'Lettering', 'receiver', 'text', 'anodized', 'Kennung „BASIC  EX-08“ (einzige Schrift)',
-         'aufgedruckt (dunkel auf Creme)', bevel=0, text='BASIC  EX-08', size=4.4, f=PORT[1] + 3, u=79, x=-HALF - 0.05, side=-1, depth=0.12),
+         'aufgedruckt (dunkel auf Creme)', bevel=0, text='BASIC  EX-08', size=4.4, f=PORT[1] + 3, u=79, x=-FLANK - 0.05, side=-1, depth=0.12),
 ]
 P += [dict(p, mat='anodized', attach='auf dem Mittelsteg (fest)') for p in rail(-44, -10, TOP)]   # Runde 5: Schiene nur unter der Kimme, der Creme-Steg trägt die Linie
 # ---------------------------------------------------------------- Läufe, Laufkragen, Mündungsjoch (Brille)
@@ -174,15 +182,30 @@ _pm = dict(kind='translate', pivot=((PUMP[0] + PUMP[1]) / 2, 70, 0), vector_mm=(
 P += [
     part('pump', 'Schiebemantel (Pumpe)', 'Pump shroud', 'mechanism', 'xprof', 'graphite',
          'Umschließt beide Läufe und die Röhrenmagazine; die Stützhand repetiert: zurück und vor', 'gleitet auf den Läufen',
-         bevel=R_MID, f0=PUMP[0], f1=PUMP[1], cu=0, pts=twin(PUMP_HALF, PUMP_U[0], 14, PUMP_U[1], rw=4, ru=PUMP_U[1] + 6),
-         cuts=[dict(shape='xprof', f0=PUMP[0] - 1, f1=PUMP[1] + 1, cu=0, pts=h) for h in bores(BAR_R + 0.4)],
+         bevel=R_MID, f0=PUMP[0] + 9, f1=PUMP[1] - 11, cu=0, pts=twin(PUMP_HALF, PUMP_U[0], 14, PUMP_U[1], rw=4, ru=PUMP_U[1] + 6),
+         cuts=[dict(shape='xprof', f0=PUMP[0], f1=PUMP[1], cu=0, pts=h) for h in bores(BAR_R + 0.4)]
+         + [cut_box(PUMP[0] + 24, PUMP[1] - 30, 64, 100, 2 * 1.6, x=sx * PUMP_HALF) for sx in (1, -1)],   # Griffelder (Runde 9)
          move=dict(_pm, expect=((PUMP[0] + 120, PUMP_U[0], 0), (-1, 0, 0)))),
-    part('pump_pad', 'Mantelauflagen', 'Shroud pads', 'mechanism', 'multi', 'rubber', 'Rutschfeste Flanken für die Stützhand',
-         'seitlich auf den Mantel geklebt', bevel=0.6, parent_part='pump',
-         items=[dict(shape='box', f0=PUMP[0] + 30, f1=PUMP[1] - 34, u0=68, u1=96, w=1.2, x=sx * (PUMP_HALF + 0.5)) for sx in (1, -1)]),
+    part('pump_rear', 'Mantelkragen hinten', 'Shroud rear collar', 'mechanism', 'xprof', 'anodized',
+         'Hinterkante des Mantels, 1,5 mm über dem Körper, gefast', 'hinten auf den Mantel geschraubt', bevel=R_SMALL,
+         f0=PUMP[0], f1=PUMP[0] + 10, cu=0, pts=twin(PUMP_HALF + 1.5, PUMP_U[0] - 1.5, 15, PUMP_U[1], rw=4, ru=PUMP_U[1] + 7.5),
+         cuts=[dict(shape='xprof', f0=PUMP[0] - 1, f1=PUMP[0] + 11, cu=0, pts=h) for h in bores(BAR_R + 0.4)], parent_part='pump'),
+    part('pump_front', 'Mantelstirn', 'Shroud nose', 'mechanism', 'xprof', 'anodized',
+         'Stirn des Mantels: 2,5 mm über dem Körper, Fase zu den Läufen', 'vorn auf den Mantel geschraubt', bevel=R_MID,
+         f0=PUMP[1] - 12, f1=PUMP[1], cu=0, pts=twin(PUMP_HALF + 2.5, PUMP_U[0] - 2.5, 16, PUMP_U[1], rw=4, ru=PUMP_U[1] + 8.5),
+         cuts=[dict(shape='xprof', f0=PUMP[1] - 13, f1=PUMP[1] + 1, cu=0, pts=h) for h in bores(BAR_R + 0.4)], parent_part='pump'),
+    part('pump_pad', 'Griffrippen', 'Grip ribs', 'mechanism', 'multi', 'rubber', 'Drei Längsrippen je Flanke für die Stützhand',
+         'in die Griffelder des Mantels geklebt', bevel=0.6, parent_part='pump',
+         items=[dict(shape='box', f0=PUMP[0] + 26, f1=PUMP[1] - 32, u0=u, u1=u + 7, w=2.4, x=sx * (PUMP_HALF - 0.4))
+                for u in (67, 79, 91) for sx in (1, -1)]),
+    box('pump_spine', 'Mittelleiste', 'Shroud spine', 'mechanism', 'anodized', 'Leiste in der Senke zwischen den Wülsten',
+        'oben in die Mantelsenke geschraubt', PUMP[0] + 14, PUMP[1] - 16, PUMP_U[1] + 5.5, PUMP_U[1] + 8.5, 8, bevel=R_FINE, parent_part='pump'),
+    part('pump_screws', 'Kragenschrauben', 'Collar screws', 'mechanism', 'multi', 'trim', 'Halten Stirn und Hinterkante', 'seitlich an den Kragen',
+         bevel=0.2, parent_part='pump',
+         items=mirror(screws([(PUMP[0] + 5, 66), (PUMP[0] + 5, 92), (PUMP[1] - 6, 66), (PUMP[1] - 6, 92)], PUMP_HALF + 1.2, r=1.6, h=0.8))),
     prof('pump_stop', 'Handstopp', 'Hand stop', 'mechanism', 'graphite', 'Lippe vorn unter dem Mantel; hält die Stützhand',
-         'vorn unter den Mantel angeformt', [(PUMP[1] - 30, PUMP_U[0] + 4), (PUMP[1], PUMP_U[0] + 4), (PUMP[1], PUMP_U[0] - 6),
-                                             (PUMP[1] - 8, PUMP_U[0] - 10), (PUMP[1] - 18, PUMP_U[0] - 8)], 2 * PUMP_HALF - 16,
+         'vorn unter die Mantelstirn angeformt', [(PUMP[1] - 30, PUMP_U[0] + 4), (PUMP[1], PUMP_U[0] + 4), (PUMP[1], PUMP_U[0] - 8),
+                                                  (PUMP[1] - 8, PUMP_U[0] - 12), (PUMP[1] - 18, PUMP_U[0] - 10)], 2 * PUMP_HALF - 16,
          bevel=R_SMALL, parent_part='pump'),
     part('action_bars', 'Führungsstangen', 'Action bars', 'mechanism', 'multi', 'metal', 'Übertragen den Mantel auf den Doppelverschluss',
          'am Mantel, laufen ins Gehäuse', bevel=0.3, parent_part='pump',
@@ -202,27 +225,37 @@ P += grip_v21(top=GRIP_TOP)
 _S0 = RF[0]
 L_STOCK = 158            # A: Kolbenlänge bis zur Kappe (Runde 5: 176 → 158, Gesamtlänge 0,79 m)
 _SB = _S0 - L_STOCK
-# Runde 4: Kolben schmaler (46 mm), obere Kanten gerundet. Runde 6: Kolben Graphit mit Creme-Kammkappe – r5 lasen sich Gehäuse und
-# Kolben als ein langer Creme-Balken, das Wangenpolster von oben als Loch
-_HW = HALF - 10
-_CAP = 18                # A: Höhe der Kammkappe
-_round_top = [[(sx * (_HW + 2), TOP + 2), (sx * (_HW + 2), TOP - 14)]
-              + [(sx * (_HW - 10 + 10 * math.cos(math.radians(a))), TOP - 14 + 10 * math.sin(math.radians(a))) for a in range(0, 91, 10)]
-              + [(sx * (_HW - 10), TOP + 2)] for sx in (1, -1)]
-_KEEL = [(_S0 + 1, 56), (_S0 - 46, 60), (_SB + 22, 30), (_SB, 30)]   # A: Unterlinie: Hals steigt, dann fällt sie zur Kolbenspitze
-_TOPL = [(_S0 + 1, TOP - 14), (_S0 - 14, TOP - 4), (_SB, TOP - 8)]  # A: Oberlinie mit Kerbe hinter dem Gehäuse
+# Runde 9 (Koordination: Kolben aus dem Leitmotiv, gestalteter Übergang): Spaltkolben. Ein Hals nimmt die Kammerwülste des Gehäuses auf
+# und teilt sich in zwei Wangen, unter jedem Wulst eine; zwischen ihnen bleibt der Kolbenspalt offen – die Brille im Kolben.
+SLOT = 12.0              # A: Kolbenspalt, so breit wie der Brillenspalt
+CHEEK = 16.0             # A: Wangenbreite je Seite
+_CX = SLOT / 2 + CHEEK / 2
+_NECK = _S0 - 30         # A: Ende des Halses
+_TOPL = [(_NECK, TOP - 8), (_SB, TOP - 10)]                        # A: Kammlinie der Wangen
+_BOT = [(_NECK, 58), (_NECK - 34, 64), (_SB + 24, 30), (_SB, 30)]  # A: Unterlinie: Hals steigt, dann fällt sie zur Kolbenspitze (Runde 10)
+_CAPH = 16               # A: Höhe der Creme-Kammkappe auf jeder Wange
+_cheek = [(_NECK + 1, _TOPL[0][1] - _CAPH - 1), (_SB, _TOPL[1][1] - _CAPH - 1), _BOT[3], _BOT[2], _BOT[1], (_NECK + 1, _BOT[0][1])]
+_cap = [(_NECK + 1, _TOPL[0][1]), (_SB, _TOPL[1][1]), (_SB, _TOPL[1][1] - _CAPH), (_NECK + 1, _TOPL[0][1] - _CAPH)]
 P += [
-    prof('stock', 'Kolbenkamm', 'Stock comb', 'stock', 'shell', 'Creme-Kappe des Kolbens; runder Kamm als Wangenauflage',
-         'auf den Kolbenkörper geschraubt, Fuge 1 mm', _TOPL + [(_SB, TOP - 8 - _CAP), (_S0 - 14, TOP - 4 - _CAP), (_S0 + 1, TOP - 14 - _CAP + 6)],
-         2 * _HW, bevel=R_MID, cuts=[dict(shape='xprof', f0=_SB - 1, f1=_S0 + 2, cu=0, pts=c[::sx]) for c, sx in zip(_round_top, (1, -1))]),
-    prof('stock_keel', 'Kolben', 'Stock', 'stock', 'graphite', 'Kolbenkörper: schlanker Hals, fällt zur Schulter ab',
-         'mit zwei Bolzen an das Gehäuse (fest)', [_KEEL[0], (_S0 + 1, TOP - 14 - _CAP + 5), (_S0 - 14, TOP - 5 - _CAP), (_SB, TOP - 9 - _CAP)]
-         + _KEEL[:0:-1], 2 * _HW - 2, bevel=R_MID),
-    prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter', 'auf das Kolbenende gesteckt',
-         [(_SB + 1, 30), (_SB + 1, TOP - 10), (_SB - 6, TOP - 12), (_SB - 10, TOP - 20), (_SB - 10, 38), (_SB - 6, 31)], 2 * _HW + 2,
-         bevel=R_MID),
-    part('stock_bolts', 'Kolbenbolzen', 'Stock bolts', 'stock', 'multi', 'trim', 'Halten den Kolben am Gehäuse', 'quer durch die Kolbenwurzel',
-         bevel=0.3, items=mirror(screws([(_S0 - 10, 88), (_S0 - 10, 64)], _HW - 1.2, r=2.4, h=1.0))),
+    part('stock_neck', 'Kolbenhals', 'Stock neck', 'stock', 'xprof', 'graphite',
+         'Übergang vom Gehäuse: nimmt die zwei Kammerwülste auf und teilt sich in die Wangen', 'mit zwei Bolzen an das Gehäuse (fest)',
+         bevel=R_MID, f0=_NECK, f1=_S0 + 1, cu=0, pts=twin(HALF - 2, 56, 6, UC - 4, rw=0),
+         cuts=[dict(shape='prof', pts=[(_NECK - 1, TOP - 8), (_S0 + 2, TOP - 4), (_S0 + 2, TOP + 20), (_NECK - 1, TOP + 20)], w=80),
+               dict(shape='prof', pts=[(_NECK - 1, 30), (_S0 + 2, 30), (_S0 + 2, 56), (_NECK - 1, 58.5)], w=80),
+               cut_box(_NECK - 1, _NECK + 14, 40, 130, SLOT)]                          # Spalt beginnt im Hals
+         + [dict(shape='plan', pts=[(_NECK - 1, sx * (_CX + CHEEK / 2)), (_S0 - 6, sx * (HALF - 2)), (_S0 - 6, sx * (HALF + 4)),
+                                    (_NECK - 1, sx * (HALF + 4))], u0=30, u1=140) for sx in (1, -1)]),   # Hals verjüngt sich zu den Wangen
+    part('stock', 'Kolbenkamm', 'Stock comb', 'stock', 'multi', 'shell', 'Creme-Kammkappen der beiden Wangen; Wangenauflage',
+         'auf die Wangen geschraubt, Fuge 1 mm', bevel=R_MID, items=[dict(shape='prof', pts=_cap, w=CHEEK, x=sx * _CX) for sx in (1, -1)]),
+    part('stock_keel', 'Kolbenwangen', 'Stock cheeks', 'stock', 'multi', 'graphite', 'Zwei Wangen mit offenem Kolbenspalt dazwischen',
+         'am Kolbenhals angeformt', bevel=R_MID, items=[dict(shape='prof', pts=_cheek, w=CHEEK, x=sx * _CX) for sx in (1, -1)]),
+    prof('butt_pad', 'Kolbenkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter; schließt beide Wangen',
+         'auf die Wangenenden gesteckt', [(_SB + 1, 30), (_SB + 1, TOP - 10), (_SB - 6, TOP - 12), (_SB - 10, TOP - 20), (_SB - 10, 38),
+                                          (_SB - 6, 31)], 2 * (SLOT / 2 + CHEEK) + 2, bevel=R_MID),
+    part('stock_bolts', 'Kolbenbolzen', 'Stock bolts', 'stock', 'multi', 'trim', 'Halten den Hals am Gehäuse', 'quer durch den Kolbenhals',
+         bevel=0.3, items=mirror(screws([(_S0 - 12, 90), (_S0 - 12, 66)], HALF - 2 - 0.2, r=2.4, h=1.0))),
+    part('cheek_screws', 'Wangenschrauben', 'Cheek screws', 'stock', 'multi', 'trim', 'Halten die Kammkappen', 'außen an den Wangen',
+         bevel=0.2, items=mirror(screws([(_NECK - 14, TOP - 16), (_SB + 18, TOP - 18)], _CX + CHEEK / 2 + 0.2, r=1.6, h=0.8))),
 ]
 # ---------------------------------------------------------------- Visier K2 „Hörner“: Kimme auf der Schiene, Korn auf dem Joch
 _sight, SIGHT_ANCHORS = hoerner(-36, YOKE[1] - 12, DECK, front_w=12)
