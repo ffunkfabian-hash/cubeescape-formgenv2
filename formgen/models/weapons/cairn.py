@@ -120,4 +120,4 @@ def build(pilot=None):
     points = {'grip.grip': refs['Socket_Hand'], 'grip.support': refs['Socket_SupportHand'],
               'grip.mag': refs['Socket_MagWell'], 'grip.charge': ('rear_stone', [-15,71,18]),
               'eject': ('core', [39,59,-17])}
-    return s.finish_with_open_sight(refs, points, pilot)
+    return s.finish_with_pilot_sight(refs, points, pilot)

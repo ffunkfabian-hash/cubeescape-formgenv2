@@ -168,6 +168,18 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_tern_total_width_matches_basic_06(self):
+        for sid in ("BA06", "BT06"):
+            with self.subTest(sid=sid):
+                entry = variants.sheets()[sid]
+                author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+                parts = geom.evaluate(model.normalize(author))["parts"]
+                bounds = np.asarray([p["bounds_m"] for p in parts]) * 1000
+                self.assertAlmostEqual(bounds[:, 1, 0].max() - bounds[:, 0, 0].min(), 47., delta=.005)
+                if sid == "BT06":
+                    outer = {p["id"] for p in parts if max(abs(v[0]) for v in p["bounds_m"]) >= .02349}
+                    self.assertEqual(outer, {"shoulder_l", "shoulder_r"})
+
     def test_trestle_front_window_and_nameplate_have_depth(self):
         entry = variants.sheets()["BT01"]
         author, _ = generator.build(entry["variant"], entry["num"], SNAP)

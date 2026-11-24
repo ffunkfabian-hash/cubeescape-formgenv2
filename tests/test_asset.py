@@ -346,6 +346,20 @@ class KitModelTests(unittest.TestCase):
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
 
+    def test_tern_keeps_the_basic_06_h2_and_game_anchors(self):
+        pilot, model = kit_model("BT06")
+        self.assertEqual(model["META"]["type"], "submachine_gun")
+        self.assertEqual(model["META"]["nick"], "Tern")
+        donor = [p for p in pilot["PARTS"] if p["asm"] == "sight"]
+        self.assertEqual(len(donor), 12)
+        self.assertEqual([p for p in model["PARTS"] if p["asm"] == "sight"], donor)
+        self.assertEqual(set(model["ANCHORS"]), set(pilot["ANCHORS"]))
+        for name in ("Socket_Eye", "Socket_Sight", "Socket_Reticle"):
+            self.assertEqual(model["ANCHORS"][name]["at"], list(pilot["ANCHORS"][name]["at"]))
+            self.assertEqual(model["ANCHORS"][name]["part"], pilot["ANCHORS"][name]["part"])
+        self.assertIs(model["ANCHORS"]["Socket_Eye"]["std"], True)
+        self.assertEqual(model["ANCHORS"]["Socket_Eye"]["sight_type"], "reflex")
+
     def check_open_sight(self, sid):
         pilot, model = kit_model(sid)
         original = [part for part in pilot["PARTS"] if part["asm"] == "sight"]

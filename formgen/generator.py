@@ -689,8 +689,8 @@ def vary(data, variant, num, snap=None):
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
     if params.get("architecture") == "trestle":
-        from .models.weapons import cairn, heron, swift, trestle, vesper
-        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift}
+        from .models.weapons import cairn, heron, swift, tern, trestle, vesper
+        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern}
         if num not in designs:
             raise GeneratorError(f"Für BASIC-{num} gibt es keinen Trestle-Entwurf")
         design = designs[num]
@@ -763,6 +763,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "03": "Offene Heckwange, lange helle Gabel und das tropfenförmige Originalvisier von BASIC-03.",
             "04": "Zwei helle Keramiklagen fassen eine dunkle Fuge ein. Seitlich sitzt ein facettiertes Medaillon, oben die offene Visierung von BASIC-04.",
             "05": "Eine helle Feder zieht sich zur kompakten Front. Die offene Ferse und die niedrige Visierung von BASIC-05 prägen die Silhouette.",
+            "06": "Ein offener Heckrahmen, zwei helle Schalen und eine kurze dunkle Handauflage prägen Tern. Das Holovisier H2 stammt aus BASIC-06.",
         }
         info["summary"] = summaries.get(num, variant["idea"])
     parts = []

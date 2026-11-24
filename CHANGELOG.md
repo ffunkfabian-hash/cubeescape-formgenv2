@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.32.0 Windward — Tern
+
+- Tern ergänzt Linie T als Maschinenpistole BT06 mit 47,00 mm Gesamtbreite und dem H2-Visier aus BASIC-06. [Versionsbericht](docs/versions/0.32.md)
+
 ## 0.31.0 Pinion — Swift
 
 - Swift (BT05) erhält eine helle Federkontur, 33,50 mm Gesamtbreite und die offene Visierung von BASIC-05. [Versionsbericht](docs/versions/0.31.md)
