@@ -492,7 +492,7 @@ Trommel von BASIC-13; `Socket_LoadingGate` liegt am Magazinboden.
 
 ### Nachbesserung
 
-Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r10` und `…/e13/r1–r10`, je mit Kontaktbogen, Clay und Explosion; e08/r7, e13/r8 und beide r10
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.23/belege/e08/r1–r10` und `…/e13/r1–r11`, je mit Kontaktbogen, Clay und Explosion; e08/r7, e13/r8, e08/r10 und e13/r11
 als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13.png` (Pilot im selben AAA-Weg unter `e08/BA08`, `e13/BA13`).
 
 | Typ | Runde | gesehen | geändert |
@@ -515,6 +515,7 @@ als AAA-Lauf (1600 px, 96 Samples) mit `vergleich_BA08.png` bzw. `vergleich_BA13
 | E08 | r9 → r10 | Wangen unten gerade, der Kolben wirkt von der Seite als Platte | Unterlinie mit steigendem Hals vor dem Abfall zur Kolbenspitze |
 | E13 | r8 → r9 | (Koordination) Schirm wirkt wie ein aufgelegtes Blech; Kolben fast gleich dem von E08; Detail unter BASIC-13 | Schirm wächst mit einer Kehle aus der Stirn (22 mm stark, 12 mm an der Spitze), Nase, Fase unter den Kanten, gerundete Ecken; Lamellenkolben; Auswurfklappe mit Scharnier, Nut des Ladehebels, Magazinplatten mit Schrauben, Kielschrauben; Gassenkanten bis zum Schirm |
 | E13 | r9 → r10 | Lamellen lesen sich als drei Klötze | Lamellen als Schindeln: schräge Hinterkante, Oberkante fällt, größere Rundung |
+| E13 | r10 → r11 | (Richter R5) die neue Auswurfklappe bewegte sich im Schussablauf nicht und deckte beim Auswurf das Fenster | Auswurfschieber gleitet in zwei Leisten 64 mm nach vorn, öffnet vor dem Auswurf (Frame 5) und schließt danach; Test mit Gegenproben; Bewegungsbeleg `e13/schieber/schieber.mp4` |
 
 ### Motivzeilen (für die Familie)
 

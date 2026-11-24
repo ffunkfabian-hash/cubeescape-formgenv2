@@ -73,6 +73,7 @@ GUARD = (240, 330)       # A: Handschutzkiel unter dem Lauf (Stützhand)
 MAG = (90, 200, -22)     # A: Magazin f0, f1, Boden u (zwei Granaten übereinander, Ø 42 + Wand); 7 mm vor dem Abzugsbügel (Runde 4)
 MAG_W = 52               # A: Magazinbreite
 PORT = (88, 150, 82, 116)   # A: Auswurffenster rechts (Hülse 40 mm)
+PORT_SLIDE = 64          # A: Weg des Auswurfschiebers nach vorn (Fenster 62 mm lang); Richter R5: öffnet vor dem Auswurf
 LAMP = (34, 86, 98)      # A: Ladeanzeige f0, Spitze f1, Mitte u (Geschossform)
 
 
@@ -185,13 +186,14 @@ P += [
          'aufgedruckt (dunkel auf Creme)', bevel=0, text='BASIC  EX-13', size=5.0, f=-24, u=86, x=-HALF - 0.05, side=-1, depth=0.12),
 ]
 P += [
-    prof('port_cover', 'Auswurfklappe', 'Ejection port cover', 'mechanism', 'anodized', 'Deckt das Auswurffenster ab',
-         'Scharnier an der Unterkante', [(PORT[0] + 2, PORT[2] + 2), (PORT[1] - 2, PORT[2] + 2), (PORT[1] - 2, PORT[3] - 2),
-                                         (PORT[0] + 2, PORT[3] - 2)], 1.6, bevel=R_FINE, x=-HALF - 0.4,
-         move=dict(kind='rotate', pivot=((PORT[0] + PORT[1]) / 2, PORT[2] + 2, -HALF - 1.2), axis='f', range_deg=(0, 75), event='fire',
-                   expect=(((PORT[0] + PORT[1]) / 2, PORT[3] - 2, -HALF - 1.2), (0, 0, -1)))),
-    cyl('port_hinge', 'Klappenscharnier', 'Port cover hinge', 'mechanism', 'trim', 'Drehachse der Auswurfklappe', 'unter dem Fenster',
-        'f', (PORT[2] + 1, -HALF - 1.4), PORT[0] + 4, PORT[1] - 4, 1.6, segs=12, bevel=0.2),
+    prof('port_cover', 'Auswurfschieber', 'Ejection port slide', 'mechanism', 'anodized', 'Deckt das Auswurffenster ab; gleitet zum Schuss nach vorn',
+         'in zwei Leisten außen am Fenster geführt', [(PORT[0] - 1, PORT[2] - 1), (PORT[1] + 1, PORT[2] - 1), (PORT[1] + 1, PORT[3] + 1),
+                                                      (PORT[0] - 1, PORT[3] + 1)], 1.6, bevel=R_FINE, x=-HALF - 0.9,
+         move=dict(kind='translate', pivot=((PORT[0] + PORT[1]) / 2, PORT[2], -HALF - 0.9), vector_mm=(PORT_SLIDE, 0, 0), event='fire',
+                   expect=((PORT[1] + 1, (PORT[2] + PORT[3]) / 2, -HALF - 0.9), (1, 0, 0)))),
+    part('port_rails', 'Schieberleisten', 'Slide rails', 'mechanism', 'multi', 'trim', 'Führen den Auswurfschieber', 'über und unter dem Fenster',
+         bevel=0.3, items=[dict(shape='box', f0=PORT[0] - 3, f1=PORT[1] + PORT_SLIDE + 3, u0=u, u1=u + 3, w=2.2, x=-HALF - 1.1)
+                           for u in (PORT[2] - 4, PORT[3] + 1)]),
 ]
 P += charging_handle(-26, 112, x=HALF + 0.5, travel=56)
 P[-1]['cuts'] = []
@@ -295,10 +297,11 @@ EGO_GRIPS = {
                     fingers_pose='pinch', src='A: am Ladehebel links an der Haube'),
 }
 POINTS = collect(EJECT, EGO_GRIPS, dict(eject='hood', grip='grip', support='forend', gate='mag_release'))
-EGO_LIVE = dict(trigger='trigger', bolt='bolt', port='', fill=['chamber_lamp'])
+EGO_LIVE = dict(trigger='trigger', bolt='bolt', port='port_cover', fill=['chamber_lamp'])
 ACTIONS = {
     'fire': dict(de='Schuss; Verschluss zurück, Hülse aus, nächste Granate aus dem Magazin', frames=18, step=1, keys={
-        'trigger': [(0, 0), (2, 1), (6, 0)], 'bolt': [(0, 0), (3, 0), (7, 1), (12, 0)]}, events=[(2, 'shot'), (7, 'eject')],
+        'trigger': [(0, 0), (2, 1), (6, 0)], 'bolt': [(0, 0), (3, 0), (7, 1), (12, 0)],
+        'port_cover': [(0, 0), (3, 0), (5, 1), (13, 1), (16, 0)]}, events=[(2, 'shot'), (7, 'eject')],
         view=(-0.85, -0.25, 0.45)),
     'reload': dict(de='Magazinhalter, Magazin heraus und neu einsetzen, Ladehebel ziehen', frames=90, keys={
         'mag_release': [(0, 0), (4, 1), (10, 1), (14, 0)], 'magazine': [(0, 0), (10, 0), (26, 1), (56, 1), (70, 0)],

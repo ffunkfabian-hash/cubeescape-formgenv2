@@ -559,6 +559,26 @@ class TestStreuung(unittest.TestCase):
             return max(b[1][1] for b in bs) - min(b[0][1] for b in bs)
         self.assertGreater(height(self.data["e13"]["PARTS"]) / l13, 1.5 * height(self.data["e08"]["PARTS"]) / l8, "Werfer gedrungener")
 
+    def test_port_opens_before_eject(self):
+        """Richter R5: Ein Teil vor dem Auswurffenster öffnet im Schussablauf vor dem Auswurf und schließt danach wieder."""
+        def problems(act, pid):
+            keys = act["keys"].get(pid)
+            if not keys:
+                return [f"{pid} fehlt im Ablauf"]
+            eject = [f for f, e in act["events"] if e == "eject"][0]
+            val = dict(keys)
+            at = max(f for f in val if f <= eject)
+            out = [] if val[at] == 1 else ["zu beim Auswurf"]
+            return out + ([] if keys[-1][1] == 0 else ["bleibt offen"])
+        act = self.data["e13"]["ACTIONS"]["fire"]
+        self.assertEqual(problems(act, "port_cover"), [])
+        port = self.consts["e13"]["PORT"]
+        self.assertGreaterEqual(self.ids["e13"]["port_cover"]["move"]["vector_mm"][0], port[1] - port[0], "Schieber gibt das ganze Fenster frei")
+        late = dict(act, keys=dict(act["keys"], port_cover=[(0, 0), (9, 0), (10, 1), (16, 0)]))
+        self.assertEqual(problems(late, "port_cover"), ["zu beim Auswurf"])          # Gegenprobe: öffnet erst nach dem Auswurf
+        gone = dict(act, keys={k: v for k, v in act["keys"].items() if k != "port_cover"})
+        self.assertEqual(problems(gone, "port_cover"), ["port_cover fehlt im Ablauf"])   # Gegenprobe: Stand vor R5
+
     def test_profiles_simple(self):
         """Kein Seiten- oder Querprofil schneidet sich selbst (Richter R1 fand einen gekreuzten Kantenstreifen)."""
         def problems(parts):
