@@ -306,27 +306,30 @@ class TestSonder(unittest.TestCase):
         self.assertIn("Wurfarm ohne Verjüngung", problems(ids["riser"], dict(ids["limb_top"], cuts=[])))
 
     def test_caliper_string_readable(self):
-        """Die Sehne ist die begründete Ausnahme der Stiftprüfung: Ø ≥ 4 mm, Mittelwicklung Ø ≥ 6,5 mm am Nockpunkt und Endwicklungen an
-        den Rollen machen sie auf Spielabstand lesbar; sie läuft hinten tangential von der Rolle ab und folgt dem Nockpunkt."""
+        """Die Sehne ist die begründete Ausnahme der Stiftprüfung: Ø ≥ 4 mm, Mittelwicklung Ø ≥ 6,5 mm am Nockpunkt (je Hälfte auf ihrer
+        Seite des Nockpunkts) und Endwicklungen an den Rollen machen sie auf Spielabstand lesbar; sie läuft hinten tangential von der Rolle
+        ab und folgt dem Nockpunkt."""
         c, ids = self.consts["e07"], self.ids["e07"]
 
-        def problems(s, serving):
+        def problems(s, serving, side):
             out = []
             if 2 * s["r"] < 4.0:
                 out.append("Sehne zu dünn")
-            if 2 * serving["r"] < 6.5 or not serving["a0"] <= c["ARROW_U"] + 2 + 0.5 <= serving["a1"]:
+            at = c["ARROW_U"] + side * 2.5     # 2,5 mm über bzw. unter dem Nockpunkt (Lage der Nocke, Richter R1)
+            if 2 * serving["r"] < 6.5 or not serving["a0"] <= at <= serving["a1"]:
                 out.append("keine Mittelwicklung am Nockpunkt")
             if abs(s["c"][0] - (c["AXLE"][0] - c["CAM_R"])) > 0.5:
                 out.append("nicht tangential")
             return out
-        for s in ("top", "bottom"):
-            self.assertEqual(problems(ids[f"string_{s}"], ids[f"serving_{s}"]) if s == "top" else
-                             problems(ids["string_bottom"], dict(ids["serving_bottom"], a0=ids["serving_top"]["a0"],
-                                                                 a1=ids["serving_top"]["a1"])), [])
-            self.assertEqual(ids[f"serving_{s}"]["parent_part"], f"string_{s}")
-            self.assertEqual(ids[f"end_serving_{s}"]["parent_part"], f"string_{s}")
-        self.assertEqual(problems(dict(ids["string_top"], r=1.6), ids["serving_top"]), ["Sehne zu dünn"])   # Gegenprobe: BASIC-07 Ø 3,2
-        self.assertIn("keine Mittelwicklung am Nockpunkt", problems(ids["string_top"], dict(ids["serving_top"], a0=200, a1=230)))
+        for s, side in (("top", 1), ("bottom", -1)):
+            with self.subTest(s):
+                self.assertEqual(problems(ids[f"string_{s}"], ids[f"serving_{s}"], side), [])
+                self.assertEqual(ids[f"serving_{s}"]["parent_part"], f"string_{s}")
+                self.assertEqual(ids[f"end_serving_{s}"]["parent_part"], f"string_{s}")
+        self.assertEqual(problems(dict(ids["string_top"], r=1.6), ids["serving_top"], 1), ["Sehne zu dünn"])   # Gegenprobe: BASIC-07 Ø 3,2
+        self.assertIn("keine Mittelwicklung am Nockpunkt", problems(ids["string_top"], dict(ids["serving_top"], a0=200, a1=230), 1))
+        shifted = dict(ids["serving_bottom"], a0=-200, a1=-170)   # Gegenprobe (Richter R1): untere Wicklung verschoben
+        self.assertIn("keine Mittelwicklung am Nockpunkt", problems(ids["string_bottom"], shifted, -1))
 
     def test_no_thin_sticks(self):
         """Keine Stifte unter Ø 12 mm (Nutzer 0.25); Ausnahme nur Sehne, Pfeil und Visierbaustein. Gegenprobe: Einbeinstift wie E09 r1–4."""
