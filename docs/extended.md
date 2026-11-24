@@ -22,6 +22,8 @@ Schiene BRI-22, Feuerwahlhebel und Ladehebel-Form, Schraubenköpfe sowie die Hil
 | `e13` | EXTENDED-13 „Mantlet“ | `EA13` | `formgen/models/extended/e13_mantlet.py` | Granatwerfer |
 | `e09` | EXTENDED-09 „Theodolite“ | `EA09` | `formgen/models/extended/e09_theodolite.py` | Scharfschützengewehr |
 | `e14` | EXTENDED-14 „Keelson“ | `EA14` | `formgen/models/extended/e14_keelson.py` | Raketenwerfer |
+| `e07` | EXTENDED-07 „Caliper“ | `EA07` | `formgen/models/extended/e07_caliper.py` | Kampfbogen |
+| `e12` | EXTENDED-12 „Shuttle“ | `EA12` | `formgen/models/extended/e12_shuttle.py` | Spurgewehr |
 
 IDs sind ewig. Die Blatt-ID folgt dem Schema `E<Linie><NN>` (Nutzerentscheid vom 23.11.2026), analog zu `BA01` und `RA01`:
 Linie A ist die Grundform, NN die EXTENDED-Nummer, spätere Linien folgen als `EB01` usw. Sie steht in `formgen/extended.py` ›
@@ -654,3 +656,110 @@ Jede Regelprüfung hat eine Gegenprobe mit erwartetem Grund (z. B. durchgehender
 Blase am Rand, flacher Bauch, Kastenkiel, Muffe statt Wiege, Startrohr Ø 112 vor dem Visier, kürzerer Schacht). Die Tests fanden in r3
 drei Fehler, die im Bild nicht auffielen: die Rakete länger als den Schacht, die Schrift vor der gewölbten Schale und die gekreuzten
 Tropfenflanken unter dem abgeschnittenen Kiel.
+
+## EXTENDED-07 „Caliper“ und EXTENDED-12 „Shuttle“ (Sonder, 0.28 „Quiver“)
+
+Die letzte Sitzung der Welle 2 bündelt die beiden Sondertypen: einen Bogen ohne Abzug und eine Strahlwaffe ohne Schuss. Der Kampfbogen
+bleibt ein Compound mit Rollen, Sichtfenster und Pinvisier B1 über dem Pfeil (Leitmerkmal 07), wird aber eine kurze, tiefe Klammer statt
+der hohen Sichel von BASIC-07. Das Spurgewehr behält das runde Fokusrohr mit Kegel und den Einteilkörper (Leitmerkmal 12), der Körper ist
+aber ein Weberschiffchen: eine Spindel mit einem Auge, in dem die Fokusspule auf der Strahlachse sitzt. Keine Form der Motivtabelle kehrt
+wieder: kein Säbelbogen wie EA16, kein Λ wie EA06, keine Rohrlinie wie EA03, kein Käfig wie EA11, keine Glocke wie EA10, kein Kreuz-Kühlmantel
+wie EA15, kein Tropfen-Kiel wie EA14, keine Haube über dem Rohr wie BASIC-12.
+
+### Formideen
+
+Seitensilhouetten mit Visierlinie (`~/Library/Caches/CubeEscapeFormgen2/0.28/belege/skizzen/e07_skizzen_v1.png`, `e07_skizzen_v2.png` mit
+Sichtkegel und Pfeilbahn, `e12_skizzen_v1.png`, `e12_skizzen_v2.png`). Die IoU steht im Rahmen aus den Hüllen beider Modelle, je im
+Standard- und im genauen Maß (Querprofile mit ihren Seitenschnitten, `as_side`); „max EA“ ist der höchste Wert gegen die 15 vorhandenen
+EXTENDED-Modelle. Beim Bogen sind beide Maße gleich, weil er keine Querprofile hat; dünne Formen überlappen kaum, deshalb liegen alle
+Bogen-Ideen niedrig und die Wahl fiel am Bild.
+
+| Idee | Architektur | IoU BASIC | max EA | Urteil |
+|---|---|---|---|---|
+| E07-A Klammer vorgewölbt | Bügel wölbt sich nach vorn, Wurfarme waagerecht | 0,29 | 0,13 (EA10) | Griffstelle 114 mm tief: die Hand umschließt das nicht |
+| **E07-A2 Klammer (Deflex)** | Bügel zum Schützen eingezogen, Ecken vorn, Wurfarme fast parallel nach hinten | 0,33 | 0,15 (EA10) | **gewählt** |
+| E07-B Linse | linsenförmiger Riser, kurze gerade Wurfarme | 0,46 | 0,19 (EA10) | Umriss ein Dreieck, gerade Arme wie ein Λ |
+| E07-C Blattfeder | je Wurfarm zwei Blätter mit Federauge | 0,48 | 0,15 (EA10) | Umriss bleibt die Sichel von BASIC-07 |
+| E07-D Joch | langer Riser, kurze Arme, große Rollen | 0,47 | 0,15 (EA10) | liest sich als Stange mit Rädern |
+| E12-A Schiffchen v1 | Linse unter der Achse, Auge mit Spule | 0,61 | 0,64 (EA02) | Bauch zu flach, Band wie BASIC |
+| **E12-A2 Schiffchen (Spindel)** | Spindel mit Scheitel vor dem Visier, Auge mit Spule auf der Strahlachse, Bauch mit Zelle | 0,55 | 0,64 (EA08) | **gewählt** |
+| E12-B Rochen | flach und 120 mm breit | 0,62 | 0,64 (EA08/EA03) | Seite ein Band; Breite erst von oben lesbar |
+| E12-C Wendel | kompaktes Gehäuse, langes Rohr mit Spulenwendel | 0,68 | 0,61 (EA08) | Wendel liest sich als Feder, langes Rohr wie EA11 |
+| E12-D Ausleger | Rohr frei über einem unteren Balken mit Haken | 0,57 | 0,68 (EA08) | Doppeldeck mit Schlitz wie EA05 |
+| E12-E Kaskade | drei Stufen fallen nach vorn | 0,71 | 0,64 (EA10) | koaxiale Stufen nah an EA03, Oberlinie wie BASIC |
+| E12-F Kiemen | Kühlkamm unter dem freien Rohr | 0,63 | 0,68 (EA08) | unruhig, dünne Rippen |
+
+Die Skizzen zeigten zwei Zwangsbedingungen. Am Bogen sitzt das Pinvisier seit BASIC-07 0.35 direkt über dem Pfeil; der Sichtkegel vom Auge
+(Ankerpunkt bei vollem Auszug) durch den Ring braucht links im Bügel ein Fenster ab x 28 – also bleibt die Kröpfung des Bügels, und die
+Form muss aus Umriss und Volumen kommen. Am Spurgewehr darf vor dem Visier nichts höher als 24 mm unter der Visierlinie stehen (wie die
+Haube von BASIC-12); deshalb wächst die Spindel nach unten (Bauch) und nur vor dem Visier bis an diese Grenze.
+
+### Formsprache
+
+| | EXTENDED-07 „Caliper“ (Kampfbogen) | EXTENDED-12 „Shuttle“ (Spurgewehr) |
+|---|---|---|
+| Leitmotiv | Klammer: ein tief eingezogener Bügel (Deflex, Griffstelle hinten) trägt vorn zwei schwere Wurfarmtaschen; die Wurfarme laufen fast parallel nach hinten zu großen Rollen, die Sehne schließt die Klammer ⊐ | Weberschiffchen: der Einteilkörper ist eine Spindel, durch ihre Mitte geht ein linsenförmiges Auge, darin sitzt die Fokusspule auf der Strahlachse wie die Garnspule im Schiffchen; vorn tritt das freie Fokusrohr mit dem Kegel aus der Spitze |
+| Silhouette | Spanne 0,80 m (BASIC-07 1,02 m), Rollen 150 mm hinter den Ecken; kurz, tief, eckig statt hoher Sichel | 0,81 m, Linse mit dem Scheitel vor dem Visier und dem Bauch vor dem Abzugsbügel, hinten zur Schaftkappe zusammenlaufend |
+| Querschnitt | Keilrippe: Vorderkante des Bügels beidseitig 3,5 mm eingezogen, breite Rückseite zum Schützen, Flankenfeld 1,5 mm; Wurfarme verjüngen sich von oben 36 → 30 mm | stehendes Oval (oben schmal für die Schiene, unten zum Bauch eingezogen), Draufsicht spitz zu beiden Enden |
+| Blickfang | Spannlicht als liegender Halbmond links am Fensterbogen, blank gefasst, leuchtet bei vollem Auszug | Fokuswicklung im Auge leuchtet beim Strahl, blanke Flansche, Wicklungsbänder; von links durch das Auge zu sehen |
+| Negativraum | Sichtfenster im Bügel, zwei Rippenschlitze, gegabelte Wurfarmenden, der Raum der Klammer | das Auge quer durch den Körper, Luft rund um die Spule |
+| Front | Pfeilspitze dreikant mit blanker Hülse → Pinring → Querarm und Schelle → Bügel mit Keilrippe → Keilnasen der Taschen | Fokuslinse → blanke Krone → Kegel mit Stufe → Fokusrohr mit Griffband zwischen blanken Klemmringen → eloxierter Stirnring in der Spindelspitze |
+| Kolben, Griff | Griffstück mit Handballenwölbung (R_SOFT) hinten am Bügel | Schaftkappe als Oval am Spindelende (Spitze des Schiffchens), kein angesetzter Kolben |
+| Zweiton | Creme-Bügel gegen Graphit-Wurfarme, eloxierte Taschen, Rollen `dark_metal` | Creme-Oberschale über Graphit-Unterschale; die Fuge ist ein Bogen (Runde 4), so liest die Creme-Schale selbst als Schiffchen |
+| Grafik, Schrift | oranger Streifen links an der oberen Tasche; „BASIC  EX-07“ links unten am Bügel | oranger Fadenstreifen auf beiden Flanken unter der Oberlinie; „BASIC  EX-12“ rechts |
+| Bedienung (Orange) | Leitfeder (Pfeil); Klemmhebel des Visiers im Baustein | Zellenhalter |
+| Visierbefestigung | Höhenschlitten: eine Schelle umgreift die Vorderkante des Fensterbogens (zwei blanke Klemmschrauben, Höhenskala darüber), ein Querarm trägt die Schiene über ihre ganze Länge | Schiene BRI-22 auf dem ebenen Schienensattel der Oberschale, über die ganze Länge aufliegend |
+| Sehne | Ø 4,4 mm (BASIC-07 3,2), Mittelwicklung Ø 7 am Nockpunkt, Endwicklungen an den Rollen, Nockklemme; läuft hinten tangential von der Rolle ab | – |
+| Familie | Griffstück statt BGM-1 (Bogen-Regel), B1 „Pins“ auf BRI-22 69,5 mm über dem Pfeil wie BASIC-07, Auszug 420 mm, Standhöhe 150 mm | BGM-1, H3 „Zinken“ 66 mm über der Strahlachse, Zelle BEC-1 unten heraus, Einteilkörper BST-T |
+
+Gleich wie der BASIC-Typ bleiben Baugruppen, Anker, Weltpunkte und Aktionen (`draw_hold_release`/`let_down` bzw. `beam`/`reload`). Der
+Bogen hat kein Magazin und keinen Auswurf; das Spurgewehr ist hülsenlos, seine Zelle ist der Boden des Bauchs und geht nach unten heraus.
+
+### Nachbesserung
+
+Belege: `~/Library/Caches/CubeEscapeFormgen2/0.28/belege/e07/r1–r5` und `…/e12/r1–r5`, je sieben Ansichten, Clay, Explosion,
+Kontaktbogen und `vergleich_BA07.png` bzw. `vergleich_BA12.png` (Piloten im selben AAA-Weg unter `e07/BA07`, `e12/BA12`); r5 ist der
+AAA-Lauf (1600 px, 96 Samples) mit den Nahaufnahmen `detail_<n>_<Ansicht>.png`.
+
+| Typ | Runde | gesehen | geändert |
+|---|---|---|---|
+| E07 | r1 → r2 | Wurfarmtaschen sind Kästen; die Hero-Kamera zeigt den Bogen von vorn | Taschen als Keilnase (R_BODY), von oben in den Wurfarm verjüngt; Kamera wie BASIC-07 |
+| E07 | (Test) | eigene Visierschelle hieß `sight_clamp` wie der Klemmhebel des Bausteins (doppelte ID, Schelle hing frei) | umbenannt in `sight_sled`; Test auf doppelte IDs |
+| E07 | r2 → r3 | die BASIC-Kamera zeigt die rechte Seite, Halbmond und Schlitten fehlen im Hero; Rippenschlitze machen den Bügel zu zwei dünnen Holmen | Kamera von links; Bügel 6 mm tiefer, Schlitze 12 statt 14 mm; Rollen 12 mm dick, größere Naben |
+| E07 | r3 → r4 | Wurfarme von vorn und im Hero zart, Kastenkanten | Wurfarme 34 → 22 mm stark (statt 30 → 20), Kanten R_MID; Querarm trägt die Schiene auf ganzer Länge (seit r2) |
+| E12 | r1 → r2 | hinter dem Auge eine lange Creme-Planke mit flachen Seiten, Kastenkappe hinten | Spindel hinten niedriger, Schaftkappe als Oval, Flankenpaneel als Stadion |
+| E12 | r2 → r3 | (Messung am GLB) die Draufsicht-Schnitte wirkten nicht: BALLONs `mesh_plan` richtet Normalen nicht aus, ein Profil gegen den Uhrzeigersinn schneidet nicht | alle Draufsicht-Profile über `cw()` im Uhrzeigersinn (auch Taschen, Wurfarme, Schelle, Streifen und Befiederung von E07); Test mit Gegenprobe |
+| E12 | r3 → r4 | die Spindel liest sich trotzdem als Balken: die Zweiton-Fuge ist eine gerade Linie, das Paneel liegt in einer zu tiefen Stadion-Mulde (Flecken am Ende) | Fuge als Bogen (tief in der Mitte, steigt zu beiden Spitzen); stärkere Verjüngung hinten (Schaftende 42 mm hoch, Draufsicht 17 mm halbe Breite); Paneel und Mulde schmiegen sich ans Oval (Querprofil), unter der Schiene |
+
+### Motivzeilen (für die Familie)
+
+| Typ | Leitmotiv | Silhouette | Querschnitt | Blickfang | Negativraum | Front |
+|---|---|---|---|---|---|---|
+| EA07 Kampfbogen „Caliper“ | Klammer: tief eingezogener Bügel (Deflex), Wurfarme fast parallel nach hinten zu großen Rollen | kurz und tief, Spanne 0,80 m, Ecken vorn, Rollen hinten | Keilrippe (Vorderkante eingezogen, breite Rückseite), Wurfarme von oben verjüngt | Spannlicht als liegender Halbmond links | Sichtfenster, Rippenschlitze, Gabeln, Raum der Klammer | dreikantige Pfeilspitze → Pinring → Höhenschlitten → Keilrippe → Keilnasen der Taschen |
+| EA12 Spurgewehr „Shuttle“ | Weberschiffchen: Spindel mit Auge, Fokusspule auf der Strahlachse | 0,81 m, Linse mit Scheitel vor dem Visier, Bauch mit Zelle, Schaft läuft zusammen | stehendes Oval, Fuge als Bogen | leuchtende Fokuswicklung im Auge | Auge quer durch den Körper | Linse → Krone → Kegel → Fokusrohr → Stirnring in der Spindelspitze; Schaft: ovale Kappe |
+
+### Prüfung
+
+`tests/test_extended_sonder.py` prüft beide Modelle (27 Tests). Abgedeckt sind:
+
+- Felder, Typ und Feuerart wie BASIC-NN, Blatt-IDs, keine doppelten Teil-IDs, Anker, Weltpunkte und Aktionen (`variant.problems` als Orakel).
+- Familienschnittstellen (BRI-22, B1 bzw. BGM-1, BEC-1, BST-T, H3) und Budgets: genau ein Blickfang, höchstens drei Akzent-Bedienfunktionen,
+  eine Schrift, ein Grafikelement.
+- Visierlinie: B1 genau wie BASIC-07 (69,5 mm über dem Pfeil), H3 66 ± 4 mm über der Strahlachse.
+- Sichtkegel des Bogens vom Ankerpunkt durch den Pinring frei (Fenster tiefer als der Kegel breit, kein Teil im Kegel); vor dem Visier des
+  Spurgewehrs nichts höher als 24 mm unter der Visierlinie.
+- Seiten-IoU < 0,85 gegen BASIC-NN und jedes andere EXTENDED-Modell und < 0,70 im Paar, im Standardmaß und im genauen Maß.
+- Klammer (Wurfarme ≤ 15° gegen die Waagerechte, Ecken ≥ 40 mm vor der Griffstelle, Spanne < 0,85 × BASIC-07), Keilrippe, Rippenschlitze
+  und verjüngte Wurfarme; Sehne als begründete Ausnahme lesbar (Ø ≥ 4, Mittelwicklung Ø ≥ 6,5 am Nockpunkt, tangential); keine Stifte unter
+  Ø 12 mm außer Sehne, Pfeil und Visierbaustein; Höhenschlitten (umgreift den Fensterbogen, Querarm ≥ 400 mm², trägt die Schiene ganz,
+  hängt mit Bügel und Visier zusammen).
+- Spindel (läuft zu beiden Enden zusammen, Draufsicht verjüngt), Auge und Spule (Luft ≥ 3 mm, Achse gelagert, Wicklung im Auge), Zelle als
+  Bauch (bündig, vor dem Abzugsbügel), Schiene auf dem Sattel, Draufsicht-Profile im Uhrzeigersinn.
+- Gestaltete Querschnitte, Detaildichte mindestens wie der Pilot, keine Selbstschnitte, Absetzung Bogen/Spurgewehr, Zusammenhang, Größe
+  (Bogen: Spanne als Bezug wie BASIC-07) und Quellhash.
+- `tests/test_extended_nahkampf.py` zeichnet jedes registrierte Modell in einem festen Rahmen; seit 0.28 reicht er u ±420 (der Bogen misst ±398 mm).
+
+Jede Regelprüfung hat eine Gegenprobe mit erwartetem Grund (z. B. Sichel von BASIC-07, gerader Bügel, glatter Kasten, Sehne Ø 3,2,
+Sehnenstopperstab Ø 8, Blechwinkel, Arm wie r1, stumpf angesetzte Schelle, Fenster wie BASIC-07 bis 0.34, Pfosten im Kegel, Kasten statt
+Spindel, zu große Spule, schwebende Spule, Magazin wie BASIC-12, Draufsicht-Profil gegen den Uhrzeigersinn). Zwei Fehler fielen im Bild nicht auf:
+die doppelte ID `sight_clamp` (Test) und die wirkungslosen Draufsicht-Schnitte (Messung am GLB, seitdem Test).
