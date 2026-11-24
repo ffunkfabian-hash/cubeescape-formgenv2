@@ -259,3 +259,5 @@ def components(parts, tol=0.5) -> list[list[str]]:
     return sorted(groups.values(), key=len, reverse=True)
 MODELS["e06"], SHEETS["e06"] = "e06_wishbone", "EA06"     # 0.22 Torrent: Maschinenpistole (Dauerfeuer)
 MODELS["e15"], SHEETS["e15"] = "e15_flywheel", "EA15"     # 0.22 Torrent: Maschinengewehr (Dauerfeuer)
+MODELS["e08"], SHEETS["e08"] = "e08_brace", "EA08"        # 0.23 Breacher: Schrotflinte (Streuung)
+MODELS["e13"], SHEETS["e13"] = "e13_mantlet", "EA13"      # 0.23 Breacher: Granatwerfer (Streuung)
