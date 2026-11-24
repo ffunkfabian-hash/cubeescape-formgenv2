@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import ast
 import copy
+from contextlib import contextmanager
 import hashlib
 import importlib
 import json
@@ -190,20 +191,27 @@ def _purge():
         del sys.modules[name]
 
 
+@contextmanager
+def snapshot_imports(snap: Path):
+    """Bind the pinned BASIC package for one data-only import or model build."""
+    _purge()
+    sys.path.insert(0, str(snap))
+    try:
+        yield
+    finally:
+        sys.path.remove(str(snap))
+        _purge()
+
+
 def load(snap: Path, num: str, base: str = "standard") -> dict:
     """Import one BALLON weapon module from the snapshot and return deep-copied data only."""
     snap = Path(snap)
     path = module_file(snap, num, base)
-    _purge()
-    sys.path.insert(0, str(snap))
-    try:
+    with snapshot_imports(snap):
         module = importlib.import_module(".".join(path.relative_to(snap).with_suffix("").parts))
         data = {key: copy.deepcopy(getattr(module, key, default)) for key, default in
                 (("META", None), ("PARTS", None), ("ASSEMBLIES", None), ("ANCHORS", {}), ("POINTS", {}),
                  ("ACTIONS", {}))}
-    finally:
-        sys.path.remove(str(snap))
-        _purge()
     if not data["META"] or not data["PARTS"] or not data["ASSEMBLIES"]:
         raise BallonError(f"{path.name}: META/PARTS/ASSEMBLIES fehlen")
     if data["META"].get("id") != f"BASIC-{num}":
@@ -214,12 +222,7 @@ def load(snap: Path, num: str, base: str = "standard") -> dict:
 def call(snap: Path, name: str, *args, **kwargs):
     """Call one building block of the snapshot's `basic/common.py` (e.g. `holo_kasten`) and return a deep copy of its result."""
     snap = Path(snap)
-    _purge()
-    sys.path.insert(0, str(snap))
-    try:
+    with snapshot_imports(snap):
         common = importlib.import_module("basic.common")
         result = copy.deepcopy(getattr(common, name)(*args, **kwargs))
-    finally:
-        sys.path.remove(str(snap))
-        _purge()
     return result

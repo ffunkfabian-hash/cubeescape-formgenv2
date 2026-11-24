@@ -62,6 +62,61 @@ class SeedTests(unittest.TestCase):
 
 @unittest.skipIf(SNAP is None, REASON)
 class KitTests(unittest.TestCase):
+    def test_trestle_h0_sits_on_bri22_above_flat_crown_and_is_shown(self):
+        from formgen.build import select_document
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        document = geom.evaluate(model.normalize(author))
+        parts = document["parts"]
+        crown = next(part for part in parts if part["id"] == "crown")
+        lo, hi = np.array(crown["bounds_m"])
+        # Scheitel bleibt eben; BRI-22 und H0 stehen gemäß Variante A darüber.
+        self.assertAlmostEqual(hi[2], 0.132)
+        body = [part for part in parts if part["id"] != "rail" and not part["id"].startswith("sight_")]
+        self.assertAlmostEqual(max(part["bounds_m"][1][2] for part in body), hi[2])
+        rail = next(part for part in parts if part["id"] == "rail")
+        self.assertAlmostEqual(rail["bounds_m"][0][2], 0.1315)
+        self.assertAlmostEqual(rail["bounds_m"][1][2], 0.140)
+        self.assertLessEqual(rail["bounds_m"][0][2], hi[2])
+        self.assertGreater(rail["bounds_m"][1][2], hi[2])
+        foot = next(part for part in parts if part["id"] == "sight_mount")
+        self.assertAlmostEqual(foot["bounds_m"][0][2] - rail["bounds_m"][1][2], 0.0005)
+        self.assertGreater(foot["bounds_m"][1][2], rail["bounds_m"][1][2])
+        hero = {p["id"] for p in select_document(document, "hero")["parts"]}
+        self.assertTrue({"rail", "sight_mount", "sight_glass", "sight_frame"} <= hero)
+        self.assertFalse(any(key.startswith("optic_") for key in hero))
+        face = next(part for part in parts if part["id"] == "face")["mesh"]
+        front = geom._as_manifold(face["vertices"], face["faces"])
+        self.assertTrue(front.ray_cast((0, -0.44, 0.061), (0, -0.40, 0.061)),
+                        "Variante A behält die geschlossene Front auf Laufachse u84")
+        mesh = crown["mesh"]
+        surface = geom._as_manifold(mesh["vertices"], mesh["faces"])
+        for fx in (0.1, 0.5, 0.9):
+            for fy in (0.15, 0.5, 0.85):
+                x, y = lo[:2] + (hi[:2] - lo[:2]) * [fx, fy]
+                hits = surface.ray_cast((x, y, hi[2] + 0.01), (x, y, lo[2] - 0.01))
+                self.assertTrue(hits, (x, y))
+                self.assertAlmostEqual(hits[0].position[2], hi[2])
+
+    def test_trestle_front_window_and_nameplate_have_depth(self):
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = {p["id"]: p for p in geom.evaluate(model.normalize(author))["parts"]}
+        for case, inset, through in (("fore_cuff", "louvre_2", True), ("flank", "badge", False)):
+            mesh = parts[case]["mesh"]
+            shell = geom._as_manifold(mesh["vertices"], mesh["faces"])
+            for side, suffix in ((1, "l"), (-1, "r")):
+                lo, hi = np.array(parts[inset + "_" + suffix]["bounds_m"])
+                _, y, z = (lo + hi) / 2
+                outer = max(side * lo[0], side * hi[0])
+                self.assertLess(outer, parts[case]["bounds_m"][1][0])
+                hits = shell.ray_cast((side * 0.05, y, z), (-side * 0.05, y, z))
+                if through:
+                    self.assertFalse(hits, "Die Lamelle muss durch das Schalenfenster sichtbar sein")
+                else:
+                    self.assertTrue(hits, "Die Tasche des Typenschilds braucht einen Boden")
+                    self.assertLess(side * hits[0].position[0], outer)
+
     def gen(self, num, base="standard", **params):
         return generator.build(dict(BASE, letter="J", name="Probe", base=base, params=params), num, SNAP)
 
@@ -220,7 +275,7 @@ class RegisterVarietyTests(unittest.TestCase):
 
     def test_lines_with_frozen_ids(self):
         letters = [v["letter"] for v in self.entries]
-        self.assertTrue(6 <= len(letters) <= 12, letters)      # 0.8: acht Linien + vier Serien
+        self.assertEqual(letters, list("ABCDEFGHJKLMT"))
         self.assertEqual(letters[:3], ["A", "B", "C"])
         self.assertEqual([v["name"] for v in self.entries[:3]], ["Baseline", "Long Reach", "Close Quarters"])
         self.assertEqual({v["skin"] for v in self.entries}, set(variants._skins()), "alle Skins im Einsatz")
@@ -243,7 +298,11 @@ class RegisterVarietyTests(unittest.TestCase):
             for socket, role in mine["hand_roles"].items():
                 self.assertTrue(role in generator.HAND_ROLES or role == base["hand_roles"].get(socket), (sid, socket, role))
             before, after = base["sight_line_mm"], mine["sight_line_mm"]
-            if generator._in_band(before):
+            if sid == "BT01":
+                # Nutzerentscheid Variante A (24.11.2026): H0 auf der Scheitelleiste,
+                # Front unverändert. Nur diese Blatt-ID hat die feste Höhe 105 mm.
+                self.assertEqual(after, 105.0, sid)
+            elif generator._in_band(before):
                 self.assertTrue(generator._in_band(after), (sid, before, after))
             elif after is not None and before is not None:
                 self.assertLessEqual(abs(after - 70), abs(before - 70) + 1e-9, (sid, before, after))

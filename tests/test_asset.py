@@ -4,6 +4,7 @@ Ohne Blender: Kitmodell aus `generator.vary`, Schlüssel, Kit-Schnappschuss, Ass
 Bake-Schlüssel, GPU-Sperre, ZIP. Mit vorhandenen Ergebnissen (Mac, nach `pipeline` und `tools/line_a_parity.py`): Linie A
 bytegleich zu BALLONs Neubau am Pin.
 """
+import hashlib
 import io
 import json
 import os
@@ -159,6 +160,139 @@ class BuiltGlbSkinTests(unittest.TestCase):
 
 @unittest.skipIf(SNAP is None, REASON)
 class KitModelTests(unittest.TestCase):
+    def test_trestle_aaa_uses_bt01_dataset_and_tracks_its_sources(self):
+        from formgen import extended
+        # EX-18 reserviert die bestehende BT01-ID; es gibt kein zweites EA18-Modell.
+        self.assertEqual(extended.PIPELINE_SHEETS, {"e18": "BT01"})
+        self.assertFalse(extended.PIPELINE_SHEETS.keys() & extended.MODELS.keys())
+        self.assertFalse(extended.PIPELINE_SHEETS.keys() & extended.SHEETS.keys())
+        sheets = {**extended.SHEETS, **extended.PIPELINE_SHEETS}
+        self.assertEqual(len(sheets), len(set(sheets.values())))
+        self.assertNotIn("EA18", sheets.values())
+        self.assertEqual(extended.sheet_id("e18"), "BT01")
+        for key, sid in extended.SHEETS.items():
+            self.assertEqual(extended.sheet_id(key), sid)
+        _, exported = kit_model("BT01")
+        self.assertEqual(canonical(extended.load("e18", SNAP)), canonical(exported))
+        source = extended.source("e18", SNAP)
+        for name in ("formgen/models/weapons/trestle.py", "formgen/models/weapons/legacy_shared.py",
+                     "basic/common.py"):
+            with self.subTest(source=name):
+                self.assertIn(name, source["files"])
+                root = SNAP if name.startswith("basic/") else asset.ROOT
+                self.assertEqual(source["files"][name], hashlib.sha256((root / name).read_bytes()).hexdigest())
+        self.assertEqual(source["source_sha256"], hashlib.sha256(canonical(source["files"])).hexdigest())
+
+    def test_trestle_exports_its_static_shell_with_standard_h0_and_game_sockets(self):
+        data, result = kit_model("BT01")
+        self.assertEqual(result["META"]["id"], "BT01")
+        self.assertEqual(result["META"]["variant"], "EXTENDED-18")
+        self.assertFalse(result["ACTIONS"])
+        self.assertEqual(set(result["POINTS"]), set(data["POINTS"]))
+        parts = {part["id"]: part for part in result["PARTS"]}
+        self.assertTrue({"arch", "fore_cuff", "face", "handle", "cassette"} <= parts.keys())
+        self.assertFalse(any(key.startswith("optic_") for key in parts))
+        self.assertEqual(parts["rail"]["iface"], "BRI-22")
+        self.assertEqual(len(parts["rail"]["cuts"]), 6)
+        # Nutzerentscheid 24.11.2026: H0 unverändert auf BRI-22, Linie +105 mm.
+        kit_parts, kit_anchors = ballon.call(SNAP, "reflex_sight_v21", -10, 140, weapon_type="auto_rifle")
+        def geometry(value):
+            if isinstance(value, dict):
+                return {key: geometry(item) for key, item in value.items() if key != "move"}
+            if isinstance(value, (tuple, list)):
+                return [geometry(item) for item in value]
+            return round(value, 9) if isinstance(value, float) else value
+        for part in kit_parts:
+            self.assertEqual(geometry(parts[part["id"]]), geometry(part), part["id"])
+        imported = {part["id"] for part in kit_parts} | {
+            "rail", "selector", "selector_r", "charging_handle", "mag_release", "takedown_pins"}
+        original = {part["id"] for part in data["PARTS"]}
+        self.assertEqual(original & parts.keys(), imported, "Nur deklarierte Kit-Gleichteile aus BASIC-01")
+        self.assertFalse(any("move" in part for part in parts.values()))
+        anchors = result["ANCHORS"]
+        for name, point in kit_anchors.items():
+            for key, value in point.items():
+                self.assertEqual(geometry(anchors[name][key]), geometry(value), (name, key))
+        expected = {"Socket_Hand": ("handle", [0, 0, 0]),
+                    "Socket_Muzzle": ("face", [419, 61, 0]),
+                    "Socket_Eye": ("sight_frame", [-59.6, 166, 0]),
+                    "Socket_Sight": ("sight_body", [-9, 166, 0]),
+                    "Socket_Reticle": ("sight_glass", [30.4, 166, 0]),
+                    "Socket_Charge": ("charging_handle", [133, 77, 38]),
+                    "Socket_MagWell": ("keel", [98, 39, 0])}
+        for name, (part, at) in expected.items():
+            self.assertEqual(anchors[name]["part"], part)
+            for got, want in zip(anchors[name]["at"], at):
+                self.assertAlmostEqual(got, want, msg=name)
+        self.assertEqual(anchors["Socket_Eye"]["at"][1] - anchors["Socket_Muzzle"]["at"][1], 105)
+        self.assertAlmostEqual(anchors["Socket_Reticle"]["at"][0] - anchors["Socket_Eye"]["at"][0], 90)
+        self.assertEqual(result["POINTS"]["grip.charge"]["at"], anchors["Socket_Charge"]["at"])
+        for group in (anchors, result["POINTS"]):
+            self.assertTrue(all(point["part"] in parts for point in group.values()))
+
+    def test_trestle_family_keeps_its_geometry_and_existing_anchors(self):
+        from formgen.models.weapons import cairn, heron, swift, vesper
+        # Vor BASIC-Pass gemessen (PR26 + Nacharbeit): Teil-Geometrie, ohne Beschriftungsmetadaten.
+        cases = (("BT02", vesper, "cf576fa54776c8ffe8b1863c49e6a1af824efbbecbc491c7383e68fe5c316d7b",
+                  "optic_pane", [-20, 161, 0]),
+                 ("BT03", heron, "0d689a3648bb0d074b51ed55a298505e22ba576a93e0abbe3373f8db9874af17",
+                  "rear_glass", [-123, 158, 0]),
+                 ("BT04", cairn, "bd2d752f8ea5c4e2e59c3d7e365d76bb2164e1656410468e302d17ab1db99737",
+                  "glass_tile", [-60, 118, 0]),
+                 ("BT05", swift, "5db7f8d754ca498b21d13eebb67722facce20c81f2db3f5090632d64397f7a87",
+                  "eye_tile", [-42, 100, 0]))
+        for sid, design, digest, eye_part, eye_at in cases:
+            with self.subTest(sid=sid):
+                parts, anchors, points = design.build()
+                geometry = [{k: v for k, v in p.items() if k not in ("de", "en", "func", "attach")} for p in parts]
+                self.assertEqual(hashlib.sha256(canonical(geometry)).hexdigest(), digest)
+                self.assertEqual(anchors["Socket_Eye"]["part"], eye_part)
+                self.assertEqual(anchors["Socket_Eye"]["at"], eye_at)
+                ids = {p["id"] for p in parts}
+                for group in (anchors, points):
+                    self.assertTrue(all(point["part"] in ids for point in group.values()))
+                _, exported = kit_model(sid)
+                self.assertEqual(exported["META"]["id"], sid)
+                self.assertEqual(exported["META"]["nick"], design.__name__.split(".")[-1].title())
+                self.assertEqual(set(exported["ANCHORS"]), set(anchors))
+                hand = anchors["Socket_Hand"]["at"]
+                for name, point in anchors.items():
+                    self.assertEqual(exported["ANCHORS"][name]["part"], point["part"])
+                    self.assertEqual(exported["ANCHORS"][name]["at"],
+                                     [point["at"][i] - hand[i] for i in range(3)])
+
+    def test_vesper_is_a_static_pulse_rifle_with_its_own_shell(self):
+        pilot, model = kit_model("BT02")
+        self.assertEqual(model["META"]["nick"], "Vesper")
+        self.assertEqual(model["META"]["id"], "BT02")
+        self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+        self.assertFalse(model["ACTIONS"])
+        parts = {p["id"]: p for p in model["PARTS"]}
+        self.assertIn("cuts", parts["pulse_mantle"])
+        self.assertEqual({p["mat"] for k, p in parts.items() if k.startswith("pulse_line_")}, {"energy"})
+        self.assertEqual(len([k for k in parts if k.startswith("porcelain_")]), 6)
+
+    def test_heron_export_matches_scout_family_and_shows_both_beak_halves(self):
+        pilot, model = kit_model("BT03")
+        self.assertEqual(model["META"]["nick"], "Heron")
+        self.assertEqual(model["META"]["type"], "scout_rifle")
+        self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+        self.assertFalse(model["ACTIONS"])
+        parts = {part["id"]: part for part in model["PARTS"]}
+        self.assertTrue({"upper_beak", "lower_beak", "sensor_body", "sensor_glass"} <= parts.keys())
+        self.assertEqual(parts["upper_beak"]["asm"], "barrel")
+        self.assertEqual(parts["lower_beak"]["asm"], "support")
+
+    def test_extended_sidearms_use_their_own_static_silhouette(self):
+        for sid, name, feature in (("BT04", "Cairn", "coin_l"), ("BT05", "Swift", "grip_cheek")):
+            with self.subTest(sid=sid):
+                pilot, model = kit_model(sid)
+                self.assertEqual(model["META"]["id"], sid)
+                self.assertEqual(model["META"]["nick"], name)
+                self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+                self.assertFalse(model["ACTIONS"])
+                self.assertIn(feature, {p["id"] for p in model["PARTS"]})
+
     def test_baseline_is_ballons_dataset_for_all_types(self):
         # Linie A = BALLONs Grundmodul bit für bit (Pilot bzw. Formstudie; inkl. r_in der Zielfernrohre, Baugruppen wie deklariert)
         for num in ballon.TYPES:

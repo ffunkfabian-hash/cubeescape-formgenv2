@@ -1,2 +1,2 @@
 """Formgen v2: ein Teilemodell, zwei Eingänge, inkrementelle Artefakte."""
-__version__ = "0.22.0"
+__version__ = "0.24.0"

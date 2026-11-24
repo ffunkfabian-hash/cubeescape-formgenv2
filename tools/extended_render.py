@@ -100,7 +100,8 @@ def render(key, a):
         (target / "blender.log").write_text(log)
         if run.returncode or "Traceback" in log:
             raise RuntimeError("\n".join(log.splitlines()[-30:]))
-        wid = data["META"]["id"]
+        meta = data["META"]
+        wid = meta["id"] + (f'-{meta["variant"]}' if meta.get("variant") else "")
         missing = [v for v in views(a) if not (tmp / "o" / wid / "views" / f"{v}.png").exists()]
         if missing:   # vor dem Kopieren: alte Bilder dürften sonst mit neuem Stempel als aktuell gelten
             raise RuntimeError(f"Blender lieferte nicht alle Ansichten: {missing}")
@@ -240,7 +241,7 @@ def compare_ref(key, a):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("key", choices=sorted(extended.MODELS))
+    p.add_argument("key", choices=sorted(extended.MODELS.keys() | extended.PIPELINE_SHEETS.keys()))
     p.add_argument("--tag", required=True, help="Runde, z. B. r1")
     p.add_argument("--samples", type=int, default=96)
     p.add_argument("--res", type=int, default=1600)

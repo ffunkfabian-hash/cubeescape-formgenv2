@@ -24,6 +24,10 @@ Linie A ist die Grundform, NN die EXTENDED-Nummer, spätere Linien folgen als `E
 `SHEETS` und in `META.sheet_id`. Vergeben ist bisher nur die ID; ein Blattweg über `formgen.pipeline` und die Aufnahme auf die
 Website folgen in einer eigenen Version.
 
+TRESTLE belegt EXTENDED-18. Sein vorhandenes Blatt `BT01` gehört zur registrierten Linie T.
+`extended.PIPELINE_SHEETS["e18"]` verweist auf dieses Blatt. Der AAA-Bau mit `tools/extended_render.py e18`
+verwendet denselben Kit-Datensatz wie der GLB-Export. Vesper, Heron, Cairn und Swift behalten ihre eigenen Blatt-IDs.
+
 ## Werkzeuge
 
 - `formgen/extended.py`: `load(key)` liefert den Datensatz tief kopiert. Der BALLON-Snapshot steht nur während des Imports auf

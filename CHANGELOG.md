@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.24.0 Crossbeam — TRESTLE im BASIC-Pass
+
+- EXTENDED-18 auf Blatt BT01 mit H0, BASIC-Anbauteilen und eigenen Spielankern. BT02–BT05 behalten ihre Außenformen. [Versionsbericht](docs/versions/0.24.md)
+
 ## 0.22.0 Torrent — EXTENDED-06 Maschinenpistole und EXTENDED-15 Maschinengewehr
 
 - Neu: EXTENDED-06 „Wishbone“ (`formgen/models/extended/e06_wishbone.py`), eine kompakte Maschinenpistole als Gabelbein: Der Magazinschacht ist zugleich Vordergriff und steht 24° nach vorn gespreizt, der Griff 15° nach hinten; T-Querschnitt (Creme-Deck kragt über den Graphit-Rumpf), Kinnstirn parallel zum Schacht, dreieckiges Λ-Fenster als Blickfang.

@@ -1,0 +1,810 @@
+{
+ "anchors": {
+  "Socket_Eye": {
+   "part": "eye_tile",
+   "position_mm": [
+    -5.0,
+    82.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip_arch",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "tip_tile",
+   "position_mm": [
+    192.0,
+    45.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "grip_arch",
+   "position_mm": [
+    -1.0,
+    1.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-05",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/w05_sidearm_v21.py": "24c5b17caceb36c64082c1202feaa8c07883b062cba398a6901dda82319ec2dd",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w05_sidearm.py": "44a542b489e24ebf98c38a7601ac63bb8ce1b9803bfc67e31092b8fe119828f2"
+  },
+  "source_sha256": "c112cc0265f4f6b892d4c32311df4bd5508e31dacc03cc4ae0fb5ddb496ef5db",
+  "spec_sha256": "153cb3592c70fc2f6ca92c8bd466b7823fae4b331d3a36753078ec295c66033a"
+ },
+ "ballon_dimensions_mm": {
+  "height": 190.0,
+  "length": 238.6,
+  "width": 33.5
+ },
+ "base": "v21",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Hält den Schlitten nach dem letzten Schuss offen",
+    "Löst das Magazin im Griff",
+    "Spannt den Fuß"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "rubber"
+   },
+   "sight_line_mm": 29.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Keilmarkierung"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 37
+  }
+ },
+ "counts": {
+  "assemblies": 5,
+  "parts": 26,
+  "triangles": 10208
+ },
+ "dimensions_mm": {
+  "height": 151.96,
+  "length": 240.14,
+  "width": 37.6
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 4,
+ "generator": {
+  "adaptations": [
+   {
+    "kind": "Annahme",
+    "reason": "Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/swift.py."
+   },
+   {
+    "field": "assemblies",
+    "kind": "Annahme",
+    "reason": "leere Baugruppe ohne Teile (in BALLON nur deklariert)",
+    "removed": [
+     "mechanism"
+    ]
+   }
+  ],
+  "ops": [
+   {
+    "kind": "trestle",
+    "op": "architecture"
+   }
+  ]
+ },
+ "id": "BT05",
+ "name_de": "Pistole · Swift",
+ "name_en": "Sidearm · Swift",
+ "parts": [
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -43.41,
+     24.49
+    ],
+    "u": [
+     -61.73,
+     43.73
+    ],
+    "x": [
+     -14.5,
+     14.5
+    ]
+   },
+   "id": "grip_arch",
+   "moving": false,
+   "name_de": "Gebogene Griffkontur",
+   "name_en": "grip arch",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 1024
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -46.61,
+     4.83
+    ],
+    "u": [
+     -61.0,
+     28.68
+    ],
+    "x": [
+     -15.25,
+     15.25
+    ]
+   },
+   "id": "grip_cheek",
+   "moving": false,
+   "name_de": "Durchbrochene helle Ferse",
+   "name_en": "grip cheek",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 944
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     -47.74,
+     -10.5
+    ],
+    "u": [
+     -63.96,
+     -54.43
+    ],
+    "x": [
+     -15.75,
+     15.75
+    ]
+   },
+   "id": "heel_tip",
+   "moving": false,
+   "name_de": "Schmaler Fersenabschluss",
+   "name_en": "heel tip",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 524
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     8.0,
+     60.59
+    ],
+    "u": [
+     -5.0,
+     28.47
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "bow",
+   "moving": false,
+   "name_de": "Schlanker offener Bogen",
+   "name_en": "bow",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 560
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     24.06,
+     35.65
+    ],
+    "u": [
+     12.19,
+     34.81
+    ],
+    "x": [
+     -4.0,
+     4.0
+    ]
+   },
+   "id": "inner_mark",
+   "moving": false,
+   "name_de": "Geschwungene Innenzunge",
+   "name_en": "inner mark",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 512
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -38.22,
+     169.65
+    ],
+    "u": [
+     22.0,
+     63.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "keel",
+   "moving": false,
+   "name_de": "Durchgehender Gehäusekiel",
+   "name_en": "keel",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 444
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -45.21,
+     68.32
+    ],
+    "u": [
+     35.0,
+     71.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "rear_fold",
+   "moving": false,
+   "name_de": "Nach hinten gezogene Hauptschale",
+   "name_en": "rear fold",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 464
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     69.49,
+     186.95
+    ],
+    "u": [
+     39.0,
+     66.0
+    ],
+    "x": [
+     -17.5,
+     17.5
+    ]
+   },
+   "id": "fore_fold",
+   "moving": false,
+   "name_de": "Spitz auslaufende Vorderwange",
+   "name_en": "fore fold",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 412
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     66.44,
+     186.59
+    ],
+    "u": [
+     28.0,
+     44.37
+    ],
+    "x": [
+     -12.5,
+     12.5
+    ]
+   },
+   "id": "chin",
+   "moving": false,
+   "name_de": "Lange schmale Unterkante",
+   "name_en": "chin",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 524
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     176.0,
+     190.0
+    ],
+    "u": [
+     37.0,
+     53.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "tip_shadow",
+   "moving": false,
+   "name_de": "Eingefasste Spitze",
+   "name_en": "tip shadow",
+   "role": "graphite",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     188.0,
+     192.0
+    ],
+    "u": [
+     38.5,
+     51.5
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "tip_tile",
+   "moving": false,
+   "name_de": "Geschlossene Facettenspitze",
+   "name_en": "tip tile",
+   "role": "dark_metal",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     191.8,
+     192.4
+    ],
+    "u": [
+     44.0,
+     46.0
+    ],
+    "x": [
+     -5.0,
+     5.0
+    ]
+   },
+   "id": "tip_slash",
+   "moving": false,
+   "name_de": "Stirnindex",
+   "name_en": "tip slash",
+   "role": "energy",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -27.32,
+     10.35
+    ],
+    "u": [
+     62.22,
+     84.73
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "rear_pier",
+   "moving": false,
+   "name_de": "Rückwärtiger Bügelanstieg",
+   "name_en": "rear pier",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     49.56,
+     80.69
+    ],
+    "u": [
+     64.0,
+     83.84
+    ],
+    "x": [
+     -9.0,
+     9.0
+    ]
+   },
+   "id": "front_pier",
+   "moving": false,
+   "name_de": "Vorderer Bügelabschluss",
+   "name_en": "front pier",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 428
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -12.39,
+     59.33
+    ],
+    "u": [
+     76.16,
+     88.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "ribbon",
+   "moving": false,
+   "name_de": "Schwebende flache Visierkappe",
+   "name_en": "ribbon",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 392
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -6.0,
+     -3.0
+    ],
+    "u": [
+     78.5,
+     85.5
+    ],
+    "x": [
+     -9.0,
+     9.0
+    ]
+   },
+   "id": "eye_tile",
+   "moving": false,
+   "name_de": "Getönte Sichtfläche",
+   "name_en": "eye tile",
+   "role": "glass",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -29.85,
+     -17.15
+    ],
+    "u": [
+     51.09,
+     63.91
+    ],
+    "x": [
+     16.8,
+     17.5
+    ]
+   },
+   "id": "mark_l",
+   "moving": false,
+   "name_de": "Keilmarkierung",
+   "name_en": "mark l",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -29.85,
+     -17.15
+    ],
+    "u": [
+     51.09,
+     63.91
+    ],
+    "x": [
+     -17.5,
+     -16.8
+    ]
+   },
+   "id": "mark_r",
+   "moving": false,
+   "name_de": "Keilmarkierung",
+   "name_en": "mark r",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -8.74,
+     31.74
+    ],
+    "u": [
+     49.0,
+     61.0
+    ],
+    "x": [
+     16.7,
+     17.8
+    ]
+   },
+   "id": "name_tile_l",
+   "moving": false,
+   "name_de": "Schmales Schriftfeld",
+   "name_en": "name tile l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -8.74,
+     31.74
+    ],
+    "u": [
+     49.0,
+     61.0
+    ],
+    "x": [
+     -17.8,
+     -16.7
+    ]
+   },
+   "id": "name_tile_r",
+   "moving": false,
+   "name_de": "Schmales Schriftfeld",
+   "name_en": "name tile r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     4.72,
+     17.17
+    ],
+    "u": [
+     52.96,
+     56.11
+    ],
+    "x": [
+     17.63,
+     18.07
+    ]
+   },
+   "id": "word_l",
+   "moving": false,
+   "name_de": "Modellschriftzug",
+   "name_en": "word l",
+   "role": "shell",
+   "shape": "text",
+   "triangles": 608
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     4.83,
+     17.28
+    ],
+    "u": [
+     52.96,
+     56.11
+    ],
+    "x": [
+     -18.07,
+     -17.63
+    ]
+   },
+   "id": "word_r",
+   "moving": false,
+   "name_de": "Modellschriftzug",
+   "name_en": "word r",
+   "role": "shell",
+   "shape": "text",
+   "triangles": 608
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     85.33,
+     155.61
+    ],
+    "u": [
+     50.1,
+     57.98
+    ],
+    "x": [
+     17.2,
+     18.5
+    ]
+   },
+   "id": "feather_l",
+   "moving": false,
+   "name_de": "Federförmiges Seitenfeld",
+   "name_en": "feather l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 260
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     85.33,
+     155.61
+    ],
+    "u": [
+     50.1,
+     57.98
+    ],
+    "x": [
+     -18.5,
+     -17.2
+    ]
+   },
+   "id": "feather_r",
+   "moving": false,
+   "name_de": "Federförmiges Seitenfeld",
+   "name_en": "feather r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 260
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     99.15,
+     114.86
+    ],
+    "u": [
+     54.5,
+     56.5
+    ],
+    "x": [
+     18.35,
+     18.8
+    ]
+   },
+   "id": "glint_l",
+   "moving": false,
+   "name_de": "Kurzer Lichtindex",
+   "name_en": "glint l",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 100
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     99.15,
+     114.86
+    ],
+    "u": [
+     54.5,
+     56.5
+    ],
+    "x": [
+     -18.8,
+     -18.35
+    ]
+   },
+   "id": "glint_r",
+   "moving": false,
+   "name_de": "Kurzer Lichtindex",
+   "name_en": "glint r",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 100
+  }
+ ],
+ "pilot": {
+  "module": "basic/pilot/w05_sidearm_v21.py",
+  "version": "2.1"
+ },
+ "provenance": {
+  "kind": "Annahme",
+  "source": "Eigenständige Außenformen nach Silhouettenstudie. Familienreferenz: BASIC-05 „Seitenwaffe v2.1“ · v2.1"
+ },
+ "type": {
+  "id": "BASIC-05",
+  "name": "Seitenwaffe v2.1",
+  "nick": "Familie v2.1",
+  "num": "05",
+  "type": "sidearm",
+  "type_de": "Pistole",
+  "type_en": "Sidearm"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Die offene Rückenbrücke überspannt zwei versetzte Keilschalen. Ein kurzer, facettierter Bug und eine geneigte Kassette schließen die Silhouette ab.",
+  "letter": "T",
+  "name": "Trestle",
+  "params": {
+   "architecture": "trestle"
+  },
+  "since": "0.24",
+  "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "9b99262e3d801091",
+  "values": {
+   "architecture": "trestle"
+  }
+ },
+ "warnings": []
+}

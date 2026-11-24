@@ -1,7 +1,7 @@
-"""Blatt-Spec Formgen v2 (Format `formgenv2/weapon-sheet-spec`, Version 3) aus dem ausgewerteten Geometriedokument.
+"""Blatt-Spec Formgen v2 (Format `formgenv2/weapon-sheet-spec`, Version 3/4) aus dem ausgewerteten Geometriedokument.
 
 Ab Version 1 gilt: jede Formatänderung erhöht FORMAT_VERSION, bekommt eine Migration in MIGRATIONS (alte Version →
-nächste) und einen Test. Schema: docs/schemas/weapon-sheet-spec-3.schema.json. Keine Netze, keine Pfade, keine Zeiten.
+nächste) und einen Test. Version 4 ergänzt die eigenständige Außenform. Bestehende Blätter bleiben auf Version 3 schreibbar. Keine Netze, keine Pfade, keine Zeiten.
 Version 2 (0.4): Grundform `base`, gesteuerter Zufall `variation` (Seed, Ziehungen), Designvertrag `contract`.
 Version 3 (0.6): Registerwert `variant.base = "pilot"`, `base` jede Pilotfassung `vK`, Spielpilot `pilot` (Modul, Fassung; null = Formstudie).
 """
@@ -13,8 +13,8 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 FORMAT = "formgenv2/weapon-sheet-spec"
-FORMAT_VERSION = 3
-SCHEMA = ROOT / "docs/schemas/weapon-sheet-spec-3.schema.json"
+FORMAT_VERSION = 4
+SCHEMA = ROOT / "docs/schemas/weapon-sheet-spec-4.schema.json"
 
 
 class SpecError(ValueError):
@@ -64,7 +64,7 @@ def build(document: dict) -> dict:
                for name, a in sorted(document.get("anchors", {}).items())}
     ballon_dims = gen.get("ballon_dimensions_mm")
     doc = {
-        "format": FORMAT, "format_version": FORMAT_VERSION,
+        "format": FORMAT, "format_version": FORMAT_VERSION if "architecture" in gen["variant"]["params"] else 3,
         "id": info["id"], "name_de": info["name_de"], "name_en": info["name_en"],
         "variant": gen["variant"], "type": gen["type"], "base": gen["base"], "pilot": pilot(gen["base"], gen["ballon"]["files"]),
         "variation": gen["variation"],
@@ -99,17 +99,23 @@ def _from_2(doc: dict) -> dict:
     return dict(doc, format_version=3, pilot=pilot(doc["base"], doc["ballon"]["files"]))
 
 
-MIGRATIONS = {1: _from_1, 2: _from_2}   # {von_version: funktion(doc) -> doc der nächsten Version}
+def _from_3(doc: dict) -> dict:
+    """3 → 4 erweitert den Parameterraum. Bestehende Entwürfe behalten ihre Werte."""
+    return dict(doc, format_version=4)
 
 
-def schema() -> dict:
-    return json.loads(SCHEMA.read_text())
+MIGRATIONS = {1: _from_1, 2: _from_2, 3: _from_3}   # {von_version: funktion(doc) -> doc der nächsten Version}
+
+
+def schema(version: int = FORMAT_VERSION) -> dict:
+    path = SCHEMA.with_name("weapon-sheet-spec-3.schema.json") if version == 3 else SCHEMA
+    return json.loads(path.read_text())
 
 
 def validate(doc: dict) -> None:
     import jsonschema
     try:
-        jsonschema.validate(doc, schema())
+        jsonschema.validate(doc, schema(doc.get("format_version")))
     except jsonschema.ValidationError as error:
         raise SpecError(f"{doc.get('id')}: {error.message} @ {list(error.absolute_path)}") from None
     for name, a in doc["anchors"].items():

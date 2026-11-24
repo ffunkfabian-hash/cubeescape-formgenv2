@@ -688,7 +688,30 @@ def vary(data, variant, num, snap=None):
     sid = variants.sheet_id(variant["letter"], num)
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
-    ops, added = _apply(model, params, num, _kit(snap), notes)
+    if params.get("architecture") == "trestle":
+        from .models.weapons import cairn, heron, swift, trestle, vesper
+        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift}
+        if num not in designs:
+            raise GeneratorError(f"Für BASIC-{num} gibt es keinen Trestle-Entwurf")
+        design = designs[num]
+        if num == "01":
+            with ballon.snapshot_imports(snap or ballon.snapshot()):
+                geometry = design.build()
+        else:
+            geometry = design.build()
+        model["PARTS"], model["ANCHORS"], model["POINTS"] = geometry
+        # Gleicher Ursprung wie die übrigen Spielmodelle: Mitte der hinteren Hand.
+        hand = model["ANCHORS"]["Socket_Hand"]["at"][:]
+        for axis, offset in enumerate(hand[:2]):
+            for part in model["PARTS"]:
+                _map(part, axis, lambda value: value - offset)
+            for point in _located(model):
+                point["at"][axis] -= offset
+        model["ACTIONS"] = {}
+        notes = [{"kind": "Annahme", "reason": f"Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/{design.__name__.split('.')[-1]}.py."}]
+        ops, added = [{"op": "architecture", "kind": "trestle"}], set()
+    else:
+        ops, added = _apply(model, params, num, _kit(snap), notes)
     _keep_accents(model, before, added, notes)
     _finish(model, notes)
     return model, {"sid": sid, "params": params, "draws": draws, "ops": ops, "notes": notes, "before": before}
@@ -716,6 +739,9 @@ def generate(data, variant, num, source, snap=None, base="standard"):
              ["Grundform", shape],
              ["BALLON-Quellhash", source["source_sha256"][:12]],
              ["Skin", variant.get("skin", "standard")]]
+    if params.get("architecture"):
+        facts.append(["Entwurf", f"{variants.TRESTLE_EXTENDED_ID} · Trestle" if num == "01" else variants.TRESTLE_NAMES[num]])
+        provenance = {"kind": "Annahme", "source": "Eigenständige Außenformen nach Silhouettenstudie. Familienreferenz: " + shape}
     if kit_ops:
         facts.append(["Baukasten", " · ".join(f"{o['op']} {o.get('kind') or o.get('count')}" for o in kit_ops)])
     if draws:
@@ -724,6 +750,19 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "name_en": f"{meta['type_en']} · {variant['name']}",
             "summary": f"{meta.get('summary', '')} Linie {variant['letter']} „{variant['name']}“: {variant['idea']}",
             "provenance": provenance, "facts": facts}
+    if params.get("architecture"):
+        info["summary"] = variant["idea"]
+        info["hero_with_sight"] = True
+        design_name = variants.TRESTLE_NAMES[num]
+        info["name_de"] = f"{meta['type_de']} · {design_name}"
+        info["name_en"] = f"{meta['type_en']} · {design_name}"
+        summaries = {
+            "02": "Kurzer, facettierter Bug mit tiefem Keramikfenster unter einer offenen Rahmenbrücke.",
+            "03": "Eine schlanke Gabelspitze und ein flacher Sensorkörper zeichnen zwei lange Fenster in den Seitenriss.",
+            "04": "Eine facettierte runde Keramikwange sitzt zwischen den gestuften Hauptkörpern.",
+            "05": "Eine federförmige Keilschale und eine offene Ferse prägen den flachen Seitenriss.",
+        }
+        info["summary"] = summaries.get(num, variant["idea"])
     parts = []
     for p in model["PARTS"]:
         q = {k: v for k, v in p.items() if k not in ("en", "func", "attach", "iface")}

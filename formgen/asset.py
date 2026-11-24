@@ -92,12 +92,19 @@ def kit_model(data: dict, model: dict, run: dict) -> dict:
     unknown = sorted({p["asm"] for p in parts} - declared)
     if unknown:
         raise ValueError(f"Baugruppen ohne Deklaration in BALLONs Modul: {unknown}")
-    actions = copy.deepcopy(data.get("ACTIONS") or {})
+    actions = copy.deepcopy(model.get("ACTIONS", data.get("ACTIONS")) or {})
     for action in actions.values():
         if isinstance(action.get("keys"), dict):
             action["keys"] = {k: v for k, v in action["keys"].items() if k in ids}
-    return {"META": copy.deepcopy(data["META"]), "PARTS": parts, "ASSEMBLIES": copy.deepcopy(data["ASSEMBLIES"]),
-            "ANCHORS": copy.deepcopy(model["ANCHORS"]), "POINTS": copy.deepcopy(model.get("POINTS") or {}), "ACTIONS": actions}
+    result = {"META": copy.deepcopy(data["META"]), "PARTS": parts, "ASSEMBLIES": copy.deepcopy(data["ASSEMBLIES"]),
+              "ANCHORS": copy.deepcopy(model["ANCHORS"]), "POINTS": copy.deepcopy(model.get("POINTS") or {}), "ACTIONS": actions}
+    if run.get("params", {}).get("architecture") == "trestle":
+        design_name = variants.TRESTLE_NAMES[str(data["META"]["num"]).zfill(2)]
+        designation = variants.TRESTLE_EXTENDED_ID if run["sid"] == "BT01" else design_name
+        result["META"].update(id=run["sid"], variant=designation, name=design_name, nick=design_name,
+                              summary="Eigenständiges statisches Sci-Fi-Spielmodell")
+        result["ASSEMBLIES"] = copy.deepcopy(model["ASSEMBLIES"])
+    return result
 
 
 def variant_model(entry: dict, data_snap: Path) -> tuple[dict, dict, str]:
