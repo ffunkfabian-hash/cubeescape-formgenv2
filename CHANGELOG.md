@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.36.0 Calyx
+
+- BT10 ergänzt die Linie T um ein Fusionsgewehr mit offenem Keramikkelch, sichtbarem Kern, gerader Front und F1-Visier aus BASIC-10. [Versionsbericht](docs/versions/0.36.md)
+
 ## 0.35.0 Avocet
 
 - BT09 erweitert Linie T um ein Scharfschützengewehr mit offenem Sichelheck, gerader Front und dem vollständigen Z3-Zielfernrohr von BASIC-09. Bei der anschließenden Prüfung der gesamten Linie T erhielten BT03, BT05, BT06 und BT08 geradere Frontkonturen. [Versionsbericht](docs/versions/0.35.md)

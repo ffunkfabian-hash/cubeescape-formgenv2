@@ -249,7 +249,7 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 ## EXTENDED-18 Trestle (BT01)
 
-`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-09. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
+`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-10. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
 
 `python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die drei hellen Impulssegmente auf dem dunklen Kern tragen je ein Keramikinlay und eine Lichtmarke pro Seite. Der offene Heckrahmen und die Gesamtbreite von 51,0 mm folgen BASIC-02. Vesper verwendet denselben H4-Baustein „Kasten“ wie der BA02-Pilot. Das Modul liefert Gehäuse, Glas, Absehen und die dazugehörigen Unity-Zielanker. Der gemeinsame Griff stammt aus der ursprünglichen T-Linie.
 
@@ -266,6 +266,8 @@ Lark (BT07) ergänzt Linie T als Bogen. Die 904,72 mm hohe Fassung besitzt ein o
 Skiff (BT08) besitzt ein kurzes Fensterheck und eine ansteigende Kufe. Die beiden dunklen Kufenwangen bestimmen die Gesamtbreite von 52,00 mm. Die offene K2-Visierung und ihre drei Spielanker stammen aus BASIC-08. Der GLB-Clip `reload` tauscht eine Lichtzelle an der Kufe. Das einmalige Ereignis `rounds_in` am BT08-Knoten steht bei 1,20 s für die gesamte Ladung. Die Wiedergabe endet bei 1,50 s. Der 3D-Viewer lässt den Vorgang vor dem Einsetzen abbrechen. Der Einzelbau läuft über `python -m formgen.pipeline BT08`.
 
 Avocet (BT09) verbindet ein offenes Sichelheck mit einem geraden, zweifarbig unterteilten Lauf. Der Objektivring des BASIC-09-Zielfernrohrs bestimmt die Außenbreite. Die neun Spielanker umfassen auch den Objektivanker.
+
+Calyx (BT10) umfasst seinen türkisfarbenen Kern mit einer tiefen Keramikschale. Die gesamte Front verläuft gerade. Die beiden seitlichen Wangen bestimmen die Breite von 46,70 mm. Das F1-Visier mit 15 Teilen stammt aus BASIC-10.
 
 BT01 trägt das H0-Visier auf dem BRI-22. Nutzerentscheid für Variante A vom 24.11.2026: Nur BT01 hat eine Visierlinie 105 mm über dem Mündungsanker. Die Augenposition liegt auf der Visierlinie 90 mm hinter dem Glas. Die Anker werden mit der Außenhaut zum Ursprung der hinteren Hand verschoben. Der Entwurf übernimmt von BASIC-01 die cremefarbene Schale über graphitfarbenen Kontaktflächen. In V1 lieferten die Modelle `codex/parallax/models/assault.py` und `codex/fluxbloom/models/assault.py` zwei unterschiedliche Beispiele dafür, wie sich Gehäuse und Negativraum im Seitenriss entwickeln lassen. Unter den drei ersten Skizzen hatte die offene Brücke die klarste Innenkontur. Seitliche Typenschilder, kurze Lamellenfelder und ein einzelnes orangefarbenes Bandpaar gliedern die größeren Flächen.
 

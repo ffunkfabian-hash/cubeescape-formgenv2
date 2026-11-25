@@ -347,6 +347,22 @@ class KitModelTests(unittest.TestCase):
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
 
+    def test_calyx_exports_the_basic_10_f1_and_a_straight_front(self):
+        pilot, model = kit_model("BT10")
+        self.assertEqual(model["META"]["name"], "Calyx")
+        scope = [p for p in pilot["PARTS"] if p["asm"] == "sight"]
+        self.assertEqual(len(scope), 15)
+        self.assertEqual([p for p in model["PARTS"] if p["asm"] == "sight"], scope)
+        self.assertEqual(set(model["ANCHORS"]), set(pilot["ANCHORS"]))
+        self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+        for name in ("Socket_Eye", "Socket_Reticle", "Socket_Sight"):
+            anchor = dict(pilot["ANCHORS"][name], at=list(pilot["ANCHORS"][name]["at"]))
+            self.assertEqual(model["ANCHORS"][name], anchor)
+        by_id = {p["id"]: p for p in model["PARTS"]}
+        levels = {by_id[k]["cu"] for k in ("straight_spine", "front_jacket", "end_tile")}
+        self.assertEqual(levels, {model["ANCHORS"]["Socket_Muzzle"]["at"][1]})
+        self.assertEqual(by_id[model["ANCHORS"]["Socket_Cell"]["part"]]["mat"], "energy")
+
     def test_avocet_carries_the_complete_basic_09_scope(self):
         pilot, model = kit_model("BT09")
         self.assertEqual(model["META"]["name"], "Avocet")

@@ -168,6 +168,22 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_calyx_matches_the_basic_10_width_including_sight(self):
+        widths = {}
+        for sid in ("BA10", "BT10"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            parts = geom.evaluate(model.normalize(author))["parts"]
+            left, left_part = min((p["bounds_m"][0][0], p["id"]) for p in parts)
+            right, right_part = max((p["bounds_m"][1][0], p["id"]) for p in parts)
+            widths[sid] = (right - left) * 1000
+            if sid == "BT10":
+                self.assertEqual({left_part, right_part}, {"flank_l", "flank_r"})
+                bounds = {p["id"]: p["bounds_m"] for p in parts}
+                self.assertAlmostEqual(bounds["saddle"][1][2], bounds["sight_mount"][0][2], delta=.0005)
+        self.assertAlmostEqual(widths["BT10"], widths["BA10"], delta=.005)
+        self.assertAlmostEqual(widths["BT10"], 46.7, delta=.005)
+
     def test_avocet_width_is_set_by_the_basic_09_objective_rim(self):
         entry = variants.sheets()["BT09"]
         author, _ = generator.build(entry["variant"], entry["num"], SNAP)
