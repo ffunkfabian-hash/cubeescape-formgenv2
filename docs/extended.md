@@ -845,4 +845,4 @@ Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 St�
 
 - Bogen (nur Wurfarme), Schwert und Glefe (nur Front, an der Glefe dazu Leuchtstreifen) haben wenige Hebel. Ihre Linien unterscheiden
   sich vor allem in Länge und Skin.
-- Für die Linien gibt es keinen Blattweg und keine Website-Aufnahme, wie bei EA. Die AAA-Abnahme der neuen Skins steht aus.
+- Für die Linien gibt es keinen Blattweg und keine Website-Aufnahme, wie bei EA. Das ist eine Ausnahme von der Viewer-Regel nach Nutzerentscheid vom 25.11.2026 („Ja, Ausnahme“, [Entscheidungen](ENTSCHEIDUNGEN.md)); gesichtet wird über die Rasterskizze. Die AAA-Abnahme der neuen Skins steht aus.
