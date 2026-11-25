@@ -1,5 +1,9 @@
 # Changelog
 
+## Patch agents-abschnitte — AGENTS.md im Standard
+
+- `AGENTS.md` trägt die Standardabschnitte (Projekt, Wahrheit und Aktualität, Befehle, Regeln, Definition of Done); die Regeln sind nur umsortiert, ihr Wortlaut bleibt. `./ce lint` ohne Fehler; der Pin auf 0.46 (Warnung) kommt mit der nächsten Version, ein Pin verlangt die Patch-Nummer +1 und machte alle Blattcaches veraltet.
+
 ## 0.38.0 Foundry — EXTENDED-Linien, Finish und Rollentest
 
 - Neu: 12 eigene Formlinien für alle 17 EXTENDED-Modelle (EB01 … EN17, 204 Waffen) im Register `data/extended_lines.toml`, gebaut mit den silhouettenerhaltenden Eingriffen des Generators (Strecken, Mündung, Magazin, Leuchtstreifen, Weglassen, Visier), ohne Verkleidung; jede Linie weicht nach dem BASIC-Maß sichtbar von ihrem EA ab.
