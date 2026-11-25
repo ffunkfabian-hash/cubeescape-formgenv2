@@ -764,3 +764,13 @@ Jede Regelprüfung hat eine Gegenprobe mit erwartetem Grund (z. B. Sichel von BA
 Sehnenstopperstab Ø 8, Blechwinkel, Arm wie r1, stumpf angesetzte Schelle, Fenster wie BASIC-07 bis 0.34, Pfosten im Kegel, Kasten statt
 Spindel, zu große Spule, schwebende Spule, Magazin wie BASIC-12, Draufsicht-Profil gegen den Uhrzeigersinn). Zwei Fehler fielen im Bild nicht auf:
 die doppelte ID `sight_clamp` (Test) und die wirkungslosen Draufsicht-Schnitte (Messung am GLB, seitdem Test).
+
+### Nachtrag 25.11.2026 (Patch extended-familie): Laufrichtung von `mesh_plan`
+
+Die Begründung zu E12 r2 → r3 („ein Profil gegen den Uhrzeigersinn schneidet nicht“) ist widerlegt. Direkter Test mit BALLONs Kit
+`fe4a5dc4…`: ein Kasten 200 × 50 × 60 mm verliert mit einem dreieckigen Draufsicht-Schnitt in beiden Laufrichtungen gleich viel
+(600 000 → 569 917 mm³); das Gehäuse von E12 ohne Draufsicht-Schnitte hat 1 805 389 mm³, mit ihnen 1 731 087 mm³, ebenfalls in beiden
+Laufrichtungen. Am GLB haben alle Draufsicht-Schnitte gegen den Uhrzeigersinn in E01, E08, E09, E13 und E14 kein Material im Schnittraum
+(E01/E13 frisch gebaut, die übrigen aus dem Render zum aktuellen Datensatz); die Rippen von E15 zeigen mit 93 % der Dreiecke nach außen.
+Warum die Spindel in r1/r2 gerade blieb, ist offen. `cw()` und `test_plan_winding` bleiben als einheitliche Laufrichtung, ohne
+Fehlerannahme.
