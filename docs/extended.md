@@ -774,3 +774,75 @@ Laufrichtungen. Am GLB haben alle Draufsicht-Schnitte gegen den Uhrzeigersinn in
 (E01/E13 frisch gebaut, die übrigen aus dem Render zum aktuellen Datensatz); die Rippen von E15 zeigen mit 93 % der Dreiecke nach außen.
 Warum die Spindel in r1/r2 gerade blieb, ist offen. `cw()` und `test_plan_winding` bleiben als einheitliche Laufrichtung, ohne
 Fehlerannahme.
+
+## EXTENDED-Linien und Finish (0.38 „Foundry“)
+
+Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 Stück, eigene Namen, keine Verkleidungen; dazu ein Finish-System
+(Skin frei auf jede Waffe) und einen Rollentest. Code `formgen/extended_lines.py`, Register `data/extended_lines.toml`, Tests
+`tests/test_extended_lines.py`.
+
+### Linien
+
+- **Register** `data/extended_lines.toml` (schema 1), Eintrag nur über `python -m formgen.extended_lines new …`. Namensregel wie BASIC
+  (1–3 Wörter, ≤ 16 Zeichen, A–Z ohne I/O), dazu: kein Name einer BASIC-Linie, Buchstabe A ist das EXTENDED-Modell selbst.
+- **Blatt-ID** `E<Linie><NN>`: EB01 … EN17 (12 × 17 = 204), EA01 … EA17 bleiben die Modelle. Seed je Blatt aus eigenem Raum
+  (`formgenv2-extended-line|<ID>|<Linie>`), EB01 zieht unabhängig von BB01.
+- **Eingriffe** (`OPS`): sight, mag, muzzle, muzzle_r, glow, drop, front, rear, limbs mit den Grenzen des BASIC-Registers. Kein `series`,
+  kein `stock`, kein `grip`: Verkleidungen überdecken die eigene Silhouette (Test 0.38: J–M brachen an EA06/14/16/17 ab), Schaft- und
+  Grifftausch griffen an EXTENDED kaum.
+- **Linien** (Skin): B Plumb Line (titan), C Bracket (schiefer), D Ironwork (carbon), E Lamplight (kobalt), F Fieldwork (oliv),
+  G Stripped (salbei), H Far Station (gebraucht), J Signal Fire (signalrot), K Gilded Gauge (elfenbein), L Frostline (eisgrau),
+  M Anodized (eloxal), N Salt Flat (wueste). Ideen und Parameter im Register.
+- **Gestaffelte Längen:** Nur C staucht die Front (0,80–0,83); alle übrigen strecken in getrennten Bändern 1,02 … 1,30. Grund (gemessen):
+  Stauchen ist an dichten Modellen durch den freien Raum hinter dem Schnitt begrenzt (EA12 höchstens 35,7 mm, EA16 25,6 mm). Fünf
+  stauchende Linien landeten dort auf derselben Länge und waren deckungsgleich. `limbs` wirkt nur am Bogen und steht je Linie fest auf
+  1,10 … 1,30: Kürzen der Wurfarme von EA07 erlaubt der Generator praktisch nicht (Raum < 1 mm).
+- **Zusammenhalt:** Nach dem Bau zählt `pieces` die zusammenhängenden Gruppen ohne Glas, Absehen und Sichtlinie. Zerlegt ein Eingriff das
+  Modell, entfällt er für dieses Blatt (`withdrawn` im Bericht; im Register heute nie nötig, der Test fordert das).
+- **Zwei Regeln nur im EXTENDED-Weg**, der BASIC-Generator bleibt unverändert:
+  - **Rohr-Regel** (`stretch_front`): Ein kurzes Rohr entlang der Laufachse, das der Frontschnitt kreuzt, wird mitgedehnt. Vorher wanderte an
+    EA06 die Mündungskrone allein nach vorn.
+  - **Teilkopie** (`_run`): Jedes Teil wird einzeln kopiert. EA01, EA02, EA09, EA12 und EA17 teilen Schnittkörper zwischen Teilen. Geteilt
+    verschob der Generator sie je Teil erneut, das ergab eine Finne am Heck von EH12. BASIC-02 teilt ebenfalls einen Schnitt (Pulskammer und
+    Handschutz); seit dem Patch basic-schnitte (in 0.38.0) kopiert auch `generator.adapt` jedes Teil einzeln.
+- **Vielfalt** (gleiches Maß wie BASIC, `variety`): Jedes der 204 Blätter weicht in Seite oder Draufsicht mindestens 2 % von seinem EA ab
+  (min IoU ≤ 0,98). Kein Linienpaar eines Modells ist deckungsgleich (≤ 0,998). Am nächsten liegen die Bogenlinien (bis 0,996), weil
+  dort nur die Wurfarmlänge wirkt, und EJ12/EM12 mit 0,993.
+
+### Finish
+
+- **Finish** = jeder Waffen-Skin aus `skins.toml` (`extended_lines.skins()`, ohne Roboter-Skins), frei auf jedes Blatt gelegt. Es entsteht
+  weder eine ID noch eine Formänderung. Die Linie bringt ihren Skin mit, `--finish` ersetzt ihn.
+- **Vorschau ohne Blender:** `python -m formgen.extended_lines sketch --out <Ordner> [--view iso|side_left] [--finish <skin>]` setzt den
+  Bogen 17 Modelle × (A + Linien). `finishes --key e12` zeigt ein Modell in allen Finishes. Der Raster (`geom.evaluate` + `raster.render`)
+  braucht 5–13 s je Bild, `_warm` rechnet parallel. Der Cache unter `~/Library/Caches/CubeEscapeFormgen2/extended-lines/` hängt am
+  Modell, an der Ansicht, an Rollen und gewähltem Skin sowie an den Codeständen. Zwei Anpassungen gelten nur für den Raster
+  (`author`): Anker (f, u) bekommen x = 0, und ein Rahmen mit r_in = halbe Öffnung wird um 0,05 mm enger gerundet (EA02/03/06/11).
+- **AAA:** `tools/extended_render.py <key> --tag <r> --line <L> [--finish <skin>]` rendert das Linienblatt im Skin der Linie oder im
+  Finish. Ziel ist `OUT/<key>/<Blatt>_<Finish|linie>/<tag>`. Ohne `--line`/`--finish` sind Wrapper und Stempel bytegleich, vorhandene Bilder
+  von EA01–EA17 bleiben aktuell. Ohne Rendern geprüft (Blender 25.11.2026, EB12): Der Kit legt je Skin ein eigenes AAA-Material an
+  (`MT_shell_aaa_titan` …). Die Schalenfarbe ist bei titan, eisgrau, nacht und standard gleich dem linearen Wert aus `skins.toml`
+  (Abstand ≤ 0,0001). Das Prüfskript liegt außerhalb des Repos, siehe Versionsbericht.
+- **Neue Skins:** titan, signalrot, oliv, elfenbein, carbon, salbei, schiefer, eisgrau (`formgen = true`). Sie sind am Raster gewählt
+  und noch nicht am AAA-Bild abgenommen (AgX bleicht, siehe LESSONS). Weil sie reine Farb-Skins sind, erscheinen sie auch im
+  Skin-Wechsel der 3D-Seite für BASIC.
+
+### Rollentest
+
+`role_shares` misst den Flächenanteil je Materialrolle in der linken Seitenansicht (Malerverfahren, kameranächstes Teil zuletzt),
+`delta_e` den CIE76-Abstand. Der Test verlangt:
+
+- **Linienskins:** Die zwei größten Rollen jedes Modells liegen mindestens ΔE 10 auseinander. Nachtschicht (Schale gegen Gummi an
+  EA05/EA12: 9,3) und Frost (Schale gegen Graphit: 5,1) fielen durch. Deshalb tragen C und L die neuen Skins Schiefer und Eisgrau
+  (ΔE ≥ 20).
+- **Alle Finishes:** Die Leuchtrolle liegt mindestens ΔE 25 von der Schale (Blickfang der Motivtabelle). Nachtschicht und Frost bleiben als
+  Finish wählbar; ihr niedriger Kontrast der Hauptrollen ist hier dokumentiert und nicht verboten.
+- **Anteile** (A, Seite): EA12 ist zu 86 % Schale, EA09 zu 59 % und EA14 zu 66 % Graphit. Dort trägt der Skin fast allein die Wirkung.
+
+### Grenzen
+
+- Eine Testzuordnung (`test_map.json`) führt dieses Repo nicht; `./check` findet `tests/test_extended_lines.py` über `unittest discover`.
+
+- Bogen (nur Wurfarme), Schwert und Glefe (nur Front, an der Glefe dazu Leuchtstreifen) haben wenige Hebel. Ihre Linien unterscheiden
+  sich vor allem in Länge und Skin.
+- Für die Linien gibt es keinen Blattweg und keine Website-Aufnahme, wie bei EA. Das ist eine Ausnahme von der Viewer-Regel nach Nutzerentscheid vom 25.11.2026 („Ja, Ausnahme“, [Entscheidungen](ENTSCHEIDUNGEN.md)); gesichtet wird über die Rasterskizze. Die AAA-Abnahme der neuen Skins steht aus.

@@ -223,7 +223,11 @@ class RegisterVarietyTests(unittest.TestCase):
         self.assertTrue(6 <= len(letters) <= 12, letters)      # 0.8: acht Linien + vier Serien
         self.assertEqual(letters[:3], ["A", "B", "C"])
         self.assertEqual([v["name"] for v in self.entries[:3]], ["Baseline", "Long Reach", "Close Quarters"])
-        self.assertEqual({v["skin"] for v in self.entries}, set(variants._skins()), "alle Skins im Einsatz")
+        # 0.38: Skins der EXTENDED-Linien (titan … eisgrau) gehören zu data/extended_lines.toml; kein Skin ohne Linie, keine Linie ohne Skin
+        from formgen import extended_lines
+        self.assertEqual({v["skin"] for v in self.entries} | {e["skin"] for e in extended_lines.load()}, set(variants._skins()),
+                         "alle Skins im Einsatz")
+        self.assertLessEqual({v["skin"] for v in self.entries}, set(variants._skins()))
 
     def test_every_line_differs_visibly_from_baseline(self):
         tris = {sid: variety.triangles(author) for sid, (author, _) in self.built.items()}

@@ -18,6 +18,7 @@ Quelle: Nexogen `templates/kern.md`, nur dort ändern; gilt auch in Cloud-Sitzun
 ## Formgen v2
 
 - Eine Pipeline unter `formgen/`: eigene Python-Modelle in ballons kit-Vokabular, keine v1-Modellsprache. Waffen ab 0.2 nur über `formgen.pipeline`: Grundform = BALLON-Typ per Quellhash (gepinnter Commit in `config.toml`), Varianten nur über Parameter im Register `data/variants.toml` ([Generator](docs/generator.md)).
+- EXTENDED (0.15–0.28) sind eigene Modelle unter `formgen/models/extended/` (Blatt `EA<NN>`); ihre Linien EB–EN (0.38) nur im Register `data/extended_lines.toml` über `python -m formgen.extended_lines new`, ohne Verkleidung; Skins als Finish frei wählbar ([EXTENDED](docs/extended.md)).
 - Variantenregel (aus v1): Kennbuchstabe A–Z ohne I/O, englischer Name 1–3 Wörter ≤ 16 Zeichen, nichts doppelt; Eintrag nur über `python -m formgen.variants new`. Blatt-ID `B<Buchstabe><NN>`; vergebene IDs sind ewig. Blatt-Spec `formgenv2/weapon-sheet-spec` v1: Formatänderung nur mit Migration und Test.
 - Viewer-Regel (aus v1): nach jeder Varianten-Sitzung Blätter, Vorschauen und `out/index.html` lokal bauen und sichten; nur Specs/Prompts/Golden committen; Lieferung als Release-Asset (`formgen.release_assets`), nie Blätter committen.
 - Formgen v1 und ballon sind ausschließlich Lesereferenzen; v1 ist eingefrorenes Archiv (keine Migration, kein Golden-Vergleich gegen v1). Vorschläge an ballon nur unter `docs/` hier.

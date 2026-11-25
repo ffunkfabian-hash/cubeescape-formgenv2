@@ -361,6 +361,177 @@ pin_glow = "#FF5A3A"
 draw_light = "#FF5A3A"
 sight_line = "#FF5A3A"
 
+# Paletten der EXTENDED-Linien (0.38 Foundry, data/extended_lines.toml): Annahme nach der Gestaltungsidee der Linie, am Rasterbogen gewählt,
+# noch nicht am AAA-Bild abgenommen (AgX bleicht, siehe LESSONS). Wie die Serien-Skins nur hier (`formgen = true`), BALLON bleibt unberührt.
+# Kontrast Schale/Graphit und Leuchtrolle/Schale prüft tests/test_extended_lines.py (Rollentest).
+[skins.titan]
+de = "Titan"
+kind = "Farbe"
+formgen = true
+wear = 0.8
+[skins.titan.roles]
+shell = "#A9AEB3"
+graphite = "#24272B"
+anodized = "#3A3F45"
+sight_anod = "#3A3F45"
+ring_anod = "#3A3F45"
+dark_metal = "#4B5056"
+trim = "#D9DCDF"
+accent = "#E8A33A"
+decal = "#A9AEB3"
+energy = "#FFB547"
+charge_core = "#FFB547"
+pin_glow = "#FFB547"
+draw_light = "#FFB547"
+sight_line = "#FFB547"
+
+[skins.signalrot]
+de = "Signalrot"
+kind = "Farbe"
+formgen = true
+wear = 1.0
+[skins.signalrot.roles]
+shell = "#B23A2E"
+graphite = "#1B1C1F"
+anodized = "#2A2B2F"
+sight_anod = "#2A2B2F"
+ring_anod = "#2A2B2F"
+dark_metal = "#34363B"
+trim = "#E9E4DA"
+accent = "#F2EDE3"
+decal = "#B23A2E"
+energy = "#FFE9B8"
+charge_core = "#FFE9B8"
+pin_glow = "#FFE9B8"
+draw_light = "#FFE9B8"
+sight_line = "#FFE9B8"
+
+[skins.oliv]
+de = "Oliv"
+kind = "Farbe"
+formgen = true
+wear = 1.6
+grime = 1.2
+[skins.oliv.roles]
+shell = "#6E7552"
+graphite = "#23241D"
+anodized = "#2E3026"
+sight_anod = "#2E3026"
+ring_anod = "#2E3026"
+dark_metal = "#3A3C33"
+trim = "#B9B08E"
+accent = "#D8892C"
+decal = "#6E7552"
+energy = "#B6FF6A"
+charge_core = "#B6FF6A"
+pin_glow = "#B6FF6A"
+draw_light = "#B6FF6A"
+sight_line = "#B6FF6A"
+
+[skins.elfenbein]
+de = "Elfenbein"
+kind = "Farbe"
+formgen = true
+wear = 0.4
+[skins.elfenbein.roles]
+shell = "#EDE6D6"
+graphite = "#2B2622"
+anodized = "#A0823F"
+sight_anod = "#A0823F"
+ring_anod = "#A0823F"
+dark_metal = "#5A4A2E"
+trim = "#C9A75A"
+accent = "#2F5E9E"
+decal = "#EDE6D6"
+energy = "#7FB8FF"
+charge_core = "#7FB8FF"
+pin_glow = "#7FB8FF"
+draw_light = "#7FB8FF"
+sight_line = "#7FB8FF"
+
+[skins.carbon]
+de = "Carbon"
+kind = "Farbe"
+formgen = true
+wear = 0.9
+[skins.carbon.roles]
+shell = "#3A3E44"
+graphite = "#101113"
+anodized = "#18191C"
+sight_anod = "#18191C"
+ring_anod = "#18191C"
+dark_metal = "#1E2023"
+metal = "#5C6168"
+trim = "#9AA1A9"
+accent = "#E0402F"
+decal = "#3A3E44"
+energy = "#FF5A36"
+charge_core = "#FF5A36"
+pin_glow = "#FF5A36"
+draw_light = "#FF5A36"
+sight_line = "#FF5A36"
+
+[skins.salbei]
+de = "Salbei"
+kind = "Farbe"
+formgen = true
+wear = 0.7
+[skins.salbei.roles]
+shell = "#9AAA9E"
+graphite = "#2C3431"
+anodized = "#3B4642"
+sight_anod = "#3B4642"
+ring_anod = "#3B4642"
+dark_metal = "#46524D"
+trim = "#E3E0D3"
+accent = "#D9733A"
+decal = "#9AAA9E"
+energy = "#FFD27A"
+charge_core = "#FFD27A"
+pin_glow = "#FFD27A"
+draw_light = "#FFD27A"
+sight_line = "#FFD27A"
+
+# Dunkle Linien mit Rollenkontrast (0.38): Nachtschicht und Frost lagen auf EXTENDED unter ΔE 10 (Schale/Gummi bzw. Schale/Graphit),
+# Schiefer und Eisgrau halten ΔE ≥ 20 gegen Graphit und Gummi (gemessen, extended_lines.delta_e).
+[skins.schiefer]
+de = "Schiefer"
+kind = "Farbe"
+formgen = true
+wear = 1.3
+[skins.schiefer.roles]
+shell = "#4A5059"
+graphite = "#16181B"
+anodized = "#24272B"
+sight_anod = "#24272B"
+ring_anod = "#24272B"
+dark_metal = "#30343A"
+trim = "#A3A9B0"
+accent = "#E06A2C"
+decal = "#4A5059"
+
+[skins.eisgrau]
+de = "Eisgrau"
+kind = "Farbe"
+formgen = true
+wear = 0.5
+[skins.eisgrau.roles]
+shell = "#3B4553"
+graphite = "#121519"
+anodized = "#1A1E24"
+sight_anod = "#1A1E24"
+ring_anod = "#1A1E24"
+dark_metal = "#252B33"
+metal = "#6A7482"
+trim = "#8CA0B3"
+accent = "#37C6E8"
+decal = "#3B4553"
+energy = "#7FEAFF"
+charge_core = "#7FEAFF"
+pin_glow = "#7FEAFF"
+draw_light = "#7FEAFF"
+sight_line = "#7FEAFF"
+
 # Standard des Roboters (0.9): Farben aus den Materialien von RoboterBasic-01.glb (Sicherung 05.11.2026), linear → sRGB; finish nur für das GLB.
 [skins.weiss_graphit]
 de = "Weiß-Graphit"
