@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.42.0 Canon — Design-Kanon für eine weitere Waffen-Generation
+
+- Neu: [Design-Kanon](docs/design-kanon.md) – Grundsätze, Silhouette und Proportion, Formvokabular, Motivtabelle EA01–EA17, Materialrollen und Skins, „Nie wieder“ aus allen Nutzerkorrekturen, die Tests dazu und der Ablauf für eine neue Generation; jede Aussage mit Fundstelle.
+- Neu: `python -m formgen.kanon messen [--check]` misst die 34 Modelle (BASIC A und EA: Länge, Höhe, Breite, L/H, Füllgrad, Visierlinie, Akzente, Hände, Rollen, nächster Nachbar) und schreibt Tabelle und Bänder je Klasse in den Kanon; ein Test meldet, wenn er veraltet.
+- Neu: `python -m formgen.kanon paket --out <Ordner>` bündelt Kanon, [Stilprüfung](docs/kanon-stilpruefung.md), Modellsprache, Register, Skins und acht Musterlösungen für eine fremde Entwurfssitzung.
+
 ## 0.38.1 Patch ext-magazin — Schrägmagazin und Signalrot nach der AAA-Abnahme
 
 - Behoben: Mündungs- und Frontstreckung scherten das nach vorn hängende Schrägmagazin von EA06 (EF06: Körper trapezförmig, Bodenplatte abgelöst); ein Magazin, das hinter dem Schnitt einsteckt, bleibt im EXTENDED-Weg starr. Neu gebaut: ED06, EE06, EF06, EL06, die übrigen 200 Linienblätter bleiben gleich.
