@@ -145,17 +145,62 @@ def _tubes(parts, at):
     return out
 
 
+def magazine(parts) -> tuple[set[str], float | None]:
+    """Entnehmbares Stangenmagazin (Auswahl wie generator.stretch_mag) mit allen Kindern und dem f-Wert seines Einsteckpunkts."""
+    mags = [p for p in parts if (p.get("iface") == "BMW-R" or p["id"] == "magazine") and p["asm"] == "ammo"
+            and p["shape"] == "prof" and (p.get("move") or {}).get("kind") == "translate"]
+    if len(mags) != 1:
+        return set(), None
+    return set(generator._descendants(parts, [mags[0]["id"]])), mags[0]["move"]["pivot"][0]
+
+
+def _hold(parts, cut, force=()) -> set[str]:
+    """Magazinteile, die eine Längsstreckung am Schnitt bewegen würde, obwohl das Magazin dahinter einsteckt: Ein nach vorn hängendes
+    Schrägmagazin wurde sonst geschert, Körper und Bodenplatte trennten sich (ED06/EE06/EF06/EL06, Patch ext-magazin)."""
+    ids, pivot = magazine(parts)
+    if not ids or pivot >= cut:
+        return set()
+    far, cross, _ = generator._classify(parts, cut, 0, force)
+    return ids if ids & {p["id"] for p in far + cross} else set()
+
+
+def _without(model, ids, run):
+    """`run` auf dem Modell ohne die Teile `ids` (sie bleiben unverändert an ihrem Platz in der Teileliste)."""
+    if not ids:
+        return run()
+    parts = model["PARTS"]
+    model["PARTS"] = [p for p in parts if p["id"] not in ids]
+    try:
+        return run()
+    finally:
+        moved = {p["id"]: p for p in model["PARTS"]}
+        model["PARTS"] = [moved.get(p["id"], p) for p in parts]
+
+
 def stretch_front(model, factor):
     """Wie generator.stretch_front, aber kurze Rohre über dem Schnitt (z. B. die Mündung der MP EA06) werden mitgedehnt statt
-    stehen gelassen; sonst wandert ein Teil davor allein nach vorn (EB06, 0.38)."""
+    stehen gelassen; sonst wandert ein Teil davor allein nach vorn (EB06, 0.38). Ein dahinter eingestecktes Magazin bleibt starr
+    (Patch ext-magazin); der Schnitt wird mit ihm gewählt."""
     op = generator.stretch_front(copy.deepcopy(model), factor)   # nur zum Finden des Schnitts, Modell bleibt unberührt
     if "skipped" in op:
         return op
     force = _tubes(model["PARTS"], op["cut_f_mm"])
-    if not force:
+    hold = _hold(model["PARTS"], op["cut_f_mm"], force)
+    if not force and not hold:
         return generator.stretch_front(model, factor)
-    far, cross = generator._stretch(model, op["cut_f_mm"], op["delta_mm"], force=force)
-    return {**op, "translated": far, "stretched": cross, "tubes": sorted(force)}
+    far, cross = _without(model, hold, lambda: generator._stretch(model, op["cut_f_mm"], op["delta_mm"], force=force))
+    return {**op, "translated": far, "stretched": cross, **({"tubes": sorted(force)} if force else {}),
+            **({"held": sorted(hold)} if hold else {})}
+
+
+def _muzzle(model, step):
+    """Mündung strecken (generator.stretch_muzzle, Schnitt in der Mündungsmitte) mit starrem Magazin wie stretch_front."""
+    m = next((p for p in model["PARTS"] if p["id"] == "muzzle"), None)
+    hold = set()
+    if m is not None:
+        lo, hi = generator._extent(m)
+        hold = _hold(model["PARTS"], lo + 0.5 * (hi - lo), {"muzzle"})
+    _without(model, hold, lambda: step(("muzzle", "muzzle_r")))
 
 
 def _run(data, params, key, snap):
@@ -165,9 +210,18 @@ def _run(data, params, key, snap):
     model["PARTS"] = [copy.deepcopy(p) for p in model["PARTS"]]
     before = generator.contract(model)
     kit = generator._kit(snap)
-    early = {k: v for k, v in params.items() if k not in ("front", "rear", "limbs")}
-    ops, added = generator._apply(model, early, key[1:], kit, notes)
-    if "front" in params:   # gleiche Reihenfolge wie generator._apply: … drop, front, rear, limbs
+    ops, added = [], set()
+
+    def step(names):
+        sub = {k: params[k] for k in names if k in params}
+        more, extra = generator._apply(model, sub, key[1:], kit, notes) if sub else ([], set())
+        ops.extend(more); added.update(extra)
+
+    # gleiche Reihenfolge wie generator._apply: sight, mag, muzzle, glow, drop, front, rear, limbs; Längsstreckungen mit starrem Magazin
+    step(("sight", "mag"))
+    _muzzle(model, step)
+    step(("glow", "drop"))
+    if "front" in params:
         ops.append(stretch_front(model, params["front"]))
     late = {k: params[k] for k in ("rear", "limbs") if k in params}
     if late:

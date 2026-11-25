@@ -152,6 +152,35 @@ class BuildTests(unittest.TestCase):
             if not sid.startswith("EA"):
                 self.assertEqual(shared(model["PARTS"]), set(), sid)
 
+    def test_magazine_stays_rigid_behind_the_cut(self):
+        """Patch ext-magazin: Mündungs- und Frontstreckung scherten das nach vorn hängende Schrägmagazin von EA06 (EF06: Körper
+        trapezförmig, Bodenplatte abgelöst). Kein Längsschnitt bewegt ein Magazin, das dahinter einsteckt."""
+        sheared = {}
+        for sid, (model, run) in self.built.items():
+            ids, pivot = XL.magazine(model["PARTS"])
+            for op in run["ops"]:
+                if op.get("op") not in ("muzzle", "front") or pivot is None or pivot >= op.get("cut_f_mm", float("inf")):
+                    continue
+                moved = ids & set(op.get("stretched", []) + op.get("translated", []))
+                if moved:
+                    sheared[f"{sid} {op['op']}"] = sorted(moved)
+        self.assertEqual(sheared, {})
+
+    def test_magazine_counterproof(self):
+        """Gegenprobe EF06: ohne die Regel schert die Frontstreckung des Generators das gestreckte Magazin, mit ihr bleibt es stehen."""
+        def stretched():
+            model, _ = generator.adapt(extended.load("e06", SNAP))
+            generator.stretch_mag(model, 1.226)
+            return model
+        model = stretched()
+        self.assertIn("magazine", generator.stretch_front(model, 1.113)["stretched"])
+        model = stretched()
+        before = copy.deepcopy([p for p in model["PARTS"] if p["id"] in XL.magazine(model["PARTS"])[0]])
+        op = XL.stretch_front(model, 1.113)
+        self.assertIn("magazine", op["held"])
+        self.assertNotIn("magazine", op["stretched"])
+        self.assertEqual([p for p in model["PARTS"] if p["id"] in XL.magazine(model["PARTS"])[0]], before)
+
     def test_design_contract_holds(self):
         for sid, (_, run) in self.built.items():
             if "contract" not in run:

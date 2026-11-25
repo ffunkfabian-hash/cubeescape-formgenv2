@@ -799,7 +799,11 @@ Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 St�
   1,10 … 1,30: Kürzen der Wurfarme von EA07 erlaubt der Generator praktisch nicht (Raum < 1 mm).
 - **Zusammenhalt:** Nach dem Bau zählt `pieces` die zusammenhängenden Gruppen ohne Glas, Absehen und Sichtlinie. Zerlegt ein Eingriff das
   Modell, entfällt er für dieses Blatt (`withdrawn` im Bericht; im Register heute nie nötig, der Test fordert das).
-- **Zwei Regeln nur im EXTENDED-Weg**, der BASIC-Generator bleibt unverändert:
+- **Drei Regeln nur im EXTENDED-Weg**, der BASIC-Generator bleibt unverändert:
+  - **Starres Magazin** (`magazine`, `_hold`, Patch ext-magazin nach AAA-Abnahme): Reicht ein Magazin, das hinter dem Schnitt einsteckt, über
+    den Mündungs- oder Frontschnitt, nimmt die Längsstreckung es aus und lässt es stehen; der Schnitt wird weiter mit ihm gewählt. Vorher
+    scherte sie das nach vorn hängende Schrägmagazin von EA06: Körper trapezförmig, Bodenplatte abgelöst (EF06 im AAA-Bild, dazu ED06, EE06,
+    EL06). Genau diese vier Blätter ändern sich, die übrigen 200 bleiben mit Ankern und Punkten gleich.
   - **Rohr-Regel** (`stretch_front`): Ein kurzes Rohr entlang der Laufachse, das der Frontschnitt kreuzt, wird mitgedehnt. Vorher wanderte an
     EA06 die Mündungskrone allein nach vorn.
   - **Teilkopie** (`_run`): Jedes Teil wird einzeln kopiert. EA01, EA02, EA09, EA12 und EA17 teilen Schnittkörper zwischen Teilen. Geteilt
@@ -823,8 +827,9 @@ Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 St�
   von EA01–EA17 bleiben aktuell. Ohne Rendern geprüft (Blender 25.11.2026, EB12): Der Kit legt je Skin ein eigenes AAA-Material an
   (`MT_shell_aaa_titan` …). Die Schalenfarbe ist bei titan, eisgrau, nacht und standard gleich dem linearen Wert aus `skins.toml`
   (Abstand ≤ 0,0001). Das Prüfskript liegt außerhalb des Repos, siehe Versionsbericht.
-- **Neue Skins:** titan, signalrot, oliv, elfenbein, carbon, salbei, schiefer, eisgrau (`formgen = true`). Sie sind am Raster gewählt
-  und noch nicht am AAA-Bild abgenommen (AgX bleicht, siehe LESSONS). Weil sie reine Farb-Skins sind, erscheinen sie auch im
+- **Neue Skins:** titan, signalrot, oliv, elfenbein, carbon, salbei, schiefer, eisgrau (`formgen = true`). Sie sind am Raster gewählt,
+  der AAA-Abnahmesatz liegt vor (Versionsbericht). Signalrot war als Lack im AgX-Licht lachsfarben, gleich welcher Rotwert (vier Proben); seit
+  dem Patch ext-magazin ist die Schale metallisch (`metal_shell`, `#B3140E`) und liest sich rot. Weil sie reine Farb-Skins sind, erscheinen sie auch im
   Skin-Wechsel der 3D-Seite für BASIC.
 
 ### Rollentest
@@ -845,4 +850,4 @@ Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 St�
 
 - Bogen (nur Wurfarme), Schwert und Glefe (nur Front, an der Glefe dazu Leuchtstreifen) haben wenige Hebel. Ihre Linien unterscheiden
   sich vor allem in Länge und Skin.
-- Für die Linien gibt es keinen Blattweg und keine Website-Aufnahme, wie bei EA. Das ist eine Ausnahme von der Viewer-Regel nach Nutzerentscheid vom 25.11.2026 („Ja, Ausnahme“, [Entscheidungen](ENTSCHEIDUNGEN.md)); gesichtet wird über die Rasterskizze. Die AAA-Abnahme der neuen Skins steht aus.
+- Für die Linien gibt es keinen Blattweg und keine Website-Aufnahme, wie bei EA. Das ist eine Ausnahme von der Viewer-Regel nach Nutzerentscheid vom 25.11.2026 („Ja, Ausnahme“, [Entscheidungen](ENTSCHEIDUNGEN.md)); gesichtet wird über die Rasterskizze.

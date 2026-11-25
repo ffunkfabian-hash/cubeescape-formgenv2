@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.38.1 Patch ext-magazin — Schrägmagazin und Signalrot nach der AAA-Abnahme
+
+- Behoben: Mündungs- und Frontstreckung scherten das nach vorn hängende Schrägmagazin von EA06 (EF06: Körper trapezförmig, Bodenplatte abgelöst); ein Magazin, das hinter dem Schnitt einsteckt, bleibt im EXTENDED-Weg starr. Neu gebaut: ED06, EE06, EF06, EL06, die übrigen 200 Linienblätter bleiben gleich.
+- Signalrot: metallische Schale `#B3140E` statt Lack `#B23A2E`; als Lack wurde jedes Rot im AgX-Licht lachsfarben ([EXTENDED](docs/extended.md)).
+
 ## Patch agents-abschnitte — AGENTS.md im Standard
 
 - `AGENTS.md` trägt die Standardabschnitte (Projekt, Wahrheit und Aktualität, Befehle, Regeln, Definition of Done); die Regeln sind nur umsortiert, ihr Wortlaut bleibt. `./ce lint` ohne Fehler; der Pin auf 0.46 (Warnung) kommt mit der nächsten Version, ein Pin verlangt die Patch-Nummer +1 und machte alle Blattcaches veraltet.
