@@ -52,9 +52,11 @@ def _fill(tris) -> float:
     lo = pts.min(0) - 4
     shape = tuple(int(x) for x in ((pts.max(0) + 4 - lo) / variety.MM_PX)[::-1] + 1)
     mask = variety._mask(tris, SIDE, lo, shape)
-    rows, cols = np.any(mask, 1), np.any(mask, 0)
-    box = rows.sum() * cols.sum()
-    return float(mask.sum() / box) if box else 0.0
+    rows, cols = np.flatnonzero(mask.any(1)), np.flatnonzero(mask.any(0))
+    if not rows.size:
+        return 0.0
+    box = (rows[-1] - rows[0] + 1) * (cols[-1] - cols[0] + 1)   # Ausdehnung, nicht Zahl belegter Zeilen (Lücken zählen mit)
+    return float(mask.sum() / box)
 
 
 def _side_iou(a, b) -> float:
@@ -106,9 +108,8 @@ def table(rows) -> str:
     out += ["", "Bänder je Klasse über BASIC und EXTENDED (min / Median / max):", ""]
     for name, nums in CLASSES.items():
         sub = [r for r in rows if r["id"][2:] in nums]
-        if len(sub) < 3:
-            continue
-        out.append(f"- **{name}** ({len(sub)}): " + " · ".join(f"{h} {_band(sub, k)}" for k, h in COLUMNS
+        few = ", nur zwei Modelle: Spanne statt Band" if len(sub) < 3 else ""
+        out.append(f"- **{name}** ({len(sub)}{few}): " + " · ".join(f"{h} {_band(sub, k)}" for k, h in COLUMNS
                                                          if k in ("length", "height", "width", "stretch", "fill", "sight", "accents")))
     return "\n".join(out)
 

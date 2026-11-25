@@ -72,7 +72,7 @@ Schulterwaffen). Nachbar: Modell mit der größten Seiten-IoU in der ganzen Fami
 | BA02 | Impuls v2.1 | Impulsgewehr | 816 | 255 | 51 | 3.2 | 0.35 | 64 | 4 | rubber/graphite | graphite 49% shell 31% | BA10 0.80 |
 | BA03 | Fernblick v2.1 | Scout-Gewehr | 1023 | 259 | 47 | 3.9 | 0.26 | 65 | 4 | rubber/graphite | shell 37% graphite 34% | EA03 0.77 |
 | BA04 | Trommel v2.1 | Handfeuerwaffe | 307 | 184 | 45 | 1.7 | 0.39 | 32 | 2 | rubber/rubber | shell 43% rubber 19% | EA04 0.82 |
-| BA05 | Seitenwaffe v2.1 | Pistole | 239 | 190 | 34 | 1.3 | 0.4 | 29 | 3 | rubber/rubber | shell 39% rubber 25% | BA04 0.71 |
+| BA05 | Seitenwaffe v2.1 | Pistole | 239 | 190 | 34 | 1.3 | 0.39 | 29 | 3 | rubber/rubber | shell 39% rubber 25% | BA04 0.71 |
 | BA06 | Kurzläufer v2.1 | Maschinenpistole | 547 | 291 | 47 | 1.9 | 0.29 | 65 | 4 | rubber/graphite | graphite 38% shell 35% | EA10 0.61 |
 | BA07 | Sehnenzug v2.1 | Bogen | 733 | 1016 | 69 | 0.7 | 0.07 | 69.5 | 2 | rubber/string | shell 42% graphite 33% | EA07 0.26 |
 | BA08 | Streuer v2.1 | Schrotflinte | 869 | 222 | 52 | 3.9 | 0.35 | 39 | 4 | rubber/graphite | shell 24% graphite 22% | EA08 0.66 |
@@ -108,6 +108,7 @@ Bänder je Klasse über BASIC und EXTENDED (min / Median / max):
 - **Langwaffe** (18): Länge mm 564 / 908 / 1177 · Höhe mm 222 / 256 / 294 · Breite mm 47 / 53 / 129 · L/H 2.2 / 3.5 / 4.5 · Füllgrad 0.26 / 0.345 / 0.48 · Visierlinie mm 39 / 66 / 74 · Akzente 2 / 3.5 / 5
 - **Kompakt** (6): Länge mm 197 / 303.5 / 547 · Höhe mm 176 / 190 / 291 · Breite mm 34 / 46 / 54 · L/H 1.1 / 1.55 / 1.9 · Füllgrad 0.29 / 0.385 / 0.4 · Visierlinie mm 29 / 42.5 / 72 · Akzente 2 / 3 / 4
 - **Werfer** (4): Länge mm 648 / 790 / 922 · Höhe mm 241 / 268 / 270 · Breite mm 71 / 131 / 142 · L/H 2.4 / 2.95 / 3.8 · Füllgrad 0.39 / 0.435 / 0.58 · Visierlinie mm 0 / 33 / 74 · Akzente 2 / 3 / 4
+- **Bogen** (2, nur zwei Modelle: Spanne statt Band): Länge mm 711 / 722 / 733 · Höhe mm 796 / 906 / 1016 · Breite mm 69 / 72 / 75 · L/H 0.7 / 0.8 / 0.9 · Füllgrad 0.07 / 0.09 / 0.11 · Visierlinie mm 69.5 / 69.5 / 69.5 · Akzente 2 / 2 / 2
 - **Nahkampf** (4): Länge mm 1039 / 1309 / 1595 · Höhe mm 76 / 150.5 / 181 · Breite mm 39 / 54.5 / 96 · L/H 7 / 9.1 / 15.7 · Füllgrad 0.26 / 0.32 / 0.67 · Visierlinie mm – · Akzente 0 / 1 / 2
 <!-- kanon:messung:ende -->
 

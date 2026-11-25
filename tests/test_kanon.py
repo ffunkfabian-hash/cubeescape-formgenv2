@@ -47,6 +47,12 @@ class KanonStaticTests(unittest.TestCase):
         self.assertGreater(full, 0.95)
         self.assertLess(frame, 0.6)
 
+    def test_fill_counts_the_gap_between_separate_parts(self):
+        """Richter 0.42 R1: zwei getrennte Rechtecke füllen ihr umschließendes Rechteck nur zu zwei Dritteln (Lücke im Nenner); die alte Zählung ergab ≈ 1."""
+        a = _box(0.2, 0.2)
+        b = a + np.array([0.0, 0.4, 0.0])
+        self.assertAlmostEqual(kanon._fill(np.concatenate([a, b])), 0.2 * 0.2 * 2 / (0.6 * 0.2), delta=0.05)
+
     def test_pack_bundles_canon_prompt_and_examples(self):
         with tempfile.TemporaryDirectory() as tmp:
             files = kanon.pack(Path(tmp) / "paket")
