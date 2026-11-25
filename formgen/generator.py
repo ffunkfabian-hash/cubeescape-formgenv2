@@ -689,8 +689,8 @@ def vary(data, variant, num, snap=None):
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
     if params.get("architecture") == "trestle":
-        from .models.weapons import cairn, heron, lark, skiff, swift, tern, trestle, vesper
-        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark, "08": skiff}
+        from .models.weapons import avocet, cairn, heron, lark, skiff, swift, tern, trestle, vesper
+        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark, "08": skiff, "09": avocet}
         if num not in designs:
             raise GeneratorError(f"Für BASIC-{num} gibt es keinen Trestle-Entwurf")
         design = designs[num]
@@ -775,6 +775,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "06": "Ein offener Heckrahmen, zwei helle Schalen und eine kurze dunkle Handauflage prägen Tern. Das Holovisier H2 stammt aus BASIC-06.",
             "07": "Ein kompakter Bogen mit geknickter Keramikschulter, dunklem Mittelstück und seitlicher Statuskapsel. Das B1-Pinvisier stammt aus BASIC-07.",
             "08": "Ein kurzes Fensterheck und eine ansteigende helle Kufe prägen die Silhouette. Die offene Visierung K2 stammt aus BASIC-08.",
+            "09": "Ein offenes Sichelheck und zwei versetzte Keramikfelder prägen Avocet. Die lange gerade Front trägt eine dunkle Stirnkappe, das Zielfernrohr stammt aus BASIC-09.",
         }
         info["summary"] = summaries.get(num, variant["idea"])
     parts = []

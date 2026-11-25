@@ -148,8 +148,8 @@
  },
  "counts": {
   "assemblies": 7,
-  "parts": 46,
-  "triangles": 21684
+  "parts": 47,
+  "triangles": 21868
  },
  "dimensions_mm": {
   "height": 205.81,
@@ -356,12 +356,12 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     146.49,
-     614.55
+     146.5,
+     615.0
     ],
     "u": [
-     80.0,
-     128.0
+     87.0,
+     114.0
     ],
     "x": [
      -16.5,
@@ -374,18 +374,42 @@
    "name_en": "spine",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 540
+   "triangles": 380
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     570.33,
+     600.71
+    ],
+    "u": [
+     113.0,
+     127.8
+    ],
+    "x": [
+     -7.5,
+     7.5
+    ]
+   },
+   "id": "fore_seat",
+   "moving": false,
+   "name_de": "Abgesetzter kurzer Kornsitz",
+   "name_en": "fore seat",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 416
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
      128.33,
-     607.07
+     606.64
     ],
     "u": [
      10.0,
-     109.72
+     95.77
     ],
     "x": [
      -21.5,
@@ -398,7 +422,7 @@
    "name_en": "keel",
    "role": "shell",
    "shape": "prof",
-   "triangles": 572
+   "triangles": 500
   },
   {
    "assembly": "support",

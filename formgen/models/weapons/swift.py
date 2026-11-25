@@ -39,11 +39,11 @@ def build(pilot=None):
             [(-40,69),(-33,85),(-19,92),(8,92),(27,88),(58,86),(86,79),(119,77),
              (101,72),(64,72),(39,77),(16,76),(-6,64),(-31,56),(-24,65)], 31.2, 1.6)
     s.plate('quill', 'barrel', 'shell', 'Lange helle Feder an der Front',
-            [(58,61),(76,68),(111,71),(133,77),(157,85),(177,92),(192,92),
-             (198,85),(189,81),(162,79),(140,70),(105,64),(78,63),(66,57)], 28.8, 1.3)
+            [(58,72),(76,84),(102,90),(185,90),(197,86),(197,79),
+             (190,76),(111,76),(91,72),(68,67)], 28.8, 1.3)
     s.plate('ventral', 'barrel', 'anodized', 'Schmale dunkle Gegenkante',
-            [(62,51),(85,58),(111,60),(149,66),(183,66),(191,70),(190,63),
-             (168,57),(133,55),(106,49),(75,46)], 22, 1.2)
+            [(62,53),(86,64),(108,69),(179,69),(191,73),(191,65),
+             (182,61),(108,61),(84,55),(67,51)], 22, 1.2)
     s.facet('tip_tile', 'barrel', 'dark_metal', 'Geschlossene Stirnkachel',
             188, 199, 77, 24, 23, 4, 1)
     s.facet('tip_inset', 'barrel', 'anodized', 'Kleine Stirnfacette',
@@ -58,7 +58,7 @@ def build(pilot=None):
     s.inlay('swift_mark', 'receiver', 'accent', 'Doppelfeder am Heck',
             [(31,81),(37,85),(46,84),(39,80)], 15.3, 16.05, .25)
     s.inlay('quill_glint', 'barrel', 'energy', 'Kurzer Lichtstrich in der Feder',
-            [(132,73),(150,80),(160,82),(154,79),(137,73)], 14.2, 14.85, .23)
+            [(130,80),(143,84),(164,84),(158,81),(139,80)], 14.2, 14.85, .23)
 
     refs = {'Socket_Hand': ('grip_arch', [0,0,0]), 'Socket_SupportHand': ('palm_wing_l', [-13,-12,16.75]),
             'Socket_MagWell': ('heel_tip', [-31,-60,0]), 'Socket_Muzzle': ('tip_inset', [200, pilot['ANCHORS']['Socket_Muzzle']['at'][1], 0])}

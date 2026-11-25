@@ -148,7 +148,7 @@
  "counts": {
   "assemblies": 7,
   "parts": 60,
-  "triangles": 21792
+  "triangles": 21852
  },
  "dimensions_mm": {
   "height": 210.9,
@@ -739,12 +739,12 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     221.05,
-     516.03
+     220.33,
+     517.0
     ],
     "u": [
-     65.09,
-     93.98
+     63.0,
+     80.0
     ],
     "x": [
      -12.5,
@@ -757,18 +757,18 @@
    "name_en": "upper beak",
    "role": "dark_metal",
    "shape": "prof",
-   "triangles": 440
+   "triangles": 392
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     238.94,
-     481.93
+     236.65,
+     482.01
     ],
     "u": [
-     80.0,
-     101.0
+     76.15,
+     87.0
     ],
     "x": [
      -14.5,
@@ -781,7 +781,7 @@
    "name_en": "beak crown",
    "role": "shell",
    "shape": "prof",
-   "triangles": 260
+   "triangles": 356
   },
   {
    "assembly": "support",
@@ -835,12 +835,12 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     478.2,
-     533.37
+     478.0,
+     534.66
     ],
     "u": [
-     63.0,
-     80.87
+     62.0,
+     81.0
     ],
     "x": [
      -12.0,
@@ -853,18 +853,18 @@
    "name_en": "beak end",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 208
+   "triangles": 260
   },
   {
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     523.08,
-     538.57
+     523.0,
+     539.0
     ],
     "u": [
-     66.08,
-     75.92
+     65.0,
+     77.0
     ],
     "x": [
      -10.0,
@@ -877,7 +877,7 @@
    "name_en": "beak tile",
    "role": "anodized",
    "shape": "prof",
-   "triangles": 148
+   "triangles": 196
   },
   {
    "assembly": "barrel",
@@ -979,12 +979,12 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     299.29,
-     400.7
+     298.29,
+     400.73
     ],
     "u": [
-     80.02,
-     89.0
+     71.0,
+     76.0
     ],
     "x": [
      12.2,
@@ -997,7 +997,7 @@
    "name_en": "beak inset l",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 176
+   "triangles": 132
   },
   {
    "assembly": "receiver",
@@ -1123,12 +1123,12 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     299.29,
-     400.7
+     298.29,
+     400.73
     ],
     "u": [
-     80.02,
-     89.0
+     71.0,
+     76.0
     ],
     "x": [
      -13.3,
@@ -1141,7 +1141,7 @@
    "name_en": "beak inset r",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 176
+   "triangles": 132
   },
   {
    "assembly": "receiver",

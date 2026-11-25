@@ -234,13 +234,14 @@ class KitModelTests(unittest.TestCase):
         from formgen.models.weapons import cairn, heron, swift, vesper
         # Nutzer-Neubauten BT03 (0.27), BT04 (0.29) und BT05 (0.31): Außenform einfrieren,
         # die vollständige Visierung separat mit dem jeweiligen BASIC-Piloten vergleichen.
+        # Nutzerentscheid 0.35: bei Heron und Swift die begradigte Außenkontur festhalten.
         cases = (("BT02", vesper, "7729de5c3a94ec44c1d80dfbd3505c11cfff89b0d6d3fcab836b4381aba45d35",
                   "sight_frame", [-109.6, 161, 0]),
-                 ("BT03", heron, "c0c6e9b816e594295acec2bd824991ee2f531c18fb8e15093ddc9b158d0086b1",
+                 ("BT03", heron, "ca3b262e883f79ee6c7973cfeac4f94b1cdd3b6f55233a711e2e9c3c33552fd7",
                   "scope_objective", [-18.0, 161, 0]),
                  ("BT04", cairn, "f0ef311a1ef3aaf009cae29497667a9cbb55d06b4732bd45d7dae51e64c8f413",
                   "sight_rear", [-70, 103, 0]),
-                 ("BT05", swift, "38f5497b02477a6ab344516c768c03b4127cdac04d76afc47e1cc3c84ef50f5c",
+                 ("BT05", swift, "8d12bdb86757db6a50feb23704de93d68372e97a73b1acc4df21ccd1e146254d",
                   "sight_rear", [-82, 103, 0]))
         for sid, design, digest, eye_part, eye_at in cases:
             with self.subTest(sid=sid):
@@ -345,6 +346,24 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual(model["ANCHORS"]["Socket_Muzzle"]["at"][1], pilot["ANCHORS"]["Socket_Muzzle"]["at"][1])
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
+
+    def test_avocet_carries_the_complete_basic_09_scope(self):
+        pilot, model = kit_model("BT09")
+        self.assertEqual(model["META"]["name"], "Avocet")
+        scope = [p for p in pilot["PARTS"] if p["asm"] == "sight"]
+        self.assertEqual(len(scope), 17)
+        self.assertEqual([p for p in model["PARTS"] if p["asm"] == "sight"], scope)
+        self.assertEqual(set(model["ANCHORS"]), set(pilot["ANCHORS"]))
+        for name in ("Socket_Eye", "Socket_Reticle", "Socket_Sight", "Socket_Objective"):
+            anchor = dict(pilot["ANCHORS"][name], at=list(pilot["ANCHORS"][name]["at"]))
+            self.assertEqual(model["ANCHORS"][name], anchor)
+        by_id = {p["id"]: p for p in model["PARTS"]}
+        self.assertTrue({"crescent", "flight", "long_tile"} <= by_id.keys())
+        # Zweite Nutzerskizze: gerader Mittelsteg und bündige Stirnkappe.
+        spine, tip = by_id["quill"], by_id["tip"]
+        self.assertEqual((spine["shape"], tip["shape"]), ("xprof", "xprof"))
+        self.assertEqual(spine["cu"], tip["cu"])
+        self.assertLessEqual(tip["f0"], spine["f1"])
 
     def test_skiff_exports_its_own_shell_and_the_original_k2(self):
         pilot, model = kit_model("BT08")

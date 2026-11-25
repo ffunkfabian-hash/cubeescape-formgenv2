@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.35.0 Avocet
+
+- BT09 erweitert Linie T um ein Scharfschützengewehr mit offenem Sichelheck, gerader Front und dem vollständigen Z3-Zielfernrohr von BASIC-09. Bei der anschließenden Prüfung der gesamten Linie T erhielten BT03, BT05, BT06 und BT08 geradere Frontkonturen. [Versionsbericht](docs/versions/0.35.md)
+
 ## 0.34.0 Skiff
 
 - BT08 ergänzt die Linie T als Schrotflinte mit eigenem Fensterheck, ansteigender Kufe und dem offenen K2 von BASIC-08. Ein Wechselmodul füllt die gesamte Ladung im animierten Viewer. Sechs einzeln modellierte Lichtzellen stehen in zwei Dreierreihen für sechs Schuss. [Versionsbericht](docs/versions/0.34.md)

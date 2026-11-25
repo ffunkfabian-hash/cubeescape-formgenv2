@@ -155,7 +155,7 @@
  "counts": {
   "assemblies": 7,
   "parts": 40,
-  "triangles": 13072
+  "triangles": 13052
  },
  "dimensions_mm": {
   "height": 225.45,
@@ -506,12 +506,12 @@
    "assembly": "barrel",
    "extent_mm": {
     "f": [
-     150.42,
-     318.56
+     150.32,
+     318.0
     ],
     "u": [
-     67.27,
-     107.0
+     68.0,
+     102.0
     ],
     "x": [
      -20.4,
@@ -524,7 +524,7 @@
    "name_en": "prow",
    "role": "shell",
    "shape": "prof",
-   "triangles": 500
+   "triangles": 480
   },
   {
    "assembly": "barrel",

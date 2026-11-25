@@ -168,6 +168,26 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_avocet_width_is_set_by_the_basic_09_objective_rim(self):
+        entry = variants.sheets()["BT09"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        left, left_part = min((p["bounds_m"][0][0], p["id"]) for p in parts)
+        right, right_part = max((p["bounds_m"][1][0], p["id"]) for p in parts)
+        self.assertEqual((left_part, right_part), ("scope_rim", "scope_rim"))
+        self.assertAlmostEqual((right - left) * 1000, 51.54, delta=.005)
+
+    def test_skiff_front_sight_touches_its_separate_seat(self):
+        entry = variants.sheets()["BT08"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        bounds = {p["id"]: np.asarray(p["bounds_m"]) for p in parts}
+        seat, sight, spine = (bounds[k] for k in ("fore_seat", "sight_front", "spine"))
+        self.assertLessEqual(seat[0, 2], spine[1, 2])
+        self.assertAlmostEqual(seat[1, 2], sight[0, 2], delta=.0005)
+        np.testing.assert_array_less(seat[0, :2], sight[0, :2])
+        np.testing.assert_array_less(sight[1, :2], seat[1, :2])
+
     def test_skiff_and_basic_08_have_the_same_full_width(self):
         for sid in ("BA08", "BT08"):
             with self.subTest(sid=sid):

@@ -184,6 +184,6 @@ idea = "Die offene Rückenbrücke überspannt zwei versetzte Keilschalen. Ein ku
 since = "0.24"
 skin = "standard"
 base = "pilot"
-types = ["01", "02", "03", "04", "05", "06", "07", "08"]
+types = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
 [variants.params]
 architecture = "trestle"
