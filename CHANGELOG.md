@@ -5,7 +5,12 @@
 - Neu: 12 eigene Formlinien für alle 17 EXTENDED-Modelle (EB01 … EN17, 204 Waffen) im Register `data/extended_lines.toml`, gebaut mit den silhouettenerhaltenden Eingriffen des Generators (Strecken, Mündung, Magazin, Leuchtstreifen, Weglassen, Visier), ohne Verkleidung; jede Linie weicht nach dem BASIC-Maß sichtbar von ihrem EA ab.
 - Neu: Finish – jeder Waffen-Skin frei auf jedes EXTENDED-Blatt, als Rastervorschau (`python -m formgen.extended_lines sketch|finishes`) und als AAA (`tools/extended_render.py --line/--finish`); acht neue Skins für die Linien.
 - Neu: Rollentest (Flächenanteil je Rolle, ΔE der Hauptrollen und der Leuchtrolle); Nachtschicht und Frost fielen als Linienskin durch, C und L tragen Schiefer und Eisgrau.
-- Behoben im EXTENDED-Weg: geteilte Schnittkörper wurden beim Strecken doppelt verschoben, die Frontstreckung riss an EA06 die Mündung ab ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.38.md)).
+- Behoben: geteilte Schnittkörper wurden beim Strecken doppelt verschoben (EXTENDED und BASIC-02, Patch basic-schnitte unten), die Frontstreckung riss an EA06 die Mündung ab ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.38.md)).
+
+## Patch basic-schnitte — geteilte Schnittkörper im Generator (erschienen mit 0.38.0)
+
+- `generator.adapt` kopiert jedes Teil einzeln: Der BALLON-Pilot BASIC-02 teilt den Laufkanal zwischen `pulse_chamber` und `handguard`, der Generator verschob ihn je Teil erneut (BB02 77 mm zu weit vorn, BC02/BE02/BG02 mit negativer Länge).
+- Neu gebaut: Specs und Prompts von BB02, BC02, BD02, BE02, BG02, BJ02, BL02, BM02 (Golden nachgezogen); alle übrigen 196 Blätter bitgleich. Test `tests/test_generator_cuts.py` mit Gegenprobe ([Bericht](docs/versions/0.28.md)).
 
 ## Patch extended-familie — Abschluss der EXTENDED-Familie
 

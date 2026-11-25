@@ -147,7 +147,7 @@ class BuildTests(unittest.TestCase):
                     if owner.setdefault(id(c), p["id"]) != p["id"]:
                         out.add(p["id"])
             return out
-        self.assertTrue(shared(generator.adapt(extended.load("e12", SNAP))[0]["PARTS"]), "Gegenprobe: Grundform teilt Schnitte")
+        self.assertTrue(shared(extended.load("e12", SNAP)["PARTS"]), "Gegenprobe: Grundform teilt Schnitte")
         for sid, (model, _) in self.built.items():
             if not sid.startswith("EA"):
                 self.assertEqual(shared(model["PARTS"]), set(), sid)

@@ -804,7 +804,7 @@ Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 St�
     EA06 die Mündungskrone allein nach vorn.
   - **Teilkopie** (`_run`): Jedes Teil wird einzeln kopiert. EA01, EA02, EA09, EA12 und EA17 teilen Schnittkörper zwischen Teilen. Geteilt
     verschob der Generator sie je Teil erneut, das ergab eine Finne am Heck von EH12. BASIC-02 teilt ebenfalls einen Schnitt (Pulskammer und
-    Handschutz); das ist offen und gehört zu BASIC.
+    Handschutz); seit dem Patch basic-schnitte (in 0.38.0) kopiert auch `generator.adapt` jedes Teil einzeln.
 - **Vielfalt** (gleiches Maß wie BASIC, `variety`): Jedes der 204 Blätter weicht in Seite oder Draufsicht mindestens 2 % von seinem EA ab
   (min IoU ≤ 0,98). Kein Linienpaar eines Modells ist deckungsgleich (≤ 0,998). Am nächsten liegen die Bogenlinien (bis 0,996), weil
   dort nur die Wurfarmlänge wirkt, und EJ12/EM12 mit 0,993.
