@@ -377,6 +377,17 @@ class KitModelTests(unittest.TestCase):
         self.assertEqual({t["path"] for t in targets}, {"translation"})
         self.assertCountEqual([doc["nodes"][t["node"]]["name"] for t in targets],
                               ["cheek_l", "charged_cell", "charge_signal"])
+        nodes = {node["name"]: node for node in doc["nodes"]}
+        for cell, core_role, mark_role in (("cheek_l", "dark_metal", "accent"),
+                                          ("charged_cell", "energy", "energy")):
+            children = [doc["nodes"][child] for child in nodes[cell]["children"]]
+            materials = {child["name"]: [doc["materials"][p["material"]]["name"]
+                                         for p in doc["meshes"][child["mesh"]]["primitives"]]
+                         for child in children}
+            expected = {f"{cell}_cell_{i}": [f"MT_{core_role}_color"] for i in range(1, 7)}
+            expected[cell + "_cap"] = ["MT_graphite_color"]
+            expected[cell + "_mark"] = [f"MT_{mark_role}_color"]
+            self.assertEqual(materials, expected)
         root = next(node for node in doc["nodes"] if node["name"] == "BT08")
         events = root["extras"]["reload_events"]
         self.assertEqual([e["name"] for e in events], ["cell_exchange", "rounds_in"])

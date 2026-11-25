@@ -21,6 +21,37 @@ def reload_action():
                 events=[(17, "cell_exchange"), (COMMIT, "rounds_in")], view=(.9, .4, .25))
 
 
+def add_cell_pack(s, key, group, offset, charged):
+    """Beide Wechselmodule tragen sechs Speicherzellen am animierten Rahmen."""
+    # Lokale Kontur entlang der ansteigenden Kufe. Alle Maße sind Formannahmen.
+    def profile(points):
+        return [(300 + u, 32 + .17 * u + v) for u, v in points]
+
+    outline = profile([(-44, -1), (-38, -8), (-29, -11), (29, -11), (39, -6),
+                       (44, 1), (37, 9), (29, 11), (-29, 11), (-39, 7)])
+    # Zwei Dreierreihen, eine separat modellierte Speicherzelle pro Spielschuss.
+    openings = []
+    for row in (4.8, -4.8):
+        for col in (-20, -1, 18):
+            openings.append(profile([(col-8, row-.8), (col-5.6, row-3.4),
+                                     (col+5.4, row-3.4), (col+8, row-.7),
+                                     (col+7.6, row+1.2), (col+5, row+3.4),
+                                     (col-5.6, row+3.4), (col-8, row+1)]))
+    cap = profile([(30, -7), (37, -5), (42, 1), (37, 7), (32, 8), (34, 1)])
+    face = offset + 26 - CELL_SEAT
+    s.plate(key, group, "shell", "Keramikrahmen des Wechselmoduls", outline, 9, 1.0,
+            x=face - 4.5, cuts=[dict(shape="prof", pts=w, w=13, x=face-4.5) for w in [*openings, cap]],
+            move=dict(kind="translate", vector_mm=(0, 0, CELL_OUT)))
+    for number, contour in enumerate(openings, 1):
+        s.plate(f"{key}_cell_{number}", group, "energy" if charged else "dark_metal",
+                f"Speicherzelle {number}", contour, 7.6, .6, x=face-4.5, parent_part=key)
+    s.plate(key + "_cap", group, "graphite", "Dunkle Stirnkappe", cap, 8.5, .45,
+            x=face-4.5, parent_part=key)
+    mark = profile([(35, -2.8), (37, -2.8), (39, .5), (36.7, 3.2), (35, 3.2), (37, .5)])
+    s.plate(key + "_mark", group, "energy" if charged else "accent", "Ladungsmarke",
+            mark, .12, .04, x=face-.18, parent_part=key)
+
+
 def build(pilot):
     s = Shell("Skiff")
     s.plate("stern", "stock", "shell", "Helles Heck mit versetztem Fenster",
@@ -62,12 +93,10 @@ def build(pilot):
     # Die beiden Wangen an der Kufe bilden das gemessene Außenmaß von BA08.
     cheek = [(255, 25), (279, 38), (317, 43), (347, 41), (337, 31),
              (307, 25), (266, 19)]
-    for side, name in ((1, "cheek_l"), (-1, "cheek_r")):
-        motion = {"move": dict(kind="translate", vector_mm=(0, 0, CELL_OUT))} if side == 1 else {}
-        s.plate(name, "support", "graphite", "Dunkle Kufenwange", cheek,
-                26 - 22.7, .9, x=side * CELL_SEAT, **motion)
-    s.plate("charged_cell", "ammo", "anodized", "Volle Lichtzelle", cheek, 26 - 22.7, .9,
-            move=dict(kind="translate", vector_mm=(0, 0, CELL_OUT)))
+    s.plate("cheek_r", "support", "graphite", "Dunkle Kufenwange", cheek,
+            26 - 22.7, .9, x=-CELL_SEAT)
+    add_cell_pack(s, "cheek_l", "support", CELL_SEAT, charged=False)
+    add_cell_pack(s, "charged_cell", "ammo", 0, charged=True)
     s.plate("charge_signal", "support", "energy", "Ladebestätigung auf der Kufe",
             [(366, 36), (377, 38), (385, 43), (374, 41)], .6, .2, x=20,
             move=dict(kind="translate", vector_mm=(0, 0, 2)))

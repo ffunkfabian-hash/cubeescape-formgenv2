@@ -2,7 +2,7 @@
 
 ## 0.34.0 Skiff
 
-- BT08 ergänzt die Linie T als Schrotflinte mit eigenem Fensterheck, ansteigender Kufe und dem offenen K2 von BASIC-08. Eine Lichtzelle füllt die gesamte Ladung im animierten Viewer. [Versionsbericht](docs/versions/0.34.md)
+- BT08 ergänzt die Linie T als Schrotflinte mit eigenem Fensterheck, ansteigender Kufe und dem offenen K2 von BASIC-08. Ein Wechselmodul füllt die gesamte Ladung im animierten Viewer. Sechs einzeln modellierte Lichtzellen stehen in zwei Dreierreihen für sechs Schuss. [Versionsbericht](docs/versions/0.34.md)
 
 ## 0.33.0 Quill — Lark
 

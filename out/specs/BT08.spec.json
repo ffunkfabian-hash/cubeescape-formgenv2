@@ -134,6 +134,7 @@
   },
   "variant": {
    "accent_functions": [
+    "Ladungsmarke",
     "Oranger Kornkopf, Stirn flach zum Auge (Zielpunkt)",
     "Schräge Keramikmarke",
     "Spannt den Fuß"
@@ -147,8 +148,8 @@
  },
  "counts": {
   "assemblies": 7,
-  "parts": 30,
-  "triangles": 9132
+  "parts": 46,
+  "triangles": 21684
  },
  "dimensions_mm": {
   "height": 205.81,
@@ -435,30 +436,6 @@
      43.0
     ],
     "x": [
-     22.7,
-     26.0
-    ]
-   },
-   "id": "cheek_l",
-   "moving": true,
-   "name_de": "Dunkle Kufenwange",
-   "name_en": "cheek l",
-   "role": "graphite",
-   "shape": "prof",
-   "triangles": 188
-  },
-  {
-   "assembly": "support",
-   "extent_mm": {
-    "f": [
-     255.57,
-     346.48
-    ],
-    "u": [
-     19.11,
-     43.0
-    ],
-    "x": [
      -26.0,
      -22.7
     ]
@@ -472,28 +449,436 @@
    "triangles": 188
   },
   {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     256.14,
+     343.84
+    ],
+    "u": [
+     16.07,
+     47.93
+    ],
+    "x": [
+     17.0,
+     26.0
+    ]
+   },
+   "id": "cheek_l",
+   "moving": true,
+   "name_de": "Keramikrahmen des Wechselmoduls",
+   "name_en": "cheek l",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 3832
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     272.0,
+     287.9
+    ],
+    "u": [
+     29.14,
+     37.57
+    ],
+    "x": [
+     17.7,
+     25.3
+    ]
+   },
+   "id": "cheek_l_cell_1",
+   "moving": false,
+   "name_de": "Speicherzelle 1",
+   "name_en": "cheek l cell 1",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     291.0,
+     306.9
+    ],
+    "u": [
+     32.37,
+     40.8
+    ],
+    "x": [
+     17.7,
+     25.3
+    ]
+   },
+   "id": "cheek_l_cell_2",
+   "moving": false,
+   "name_de": "Speicherzelle 2",
+   "name_en": "cheek l cell 2",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     310.0,
+     325.9
+    ],
+    "u": [
+     35.6,
+     44.03
+    ],
+    "x": [
+     17.7,
+     25.3
+    ]
+   },
+   "id": "cheek_l_cell_3",
+   "moving": false,
+   "name_de": "Speicherzelle 3",
+   "name_en": "cheek l cell 3",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     272.0,
+     287.9
+    ],
+    "u": [
+     19.54,
+     27.97
+    ],
+    "x": [
+     17.7,
+     25.3
+    ]
+   },
+   "id": "cheek_l_cell_4",
+   "moving": false,
+   "name_de": "Speicherzelle 4",
+   "name_en": "cheek l cell 4",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     291.0,
+     306.9
+    ],
+    "u": [
+     22.77,
+     31.2
+    ],
+    "x": [
+     17.7,
+     25.3
+    ]
+   },
+   "id": "cheek_l_cell_5",
+   "moving": false,
+   "name_de": "Speicherzelle 5",
+   "name_en": "cheek l cell 5",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     310.0,
+     325.9
+    ],
+    "u": [
+     26.0,
+     34.43
+    ],
+    "x": [
+     17.7,
+     25.3
+    ]
+   },
+   "id": "cheek_l_cell_6",
+   "moving": false,
+   "name_de": "Speicherzelle 6",
+   "name_en": "cheek l cell 6",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     330.18,
+     341.83
+    ],
+    "u": [
+     30.28,
+     45.43
+    ],
+    "x": [
+     17.25,
+     25.75
+    ]
+   },
+   "id": "cheek_l_cap",
+   "moving": false,
+   "name_de": "Dunkle Stirnkappe",
+   "name_en": "cheek l cap",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 428
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     335.02,
+     338.99
+    ],
+    "u": [
+     35.16,
+     41.43
+    ],
+    "x": [
+     25.76,
+     25.88
+    ]
+   },
+   "id": "cheek_l_mark",
+   "moving": false,
+   "name_de": "Ladungsmarke",
+   "name_en": "cheek l mark",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 500
+  },
+  {
    "assembly": "ammo",
    "extent_mm": {
     "f": [
-     255.57,
-     346.48
+     256.14,
+     343.84
     ],
     "u": [
-     19.11,
-     43.0
+     16.07,
+     47.93
     ],
     "x": [
-     -1.65,
+     -7.35,
      1.65
     ]
    },
    "id": "charged_cell",
    "moving": true,
-   "name_de": "Volle Lichtzelle",
+   "name_de": "Keramikrahmen des Wechselmoduls",
    "name_en": "charged cell",
-   "role": "anodized",
+   "role": "shell",
    "shape": "prof",
-   "triangles": 188
+   "triangles": 3832
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     272.0,
+     287.9
+    ],
+    "u": [
+     29.14,
+     37.57
+    ],
+    "x": [
+     -6.65,
+     0.95
+    ]
+   },
+   "id": "charged_cell_cell_1",
+   "moving": false,
+   "name_de": "Speicherzelle 1",
+   "name_en": "charged cell cell 1",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     291.0,
+     306.9
+    ],
+    "u": [
+     32.37,
+     40.8
+    ],
+    "x": [
+     -6.65,
+     0.95
+    ]
+   },
+   "id": "charged_cell_cell_2",
+   "moving": false,
+   "name_de": "Speicherzelle 2",
+   "name_en": "charged cell cell 2",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     310.0,
+     325.9
+    ],
+    "u": [
+     35.6,
+     44.03
+    ],
+    "x": [
+     -6.65,
+     0.95
+    ]
+   },
+   "id": "charged_cell_cell_3",
+   "moving": false,
+   "name_de": "Speicherzelle 3",
+   "name_en": "charged cell cell 3",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     272.0,
+     287.9
+    ],
+    "u": [
+     19.54,
+     27.97
+    ],
+    "x": [
+     -6.65,
+     0.95
+    ]
+   },
+   "id": "charged_cell_cell_4",
+   "moving": false,
+   "name_de": "Speicherzelle 4",
+   "name_en": "charged cell cell 4",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     291.0,
+     306.9
+    ],
+    "u": [
+     22.77,
+     31.2
+    ],
+    "x": [
+     -6.65,
+     0.95
+    ]
+   },
+   "id": "charged_cell_cell_5",
+   "moving": false,
+   "name_de": "Speicherzelle 5",
+   "name_en": "charged cell cell 5",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     310.0,
+     325.9
+    ],
+    "u": [
+     26.0,
+     34.43
+    ],
+    "x": [
+     -6.65,
+     0.95
+    ]
+   },
+   "id": "charged_cell_cell_6",
+   "moving": false,
+   "name_de": "Speicherzelle 6",
+   "name_en": "charged cell cell 6",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 284
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     330.18,
+     341.83
+    ],
+    "u": [
+     30.28,
+     45.43
+    ],
+    "x": [
+     -7.1,
+     1.4
+    ]
+   },
+   "id": "charged_cell_cap",
+   "moving": false,
+   "name_de": "Dunkle Stirnkappe",
+   "name_en": "charged cell cap",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 428
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     335.02,
+     338.99
+    ],
+    "u": [
+     35.16,
+     41.43
+    ],
+    "x": [
+     1.41,
+     1.53
+    ]
+   },
+   "id": "charged_cell_mark",
+   "moving": false,
+   "name_de": "Ladungsmarke",
+   "name_en": "charged cell mark",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 500
   },
   {
    "assembly": "support",
