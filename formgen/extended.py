@@ -263,3 +263,5 @@ MODELS["e08"], SHEETS["e08"] = "e08_brace", "EA08"        # 0.23 Breacher: Schro
 MODELS["e13"], SHEETS["e13"] = "e13_mantlet", "EA13"      # 0.23 Breacher: Granatwerfer (Streuung)
 MODELS["e09"], SHEETS["e09"] = "e09_theodolite", "EA09"   # 0.25 Pauldron: Scharfschützengewehr (Schulter)
 MODELS["e14"], SHEETS["e14"] = "e14_keelson", "EA14"      # 0.25 Pauldron: Raketenwerfer (Schulter)
+MODELS["e07"], SHEETS["e07"] = "e07_caliper", "EA07"      # 0.28 Quiver: Kampfbogen (Sonder)
+MODELS["e12"], SHEETS["e12"] = "e12_shuttle", "EA12"      # 0.28 Quiver: Spurgewehr (Sonder)

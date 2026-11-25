@@ -180,6 +180,11 @@ DETAIL = {}
 DETAIL["e16"] = [("hero", (0.55, 0.12, 0.98, 0.55)), ("side", (0.02, 0.36, 0.40, 0.68))]   # 0.20: Griffbereich Schwert
 DETAIL["e17"] = [("hero", (0.0, 0.5, 0.42, 0.95)), ("side_left", (0.0, 0.38, 0.42, 0.62)),   # 0.20: Kopf und
                  ("hero", (0.55, 0.25, 0.85, 0.62))]                                           # Abzugskragen Glefe
+DETAIL["e07"] = [("hero", (0.52, 0.26, 0.78, 0.60)),   # 0.28 Quiver: Höhenschlitten, Pfeilauflage, Mittelwicklung, Spannlicht
+                 ("hero", (0.56, 0.0, 0.80, 0.22)),    # obere Rolle, Gabel, Endwicklung
+                 ("side_left", (0.52, 0.36, 0.76, 0.62))]   # Sehne und Auflage von der Seite
+DETAIL["e12"] = [("hero", (0.30, 0.44, 0.60, 0.82)),   # 0.28 Quiver: Auge mit Spule (Blickfang)
+                 ("hero", (0.46, 0.10, 0.74, 0.42))]   # Schiene auf dem Schienensattel, Visier H3
 
 
 # 0.17 „Outrider“ (additiv, `--basic NN`): Vergleich mit dem eigenen BASIC-Typ statt BA01 – der Pilot BASIC-NN läuft durch denselben AAA-Weg

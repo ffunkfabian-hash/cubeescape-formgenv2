@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.28.0 Quiver — EXTENDED-07 Kampfbogen und EXTENDED-12 Spurgewehr
+
+- Neu: EXTENDED-07 „Caliper“ (`formgen/models/extended/e07_caliper.py`), ein Compound-Kampfbogen als Klammer: Ein tief eingezogener Bügel mit Keilrippe trägt vorn zwei Wurfarmtaschen, die Wurfarme laufen fast parallel nach hinten zu großen Rollen (Spanne 0,80 m statt der Sichel von BASIC-07). Pinvisier B1 über dem Pfeil auf einem Höhenschlitten, Spannlicht als Halbmond, Sehne mit Wicklungen lesbar.
+- Neu: EXTENDED-12 „Shuttle“ (`formgen/models/extended/e12_shuttle.py`), ein Spurgewehr als Weberschiffchen: Der Einteilkörper ist eine Spindel mit Ovalquerschnitt, durch ihr Auge läuft die Strahlachse, darin leuchtet die Fokusspule; vorn tritt das freie Fokusrohr mit Kegel aus der Spitze, die Zelle ist der Bauch.
+- Blatt-IDs `EA07`/`EA12` (nur ID); Tests `tests/test_extended_sonder.py`; `tools/extended_render.py` mit Nahaufnahmen für beide (additiv) ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.28.md)).
+
 ## 0.25.0 Pauldron — EXTENDED-09 Scharfschützengewehr und EXTENDED-14 Raketenwerfer
 
 - Neu: EXTENDED-09 „Theodolite“ (`formgen/models/extended/e09_theodolite.py`), ein Repetier-Scharfschützengewehr als Messinstrument: Der Rautenrumpf mit Gürtel steht auf drei Stützen (Magazin, Pylon und Kolbenbein auf Gummisohlen) und spannt dazwischen frei. Der Kolben ist Teil des Rumpfs, Blickfang ist eine Libelle.
