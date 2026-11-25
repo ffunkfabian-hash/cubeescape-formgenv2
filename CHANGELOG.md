@@ -1,8 +1,8 @@
 # Changelog
 
-## Patch agents-abschnitte — AGENTS.md im Standard, Werkzeuge 0.46
+## Patch agents-abschnitte — AGENTS.md im Standard
 
-- `AGENTS.md` trägt die Standardabschnitte (Projekt, Wahrheit und Aktualität, Befehle, Regeln, Definition of Done); die Regeln sind nur umsortiert, ihr Wortlaut bleibt. `tools_version` 0.46.0, `./ce lint` ohne Befund.
+- `AGENTS.md` trägt die Standardabschnitte (Projekt, Wahrheit und Aktualität, Befehle, Regeln, Definition of Done); die Regeln sind nur umsortiert, ihr Wortlaut bleibt. `./ce lint` ohne Fehler; der Pin auf 0.46 (Warnung) kommt mit der nächsten Version, ein Pin verlangt die Patch-Nummer +1 und machte alle Blattcaches veraltet.
 
 ## 0.38.0 Foundry — EXTENDED-Linien, Finish und Rollentest
 
