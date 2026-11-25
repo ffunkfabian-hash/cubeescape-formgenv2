@@ -1,0 +1,169 @@
+# EXTENDED-Linienregister Formgen v2 (0.38 „Foundry“, einzige Eintragsstelle; Prinzip wie data/variants.toml).
+# Eine Linie ist eine Gestaltungslinie über alle 17 EXTENDED-Modelle: Blatt-ID = "E" + Buchstabe + EXTENDED-Nummer (EB01 … EM17);
+# Linie A ist das EXTENDED-Modell selbst (EA01 … EA17). IDs und Namen sind ab Vergabe ewig.
+# Neue Linie nur über `python -m formgen.extended_lines new …` (Namensregel wie BASIC, kein Name einer BASIC-Linie).
+# Parameter: nur Eingriffe, die die eigene Silhouette erhalten (formgen/extended_lines.py OPS), Grenzen wie BASIC (variants.PARAMS);
+# Zahl als [von, bis] wird je Blatt aus dem eigenen Seed gezogen. Herkunft der Zahlen: Vorgabe dieses Registers (Entwurf 0.38).
+schema = 1
+
+[[lines]]
+letter = "B"
+name = "Plumb Line"
+idea = "Gestreckt für Distanz: längere Vorderpartie und Mündung, etwas längeres Heck; kühles Titan mit Bernstein-Akzent"
+since = "0.28"
+skin = "titan"
+[lines.params]
+front = [1.18, 1.2]
+rear = [1.04, 1.08]
+muzzle = [1.2, 1.35]
+limbs = 1.118
+
+[[lines]]
+letter = "C"
+name = "Bracket"
+idea = "Kompakt: kurze Vorderpartie, kurzes Heck, kurze Mündung und Magazin, ohne Lüftung; Schiefergrau"
+since = "0.28"
+skin = "schiefer"
+[lines.params]
+front = [0.8, 0.83]
+rear = [0.86, 0.9]
+muzzle = [0.6, 0.65]
+mag = [0.75, 0.85]
+drop = ["vent_*"]
+limbs = 1.1
+
+[[lines]]
+letter = "D"
+name = "Ironwork"
+idea = "Schwer: lange, breite Mündung, langes Magazin, leicht gestreckt; dunkles Carbon mit roter Glut"
+since = "0.28"
+skin = "carbon"
+[lines.params]
+muzzle = [1.5, 1.8]
+muzzle_r = [1.15, 1.25]
+mag = [1.25, 1.4]
+front = [1.047, 1.05]
+limbs = 1.136
+
+[[lines]]
+letter = "E"
+name = "Lamplight"
+idea = "Leuchtende Streifen am Gehäuse, runde Visiere, kurze Mündung, kaum gestreckt; Kobalt"
+since = "0.28"
+skin = "kobalt"
+[lines.params]
+glow = [1, 2]
+sight = ["holo_pille", "boegen", "scope_tropfen"]
+muzzle = [0.78, 0.82]
+front = [1.058, 1.062]
+rear = [0.9, 0.93]
+limbs = 1.155
+
+[[lines]]
+letter = "F"
+name = "Fieldwork"
+idea = "Feldausrüstung: Entfernungsvisier, langes Magazin, längere Mündung; Oliv mit grünem Leuchten"
+since = "0.28"
+skin = "oliv"
+[lines.params]
+sight = ["entfernung", "achteck", "lang"]
+mag = [1.15, 1.3]
+muzzle = [1.2, 1.35]
+front = [1.11, 1.12]
+limbs = 1.173
+
+[[lines]]
+letter = "G"
+name = "Stripped"
+idea = "Abgespeckt: ohne Lüftung und Wangenauflage, sehr kurze Mündung, kurzes Magazin, längeres Heck; Salbei"
+since = "0.28"
+skin = "salbei"
+[lines.params]
+drop = ["vent_*", "cheek_rest"]
+muzzle = [0.66, 0.7]
+mag = [0.7, 0.78]
+front = [1.096, 1.1]
+rear = [1.06, 1.1]
+limbs = 1.191
+
+[[lines]]
+letter = "H"
+name = "Far Station"
+idea = "Am weitesten gestreckt: lange Front und Mündung, längeres Heck, große Optik; gebrauchte Oberfläche"
+since = "0.28"
+skin = "gebraucht"
+[lines.params]
+sight = ["achteck", "lang", "scope_tropfen"]
+muzzle = [1.35, 1.5]
+front = [1.25, 1.3]
+rear = [1.08, 1.12]
+limbs = 1.209
+
+[[lines]]
+letter = "J"
+name = "Signal Fire"
+idea = "Signalrot mit cremeweißen Akzenten, ein Leuchtstreifen, offene Visiere, gestreckte Front, kurzes Heck"
+since = "0.28"
+skin = "signalrot"
+[lines.params]
+sight = ["reflex_sight_v21", "zinken", "gabel"]
+muzzle = [0.85, 0.9]
+glow = 1
+front = [1.13, 1.14]
+rear = [0.88, 0.92]
+limbs = 1.227
+
+[[lines]]
+letter = "K"
+name = "Gilded Gauge"
+idea = "Elfenbein mit goldenem Eloxal: breite, lange Mündung, Linsenvisiere, längeres Heck, kaum gestreckt"
+since = "0.28"
+skin = "elfenbein"
+[lines.params]
+sight = ["d_linse", "holo_kasten", "gabel"]
+muzzle = [1.2, 1.3]
+muzzle_r = [1.15, 1.25]
+front = [1.068, 1.072]
+rear = [1.1, 1.14]
+limbs = 1.245
+
+[[lines]]
+letter = "L"
+name = "Frostline"
+idea = "Stealth: dunkles Eisgrau mit eisblauen Leuchtstreifen, knappes Heck, kurze schlanke Mündung, leicht gestreckt"
+since = "0.28"
+skin = "eisgrau"
+[lines.params]
+muzzle = [0.7, 0.72]
+muzzle_r = [0.82, 0.86]
+glow = [1, 2]
+front = [1.037, 1.04]
+rear = [0.84, 0.88]
+limbs = 1.264
+
+[[lines]]
+letter = "M"
+name = "Anodized"
+idea = "Metallische Eloxalschale, achteckige oder Kastenoptik, längeres Magazin, gestreckt mit breiterer Mündung"
+since = "0.28"
+skin = "eloxal"
+[lines.params]
+sight = ["achteck", "holo_kasten", "scope_tropfen"]
+mag = [1.05, 1.15]
+muzzle_r = [1.1, 1.2]
+front = [1.15, 1.16]
+rear = [0.96, 0.98]
+limbs = 1.282
+
+[[lines]]
+letter = "N"
+name = "Salt Flat"
+idea = "Wüstenlack, gestreckte Mündung, kurzes Magazin, kurzes Heck"
+since = "0.28"
+skin = "wueste"
+[lines.params]
+mag = [0.75, 0.85]
+muzzle = [1.25, 1.4]
+front = [1.082, 1.086]
+rear = [0.8, 0.84]
+limbs = 1.3

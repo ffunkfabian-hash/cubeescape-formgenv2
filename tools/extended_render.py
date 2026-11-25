@@ -27,7 +27,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from formgen import asset, ballon, ballon_kit, extended  # noqa: E402
+from formgen import asset, ballon, ballon_kit, extended, extended_lines  # noqa: E402
 
 OUT = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.15/belege"
 VIEWS = ("hero", "hero_p", "side_left", "side", "top", "front", "rear")
@@ -46,10 +46,19 @@ BA01 = Path.home() / "Library/Caches/CubeEscapeFormgen2/0.8/belege/aaa"
 CHARGE_MATS = ("charge_core", "pin_glow", "draw_light")
 
 
-def wrapper(data):
-    if not any(p.get("mat") in CHARGE_MATS for p in data["PARTS"]):
-        return WRAPPER
-    return WRAPPER.replace("import tools.blender_build as BB", "import basic.pilot.energy_roles\nimport tools.blender_build as BB")
+# 0.38 Foundry (additiv): Linie und Finish. Ein Skin außer Standard wird vor dem Bau im Kit gesetzt (Palette einer Design-Serie oder
+# EXTENDED-Linie nur für diesen Lauf eingehängt, wie formgen/blender/asset_build.py); ohne Skin bleibt der Wrapper bytegleich (Stempel e01–e17).
+SKIN_LINES = ("\nfrom basic import kit\nif job.get('skin_def'):\n    kit.SKINS[job['skin']] = job['skin_def']\n"
+              "kit.SKIN['name'] = job['skin']\n")
+
+
+def wrapper(data, skin="standard"):
+    text = WRAPPER
+    if any(p.get("mat") in CHARGE_MATS for p in data["PARTS"]):
+        text = text.replace("import tools.blender_build as BB", "import basic.pilot.energy_roles\nimport tools.blender_build as BB")
+    if skin != "standard":
+        text = text.replace("\nargv = [", SKIN_LINES + "argv = [")
+    return text
 
 
 def font(size):
@@ -61,12 +70,23 @@ def views(a):
     return VIEWS + (("clay", "exploded") if a.extra else ())
 
 
-def stamp(key, a, data, kit):
-    """Alles, was die Bilder bestimmt (gpu nicht: gleiche Szene, nur anderes Gerät)."""
+def stamp(key, a, data, kit, skin="standard"):
+    """Alles, was die Bilder bestimmt (gpu nicht: gleiche Szene, nur anderes Gerät). Linie/Finish (0.38) nur, wenn gesetzt."""
     digest = hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
-    return {"key": key, "data_sha256": digest, "source_sha256": extended.source(key)["source_sha256"], "kit": Path(kit).name,
-            "wrapper_sha256": hashlib.sha256(wrapper(data).encode()).hexdigest(), "samples": a.samples, "res": a.res,
-            "views": list(views(a))}
+    out = {"key": key, "data_sha256": digest, "source_sha256": extended.source(key)["source_sha256"], "kit": Path(kit).name,
+           "wrapper_sha256": hashlib.sha256(wrapper(data, skin).encode()).hexdigest(), "samples": a.samples, "res": a.res,
+           "views": list(views(a))}
+    if skin != "standard":
+        out["skin"], out["skin_def"] = skin, asset.skin_def(skin)
+    return out
+
+
+def subject(key, a):
+    """(Datensatz, Skin, Blatt-ID): EXTENDED-Modell oder Linie `--line`, Skin der Linie oder `--finish`."""
+    letter = getattr(a, "line", None) or "A"
+    sid = extended_lines.sheet_id(letter, key)
+    data, run = extended_lines.vary(sid)
+    return data, getattr(a, "finish", None) or run["skin"], sid
 
 
 def current(target, want):
@@ -77,22 +97,33 @@ def current(target, want):
     return json.loads(path.read_text()) == want
 
 
-def render(key, a):
+def heading(key, a):
     data = extended.load(key)
+    title = f"{data['META']['id']} {data['META']['name']} · Runde {a.tag}"
+    if getattr(a, "line", None) or getattr(a, "finish", None):
+        _, skin, sid = subject(key, a)
+        title = f"{sid} · {data['META']['name']} · {skin} · Runde {a.tag}"
+    return title
+
+
+def render(key, a):
+    data, skin, _ = subject(key, a)
     kit = ballon_kit.snapshot()
     target = a.out / a.tag
     target.mkdir(parents=True, exist_ok=True)
-    want = stamp(key, a, data, kit)
+    want = stamp(key, a, data, kit, skin)
     if not a.force and current(target, want):
         print(target, "aktuell, kein Render (--force rendert neu)", flush=True)
         return False
     (target / "render.json").unlink(missing_ok=True)   # ein abgebrochener Lauf hinterlässt keinen gültigen Stempel
     with tempfile.TemporaryDirectory(prefix=f"formgen-extended-{key}-") as tmp:
         tmp = Path(tmp)
-        (tmp / "wrapper.py").write_text(wrapper(data))
+        (tmp / "wrapper.py").write_text(wrapper(data, skin))
         only = ",".join(views(a))
         job = {"snapshot": str(kit), "model": data, "out": str(tmp / "o"), "only": only, "samples": a.samples, "res": a.res,
                "gpu": a.gpu}
+        if skin != "standard":
+            job.update(skin=skin, skin_def=asset.skin_def(skin))
         (tmp / "job.json").write_text(json.dumps(job, ensure_ascii=False))
         run = subprocess.run([asset.settings()["blender"], "-b", "--factory-startup", "-P", str(tmp / "wrapper.py"), "--",
                               str(tmp / "job.json")], capture_output=True, text=True)
@@ -117,8 +148,7 @@ def render(key, a):
 
 def sheets(key, a):
     target = a.out / a.tag
-    data = extended.load(key)
-    title = f"{data['META']['id']} {data['META']['name']} · Runde {a.tag}"
+    title = heading(key, a)
     w, h = 800, 450
     names = [v for v in VIEWS if (target / f"{v}.png").exists()]
     cols = 2
@@ -148,8 +178,7 @@ def sheets(key, a):
 # (Nahkampf: BASIC-16/17 haben keine BA-Bilder in 0.8). Lange, schmale Formen bekommen Ausschnitte der Hero-Ansicht (--detail).
 def compare_dir(key, a):
     target = a.out / a.tag
-    data = extended.load(key)
-    title = f"{data['META']['id']} {data['META']['name']} · Runde {a.tag}"
+    title = heading(key, a)
     w, h = 800, 450
     names = [v for v in ("hero", "side_left", "front", "top") if (a.ref / f"{v}.png").exists() and (target / f"{v}.png").exists()]
     cmp = Image.new("RGB", (2 * w + 24, len(names) * (h + 34) + 16), "#808080")
@@ -228,8 +257,7 @@ def render_ref(num, a):
 def compare_ref(key, a):
     """vergleich_BA<NN>.png: Hero und linke Seite des Modells neben dem gerenderten BASIC-NN."""
     target, ref = a.out / a.tag, a.out / f"BA{a.basic}"
-    data = extended.load(key)
-    title = f"{data['META']['id']} {data['META']['name']} · Runde {a.tag}"
+    title = heading(key, a)
     w, h = 800, 450
     cmp = Image.new("RGB", (2 * w + 24, 2 * (h + 34) + 16), "#808080")
     d = ImageDraw.Draw(cmp)
@@ -256,9 +284,15 @@ def main(argv=None):
     p.add_argument("--out", type=Path, default=None, help="Zielordner (Standard: OUT, neue Modelle OUT/<Kurzname>)")
     p.add_argument("--ref", type=Path, help="Ordner der BASIC-Referenz (hero/side_left/front/top.png) für den Vergleich")
     p.add_argument("--basic", help="0.17: BASIC-Nummer (z. B. 02) als Vergleich im selben AAA-Weg rendern")
+    p.add_argument("--line", help="0.38: Linie aus data/extended_lines.toml (z. B. B → EB<NN>)")
+    p.add_argument("--finish", help="0.38: Skin aus skins.toml statt des Linienskins (Finish, ohne neue ID)")
     a = p.parse_args(argv)
+    if a.finish and a.finish not in extended_lines.skins():
+        p.error(f"unbekanntes Finish {a.finish!r}")
     if a.out is None:   # 0.20 (Richter): ohne --out neue Modelle je Kurzname getrennt, e01 behält seinen 0.15-Pfad
         a.out = OUT if a.key == "e01" else OUT / a.key
+        if a.line or a.finish:   # 0.38: Linie und Finish je Blatt und Skin getrennt
+            a.out = OUT / a.key / f"{extended_lines.sheet_id(a.line or 'A', a.key)}_{a.finish or 'linie'}"
     if not a.sheets:
         render(a.key, a)
     sheets(a.key, a)
