@@ -689,8 +689,8 @@ def vary(data, variant, num, snap=None):
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
     if params.get("architecture") == "trestle":
-        from .models.weapons import avocet, cairn, calyx, heron, lark, plover, skiff, swift, tern, trestle, vesper
-        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark, "08": skiff, "09": avocet, "10": calyx, "11": plover}
+        from .models.weapons import avocet, cairn, calyx, filament, heron, lark, plover, skiff, swift, tern, trestle, vesper
+        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark, "08": skiff, "09": avocet, "10": calyx, "11": plover, "12": filament}
         if num not in designs:
             raise GeneratorError(f"Für BASIC-{num} gibt es keinen Trestle-Entwurf")
         design = designs[num]
@@ -778,6 +778,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "09": "Ein offenes Sichelheck und zwei versetzte Keramikfelder prägen Avocet. Die lange gerade Front trägt eine dunkle Stirnkappe, das Zielfernrohr stammt aus BASIC-09.",
             "11": "Ein offener Heckrahmen und drei schräge Keramiklamellen fassen ein langes Lichtband. Die gerade Front und das Z2-Visier prägen die Seitenansicht.",
             "10": "Ein offener Keramikkelch umschließt einen türkisfarbenen Kern. Die gerade Front trägt eine abgesetzte Stirnkappe, das F1-Visier stammt aus BASIC-10.",
+            "12": "Ein offener türkisfarbener Leuchtring steht zwischen flacher Heckfahne und gerader Front. Das H3-Visier stammt aus BASIC-12.",
         }
         info["summary"] = summaries.get(num, variant["idea"])
     parts = []

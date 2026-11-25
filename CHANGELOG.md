@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.0 Filament
+
+- BT12 ergänzt Linie T um ein Spurgewehr mit offenem Leuchtring, geradem Lauf und H3-Reflexvisier von BASIC-12. [Versionsbericht](docs/versions/0.39.md)
+
 ## 0.37.0 Plover
 
 - BT11 ergänzt Linie T als lineares Fusionsgewehr mit offenem Heckrahmen, drei Keramiklamellen, geradem Lauf und dem Z2-Visier von BASIC-11. [Versionsbericht](docs/versions/0.37.md)

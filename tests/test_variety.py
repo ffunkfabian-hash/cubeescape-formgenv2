@@ -168,6 +168,21 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_filament_matches_basic_12_width_and_seats_its_h3(self):
+        widths = {}
+        for sid in ("BA12", "BT12"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            bounds = {p["id"]: p["bounds_m"] for p in geom.evaluate(model.normalize(author))["parts"]}
+            left, right = min(b[0][0] for b in bounds.values()), max(b[1][0] for b in bounds.values())
+            widths[sid] = 1000 * (right - left)
+            if sid == "BT12":
+                widest = {k for k, b in bounds.items() if max(abs(v[0]) for v in b) > .0243}
+                self.assertEqual(widest, {"halo_light_l", "halo_light_r"})
+                self.assertAlmostEqual(bounds["deck"][1][2], bounds["sight_mount"][0][2], delta=.0001)
+        self.assertAlmostEqual(widths["BT12"], widths["BA12"], delta=.005)
+        self.assertAlmostEqual(widths["BT12"], 48.8, delta=.005)
+
     def test_plover_width_and_both_scope_mounts(self):
         widths = {}
         for sid in ("BA11", "BT11"):

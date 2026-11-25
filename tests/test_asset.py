@@ -347,6 +347,29 @@ class KitModelTests(unittest.TestCase):
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
 
+    def test_filament_exports_h3_and_the_straight_trace_front(self):
+        pilot, model = kit_model("BT12")
+        self.assertEqual(model["META"]["name"], "Filament")
+        self.assertEqual(model["META"]["type"], "trace_rifle")
+        sight = [p for p in pilot["PARTS"] if p["asm"] == "sight"]
+        self.assertEqual(len(sight), 14)
+        self.assertEqual([p for p in model["PARTS"] if p["asm"] == "sight"], sight)
+        self.assertEqual(set(model["ANCHORS"]), set(pilot["ANCHORS"]))
+        self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+        for name in ("Socket_Eye", "Socket_Reticle", "Socket_Sight"):
+            anchor = pilot["ANCHORS"][name]
+            self.assertEqual(model["ANCHORS"][name], dict(anchor, at=list(anchor["at"])))
+        parts = {p["id"]: p for p in model["PARTS"]}
+        muzzle = model["ANCHORS"]["Socket_Muzzle"]
+        axis = pilot["ANCHORS"]["Socket_Muzzle"]["at"][1]
+        self.assertEqual(muzzle["part"], "glint")
+        self.assertEqual(muzzle["at"], [parts["glint"]["f1"], axis, 0])
+        for key in ("axis_body", "front_tile", "nose", "glint"):
+            p = parts[key]
+            self.assertEqual((p["shape"], p["cu"], p.get("x", 0)), ("xprof", axis, 0))
+        self.assertLessEqual(parts["nose"]["f0"], parts["axis_body"]["f1"])
+        self.assertLessEqual(parts["glint"]["f0"], parts["nose"]["f1"])
+
     def test_plover_keeps_the_z2_and_its_four_optical_anchors(self):
         pilot, model = kit_model("BT11")
         self.assertEqual(model["META"]["name"], "Plover")

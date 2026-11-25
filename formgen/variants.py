@@ -37,7 +37,7 @@ SERIES = ("facet", "bench", "block", "flow")   # Design-Serien (0.8, formgen/ser
 CHOICES = {"sight": HOLO + SCOPES, "stock": ("S1", "S2"), "grip": ("v21",), "series": SERIES}
 BASES = ("pilot", "standard", "v21")   # pilot (0.6, Nutzerentscheid 242): neuester BALLON-Spielpilot, sonst Formstudie
 TRESTLE_EXTENDED_ID = "EXTENDED-18"
-TRESTLE_NAMES = {"01": "Trestle", "02": "Vesper", "03": "Heron", "04": "Cairn", "05": "Swift", "06": "Tern", "07": "Lark", "08": "Skiff", "09": "Avocet", "10": "Calyx", "11": "Plover"}
+TRESTLE_NAMES = {"01": "Trestle", "02": "Vesper", "03": "Heron", "04": "Cairn", "05": "Swift", "06": "Tern", "07": "Lark", "08": "Skiff", "09": "Avocet", "10": "Calyx", "11": "Plover", "12": "Filament"}
 SCHEMA = 2
 TYPES = tuple(f"{n:02d}" for n in range(1, 18))
 
@@ -69,7 +69,7 @@ def check(entries: list[dict], skins: set[str] | None = None) -> None:
         if not isinstance(types, list) or not types or any(t not in TYPES for t in types) or len(set(types)) != len(types):
             raise VariantError(f"{letter}: types nur aus 01–17")
         if "architecture" in v.get("params", {}) and (set(types).difference(TRESTLE_NAMES) or set(v["params"]) != {"architecture"}):
-            raise VariantError("Trestle unterstützt nur die eigenständigen Entwürfe für Typ 01 bis 11")
+            raise VariantError("Trestle unterstützt nur die eigenständigen Entwürfe für Typ 01 bis 12")
 
 
 def _number(x) -> bool:
