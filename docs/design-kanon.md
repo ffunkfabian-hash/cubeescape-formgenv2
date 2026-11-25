@@ -246,8 +246,8 @@ ihre Modelle:
 ## 8. Ablauf für eine neue Generation
 
 1. **Vorher festlegen (Version mit Register):** Name der Generation, Blattpräfix und eigener Seed-Raum; IDs sind ewig. Wie stark sie sich
-   abhebt (eigene Leitmotive, eigene Skins). Welches Modell entwirft: In den globalen Regeln ist `gpt-6-astra` gesperrt; ein anderes Modell
-   braucht vorher die Regeländerung in Nexogen.
+   abhebt (eigene Leitmotive, eigene Skins). Welches Modell entwirft: erlaubte Modelle nach den globalen Regeln (Opus `high` für Entwurf); nur
+   das dort gesperrte `gpt-6-astra` braucht vorher eine Regeländerung in Nexogen.
 2. **Je Waffe:** drei Konzeptzeilen (Rolle, Leitmotiv außerhalb der Motivtabelle, Silhouette) → mindestens drei Seitenskizzen mit Visierlinie →
    Nutzer wählt → Modul nach Muster (Paket) mit Herkunft je Zahl → Tests dieses Kanons → Messzeile im Band der Klasse oder begründet → Stilprüfung →
    Sichtung durch den Nutzer → AAA nur auf sein Wort.
