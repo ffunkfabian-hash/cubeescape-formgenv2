@@ -8,7 +8,8 @@ die Stilprüfung sieht nur Bilder). Sie ersetzt nicht die Sichtung durch den Nut
 1. [Design-Kanon](design-kanon.md) vollständig, mit Messtabelle und „Nie wieder“.
 2. Übersicht der Familie: BASIC (17 × 12) und EXTENDED (17 × 13) als Rastervorschau, aus `python -m formgen.kanon paket --bilder …`.
 3. Die neue Waffe: Rasteransichten `iso`, `side_left`, `top`, `front`, `rear`; AAA-Bilder nur, wenn der Nutzer sie freigegeben hat.
-4. Ihre Messzeile aus `formgen.kanon.measure` (Länge, Höhe, Breite, L/H, Füllgrad, Visierlinie, Akzente, Hände, Rollen, Nachbar).
+4. Ihre Messzeile: `python -m formgen.kanon zeile <Kurzname>` für ein Modell im Register von `formgen.extended`, sonst
+   `formgen.kanon.measure_model(modell, blatt)` (Länge, Höhe, Breite, L/H, Füllgrad, Visierlinie, Akzente, Hände, Rollen, Nachbar).
 5. Konzeptzeilen des Entwurfs: Rolle, Leitmotiv, Silhouette (drei Sätze).
 
 ## Prüfpunkte

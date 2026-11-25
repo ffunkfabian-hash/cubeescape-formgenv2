@@ -74,6 +74,12 @@ class KanonMeasureTests(unittest.TestCase):
         """Der Kanon veraltet nicht still: Ändert sich ein Modell, muss `python -m formgen.kanon messen` laufen."""
         self.assertEqual(kanon.block(kanon.DOC.read_text(encoding="utf-8")), kanon.table(self.rows).strip())
 
+    def test_single_model_row_matches_the_family_row(self):
+        """Stilprüfung misst eine neue Waffe mit measure_model; am Bestandsmodell EA06 muss das dieselbe Zeile geben (Richter 0.42 R3)."""
+        from formgen import extended
+        row = kanon.measure_model(extended.load("e06", SNAP), "EA06", SNAP)
+        self.assertEqual(row, next(r for r in self.rows if r["id"] == "EA06"))
+
     def test_counterproof_a_changed_model_is_detected(self):
         rows = copy.deepcopy(self.rows)
         rows[0]["length"] += 1
