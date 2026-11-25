@@ -1,6 +1,6 @@
 # Changelog
 
-## Patch basic-schnitte — geteilte Schnittkörper im Generator
+## Patch basic-schnitte 0.28.1 — geteilte Schnittkörper im Generator
 
 - `generator.adapt` kopiert jedes Teil einzeln: Der BALLON-Pilot BASIC-02 teilt den Laufkanal zwischen `pulse_chamber` und `handguard`, der Generator verschob ihn je Teil erneut (BB02 77 mm zu weit vorn, BC02/BE02/BG02 mit negativer Länge).
 - Neu gebaut: Specs und Prompts von BB02, BC02, BD02, BE02, BG02, BJ02, BL02, BM02 (Golden nachgezogen); alle übrigen 196 Blätter bitgleich. Test `tests/test_generator_cuts.py` mit Gegenprobe ([Bericht](docs/versions/0.28.md)).
