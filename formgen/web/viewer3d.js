@@ -110,9 +110,11 @@
  function reloadPreview(root,animations,render){
    const clip=animations.find(a=>a.name==='reload');
    if(!clip)return;
-   let commit;
+   let commit,cellExchange=false;
    root.traverse(o=>{
-     const e=o.userData.reload_events?.find(event=>event.name==='rounds_in');
+     const events=o.userData.reload_events;
+     if(events?.some(event=>event.name==='cell_exchange'))cellExchange=true;
+     const e=events?.find(event=>event.name==='rounds_in');
      if(e)commit=e.time;
    });
    if(!Number.isFinite(commit)||commit<0||commit>clip.duration)return;
@@ -133,7 +135,7 @@
      mixer.setTime(time);
      if(!committed&&time>=commit){
        charged=true;committed=true;clickSeal();status.textContent='Ladung voll';button.disabled=true;
-       button.textContent='Siegel schließt';
+       button.textContent=cellExchange?'Zelle eingesetzt':'Siegel schließt';
      }
      render();
      if(time>=clip.duration){
@@ -160,7 +162,7 @@
        if(audio.state==='suspended')audio.resume().catch(()=>{});
      }
      action.reset().play();committed=false;start=now;
-     button.textContent='Abbrechen';status.textContent='Siegel lädt';update(now);
+     button.textContent='Abbrechen';status.textContent=cellExchange?'Lichtzelle wechselt':'Siegel lädt';update(now);
    };
  }
  async function show(entry,model){

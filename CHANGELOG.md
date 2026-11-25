@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.34.0 Skiff
+
+- BT08 ergänzt die Linie T als Schrotflinte mit eigenem Fensterheck, ansteigender Kufe und dem offenen K2 von BASIC-08. Eine Lichtzelle füllt die gesamte Ladung im animierten Viewer. [Versionsbericht](docs/versions/0.34.md)
+
 ## 0.33.0 Quill — Lark
 
 - Lark ergänzt Linie T als Bogen BT07 mit 68,77 mm Gesamtbreite und dem B1-Pinvisier von BASIC-07. [Versionsbericht](docs/versions/0.33.md)

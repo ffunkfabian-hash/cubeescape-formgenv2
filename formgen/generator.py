@@ -689,8 +689,8 @@ def vary(data, variant, num, snap=None):
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
     if params.get("architecture") == "trestle":
-        from .models.weapons import cairn, heron, lark, swift, tern, trestle, vesper
-        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark}
+        from .models.weapons import cairn, heron, lark, skiff, swift, tern, trestle, vesper
+        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark, "08": skiff}
         if num not in designs:
             raise GeneratorError(f"Für BASIC-{num} gibt es keinen Trestle-Entwurf")
         design = designs[num]
@@ -715,8 +715,10 @@ def vary(data, variant, num, snap=None):
             for point in _located(model):
                 point["at"][axis] -= offset
         # Der Bogen übernimmt die beiden Spielaktionen aus seinem BALLON-Piloten.
-        if num != "07":
-            model["ACTIONS"] = {"reload": cairn.reload_action()} if num == "04" else {}
+        if num in ("04", "08"):
+            model["ACTIONS"] = {"reload": design.reload_action()}
+        elif num != "07":
+            model["ACTIONS"] = {}
         notes = [{"kind": "Annahme", "reason": f"Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/{design.__name__.split('.')[-1]}.py."}]
         added = set()
     else:
@@ -772,6 +774,7 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "05": "Eine helle Feder zieht sich zur kompakten Front. Die offene Ferse und die niedrige Visierung von BASIC-05 prägen die Silhouette.",
             "06": "Ein offener Heckrahmen, zwei helle Schalen und eine kurze dunkle Handauflage prägen Tern. Das Holovisier H2 stammt aus BASIC-06.",
             "07": "Ein kompakter Bogen mit geknickter Keramikschulter, dunklem Mittelstück und seitlicher Statuskapsel. Das B1-Pinvisier stammt aus BASIC-07.",
+            "08": "Ein kurzes Fensterheck und eine ansteigende helle Kufe prägen die Silhouette. Die offene Visierung K2 stammt aus BASIC-08.",
         }
         info["summary"] = summaries.get(num, variant["idea"])
     parts = []

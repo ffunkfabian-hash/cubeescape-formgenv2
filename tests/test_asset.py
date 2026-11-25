@@ -346,6 +346,44 @@ class KitModelTests(unittest.TestCase):
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
 
+    def test_skiff_exports_its_own_shell_and_the_original_k2(self):
+        pilot, model = kit_model("BT08")
+        self.assertEqual(model["META"]["nick"], "Skiff")
+        self.assertEqual(model["META"]["type"], pilot["META"]["type"])
+        donor = {p["id"]: p for p in pilot["PARTS"]}
+        parts = {p["id"]: p for p in model["PARTS"]}
+        optics = {"sight_mount", "sight_clamp", "sight_rear", "sight_front", "sight_glass"}
+        self.assertEqual(parts.keys() & donor.keys(), optics)
+        self.assertEqual({k for k, p in parts.items() if p["asm"] == "sight"}, optics)
+        for key in optics:
+            self.assertEqual(canonical(parts[key]), canonical(donor[key]))
+        self.assertEqual(model["ANCHORS"].keys(), pilot["ANCHORS"].keys())
+        for key in ("Socket_Eye", "Socket_Sight", "Socket_Reticle"):
+            self.assertEqual(canonical(model["ANCHORS"][key]), canonical(pilot["ANCHORS"][key]))
+        self.assertTrue({"stern", "hull", "keel", "palm"} <= parts.keys())
+        self.assertEqual(set(model["ACTIONS"]), {"reload"})
+        action = model["ACTIONS"]["reload"]
+        self.assertEqual(action["events"], [(17, "cell_exchange"), (36, "rounds_in")])
+        self.assertEqual(action["frames"], 45)
+        self.assertEqual(action["keys"]["charge_signal"][-2:], [(36, 1), (45, 1)])
+        self.assertEqual(model["ANCHORS"]["Socket_LoadingGate"]["at"], model["POINTS"]["grip.mag"]["at"])
+
+    @unittest.skipUnless((OUT / "assets/BT08.glb").is_file(), "lokalen BT08-Export prüfen")
+    def test_exported_skiff_cell_commits_one_full_charge_when_seated(self):
+        doc = asset.glb_json(OUT / "assets/BT08.glb")
+        clip, = doc["animations"]
+        self.assertEqual(clip["name"], "reload")
+        targets = [ch["target"] for ch in clip["channels"]]
+        self.assertEqual({t["path"] for t in targets}, {"translation"})
+        self.assertCountEqual([doc["nodes"][t["node"]]["name"] for t in targets],
+                              ["cheek_l", "charged_cell", "charge_signal"])
+        root = next(node for node in doc["nodes"] if node["name"] == "BT08")
+        events = root["extras"]["reload_events"]
+        self.assertEqual([e["name"] for e in events], ["cell_exchange", "rounds_in"])
+        self.assertAlmostEqual(events[-1]["time"], 1.2, places=5)
+        duration = max(doc["accessors"][s["input"]]["max"][0] for s in clip["samplers"])
+        self.assertAlmostEqual(duration, 1.5, places=5)
+
     def test_lark_keeps_the_b1_game_anchors_and_bow_actions(self):
         pilot, model = kit_model("BT07")
         self.assertEqual(model["META"]["type"], "combat_bow")

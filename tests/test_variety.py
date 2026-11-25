@@ -168,6 +168,19 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_skiff_and_basic_08_have_the_same_full_width(self):
+        for sid in ("BA08", "BT08"):
+            with self.subTest(sid=sid):
+                entry = variants.sheets()[sid]
+                author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+                parts = geom.evaluate(model.normalize(author))["parts"]
+                bounds = np.array([p["bounds_m"] for p in parts]) * 1000
+                np.testing.assert_allclose([bounds[:, 0, 0].min(), bounds[:, 1, 0].max()],
+                                           [-26, 26], rtol=0, atol=.005)
+                if sid == "BT08":
+                    outer = {p["id"] for p in parts if max(abs(v[0]) for v in p["bounds_m"]) >= .02599}
+                    self.assertEqual(outer, {"cheek_l", "cheek_r"})
+
     def test_lark_preserves_the_asymmetric_basic_07_width_including_the_b1(self):
         for sid in ("BA07", "BT07"):
             with self.subTest(sid=sid):

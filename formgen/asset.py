@@ -101,7 +101,8 @@ def kit_model(data: dict, model: dict, run: dict) -> dict:
     if run.get("params", {}).get("architecture") == "trestle":
         design_name = variants.TRESTLE_NAMES[str(data["META"]["num"]).zfill(2)]
         designation = variants.TRESTLE_EXTENDED_ID if run["sid"] == "BT01" else design_name
-        summary = {"BT04": "Cairn mit animiertem Ladesiegel", "BT07": "Spielbogen mit B1-Pinvisier"}.get(
+        summary = {"BT04": "Cairn mit animiertem Ladesiegel", "BT07": "Spielbogen mit B1-Pinvisier",
+                   "BT08": "Skiff mit animiertem Lichtzellentausch"}.get(
             run["sid"], "Eigenständiges statisches Sci-Fi-Spielmodell")
         result["META"].update(id=run["sid"], variant=designation, name=design_name, nick=design_name, summary=summary)
         result["ASSEMBLIES"] = copy.deepcopy(model["ASSEMBLIES"])
