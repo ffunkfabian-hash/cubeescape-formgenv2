@@ -16,7 +16,7 @@ def build(pilot):
     s = Shell("Filament")
     s.plate("tail_blade", "stock", "shell", "Flache, nach hinten auslaufende Keramikfahne",
             [(-254, 85), (-231, 100), (-158, 109), (-99, 128), (-63, 125),
-             (-53, 108), (-96, 94), (-148, 86), (-205, 84), (-239, 73)], 35, 2)
+             (-53, 108), (-96, 94), (-148, 86), (-205, 84), (-239, 73)], 34.4, 2)
     s.plate("tail_edge", "stock", "graphite", "Dunkle Unterkante mit kurzer Ferse",
             [(-256, 85), (-243, 91), (-236, 82), (-188, 87), (-123, 91),
              (-140, 80), (-211, 72), (-236, 58), (-247, 56)], 34, 1.6)

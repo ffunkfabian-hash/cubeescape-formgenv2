@@ -179,6 +179,10 @@ class KitTests(unittest.TestCase):
             if sid == "BT12":
                 widest = {k for k, b in bounds.items() if max(abs(v[0]) for v in b) > .0243}
                 self.assertEqual(widest, {"halo_light_l", "halo_light_r"})
+                # Die überlappenden Flanken müssen auf beiden Seiten getrennt bleiben.
+                tail, bridge = bounds["tail_blade"], bounds["bridge"]
+                self.assertLess(bridge[0][0], tail[0][0])
+                self.assertLess(tail[1][0], bridge[1][0])
                 self.assertAlmostEqual(bounds["deck"][1][2], bounds["sight_mount"][0][2], delta=.0001)
         self.assertAlmostEqual(widths["BT12"], widths["BA12"], delta=.005)
         self.assertAlmostEqual(widths["BT12"], 48.8, delta=.005)
