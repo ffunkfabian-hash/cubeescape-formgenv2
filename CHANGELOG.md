@@ -1,5 +1,11 @@
 # Changelog
 
+## Patch extended-familie — Abschluss der EXTENDED-Familie
+
+- Motivtabelle aller 17 EXTENDED-Modelle und Ergebnis der Familienprüfung in `docs/auftrag-extended-familie.md`; der Satz „Keine Blatt-ID“ ist durch die Blatt-ID `EA<NN>` ersetzt.
+- Lehre zu `mesh_plan` aus 0.28 korrigiert: beide Laufrichtungen schneiden gleich ([Nachtrag](docs/extended.md)).
+- Urteil „Ergebnis“ für 0.17–0.28 nach Merge eingetragen (0.23 und 0.25 nachgebessert, mit je einer Lehre).
+
 ## 0.28.0 Quiver — EXTENDED-07 Kampfbogen und EXTENDED-12 Spurgewehr
 
 - Neu: EXTENDED-07 „Caliper“ (`formgen/models/extended/e07_caliper.py`), ein Compound-Kampfbogen als Klammer: Ein tief eingezogener Bügel mit Keilrippe trägt vorn zwei Wurfarmtaschen, die Wurfarme laufen fast parallel nach hinten zu großen Rollen (Spanne 0,80 m statt der Sichel von BASIC-07). Pinvisier B1 über dem Pfeil auf einem Höhenschlitten, Spannlicht als Halbmond, Sehne mit Wicklungen lesbar.
