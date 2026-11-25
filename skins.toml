@@ -385,13 +385,16 @@ pin_glow = "#FFB547"
 draw_light = "#FFB547"
 sight_line = "#FFB547"
 
+# Signalrot (Patch ext-magazin, AAA-Abnahme 25.11.2026): Als Lack wurde jedes Rot im AgX-Licht lachsfarben (#B23A2E, #A3170F, #8C120E,
+# #C0160A gemessen gleich, der Glanzschleier der rauen Schale überdeckt den Farbton); metallisch spiegelt die Schale in ihrer Farbe.
 [skins.signalrot]
 de = "Signalrot"
 kind = "Farbe"
 formgen = true
 wear = 1.0
+metal_shell = true
 [skins.signalrot.roles]
-shell = "#B23A2E"
+shell = "#B3140E"
 graphite = "#1B1C1F"
 anodized = "#2A2B2F"
 sight_anod = "#2A2B2F"
@@ -399,7 +402,7 @@ ring_anod = "#2A2B2F"
 dark_metal = "#34363B"
 trim = "#E9E4DA"
 accent = "#F2EDE3"
-decal = "#B23A2E"
+decal = "#B3140E"
 energy = "#FFE9B8"
 charge_core = "#FFE9B8"
 pin_glow = "#FFE9B8"
