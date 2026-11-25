@@ -10,7 +10,7 @@ schema = 1
 letter = "B"
 name = "Plumb Line"
 idea = "Gestreckt für Distanz: längere Vorderpartie und Mündung, etwas längeres Heck; kühles Titan mit Bernstein-Akzent"
-since = "0.28"
+since = "0.38"
 skin = "titan"
 [lines.params]
 front = [1.18, 1.2]
@@ -22,7 +22,7 @@ limbs = 1.118
 letter = "C"
 name = "Bracket"
 idea = "Kompakt: kurze Vorderpartie, kurzes Heck, kurze Mündung und Magazin, ohne Lüftung; Schiefergrau"
-since = "0.28"
+since = "0.38"
 skin = "schiefer"
 [lines.params]
 front = [0.8, 0.83]
@@ -36,7 +36,7 @@ limbs = 1.1
 letter = "D"
 name = "Ironwork"
 idea = "Schwer: lange, breite Mündung, langes Magazin, leicht gestreckt; dunkles Carbon mit roter Glut"
-since = "0.28"
+since = "0.38"
 skin = "carbon"
 [lines.params]
 muzzle = [1.5, 1.8]
@@ -49,7 +49,7 @@ limbs = 1.136
 letter = "E"
 name = "Lamplight"
 idea = "Leuchtende Streifen am Gehäuse, runde Visiere, kurze Mündung, kaum gestreckt; Kobalt"
-since = "0.28"
+since = "0.38"
 skin = "kobalt"
 [lines.params]
 glow = [1, 2]
@@ -63,7 +63,7 @@ limbs = 1.155
 letter = "F"
 name = "Fieldwork"
 idea = "Feldausrüstung: Entfernungsvisier, langes Magazin, längere Mündung; Oliv mit grünem Leuchten"
-since = "0.28"
+since = "0.38"
 skin = "oliv"
 [lines.params]
 sight = ["entfernung", "achteck", "lang"]
@@ -76,7 +76,7 @@ limbs = 1.173
 letter = "G"
 name = "Stripped"
 idea = "Abgespeckt: ohne Lüftung und Wangenauflage, sehr kurze Mündung, kurzes Magazin, längeres Heck; Salbei"
-since = "0.28"
+since = "0.38"
 skin = "salbei"
 [lines.params]
 drop = ["vent_*", "cheek_rest"]
@@ -90,7 +90,7 @@ limbs = 1.191
 letter = "H"
 name = "Far Station"
 idea = "Am weitesten gestreckt: lange Front und Mündung, längeres Heck, große Optik; gebrauchte Oberfläche"
-since = "0.28"
+since = "0.38"
 skin = "gebraucht"
 [lines.params]
 sight = ["achteck", "lang", "scope_tropfen"]
@@ -103,7 +103,7 @@ limbs = 1.209
 letter = "J"
 name = "Signal Fire"
 idea = "Signalrot mit cremeweißen Akzenten, ein Leuchtstreifen, offene Visiere, gestreckte Front, kurzes Heck"
-since = "0.28"
+since = "0.38"
 skin = "signalrot"
 [lines.params]
 sight = ["reflex_sight_v21", "zinken", "gabel"]
@@ -117,7 +117,7 @@ limbs = 1.227
 letter = "K"
 name = "Gilded Gauge"
 idea = "Elfenbein mit goldenem Eloxal: breite, lange Mündung, Linsenvisiere, längeres Heck, kaum gestreckt"
-since = "0.28"
+since = "0.38"
 skin = "elfenbein"
 [lines.params]
 sight = ["d_linse", "holo_kasten", "gabel"]
@@ -131,7 +131,7 @@ limbs = 1.245
 letter = "L"
 name = "Frostline"
 idea = "Stealth: dunkles Eisgrau mit eisblauen Leuchtstreifen, knappes Heck, kurze schlanke Mündung, leicht gestreckt"
-since = "0.28"
+since = "0.38"
 skin = "eisgrau"
 [lines.params]
 muzzle = [0.7, 0.72]
@@ -145,7 +145,7 @@ limbs = 1.264
 letter = "M"
 name = "Anodized"
 idea = "Metallische Eloxalschale, achteckige oder Kastenoptik, längeres Magazin, gestreckt mit breiterer Mündung"
-since = "0.28"
+since = "0.38"
 skin = "eloxal"
 [lines.params]
 sight = ["achteck", "holo_kasten", "scope_tropfen"]
@@ -159,7 +159,7 @@ limbs = 1.282
 letter = "N"
 name = "Salt Flat"
 idea = "Wüstenlack, gestreckte Mündung, kurzes Magazin, kurzes Heck"
-since = "0.28"
+since = "0.38"
 skin = "wueste"
 [lines.params]
 mag = [0.75, 0.85]

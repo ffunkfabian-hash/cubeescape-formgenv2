@@ -820,7 +820,9 @@ Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 St�
   (`author`): Anker (f, u) bekommen x = 0, und ein Rahmen mit r_in = halbe Öffnung wird um 0,05 mm enger gerundet (EA02/03/06/11).
 - **AAA:** `tools/extended_render.py <key> --tag <r> --line <L> [--finish <skin>]` rendert das Linienblatt im Skin der Linie oder im
   Finish. Ziel ist `OUT/<key>/<Blatt>_<Finish|linie>/<tag>`. Ohne `--line`/`--finish` sind Wrapper und Stempel bytegleich, vorhandene Bilder
-  von EA01–EA17 bleiben aktuell.
+  von EA01–EA17 bleiben aktuell. Ohne Rendern geprüft (Blender 25.11.2026, EB12): Der Kit legt je Skin ein eigenes AAA-Material an
+  (`MT_shell_aaa_titan` …). Die Schalenfarbe ist bei titan, eisgrau, nacht und standard gleich dem linearen Wert aus `skins.toml`
+  (Abstand ≤ 0,0001). Das Prüfskript liegt außerhalb des Repos, siehe Versionsbericht.
 - **Neue Skins:** titan, signalrot, oliv, elfenbein, carbon, salbei, schiefer, eisgrau (`formgen = true`). Sie sind am Raster gewählt
   und noch nicht am AAA-Bild abgenommen (AgX bleicht, siehe LESSONS). Weil sie reine Farb-Skins sind, erscheinen sie auch im
   Skin-Wechsel der 3D-Seite für BASIC.
@@ -838,6 +840,8 @@ Nutzerentscheid 25.11.2026: EXTENDED bekommt wie BASIC eigene Formlinien, 12 St�
 - **Anteile** (A, Seite): EA12 ist zu 86 % Schale, EA09 zu 59 % und EA14 zu 66 % Graphit. Dort trägt der Skin fast allein die Wirkung.
 
 ### Grenzen
+
+- Eine Testzuordnung (`test_map.json`) führt dieses Repo nicht; `./check` findet `tests/test_extended_lines.py` über `unittest discover`.
 
 - Bogen (nur Wurfarme), Schwert und Glefe (nur Front, an der Glefe dazu Leuchtstreifen) haben wenige Hebel. Ihre Linien unterscheiden
   sich vor allem in Länge und Skin.
