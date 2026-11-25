@@ -347,6 +347,28 @@ class KitModelTests(unittest.TestCase):
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
 
+    def test_plover_keeps_the_z2_and_its_four_optical_anchors(self):
+        pilot, model = kit_model("BT11")
+        self.assertEqual(model["META"]["name"], "Plover")
+        sight = [p for p in pilot["PARTS"] if p["asm"] == "sight"]
+        self.assertEqual(len(sight), 19)
+        self.assertEqual([p for p in model["PARTS"] if p["asm"] == "sight"], sight)
+        self.assertEqual(set(model["ANCHORS"]), set(pilot["ANCHORS"]))
+        self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+        for name in ("Socket_Eye", "Socket_Reticle", "Socket_Sight", "Socket_Objective"):
+            anchor = pilot["ANCHORS"][name]
+            self.assertEqual(model["ANCHORS"][name], dict(anchor, at=list(anchor["at"])))
+        by_id = {p["id"]: p for p in model["PARTS"]}
+        beam, jacket, cap = [by_id[k] for k in ("beam", "jacket", "cap")]
+        muzzle = model["ANCHORS"]["Socket_Muzzle"]["at"]
+        self.assertEqual(muzzle, [cap["f1"], pilot["ANCHORS"]["Socket_Muzzle"]["at"][1], 0])
+        for part in (beam, jacket, cap):
+            self.assertEqual((part["shape"], part["cu"], part.get("x", 0)),
+                             ("xprof", muzzle[1], 0))
+        self.assertLessEqual(beam["f0"], jacket["f0"])
+        self.assertLess(jacket["f1"], cap["f0"])
+        self.assertLessEqual(cap["f0"], beam["f1"])
+
     def test_calyx_exports_the_basic_10_f1_and_a_straight_front(self):
         pilot, model = kit_model("BT10")
         self.assertEqual(model["META"]["name"], "Calyx")

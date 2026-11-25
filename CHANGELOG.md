@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.37.0 Plover
+
+- BT11 ergänzt Linie T als lineares Fusionsgewehr mit offenem Heckrahmen, drei Keramiklamellen, geradem Lauf und dem Z2-Visier von BASIC-11. [Versionsbericht](docs/versions/0.37.md)
+
 ## 0.36.0 Calyx
 
 - BT10 ergänzt die Linie T um ein Fusionsgewehr mit offenem Keramikkelch, sichtbarem Kern, gerader Front und F1-Visier aus BASIC-10. [Versionsbericht](docs/versions/0.36.md)

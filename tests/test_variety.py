@@ -168,6 +168,27 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_plover_width_and_both_scope_mounts(self):
+        widths = {}
+        for sid in ("BA11", "BT11"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            bounds = {p["id"]: p["bounds_m"] for p in geom.evaluate(model.normalize(author))["parts"]}
+            widths[sid] = 1000 * (max(b[1][0] for b in bounds.values())
+                                  - min(b[0][0] for b in bounds.values()))
+            if sid == "BT11":
+                widest = {k for k, b in bounds.items() if max(abs(v[0]) for v in b) > .025}
+                self.assertEqual(widest, {"scope_fork", "scope_fork_trim"})
+                deck = next(p for p in author["PARTS"] if p["id"] == "stepped_deck")
+                for foot in ("scope_mount_r", "scope_mount_f"):
+                    low, high = bounds[foot]
+                    ends = [f for f, u in deck["pts"] if abs(u - 1000 * low[2]) < .05]
+                    self.assertGreaterEqual(len(ends), 2)
+                    self.assertLessEqual(min(ends), -1000 * high[1] + .05)
+                    self.assertGreaterEqual(max(ends), -1000 * low[1] - .05)
+        self.assertAlmostEqual(widths["BT11"], widths["BA11"], delta=.005)
+        self.assertAlmostEqual(widths["BT11"], 50.02, delta=.005)
+
     def test_calyx_matches_the_basic_10_width_including_sight(self):
         widths = {}
         for sid in ("BA10", "BT10"):
