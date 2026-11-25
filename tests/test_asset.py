@@ -347,6 +347,25 @@ class KitModelTests(unittest.TestCase):
         self.assertTrue(all(p.get("parent_part") == "slide" for p in model["PARTS"] if p["asm"] == "sight"))
         self.assertEqual(model["POINTS"]["grip.mag"]["at"], model["ANCHORS"]["Socket_MagWell"]["at"])
 
+    def test_moraine_keeps_the_basic_13_w1_and_straight_front(self):
+        pilot, model = kit_model("BT13")
+        self.assertEqual((model["META"]["name"], model["META"]["type"]), ("Moraine", "grenade_launcher"))
+        sight = [p for p in pilot["PARTS"] if p["asm"] == "sight"]
+        self.assertEqual(len(sight), 13)
+        self.assertEqual([p for p in model["PARTS"] if p["asm"] == "sight"], sight)
+        self.assertEqual(set(model["ANCHORS"]), set(pilot["ANCHORS"]))
+        self.assertEqual(set(model["POINTS"]), set(pilot["POINTS"]))
+        for name in ("Socket_Eye", "Socket_Reticle", "Socket_Sight"):
+            anchor = pilot["ANCHORS"][name]
+            self.assertEqual(model["ANCHORS"][name], dict(anchor, at=list(anchor["at"])))
+        parts = {p["id"]: p for p in model["PARTS"]}
+        axis = pilot["ANCHORS"]["Socket_Muzzle"]["at"][1]
+        self.assertEqual(model["ANCHORS"]["Socket_Muzzle"]["at"], [parts["cap"]["f1"], axis, 0])
+        for key in ("spine", "jacket", "cap"):
+            p = parts[key]
+            self.assertEqual((p["shape"], p["cu"], p.get("x", 0)), ("xprof", axis, 0))
+        self.assertLessEqual(parts["cap"]["f0"], parts["spine"]["f1"])
+
     def test_filament_exports_h3_and_the_straight_trace_front(self):
         pilot, model = kit_model("BT12")
         self.assertEqual(model["META"]["name"], "Filament")

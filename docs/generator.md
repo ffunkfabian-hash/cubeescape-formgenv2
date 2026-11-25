@@ -249,7 +249,7 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 ## EXTENDED-18 Trestle (BT01)
 
-`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-12. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
+`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-13. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
 
 `python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die drei hellen Impulssegmente auf dem dunklen Kern tragen je ein Keramikinlay und eine Lichtmarke pro Seite. Der offene Heckrahmen und die Gesamtbreite von 51,0 mm folgen BASIC-02. Vesper verwendet denselben H4-Baustein „Kasten“ wie der BA02-Pilot. Das Modul liefert Gehäuse, Glas, Absehen und die dazugehörigen Unity-Zielanker. Der gemeinsame Griff stammt aus der ursprünglichen T-Linie.
 
@@ -272,6 +272,8 @@ Calyx (BT10) umfasst seinen türkisfarbenen Kern mit einer tiefen Keramikschale.
 Plover (BT11) trägt das Z2-Zielfernrohr von BASIC-11. Seine Objektivgabel bestimmt die Gesamtbreite von 50,02 mm. Drei geneigte Keramiklamellen liegen vor einem durchgehenden Lichtband. Der lange Lauf hat eine gerade Mittelachse.
 
 Filament (BT12) trägt das H3-Reflexvisier von BASIC-12. Zwischen Heckfahne und geradem Lauf sitzt ein seitlich sichtbarer Leuchtring mit freier Mitte. Die beiden Leuchtflanken bestimmen die Gesamtbreite von 48,80 mm.
+
+Moraine (BT13) hat einen seitlich gestuften, geschlossenen Mittelkörper zwischen kurzer Heckstufe und gerader Front. Die äußersten Facetten begrenzen die Breite auf 141,83 mm. Das W1-Reflexvisier mit D-Linse stammt aus BASIC-13.
 
 BT01 trägt das H0-Visier auf dem BRI-22. Nutzerentscheid für Variante A vom 24.11.2026: Nur BT01 hat eine Visierlinie 105 mm über dem Mündungsanker. Die Augenposition liegt auf der Visierlinie 90 mm hinter dem Glas. Die Anker werden mit der Außenhaut zum Ursprung der hinteren Hand verschoben. Der Entwurf übernimmt von BASIC-01 die cremefarbene Schale über graphitfarbenen Kontaktflächen. In V1 lieferten die Modelle `codex/parallax/models/assault.py` und `codex/fluxbloom/models/assault.py` zwei unterschiedliche Beispiele dafür, wie sich Gehäuse und Negativraum im Seitenriss entwickeln lassen. Unter den drei ersten Skizzen hatte die offene Brücke die klarste Innenkontur. Seitliche Typenschilder, kurze Lamellenfelder und ein einzelnes orangefarbenes Bandpaar gliedern die größeren Flächen.
 

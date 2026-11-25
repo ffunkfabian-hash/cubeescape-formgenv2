@@ -168,6 +168,22 @@ class KitTests(unittest.TestCase):
         self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
         self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
 
+    def test_moraine_width_is_local_to_the_two_side_facets(self):
+        widths = {}
+        for sid in ("BA13", "BT13"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            bounds = {p["id"]: p["bounds_m"] for p in geom.evaluate(model.normalize(author))["parts"]}
+            left = min(b[0][0] for b in bounds.values())
+            right = max(b[1][0] for b in bounds.values())
+            widths[sid] = 1000 * (right - left)
+            if sid == "BT13":
+                widest = {k for k, b in bounds.items() if max(abs(v[0]) for v in b) > .070}
+                self.assertEqual(widest, {"boss_l", "boss_r"})
+                self.assertAlmostEqual(bounds["saddle"][1][2], bounds["sight_mount"][0][2], delta=.0001)
+        self.assertAlmostEqual(widths["BT13"], widths["BA13"], delta=.005)
+        self.assertAlmostEqual(widths["BT13"], 141.83, delta=.005)
+
     def test_filament_matches_basic_12_width_and_seats_its_h3(self):
         widths = {}
         for sid in ("BA12", "BT12"):

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.0 Moraine
+
+- BT13 erweitert Linie T um einen stilisierten Trommel-Granatwerfer mit facettiertem Mittelkörper, gerader Front und W1-Visier. [Versionsbericht](docs/versions/0.40.md)
+
 ## 0.39.0 Filament
 
 - BT12 ergänzt Linie T um ein Spurgewehr mit offenem Leuchtring, geradem Lauf und H3-Reflexvisier von BASIC-12. [Versionsbericht](docs/versions/0.39.md)
