@@ -102,8 +102,8 @@ Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 886 | 271 | 69 | 3.3 | 0.31 | 74 | 71 | 173 | 0.34 | 0.08 | 14 | 13 | 0.77 | 0.94 | EA01 0,77 |
 
-Alle Werte liegen im Band der Langwaffen (`kanon.outside` leer). Die Formen liegen über dem Bandmaximum 164; das gilt nur auf der blockigen
-Seite als Befund. Der Messblock des Kanons bleibt BASIC und EXTENDED vorbehalten.
+`kanon.outside` meldet nichts: Proportionen und Klarheit liegen im Band der Langwaffen. Die Formen (173) liegen über dem Bandmaximum 164;
+der Kanon prüft die Detaildichte nur auf der blockigen Seite, eine Obergrenze gibt es nicht. Der Messblock des Kanons bleibt BASIC und EXTENDED vorbehalten.
 
 ### Prüfung
 
