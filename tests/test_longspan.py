@@ -1,10 +1,11 @@
 """VA01: unabhängiger Autorenentwurf und Familienanschlüsse."""
 from pathlib import Path
+from unittest import mock
 import json
 import tempfile
 import unittest
 
-from formgen import ballon, extended, kanon, model, pipeline
+from formgen import ballon, build, extended, kanon, model, pipeline
 from formgen.models.weapons import va01_longspan
 
 
@@ -65,3 +66,25 @@ class LongspanModelTests(unittest.TestCase):
             self.assertEqual(spec["sheet"]["nick"], "Longspan")
             _, reuse = pipeline.run(selected, out, cache, **args)
             self.assertEqual(reuse["built"], 0)
+
+    def test_default_raster_build_and_mixed_catalog(self):
+        # Normaler Stufenweg mit kleinen echten Rasterbildern für die Quick-Suite.
+        parameters = build.view_parameters
+
+        def small_view(doc, name, **options):
+            return parameters(doc, name, **{**options, "width": 96, "height": 64})
+
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(build, "view_parameters", small_view):
+            out, cache = Path(tmp) / "out", Path(tmp) / "cache"
+            basic = pipeline.select(["BA01"])
+            pipeline.run(basic, out, cache, stages=["specs", "sheets", "previews"], snap=self.snap)
+            self.assertEqual(pipeline.main(["VA01", "--out", str(out), "--cache", str(cache), "--jobs", "1"]), 0)
+            for name in ("side_left", "top", "front", "back"):
+                self.assertTrue((out / "views" / "VA01" / (name + ".png")).is_file())
+            for path in ("index.html", "previews/VA01.webp", "sheets/VA01.dc.html", "prompts/VA01.prompts.json"):
+                self.assertGreater((out / path).stat().st_size, 0)
+            weapons = (out / "waffen.html").read_text()
+            self.assertIn('href="sheets/VA01.dc.html"', weapons)
+            self.assertIn('href="sheets/BA01.dc.html"', weapons)
+            self.assertIn('<option value="A">A · Baseline</option>', weapons)
+            self.assertIn('<option value="VA01">VA01 · Longspan</option>', weapons)

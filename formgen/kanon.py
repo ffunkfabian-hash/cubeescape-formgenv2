@@ -23,6 +23,7 @@ from pathlib import Path
 import numpy as np
 
 from . import ballon, extended, extended_lines, generator, variants, variety
+from .models.weapons import AUTHORED
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs/design-kanon.md"
@@ -168,6 +169,16 @@ def klasse(sid: str) -> str:
     return next(name for name, nums in CLASSES.items() if sid[-2:] in nums)
 
 
+def clarity_limits(rows):
+    limits = {}
+    for key in ("axis", "dirs"):
+        values = [r[key] for r in rows if isinstance(r.get(key), (float, int))]
+        if values:
+            low = round(float(np.percentile(values, 25)), 2) if key == "axis" else min(values)
+            limits[key] = low, max(values)
+    return limits
+
+
 def outside(row: dict, rows: list[dict]) -> list[tuple]:
     """Werte einer Zeile außerhalb von min … max ihrer Klasse (BASIC und EXTENDED): (Schlüssel, Wert, min, max); Detaildichte nur auf
     der blockigen Seite (ONLY). Außerhalb ist kein Verbot, braucht aber einen Grund aus dem Konzept (Stilprüfung Nr. 3)."""
@@ -180,15 +191,9 @@ def outside(row: dict, rows: list[dict]) -> list[tuple]:
         low, high = float(row[key]) < min(vals), float(row[key]) > max(vals)
         if (low and ONLY.get(key) != "high") or (high and ONLY.get(key) != "low"):
             out.append((key, row[key], min(vals), max(vals)))
-    for key in ("axis", "dirs"):
-        values = [r[key] for r in sub if isinstance(r.get(key), (float, int))]
-        value = row.get(key)
-        if values and isinstance(value, (float, int)):
-            # Der Kanon nimmt bei den Achsen das untere Quartil der Klasse,
-            # bei den Richtungen den kleinsten gemessenen Familienwert.
-            minimum = round(float(np.percentile(values, 25)), 2) if key == "axis" else min(values)
-            if value < minimum:
-                out.append((key, value, minimum, max(values)))
+    for key, (minimum, maximum) in clarity_limits(sub).items():
+        if isinstance(row.get(key), (float, int)) and row[key] < minimum:
+            out.append((key, row[key], minimum, maximum))
     return out
 
 
@@ -196,9 +201,9 @@ COLUMNS = (("id", "Blatt"), ("name", "Name"), ("type", "Art"), ("length", "Läng
            ("stretch", "L/H"), ("fill", "Füllgrad"), ("sight", "Visierlinie mm"), ("accents", "Akzente"), ("hands", "Hände"),
            ("roles", "größte Rollen"), ("neighbour", "Nachbar (Seiten-IoU)"))
 DETAIL = (("id", "Blatt"), ("parts", "Teile"), ("forms", "Formen"), ("round", "Rundkörper"), ("boxy", "Quader"), ("mats", "Materialrollen"),
-          ("trim", "blanke Kanten"))
+          ("trim", "blanke Kanten"), ("axis", "Achsen"), ("dirs", "Richtungen"))
 BAND_KEYS = ("length", "height", "width", "stretch", "fill", "sight", "accents", "parts", "forms", "round", "boxy", "mats", "trim")
-LABEL = dict(COLUMNS + DETAIL, axis="Achsen", dirs="Richtungen")
+LABEL = dict(COLUMNS + DETAIL)
 # Detaildichte hat eine Richtung: zu wenig Teile, Formen, Rundkörper, Rollen, Kanten oder zu viele Quader lesen sich blockig, das Gegenteil nicht
 ONLY = {"parts": "low", "forms": "low", "round": "low", "mats": "low", "trim": "low", "boxy": "high"}
 
@@ -218,12 +223,14 @@ def _table(rows, columns) -> list[str]:
 def table(rows) -> str:
     out = _table(rows, COLUMNS)
     out += ["", "Detaildichte (Teile und Formen aus `PARTS`, `multi` je Element; Rundkörper und Quader als Anteil der Formen; blanke Kanten =",
-            "Teile mit Rolle `trim`):", ""] + _table(rows, DETAIL)
+            "Teile mit Rolle `trim`; Klarheit der Seitenprofile nach Kantenlänge):", ""] + _table(rows, DETAIL)
     out += ["", "Bänder je Klasse über BASIC und EXTENDED (min / Median / max):", ""]
     for name, nums in CLASSES.items():
         sub = [r for r in rows if r["id"][2:] in nums]
         few = ", nur zwei Modelle: Spanne statt Band" if len(sub) < 3 else ""
-        out.append(f"- **{name}** ({len(sub)}{few}): " + " · ".join(f"{LABEL[k]} {_band(sub, k)}" for k in BAND_KEYS))
+        limits = clarity_limits(sub)
+        out.append(f"- **{name}** ({len(sub)}{few}): " + " · ".join(f"{LABEL[k]} {_band(sub, k)}" for k in (*BAND_KEYS, "axis", "dirs"))
+                   + "".join(f" · Untergrenze {LABEL[k]} {low:g}" for k, (low, _) in limits.items()))
     return "\n".join(out)
 
 
@@ -283,7 +290,11 @@ def main(argv=None) -> int:
     if a.cmd == "zeile":
         snap = ballon.snapshot()
         family = _family(snap)
-        row = measure_model(extended.load(a.key, snap), extended.sheet_id(a.key), snap, family)
+        if a.key in AUTHORED:
+            raw, sid = AUTHORED[a.key].make(snap), a.key
+        else:
+            raw, sid = extended.load(a.key, snap), extended.sheet_id(a.key)
+        row = measure_model(raw, sid, snap, family)
         print("\n".join(_table([row], COLUMNS) + [""] + _table([row], DETAIL)))
         off = outside(row, family[0])
         print(f"\nKlasse {klasse(row['id'])}: " + ("alle Werte im Band" if not off else "außerhalb des Bands: " + " · ".join(

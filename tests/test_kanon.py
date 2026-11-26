@@ -107,6 +107,14 @@ class KanonMeasureTests(unittest.TestCase):
         row = dict(next(r for r in self.rows if r["id"] == "BA01"), id="VA01", axis=.60, dirs=.62)
         self.assertEqual({key for key, *_ in kanon.outside(row, self.rows)}, {"axis", "dirs"})
 
+    def test_clarity_changes_invalidate_documentation(self):
+        rows = copy.deepcopy(self.rows)
+        rows[0]["axis"] = 0
+        self.assertNotEqual(kanon.table(rows), kanon.table(self.rows))
+        for key, label in (("axis", "Achsen"), ("dirs", "Richtungen")):
+            self.assertIn(f"Untergrenze {label}", kanon.table(self.rows))
+            self.assertIn(key, dict(kanon.DETAIL))
+
     def test_counterproof_a_changed_model_is_detected(self):
         rows = copy.deepcopy(self.rows)
         rows[0]["length"] += 1

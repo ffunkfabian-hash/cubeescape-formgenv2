@@ -102,7 +102,7 @@ def collect(out) -> list[dict]:
             assemblies = {p['assembly']: p['assembly'] for p in spec['parts']}
             found.append({'id': sid, 'kind': 'weapon', 'name': sheet['nick'], 'has_3d': has_3d,
                           'labels': {'parts': labels, 'assemblies': assemblies, 'families': [], 'order': []},
-                          'variant': sheet['variant'], 'variant_name': sheet['nick'], 'skin_id': 'standard',
+                          'variant': sid, 'variant_name': sheet['nick'], 'skin_id': 'standard',
                           'swatches': swatches('standard', palettes), 'group': spec['weapon']['name_de'],
                           'note': f"{spec['dimensions_m']['with_sight']['length'] * 1000:.0f} mm"})
         elif spec.get('format') == ROBOT_FORMAT:
@@ -170,7 +170,7 @@ def weapons_page(items: list[dict]) -> str:
         sections.append(f'<section><h2>{esc(group)}<small>{len(entries)} Blätter</small></h2><div class="grid">{cards}</div></section>')
     options = '<option value="">alle Varianten</option>' + ''.join(
         f'<option value="{esc(v)}">{esc(v)} · {esc(names[v])}</option>' for v in sorted(names))
-    return page('Waffen', 'waffen', f'<header><h1>Waffen</h1><p>Waffen-Varianten auf den 17 BALLON-Grundformen.</p>'
+    return page('Waffen', 'waffen', f'<header><h1>Waffen</h1><p>BASIC-Varianten und eigenständige Kit-Modelle.</p>'
                 f'<p>{len(weapons)} Konzeptblätter · {len(names)} Varianten · lokal verfügbar</p>'
                 '<div class="tools"><input type="search" aria-label="Blätter filtern" placeholder="Name, Typ oder Kennung …">'
                 f'<select aria-label="Variante">{options}</select></div></header><main>{"".join(sections)}</main>',
