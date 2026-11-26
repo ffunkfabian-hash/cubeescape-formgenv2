@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.42.2 Patch kanon-klarheit — Klarheit der Seitenkonturen im Design-Kanon
+
+- Neu: Der Kanon misst die Klarheit der Seitenprofile (Anteil waagerechter/senkrechter Kanten, Anteil der sechs häufigsten Richtungen) mit Grenze je Klasse; `outside` meldet unruhige Konturen. Anlass: Astras HORIZON-Skizzen lagen alle darunter („klare Formen wie BASIC und EXTENDED … garnicht“).
+
 ## 0.42.1 Patch kanon-detail — Detaildichte im Design-Kanon
 
 - Neu: Der Kanon misst je Modell die Detaildichte (Teile, Formen, Anteil Rundkörper und Quader, Materialrollen, blanke Kanten) mit Bändern je Klasse; `formgen.kanon zeile` und `outside` nennen Werte außerhalb des Bands. Anlass: Astras Formstudien wirkten blockig und lagen trotzdem in den Proportionsbändern.
