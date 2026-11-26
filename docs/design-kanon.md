@@ -248,6 +248,9 @@ dem Rohr wie BASIC-12 (X:667). Offen: ähnliche Plattenschäfte EA03/EA11 (AF:11
   eigene Palette) → nur Modellsprache und Familienbausteine, Detaildichte im Band der Klasse → Messblock › Detaildichte, `test_kanon`
 - Unruhige Konturen aus frei gesetzten Punkten, jede Kante mit eigenem Winkel (HORIZON-Skizzen 0.43, Nutzer: „klare Formen … garnicht“)
   → Leitlinien, 5-mm-Raster, wenige wiederkehrende Schrägen, Klarheit im Band → Messblock › Klarheit, `test_kanon`
+- Dekor statt Konstruktion: ein fremdes Modell nannte die Waffen von sich aus „Requisiten“ und formte nur Zierlagen (HORIZON Runde 1–2)
+  → im Auftrag ausdrücklich: reine Spiel-Assets, kein realer Nachbau, „Funktion“ = Lesbarkeit im Spiel; Leitmotiv als Hauptvolumen
+  (Runde 3: alle neun im Band, Achsen 0,79–0,90) → `paket/auftrag-astra-runde3.md` (außerhalb des Repos), LESSONS
 - Stifte unter Ø 12 mm (Zweibeinholme, Einbein) → Leitmotiv über Volumen, Sohlen statt Stifte → V0.25:44–46, X:622, L:39
 - Visier am dünnen Winkel, „nicht richtig befestigt“ → Konsole aus Schale und Kiel, Schiene liegt ganz auf → X:623, V0.25:45, L:39
 - Magazin im Abzugsbügel (fiel im Render nicht auf) → Magazin vor dem Bügel, Test → X:513, V0.23:39–40
@@ -301,6 +304,7 @@ ihre Modelle:
 
 ## 8. Ablauf für eine neue Generation
 
+0. **Kontext in den Auftrag:** reine Spiel-Assets, kein realer Nachbau; „Funktion“ heißt Lesbarkeit im Spiel (Abschnitt 6, Dekor statt Konstruktion).
 1. **Vorher festlegen (Version mit Register):** Name der Generation, Blattpräfix und eigener Seed-Raum; IDs sind ewig. Wie stark sie sich
    abhebt (eigene Leitmotive, eigene Skins). Welches Modell entwirft: erlaubte Modelle nach den globalen Regeln (Opus `high` für Entwurf); nur
    das dort gesperrte `gpt-6-astra` braucht vorher eine Regeländerung in Nexogen.
