@@ -44,6 +44,16 @@ def enclosed(mask, box, lo=(-420.0, -200.0)) -> int:
     return int(holes[np.ix_((rows >= u0) & (rows <= u1), (cols >= f0) & (cols <= f1))].sum())
 
 
+def inside(pt, poly) -> bool:
+    """Punkt (f, u) im Polygon (Strahlverfahren)."""
+    f, u = pt
+    hit = False
+    for (f0, u0), (f1, u1) in zip(poly, poly[1:] + poly[:1]):
+        if (u0 > u) != (u1 > u) and f < f0 + (u - u0) * (f1 - f0) / (u1 - u0):
+            hit = not hit
+    return hit
+
+
 def touch(a, b, tol=0.5) -> bool:
     (lo1, hi1), (lo2, hi2) = extended.bounds(a), extended.bounds(b)
     return all(lo1[k] <= hi2[k] + tol and lo2[k] <= hi1[k] + tol for k in range(3))
@@ -192,7 +202,12 @@ class TestCrosshair(unittest.TestCase):
         back = bolt["move"]["vector_mm"][0]
         self.assertEqual(head["a1"], cap["a0"])
         self.assertGreater(head["a0"] + back, rear)
-        self.assertGreater(lug["f0"] + back, rear)
+        opening = next(c for c in self.ids["frame_top"]["cuts"] if c.get("w") == 80)["pts"]
+
+        def free(lug):   # alle Ecken der Spannnase bei vollem Hub im Öffnungspolygon (samt 45°-Fasen, Richter R2)
+            return all(inside((f + back, u), opening) for f in (lug["f0"], lug["f1"]) for u in (lug["u0"], lug["u1"]))
+        self.assertTrue(free(lug))
+        self.assertFalse(free(dict(lug, f0=20, f1=46)))   # Gegenprobe: alte Lage r4 stößt 3 mm in die hintere obere Fase
         self.assertLess(bolt["a0"], rear)   # der Träger steckt in Ruhe im hinteren Pfosten
         self.assertLess(head["a0"] - 160, rear)
 

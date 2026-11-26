@@ -159,7 +159,7 @@ P += [
         cuts=[cut_box(-10, 70, BORE - 2, BORE + 2, 6, x=sx * 12) for sx in (1, -1)],
         move=dict(kind='translate', pivot=(40, BORE, 0), vector_mm=(-42, 0, 0), event='fire')),
     box('bolt_lug', 'Spannnase', 'Bolt lug', 'mechanism', 'dark_metal', 'Nimmt den Ladehebel mit; zeigt den Verschlussweg',
-        'oben auf dem Verschlussträger', 20, 46, BORE + 9, BORE + 17, 10, bevel=R_FINE, parent_part='bolt_carrier'),
+        'oben auf dem Verschlussträger', 28, 54, BORE + 9, BORE + 17, 10, bevel=R_FINE, parent_part='bolt_carrier'),
     cyl('bolt_head', 'Verschlusskopf', 'Bolt head', 'mechanism', 'trim', 'Verriegelt an der Kammer; blanke Stirn',
         'vorn am Verschlussträger', 'f', (BORE, 0), 82, CROSS_F[0], 10.5, segs=24, bevel=0.5, parent_part='bolt_carrier'),
     cyl('chamber', 'Leuchtkammer', 'Glow chamber', 'receiver', 'energy', 'Beschleunigerkammer, leuchtet im Feuer (Blickfang)',
