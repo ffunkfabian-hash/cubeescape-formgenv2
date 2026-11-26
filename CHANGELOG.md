@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.45.0 Longspan
+
+- VA01 Longspan ist ein eigenständiges Automatikgewehr mit offener Längsbrücke. Der Bau über `python -m formgen.pipeline VA01` erzeugt das Rasterblatt und die lokale Vorschau aus dem v2-Kit. Die Kanonmessung bewertet auch die Richtungen langer Profilkanten.
+
 ## 0.42.1 Patch kanon-detail — Detaildichte im Design-Kanon
 
 - Neu: Der Kanon misst je Modell die Detaildichte (Teile, Formen, Anteil Rundkörper und Quader, Materialrollen, blanke Kanten) mit Bändern je Klasse; `formgen.kanon zeile` und `outside` nennen Werte außerhalb des Bands. Anlass: Astras Formstudien wirkten blockig und lagen trotzdem in den Proportionsbändern.

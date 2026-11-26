@@ -13,7 +13,8 @@ import json
 import tomllib
 from pathlib import Path
 
-from .. import wspec
+from .. import spec as model_spec, wspec
+from ..models.weapons import AUTHORED
 from ..cache import Artifact, canonical, file_hash, run_artifacts
 from ..versions import VIEWER
 
@@ -92,6 +93,18 @@ def collect(out) -> list[dict]:
                           'variant': v['letter'], 'variant_name': v['name'], 'skin_id': v.get('skin'), 'swatches': swatches(v.get('skin'), palettes),
                           'group': f"BASIC-{t['num']} · {t['type_de']} ({t['type_en']})",
                           'note': f"{v['letter']} · {v['name']} · {spec['dimensions_mm']['length']:.0f} mm"})
+        elif sid in AUTHORED and spec.get('format') == 'cubeescape-design/weapon-spec':
+            model_spec.validate(spec)
+            sheet = spec['sheet']
+            if sheet['id'] != sid:
+                raise ValueError(f"Blatt und Spec widersprechen sich: {sid} / {sheet['id']}")
+            labels = {p['source_id']: p['label'] for p in spec['parts']}
+            assemblies = {p['assembly']: p['assembly'] for p in spec['parts']}
+            found.append({'id': sid, 'kind': 'weapon', 'name': sheet['nick'], 'has_3d': has_3d,
+                          'labels': {'parts': labels, 'assemblies': assemblies, 'families': [], 'order': []},
+                          'variant': sheet['variant'], 'variant_name': sheet['nick'], 'skin_id': 'standard',
+                          'swatches': swatches('standard', palettes), 'group': spec['weapon']['name_de'],
+                          'note': f"{spec['dimensions_m']['with_sight']['length'] * 1000:.0f} mm"})
         elif spec.get('format') == ROBOT_FORMAT:
             spec = robot_spec(spec)
             found.append({'id': sid, 'kind': 'robot', 'name': spec['name_de'], 'has_3d': has_3d, 'labels': part_labels(spec),

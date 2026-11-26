@@ -12,7 +12,9 @@ veraltet der Kanon nicht still, wenn ein Modell sich ändert. `zeile` nennt die 
 """
 from __future__ import annotations
 
+from collections import Counter
 import argparse
+import math
 import shutil
 import statistics
 import sys
@@ -90,6 +92,30 @@ def detail(parts) -> dict:
             "mats": len({p.get("mat") for p in parts}), "trim": sum(p.get("mat") == "trim" for p in parts)}
 
 
+def clarity(parts) -> dict:
+    """Kanon 0.42.2: Profilkanten ab 8 mm, Achstoleranz 2°, sechs häufigste 5°-Richtungen."""
+    axis = total = 0.0
+    directions = Counter()
+    for form in _forms(parts):
+        if form.get("shape") != "prof":
+            continue
+        points = form["pts"]
+        for a, b in zip(points, points[1:] + points[:1]):
+            df, du = b[0] - a[0], b[1] - a[1]
+            length = math.hypot(df, du)
+            if length < 8:
+                continue
+            angle = math.degrees(math.atan2(du, df)) % 180
+            total += length
+            if min(angle % 90, 90 - angle % 90) < 2:
+                axis += length
+            directions[round(angle / 5) * 5 % 180] += length
+    if not total:
+        return {"axis": "–", "dirs": "–"}
+    return {"axis": round(axis / total, 2),
+            "dirs": round(sum(sorted(directions.values(), reverse=True)[:6]) / total, 2)}
+
+
 def _row(sid, data, model, author):
     t = variety.triangles(author)
     ext = (t.reshape(-1, 3).max(0) - t.reshape(-1, 3).min(0)) * 1000
@@ -101,7 +127,7 @@ def _row(sid, data, model, author):
            "length": length, "height": height, "width": width, "stretch": round(length / height, 1), "fill": round(_fill(t), 2),
            "sight": "–" if c["sight_line_mm"] is None else f"{c['sight_line_mm']:g}", "accents": len(c["accent_functions"]),
            "hands": "/".join(c["hand_roles"].get(n, "–") for n in ("Socket_Hand", "Socket_SupportHand")),
-           "roles": " ".join(f"{r} {s:.0%}" for r, s in shares), **detail(model["PARTS"])}
+           "roles": " ".join(f"{r} {s:.0%}" for r, s in shares), **detail(model["PARTS"]), **clarity(model["PARTS"])}
     return row, t
 
 
@@ -154,6 +180,15 @@ def outside(row: dict, rows: list[dict]) -> list[tuple]:
         low, high = float(row[key]) < min(vals), float(row[key]) > max(vals)
         if (low and ONLY.get(key) != "high") or (high and ONLY.get(key) != "low"):
             out.append((key, row[key], min(vals), max(vals)))
+    for key in ("axis", "dirs"):
+        values = [r[key] for r in sub if isinstance(r.get(key), (float, int))]
+        value = row.get(key)
+        if values and isinstance(value, (float, int)):
+            # Der Kanon nimmt bei den Achsen das untere Quartil der Klasse,
+            # bei den Richtungen den kleinsten gemessenen Familienwert.
+            minimum = round(float(np.percentile(values, 25)), 2) if key == "axis" else min(values)
+            if value < minimum:
+                out.append((key, value, minimum, max(values)))
     return out
 
 
@@ -163,7 +198,7 @@ COLUMNS = (("id", "Blatt"), ("name", "Name"), ("type", "Art"), ("length", "Läng
 DETAIL = (("id", "Blatt"), ("parts", "Teile"), ("forms", "Formen"), ("round", "Rundkörper"), ("boxy", "Quader"), ("mats", "Materialrollen"),
           ("trim", "blanke Kanten"))
 BAND_KEYS = ("length", "height", "width", "stretch", "fill", "sight", "accents", "parts", "forms", "round", "boxy", "mats", "trim")
-LABEL = dict(COLUMNS + DETAIL)
+LABEL = dict(COLUMNS + DETAIL, axis="Achsen", dirs="Richtungen")
 # Detaildichte hat eine Richtung: zu wenig Teile, Formen, Rundkörper, Rollen, Kanten oder zu viele Quader lesen sich blockig, das Gegenteil nicht
 ONLY = {"parts": "low", "forms": "low", "round": "low", "mats": "low", "trim": "low", "boxy": "high"}
 

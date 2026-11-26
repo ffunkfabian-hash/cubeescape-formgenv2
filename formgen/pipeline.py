@@ -26,9 +26,11 @@ import time
 from pathlib import Path
 
 from . import ballon, build, variants, versions
+from .models.weapons import AUTHORED
 from .cache import Artifact, canonical, file_hash, run_artifacts
 
 ROOT = build.ROOT
+
 STAGES = ("geometry", "asset", "specs", "prompts", "views", "sheets", "previews", "viewer")
 CODE = {"geometry": "formgen/generator.py", "specs": "formgen/wspec.py", "prompts": "formgen/prompts.py",
         "views": "formgen/raster.py", "sheets": "formgen/sheet.py", "previews": "formgen/raster.py",
@@ -66,6 +68,19 @@ def _ballon_dims(spec):
 def geometry_plan(selection, snap, commit):
     artifacts = []
     for sid, entry in selection.items():
+        if sid in AUTHORED:
+            module = AUTHORED[sid]
+            doc = module.author(snap)
+            path = Path(module.__file__)
+            doc["source"] = {"path": str(path.relative_to(ROOT)), "sha256": file_hash(path),
+                             "ballon_commit": commit}
+            source = hashlib.sha256(canonical(doc)).hexdigest()
+            artifacts.append(Artifact(sid, "geometry", source,
+                                      {"code": code_hash("formgen/geom.py")},
+                                      {"MODEL": versions.MODEL, "GEOM": versions.GEOM},
+                                      f"geometry/{sid}.json", "formgen.pipeline:build_authored",
+                                      {"document": doc}))
+            continue
         variant, num = entry["variant"], entry["num"]
         wanted = variant.get("base", "standard")
         base = ballon.resolve_base(snap, num, wanted)   # neuester Pilot; ohne Piloten (16, 17) Formstudie
@@ -79,6 +94,14 @@ def geometry_plan(selection, snap, commit):
                                   {"snapshot": str(snap), "num": num, "variant": record, "source": src, "base": base,
                                    "ballon_dims": _ballon_dims(ballon.load_spec(snap, num, base))}))
     return artifacts
+
+
+def build_authored(artifact: Artifact) -> bytes:
+    from . import geom, model
+    doc = artifact.inputs["document"]
+    if doc["INFO"]["id"] != artifact.model_id or hashlib.sha256(canonical(doc)).hexdigest() != artifact.source:
+        raise ValueError("Autorenmodell widerspricht dem Geometrieplan")
+    return canonical(geom.evaluate(model.normalize(doc))) + b"\n"
 
 
 def build_geometry(artifact: Artifact) -> bytes:
@@ -132,6 +155,7 @@ def downstream(stage, ids, out, selection):
 def select(ids=(), letters=None, types=None, entries=None):
     sheets = variants.sheets(entries)
     if ids:
+        sheets.update({sid: {"num": sid[-2:], "variant": {"skin": "standard"}} for sid in AUTHORED})
         unknown = [i for i in ids if i not in sheets]
         if unknown:
             raise SystemExit(f"Unbekannte Blatt-ID: {', '.join(unknown)}")
@@ -150,6 +174,10 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
         cfg["commit"] = commit
     snap = Path(snap) if snap else ballon.snapshot(cfg["commit"], cfg["repo"])
     ids = list(selection)
+    series = {sid: entry for sid, entry in selection.items() if sid not in AUTHORED}
+    authored = [sid for sid in ids if sid in AUTHORED]
+    if set(bake).intersection(authored):
+        raise ValueError("AAA-Bake ist für eigenständige Kit-Modelle nicht registriert")
     timing = {"ballon_commit": cfg["commit"], "sheets": len(ids), "jobs": jobs, "force": force,
               "env": environment(), "stages": {}}
     results = []
@@ -165,11 +193,11 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
         results.extend(res)
 
     stage("geometry", geometry_plan(selection, snap, cfg["commit"]))
-    if "asset" in stages or bake:
+    if ("asset" in stages or bake) and series:
         from . import asset, ballon_kit
         kit = Path(kit) if kit else ballon_kit.snapshot(cfg["commit"], cfg["repo"])
         settings = asset.settings()
-        glb = asset.plan(selection, kit, snap, settings)
+        glb = asset.plan(series, kit, snap, settings)
         n0 = len(results)
         with asset.reconciled(out):                        # Abbruch im Stapel: Index gegen die Dateien abgleichen
             stage("asset", glb, jobs=min(jobs, settings["jobs"]))
@@ -183,8 +211,15 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
             with asset.reconciled(out):
                 stage("bake", baking, jobs=1)              # eine GPU: nacheinander
             asset.write_index(out, baking, results[n1:])
+    if authored and "asset" in stages:
+        log("Kit-Modelle im Rasterbau (Geometrie und Blatt): " + ", ".join(authored))
     if "specs" in stages:
-        stage("specs", spec_plan(ids, out, cfg["commit"]))
+        basic_specs = spec_plan(series, out, cfg["commit"])
+        native_specs = build.downstream_plan(authored, out, "specs")
+        for i, artifact in enumerate(native_specs):
+            native_specs[i] = dataclasses.replace(artifact, params={**artifact.params, "code": code_hash("formgen/spec.py"),
+                                                                    "skin_sha": file_hash(ROOT / "skins.toml")})
+        stage("specs", basic_specs + native_specs)
     if "prompts" in stages:
         stage("prompts", downstream("prompts", ids, out, selection))
     if "views" in stages or "sheets" in stages:
@@ -212,7 +247,7 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("ids", nargs="*", help="Blatt-IDs (BA01 …); ohne Angabe alle registrierten")
+    p.add_argument("ids", nargs="*", help="Blatt-IDs (BA01, VA01 …); ohne Angabe die BASIC-Serien")
     p.add_argument("--variants", help="Kennbuchstaben, kommagetrennt")
     p.add_argument("--types", help="BASIC-Nummern 01–17, kommagetrennt")
     p.add_argument("--stages", help="Kommagetrennt aus " + ",".join(STAGES) + "; geometry läuft immer")
@@ -227,6 +262,8 @@ def main(argv=None) -> int:
     if any(s not in STAGES for s in stages):
         p.error("Unbekannte Stufe")
     selection = select(a.ids, a.variants and a.variants.split(","), a.types and a.types.split(","))
+    if a.stages and "asset" in stages and AUTHORED.keys() & selection.keys():
+        p.error("Die GLB-Assetstufe gilt für BASIC-Serien. Kit-Modelle als Geometrie, Blatt und Vorschau bauen.")
     if not selection:
         p.error("Auswahl ist leer")
     run(selection, a.out, a.cache, stages, a.jobs, a.force, bake=[b for b in a.bake.split(",") if b], gpu=not a.cpu)

@@ -98,9 +98,14 @@ class KanonMeasureTests(unittest.TestCase):
         """Gegenprobe mit dem erwarteten Grund: zehn Platten aus zwei Rollen (wie die Astra-Formstudie) bei EA01-Proportionen melden
         alle sechs Detailwerte, aber keine Proportion."""
         row = dict(next(r for r in self.rows if r["id"] == "EA01"), id="HA01")
-        row.update(kanon.detail([{"id": f"slab{i}", "shape": "box", "mat": ("shell", "graphite")[i % 2]} for i in range(10)]))
+        slabs = [{"id": f"slab{i}", "shape": "box", "mat": ("shell", "graphite")[i % 2]} for i in range(10)]
+        row.update(kanon.detail(slabs), **kanon.clarity(slabs))
         keys = {k for k, *_ in kanon.outside(row, self.rows)}
         self.assertEqual(keys, set(kanon.ONLY))
+
+    def test_clarity_below_both_limits_is_reported(self):
+        row = dict(next(r for r in self.rows if r["id"] == "BA01"), id="VA01", axis=.60, dirs=.62)
+        self.assertEqual({key for key, *_ in kanon.outside(row, self.rows)}, {"axis", "dirs"})
 
     def test_counterproof_a_changed_model_is_detected(self):
         rows = copy.deepcopy(self.rows)
