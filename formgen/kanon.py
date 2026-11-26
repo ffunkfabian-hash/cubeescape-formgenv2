@@ -2,8 +2,9 @@
 
 Die Zahlen des Kanons (`docs/design-kanon.md`, Block zwischen den Markern) stammen nur von hier: je Modell (BASIC Linie A = BALLON-Pilot,
 EXTENDED EA01–EA17) Länge, Höhe, Breite, Streckung, Füllgrad der Seitenansicht, Visierlinie, Akzentfunktionen, Handrollen, die zwei
-größten Materialrollen und der nächste Nachbar der Familie (Seiten-IoU). `--check` vergleicht den Block mit einer frischen Messung, so
-veraltet der Kanon nicht still, wenn ein Modell sich ändert.
+größten Materialrollen und der nächste Nachbar der Familie (Seiten-IoU); dazu die Detaildichte (Patch kanon-detail): Teile, Formen,
+Anteil Rundkörper und Quader, Zahl der Materialrollen, blanke Kanten. `--check` vergleicht den Block mit einer frischen Messung, so
+veraltet der Kanon nicht still, wenn ein Modell sich ändert. `zeile` nennt die Werte außerhalb des Bands der Klasse.
 
     python -m formgen.kanon messen [--check]
     python -m formgen.kanon zeile <Kurzname>     # neue Waffe gegen die Familie (Stilprüfung)
@@ -69,6 +70,26 @@ def _side_iou(a, b) -> float:
     return float((ma & mb).sum() / (ma | mb).sum())
 
 
+def _forms(parts):
+    """Einzelformen: `multi` (ein logisches Teil aus mehreren Formen, modellsprache.md) zählt mit jedem Element."""
+    for p in parts:
+        if p.get("shape") == "multi":
+            yield from _forms(p.get("items") or [])
+        else:
+            yield p
+
+
+def detail(parts) -> dict:
+    """Detaildichte aus dem Modell, nicht aus dem Bild: wenige Teile, kaum Rundkörper und viele Quader lesen sich blockig
+    (Astra-Formstudie 22.11.: rund zehn extrudierte Umrisse; EXTENDED 20–66 Teile)."""
+    forms = list(_forms(parts))
+    n = len(forms) or 1
+    return {"parts": len(parts), "forms": len(forms),
+            "round": round(sum(f.get("shape") == "cyl" for f in forms) / n, 2),
+            "boxy": round(sum(f.get("shape") == "box" for f in forms) / n, 2),
+            "mats": len({p.get("mat") for p in parts}), "trim": sum(p.get("mat") == "trim" for p in parts)}
+
+
 def _row(sid, data, model, author):
     t = variety.triangles(author)
     ext = (t.reshape(-1, 3).max(0) - t.reshape(-1, 3).min(0)) * 1000
@@ -80,7 +101,7 @@ def _row(sid, data, model, author):
            "length": length, "height": height, "width": width, "stretch": round(length / height, 1), "fill": round(_fill(t), 2),
            "sight": "–" if c["sight_line_mm"] is None else f"{c['sight_line_mm']:g}", "accents": len(c["accent_functions"]),
            "hands": "/".join(c["hand_roles"].get(n, "–") for n in ("Socket_Hand", "Socket_SupportHand")),
-           "roles": " ".join(f"{r} {s:.0%}" for r, s in shares)}
+           "roles": " ".join(f"{r} {s:.0%}" for r, s in shares), **detail(model["PARTS"])}
     return row, t
 
 
@@ -107,17 +128,44 @@ def measure(snap=None) -> list[dict]:
     return rows
 
 
-def measure_model(model: dict, sid: str, snap=None) -> dict:
-    """Messzeile einer neuen Waffe (Modell im Vokabular von formgen.extended, wie EA) gegen die ganze Familie – für die Stilprüfung."""
-    _, tris = _family(Path(snap or ballon.snapshot()))
+def measure_model(model: dict, sid: str, snap=None, family=None) -> dict:
+    """Messzeile einer neuen Waffe (Modell im Vokabular von formgen.extended, wie EA) gegen die ganze Familie – für die Stilprüfung.
+    `family` = Ergebnis von `_family(snap)`, wenn der Aufrufer es schon hat (Messung dauert etwa 90 s)."""
+    _, tris = family or _family(Path(snap or ballon.snapshot()))
     row, t = _row(sid, model, model, extended_lines.author(model, sid)[0])
     row["neighbour"] = _neighbour(sid, t, tris)
     return row
 
 
+def klasse(sid: str) -> str:
+    """Klasse nach der Typnummer am Ende der Blatt-ID (BA01, EA13, HA04 …)."""
+    return next(name for name, nums in CLASSES.items() if sid[-2:] in nums)
+
+
+def outside(row: dict, rows: list[dict]) -> list[tuple]:
+    """Werte einer Zeile außerhalb von min … max ihrer Klasse (BASIC und EXTENDED): (Schlüssel, Wert, min, max); Detaildichte nur auf
+    der blockigen Seite (ONLY). Außerhalb ist kein Verbot, braucht aber einen Grund aus dem Konzept (Stilprüfung Nr. 3)."""
+    sub = [r for r in rows if r["id"] != row["id"] and klasse(r["id"]) == klasse(row["id"])]
+    out = []
+    for key in BAND_KEYS:
+        vals = [float(r[key]) for r in sub if r[key] != "–"]
+        if row[key] == "–" or not vals:
+            continue
+        low, high = float(row[key]) < min(vals), float(row[key]) > max(vals)
+        if (low and ONLY.get(key) != "high") or (high and ONLY.get(key) != "low"):
+            out.append((key, row[key], min(vals), max(vals)))
+    return out
+
+
 COLUMNS = (("id", "Blatt"), ("name", "Name"), ("type", "Art"), ("length", "Länge mm"), ("height", "Höhe mm"), ("width", "Breite mm"),
            ("stretch", "L/H"), ("fill", "Füllgrad"), ("sight", "Visierlinie mm"), ("accents", "Akzente"), ("hands", "Hände"),
            ("roles", "größte Rollen"), ("neighbour", "Nachbar (Seiten-IoU)"))
+DETAIL = (("id", "Blatt"), ("parts", "Teile"), ("forms", "Formen"), ("round", "Rundkörper"), ("boxy", "Quader"), ("mats", "Materialrollen"),
+          ("trim", "blanke Kanten"))
+BAND_KEYS = ("length", "height", "width", "stretch", "fill", "sight", "accents", "parts", "forms", "round", "boxy", "mats", "trim")
+LABEL = dict(COLUMNS + DETAIL)
+# Detaildichte hat eine Richtung: zu wenig Teile, Formen, Rundkörper, Rollen, Kanten oder zu viele Quader lesen sich blockig, das Gegenteil nicht
+ONLY = {"parts": "low", "forms": "low", "round": "low", "mats": "low", "trim": "low", "boxy": "high"}
 
 
 def _band(rows, key):
@@ -127,15 +175,20 @@ def _band(rows, key):
     return f"{min(vals):g} / {statistics.median(vals):g} / {max(vals):g}"
 
 
+def _table(rows, columns) -> list[str]:
+    out = ["| " + " | ".join(h for _, h in columns) + " |", "|" + "---|" * len(columns)]
+    return out + ["| " + " | ".join(str(r[k]) for k, _ in columns) + " |" for r in rows]
+
+
 def table(rows) -> str:
-    out = ["| " + " | ".join(h for _, h in COLUMNS) + " |", "|" + "---|" * len(COLUMNS)]
-    out += ["| " + " | ".join(str(r[k]) for k, _ in COLUMNS) + " |" for r in rows]
+    out = _table(rows, COLUMNS)
+    out += ["", "Detaildichte (Teile und Formen aus `PARTS`, `multi` je Element; Rundkörper und Quader als Anteil der Formen; blanke Kanten =",
+            "Teile mit Rolle `trim`):", ""] + _table(rows, DETAIL)
     out += ["", "Bänder je Klasse über BASIC und EXTENDED (min / Median / max):", ""]
     for name, nums in CLASSES.items():
         sub = [r for r in rows if r["id"][2:] in nums]
         few = ", nur zwei Modelle: Spanne statt Band" if len(sub) < 3 else ""
-        out.append(f"- **{name}** ({len(sub)}{few}): " + " · ".join(f"{h} {_band(sub, k)}" for k, h in COLUMNS
-                                                         if k in ("length", "height", "width", "stretch", "fill", "sight", "accents")))
+        out.append(f"- **{name}** ({len(sub)}{few}): " + " · ".join(f"{LABEL[k]} {_band(sub, k)}" for k in BAND_KEYS))
     return "\n".join(out)
 
 
@@ -194,9 +247,12 @@ def main(argv=None) -> int:
         return 0
     if a.cmd == "zeile":
         snap = ballon.snapshot()
-        row = measure_model(extended.load(a.key, snap), extended.sheet_id(a.key), snap)
-        print("| " + " | ".join(h for _, h in COLUMNS) + " |")
-        print("| " + " | ".join(str(row[k]) for k, _ in COLUMNS) + " |")
+        family = _family(snap)
+        row = measure_model(extended.load(a.key, snap), extended.sheet_id(a.key), snap, family)
+        print("\n".join(_table([row], COLUMNS) + [""] + _table([row], DETAIL)))
+        off = outside(row, family[0])
+        print(f"\nKlasse {klasse(row['id'])}: " + ("alle Werte im Band" if not off else "außerhalb des Bands: " + " · ".join(
+            f"{LABEL[k]} {v} (Band {lo:g} … {hi:g})" for k, v, lo, hi in off)))
         return 0
     for f in pack(a.out, a.bilder):
         print(f)

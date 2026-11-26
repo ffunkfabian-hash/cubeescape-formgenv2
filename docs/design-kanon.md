@@ -64,6 +64,10 @@ Vorgaben:
 Länge, Höhe, Breite: Hülle des Netzes ohne Booleans und Fasen. L/H: Streckung der Seite. Füllgrad: Anteil der Seitensilhouette an ihrem
 Rechteck (klein = luftig, Fenster und Bügel; groß = geschlossener Block). Visierlinie aus dem Designvertrag (– = keine; 0 bei den
 Schulterwaffen). Nachbar: Modell mit der größten Seiten-IoU in der ganzen Familie (gemeinsamer Ursprung am Griff). BASIC = Linie A (BALLON-Pilot).
+Detaildichte (Patch kanon-detail): Teile und Formen aus `PARTS` (`multi` zählt jedes Element), Rundkörper und Quader als Anteil der Formen,
+Zahl der Materialrollen, blanke Kanten (Rolle `trim`). Proportionen allein fangen Blockigkeit nicht: eine Waffe aus zehn Platten kann in
+allen Proportionsbändern liegen. `python -m formgen.kanon zeile <Kurzname>` (oder `formgen.kanon.outside`) nennt jeden Wert außerhalb des
+Bands der Klasse, die Detaildichte nur auf der blockigen Seite (zu wenig Teile, Formen, Rundkörper, Rollen, Kanten; zu viele Quader).
 
 <!-- kanon:messung:anfang -->
 | Blatt | Name | Art | Länge mm | Höhe mm | Breite mm | L/H | Füllgrad | Visierlinie mm | Akzente | Hände | größte Rollen | Nachbar (Seiten-IoU) |
@@ -103,13 +107,53 @@ Schulterwaffen). Nachbar: Modell mit der größten Seiten-IoU in der ganzen Fami
 | EA16 | Sweepguard | Schwert | 1039 | 149 | 39 | 7.0 | 0.32 | – | 1 | rubber/shell | metal 37% shell 26% | BA16 0.40 |
 | EA17 | Gorget | Glefe | 1595 | 181 | 56 | 8.8 | 0.26 | – | 2 | rubber/rubber | shell 32% graphite 23% | BA17 0.49 |
 
+Detaildichte (Teile und Formen aus `PARTS`, `multi` je Element; Rundkörper und Quader als Anteil der Formen; blanke Kanten =
+Teile mit Rolle `trim`):
+
+| Blatt | Teile | Formen | Rundkörper | Quader | Materialrollen | blanke Kanten |
+|---|---|---|---|---|---|---|
+| BA01 | 72 | 158 | 0.33 | 0.1 | 14 | 13 |
+| BA02 | 57 | 137 | 0.31 | 0.12 | 14 | 9 |
+| BA03 | 58 | 85 | 0.52 | 0.14 | 14 | 9 |
+| BA04 | 20 | 29 | 0.21 | 0.31 | 10 | 1 |
+| BA05 | 25 | 33 | 0.15 | 0.39 | 11 | 1 |
+| BA06 | 49 | 119 | 0.23 | 0.09 | 15 | 4 |
+| BA07 | 41 | 47 | 0.38 | 0.15 | 11 | 6 |
+| BA08 | 36 | 41 | 0.22 | 0.37 | 11 | 1 |
+| BA09 | 47 | 54 | 0.39 | 0.15 | 12 | 5 |
+| BA10 | 45 | 78 | 0.42 | 0.1 | 14 | 10 |
+| BA11 | 53 | 82 | 0.52 | 0.13 | 14 | 9 |
+| BA12 | 50 | 125 | 0.34 | 0.06 | 13 | 11 |
+| BA13 | 56 | 141 | 0.43 | 0.07 | 15 | 9 |
+| BA14 | 49 | 115 | 0.26 | 0.13 | 14 | 6 |
+| BA15 | 73 | 164 | 0.35 | 0.15 | 14 | 15 |
+| BA16 | 9 | 9 | 0.33 | 0.33 | 6 | 0 |
+| BA17 | 13 | 13 | 0.31 | 0.23 | 5 | 0 |
+| EA01 | 62 | 148 | 0.34 | 0.08 | 14 | 12 |
+| EA02 | 57 | 126 | 0.26 | 0.06 | 15 | 10 |
+| EA03 | 61 | 90 | 0.62 | 0.08 | 14 | 10 |
+| EA04 | 29 | 45 | 0.38 | 0.2 | 12 | 4 |
+| EA05 | 27 | 37 | 0.19 | 0.3 | 11 | 3 |
+| EA06 | 51 | 123 | 0.26 | 0.06 | 16 | 7 |
+| EA07 | 51 | 71 | 0.46 | 0.06 | 11 | 10 |
+| EA08 | 46 | 88 | 0.45 | 0.2 | 12 | 7 |
+| EA09 | 58 | 86 | 0.55 | 0.13 | 14 | 12 |
+| EA10 | 52 | 84 | 0.51 | 0.1 | 14 | 12 |
+| EA11 | 60 | 98 | 0.51 | 0.15 | 14 | 11 |
+| EA12 | 48 | 130 | 0.38 | 0.03 | 12 | 12 |
+| EA13 | 53 | 132 | 0.24 | 0.12 | 13 | 10 |
+| EA14 | 55 | 153 | 0.33 | 0.1 | 13 | 9 |
+| EA15 | 66 | 149 | 0.28 | 0.06 | 14 | 16 |
+| EA16 | 20 | 39 | 0.49 | 0.03 | 10 | 5 |
+| EA17 | 34 | 56 | 0.52 | 0.14 | 10 | 5 |
+
 Bänder je Klasse über BASIC und EXTENDED (min / Median / max):
 
-- **Langwaffe** (18): Länge mm 564 / 908 / 1177 · Höhe mm 222 / 256 / 294 · Breite mm 47 / 53 / 129 · L/H 2.2 / 3.5 / 4.5 · Füllgrad 0.26 / 0.345 / 0.48 · Visierlinie mm 39 / 66 / 74 · Akzente 2 / 3.5 / 5
-- **Kompakt** (6): Länge mm 197 / 303.5 / 547 · Höhe mm 176 / 190 / 291 · Breite mm 34 / 46 / 54 · L/H 1.1 / 1.55 / 1.9 · Füllgrad 0.29 / 0.385 / 0.4 · Visierlinie mm 29 / 42.5 / 72 · Akzente 2 / 3 / 4
-- **Werfer** (4): Länge mm 648 / 790 / 922 · Höhe mm 241 / 268 / 270 · Breite mm 71 / 131 / 142 · L/H 2.4 / 2.95 / 3.8 · Füllgrad 0.39 / 0.435 / 0.58 · Visierlinie mm 0 / 33 / 74 · Akzente 2 / 3 / 4
-- **Bogen** (2, nur zwei Modelle: Spanne statt Band): Länge mm 711 / 722 / 733 · Höhe mm 796 / 906 / 1016 · Breite mm 69 / 72 / 75 · L/H 0.7 / 0.8 / 0.9 · Füllgrad 0.07 / 0.09 / 0.11 · Visierlinie mm 69.5 / 69.5 / 69.5 · Akzente 2 / 2 / 2
-- **Nahkampf** (4): Länge mm 1039 / 1309 / 1595 · Höhe mm 76 / 150.5 / 181 · Breite mm 39 / 54.5 / 96 · L/H 7 / 9.1 / 15.7 · Füllgrad 0.26 / 0.32 / 0.67 · Visierlinie mm – · Akzente 0 / 1 / 2
+- **Langwaffe** (18): Länge mm 564 / 908 / 1177 · Höhe mm 222 / 256 / 294 · Breite mm 47 / 53 / 129 · L/H 2.2 / 3.5 / 4.5 · Füllgrad 0.26 / 0.345 / 0.48 · Visierlinie mm 39 / 66 / 74 · Akzente 2 / 3.5 / 5 · Teile 36 / 57 / 73 · Formen 41 / 94 / 164 · Rundkörper 0.22 / 0.385 / 0.62 · Quader 0.03 / 0.11 / 0.37 · Materialrollen 11 / 14 / 15 · blanke Kanten 1 / 10.5 / 16
+- **Kompakt** (6): Länge mm 197 / 303.5 / 547 · Höhe mm 176 / 190 / 291 · Breite mm 34 / 46 / 54 · L/H 1.1 / 1.55 / 1.9 · Füllgrad 0.29 / 0.385 / 0.4 · Visierlinie mm 29 / 42.5 / 72 · Akzente 2 / 3 / 4 · Teile 20 / 28 / 51 · Formen 29 / 41 / 123 · Rundkörper 0.15 / 0.22 / 0.38 · Quader 0.06 / 0.25 / 0.39 · Materialrollen 10 / 11.5 / 16 · blanke Kanten 1 / 3.5 / 7
+- **Werfer** (4): Länge mm 648 / 790 / 922 · Höhe mm 241 / 268 / 270 · Breite mm 71 / 131 / 142 · L/H 2.4 / 2.95 / 3.8 · Füllgrad 0.39 / 0.435 / 0.58 · Visierlinie mm 0 / 33 / 74 · Akzente 2 / 3 / 4 · Teile 49 / 54 / 56 · Formen 115 / 136.5 / 153 · Rundkörper 0.24 / 0.295 / 0.43 · Quader 0.07 / 0.11 / 0.13 · Materialrollen 13 / 13.5 / 15 · blanke Kanten 6 / 9 / 10
+- **Bogen** (2, nur zwei Modelle: Spanne statt Band): Länge mm 711 / 722 / 733 · Höhe mm 796 / 906 / 1016 · Breite mm 69 / 72 / 75 · L/H 0.7 / 0.8 / 0.9 · Füllgrad 0.07 / 0.09 / 0.11 · Visierlinie mm 69.5 / 69.5 / 69.5 · Akzente 2 / 2 / 2 · Teile 41 / 46 / 51 · Formen 47 / 59 / 71 · Rundkörper 0.38 / 0.42 / 0.46 · Quader 0.06 / 0.105 / 0.15 · Materialrollen 11 / 11 / 11 · blanke Kanten 6 / 8 / 10
+- **Nahkampf** (4): Länge mm 1039 / 1309 / 1595 · Höhe mm 76 / 150.5 / 181 · Breite mm 39 / 54.5 / 96 · L/H 7 / 9.1 / 15.7 · Füllgrad 0.26 / 0.32 / 0.67 · Visierlinie mm – · Akzente 0 / 1 / 2 · Teile 9 / 16.5 / 34 · Formen 9 / 26 / 56 · Rundkörper 0.31 / 0.41 / 0.52 · Quader 0.03 / 0.185 / 0.33 · Materialrollen 5 / 8 / 10 · blanke Kanten 0 / 2.5 / 5
 <!-- kanon:messung:ende -->
 
 ## 3. Formvokabular
@@ -194,6 +238,8 @@ dem Rohr wie BASIC-12 (X:667). Offen: ähnliche Plattenschäfte EA03/EA11 (AF:11
 
 - Kastig (Plattenkolben, Quader-Querschnitte, glatte Kästen) → gestaltete Querschnitte, Front und Rück jede Runde → L:38, V0.23:47–48, X:504–525, AF:110
 - Weniger Detail als der Pilot → Detaildichte ≥ Pilot → V0.23:44–45, X:518
+- Blockig aus wenigen extrudierten Platten in eigener Geometrie (Astra-Formstudie EXTENDED-01, 22.11.: rund zehn Umrisse, eine Fase für alle,
+  eigene Palette) → nur Modellsprache und Familienbausteine, Detaildichte im Band der Klasse → Messblock › Detaildichte, `test_kanon`
 - Stifte unter Ø 12 mm (Zweibeinholme, Einbein) → Leitmotiv über Volumen, Sohlen statt Stifte → V0.25:44–46, X:622, L:39
 - Visier am dünnen Winkel, „nicht richtig befestigt“ → Konsole aus Schale und Kiel, Schiene liegt ganz auf → X:623, V0.25:45, L:39
 - Magazin im Abzugsbügel (fiel im Render nicht auf) → Magazin vor dem Bügel, Test → X:513, V0.23:39–40
@@ -240,6 +286,7 @@ ihre Modelle:
   T_streuung `test_brace_pump_and_eye`:356, `test_port_opens_before_eject`:617.
 - Linien: `tests/test_extended_lines.py` (Vielfalt, Paare, Zusammenhalt, Schnittkörper, starres Magazin, Vertrag, Rollenkontrast) und
   `tests/test_variety.py` (BASIC).
+- Detaildichte im Band der Klasse: `formgen.kanon.outside`, Gegenprobe zehn Platten `test_counterproof_ten_slabs_fall_below_the_band`.
 - Nicht maschinell geprüft: „liest sich als …“ (Abschnitt 6) und die offene Kastigkeit in Front und Draufsicht (AF:110) – dafür die
   [Stilprüfung](kanon-stilpruefung.md) und die Sichtung durch den Nutzer.
 
@@ -249,7 +296,7 @@ ihre Modelle:
    abhebt (eigene Leitmotive, eigene Skins). Welches Modell entwirft: erlaubte Modelle nach den globalen Regeln (Opus `high` für Entwurf); nur
    das dort gesperrte `gpt-6-astra` braucht vorher eine Regeländerung in Nexogen.
 2. **Je Waffe:** drei Konzeptzeilen (Rolle, Leitmotiv außerhalb der Motivtabelle, Silhouette) → mindestens drei Seitenskizzen mit Visierlinie →
-   Nutzer wählt → Modul nach Muster (Paket) mit Herkunft je Zahl → Tests dieses Kanons → Messzeile im Band der Klasse oder begründet → Stilprüfung →
+   Nutzer wählt → Modul nach Muster (Paket) mit Herkunft je Zahl → Tests dieses Kanons → Messzeile samt Detaildichte im Band der Klasse oder begründet → Stilprüfung →
    Sichtung durch den Nutzer → AAA nur auf sein Wort.
 3. **Paket:** `python -m formgen.kanon paket --out <Ordner> [--bilder <Übersicht>]` bündelt diesen Kanon, die Stilprüfung, `modellsprache.md`,
    `skins.toml`, beide Linienregister und acht Musterlösungen (`formgen.kanon.EXAMPLES`): EA01 (Muster mit voller Checkliste, AF:55–56), EA04

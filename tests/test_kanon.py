@@ -1,4 +1,4 @@
-"""0.42 Canon: Design-Kanon (Messblock aktuell, Klassen vollständig, Beispielpaket, Füllgrad mit Gegenprobe)."""
+"""0.42 Canon: Design-Kanon (Messblock aktuell, Klassen vollständig, Beispielpaket, Füllgrad mit Gegenprobe); Patch kanon-detail: Detaildichte."""
 import copy
 import tempfile
 import unittest
@@ -53,6 +53,15 @@ class KanonStaticTests(unittest.TestCase):
         b = a + np.array([0.0, 0.4, 0.0])
         self.assertAlmostEqual(kanon._fill(np.concatenate([a, b])), 0.2 * 0.2 * 2 / (0.6 * 0.2), delta=0.05)
 
+    def test_detail_counts_every_element_of_a_multi(self):
+        parts = [{"id": "body", "shape": "box", "mat": "shell"},
+                 {"id": "screws", "shape": "multi", "mat": "trim", "items": [{"shape": "cyl"}] * 3},
+                 {"id": "barrel", "shape": "cyl", "mat": "metal"}]
+        self.assertEqual(kanon.detail(parts), {"parts": 3, "forms": 5, "round": 0.8, "boxy": 0.2, "mats": 3, "trim": 1})
+
+    def test_class_follows_the_type_number(self):
+        self.assertEqual([kanon.klasse(s) for s in ("BA01", "EA13", "HA04", "EA16")], ["Langwaffe", "Werfer", "Kompakt", "Nahkampf"])
+
     def test_pack_bundles_canon_prompt_and_examples(self):
         with tempfile.TemporaryDirectory() as tmp:
             files = kanon.pack(Path(tmp) / "paket")
@@ -79,6 +88,19 @@ class KanonMeasureTests(unittest.TestCase):
         from formgen import extended
         row = kanon.measure_model(extended.load("e06", SNAP), "EA06", SNAP)
         self.assertEqual(row, next(r for r in self.rows if r["id"] == "EA06"))
+
+    def test_family_model_lies_in_its_detail_band(self):
+        """Positivprobe: EA01 gegen die übrigen Langwaffen hat keinen Detailwert auf der blockigen Seite."""
+        row = next(r for r in self.rows if r["id"] == "EA01")
+        self.assertEqual([k for k, *_ in kanon.outside(row, self.rows) if k in kanon.ONLY], [])
+
+    def test_counterproof_ten_slabs_fall_below_the_band(self):
+        """Gegenprobe mit dem erwarteten Grund: zehn Platten aus zwei Rollen (wie die Astra-Formstudie) bei EA01-Proportionen melden
+        alle sechs Detailwerte, aber keine Proportion."""
+        row = dict(next(r for r in self.rows if r["id"] == "EA01"), id="HA01")
+        row.update(kanon.detail([{"id": f"slab{i}", "shape": "box", "mat": ("shell", "graphite")[i % 2]} for i in range(10)]))
+        keys = {k for k, *_ in kanon.outside(row, self.rows)}
+        self.assertEqual(keys, set(kanon.ONLY))
 
     def test_counterproof_a_changed_model_is_detected(self):
         rows = copy.deepcopy(self.rows)

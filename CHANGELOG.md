@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.42.1 Patch kanon-detail — Detaildichte im Design-Kanon
+
+- Neu: Der Kanon misst je Modell die Detaildichte (Teile, Formen, Anteil Rundkörper und Quader, Materialrollen, blanke Kanten) mit Bändern je Klasse; `formgen.kanon zeile` und `outside` nennen Werte außerhalb des Bands. Anlass: Astras Formstudien wirkten blockig und lagen trotzdem in den Proportionsbändern.
+
 ## 0.42.0 Canon — Design-Kanon für eine weitere Waffen-Generation
 
 - Neu: [Design-Kanon](docs/design-kanon.md) – Grundsätze, Silhouette und Proportion, Formvokabular, Motivtabelle EA01–EA17, Materialrollen und Skins, „Nie wieder“ aus allen Nutzerkorrekturen, die Tests dazu und der Ablauf für eine neue Generation; jede Aussage mit Fundstelle.
