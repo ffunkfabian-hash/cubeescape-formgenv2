@@ -138,7 +138,7 @@ def measure_model(model: dict, sid: str, snap=None, family=None) -> dict:
 
 
 def klasse(sid: str) -> str:
-    """Klasse nach der Typnummer am Ende der Blatt-ID (BA01, EA13, HA04 …)."""
+    """Klasse nach der Typnummer am Ende der Blatt-ID (BA01, EA13, HA04 …); Zuordnung nur aus CLASSES (BALLON-Typen, design-kanon.md › 2)."""
     return next(name for name, nums in CLASSES.items() if sid[-2:] in nums)
 
 
