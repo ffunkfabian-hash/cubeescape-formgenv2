@@ -78,7 +78,7 @@ Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
   dahinter ein L-Schaft aus Creme-Keilbalken (42–46 mm, 36 breit) über einem Graphit-Fersenkeil. In der Draufsicht und von vorn steht
   der Rahmen 10–13 mm je Seite über die Arme, seine senkrechten Ecken sind 45° gefast.
 - **45° als Wiederholung:** Fasen am Rahmen außen (22) und an der Öffnung (16), die Haubenstufe, die Haubennase, die Innenfase des Schafts
-  und die Kanteneinzüge im Querschnitt verwenden alle denselben Winkel. Die Klarheit liegt bei Achsen 0,76 und Richtungen 0,93.
+  und die Kanteneinzüge im Querschnitt verwenden alle denselben Winkel. Die Klarheit liegt bei Achsen 0,77 und Richtungen 0,94.
 - **Querschnitte:** Rahmenbügel, Haube (vor und hinter der Stufe), Schaft und Kappenfuß haben 45°-Einzüge (4–6 mm). Die Unterteile sind je
   Seite 1 mm schmaler als die Oberteile.
 - **Zweiton:** Creme oben (Rahmenbügel, Haube, Schaft, Magazin) über Graphit unten (Rahmenwanne, Handschutz). Die Fuge liegt in den Pfosten
