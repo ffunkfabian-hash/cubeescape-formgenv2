@@ -9,8 +9,11 @@ Spiel.
 | Kurzname | ID | Blatt-ID | Modul | Typ |
 |---|---|---|---|---|
 | `z01` | ZERO-01 „Crosshair“ | `ZA01` | `formgen/models/zero/z01_crosshair.py` | Automatikgewehr |
+| `z02` | ZERO-02 „Facet“ | `ZA02` | `formgen/models/zero/z02_facet.py` | Automatikgewehr |
 
-IDs sind ewig. Die Blatt-ID folgt dem Schema `Z<Linie><NN>` analog zu `EA01`: Linie A ist die Grundform. Das Muster
+IDs sind ewig. Die Blatt-ID folgt dem Schema `Z<Linie><NN>` analog zu `EA01`: Linie A ist die Grundform. Anders als bei EXTENDED
+ist NN die laufende ZERO-Nummer und nicht die BASIC-Typnummer (ZA02 ist ein Automatikgewehr). `kanon.klasse` ordnet ZA01 und ZA02
+beide der Klasse Langwaffe zu, wie die Typen 01 und 02. Das Muster
 `extended.SHEET_PATTERN` nimmt seit 0.46 die Reihen E und Z an; die Kollisionsprüfung gegen Waffen-, Roboter- und EXTENDED-Blätter gilt
 weiter. Ein Linienregister, einen Blattweg über `formgen.pipeline` und die Website-Aufnahme hat ZERO noch nicht.
 
@@ -146,6 +149,64 @@ AAA mit BALLONs unverändertem `tools/blender_build.main` (Cycles, mittelgrau, o
 
 Zuvor im Raster: Dunkle Paneele an Schaft und Pfosten lasen sich als Löcher (Kanon › 6), eine dunkle Haubenstufe als Schlitz. Sie wurden
 durch Creme-Schichten ersetzt oder entfernt.
+
+## ZERO-02 „Facet“
+
+### Herkunft
+
+Nach ZERO-01 bat der Nutzer um weitere Formvarianten. Eine Variante mit offenem Mittelteil reiche, die übrigen sollten ein
+geschlossenes Gehäuse haben. Vier Rasterskizzen (Versuch, nur Cache, `~/Library/Caches/CubeEscapeFormgen2/0.46/belege/formvarianten/`),
+IoU des Kanons:
+
+| Variante | Formidee | EA01 | BA01 | ZA01 |
+|---|---|---|---|---|
+| W1 Versatz | Creme-Rumpf vorn, Graphit-Schaft hinten, Z-Versatz | 0,83 | 0,75 | 0,73 |
+| W2 Seitengondel | Energiezelle als Gondel links, asymmetrisch | 0,79 | 0,76 | 0,87 |
+| W3 Stufenrücken | Oberlinie steigt in Stufen zum Schaft | 0,76 | 0,74 | 0,80 |
+| **W4 Facettenkeil** | V1 Black Ice: Facetten-Querschnitte, Keilschaft | 0,87 | 0,77 | 0,80 |
+
+Der Nutzer wählte W4. Die Skizze lag mit tiefem Keilschaft über der Grenze gegen EA01. Die Messung ohne Schaft ergab 0,72, der Schaft war
+also der Treiber: Sein tiefer Keil deckt sich mit dem Fachwerkschaft von EA01. Der Keilschaft von V1 KJ02 „Frostbite“ steigt dagegen nach
+hinten, und so baut ihn ZERO-02 (0,80–0,82).
+
+### Formsprache
+
+Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
+
+- **Leitmerkmal Facettenkeil:** Gehäuse, Haube und Schaft sind Querprofile (`xprof`) mit demselben Sechskant: untere Schräge, senkrechtes
+  Mittelband, steile obere Schräge. Von vorn und hinten liest sich die Waffe als gestaffelte Sechsecke, auch an Unterteil und
+  Schaftkappe. Eine erhabene blanke Facettenleiste auf u 120 läuft als Leitlinie über Schaft, Gehäuse und Haube.
+- **Keilschaft:** Er steigt mit einer 45°-Facette über das Gehäuse auf u 154. Darunter wächst ein Graphit-Keil zur Kappe (u 58), die Fuge
+  liegt an der unteren Facettenkante wie am Gehäuse. Ein waagerechter Schlitz im Creme-Teil (14 mm hoch, blanke Oberkante) ist der
+  Negativraum. Er hat vier Ecken mit parallelen Kanten und ist bewusst kein Fachwerkdreieck (Motivtabelle EA01).
+- **Front:** Stirnfacette an Gehäuse und Haube, blanke Laufbuchse, freier kannelierter Lauf, Achtkant-Kompensator, blanke Krone.
+- **Zweiton:** Creme oben über Graphit unten; die Fuge liegt an der unteren Facettenkante (u 92).
+- **Blickfang:** die Leuchtkante. Links wird die Leitlinie über dem Verschluss zu einem Leuchtschacht hinter Glas mit blanken Kappen
+  (V1 Black Ice „Leuchtkanten“). Ein liegender Kern lag an derselben Stelle wie der Sechseck-Kern von EA01 und wurde nach der Stilprüfung
+  ersetzt. Die Munitionsanzeige liegt oben zum Auge, Auswurffenster und Klappe rechts im Mittelband.
+- **Grafik und Schrift:** ein kleines Chevronpaar im Mittelband vor der Haubennase und „BASIC  ZR-02“ rechts im Mittelband des Gehäuses.
+- **Gleich wie BASIC-01:** Laufachse u 106, Visierlinie 70 mm darüber, Schnittstellen BGM-1, BMW-R, BMZ-15 und BRI-22, Baugruppen,
+  Aktionen `fire_auto` (Verschluss und Klappe) und `reload_empty`.
+
+### Prüfung
+
+`tests/test_zero.py` › `TestFacet` prüft jede Regel mit Gegenprobe:
+
+- Felder, IDs und Blatt-ID.
+- Weltpunkte mit `basic.variant.problems` als Orakel.
+- Familie und Budgets: 3 Leuchtfunktionen (Leuchtkante, Munitionsanzeige, Visieremitter), 3 Akzent-Bedienfunktionen, eine Schrift,
+  ein Grafikelement.
+- Visierlinie.
+- Kanon-IoU unter 0,85 gegen BASIC-01, alle neun EXTENDED-Langwaffen und ZERO-01. Gegenprobe: ein tiefer Keil rückt näher an EA01.
+- Keine schwebenden Teile.
+- Facetten-Querschnitte (mindestens sechs Ecken, Mittelband, Breitenänderung ≥ 3 mm). Gegenprobe: ein Rechteck fällt durch.
+- Keilschaft und Schlitz: Die umschlossene Lücke wird am ausgewerteten Netz gemessen, weil `extended.side_mask` und die Kanon-Dreiecke
+  Schnitte an Querprofilen nicht sehen. Gegenprobe: ohne Schlitz fehlt die Lücke.
+- Magazin vor dem Bügel, keine Stifte.
+- Schrift im Mittelband vor dem Auswurffenster. Gegenproben: auf dem Fenster, über dem Band.
+- Einfache Profile.
+- Quellhash ohne Umbau.
+- Messzeile im Band.
 
 ## Grenzen
 
