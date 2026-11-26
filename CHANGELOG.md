@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.47.0 Volt
+
+- Volt-01 umfasst Service (K01), Patrol (L01), Ranger (M01) und Field (N01). Die freigegebenen Kits lassen sich gemeinsam über `python -m formgen.pipeline --series Volt-01` bauen.
+
 ## 0.45.0 Longspan
 
 - VA01 Longspan ist ein eigenständiges Automatikgewehr mit offener Längsbrücke. Der Bau über `python -m formgen.pipeline VA01` erzeugt das Rasterblatt und die lokale Vorschau aus dem v2-Kit. Die Kanonmessung bewertet auch die Richtungen langer Profilkanten.

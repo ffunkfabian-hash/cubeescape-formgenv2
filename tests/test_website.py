@@ -331,6 +331,22 @@ class ReleaseTests(Fixture):
         write(self.out/'assets/BB01.glb', GLB)
         viewer.build(self.out, self.cache)
 
+    def test_volt_series_in_mixed_catalog_and_release(self):
+        from formgen import geom, model, spec
+        from formgen.models.weapons import volt01
+
+        for sid, entry in volt01.SHEETS.items():
+            native = spec.build(geom.evaluate(model.normalize(entry.author(None))))
+            sheet(self.out, sid, native, glb=False)
+        self.prepare()
+        members = [row['id'] for row in site.collect(self.out) if row.get('group') == 'Volt-01']
+        self.assertEqual(members, ['K01', 'L01', 'M01', 'N01'])
+        result = release_assets.package(self.out, self.path/'release')
+        self.assertEqual(result['models'], sorted(['BA01', 'BB01', 'RA01', *members]))
+        with zipfile.ZipFile(result['path']) as archive:
+            for sid in members:
+                self.assertEqual(json.loads(archive.read(f'specs/{sid}.spec.json'))['sheet']['id'], sid)
+
     def test_main_zip_follows_the_pages_without_3d_data(self):
         self.prepare()
         result = release_assets.package(self.out, self.path/'release')

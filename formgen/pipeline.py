@@ -26,7 +26,7 @@ import time
 from pathlib import Path
 
 from . import ballon, build, variants, versions
-from .models.weapons import AUTHORED
+from .models.weapons import AUTHORED, SERIES
 from .cache import Artifact, canonical, file_hash, run_artifacts
 
 ROOT = build.ROOT
@@ -71,7 +71,7 @@ def geometry_plan(selection, snap, commit):
         if sid in AUTHORED:
             module = AUTHORED[sid]
             doc = module.author(snap)
-            path = Path(module.__file__)
+            path = module.source_path if hasattr(module, "source_path") else Path(module.__file__)
             doc["source"] = {"path": str(path.relative_to(ROOT)), "sha256": file_hash(path),
                              "ballon_commit": commit}
             source = hashlib.sha256(canonical(doc)).hexdigest()
@@ -248,6 +248,7 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("ids", nargs="*", help="Blatt-IDs (BA01, VA01 …); ohne Angabe die BASIC-Serien")
+    p.add_argument("--series", choices=SERIES, help="Alle Blätter einer Autorenserie")
     p.add_argument("--variants", help="Kennbuchstaben, kommagetrennt")
     p.add_argument("--types", help="BASIC-Nummern 01–17, kommagetrennt")
     p.add_argument("--stages", help="Kommagetrennt aus " + ",".join(STAGES) + "; geometry läuft immer")
@@ -261,7 +262,9 @@ def main(argv=None) -> int:
     stages = a.stages.split(",") if a.stages else list(STAGES)
     if any(s not in STAGES for s in stages):
         p.error("Unbekannte Stufe")
-    selection = select(a.ids, a.variants and a.variants.split(","), a.types and a.types.split(","))
+    if a.series and (a.ids or a.variants or a.types):
+        p.error("--series wählt eine vollständige Serie und ist mit anderen Auswahlfiltern unvereinbar")
+    selection = select(SERIES[a.series] if a.series else a.ids, a.variants and a.variants.split(","), a.types and a.types.split(","))
     if a.stages and "asset" in stages and AUTHORED.keys() & selection.keys():
         p.error("Die GLB-Assetstufe gilt für BASIC-Serien. Kit-Modelle als Geometrie, Blatt und Vorschau bauen.")
     if not selection:

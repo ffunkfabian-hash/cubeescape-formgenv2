@@ -14,7 +14,7 @@ import tomllib
 from pathlib import Path
 
 from .. import spec as model_spec, wspec
-from ..models.weapons import AUTHORED
+from ..models.weapons import AUTHORED, SERIES
 from ..cache import Artifact, canonical, file_hash, run_artifacts
 from ..versions import VIEWER
 
@@ -103,7 +103,7 @@ def collect(out) -> list[dict]:
             found.append({'id': sid, 'kind': 'weapon', 'name': sheet['nick'], 'has_3d': has_3d,
                           'labels': {'parts': labels, 'assemblies': assemblies, 'families': [], 'order': []},
                           'variant': sid, 'variant_name': sheet['nick'], 'skin_id': 'standard',
-                          'swatches': swatches('standard', palettes), 'group': spec['weapon']['name_de'],
+                          'swatches': swatches('standard', palettes), 'group': next((name for name, ids in SERIES.items() if sid in ids), spec['weapon']['name_de']),
                           'note': f"{spec['dimensions_m']['with_sight']['length'] * 1000:.0f} mm"})
         elif spec.get('format') == ROBOT_FORMAT:
             spec = robot_spec(spec)
