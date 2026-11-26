@@ -17,6 +17,13 @@ class LongspanRegisterTests(unittest.TestCase):
         self.assertEqual(list(pipeline.select(["BA01", "VA01"])), ["BA01", "VA01"])
         self.assertNotIn("VA01", pipeline.select(letters=["A"]))
 
+    def test_bake_outside_authored_only_selection(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out"
+            with self.assertRaisesRegex(SystemExit, "--bake außerhalb der Auswahl: BA01"):
+                pipeline.run(pipeline.select(["VA01"]), out, Path(tmp) / "cache", bake=["BA01"])
+            self.assertFalse(out.exists())
+
     def test_canonical_edge_weights(self):
         outline = dict(shape="prof", pts=[(0,0),(40,0),(40,30)])
         self.assertEqual(kanon.clarity([outline]), {"axis": .58, "dirs": 1.0})

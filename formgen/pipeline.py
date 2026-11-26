@@ -168,6 +168,9 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
         gpu=True):
     """Build the selection stage by stage; `snap`/`commit` override the pinned BALLON snapshot (measurements, tests).
     `bake`: sheet IDs of the selection for the AAA bake (stage `bake`, needs `ce lock gpu`); `kit` overrides the kit snapshot."""
+    unknown = sorted(set(bake) - set(selection))
+    if unknown:
+        raise SystemExit(f"--bake außerhalb der Auswahl: {', '.join(unknown)}")
     out, cache = Path(out), Path(cache)
     cfg = ballon.config()
     if commit:
@@ -203,9 +206,6 @@ def run(selection, out, cache, stages=STAGES, jobs=1, force=False, log=print, sn
             stage("asset", glb, jobs=min(jobs, settings["jobs"]))
         asset.write_index(out, glb, results[n0:])          # sofort: ein später scheiternder Bake lässt keinen alten Index stehen
         if bake:
-            unknown = sorted(set(bake) - set(selection))
-            if unknown:
-                raise SystemExit(f"--bake außerhalb der Auswahl: {', '.join(unknown)}")
             baking = asset.bake_plan([a for a in glb if a.model_id in set(bake)], settings, gpu)
             n1 = len(results)
             with asset.reconciled(out):
