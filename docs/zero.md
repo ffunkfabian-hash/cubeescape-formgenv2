@@ -20,7 +20,7 @@ weiter. Ein Linienregister, einen Blattweg über `formgen.pipeline` und die Webs
   `extended`). Die Quellhashes der EA-Modelle bleiben bytegleich (Schlüssel `formgen/models/extended/<datei>`).
 - `tools/extended_render.py z01` rendert die Grundform. Bis 0.46 bildete `subject()` die Blatt-ID über das EXTENDED-Linienregister; für
   `z01` wurde daraus still `EA01`, und Blender baute EXTENDED-01 unter dem Titel ZERO-01. Jetzt rendert ein Modell ohne Linienregister seine
-  Grundform, `--line` bricht für ZERO ab (`tests/test_zero.py` › `TestRenderSubject`).
+  Grundform; `--line` mit einer anderen Linie als A bricht für ZERO ab (`tests/test_zero.py` › `TestRenderSubject`).
 
 ```bash
 W=$PWD; ./ce lock gpu -- $W/.venv/bin/python $W/tools/extended_render.py z01 --tag r2 --res 1600 --gpu --extra
@@ -133,7 +133,9 @@ der Kanon prüft die Detaildichte nur auf der blockigen Seite, eine Obergrenze g
 ### Renders
 
 AAA mit BALLONs unverändertem `tools/blender_build.main` (Cycles, mittelgrau, ohne Bloom), Ausgabe außerhalb des Repos unter
-`~/Library/Caches/CubeEscapeFormgen2/0.15/belege/z01/<tag>/`. Rasterstände liegen unter `…/0.46/belege/raster/`.
+`~/Library/Caches/CubeEscapeFormgen2/0.15/belege/z01/<tag>/`. Rasterstände liegen unter `…/0.46/belege/raster/`, die Bewegungsbelege
+(`fire_auto`, `reload_empty`; BALLONs `blender_build --motion` mit dem Datensatz, `./ce evidence clip`, 480p, ≤ 8 s) unter
+`…/0.46/belege/bewegung/z01_fire_auto.mp4` und `z01_reload_empty.mp4`, dazu `ZERO-01/schluesselbilder.png`.
 
 | Runde | Befund | Änderung |
 |---|---|---|
