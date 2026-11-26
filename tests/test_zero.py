@@ -372,6 +372,14 @@ class TestFacet(unittest.TestCase):
         t = variety.triangles(extended_lines.author(deep, "ZA02")[0])
         self.assertGreater(kanon._side_iou(t, self.tris["EA01"]), kanon._side_iou(self.own, self.tris["EA01"]))
 
+    def test_pair_distinct_from_zero01(self):
+        """Paar derselben Version (Kanon › 2, X:186): Seiten-IoU < 0,70 gegen ZERO-01, genaues Maß wie test_extended_schulter (Querprofile
+        mit ihren Seitenschnitten). Richter 0.46 R1: vorher 0,6999 – Haube kürzer und flacher. Gegenprobe: ZA02 gegen sich selbst."""
+        from tests.test_extended_gewehre import PAIR_MAX
+        from tests.test_extended_schulter import iou_exact
+        self.assertLess(iou_exact(extended.load("z01", SNAP)["PARTS"], self.parts), PAIR_MAX)
+        self.assertGreater(iou_exact(self.parts, self.parts), PAIR_MAX)
+
     def test_no_floating_parts(self):
         self.assertEqual(extended.components(self.parts)[1:], [])
         moved = copy.deepcopy(self.parts)   # Gegenprobe: Haubenleiste 40 mm nach außen

@@ -167,7 +167,9 @@ IoU des Kanons:
 
 Der Nutzer wählte W4. Die Skizze lag mit tiefem Keilschaft über der Grenze gegen EA01. Die Messung ohne Schaft ergab 0,72, der Schaft war
 also der Treiber: Sein tiefer Keil deckt sich mit dem Fachwerkschaft von EA01. Der Keilschaft von V1 KJ02 „Frostbite“ steigt dagegen nach
-hinten, und so baut ihn ZERO-02 (0,80–0,82).
+hinten, und so baut ihn ZERO-02. Der Richter verlangte die Paarregel des Kanons (< 0,70 im Paar, X:186, genaues Maß mit Querprofil-
+Schnitten): Bei 0,6999 wurde die Haube kürzer und flacher (Nase f 400, Oberkante 124, längerer freier Lauf wie KJ02). Endstand: Kanon-IoU
+0,78 gegen EA01, 0,71 gegen BA01, 0,75 gegen ZA01; genaues Maß 0,66 gegen ZA01 und 0,69 gegen EA01.
 
 ### Formsprache
 
@@ -198,6 +200,7 @@ Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
   ein Grafikelement.
 - Visierlinie.
 - Kanon-IoU unter 0,85 gegen BASIC-01, alle neun EXTENDED-Langwaffen und ZERO-01. Gegenprobe: ein tiefer Keil rückt näher an EA01.
+- Paar mit ZERO-01 unter 0,70 (genaues Maß wie `test_extended_schulter`). Gegenprobe: ZA02 gegen sich selbst.
 - Keine schwebenden Teile.
 - Facetten-Querschnitte (mindestens sechs Ecken, Mittelband, Breitenänderung ≥ 3 mm). Gegenprobe: ein Rechteck fällt durch.
 - Keilschaft und Schlitz: Die umschlossene Lücke wird am ausgewerteten Netz gemessen, weil `extended.side_mask` und die Kanon-Dreiecke

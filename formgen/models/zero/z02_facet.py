@@ -32,7 +32,7 @@ from basic.variant import collect
 
 META = dict(id='ZERO-02', num='Z02', sheet_id='ZA02', type='auto_rifle', type_de='Automatikgewehr', type_en='Auto Rifle',
             family='BASIC', name='Facet', nick='Facettenkeil', ammo='primary', fire='full_auto',
-            reference_length_m=0.902, reference_length_source='G: Hülle des Datensatzes 0.46 (BASIC-01 0,92 m, EXTENDED-01 0,90 m als Rahmen, V)',
+            reference_length_m=0.860, reference_length_source='G: Hülle des Datensatzes 0.46 (BASIC-01 0,92 m, EXTENDED-01 0,90 m als Rahmen, V)',
             inspired_by='BASIC-01 und EXTENDED-01 (Familie); Formgen v1 Black Ice KJ02 „Frostbite“ (Facettengehäuse, Keilschaft mit '
                         'Aussparung, Kanten an den Facetten) als Haltung',
             summary='Automatikgewehr aus großen ebenen Facetten mit steigendem Keilschaft (ZERO-Reihe).')
@@ -51,7 +51,7 @@ BORE = 106                    # V: Laufachse wie BASIC-01
 TOP = 142                     # A: Oberkante Gehäuse = Unterkante Schiene; Visierlinie TOP + 8 + 26 = 176 → 70 über der Laufachse
 BASE = 42                     # V: Unterkante Gehäuse wie BASIC-01 (Griffoberkante BGM-1)
 F0, F1 = -112, 206            # A: Gehäuse hinten / vorn
-H1 = 440                      # A: Haubennase
+H1 = 400                      # A: Haubennase; Richter 0.46 R1: kürzer, längerer freier Lauf (V1 KJ02), Paar-IoU zu ZA01 < 0,70
 S0 = -300                     # A: Schaftende vor dem Polster
 SPLIT = 92                    # A: Zweiton-Fuge an der unteren Facettenkante
 BAND = (104, 120)             # A: senkrechtes Mittelband des Gehäuses (Auswurf, Ladehebel, Schrift); oben die Leitlinie u 120
@@ -60,7 +60,7 @@ HALF = 26.0                   # A: halbe Breite im Mittelband (52; Oberkante 34,
 # Querschnitte (x, u), cu = 0 – derselbe Sechskant für Gehäuse, Haube und Schaft (A, Entwurf 0.46)
 SEC_UP = [(-22, SPLIT), (22, SPLIT), (HALF, BAND[0]), (HALF, BAND[1]), (14, TOP), (-14, TOP), (-HALF, BAND[1]), (-HALF, BAND[0])]
 SEC_LO = [(-15, BASE), (15, BASE), (23, 60), (22, SPLIT), (-22, SPLIT), (-23, 60)]
-HG_UP = [(-20, 100), (20, 100), (22, 108), (22, 120), (12, 130), (-12, 130), (-22, 120), (-22, 108)]
+HG_UP = [(-20, 100), (20, 100), (22, 106), (22, 116), (12, 124), (-12, 124), (-22, 116), (-22, 106)]   # A: flache Haube (Oberkante 124)
 HG_LO = [(-13, 72), (13, 72), (19, 84), (19, 100), (-19, 100), (-19, 84)]
 
 
@@ -109,7 +109,7 @@ P += [
          'über dem Verschluss zur Leuchtkante', 'in die Facettenkante gesetzt, 1,2 mm erhaben', bevel=0.4,
          items=[edge(F0 + 18, 150, HALF, -1), edge(F0 + 18, GLOW[0] - 6, HALF, 1),           # Gehäuse rechts ganz, links bis zum Schacht
                 edge(S0 + 12, F0 - 12, 20, 1), edge(S0 + 12, F0 - 12, 20, -1),               # Schaft
-                edge(F1 + 6, H1 - 40, 22, 1), edge(F1 + 6, H1 - 40, 22, -1)]),               # Haube
+                edge(F1 + 6, H1 - 34, 22, 1, u=116), edge(F1 + 6, H1 - 34, 22, -1, u=116)]),   # Haube (Bandkante u 116)
     box('edge_glow', 'Leuchtkante', 'Glow edge', 'receiver', 'energy', 'Leuchtende Facettenkante über dem Verschluss (Blickfang, Black Ice)',
         'im Leuchtschacht hinter Glas', GLOW[0], GLOW[1], BAND[1] - 3, BAND[1] + 3, 1.6, bevel=0, x=HALF - 3.6),
     box('edge_lens', 'Kantenglas', 'Edge lens', 'receiver', 'glass', 'Schützt die Leuchtkante', 'im Leuchtschacht',
@@ -149,25 +149,25 @@ P += _sight
 P += [
     part('hg_top', 'Handschutzhaube', 'Handguard hood', 'support', 'xprof', 'shell', 'Facettenhaube über Lauf und Gasweg; Stirnfacette',
          'in das Obere Gehäuse gesteckt, zwei Schrauben', bevel=R_SMALL, f0=F1, f1=H1, cu=0, pts=HG_UP,
-         cuts=[facet([(H1 - 34, 132), (H1 + 2, 132), (H1 + 2, 110)])]),
+         cuts=[facet([(H1 - 30, 126), (H1 + 2, 126), (H1 + 2, 108)])]),
     part('hg_low', 'Handschutz', 'Handguard', 'support', 'xprof', 'graphite', 'Griffbereich der Stützhand; facettierter Handstopp vorn',
          'unter der Haube, am Unteren Gehäuse verschraubt, Fuge', bevel=R_MID, f0=F1, f1=H1 - 8, cu=0, pts=HG_LO,
-         cuts=[facet([(H1 - 36, 60), (H1, 60), (H1, 100)]), cut_box(236, 372, 86, 98, 3, x=19.6), cut_box(236, 372, 86, 98, 3, x=-19.6)]),
+         cuts=[facet([(H1 - 36, 60), (H1, 60), (H1, 100)]), cut_box(236, H1 - 68, 86, 98, 3, x=19.6), cut_box(236, H1 - 68, 86, 98, 3, x=-19.6)]),
     box('hg_cover', 'Haubenleiste', 'Hood strip', 'support', 'shell', 'Zweite Schicht auf der oberen Haubenfacette; Leitlinie von oben',
-        'auf die Haube geschraubt, Stufe 2 mm', F1 + 20, H1 - 46, 129, 132, 18, bevel=R_FINE),
+        'auf die Haube geschraubt, Stufe 2 mm', F1 + 20, H1 - 40, 123, 126, 18, bevel=R_FINE),
     prof('handstop', 'Handstopp', 'Hand stop', 'support', 'graphite', 'Facettierter Anschlag vor der Stützhand',
-         'unter den Handschutz geschraubt', [(380, 73), (404, 73), (404, 64), (396, 58), (388, 58)], 24, bevel=R_SMALL),
+         'unter den Handschutz geschraubt', [(H1 - 60, 73), (H1 - 36, 73), (H1 - 36, 64), (H1 - 44, 58), (H1 - 52, 58)], 24, bevel=R_SMALL),
     box('hg_vent_l', 'Kühlleiste links', 'Cooling strip left', 'support', 'dark_metal', 'Führt Laufwärme seitlich ab',
-        'in die Handschutzmulde gesetzt', 238, 370, 88, 96, 1.2, bevel=R_FINE, x=17.8, cuts=[cut_box(248, 360, 90.5, 93.5, 3, x=17.8)]),
+        'in die Handschutzmulde gesetzt', 238, H1 - 70, 88, 96, 1.2, bevel=R_FINE, x=17.8, cuts=[cut_box(248, H1 - 80, 90.5, 93.5, 3, x=17.8)]),
     box('hg_vent_r', 'Kühlleiste rechts', 'Cooling strip right', 'support', 'dark_metal', 'Führt Laufwärme seitlich ab',
-        'in die Handschutzmulde gesetzt', 238, 370, 88, 96, 1.2, bevel=R_FINE, x=-17.8, cuts=[cut_box(248, 360, 90.5, 93.5, 3, x=-17.8)]),
+        'in die Handschutzmulde gesetzt', 238, H1 - 70, 88, 96, 1.2, bevel=R_FINE, x=-17.8, cuts=[cut_box(248, H1 - 80, 90.5, 93.5, 3, x=-17.8)]),
     prof('hg_pad', 'Griffpolster', 'Grip pad', 'support', 'rubber', 'Rutschfeste Zone für die Stützhand', 'unten auf den Handschutz geklebt',
-         [(226, 69), (376, 69), (376, 75), (226, 75)], 22, bevel=R_SMALL),
+         [(226, 69), (H1 - 64, 69), (H1 - 64, 75), (226, 75)], 22, bevel=R_SMALL),
     part('hg_screws', 'Handschutzschrauben', 'Handguard screws', 'support', 'multi', 'trim', 'Halten Haube und Handschutz', 'seitlich',
-         bevel=0.2, items=mirror(screws([(216, 92)], 19.4, r=1.6, h=0.8)) + mirror(screws([(216, 113)], 21.8, r=1.6, h=0.8))),
+         bevel=0.2, items=mirror(screws([(216, 92)], 19.4, r=1.6, h=0.8)) + mirror(screws([(216, 111)], 21.8, r=1.6, h=0.8))),
     part('chevron', 'Chevronband', 'Chevron band', 'support', 'multi', 'accent', 'Lackiertes Chevronpaar (einziges Grafikelement)',
          'lackiert, beidseitig im Mittelband vor der Haubennase', bevel=0,
-         items=[dict(shape='prof', pts=[(f, 108.5), (f + 6, 108.5), (f + 12, 113), (f + 6, 117.5), (f, 117.5), (f + 6, 113)],
+         items=[dict(shape='prof', pts=[(f, 107), (f + 6, 107), (f + 12, 111), (f + 6, 115), (f, 115), (f + 6, 111)],
                      w=0.6, x=sx * 22.05) for f in (H1 - 70, H1 - 58) for sx in (1, -1)]),
 ]
 # ---------------------------------------------------------------- Lauf und Mündung
@@ -257,7 +257,7 @@ PARTS = P
 # ---------------------------------------------------------------- Anker, Weltpunkte, Aktionen
 ANCHORS = {
     'Socket_Hand': dict(at=(0, 0, 0), part='grip', note='Haupthand, auf der Griffachse (V: BGM-1)'),
-    'Socket_SupportHand': dict(at=(300, 74, 0), part='hg_low', note='Mitte Handschutz hinter dem Handstopp, Stützhand umgreift'),
+    'Socket_SupportHand': dict(at=(290, 74, 0), part='hg_low', note='Mitte Handschutz hinter dem Handstopp, Stützhand umgreift'),
     'Socket_Muzzle': dict(at=(H1 + 148, BORE, 0), part='muzzle_crown', note='Stirnfläche Mündungskrone auf der Laufachse'),
     'Socket_MagWell': dict(at=(108, 70, 0), part='mag_well', note='Einrastpunkt Magazin (Schnittstelle BMW-R)'),
     'Socket_Charge': dict(at=(180, 112, HALF + 5), part='charging_handle', note='Griffpunkt Ladehebel links vorn im Mittelband'),
@@ -266,7 +266,7 @@ ANCHORS.update(SIGHT_ANCHORS)
 EJECT = dict(at=(54, 112, -22), dir=(0.3, 0.4, -1.0), case='rifle',
              src='A: Mitte Auswurffenster rechts (port_cover), Hülse nach rechts, etwas hoch und vorn (wie BASIC-01)')
 _CONTACT = {'grip': ((-3, -6, -16.5), 'V: Griff BGM-1 wie die Familie'),
-            'support': ((300, 66, -2), 'A: unter dem Griffpolster, hinter dem Handstopp'),
+            'support': ((290, 66, -2), 'A: unter dem Griffpolster, hinter dem Handstopp'),
             'mag': ((120, -18, 12.5), 'A: linke Magazinseite'),
             'charge': ((180, 112, HALF + 5), 'A: Ladehebel links vorn im Mittelband')}
 EGO_GRIPS = {k: dict(g, contact=_CONTACT[k][0], src=_CONTACT[k][1]) for k, g in _EGO.items()}
