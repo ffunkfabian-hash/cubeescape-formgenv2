@@ -57,6 +57,9 @@ class TestCrosshair(unittest.TestCase):
         cls.parts = cls.data["PARTS"]
         cls.ids = {p["id"]: p for p in cls.parts}
         cls.basic = extended.load_basic("01", SNAP)
+        from formgen import kanon, variety, extended_lines
+        cls.rows, cls.tris = kanon._family(SNAP)   # Familie (BASIC A, EA01–EA17) einmal messen, wie formgen.kanon
+        cls.own = variety.triangles(extended_lines.author(cls.data, "ZA01")[0])
 
     def test_fields_and_ids(self):
         for k in ("META", "PARTS", "ASSEMBLIES", "ANCHORS", "POINTS", "ACTIONS"):
@@ -126,19 +129,25 @@ class TestCrosshair(unittest.TestCase):
         self.assertLessEqual(eye - bore, 74, "Familienband der Langwaffen (Kanon-Messblock)")
 
     def test_own_silhouette(self):
-        """Seiten-IoU < 0,85 gegen BASIC-01 und jede EXTENDED-Langwaffe (Kanon › 2). Gegenproben wie EA01."""
+        """Seiten-IoU des Kanons (`kanon._side_iou` am ausgewerteten Netz, gemeinsamer Ursprung am Griff) < 0,85 gegen BASIC-01 und jede
+        EXTENDED-Langwaffe (Kanon › 2); dazu die Näherung `extended.side_iou` wie bei EA01. Gegenproben: sich selbst 1,0, eine Linie ohne
+        Mündung bleibt über der Schwelle."""
+        from formgen import kanon
+        for sid in ("BA01",) + tuple(f"EA{k[1:]}" for k in LONG):
+            with self.subTest(sid):
+                self.assertLess(kanon._side_iou(self.own, self.tris[sid]), IOU_MAX)
+        self.assertGreaterEqual(kanon._side_iou(self.own, self.own), 0.99)
         self.assertLess(extended.side_iou(self.basic["PARTS"], self.parts), IOU_MAX)
         for key in LONG:
             with self.subTest(key):
                 self.assertLess(extended.side_iou(extended.load(key, SNAP)["PARTS"], self.parts, **FRAME), IOU_MAX)
-        self.assertGreaterEqual(extended.side_iou(self.parts, self.parts), 0.99)
         trimmed = [p for p in self.parts if p["id"] not in ("muzzle", "muzzle_crown")]   # eine Linie bliebe über der Schwelle
         self.assertGreater(extended.side_iou(self.parts, trimmed), IOU_MAX)
 
     def test_no_floating_parts(self):
         self.assertEqual(extended.components(self.parts)[1:], [])
-        moved = copy.deepcopy(self.parts)   # Gegenprobe: Kammersteg 40 mm nach außen → eigene Gruppe
-        next(p for p in moved if p["id"] == "cross_web")["x"] = 40
+        moved = copy.deepcopy(self.parts)   # Gegenprobe: Kammersteg 70 mm nach außen → eigene Gruppe
+        next(p for p in moved if p["id"] == "cross_web")["x"] = 70
         self.assertGreater(len(extended.components(moved)), 1)
 
     def test_zero_frame_is_open(self):
@@ -179,11 +188,13 @@ class TestCrosshair(unittest.TestCase):
         """Der Verschluss läuft im Feuer sichtbar im Rahmen: der Kopf bleibt vor dem hinteren Pfosten, die Spannnase in der Öffnung,
         in Ruhe sitzt der Kopf an der Kammerschelle (Zuführstelle). Gegenprobe: 160 mm Hub verschwände im Pfosten."""
         bolt, head, lug, cap = (self.ids[k] for k in ("bolt_carrier", "bolt_head", "bolt_lug", "chamber_clamp"))
+        rear = min(q[0] for q in next(c for c in self.ids["frame_top"]["cuts"] if c.get("w") == 80)["pts"])   # Öffnung hinten
         back = bolt["move"]["vector_mm"][0]
         self.assertEqual(head["a1"], cap["a0"])
-        self.assertGreater(head["a0"] + back, -66)
-        self.assertGreater(lug["f0"] + back, -66)
-        self.assertLess(head["a0"] - 160, -66)
+        self.assertGreater(head["a0"] + back, rear)
+        self.assertGreater(lug["f0"] + back, rear)
+        self.assertLess(bolt["a0"], rear)   # der Träger steckt in Ruhe im hinteren Pfosten
+        self.assertLess(head["a0"] - 160, rear)
 
     def test_magazine_before_guard(self):
         mag = max(q[0] for q in self.ids["trigger_guard"]["pts"])
@@ -191,16 +202,21 @@ class TestCrosshair(unittest.TestCase):
         self.assertLess(min(q[0] for q in self.ids["grip"]["pts"]), mag)   # Gegenprobe: der Griff liegt hinter dem Bügelende
 
     def test_shaped_sections(self):
-        """Keine Rechteck-Querschnitte (L:38): Rahmenbügel, Haube (vor und hinter der Stufe), Schaft und Kappenfuß mit 45°-Einzug
+        """Keine Rechteck-Querschnitte (L:38): Rahmenbügel, Wanne, Haube (vor und hinter der Stufe), Schaftbalken und Fersenkeil mit 45°-Einzug
         ≥ R_MID 3 mm an beiden Kanten; die Unterteile je Seite schmaler als das Oberteil. Gegenprobe: ein Einzug unter R_MID fällt auf."""
         def depths(p):
             return [abs(c["pts"][1][1] - c["pts"][2][1]) - 2 for c in p["cuts"] if c.get("shape") == "xprof"]
-        for pid, n in (("frame_top", 2), ("frame_low", 2), ("hg_top", 4), ("hg_low", 2), ("stock", 4)):
+        for pid, n in (("frame_top", 2), ("frame_low", 2), ("hg_top", 4), ("hg_low", 2), ("stock", 2), ("stock_heel", 2)):
             with self.subTest(pid):
                 self.assertEqual(len(depths(self.ids[pid])), n)
                 self.assertGreaterEqual(min(depths(self.ids[pid])), 3)
         self.assertLess(self.ids["frame_low"]["w"], self.ids["frame_top"]["w"])
         self.assertLess(self.ids["hg_low"]["w"], self.ids["hg_top"]["w"])
+        self.assertLess(self.ids["stock_heel"]["w"], self.ids["stock"]["w"])
+        plans = [c for pid in ("frame_top", "frame_low") for c in self.ids[pid]["cuts"] if c.get("shape") == "plan"]
+        self.assertEqual(len(plans), 8, "45°-Ecken des Rahmens in der Draufsicht")
+        for c in plans:   # im Uhrzeigersinn (Stilregel wie test_plan_winding)
+            self.assertLess(sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(c["pts"], c["pts"][1:] + c["pts"][:1])), 0)
         flat = dict(self.ids["hg_top"], cuts=[dict(c, pts=[c["pts"][0], c["pts"][1], (c["pts"][2][0], c["pts"][1][1] - 3)])
                                                for c in self.ids["hg_top"]["cuts"]])
         self.assertLess(min(depths(flat)), 3)
@@ -213,13 +229,14 @@ class TestCrosshair(unittest.TestCase):
     def test_lettering_on_flat_face(self):
         """Schrift rechts auf der ebenen Haubenflanke: vor den Chevrons nach vorn, hinter der Haubenstufe, unter dem Kanten-Einzug."""
         t, hood = self.ids["text_r"], self.ids["hg_top"]
+        step = max(f for f, u in hood["pts"] if u == max(v for _, v in hood["pts"]))   # Hinterkante der 45°-Stufe
 
         def problems(t):
             start, end = text_span(t)
             out = []
             if start < max(q[0] for i in self.ids["chevron"]["items"] for q in i["pts"]):
                 out.append("über den Chevrons")
-            if end > 330:
+            if end > step:
                 out.append("über der Haubenstufe")
             if not (104 + 2 <= t["u"] - t["size"] / 2 and t["u"] + t["size"] / 2 <= 134 - 6 - 1):
                 out.append("über dem Einzug")
@@ -227,8 +244,8 @@ class TestCrosshair(unittest.TestCase):
                 out.append("nicht auf der rechten Flanke")
             return out
         self.assertEqual(problems(t), [])
-        self.assertEqual(problems(dict(t, f=250)), ["über den Chevrons"])     # Gegenproben
-        self.assertEqual(problems(dict(t, f=310)), ["über der Haubenstufe"])
+        self.assertEqual(problems(dict(t, f=t["f"] - 30)), ["über den Chevrons"])     # Gegenproben
+        self.assertEqual(problems(dict(t, f=step - 20)), ["über der Haubenstufe"])
         self.assertEqual(problems(dict(t, u=128)), ["über dem Einzug"])
 
     def test_profiles_simple(self):
@@ -247,13 +264,16 @@ class TestCrosshair(unittest.TestCase):
         self.assertIn("formgen/models/extended/e01_spearhead.py", extended.source("e01", SNAP)["files"])   # EA-Pfade unverändert
 
     def test_in_family_band(self):
-        """Messzeile im Band der Langwaffen (Detaildichte, Klarheit, Proportionen; formgen.kanon.outside) – Stilprüfung Nr. 3."""
+        """Messzeile im Band der Langwaffen (Detaildichte, Klarheit, Proportionen; formgen.kanon.outside) – Stilprüfung Nr. 3. Das
+        Referenzband ist nur die Familie (ohne ZA01). Gegenproben: zehn Platten (Detaildichte) und Ausreißer in Länge, Breite und Füllgrad."""
         from formgen import kanon
-        rows = kanon.measure(SNAP)
-        row = kanon.measure_model(self.data, "ZA01", SNAP)
-        self.assertEqual(kanon.outside(row, rows + [row]), [])
-        slabs = dict(row, parts=10, forms=10, round=0.0, boxy=0.9)   # Gegenprobe: zehn Platten (Astra-Formstudie)
-        self.assertLessEqual({"parts", "forms", "round", "boxy"}, {k for k, *_ in kanon.outside(slabs, rows)})
+        row = kanon.measure_model(self.data, "ZA01", SNAP, family=(self.rows, self.tris))
+        self.assertNotIn("ZA01", {r["id"] for r in self.rows})
+        self.assertEqual(kanon.outside(row, self.rows), [])
+        slabs = dict(row, parts=10, forms=10, round=0.0, boxy=0.9)   # Astra-Formstudie
+        self.assertLessEqual({"parts", "forms", "round", "boxy"}, {k for k, *_ in kanon.outside(slabs, self.rows)})
+        odd = dict(row, length=1300, width=150, fill=0.7)
+        self.assertLessEqual({"length", "width", "fill"}, {k for k, *_ in kanon.outside(odd, self.rows)})
 
 
 @unittest.skipIf(SNAP is None, REASON)

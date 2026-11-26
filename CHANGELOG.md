@@ -2,7 +2,7 @@
 
 ## 0.46.0 Zero — ZERO-01 „Crosshair“, neues Automatikgewehr der BASIC-Familie
 
-- Neu: [ZERO-01 „Crosshair“](docs/zero.md) (Blatt `ZA01`, `formgen/models/zero/z01_crosshair.py`). Das Gehäuse ist ein offener Achteckrahmen, der Nullrahmen. Verschluss, Leuchtkammer, Zuführsäule und Steg bilden darin ein Fadenkreuz. Die Silhouette folgt Arm – Rahmen – Arm, mit L-Schaft (Keilbalken) und 45° als wiederkehrendem Winkel. Ausgewählt aus zehn Rasterskizzen; Seiten-IoU 0,80 gegen EA01, 0,77 gegen BA01, alle Kanon-Werte im Band der Langwaffen.
+- Neu: [ZERO-01 „Crosshair“](docs/zero.md) (Blatt `ZA01`, `formgen/models/zero/z01_crosshair.py`). Das Gehäuse ist ein offener Achteckrahmen, der Nullrahmen. Verschluss, Leuchtkammer, Zuführsäule und Steg bilden darin ein Fadenkreuz. Die Silhouette folgt Arm – Rahmen – Arm, mit L-Schaft (Keilbalken) und 45° als wiederkehrendem Winkel. Ausgewählt aus zehn Rasterskizzen; Seiten-IoU 0,77 gegen EA01, 0,75 gegen BA01, alle Kanon-Werte im Band der Langwaffen.
 - Neu: ZERO-Reihe im selben Ladeweg wie EXTENDED (`extended.PACKAGES`, Blatt-ID `Z<Linie><NN>`); die EA-Quellhashes bleiben bytegleich.
 - Behoben: `tools/extended_render.py` baute für ein Modell ohne Linienregister still EXTENDED-01 (Blatt-ID über das EXTENDED-Register); jetzt rendert es die eigene Grundform, Test mit Gegenprobe.
 
