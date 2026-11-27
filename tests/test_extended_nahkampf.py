@@ -28,7 +28,8 @@ else:
     REASON = ""
 
 IOU_MAX = 0.85                       # Annahme wie BALLON A1 und test_extended (Linien liegen bei ≥ 0,95)
-FRAME = ((-700.0, -300.0), (2000, 700))   # Annahme: Rahmen für Langformen (Glefe 1,57 m); side_mask-Standard reicht nur bis f 780
+FRAME = ((-700.0, -420.0), (2000, 840))   # Annahme: Rahmen für Langformen (Glefe 1,57 m); side_mask-Standard reicht nur bis f 780;
+# 0.28: u ±420 statt −300 … 400, weil der Vergleich jedes registrierte Modell zeichnet und der Bogen EA07 senkrecht ±398 mm misst
 HOLE_MIN = 150                       # Annahme: kleinste zählende Lücke in mm² (Rundungspixel an Fasen bleiben darunter)
 KEYS = {"e16": "16", "e17": "17"}
 
