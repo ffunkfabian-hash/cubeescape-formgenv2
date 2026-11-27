@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.49.0 Cascade — ZERO-03 „Cascade“, Impulsgewehr der ZERO-Reihe
+
+- Neu: [ZERO-03 „Cascade“](docs/zero.md#zero-03-cascade) (Blatt `ZA03`, `formgen/models/zero/z03_cascade.py`), Impulsgewehr mit Dreier-Salve, Nutzerwahl P1 „Staffel“ mit Daumenloch-Schaft S2a. Der Körper fällt in drei 45°-Stufen nach vorn ab und wird dabei schmaler; drei Leuchtnuten (Schaftfuge, zwei Stufenflächen) leuchten bei der Salve von hinten nach vorn. Der Schaft liegt bündig mit dem Deck. Seiten-IoU 0,70 gegen BA02, 0,58 gegen EA02, `kanon.outside` ohne Befund. Stilprüfung durch ein zweites Modell: Runde 2 Freigabe.
+
 ## 0.46.0 Zero — ZERO-01 „Crosshair“, neues Automatikgewehr der BASIC-Familie
 
 - Neu: [ZERO-01 „Crosshair“](docs/zero.md) (Blatt `ZA01`, `formgen/models/zero/z01_crosshair.py`). Das Gehäuse ist ein offener Achteckrahmen, der Nullrahmen. Verschluss, Leuchtkammer, Zuführsäule und Steg bilden darin ein Fadenkreuz. Die Silhouette folgt Arm – Rahmen – Arm, mit L-Schaft (Keilbalken) und 45° als wiederkehrendem Winkel. Ausgewählt aus zehn Rasterskizzen; Seiten-IoU 0,77 gegen EA01, 0,75 gegen BA01, `kanon.outside` ohne Befund (Formen 173 über dem Bandmaximum 164, nur nach unten geprüft).

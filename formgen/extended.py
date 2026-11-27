@@ -271,6 +271,7 @@ MODELS["e14"], SHEETS["e14"] = "e14_keelson", "EA14"      # 0.25 Pauldron: Raket
 MODELS["e07"], SHEETS["e07"] = "e07_caliper", "EA07"      # 0.28 Quiver: Kampfbogen (Sonder)
 MODELS["e12"], SHEETS["e12"] = "e12_shuttle", "EA12"      # 0.28 Quiver: Spurgewehr (Sonder)
 # 0.46 „Zero“: ZERO-Reihe – eigenständige Modelle im selben Vokabular, eigenes Unterpaket formgen/models/zero, Blatt-ID Z<Linie><NN>
-PACKAGES = {"z01": "zero", "z02": "zero"}
+PACKAGES = {"z01": "zero", "z02": "zero", "z03": "zero"}
 MODELS["z01"], SHEETS["z01"] = "z01_crosshair", "ZA01"     # 0.46 Zero: Automatikgewehr „Crosshair“ (Nullrahmen)
 MODELS["z02"], SHEETS["z02"] = "z02_facet", "ZA02"         # 0.46 Zero: Automatikgewehr „Facet“ (Facettenkeil, Nutzerwahl W4)
+MODELS["z03"], SHEETS["z03"] = "z03_cascade", "ZA03"       # 0.49 Cascade: Impulsgewehr „Cascade“ (Staffel, Nutzerwahl P1/S2a)
