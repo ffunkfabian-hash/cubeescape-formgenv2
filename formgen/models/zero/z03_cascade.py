@@ -60,7 +60,8 @@ G1, G2 = (HG_TOP + 2, TOP - 2), (NOSE_TOP + 2, HG_TOP - 2)   # A: Leuchtnuten fa
 LEDGE, HG_LEDGE, STOCK_LEDGE = 116, 106, 120   # A: Höhe der Flankenstufe an Gehäuse, Handschutz, Schaftbalken (3 / 2,5 / 3 mm ein)
 SEAM = ((-142, TOP), (-110, 104))   # A: Schaftfuge 45°, fällt nach vorn wie die Stufen (oben → unten; Stilprüfung R1), 6 mm breit
 SEAM_W, BEAM_LOW = 6, 104          # A: Fugenbreite; Unterkante Schaftbalken = Oberkante Daumenloch
-HG_LOW, NOSE_LOW = 70, 86          # A: Unterlinie staffelt mit (Gehäuse 66 → Handschutz 70 → Nase 86)
+HG_LOW, NOSE_LOW = 70, 88          # A: Unterlinie staffelt mit (Gehäuse 66 → Handschutz 70 → Nase 88; Stilprüfung R2: Nase stärker absetzen)
+CAP_LOW = 110                      # A: Fuge Gummikappe / Creme-Kappenkopf (unter der Flankenstufe u 115–120)
 STRUT_HALF = 18.0                  # A: Strebe schmaler als der Balken (Rücken zeigt drei Breiten; Stilprüfung R1)
 POST = -270                   # A: Vorderkante Kolbenpfosten (Daumenloch hinten)
 
@@ -276,9 +277,14 @@ P += [
          items=mirror([dict(shape='cyl', axis='x', c=(S0 + 14, 80), a0=STRUT_HALF - 1.6, a1=STRUT_HALF + 0.2, r=6, r_in=3.4, segs=20)])),
     prof('cheek_rest', 'Wangenauflage', 'Cheek rest', 'stock', 'rubber', 'Anlage für die Wange', 'auf den Schaftbalken geklebt',
          [(-250, TOP - 1), (-170, TOP - 1), (-176, TOP + 4), (-246, TOP + 4)], 26, bevel=R_MID),
-    prof('butt_pad', 'Schaftkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter', 'auf Balken und Pfosten gesteckt',
-         [(S0 + 1, 66), (S0 + 1, TOP + 2), (S0 - 7, TOP), (S0 - 12, TOP - 7), (S0 - 12, 75), (S0 - 7, 68)], 2 * HALF - 2, bevel=R_MID,
-         cuts=[cut_box(S0 - 13, S0 - 8, 80 + 11 * i, 83 + 11 * i, 2 * HALF + 2) for i in range(5)] + ledge(S0 - 14, S0 + 2, STOCK_LEDGE, HALF - 1)),
+    prof('butt_pad', 'Schaftkappe', 'Butt pad', 'stock', 'rubber', 'Rutschfeste Anlage an der Schulter (unterer Teil)', 'auf Balken und Pfosten gesteckt',
+         [(S0 + 1, 66), (S0 + 1, CAP_LOW), (S0 - 12, CAP_LOW), (S0 - 12, 75), (S0 - 7, 68)], 2 * HALF - 2, bevel=R_MID,
+         cuts=[cut_box(S0 - 13, S0 - 8, 80 + 11 * i, 83 + 11 * i, 2 * HALF + 2) for i in range(3)]),
+    prof('butt_cap', 'Kappenkopf', 'Butt cap', 'stock', 'shell',
+         'Creme-Kopf der Kappe mit Stufenquerschnitt: die Staffel auch hinten an Farbe und Kante (Stilprüfung R2)',
+         'auf den Schaftbalken gesteckt, über der Gummikappe',
+         [(S0 + 1, CAP_LOW), (S0 + 1, TOP), (S0 - 7, TOP), (S0 - 12, TOP - 5), (S0 - 12, CAP_LOW)], 2 * HALF - 2, bevel=R_MID,
+         cuts=ledge(S0 - 14, S0 + 2, STOCK_LEDGE, HALF - 1)),
 ]
 PARTS = P
 
