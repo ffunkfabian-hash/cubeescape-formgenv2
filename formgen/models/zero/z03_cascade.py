@@ -8,7 +8,7 @@ Magazin BMW-R, Feuerwahlhebel, Ladehebel-Form, Schraubenköpfe) und Hilfen (`rot
 Formsprache (Auswahl: docs/zero.md › ZERO-03)
 - Leitmerkmal Staffel: Der Körper fällt in Stufen nach vorn ab – Deck (Gehäuse und Schaft bündig) u 136 → Handschutz u 118 → Nase
   u 108 – und wird mit jeder Stufe schmaler (50 → 40 → 32 mm), in der Seite wie in der Draufsicht; die Unterlinie staffelt mit
-  (66 → 70 → 86). Jede Stufenfläche ist eine 45°-Fase; Gehäuse, Handschutz, Schaft und Kappe haben den Stufenquerschnitt (die Flanke
+  (66 → 70 → 88). Jede Stufenfläche ist eine 45°-Fase; Gehäuse, Handschutz, Schaft und Kappe haben den Stufenquerschnitt (die Flanke
   springt oben 45° ein).
 - Drei Impulse in der Form: In der Schaftfuge und in beiden Stufenflächen sitzt je ein Leuchtstreifen, alle drei 45° nach vorn fallend. Bei der Dreier-Salve
   leuchten sie nacheinander von hinten nach vorn auf (Salvenanzeige = Blickfang, eine Leuchtfunktion).

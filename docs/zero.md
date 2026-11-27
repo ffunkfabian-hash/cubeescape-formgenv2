@@ -267,9 +267,9 @@ Schrift auf ebener Fläche, einfache Profile; Quellhash ohne Umbau; Messzeile im
 
 | Länge | Höhe | Breite | L/H | Füllgrad | Visierlinie | Teile | Formen | Rundkörper | Quader | Rollen | blanke Kanten | Achsen | Richtungen | Nachbar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 824 | 261 | 57 | 3.2 | 0.30 | 70 | 67 | 148 | 0.28 | 0.12 | 14 | 11 | 0.71 | 0.90 | BA02 0,70 |
+| 824 | 261 | 57 | 3.2 | 0.30 | 70 | 68 | 149 | 0.28 | 0.12 | 14 | 11 | 0.71 | 0.90 | BA02 0,70 |
 
-Kanon-IoU: BA02 0,70, EA02 0,58, EA01 0,67, ZA01 0,66, ZA02 0,73; alle Langwaffen unter 0,85. `kanon.outside` meldet nichts.
+Kanon-IoU: BA02 0,70, EA02 0,59, EA01 0,67, ZA01 0,66, ZA02 0,73; alle Langwaffen unter 0,85. `kanon.outside` meldet nichts.
 
 ### Renders
 
@@ -283,7 +283,8 @@ Kanon-IoU: BA02 0,70, EA02 0,58, EA01 0,67, ZA01 0,66, ZA02 0,73; alle Langwaffe
 | r4 | Endstand der Renders | – |
 | nach r4 | Offene Punkte der Stilprüfung R2 (nur Rasteransicht, kein Render auf Nutzerwunsch): Rücken ein dunkler Block, Nase setzt sich in der Unterlinie schwach ab | Kappe zweifarbig: Creme-Kopf mit Stufenquerschnitt über Gummikappe (Fuge u 110); Nasenunterkante 86 → 88 |
 
-Bewegung am Endstand: `~/Library/Caches/CubeEscapeFormgen2/0.49/belege/bewegung/z03_fire_burst.mp4` und `z03_reload_empty.mp4` (480p).
+Bewegung am Stand r4 (vor Kappe und Nase, die die Bewegung nicht ändern): `~/Library/Caches/CubeEscapeFormgen2/0.49/belege/bewegung/z03_fire_burst.mp4`
+und `z03_reload_empty.mp4` (480p). Endstand als Rasteransicht: `…/0.49/belege/ansicht/za03_ansicht_endstand.png`.
 
 ## Grenzen
 
