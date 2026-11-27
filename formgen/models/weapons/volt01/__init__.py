@@ -9,10 +9,11 @@ SERIES = "Volt-01"
 @dataclass(frozen=True)
 class VoltSheet:
     id: str
+    directory: Path = Path(__file__).parent
 
     @property
     def source_path(self):
-        return Path(__file__).with_name(self.id + ".json")
+        return self.directory / (self.id + ".json")
 
     def author(self, snap):
         return json.loads(self.source_path.read_text(encoding="utf-8"))

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.48.0 Pulse
+
+- Volt-02 ist als Impulsgewehrserie mit Service (K02), Patrol (L02), Ranger (M02) und Field (N02) über `python -m formgen.pipeline --series Volt-02` baubar.
+
 ## 0.47.0 Volt
 
 - Volt-01 umfasst Service (K01), Patrol (L01), Ranger (M01) und Field (N01). Die freigegebenen Kits lassen sich gemeinsam über `python -m formgen.pipeline --series Volt-01` bauen.
