@@ -82,8 +82,14 @@ def stamp(key, a, data, kit, skin="standard"):
 
 
 def subject(key, a):
-    """(Datensatz, Skin, Blatt-ID): EXTENDED-Modell oder Linie `--line`, Skin der Linie oder `--finish`."""
+    """(Datensatz, Skin, Blatt-ID): EXTENDED-Modell oder Linie `--line`, Skin der Linie oder `--finish`.
+    0.46: Modelle ohne Linienregister (ZERO-Reihe) rendern ihre Grundform mit eigener Blatt-ID; vorher bildete sheet_id('A', 'z01')
+    still EA01 und Blender baute EXTENDED-01 unter dem Titel ZERO-01."""
     letter = getattr(a, "line", None) or "A"
+    if key not in extended_lines.KEYS:
+        if letter != "A":
+            raise SystemExit(f"{key}: keine Linien im Register (nur EXTENDED e01–e17)")
+        return extended.load(key), getattr(a, "finish", None) or "standard", extended.sheet_id(key)
     sid = extended_lines.sheet_id(letter, key)
     data, run = extended_lines.vary(sid)
     return data, getattr(a, "finish", None) or run["skin"], sid
@@ -292,7 +298,8 @@ def main(argv=None):
     if a.out is None:   # 0.20 (Richter): ohne --out neue Modelle je Kurzname getrennt, e01 behält seinen 0.15-Pfad
         a.out = OUT if a.key == "e01" else OUT / a.key
         if a.line or a.finish:   # 0.38: Linie und Finish je Blatt und Skin getrennt
-            a.out = OUT / a.key / f"{extended_lines.sheet_id(a.line or 'A', a.key)}_{a.finish or 'linie'}"
+            sid = extended_lines.sheet_id(a.line or 'A', a.key) if a.key in extended_lines.KEYS else extended.sheet_id(a.key)
+            a.out = OUT / a.key / f"{sid}_{a.finish or 'linie'}"
     if not a.sheets:
         render(a.key, a)
     sheets(a.key, a)

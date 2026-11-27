@@ -3,7 +3,8 @@
 Die Zahlen des Kanons (`docs/design-kanon.md`, Block zwischen den Markern) stammen nur von hier: je Modell (BASIC Linie A = BALLON-Pilot,
 EXTENDED EA01–EA17) Länge, Höhe, Breite, Streckung, Füllgrad der Seitenansicht, Visierlinie, Akzentfunktionen, Handrollen, die zwei
 größten Materialrollen und der nächste Nachbar der Familie (Seiten-IoU); dazu die Detaildichte (Patch kanon-detail): Teile, Formen,
-Anteil Rundkörper und Quader, Zahl der Materialrollen, blanke Kanten. `--check` vergleicht den Block mit einer frischen Messung, so
+Anteil Rundkörper und Quader, Zahl der Materialrollen, blanke Kanten; dazu die Klarheit der Seitenkonturen (Patch kanon-klarheit):
+Anteil waagerechter/senkrechter Kanten und Anteil der sechs häufigsten Kantenrichtungen. `--check` vergleicht den Block mit einer frischen Messung, so
 veraltet der Kanon nicht still, wenn ein Modell sich ändert. `zeile` nennt die Werte außerhalb des Bands der Klasse.
 
     python -m formgen.kanon messen [--check]
@@ -12,12 +13,12 @@ veraltet der Kanon nicht still, wenn ein Modell sich ändert. `zeile` nennt die 
 """
 from __future__ import annotations
 
-from collections import Counter
 import argparse
 import math
 import shutil
 import statistics
 import sys
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -33,6 +34,9 @@ PAD_MM = 4   # Vorgabe: Rand des Messrasters wie variety.iou (0.4), damit Kanten
 # Waffenklassen nach Typnummer (BASIC-Typ = EXTENDED-Nummer): Bänder nur innerhalb einer Klasse sinnvoll
 CLASSES = {"Langwaffe": ("01", "02", "03", "08", "09", "10", "11", "12", "15"), "Kompakt": ("04", "05", "06"),
            "Werfer": ("13", "14"), "Bogen": ("07",), "Nahkampf": ("16", "17")}
+# Klarheit der Seitenkonturen (Patch kanon-klarheit), alle Annahmen: Kanten unter EDGE_MM sind Stufen, Fasen oder Rundungen und
+# tragen den Eindruck nicht; „waagerecht/senkrecht“ mit AXIS_DEG Toleranz; Richtungsklassen zu DIR_BIN Grad, gezählt die DIR_TOP häufigsten
+EDGE_MM, AXIS_DEG, DIR_BIN, DIR_TOP = 8, 2, 5, 6
 # Musterlösungen für das Paket (Auswahl begründet in docs/design-kanon.md › Beispielpaket)
 EXAMPLES = ("e01_spearhead", "e04_sledge", "e07_caliper", "e09_theodolite", "e12_shuttle", "e13_mantlet", "e14_keelson", "e16_sweepguard")
 
@@ -93,28 +97,29 @@ def detail(parts) -> dict:
             "mats": len({p.get("mat") for p in parts}), "trim": sum(p.get("mat") == "trim" for p in parts)}
 
 
-def clarity(parts) -> dict:
-    """Kanon 0.42.2: Profilkanten ab 8 mm, Achstoleranz 2°, sechs häufigste 5°-Richtungen."""
-    axis = total = 0.0
-    directions = Counter()
+def _edges(parts):
+    """Kanten der Seitenprofile (`prof`, auch in `multi`) als (Richtung 0–180°, Länge mm); kurze Kanten entfallen."""
     for form in _forms(parts):
-        if form.get("shape") != "prof":
-            continue
-        points = form["pts"]
-        for a, b in zip(points, points[1:] + points[:1]):
-            df, du = b[0] - a[0], b[1] - a[1]
-            length = math.hypot(df, du)
-            if length < 8:
-                continue
-            angle = math.degrees(math.atan2(du, df)) % 180
-            total += length
-            if min(angle % 90, 90 - angle % 90) < 2:
-                axis += length
-            directions[round(angle / 5) * 5 % 180] += length
+        pts = form.get("pts") if form.get("shape") == "prof" else None
+        for a, b in zip(pts or [], (pts or [])[1:] + (pts or [])[:1]):
+            length = math.dist(a[:2], b[:2])
+            if length >= EDGE_MM:
+                yield math.degrees(math.atan2(b[1] - a[1], b[0] - a[0])) % 180, length
+
+
+def clarity(parts) -> dict:
+    """Klarheit der Seitenkonturen, nach Kantenlänge gewichtet: `axis` = Anteil waagerecht/senkrecht (Oberkante, Laufachse,
+    Abschlüsse), `dirs` = Anteil der DIR_TOP häufigsten Richtungen. Frei gesetzte Konturpunkte geben jeder Kante einen eigenen
+    Winkel und lesen sich unruhig (HORIZON-Skizzen 0.43: axis 0,23–0,52 gegen BASIC 0,62–0,77)."""
+    edges = list(_edges(parts))
+    total = sum(length for _, length in edges)
     if not total:
         return {"axis": "–", "dirs": "–"}
-    return {"axis": round(axis / total, 2),
-            "dirs": round(sum(sorted(directions.values(), reverse=True)[:6]) / total, 2)}
+    axis = sum(length for a, length in edges if min(a % 90, 90 - a % 90) < AXIS_DEG) / total
+    bins = Counter()
+    for a, length in edges:
+        bins[round(a / DIR_BIN) * DIR_BIN % 180] += length
+    return {"axis": round(axis, 2), "dirs": round(sum(sorted(bins.values())[-DIR_TOP:]) / total, 2)}
 
 
 def _row(sid, data, model, author):
@@ -169,31 +174,20 @@ def klasse(sid: str) -> str:
     return next(name for name, nums in CLASSES.items() if sid[-2:] in nums)
 
 
-def clarity_limits(rows):
-    limits = {}
-    for key in ("axis", "dirs"):
-        values = [r[key] for r in rows if isinstance(r.get(key), (float, int))]
-        if values:
-            low = round(float(np.percentile(values, 25)), 2) if key == "axis" else min(values)
-            limits[key] = low, max(values)
-    return limits
-
-
 def outside(row: dict, rows: list[dict]) -> list[tuple]:
-    """Werte einer Zeile außerhalb von min … max ihrer Klasse (BASIC und EXTENDED): (Schlüssel, Wert, min, max); Detaildichte nur auf
-    der blockigen Seite (ONLY). Außerhalb ist kein Verbot, braucht aber einen Grund aus dem Konzept (Stilprüfung Nr. 3)."""
+    """Werte einer Zeile außerhalb von min … max ihrer Klasse (BASIC und EXTENDED): (Schlüssel, Wert, untere, obere Grenze); Detaildichte
+    und Klarheit nur auf der blockigen oder unruhigen Seite (ONLY), Achsen ab vier Modellen gegen das untere Quartil (QUARTILE).
+    Außerhalb ist kein Verbot, braucht aber einen Grund aus dem Konzept (Stilprüfung Nr. 3)."""
     sub = [r for r in rows if r["id"] != row["id"] and klasse(r["id"]) == klasse(row["id"])]
     out = []
     for key in BAND_KEYS:
         vals = [float(r[key]) for r in sub if r[key] != "–"]
         if row[key] == "–" or not vals:
             continue
-        low, high = float(row[key]) < min(vals), float(row[key]) > max(vals)
+        floor = statistics.quantiles(vals, n=4, method="inclusive")[0] if key in QUARTILE and len(vals) >= 4 else min(vals)
+        low, high = float(row[key]) < floor, float(row[key]) > max(vals)
         if (low and ONLY.get(key) != "high") or (high and ONLY.get(key) != "low"):
-            out.append((key, row[key], min(vals), max(vals)))
-    for key, (minimum, maximum) in clarity_limits(sub).items():
-        if isinstance(row.get(key), (float, int)) and row[key] < minimum:
-            out.append((key, row[key], minimum, maximum))
+            out.append((key, row[key], round(floor, 2), max(vals)))
     return out
 
 
@@ -202,10 +196,14 @@ COLUMNS = (("id", "Blatt"), ("name", "Name"), ("type", "Art"), ("length", "Läng
            ("roles", "größte Rollen"), ("neighbour", "Nachbar (Seiten-IoU)"))
 DETAIL = (("id", "Blatt"), ("parts", "Teile"), ("forms", "Formen"), ("round", "Rundkörper"), ("boxy", "Quader"), ("mats", "Materialrollen"),
           ("trim", "blanke Kanten"), ("axis", "Achsen"), ("dirs", "Richtungen"))
-BAND_KEYS = ("length", "height", "width", "stretch", "fill", "sight", "accents", "parts", "forms", "round", "boxy", "mats", "trim")
+BAND_KEYS = ("length", "height", "width", "stretch", "fill", "sight", "accents", "parts", "forms", "round", "boxy", "mats", "trim", "axis", "dirs")
 LABEL = dict(COLUMNS + DETAIL)
-# Detaildichte hat eine Richtung: zu wenig Teile, Formen, Rundkörper, Rollen, Kanten oder zu viele Quader lesen sich blockig, das Gegenteil nicht
-ONLY = {"parts": "low", "forms": "low", "round": "low", "mats": "low", "trim": "low", "boxy": "high"}
+# Detaildichte und Klarheit haben eine Richtung: zu wenig Teile, Formen, Rundkörper, Rollen, Kanten, Achsen oder Hauptrichtungen und zu viele
+# Quader lesen sich blockig oder unruhig, das Gegenteil nicht
+# Achsen gegen das untere Quartil (Annahme): das Minimum setzen bewusste Ausnahmen mit schrägem Leitmotiv (EA01 Speerspitze 0,36, Bogen);
+# Richtungen gegen das Minimum, ihr Quartil hätte BA01 selbst gemeldet
+QUARTILE = ("axis",)
+ONLY = {"parts": "low", "forms": "low", "round": "low", "mats": "low", "trim": "low", "boxy": "high", "axis": "low", "dirs": "low"}
 
 
 def _band(rows, key):
@@ -213,6 +211,11 @@ def _band(rows, key):
     if not vals:
         return "–"
     return f"{min(vals):g} / {statistics.median(vals):g} / {max(vals):g}"
+
+
+def _floor(rows, key):
+    vals = [float(r[key]) for r in rows if r[key] != "–"]
+    return f"{statistics.quantiles(vals, n=4, method='inclusive')[0]:.2f}" if len(vals) >= 4 else "–"
 
 
 def _table(rows, columns) -> list[str]:
@@ -223,14 +226,13 @@ def _table(rows, columns) -> list[str]:
 def table(rows) -> str:
     out = _table(rows, COLUMNS)
     out += ["", "Detaildichte (Teile und Formen aus `PARTS`, `multi` je Element; Rundkörper und Quader als Anteil der Formen; blanke Kanten =",
-            "Teile mit Rolle `trim`; Klarheit der Seitenprofile nach Kantenlänge):", ""] + _table(rows, DETAIL)
+            "Teile mit Rolle `trim`; Achsen und Richtungen = Klarheit der Seitenprofile nach Kantenlänge, siehe `kanon.clarity`):", ""] + _table(rows, DETAIL)
     out += ["", "Bänder je Klasse über BASIC und EXTENDED (min / Median / max):", ""]
     for name, nums in CLASSES.items():
         sub = [r for r in rows if r["id"][2:] in nums]
         few = ", nur zwei Modelle: Spanne statt Band" if len(sub) < 3 else ""
-        limits = clarity_limits(sub)
-        out.append(f"- **{name}** ({len(sub)}{few}): " + " · ".join(f"{LABEL[k]} {_band(sub, k)}" for k in (*BAND_KEYS, "axis", "dirs"))
-                   + "".join(f" · Untergrenze {LABEL[k]} {low:g}" for k, (low, _) in limits.items()))
+        out.append(f"- **{name}** ({len(sub)}{few}): " + " · ".join(f"{LABEL[k]} {_band(sub, k)}" for k in BAND_KEYS)
+                   + (f" · Grenze Achsen (unteres Quartil) {_floor(sub, 'axis')}" if len(sub) >= 4 else ""))
     return "\n".join(out)
 
 
