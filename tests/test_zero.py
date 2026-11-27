@@ -495,13 +495,17 @@ class TestCascade(unittest.TestCase):
         fire = self.data["ACTIONS"]["fire_burst"]
         self.assertEqual([f for f, e in fire["events"] if e == "shot"], [2, 6, 10])
 
+        shots = [f for f, e in fire["events"] if e == "shot"]
+
         def ordered(keys):
             on = [next(f for f, v in keys[f"pulse_{i}"] if v == 1) for i in (1, 2, 3)]
             pos = [sum(f for f, _ in self.ids[f"pulse_{i}"]["pts"]) / 4 for i in (1, 2, 3)]
-            return on == sorted(on) and pos == sorted(pos) and len(set(on)) == 3
+            return on == shots and pos == sorted(pos)   # je Schuss genau eine Stufe, von hinten nach vorn
         self.assertTrue(ordered(fire["keys"]))
         swapped = dict(fire["keys"], pulse_1=fire["keys"]["pulse_3"], pulse_3=fire["keys"]["pulse_1"])
-        self.assertFalse(ordered(swapped))
+        self.assertFalse(ordered(swapped))                                        # Gegenprobe: falsche Reihenfolge
+        late = {k: ([(f + 1 if f else 0, v) for f, v in val] if k.startswith("pulse_") else val) for k, val in fire["keys"].items()}
+        self.assertFalse(ordered(late))                                           # Gegenprobe: ein Bild nach dem Schuss
 
     def test_family_and_budgets(self):
         self.assertEqual((self.ids["grip"]["iface"], self.ids["mag_well"]["iface"], self.ids["muzzle"]["iface"]), ("BGM-1", "BMW-R", "BMZ-15"))
