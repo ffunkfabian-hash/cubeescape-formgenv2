@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.51.0 Relay
+
+- Die vier freigegebenen Handfeuerwaffen Service, Patrol, Ranger und Field bilden Volt-04 (K04 bis N04). Alle vier Modellblätter lassen sich mit `python -m formgen.pipeline --series Volt-04` bauen.
+
 ## 0.50.0 Survey
 
 - Die freigegebenen Scout-Gewehre Service, Patrol, Ranger und Field bilden Volt-03 (K03 bis N03). Der gemeinsame Bau läuft über `python -m formgen.pipeline --series Volt-03`.

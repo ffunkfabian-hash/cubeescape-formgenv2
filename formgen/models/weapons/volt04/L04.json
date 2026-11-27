@@ -1,0 +1,159 @@
+{
+  "INFO": {
+    "id": "L04",
+    "kind": "weapon",
+    "name_de": "Volt-04 Patrol",
+    "name_en": "Volt-04 Patrol",
+    "summary": "Die kurze Stirnkappe sitzt wie ein heller Block vor dem dunklen Rumpf. Der steilere Griff hält die Silhouette kompakt.",
+    "provenance": {
+      "kind": "Annahme",
+      "source": "Neue äußere Formprofile auf der gepinnten BASIC-04-Spielvorlage."
+    },
+    "facts": [
+      [
+        "Serie",
+        "Volt-04"
+      ],
+      [
+        "Formvariante",
+        "Patrol"
+      ],
+      [
+        "Typ",
+        "Handfeuerwaffe"
+      ]
+    ],
+    "source_id": "L04",
+    "type": "hand_cannon",
+    "num": "04",
+    "type_de": "Handfeuerwaffe",
+    "nick": "Volt-04 Patrol"
+  },
+  "ASSEMBLIES": [
+    {
+      "id": "receiver",
+      "de": "Hauptgehäuse",
+      "en": "Receiver"
+    },
+    {
+      "id": "barrel",
+      "de": "Lauf / Emitter",
+      "en": "Barrel / emitter"
+    },
+    {
+      "id": "ammo",
+      "de": "Munitionsversorgung",
+      "en": "Ammunition feed"
+    },
+    {
+      "id": "sight",
+      "de": "Visier",
+      "en": "Sight"
+    },
+    {
+      "id": "grip_controls",
+      "de": "Griff und Bedienung",
+      "en": "Grip and controls"
+    },
+    {
+      "id": "mechanism",
+      "de": "Bewegliche Mechanik",
+      "en": "Moving mechanism"
+    }
+  ],
+  "ANCHORS": {
+    "Socket_Hand": {
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "part": "grip",
+      "note": "Haupthand, auf der Griffachse"
+    },
+    "Socket_SupportHand": {
+      "at": [
+        -4,
+        -34,
+        17
+      ],
+      "part": "grip",
+      "note": "Stützhand umfasst die Griffhand von links (Pistolengriff beidhändig)"
+    },
+    "Socket_Muzzle": {
+      "at": [
+        191,
+        71,
+        0
+      ],
+      "part": "muzzle_crown",
+      "note": "Stirn der Mündungskrone auf der Laufachse"
+    },
+    "Socket_MagWell": {
+      "at": [
+        78.5,
+        57,
+        0
+      ],
+      "part": "cylinder",
+      "note": "Ladestelle: Trommelstirn (ausgeschwenkt beim Nachladen)"
+    },
+    "Socket_Reticle": {
+      "at": [
+        178,
+        103.0,
+        0
+      ],
+      "part": "sight_glass"
+    },
+    "Socket_Sight": {
+      "at": [
+        0,
+        103.0,
+        0
+      ],
+      "part": "sight_rear",
+      "note": "Kimme (Rückseite des Kimmenblatts) auf der Visierlinie"
+    },
+    "Socket_Eye": {
+      "at": [
+        -70.0,
+        103.0,
+        0
+      ],
+      "part": "sight_rear",
+      "sight_type": "iron",
+      "std": false,
+      "deck": 92,
+      "note": "70 mm hinter der Kimme, eigene Linie Schiene + 11 mm"
+    }
+  },
+  "PARTS": [
+    {"id": "frame", "de": "Rahmen", "asm": "receiver", "shape": "prof", "mat": "graphite", "bevel": 3.0, "pts": [[-13, 24], [99, 24], [104, 29], [104, 58], [81.5, 58], [81.5, 33], [18.5, 33], [18.5, 81], [-8, 81], [-12, 85], [-20, 85], [-29, 76], [-29, 64], [-25, 48]], "w": 34, "name_en": "Frame", "func": "Trägt Trommel, Hahn, Abzug und Griff; Trommelfenster", "attach": "Grundkörper"},
+    {"id": "hammer", "de": "Hahn", "asm": "mechanism", "shape": "prof", "mat": "anodized", "bevel": 1, "pts": [[-26, 77], [-20, 77], [-14, 83], [-17, 89], [-29, 94], [-33, 90], [-26, 83]], "w": 7, "name_en": "Hammer", "func": "Wird gespannt und schlägt beim Schuss vor; Sporn unter der Visierlinie", "attach": "Drehpunkt hinten im Rahmen"},
+    {"id": "cylinder_latch", "de": "Trommelriegel", "asm": "grip_controls", "shape": "cyl", "mat": "accent", "bevel": 0.8, "axis": "x", "c": [4, 62], "a0": 16.5, "a1": 20.0, "r": 4.5, "segs": 20, "name_en": "Cylinder latch", "func": "Gibt den Kran frei (Daumen)", "attach": "links am Rahmen hinter der Trommel, gleitet nach vorn"},
+    {"id": "crane", "de": "Kran", "asm": "mechanism", "shape": "multi", "mat": "dark_metal", "bevel": 0.8, "items": [{"shape": "cyl", "axis": "f", "c": [31, 14], "a0": 19.5, "a1": 81.0, "r": 3.2, "segs": 12}, {"shape": "xprof", "f0": 78.5, "f1": 81.0, "cu": 57, "pts": [[-4.5, 3], [4.5, 3], [18, -24], [11, -29]]}], "name_en": "Crane", "func": "Trägt die Trommel; schwenkt nach links unten aus", "attach": "Achse unten links im Rahmen"},
+    {"id": "cylinder", "de": "Trommel", "asm": "ammo", "shape": "cyl", "mat": "dark_metal", "bevel": 1.5, "axis": "f", "c": [57, 0], "a0": 19.5, "a1": 78.5, "r": 22.5, "segs": 36, "parent_part": "crane", "cuts": [{"shape": "cyl", "axis": "f", "c": [78.21762239271875, 12.249999999999998], "a0": 28.5, "a1": 72.5, "r": 5.2, "segs": 16}, {"shape": "cyl", "axis": "f", "c": [57.0, 24.5], "a0": 28.5, "a1": 72.5, "r": 5.2, "segs": 16}, {"shape": "cyl", "axis": "f", "c": [35.78237760728125, 12.249999999999998], "a0": 28.5, "a1": 72.5, "r": 5.2, "segs": 16}, {"shape": "cyl", "axis": "f", "c": [35.782377607281255, -12.250000000000004], "a0": 28.5, "a1": 72.5, "r": 5.2, "segs": 16}, {"shape": "cyl", "axis": "f", "c": [56.99999999999999, -24.5], "a0": 28.5, "a1": 72.5, "r": 5.2, "segs": 16}, {"shape": "cyl", "axis": "f", "c": [78.21762239271874, -12.25000000000001], "a0": 28.5, "a1": 72.5, "r": 5.2, "segs": 16}], "name_en": "Cylinder", "func": "Sechs Kammern, kanneliert; dreht je Schuss um 60°", "attach": "auf dem Kran gelagert"},
+    {"id": "muzzle_crown", "de": "Mündungskrone", "asm": "barrel", "shape": "cyl", "mat": "trim", "bevel": 0.6, "axis": "f", "c": [71, 0], "a0": 188, "a1": 191, "r": 10, "r_in": 5, "segs": 24, "name_en": "Muzzle crown", "func": "Blanke Stirnkante in der Mündungsmulde", "attach": "Laufende"},
+    {"id": "grip", "de": "Pistolengriff", "asm": "grip_controls", "shape": "prof", "mat": "rubber", "bevel": 2.5, "pts": [[-13, 25], [26, 25], [26, 11], [13, -2], [13, -24], [6, -31], [6, -62], [10, -66], [10, -71], [2, -75], [-27, -75], [-31, -71], [-26, -63], [-26, -22], [-16, -12], [-16, 18]], "w": 30, "name_en": "Pistol grip", "func": "Haupthand hält die Waffe; trägt Socket_Hand", "attach": "mit Unterem Gehäuse verschraubt (fest)"},
+    {"id": "trigger", "de": "Abzug", "asm": "grip_controls", "shape": "prof", "mat": "metal", "bevel": 0.8, "pts": [[38.430780618346944, 23], [44.430780618346944, 23], [46.430780618346944, 8], [43.430780618346944, -3], [39.430780618346944, -2], [41.430780618346944, 9]], "w": 7, "name_en": "Trigger", "func": "Feuer auslösen (Zeigefinger)", "attach": "Drehpunkt im Unteren Gehäuse"},
+    {"id": "trigger_guard", "de": "Abzugsbügel", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[20.430780618346944, -10], [78.43078061834694, -10], [78.43078061834694, 25], [71.43078061834694, 25], [71.43078061834694, -3], [22.430780618346944, -3]], "w": 12, "name_en": "Trigger guard", "func": "Schützt den Abzug, Fingerfreiraum ≥ 22 mm", "attach": "Griff vorn und Unteres Gehäuse (fest)"},
+    {"id": "grip_cap", "de": "Griffboden", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1, "pts": [[-31, -70], [10, -70], [10, -74], [7, -77], [-27, -77], [-31, -73]], "w": 32, "name_en": "Grip cap", "func": "Ausgestellter Abschluss; schützt den Griff", "attach": "unten auf den Griff geschraubt"},
+    {"id": "sight_mount", "de": "Kimmenfuß", "asm": "sight", "shape": "multi", "mat": "sight_anod", "bevel": 0.8, "items": [{"shape": "box", "f0": -4, "f1": 18, "u0": 91.5, "u1": 95.5, "w": 23}, {"shape": "box", "f0": -2, "f1": 14, "u0": 95, "u1": 98, "w": 16}], "name_en": "Rear base", "func": "Flacher Fuß, gestuft", "attach": "hinten auf der Schiene"},
+    {"id": "sight_clamp", "de": "Klemmhebel", "asm": "sight", "shape": "prof", "mat": "accent", "bevel": 0.4, "pts": [[0, 92.8], [12, 92.8], [14, 95.2], [0, 95.6]], "w": 1.8, "x": 12.4, "name_en": "Clamp lever", "func": "Spannt den Fuß", "attach": "links am Fuß"},
+    {"id": "sight_rear", "de": "Kimmenblatt", "asm": "sight", "shape": "prof", "mat": "sight_anod", "bevel": 0.5, "pts": [[0, 97.5], [8, 97.5], [6, 105.0], [0, 105.0]], "w": 20.0, "cuts": [{"shape": "box", "f0": -3, "f1": 12, "u0": 100.4, "u1": 109.0, "w": 4.6, "x": 0.0}], "name_en": "Rear blade", "func": "Blatt 20 × 7 × 6 mm mit Kerbe", "attach": "auf dem Kimmenfuß"},
+    {"id": "sight_status", "de": "Leuchtklammern", "asm": "sight", "shape": "multi", "mat": "energy", "bevel": 0, "items": [{"shape": "box", "f0": -0.1, "f1": 0.3, "u0": 99.4, "u1": 104.2, "w": 0.7, "x": 4.9}, {"shape": "box", "f0": -0.1, "f1": 0.3, "u0": 103.5, "u1": 104.2, "w": 1.6, "x": 4.1000000000000005}, {"shape": "box", "f0": -0.1, "f1": 0.3, "u0": 99.4, "u1": 100.1, "w": 1.6, "x": 4.1000000000000005}, {"shape": "box", "f0": -0.1, "f1": 0.3, "u0": 99.4, "u1": 104.2, "w": 0.7, "x": -4.9}, {"shape": "box", "f0": -0.1, "f1": 0.3, "u0": 103.5, "u1": 104.2, "w": 1.6, "x": -4.1000000000000005}, {"shape": "box", "f0": -0.1, "f1": 0.3, "u0": 99.4, "u1": 100.1, "w": 1.6, "x": -4.1000000000000005}], "name_en": "Glow brackets", "func": "Klammern „[ ]“ bündig zum Auge", "attach": "in der Blattrückseite"},
+    {"id": "sight_front", "de": "Korn", "asm": "sight", "shape": "multi", "mat": "sight_anod", "bevel": 0.4, "items": [{"shape": "prof", "pts": [[171, 91.5], [184, 91.5], [180, 102.2], [178, 102.2]], "w": 3.0}, {"shape": "box", "f0": 170, "f1": 186, "u0": 91.5, "u1": 94.5, "w": 12}], "name_en": "Front sight", "func": "Korn 3 mm auf flachem Fuß", "attach": "vorn auf der Schiene"},
+    {"id": "sight_glass", "de": "Kornpunkt", "asm": "sight", "shape": "cyl", "mat": "energy", "bevel": 0, "axis": "f", "c": [101.6, 0], "a0": 177.5, "a1": 178.10000000000002, "r": 0.9, "segs": 16, "name_en": "Front dot", "func": "Leuchtpunkt auf dem Korn", "attach": "oben am Korn"},
+    {"id": "deck", "de": "Trommelbrücke", "asm": "receiver", "shape": "prof", "mat": "shell", "func": "Trommelbrücke", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1.3, "pts": [[-8, 82], [99, 82], [105, 88], [105, 92], [-4, 92], [-8, 88]], "w": 26, "name_en": "Trommelbrücke"},
+    {"id": "case", "de": "Frontgehäuse", "asm": "receiver", "shape": "prof", "mat": "graphite", "func": "Frontgehäuse", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[82, 92], [82, 58], [101, 58], [101, 48], [131, 48], [143, 60], [177, 60], [185, 68], [185, 86], [179, 92]], "w": 30, "name_en": "Frontgehäuse"},
+    {"id": "case_l", "de": "Seitenwange", "asm": "receiver", "shape": "prof", "mat": "shell", "func": "Seitenwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[145, 91], [145, 62], [153, 54], [177, 54], [188, 65], [188, 87], [183, 92]], "w": 3.5, "x": 14.7, "name_en": "Seitenwange"},
+    {"id": "grip_l", "de": "Griffwange", "asm": "grip_controls", "shape": "prof", "mat": "graphite", "func": "Griffwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[-11, 11], [12, 11], [12, 3], [3, -6], [3, -50], [-4, -57], [-17, -57], [-17, -17], [-11, -11]], "w": 3.8, "x": 15, "name_en": "Griffwange"},
+    {"id": "case_r", "de": "Seitenwange", "asm": "receiver", "shape": "prof", "mat": "shell", "func": "Seitenwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[145, 91], [145, 62], [153, 54], [177, 54], [188, 65], [188, 87], [183, 92]], "w": 3.5, "x": -14.7, "name_en": "Seitenwange"},
+    {"id": "grip_r", "de": "Griffwange", "asm": "grip_controls", "shape": "prof", "mat": "graphite", "func": "Griffwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[-11, 11], [12, 11], [12, 3], [3, -6], [3, -50], [-4, -57], [-17, -57], [-17, -17], [-11, -11]], "w": 3.8, "x": -15, "name_en": "Griffwange"},
+    {"id": "nose", "de": "Vorderer Emitter", "asm": "barrel", "shape": "cyl", "mat": "metal", "func": "Vorderer Emitter", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [71, 0], "a0": 169, "a1": 190, "r": 9, "segs": 24, "name_en": "Vorderer Emitter"},
+    {"id": "signal_l", "de": "Volt-Markierung", "asm": "receiver", "shape": "prof", "mat": "accent", "func": "Volt-Markierung", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.4, "pts": [[91, 82], [102, 82], [103, 83], [103, 86], [102, 87], [91, 87], [90, 86], [90, 83]], "w": 1.6, "x": 15.0, "name_en": "Volt-Markierung"},
+    {"id": "signal_r", "de": "Volt-Markierung", "asm": "receiver", "shape": "prof", "mat": "accent", "func": "Volt-Markierung", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.4, "pts": [[91, 82], [102, 82], [103, 83], [103, 86], [102, 87], [91, 87], [90, 86], [90, 83]], "w": 1.6, "x": -15.0, "name_en": "Volt-Markierung"},
+    {"id": "grip_pins", "de": "Deckelschrauben", "asm": "grip_controls", "shape": "multi", "mat": "trim", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [-5, 4], "a0": 16.299999999999997, "a1": 18.4, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-11, -57], "a0": 16.299999999999997, "a1": 18.4, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-5, 4], "a0": -16.299999999999997, "a1": -18.4, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-11, -57], "a0": -16.299999999999997, "a1": -18.4, "r": 3, "segs": 12}], "name_en": "Cover fasteners"}
+  ]
+}
