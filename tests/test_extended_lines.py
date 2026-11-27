@@ -71,7 +71,8 @@ class RegisterTests(unittest.TestCase):
             self.assertEqual(len(tomllib.loads(path.read_text())["lines"]), 1)
 
     def test_every_weapon_skin_is_used_by_a_line(self):
-        used = {v["skin"] for v in variants.load()} | {e["skin"] for e in self.entries}
+        from formgen import davinci   # 0.52: Signature-Skins der Serie DaVinci zählen als eingesetzt
+        used = {v["skin"] for v in variants.load()} | {e["skin"] for e in self.entries} | set(davinci.SKINS.values())
         self.assertEqual(used, set(variants._skins()))
 
     def test_seed_space_is_separate_from_basic(self):

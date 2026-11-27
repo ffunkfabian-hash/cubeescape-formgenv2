@@ -1,5 +1,6 @@
-"""0.42 Canon: Design-Kanon (Messblock aktuell, Klassen vollständig, Beispielpaket, Füllgrad mit Gegenprobe); Patch kanon-detail: Detaildichte."""
+"""0.42 Canon: Design-Kanon (Messblock aktuell, Klassen vollständig, Beispielpaket, Füllgrad mit Gegenprobe); Patch kanon-detail: Detaildichte; Patch kanon-klarheit: Klarheit der Seitenkonturen."""
 import copy
+import math
 import tempfile
 import unittest
 from pathlib import Path
@@ -14,6 +15,12 @@ except ballon.BallonError as error:   # z. B. Cloud ohne BALLON-Checkout
     SNAP, REASON = None, str(error)
 else:
     REASON = ""
+
+
+# Wellige Kontur wie die HORIZON-Skizzen: 20 frei gesetzte Punkte um einen Körper 450 × 110 mm, jede Kante mit eigenem Winkel
+# (Gegenprobe zur Klarheit)
+WAVY = [(225 * math.cos(2 * math.pi * (i + 0.3) / 20) * (1 + 0.08 * math.sin(3 * i)),
+         55 * math.sin(2 * math.pi * (i + 0.3) / 20) * (1 + 0.12 * math.cos(5 * i))) for i in range(20)]
 
 
 def _box(w, h, hole=0.0):
@@ -59,6 +66,15 @@ class KanonStaticTests(unittest.TestCase):
                  {"id": "barrel", "shape": "cyl", "mat": "metal"}]
         self.assertEqual(kanon.detail(parts), {"parts": 3, "forms": 5, "round": 0.8, "boxy": 0.2, "mats": 3, "trim": 1})
 
+    def test_clarity_tells_straight_from_wavy(self):
+        """Ein Rechteck mit Fasenecken (Kanten unter EDGE_MM entfallen) ist ganz klar, die wellige Kontur nicht."""
+        straight = [(0, 3), (3, 0), (297, 0), (300, 3), (300, 47), (297, 50), (3, 50), (0, 47)]
+        self.assertEqual(kanon.clarity([{"shape": "prof", "pts": straight}]), {"axis": 1.0, "dirs": 1.0})
+        wavy = kanon.clarity([{"shape": "multi", "items": [{"shape": "prof", "pts": WAVY}]}])
+        self.assertLess(wavy["axis"], 0.3)
+        self.assertLess(wavy["dirs"], 0.9)
+        self.assertEqual(kanon.clarity([{"shape": "cyl"}]), {"axis": "–", "dirs": "–"})
+
     def test_class_follows_the_type_number(self):
         self.assertEqual([kanon.klasse(s) for s in ("BA01", "EA13", "HA04", "EA16")], ["Langwaffe", "Werfer", "Kompakt", "Nahkampf"])
 
@@ -90,9 +106,24 @@ class KanonMeasureTests(unittest.TestCase):
         self.assertEqual(row, next(r for r in self.rows if r["id"] == "EA06"))
 
     def test_family_model_lies_in_its_detail_band(self):
-        """Positivprobe: EA01 gegen die übrigen Langwaffen hat keinen Detailwert auf der blockigen Seite."""
+        """Positivprobe: EA01 gegen die übrigen Langwaffen hat keinen Detailwert auf der blockigen Seite (Klarheit eigener Test:
+        EA01 ist mit der Speerspitze bewusst schräg)."""
         row = next(r for r in self.rows if r["id"] == "EA01")
-        self.assertEqual([k for k, *_ in kanon.outside(row, self.rows) if k in kanon.ONLY], [])
+        detail = {"parts", "forms", "round", "boxy", "mats", "trim"}
+        self.assertEqual([k for k, *_ in kanon.outside(row, self.rows) if k in detail], [])
+
+    def test_family_model_is_clear(self):
+        """Positivprobe Klarheit: die Piloten BA01, BA04 und BA13 melden weder Achsen noch Richtungen."""
+        for sid in ("BA01", "BA04", "BA13"):
+            row = next(r for r in self.rows if r["id"] == sid)
+            self.assertEqual([k for k, *_ in kanon.outside(row, self.rows) if k in ("axis", "dirs")], [], sid)
+
+    def test_counterproof_wavy_contours_fall_below_the_clarity_floor(self):
+        """Gegenprobe mit dem erwarteten Grund: dieselbe Langwaffenzeile (BA01) mit welliger Kontur meldet die Achsen, sonst nichts Neues."""
+        base = next(r for r in self.rows if r["id"] == "BA01")
+        row = dict(base, id="HA01", **kanon.clarity([{"shape": "prof", "pts": WAVY}]))
+        before = {k for k, *_ in kanon.outside(dict(base, id="HA01"), self.rows)}
+        self.assertEqual({k for k, *_ in kanon.outside(row, self.rows)} - before, {"axis"})
 
     def test_counterproof_ten_slabs_fall_below_the_band(self):
         """Gegenprobe mit dem erwarteten Grund: zehn Platten aus zwei Rollen (wie die Astra-Formstudie) bei EA01-Proportionen melden
@@ -101,7 +132,7 @@ class KanonMeasureTests(unittest.TestCase):
         slabs = [{"id": f"slab{i}", "shape": "box", "mat": ("shell", "graphite")[i % 2]} for i in range(10)]
         row.update(kanon.detail(slabs), **kanon.clarity(slabs))
         keys = {k for k, *_ in kanon.outside(row, self.rows)}
-        self.assertEqual(keys, set(kanon.ONLY))
+        self.assertEqual(keys, {"parts", "forms", "round", "boxy", "mats", "trim"})   # Platten ohne Seitenprofil: Klarheit „–“
 
     def test_clarity_below_both_limits_is_reported(self):
         row = dict(next(r for r in self.rows if r["id"] == "BA01"), id="VA01", axis=.60, dirs=.62)
@@ -111,8 +142,10 @@ class KanonMeasureTests(unittest.TestCase):
         rows = copy.deepcopy(self.rows)
         rows[0]["axis"] = 0
         self.assertNotEqual(kanon.table(rows), kanon.table(self.rows))
+        # Grenzen im Format von Patch kanon-klarheit (0.42.2): Achsen gegen das untere Quartil, Richtungen gegen das Bandminimum
+        self.assertIn("Grenze Achsen (unteres Quartil)", kanon.table(self.rows))
         for key, label in (("axis", "Achsen"), ("dirs", "Richtungen")):
-            self.assertIn(f"Untergrenze {label}", kanon.table(self.rows))
+            self.assertRegex(kanon.table(self.rows), rf"· {label} [0-9.]+ / [0-9.]+ / [0-9.]+")
             self.assertIn(key, dict(kanon.DETAIL))
 
     def test_counterproof_a_changed_model_is_detected(self):
