@@ -224,9 +224,10 @@ class RegisterVarietyTests(unittest.TestCase):
         self.assertEqual(letters[:3], ["A", "B", "C"])
         self.assertEqual([v["name"] for v in self.entries[:3]], ["Baseline", "Long Reach", "Close Quarters"])
         # 0.38: Skins der EXTENDED-Linien (titan … eisgrau) gehören zu data/extended_lines.toml; kein Skin ohne Linie, keine Linie ohne Skin
-        from formgen import extended_lines
-        self.assertEqual({v["skin"] for v in self.entries} | {e["skin"] for e in extended_lines.load()}, set(variants._skins()),
-                         "alle Skins im Einsatz")
+        # 0.52: dazu die Signature-Skins der Serie DaVinci (formgen.davinci.SKINS)
+        from formgen import davinci, extended_lines
+        self.assertEqual({v["skin"] for v in self.entries} | {e["skin"] for e in extended_lines.load()} | set(davinci.SKINS.values()),
+                         set(variants._skins()), "alle Skins im Einsatz")
         self.assertLessEqual({v["skin"] for v in self.entries}, set(variants._skins()))
 
     def test_every_line_differs_visibly_from_baseline(self):
