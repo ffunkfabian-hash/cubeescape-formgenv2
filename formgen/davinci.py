@@ -6,7 +6,7 @@ ACTIONS), liegt aber unter `formgen/models/davinci/` und hat ein eigenes Blattpr
 
   load("d01")                → Datensatz (tief kopiert), Snapshot danach wieder aus sys.path/sys.modules
   source("d01")              → Quellhash: eigene Datei + BALLON-Closure der importierten `basic`-Module
-  python -m formgen.davinci preview d01 [--out <Ordner>]        Rastervorschau (Clay + Skin), ohne Blender
+  python -m formgen.davinci preview d01 [--out <Ordner>] [--force]   Rastervorschau (Clay + Skin), ohne Blender, nur bei neuem Stempel
   ~/Claude/cubeescape-nexogen/ce lock blender -- .venv/bin/python -m formgen.davinci export d01   GLB, .blend, spec.json im Skin
 
 Export: BALLONs unverändertes `tools/blender_build.main(W=<Datensatz>)` ohne Ansichten (kein Render). Der Wrapper setzt vorher die
@@ -89,32 +89,52 @@ def evaluate(key: str = "d01", snap=None):
     return geom.evaluate(mdl.normalize(doc))
 
 
-def preview(key: str, out: Path, size=(1200, 520), views=PREVIEW_VIEWS, snap=None) -> list[Path]:
-    """Rastervorschau je Ansicht in Clay (einfarbig, Form) und im Signature-Skin; gleicher Maßstab für alle Ansichten."""
+def preview_files(key: str, out: Path, views=PREVIEW_VIEWS) -> list[Path]:
+    return [out / f"{sheet_id(key)}_{name}_{view}.png" for name in ("clay", SKINS[key]) for view in views] + [out / f"{sheet_id(key)}_vorschau.png"]
+
+
+def preview_stamp(key: str, size, views, snap=None) -> dict:
+    """Alles, was die Vorschaubilder bestimmt: Datensatz, Quellhash, Raster- und Geometriecode, Rollen und Skinwerte, Größe, Ansichten."""
+    from . import build, raster, versions
+    with (ROOT / "skins.toml").open("rb") as stream:
+        palette = tomllib.load(stream)
+    digest = lambda v: hashlib.sha256(json.dumps(v, sort_keys=True, default=str).encode()).hexdigest()   # noqa: E731
+    code = build.source_hashes(Path(raster.__file__))
+    return {"key": key, "data_sha256": digest(load(key, snap)), "source_sha256": source(key, snap)["source_sha256"],
+            "code": digest(code), "raster": versions.RASTER, "geom": versions.GEOM, "roles": digest(palette["roles"]),
+            "skin": digest(palette["skins"][SKINS[key]]), "size": list(size), "views": list(views)}
+
+
+def preview(key: str, out: Path, size=(1200, 520), views=PREVIEW_VIEWS, snap=None, force=False) -> list[Path]:
+    """Rastervorschau je Ansicht in Clay (einfarbig, Form) und im Signature-Skin; gleicher Maßstab für alle Ansichten. Ohne force nur,
+    wenn ein Bild fehlt oder der Stempel `preview.json` nicht passt (Projektregel: nur Fehlendes/Veraltetes)."""
     from PIL import Image
     from . import raster
+    files = preview_files(key, out, views)
+    want = preview_stamp(key, size, views, snap)
+    if not force and current(out, want, files, name="preview.json"):
+        print(out, "aktuell, keine Vorschau (--force baut neu)", flush=True)
+        return files
     ev = evaluate(key, snap)
     frame = raster.framing(ev, list(views), size[0], size[1])
     palette = raster.palette()
     clay = dict(de="Clay", kind="Farbe", wear=0.0, roles={role: "#B9B6B0" for role in palette["roles"]})
     out.mkdir(parents=True, exist_ok=True)
-    paths = []
+    (out / "preview.json").unlink(missing_ok=True)
     original = raster.palette
     raster.palette = lambda: {**palette, "skins": {**palette["skins"], "clay": clay}}
     try:
-        for name in ("clay", SKINS[key]):
-            for view in views:
-                image = raster.render(ev, view, size[0], size[1], skin=name, scale=frame["scale"], center=frame["center"])
-                path = out / f"{sheet_id(key)}_{name}_{view}.png"
-                image.convert("RGB").save(path)
-                paths.append(path)
+        for path, (name, view) in zip(files, [(n, v) for n in ("clay", SKINS[key]) for v in views]):
+            image = raster.render(ev, view, size[0], size[1], skin=name, scale=frame["scale"], center=frame["center"])
+            image.convert("RGB").save(path)
     finally:
         raster.palette = original
     sheet = Image.new("RGB", (size[0] * 2, size[1] * len(views)), (128, 128, 128))
-    for i, path in enumerate(paths):
+    for i, path in enumerate(files[:-1]):
         sheet.paste(Image.open(path), ((i // len(views)) * size[0], (i % len(views)) * size[1]))
-    sheet.save(out / f"{sheet_id(key)}_vorschau.png")
-    return paths + [out / f"{sheet_id(key)}_vorschau.png"]
+    sheet.save(files[-1])
+    (out / "preview.json").write_text(json.dumps(want, indent=1))
+    return files
 
 
 # ------------------------------------------------------------------ Export (Blender headless, ohne Ansichten)
@@ -158,8 +178,8 @@ def outputs(key: str, data: dict, target: Path) -> list[Path]:
     return [target / f"{wid}.{ext}" for ext in ("glb", "blend", "spec.json")]
 
 
-def current(target: Path, want: dict, files: list[Path]) -> bool:
-    path = target / "export.json"
+def current(target: Path, want: dict, files: list[Path], name: str = "export.json") -> bool:
+    path = target / name
     return path.exists() and all(f.exists() for f in files) and json.loads(path.read_text()) == want
 
 
@@ -202,12 +222,13 @@ def main(argv=None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
     v = sub.add_parser("preview", help="Rastervorschau Clay + Skin (ohne Blender)")
     v.add_argument("key", choices=sorted(MODELS)); v.add_argument("--out", type=Path, default=None)
+    v.add_argument("--force", action="store_true")
     e = sub.add_parser("export", help="GLB, .blend, spec.json im Signature-Skin (Blender, unter ce lock blender)")
     e.add_argument("key", choices=sorted(MODELS)); e.add_argument("--out", type=Path, default=OUT)
     e.add_argument("--force", action="store_true")
     a = p.parse_args(argv)
     if a.cmd == "preview":
-        for path in preview(a.key, a.out or OUT / sheet_id(a.key) / "vorschau"):
+        for path in preview(a.key, a.out or OUT / sheet_id(a.key) / "vorschau", force=a.force):
             print(path)
     else:
         print(export(a.key, a.out, a.force))

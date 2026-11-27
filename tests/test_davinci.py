@@ -307,5 +307,27 @@ class TestExportStamp(unittest.TestCase):
             self.assertFalse(davinci.current(target, want, files))                          # Gegenprobe: Datei fehlt
 
 
+@unittest.skipIf(SNAP is None, REASON)
+class TestPreviewStamp(unittest.TestCase):
+    """Vorschau nur bei fehlenden oder veralteten Bildern (Richter 0.52, Befund 7); gerendert wird hier nicht."""
+
+    def test_current(self):
+        from unittest import mock
+        want = davinci.preview_stamp("d01", (40, 20), ("side_left",), SNAP)
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            files = davinci.preview_files("d01", out, ("side_left",))
+            for f in files:
+                f.write_bytes(b"x")
+            (out / "preview.json").write_text(json.dumps(want))
+            with mock.patch.object(davinci, "evaluate", side_effect=AssertionError("kein Rendern bei passendem Stempel")):
+                self.assertEqual(davinci.preview("d01", out, (40, 20), ("side_left",), SNAP), files)
+            self.assertFalse(davinci.current(out, dict(want, skin="0"), files, name="preview.json"))   # Gegenprobe: Skin geändert
+            self.assertFalse(davinci.current(out, dict(want, size=[80, 40]), files, name="preview.json"))   # Gegenprobe: Größe
+            with mock.patch.object(davinci, "evaluate", side_effect=RuntimeError("gerendert")):   # Gegenprobe: force rendert
+                with self.assertRaisesRegex(RuntimeError, "gerendert"):
+                    davinci.preview("d01", out, (40, 20), ("side_left",), SNAP, force=True)
+
+
 if __name__ == "__main__":
     unittest.main()

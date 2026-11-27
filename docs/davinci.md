@@ -11,7 +11,7 @@ eigenem Signature-Skin. Reine Spiel-Assets für Cube Escape / KYBOS; „Funktion
 - Vokabular und Familienbausteine wie EXTENDED ([Modellsprache](modellsprache.md), [Design-Kanon](design-kanon.md)); nicht im
   EXTENDED-Register, nicht in den Linien EB–EN und nicht im Messblock des Kanons (der misst BASIC und EA).
 - `python -m formgen.davinci preview d01 [--out <Ordner>]` – Rastervorschau aller Ansichten in Clay und im Skin, gleicher Maßstab,
-  dazu ein Bogen `DA01_vorschau.png`. Ohne Blender, etwa 30 s.
+  dazu ein Bogen `DA01_vorschau.png`. Ohne Blender, etwa 30 s; nur bei neuem Stempel `preview.json`, `--force` baut neu.
 - `~/Claude/cubeescape-nexogen/ce lock blender -- .venv/bin/python -m formgen.davinci export d01` – GLB, .blend und spec.json über
   BALLONs unverändertes `tools/blender_build.main` **ohne Ansichten** (kein Render). Der Wrapper setzt Farben und `finish` des Skins in
   `kit.MATERIALS` und benennt die Materialien `DA01_sfumato_<Rolle>`. Ziel `~/Library/Caches/CubeEscapeFormgen2/0.52/davinci/DA01/`;
@@ -80,8 +80,9 @@ Champagnerkanten auftauchen. Farben nur in `skins.toml` (`[skins.sfumato]`, `for
 | shell | Nachtpetrol `#173D46` (Hauptfarbe, 61 % der Seite) | seidenmatt beschichtet, rauh 0,45 | Schale, Schaft, Magazin |
 | graphite | Elfenbein `#E4D9C3` (Sekundär, 19 %, mit den Platten 22 %) | Keramik seidenmatt, rauh 0,45 | Unterteil, Vorderschaft, Wangenpolster |
 | anodized | Elfenbein `#E4D9C3` | Keramik, rauh 0,38 | Schlossplatten, Abzugsbügel, Griffboden, Anzeigenrahmen |
-| dark_metal / sight_anod | dunkles Titan `#3D4247` / `#2E3236` | Rolle (Metall 0,8) | Nasenkappe, Rückenleiste, Schaftverbindung, Kompensator, Visier |
-| trim / decal | gebürsteter Champagner `#CDB68C` | Metall 1,0, rauh 0,28, anisotrop | Kernring, Laufbuchse, Krone, Schachtlippe, Zwischenlage, Schrauben, Goldlinie, Schrift |
+| dark_metal / sight_anod | dunkles Titan `#3D4247` / `#2E3236` | Rolle (Metall 0,8 / 0,6) | Nasenkappe, Rückenleiste, Schaftverbindung, Kompensator, Visier |
+| trim | gebürsteter Champagner `#CDB68C` | Metall 1,0, rauh 0,28, anisotrop | Kernring, Laufbuchse, Krone, Schachtlippe, Zwischenlage, Schrauben, Leistenkappe |
+| decal | Champagner `#CDB68C` (Druck) | Rolle (matt, rauh 0,5) | Goldlinie, Schrift |
 | accent | Champagnergold `#C9A05C` | Metall 0,6, rauh 0,35 | nur Bedienung: Feuerwahlhebel, Magazinhalter, Ladehebel |
 | rubber | warmes Schwarz `#1E2124` | Rolle | Griff, Schaftkappe, Griffpolster |
 | energy | Bernsteinweiß `#FFD7A0` | leuchtend | Oculus, Munitionsanzeige, Absehen |
