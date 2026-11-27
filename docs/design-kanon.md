@@ -225,7 +225,8 @@ EB–EN nur mit silhouettenerhaltenden Eingriffen (sight, mag, muzzle, muzzle_r,
 ZERO-Reihe (0.46, [ZERO](zero.md)): ZA01 „Crosshair“ (Automatikgewehr) belegt den Nullrahmen (quer offenes Rahmengehäuse), das Fadenkreuz
 im Rahmen (Achse, Zuführsäule, Steg) und den L-Schaft mit Keilbalken und 45°-Innenfase. ZA02 „Facet“ (Automatikgewehr) belegt den
 Sechskant-Facettenquerschnitt mit senkrechtem Mittelband, die Leuchtkante in der Facettenkante und den steigenden Keilschaft mit
-waagerechtem Schlitz.
+waagerechtem Schlitz. ZA03 „Cascade“ (Impulsgewehr, 0.49) belegt die Staffel (Deck → Handschutz → Nase fallen in 45°-Stufen und
+werden schmaler), die drei Leuchtnuten in Schaftfuge und Stufenflächen als Salvenanzeige und den bündigen Daumenloch-Schaft mit schräger Strebe.
 
 Serie DaVinci (0.52, [DaVinci](davinci.md)): DA01 Linea belegt gerade Oberlinie Kolben → Stirn, Daumenlochschaft-Schleife, Vesica-Schlossplatte mit Oculus.
 
