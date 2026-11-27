@@ -7,7 +7,7 @@ from formgen import model, pipeline
 
 class VoltSeriesTests(unittest.TestCase):
     def test_series_selects_the_four_approved_sheets(self):
-        for number in ("01", "02", "03", "04", "05", "06", "07", "08", "09", "10"):
+        for number in ("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"):
             series = "Volt-" + number
             with self.subTest(series=series), patch.object(pipeline, "run") as run:
                 self.assertEqual(pipeline.main(["--series", series]), 0)

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.59.0 Prism
+
+- Die vier gewählten linearen Fusionsgewehre bilden die Serie Volt-11. Der Serienbau erstellt K11 bis N11.
+
 ## 0.58.0 Lumen
 
 - Die gewählten Fusionsgewehre Service, Patrol, Ranger und Field bilden Volt-10. Der Serienbau erstellt K10 bis N10.
