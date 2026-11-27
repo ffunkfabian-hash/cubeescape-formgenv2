@@ -40,7 +40,7 @@ SHEETS.update({"e02": "EA02", "e03": "EA03"})                  # 0.17 „Outride
 SHEETS.update(e04="EA04", e05="EA05")      # 0.18 „Holster“
 MODELS.update(e10="e10_bellmouth", e11="e11_collimator")   # 0.19 „Crucible“: Fusion und lineare Fusion
 SHEETS.update(e10="EA10", e11="EA11")                     # 0.19 „Crucible“
-SHEET_PATTERN = r"E[A-HJ-NP-Z]\d{2}"      # Linienbuchstabe nach der Variantenregel (ohne I/O)
+SHEET_PATTERN = r"[EZ][A-HJ-NP-Z]\d{2}"   # Reihe (E = EXTENDED, Z = ZERO seit 0.46) + Linienbuchstabe nach der Variantenregel (ohne I/O)
 MODELS["e16"], SHEETS["e16"] = "e16_sweepguard", "EA16"   # 0.20 Riftguard: Schwert (Nahkampf)
 MODELS["e17"], SHEETS["e17"] = "e17_gorget", "EA17"       # 0.20 Riftguard: Glefe (Nahkampf)
 
@@ -51,8 +51,13 @@ FIELDS = ("META", "PARTS", "ASSEMBLIES", "ANCHORS", "POINTS", "ACTIONS", "EJECT"
 MM_PX = 1.0
 
 
+def package(key: str) -> str:
+    """Unterpaket unter formgen/models (0.46: ZERO-Reihe in `zero`, sonst `extended`)."""
+    return PACKAGES.get(key, "extended")
+
+
 def module_name(key: str) -> str:
-    return f"formgen.models.extended.{MODELS[key]}"
+    return f"formgen.models.{package(key)}.{MODELS[key]}"
 
 
 def _purge(extra=()):
@@ -83,7 +88,7 @@ def load_basic(num: str = "01", snap: Path | None = None) -> dict:
 
 def source(key: str = "e01", snap: Path | None = None) -> dict:
     """Quellhash: Modelldatei + statisch importierte `basic`-Module des Snapshots (Inhalt, keine Pfade)."""
-    return source_of(FOLDER / f"{MODELS[key]}.py", snap)
+    return source_of(ROOT / "formgen/models" / package(key) / f"{MODELS[key]}.py", snap)
 
 
 def source_of(path: Path, snap: Path | None = None) -> dict:
@@ -269,3 +274,7 @@ MODELS["e09"], SHEETS["e09"] = "e09_theodolite", "EA09"   # 0.25 Pauldron: Schar
 MODELS["e14"], SHEETS["e14"] = "e14_keelson", "EA14"      # 0.25 Pauldron: Raketenwerfer (Schulter)
 MODELS["e07"], SHEETS["e07"] = "e07_caliper", "EA07"      # 0.28 Quiver: Kampfbogen (Sonder)
 MODELS["e12"], SHEETS["e12"] = "e12_shuttle", "EA12"      # 0.28 Quiver: Spurgewehr (Sonder)
+# 0.46 „Zero“: ZERO-Reihe – eigenständige Modelle im selben Vokabular, eigenes Unterpaket formgen/models/zero, Blatt-ID Z<Linie><NN>
+PACKAGES = {"z01": "zero", "z02": "zero"}
+MODELS["z01"], SHEETS["z01"] = "z01_crosshair", "ZA01"     # 0.46 Zero: Automatikgewehr „Crosshair“ (Nullrahmen)
+MODELS["z02"], SHEETS["z02"] = "z02_facet", "ZA02"         # 0.46 Zero: Automatikgewehr „Facet“ (Facettenkeil, Nutzerwahl W4)

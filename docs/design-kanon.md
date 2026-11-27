@@ -222,6 +222,11 @@ EB–EN nur mit silhouettenerhaltenden Eingriffen (sight, mag, muzzle, muzzle_r,
 | 16 | Sweepguard | Schwert | Säbelbogen mit Korbbügel | Säbelbogen, Handraum im Bügel | AF:105, X:339, X:466 |
 | 17 | Gorget | Glefe | Ringkragen im Takt auf Rundschaft | Kragentakt, Laterne | AF:106, X:339 |
 
+ZERO-Reihe (0.46, [ZERO](zero.md)): ZA01 „Crosshair“ (Automatikgewehr) belegt den Nullrahmen (quer offenes Rahmengehäuse), das Fadenkreuz
+im Rahmen (Achse, Zuführsäule, Steg) und den L-Schaft mit Keilbalken und 45°-Innenfase. ZA02 „Facet“ (Automatikgewehr) belegt den
+Sechskant-Facettenquerschnitt mit senkrechtem Mittelband, die Leuchtkante in der Facettenkante und den steigenden Keilschaft mit
+waagerechtem Schlitz.
+
 Serie DaVinci (0.52, [DaVinci](davinci.md)): DA01 Linea belegt gerade Oberlinie Kolben → Stirn, Daumenlochschaft-Schleife, Vesica-Schlossplatte mit Oculus.
 
 Ebenfalls gesperrt: Serien J–M als Leitmotiv (AF:50–51), Lamellen, die sich als Zähne lesen (X:284), v1 KF18 „Gabelkrone“ (X:333), Haube über
