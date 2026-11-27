@@ -716,4 +716,5 @@ accent = { metal = 0.6, rough = 0.35 }
 
 [render]
 background_mid = "#808080"
+clay = "#B9BBBE"   # 0.52: einfarbige Formvorschau (formgen.davinci); Wert wie BALLON kit.material Modus clay
 outline = "#17191D"

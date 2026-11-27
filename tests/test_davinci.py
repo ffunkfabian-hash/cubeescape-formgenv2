@@ -331,6 +331,8 @@ class TestPreviewStamp(unittest.TestCase):
                 self.assertEqual(davinci.preview("d01", out, (40, 20), ("side_left",), SNAP), files)
             self.assertFalse(davinci.current(out, dict(want, skin="0"), files, name="preview.json"))   # Gegenprobe: Skin geändert
             self.assertFalse(davinci.current(out, dict(want, size=[80, 40]), files, name="preview.json"))   # Gegenprobe: Größe
+            self.assertEqual(want["clay"], tomllib.loads((davinci.ROOT / "skins.toml").read_text())["render"]["clay"])   # R7: Farbe aus skins.toml
+            self.assertFalse(davinci.current(out, dict(want, clay="#000000"), files, name="preview.json"))   # Gegenprobe: Clay geändert
             import hashlib   # Richter R6: der Vorschaucode (Clay-Farbe, Bogen) steht im Stempel; geändert → ungültig
             self.assertEqual(want["preview_code"], hashlib.sha256(Path(davinci.__file__).read_bytes()).hexdigest())
             changed = dict(want, preview_code=hashlib.sha256(b"anderer Vorschaucode").hexdigest())

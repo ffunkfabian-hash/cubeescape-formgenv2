@@ -104,7 +104,7 @@ def preview_stamp(key: str, size, views, snap=None) -> dict:
     digest = lambda v: hashlib.sha256(json.dumps(v, sort_keys=True, default=str).encode()).hexdigest()   # noqa: E731
     code = build.source_hashes(Path(raster.__file__))
     return {"key": key, "data_sha256": digest(load(key, snap)), "source_sha256": source(key, snap)["source_sha256"],
-            "code": digest(code), "preview_code": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), "raster": versions.RASTER, "geom": versions.GEOM, "roles": digest(palette["roles"]),
+            "code": digest(code), "preview_code": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), "raster": versions.RASTER, "geom": versions.GEOM, "roles": digest(palette["roles"]), "clay": palette["render"]["clay"],
             "skin": digest(palette["skins"][SKINS[key]]), "size": list(size), "views": list(views)}
 
 
@@ -128,7 +128,7 @@ def preview(key: str, out: Path, size=(1200, 520), views=PREVIEW_VIEWS, snap=Non
         ev = evaluate(key, snap)
         frame = raster.framing(ev, list(views), size[0], size[1])
         palette = raster.palette()
-        clay = dict(de="Clay", kind="Farbe", wear=0.0, roles={role: "#B9B6B0" for role in palette["roles"]})
+        clay = dict(de="Clay", kind="Farbe", wear=0.0, roles={role: palette["render"]["clay"] for role in palette["roles"]})
         original = raster.palette
         raster.palette = lambda: {**palette, "skins": {**palette["skins"], "clay": clay}}
         try:
