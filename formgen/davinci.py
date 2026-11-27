@@ -6,8 +6,10 @@ ACTIONS), liegt aber unter `formgen/models/davinci/` und hat ein eigenes Blattpr
 
   load("d01")                → Datensatz (tief kopiert), Snapshot danach wieder aus sys.path/sys.modules
   source("d01")              → Quellhash: eigene Datei + BALLON-Closure der importierten `basic`-Module
-  python -m formgen.davinci preview d01 [--out <Ordner>] [--force]   Rastervorschau (Clay + Skin), ohne Blender, nur bei neuem Stempel
-  ~/Claude/cubeescape-nexogen/ce lock blender -- .venv/bin/python -m formgen.davinci export d01   GLB, .blend, spec.json im Skin
+  ~/Claude/cubeescape-nexogen/ce lock blender -- sh -c "cd $PWD && .venv/bin/python -m formgen.davinci preview d01 [--force]"
+      Rastervorschau (Clay + Skin, CPU-Rasterizer unter der Sperre), nur bei neuem Stempel
+  ~/Claude/cubeescape-nexogen/ce lock blender -- sh -c "cd $PWD && .venv/bin/python -m formgen.davinci export d01"
+      GLB, .blend, spec.json im Skin (Blender, ohne Ansichten)
 
 Export: BALLONs unverändertes `tools/blender_build.main(W=<Datensatz>)` ohne Ansichten (kein Render). Der Wrapper setzt vorher die
 Rollenfarben und `finish` (Rauheit/Metall) des Skins in `kit.MATERIALS` und benennt die Materialien danach eindeutig

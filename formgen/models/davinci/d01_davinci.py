@@ -11,12 +11,15 @@ Formsprache (Auswahl unter drei Blockouts: docs/davinci.md)
   18°), gespiegelt um den Griff: die Strebe des Daumenlochschafts steigt vom Griffboden nach hinten zur Schaftkappe, die Nase des
   Vorderschafts nach vorn zur Stirn (dazu das Unterteil hinten). Alle übrigen langen Kanten sind waagerecht oder senkrecht.
 - Leitmerkmal 2 „Vesica“: eine Schlossplatte als Spitzoval (Schnitt zweier Kreise) auf beiden Gehäuseseiten, links mit dem runden
-  Energiekern (Oculus) in ihrer Mitte – der eine Blickfang, kameranah links.
+  Energiekern (Oculus) als Schmuckstein über der vorderen Spitze – der eine Blickfang, kameranah links (Runde 1: mittig las er sich
+  als Auge). Platten als Intarsie ohne sichtbare Schrauben.
 - Negativraum: der große Durchbruch im Daumenlochschaft (Schleife aus Kamm, Kolbenrücken und Strebe), die Strebe endet am Griffboden.
-- Schichten: Rückenleiste 2,5 mm auf der Schale, Schlossplatten 0,6 mm über ihrer Mulde, Wangenpolster 0,7 mm über dem Kamm,
+- Schichten: Rückenleiste 2,5 mm auf der Schale, Schlossplatten 0,6 mm über ihrer Mulde, Wangenpolster 0,7 mm auf den Kammflanken,
   Unterteil und Vorderschaft je Seite 1 mm schmaler als die Schale.
-- Zweiton und Material (Skin „Sfumato“): Schale (Gehäuse, Magazin) über Graphit (Unterteil, Vorderschaft); Schaft und Schlossplatten in
-  der Rolle `anodized`, Schrauben, Kanten und Goldlinie blank. Teilung am Gehäuse 54:42 (Fuge u 84), über die ganze Seite etwa 70:30.
+- Zweiton und Material: Schale `shell` (Gehäuse, Schaft, Magazin; in Sfumato Nachtpetrol) über `graphite` (Unterteil, Vorderschaft,
+  Wangenpolster; in Sfumato Elfenbein, umgekehrter Zweiton dunkel über hell); Schlossplatten, Abzugsbügel und Griffboden `anodized`;
+  Schrauben und Kanten blank (`trim`), Goldlinie und Schrift `decal`. Teilung am Gehäuse 54:42 (Fuge u 84); Seitenanteil Schale 61 %,
+  Graphit 19 % (G, extended_lines.role_shares).
 - Querschnitte: Schulterfasen 7 × 10 mm an Schale und Schaft über die ganze Länge (Deck 32 bzw. 26 mm), Kielfasen am Vorderschaft und
   am Unterteil, Draufsicht-Verjüngung der Front von 46 auf 38 mm.
 - Front mehrstufig: Nasenkappe mit 18°-Unterkante und Stirnfase, blanke Laufbuchse, freier Lauf, Kompensator mit Ringnuten und Ports,

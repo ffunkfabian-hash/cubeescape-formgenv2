@@ -10,9 +10,10 @@ eigenem Signature-Skin. Reine Spiel-Assets für Cube Escape / KYBOS; „Funktion
   Linie A = Grundform, NN = BALLON-Typ wie bei BA/EA (DA01 = Automatikgewehr, Klasse Langwaffe im Kanon). IDs sind ewig.
 - Vokabular und Familienbausteine wie EXTENDED ([Modellsprache](modellsprache.md), [Design-Kanon](design-kanon.md)); nicht im
   EXTENDED-Register, nicht in den Linien EB–EN und nicht im Messblock des Kanons (der misst BASIC und EA).
-- `python -m formgen.davinci preview d01 [--out <Ordner>]` – Rastervorschau aller Ansichten in Clay und im Skin, gleicher Maßstab,
+- `~/Claude/cubeescape-nexogen/ce lock blender -- sh -c "cd $PWD && .venv/bin/python -m formgen.davinci preview d01 [--out <Ordner>] [--force]"` –
+  Rastervorschau (CPU-Rasterizer, Sperre wie AGENTS.md › Befehle) aller Ansichten in Clay und im Skin, gleicher Maßstab,
   dazu ein Bogen `DA01_vorschau.png`. Ohne Blender, etwa 30 s; nur bei neuem Stempel `preview.json`, `--force` baut neu.
-- `~/Claude/cubeescape-nexogen/ce lock blender -- .venv/bin/python -m formgen.davinci export d01` – GLB, .blend und spec.json über
+- `~/Claude/cubeescape-nexogen/ce lock blender -- sh -c "cd $PWD && .venv/bin/python -m formgen.davinci export d01"` – GLB, .blend und spec.json über
   BALLONs unverändertes `tools/blender_build.main` **ohne Ansichten** (kein Render). Der Wrapper setzt Farben und `finish` des Skins in
   `kit.MATERIALS` und benennt die Materialien `DA01_sfumato_<Rolle>`. Ziel `~/Library/Caches/CubeEscapeFormgen2/0.52/davinci/DA01/`;
   nur bei geändertem Stempel (`export.json`: Datensatz, Quellhash, Kit, Skinwerte, Wrapper), `--force` baut neu.
