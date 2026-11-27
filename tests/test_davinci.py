@@ -303,6 +303,13 @@ class TestExportStamp(unittest.TestCase):
             (target / "export.json").write_text(json.dumps(want))
             self.assertTrue(davinci.current(target, want, files))
             self.assertFalse(davinci.current(target, dict(want, skin_sha256="0"), files))   # Gegenprobe: Skin geändert
+            (target / "export.json").write_text(json.dumps(want)[:20])                     # Richter R4: abgeschnittener Stempel
+            self.assertFalse(davinci.current(target, want, files))
+            (target / "export.json").write_text("")
+            self.assertFalse(davinci.current(target, want, files))
+            davinci.write_stamp(target / "export.json", want)                              # atomar geschrieben, wieder gültig
+            self.assertTrue(davinci.current(target, want, files))
+            self.assertEqual([p.name for p in target.iterdir() if p.name.startswith(".export.json")], [], "keine Restdatei")
             files[0].unlink()
             self.assertFalse(davinci.current(target, want, files))                          # Gegenprobe: Datei fehlt
 

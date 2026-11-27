@@ -135,7 +135,7 @@ def preview(key: str, out: Path, size=(1200, 520), views=PREVIEW_VIEWS, snap=Non
     for i, path in enumerate(files[:-1]):
         sheet.paste(Image.open(path), ((i // len(views)) * size[0], (i % len(views)) * size[1]))
     sheet.save(files[-1])
-    (out / "preview.json").write_text(json.dumps(want, indent=1))
+    write_stamp(out / "preview.json", want)
     return files
 
 
@@ -181,8 +181,20 @@ def outputs(key: str, data: dict, target: Path) -> list[Path]:
 
 
 def current(target: Path, want: dict, files: list[Path], name: str = "export.json") -> bool:
+    """True, wenn alle Dateien da sind und der Stempel passt; ein leerer oder abgeschnittener Stempel gilt als veraltet."""
     path = target / name
-    return path.exists() and all(f.exists() for f in files) and json.loads(path.read_text()) == want
+    if not path.exists() or not all(f.exists() for f in files):
+        return False
+    try:
+        return json.loads(path.read_text()) == want
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return False
+
+
+def write_stamp(path: Path, want: dict) -> None:
+    """Stempel atomar schreiben (ein Abbruch hinterlässt nie einen halben Stempel)."""
+    from .cache import atomic_write
+    atomic_write(path, json.dumps(want, indent=1).encode())
 
 
 def export(key: str, out: Path = OUT, force: bool = False) -> Path:
@@ -215,7 +227,7 @@ def export(key: str, out: Path = OUT, force: bool = False) -> Path:
             raise RuntimeError(f"Blender lieferte nicht alle Dateien: {missing}")
         for f in files:
             shutil.copyfile(made / f.name, f)
-    (target / "export.json").write_text(json.dumps(want, indent=1))
+    write_stamp(target / "export.json", want)
     return target
 
 
