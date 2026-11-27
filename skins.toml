@@ -681,6 +681,39 @@ accent = { metal = 0.15, rough = 0.6 }
 rubber = { metal = 0, rough = 0.75 }
 reticle_cyan = { metal = 0, rough = 0.2 }
 
+# Signature-Skin der Serie DaVinci (0.52 Atelier, docs/davinci.md): tiefes Nachtpetrol (Hauptfarbe, Schale und Schaft), warmes Elfenbein
+# (Sekundär: Fahrgestell `graphite` und Schlossplatten `anodized`, umgekehrter Zweiton dunkel über hell), dunkles Titan (neutrales Fahrgestell), gebürsteter Champagner (Kanten, Goldlinie)
+# und Champagnergold als einziger Akzent der Bedienung; warmes Bernsteinweiß als Leuchte. Am Raster gewählt, nicht am AAA-Bild.
+# `finish` (Form wie die Roboter-Skins): Elfenbein als seidenmatte Keramik statt Eloxal, Petrol seidenmatt lackiert, Champagner gebürstet.
+[skins.sfumato]
+de = "Sfumato"
+kind = "Farbe"
+formgen = true
+wear = 0.25
+[skins.sfumato.roles]
+shell = "#173D46"
+graphite = "#E4D9C3"
+anodized = "#E4D9C3"
+sight_anod = "#2E3236"
+ring_anod = "#2E3236"
+dark_metal = "#3D4247"
+metal = "#8E9398"
+trim = "#CDB68C"
+accent = "#C9A05C"
+rubber = "#1E2124"
+decal = "#CDB68C"
+energy = "#FFD7A0"
+charge_core = "#FFD7A0"
+pin_glow = "#FFD7A0"
+draw_light = "#FFD7A0"
+sight_line = "#FFD7A0"
+[skins.sfumato.finish]
+shell = { metal = 0.0, rough = 0.45 }
+anodized = { metal = 0.0, rough = 0.38 }
+graphite = { metal = 0.0, rough = 0.45 }
+trim = { metal = 1.0, rough = 0.28 }
+accent = { metal = 0.6, rough = 0.35 }
+
 [render]
 background_mid = "#808080"
 outline = "#17191D"

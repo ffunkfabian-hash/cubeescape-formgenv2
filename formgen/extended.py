@@ -83,9 +83,13 @@ def load_basic(num: str = "01", snap: Path | None = None) -> dict:
 
 def source(key: str = "e01", snap: Path | None = None) -> dict:
     """Quellhash: Modelldatei + statisch importierte `basic`-Module des Snapshots (Inhalt, keine Pfade)."""
+    return source_of(FOLDER / f"{MODELS[key]}.py", snap)
+
+
+def source_of(path: Path, snap: Path | None = None) -> dict:
+    """Quellhash einer Modelldatei unter `formgen/models/` (0.52: auch Serie DaVinci); Schlüssel = Pfad relativ zum Repo."""
     snap = Path(snap or ballon.snapshot())
-    path = FOLDER / f"{MODELS[key]}.py"
-    files = {f"formgen/models/extended/{path.name}": hashlib.sha256(path.read_bytes()).hexdigest()}
+    files = {Path(path).resolve().relative_to(ROOT).as_posix(): hashlib.sha256(Path(path).read_bytes()).hexdigest()}
     todo = [path]
     seen = set()
     while todo:

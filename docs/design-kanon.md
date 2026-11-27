@@ -222,6 +222,8 @@ EB–EN nur mit silhouettenerhaltenden Eingriffen (sight, mag, muzzle, muzzle_r,
 | 16 | Sweepguard | Schwert | Säbelbogen mit Korbbügel | Säbelbogen, Handraum im Bügel | AF:105, X:339, X:466 |
 | 17 | Gorget | Glefe | Ringkragen im Takt auf Rundschaft | Kragentakt, Laterne | AF:106, X:339 |
 
+Serie DaVinci (0.52, [DaVinci](davinci.md)): DA01 Linea belegt gerade Oberlinie Kolben → Stirn, Daumenlochschaft-Schleife, Vesica-Schlossplatte mit Oculus.
+
 Ebenfalls gesperrt: Serien J–M als Leitmotiv (AF:50–51), Lamellen, die sich als Zähne lesen (X:284), v1 KF18 „Gabelkrone“ (X:333), Haube über
 dem Rohr wie BASIC-12 (X:667). Offen: ähnliche Plattenschäfte EA03/EA11 (AF:111), orange Chevrons auf EA01/04/05 (AF:111).
 
