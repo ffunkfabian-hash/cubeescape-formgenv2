@@ -162,7 +162,7 @@
  "counts": {
   "assemblies": 8,
   "parts": 57,
-  "triangles": 23076
+  "triangles": 23456
  },
  "dimensions_mm": {
   "height": 254.6,
@@ -831,7 +831,7 @@
    "extent_mm": {
     "f": [
      151.0,
-     536.61
+     536.73
     ],
     "u": [
      99.0,
@@ -848,14 +848,14 @@
    "name_en": "Pulse chamber",
    "role": "shell",
    "shape": "prof",
-   "triangles": 460
+   "triangles": 600
   },
   {
    "assembly": "support",
    "extent_mm": {
     "f": [
      151.0,
-     536.5
+     536.75
     ],
     "u": [
      64.0,
@@ -872,7 +872,7 @@
    "name_en": "Handguard",
    "role": "graphite",
    "shape": "prof",
-   "triangles": 680
+   "triangles": 920
   },
   {
    "assembly": "support",
