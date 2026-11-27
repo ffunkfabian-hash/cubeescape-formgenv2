@@ -333,15 +333,15 @@ class ReleaseTests(Fixture):
 
     def test_volt_series_in_mixed_catalog_and_release(self):
         from formgen import geom, model, spec
-        from formgen.models.weapons import volt01, volt02, volt03, volt04, volt05
+        from formgen.models.weapons import volt01, volt02, volt03, volt04, volt05, volt06
 
-        for sid, entry in (volt01.SHEETS | volt02.SHEETS | volt03.SHEETS | volt04.SHEETS | volt05.SHEETS).items():
+        for sid, entry in (volt01.SHEETS | volt02.SHEETS | volt03.SHEETS | volt04.SHEETS | volt05.SHEETS | volt06.SHEETS).items():
             native = spec.build(geom.evaluate(model.normalize(entry.author(None))))
             sheet(self.out, sid, native, glb=False)
         self.prepare()
         catalog = site.collect(self.out)
         members = []
-        for number in ('01', '02', '03', '04', '05'):
+        for number in ('01', '02', '03', '04', '05', '06'):
             series = [row['id'] for row in catalog if row.get('group') == 'Volt-' + number]
             self.assertEqual(series, [letter + number for letter in 'KLMN'])
             members.extend(series)
