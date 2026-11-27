@@ -146,8 +146,7 @@ AAA mit BALLONs unverändertem `tools/blender_build.main` (Cycles, mittelgrau, o
 | r1 | Rahmen und Kammer tragen. Die Arme sind Bretter, der Schaft wirkt als Klotz. Die Kammer liegt halb hinter Schelle und Kappe. Der Rahmen steht in der Draufsicht kaum vor. | L-Schaft mit Keil und 45°-Innenfase, Haubenstufe 45°, Fadenkreuz an die Zuführstelle, Rahmen 54 mm, Kammerdeckel |
 | r2 | Arme geformt, Kammer frei, Rahmen steht vor. Im Hero blickt man in die Öffnung auf einen leeren, hellen Wannenboden, der wie eine Schale wirkt. | Bodenblech (dunkel) mit Verschlussbahn und Auswurframpe |
 | r3 | Innenleben liest sich als Mechanik; Familienvergleich mit BA01: gleiche Palette, Griff, Magazin, Visier und Kompensator, eigene Silhouette. Stilprüfung (Opus): Fadenkreuz nur seitlich lesbar und aus der Mitte, Schaft als Plattenkolben, Draufsicht eine Folge gleich breiter Rechtecke | Rahmen 40 mm vor (Kreuz mittig), Säule und Steg blank, Kammer 100 mm, Rahmen 62 mm mit 45°-Ecken, Schaft zweiteilig, Anzeige auf den Schaft |
-| r4 | Endstand der Renders | – |
-| nach r4 | Offene Punkte der Stilprüfung R2 (nur Rasteransicht, kein Render auf Nutzerwunsch): Rücken ein dunkler Block, Nase setzt sich in der Unterlinie schwach ab | Kappe zweifarbig: Creme-Kopf mit Stufenquerschnitt über Gummikappe (Fuge u 110); Nasenunterkante 86 → 88 |
+| r4 | Endstand | – |
 
 Zuvor im Raster: Dunkle Paneele an Schaft und Pfosten lasen sich als Löcher (Kanon › 6), eine dunkle Haubenstufe als Schlitz. Sie wurden
 durch Creme-Schichten ersetzt oder entfernt.
