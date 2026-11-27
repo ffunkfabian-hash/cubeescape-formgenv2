@@ -1,0 +1,178 @@
+{
+  "INFO": {
+    "id": "K08",
+    "kind": "weapon",
+    "name_de": "Volt-08 Service",
+    "name_en": "Volt-08 Service",
+    "summary": "Ein gerader heller Gehäuseblock trifft auf einen langen dunklen Vorderschaft. Das geschlossene Schulterstück nimmt die helle Fläche wieder auf.",
+    "provenance": {
+      "kind": "Annahme",
+      "source": "Statische Außenform auf Grundlage der gepinnten BASIC-08-Spielvorlage."
+    },
+    "facts": [
+      [
+        "Serie",
+        "Volt-08"
+      ],
+      [
+        "Formvariante",
+        "Service"
+      ],
+      [
+        "Typ",
+        "Schrotflinte"
+      ]
+    ],
+    "source_id": "K08",
+    "variant": "K",
+    "num": "08",
+    "type": "shotgun",
+    "type_de": "Schrotflinte",
+    "nick": "Volt-08 Service"
+  },
+  "ASSEMBLIES": [
+    {
+      "id": "receiver",
+      "de": "Hauptgehäuse",
+      "en": "Receiver"
+    },
+    {
+      "id": "barrel",
+      "de": "Lauf / Emitter",
+      "en": "Barrel / emitter"
+    },
+    {
+      "id": "ammo",
+      "de": "Munitionsversorgung",
+      "en": "Ammunition feed"
+    },
+    {
+      "id": "sight",
+      "de": "Visier",
+      "en": "Sight"
+    },
+    {
+      "id": "grip_controls",
+      "de": "Griff und Bedienung",
+      "en": "Grip and controls"
+    },
+    {
+      "id": "stock",
+      "de": "Schaft",
+      "en": "Stock"
+    },
+    {
+      "id": "mechanism",
+      "de": "Bewegliche Mechanik",
+      "en": "Moving mechanism"
+    }
+  ],
+  "ANCHORS": {
+    "Socket_Hand": {
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "part": "grip",
+      "note": "Haupthand, auf der Griffachse"
+    },
+    "Socket_SupportHand": {
+      "at": [
+        295,
+        45,
+        0
+      ],
+      "part": "pump",
+      "note": "Unterseite der Pumpe; bewegt sich mit ihr"
+    },
+    "Socket_Muzzle": {
+      "at": [
+        543,
+        100,
+        0
+      ],
+      "part": "front_face",
+      "note": "Stirn der Mündungskrone auf der Laufachse"
+    },
+    "Socket_LoadingGate": {
+      "at": [
+        122,
+        32,
+        0
+      ],
+      "part": "loading_gate",
+      "note": "Patronen einzeln von unten"
+    },
+    "Socket_Reticle": {
+      "at": [
+        525,
+        139.0,
+        0
+      ],
+      "part": "sight_glass"
+    },
+    "Socket_Sight": {
+      "at": [
+        -36,
+        139.0,
+        0
+      ],
+      "part": "sight_rear",
+      "note": "Kimme (Rückseite des Kimmenblatts) auf der Visierlinie"
+    },
+    "Socket_Eye": {
+      "at": [
+        -106.0,
+        139.0,
+        0
+      ],
+      "part": "sight_rear",
+      "sight_type": "iron",
+      "std": false,
+      "deck": 128,
+      "note": "70 mm hinter der Kimme, eigene Linie Schiene + 11 mm"
+    }
+  },
+  "PARTS": [
+    {"id": "grip", "de": "Pistolengriff", "asm": "grip_controls", "shape": "prof", "mat": "rubber", "bevel": 6.5, "pts": [[-8.210235533030602, 44], [-19.784609690826528, 12], [-31.8948822334847, -22], [-35.93335800641838, -52], [-42.14874831559185, -64], [-41.82824023990308, -74], [-32.364138624765324, -76], [-4.364138624765324, -76], [4.2435565298214115, -70], [1.923048454132637, -60], [7.602540378443866, -50], [6.282032302755091, -40], [12.961524227066318, -30], [11.641016151377546, -20], [18.856406460551018, -8], [24.287187078897965, 16], [32.7897644669694, 44]], "w": 30, "name_en": "Pistol grip", "func": "Haupthand hält die Waffe; trägt Socket_Hand", "attach": "mit Unterem Gehäuse verschraubt (fest)"},
+    {"id": "trigger", "de": "Abzug", "asm": "grip_controls", "shape": "prof", "mat": "metal", "bevel": 0.8, "pts": [[43.7897644669694, 43], [49.7897644669694, 43], [51.7897644669694, 28], [48.7897644669694, 17], [44.7897644669694, 18], [46.7897644669694, 29]], "w": 7, "name_en": "Trigger", "func": "Feuer auslösen (Zeigefinger)", "attach": "Drehpunkt im Unteren Gehäuse"},
+    {"id": "trigger_guard", "de": "Abzugsbügel", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[16, 10], [80, 10], [84, 14], [84, 45], [77, 45], [77, 17], [16, 17]], "w": 12, "name_en": "Trigger guard", "func": "Schützt den Abzug, Fingerfreiraum ≥ 22 mm", "attach": "Griff vorn und Unteres Gehäuse (fest)"},
+    {"id": "grip_cap", "de": "Griffboden", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[-42.56029104747196, -73], [4.4397089525280435, -73], [0.8320137979413076, -79], [-42.16798620205869, -79]], "w": 32, "name_en": "Grip cap", "func": "Ausgestellter Abschluss; schützt den Griff", "attach": "unten auf den Griff geschraubt"},
+    {"id": "sight_mount", "de": "Kimmenfuß", "asm": "sight", "shape": "multi", "mat": "sight_anod", "bevel": 0.8, "items": [{"shape": "box", "f0": -39, "f1": -19, "u0": 127.5, "u1": 131.5, "w": 24.0}, {"shape": "prof", "pts": [[-37, 131], [-21, 131], [-23, 136.0], [-37, 136.0]], "w": 18.0}], "name_en": "Rear base", "func": "Flacher Fuß, gestuft", "attach": "hinten auf dem Träger"},
+    {"id": "sight_clamp", "de": "Klemmhebel", "asm": "sight", "shape": "prof", "mat": "accent", "bevel": 0.4, "pts": [[-36, 128.8], [-24, 128.8], [-22, 131.2], [-36, 131.6]], "w": 1.8, "x": 12.9, "name_en": "Clamp lever", "func": "Spannt den Fuß", "attach": "links am Fuß"},
+    {"id": "sight_rear", "de": "Kimmenblatt", "asm": "sight", "shape": "xprof", "mat": "sight_anod", "bevel": 0, "f0": -36, "f1": -33, "cu": 139.0, "pts": [[-6.4, -3.5], [6.4, -3.5], [9.129776756996518, 2.8], [5.929776756996517, 4.0], [3.745955351399304, -2.0], [-3.745955351399304, -2.0], [-5.929776756996517, 4.0], [-9.129776756996518, 2.8]], "cuts": [], "name_en": "Rear horns", "func": "Zwei Flachblatt-Hörner 20° nach außen, offene Kerbe", "attach": "auf dem Kimmenfuß"},
+    {"id": "sight_front", "de": "Korn", "asm": "sight", "shape": "multi", "mat": "sight_anod", "bevel": 0.4, "items": [{"shape": "prof", "pts": [[518, 127.5], [530, 127.5], [526.5, 137.4], [525, 137.4]], "w": 2.6}, {"shape": "box", "f0": 517, "f1": 531, "u0": 127.5, "u1": 130.5, "w": 8}], "name_en": "Front sight", "func": "Schlankes Korn auf flachem Fuß", "attach": "vorn auf dem Träger"},
+    {"id": "sight_glass", "de": "Kornkopf", "asm": "sight", "shape": "cyl", "mat": "accent", "bevel": 0.2, "axis": "f", "c": [139.0, 0], "a0": 523.8, "a1": 526.5999999999999, "r": 1.8, "segs": 20, "name_en": "Front bead", "func": "Oranger Kornkopf, Stirn flach zum Auge (Zielpunkt)", "attach": "oben am Korn"},
+    {"id": "upper", "de": "Gehäuse", "asm": "receiver", "shape": "prof", "mat": "shell", "func": "Gehäuse", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-73, 72], [-61, 60], [108, 60], [124, 72], [160, 72], [170, 82], [170, 112], [162, 120], [-62, 120], [-73, 109]], "w": 43, "name_en": "Gehäuse"},
+    {"id": "lower", "de": "Unterrahmen", "asm": "receiver", "shape": "prof", "mat": "graphite", "func": "Unterrahmen", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-62, 74], [-59, 54], [-43, 43], [87, 43], [95, 32], [142, 32], [153, 43], [153, 77]], "w": 40, "name_en": "Unterrahmen"},
+    {"id": "rail", "de": "Sockel der hinteren Visiermarke", "asm": "receiver", "shape": "prof", "mat": "anodized", "func": "Sockel der hinteren Visiermarke", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.8, "pts": [[-55, 118], [45, 118], [48, 121], [48, 125], [45, 128], [-55, 128], [-58, 125], [-58, 121]], "w": 21, "name_en": "Sockel der hinteren Visiermarke"},
+    {"id": "loading_gate", "de": "Dunkles Unterfeld", "asm": "ammo", "shape": "prof", "mat": "dark_metal", "func": "Dunkles Unterfeld", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.5, "pts": [[105.5, 31], [137.5, 31], [139, 32.5], [139, 33.5], [137.5, 35], [105.5, 35], [104, 33.5], [104, 32.5]], "w": 26, "name_en": "Dunkles Unterfeld"},
+    {"id": "side_l", "de": "Gehäusewange", "asm": "receiver", "shape": "prof", "mat": "dark_metal", "func": "Gehäusewange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[-58, 85], [-45, 72], [34, 72], [45, 83], [133, 83], [144, 94], [144, 105], [-50, 105], [-58, 97]], "w": 3.8, "x": 21.5, "name_en": "Gehäusewange"},
+    {"id": "light_l", "de": "Statusfenster", "asm": "receiver", "shape": "prof", "mat": "energy", "func": "Statusfenster", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.4, "pts": [[76, 91], [98, 91], [99, 92], [99, 96], [98, 97], [76, 97], [75, 96], [75, 92]], "w": 1.3, "x": 23.35, "name_en": "Statusfenster"},
+    {"id": "grip_badge_l", "de": "Griffplakette", "asm": "grip_controls", "shape": "cyl", "mat": "brass", "func": "Griffplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-13, -30], "a0": 14.5, "a1": 16.6, "r": 3.8, "segs": 24, "name_en": "Griffplakette"},
+    {"id": "index_l", "de": "Orange Markierung", "asm": "grip_controls", "shape": "cyl", "mat": "accent", "func": "Orange Markierung", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [67, 51], "a0": 19.4, "a1": 21.4, "r": 3.7, "segs": 24, "name_en": "Orange Markierung"},
+    {"id": "side_r", "de": "Gehäusewange", "asm": "receiver", "shape": "prof", "mat": "dark_metal", "func": "Gehäusewange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[-58, 85], [-45, 72], [34, 72], [45, 83], [133, 83], [144, 94], [144, 105], [-50, 105], [-58, 97]], "w": 3.8, "x": -21.5, "name_en": "Gehäusewange"},
+    {"id": "light_r", "de": "Statusfenster", "asm": "receiver", "shape": "prof", "mat": "energy", "func": "Statusfenster", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.4, "pts": [[76, 91], [98, 91], [99, 92], [99, 96], [98, 97], [76, 97], [75, 96], [75, 92]], "w": 1.3, "x": -23.35, "name_en": "Statusfenster"},
+    {"id": "grip_badge_r", "de": "Griffplakette", "asm": "grip_controls", "shape": "cyl", "mat": "brass", "func": "Griffplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-13, -30], "a0": -14.5, "a1": -16.6, "r": 3.8, "segs": 24, "name_en": "Griffplakette"},
+    {"id": "index_r", "de": "Orange Markierung", "asm": "grip_controls", "shape": "cyl", "mat": "accent", "func": "Orange Markierung", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [67, 51], "a0": -19.4, "a1": -21.4, "r": 3.7, "segs": 24, "name_en": "Orange Markierung"},
+    {"id": "spine", "de": "Laufkontur", "asm": "barrel", "shape": "cyl", "mat": "metal", "func": "Laufkontur", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [100, 0], "a0": 140, "a1": 539, "r": 12.5, "segs": 24, "name_en": "Laufkontur"},
+    {"id": "underspine", "de": "Unterrohr", "asm": "ammo", "shape": "cyl", "mat": "dark_metal", "func": "Unterrohr", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [71, 0], "a0": 138, "a1": 492, "r": 10, "segs": 24, "name_en": "Unterrohr"},
+    {"id": "under_cap", "de": "Unterer Abschluss", "asm": "ammo", "shape": "cyl", "mat": "anodized", "func": "Unterer Abschluss", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [71, 0], "a0": 480, "a1": 498, "r": 11.5, "segs": 24, "name_en": "Unterer Abschluss"},
+    {"id": "nose", "de": "Metallene Frontkappe", "asm": "barrel", "shape": "cyl", "mat": "anodized", "func": "Metallene Frontkappe", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [100, 0], "a0": 518, "a1": 540, "r": 15, "segs": 24, "name_en": "Metallene Frontkappe"},
+    {"id": "muzzle_crown", "de": "Stirnrand", "asm": "barrel", "shape": "cyl", "mat": "trim", "func": "Stirnrand", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [100, 0], "a0": 539, "a1": 542, "r": 13, "segs": 24, "name_en": "Stirnrand"},
+    {"id": "front_face", "de": "Dunkles Stirnfeld", "asm": "barrel", "shape": "cyl", "mat": "dark_metal", "func": "Dunkles Stirnfeld", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [100, 0], "a0": 541.5, "a1": 543, "r": 9, "segs": 24, "name_en": "Dunkles Stirnfeld"},
+    {"id": "rib", "de": "Schmaler Rückensteg", "asm": "barrel", "shape": "prof", "mat": "dark_metal", "func": "Schmaler Rückensteg", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[142, 110], [513, 110], [531, 120], [531, 128], [504, 128], [494, 119], [159, 119], [142, 116]], "w": 12, "name_en": "Schmaler Rückensteg"},
+    {"id": "pump", "de": "Vorderschaft", "asm": "mechanism", "shape": "prof", "mat": "graphite", "func": "Vorderschaft", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[210, 52], [222, 40], [360, 40], [377, 57], [377, 83], [368, 92], [226, 92], [210, 76]], "w": 49, "name_en": "Vorderschaft"},
+    {"id": "fore_l", "de": "Griffwange", "asm": "mechanism", "shape": "prof", "mat": "anodized", "func": "Griffwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[227, 60], [238, 49], [349, 49], [361, 61], [361, 74], [239, 74], [227, 68]], "w": 4.8, "x": 24.5, "name_en": "Griffwange"},
+    {"id": "fore_r", "de": "Griffwange", "asm": "mechanism", "shape": "prof", "mat": "anodized", "func": "Griffwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[227, 60], [238, 49], [349, 49], [361, 61], [361, 74], [239, 74], [227, 68]], "w": 4.8, "x": -24.5, "name_en": "Griffwange"},
+    {"id": "fore_rivets", "de": "Deckelschrauben", "asm": "mechanism", "shape": "multi", "mat": "trim", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [244, 61], "a0": 26.049999999999997, "a1": 28.15, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [342, 61], "a0": 26.049999999999997, "a1": 28.15, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [244, 61], "a0": -26.049999999999997, "a1": -28.15, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [342, 61], "a0": -26.049999999999997, "a1": -28.15, "r": 3, "segs": 12}], "name_en": "Cover fasteners"},
+    {"id": "stock", "de": "Schulterstück", "asm": "stock", "shape": "prof", "mat": "shell", "func": "Schulterstück", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-246, 17], [-229, 17], [-182, 54], [-162, 73], [-79, 73], [-67, 85], [-67, 115], [-221, 115], [-246, 99]], "w": 37, "name_en": "Schulterstück"},
+    {"id": "cheek_l", "de": "Schaftwange", "asm": "stock", "shape": "prof", "mat": "anodized", "func": "Schaftwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[-234, 52], [-218, 52], [-176, 87], [-116, 87], [-107, 96], [-107, 102], [-220, 102], [-234, 89]], "w": 3.2, "x": 18.5, "name_en": "Schaftwange"},
+    {"id": "cheek_r", "de": "Schaftwange", "asm": "stock", "shape": "prof", "mat": "anodized", "func": "Schaftwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[-234, 52], [-218, 52], [-176, 87], [-116, 87], [-107, 96], [-107, 102], [-220, 102], [-234, 89]], "w": 3.2, "x": -18.5, "name_en": "Schaftwange"},
+    {"id": "heel", "de": "Schulterpolster", "asm": "stock", "shape": "prof", "mat": "rubber", "func": "Schulterpolster", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-254, 20], [-251, 17], [-242, 17], [-242, 107], [-248, 113], [-254, 107]], "w": 42, "name_en": "Schulterpolster"},
+    {"id": "seal_l", "de": "Schaftplakette", "asm": "stock", "shape": "cyl", "mat": "metal", "func": "Schaftplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-207, 93], "a0": 19.299999999999997, "a1": 21.2, "r": 4.5, "segs": 24, "name_en": "Schaftplakette"},
+    {"id": "seal_r", "de": "Schaftplakette", "asm": "stock", "shape": "cyl", "mat": "metal", "func": "Schaftplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-207, 93], "a0": -19.299999999999997, "a1": -21.2, "r": 4.5, "segs": 24, "name_en": "Schaftplakette"},
+    {"id": "case_pins", "de": "Deckelschrauben", "asm": "receiver", "shape": "multi", "mat": "trim", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [53, 94], "a0": 22.7, "a1": 24.8, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [122, 94], "a0": 22.7, "a1": 24.8, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [53, 94], "a0": -22.7, "a1": -24.8, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [122, 94], "a0": -22.7, "a1": -24.8, "r": 3, "segs": 12}], "name_en": "Cover fasteners"}
+  ]
+}
