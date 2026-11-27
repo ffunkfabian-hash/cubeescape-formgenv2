@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.50.0 Survey
+
+- Die freigegebenen Scout-Gewehre Service, Patrol, Ranger und Field bilden Volt-03 (K03 bis N03). Der gemeinsame Bau läuft über `python -m formgen.pipeline --series Volt-03`.
+
 ## 0.48.0 Pulse
 
 - Volt-02 ist als Impulsgewehrserie mit Service (K02), Patrol (L02), Ranger (M02) und Field (N02) über `python -m formgen.pipeline --series Volt-02` baubar.
