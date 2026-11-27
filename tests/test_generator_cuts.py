@@ -47,10 +47,19 @@ class SharedCutTests(unittest.TestCase):
         ref = bore(self.data, "pulse_chamber")
         length = ref["a1"] - ref["a0"]
         for v in variants.load():
+            if v["params"].get("architecture"):   # eigene Außenform (Linie T, 0.24): kein BASIC-02-Laufkanal, eigener Test unten
+                continue
             author, _ = generator.build(v, "02", SNAP)
             a, b = bore(author, "pulse_chamber"), bore(author, "handguard")
             self.assertAlmostEqual(a["a1"] - a["a0"], length, places=6, msg=v["letter"])
             self.assertEqual((a["a0"], a["a1"]), (b["a0"], b["a1"]), v["letter"])
+
+    def test_only_own_architectures_skip_the_bore(self):
+        """Gegenprobe zum Ausschluss oben: übersprungen werden nur Linien, deren Typ 02 wirklich ohne BASIC-02-Laufkanal gebaut wird."""
+        for v in variants.load():
+            if v["params"].get("architecture") and "02" in v.get("types", ("02",)):
+                author, _ = generator.build(v, "02", SNAP)
+                self.assertNotIn("pulse_chamber", {p["id"] for p in author["PARTS"]}, v["letter"])
 
 
 if __name__ == "__main__":
