@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.52.0 Atelier — Serie DaVinci, DaVinci-01 „Linea“ mit Signature-Skin „Sfumato“
+
+- Neu: eigene Serie DaVinci (Blatt `D<Linie><NN>`, Register `formgen/davinci.py`), erstes Modell DaVinci-01 „Linea“ (`DA01`, Automatikgewehr): gerade Oberlinie vom Kolben bis zur Stirn, Daumenlochschaft als geschlossene Schleife, ein einziger Schrägwinkel (18°), Vesica-Schlossplatte mit Oculus-Kern; aus drei Blockouts gewählt ([DaVinci](docs/davinci.md)).
+- Neu: Skin „Sfumato“ – Nachtpetrol, Elfenbein, dunkles Titan, gebürsteter Champagner; mit `finish` (Rauheit/Metall je Rolle), auch als Finish für EXTENDED wählbar.
+- Neu: `python -m formgen.davinci preview|export` – Rastervorschau Clay + Skin; GLB, .blend und spec.json über BALLONs Kit ohne Ansichten, Materialien `DA01_sfumato_<Rolle>`.
+- Hinweis: Ein neuer Skin ändert den Hash von `skins.toml`; die Blätter der BASIC-Pipeline gelten beim nächsten Lauf als veraltet (wie 0.38).
+
+## 0.49.0 Cascade — ZERO-03 „Cascade“, Impulsgewehr der ZERO-Reihe
+
+- Neu: [ZERO-03 „Cascade“](docs/zero.md#zero-03-cascade) (Blatt `ZA03`, `formgen/models/zero/z03_cascade.py`), Impulsgewehr mit Dreier-Salve, Nutzerwahl P1 „Staffel“ mit Daumenloch-Schaft S2a. Der Körper fällt in drei 45°-Stufen nach vorn ab und wird dabei schmaler; drei Leuchtnuten (Schaftfuge, zwei Stufenflächen) leuchten bei der Salve von hinten nach vorn. Der Schaft liegt bündig mit dem Deck. Seiten-IoU 0,70 gegen BA02, 0,59 gegen EA02, `kanon.outside` ohne Befund. Stilprüfung durch ein zweites Modell: Runde 2 Freigabe.
+
+## 0.46.0 Zero — ZERO-01 „Crosshair“, neues Automatikgewehr der BASIC-Familie
+
+- Neu: [ZERO-01 „Crosshair“](docs/zero.md) (Blatt `ZA01`, `formgen/models/zero/z01_crosshair.py`). Das Gehäuse ist ein offener Achteckrahmen, der Nullrahmen. Verschluss, Leuchtkammer, Zuführsäule und Steg bilden darin ein Fadenkreuz. Die Silhouette folgt Arm – Rahmen – Arm, mit L-Schaft (Keilbalken) und 45° als wiederkehrendem Winkel. Ausgewählt aus zehn Rasterskizzen; Seiten-IoU 0,77 gegen EA01, 0,75 gegen BA01, `kanon.outside` ohne Befund (Formen 173 über dem Bandmaximum 164, nur nach unten geprüft).
+- Neu: [ZERO-02 „Facet“](docs/zero.md#zero-02-facet) (Blatt `ZA02`, `formgen/models/zero/z02_facet.py`), Nutzerwahl aus vier Formvarianten mit geschlossenem Gehäuse. Facettenkeil nach V1 Black Ice: Gehäuse, Haube und Schaft teilen einen Sechskant-Querschnitt, eine erhabene blanke Facettenleiste läuft als Leitlinie über die ganze Waffe und wird links zur Leuchtkante (Blickfang). Der Keilschaft steigt nach hinten und hat einen waagerechten Schlitz. Seiten-IoU 0,78 gegen EA01, 0,71 gegen BA01; im Paar mit ZA01 0,66 (genaues Maß, Grenze 0,70).
+- Neu: ZERO-Reihe im selben Ladeweg wie EXTENDED (`extended.PACKAGES`, Blatt-ID `Z<Linie><NN>`); die EA-Quellhashes bleiben bytegleich.
+- Behoben: `tools/extended_render.py` baute für ein Modell ohne Linienregister still EXTENDED-01 (Blatt-ID über das EXTENDED-Register); jetzt rendert es die eigene Grundform, Test mit Gegenprobe.
+
+## 0.42.2 Patch kanon-klarheit — Klarheit der Seitenkonturen im Design-Kanon
+
+- Neu: Der Kanon misst die Klarheit der Seitenprofile (Anteil waagerechter/senkrechter Kanten, Anteil der sechs häufigsten Richtungen) mit Grenze je Klasse; `outside` meldet unruhige Konturen. Anlass: Astras HORIZON-Skizzen lagen alle darunter („klare Formen wie BASIC und EXTENDED … garnicht“).
+
+## 0.42.1 Patch kanon-detail — Detaildichte im Design-Kanon
+
+- Neu: Der Kanon misst je Modell die Detaildichte (Teile, Formen, Anteil Rundkörper und Quader, Materialrollen, blanke Kanten) mit Bändern je Klasse; `formgen.kanon zeile` und `outside` nennen Werte außerhalb des Bands. Anlass: Astras Formstudien wirkten blockig und lagen trotzdem in den Proportionsbändern.
+
+## 0.42.0 Canon — Design-Kanon für eine weitere Waffen-Generation
+
+- Neu: [Design-Kanon](docs/design-kanon.md) – Grundsätze, Silhouette und Proportion, Formvokabular, Motivtabelle EA01–EA17, Materialrollen und Skins, „Nie wieder“ aus allen Nutzerkorrekturen, die Tests dazu und der Ablauf für eine neue Generation; jede Aussage mit Fundstelle.
+- Neu: `python -m formgen.kanon messen [--check]` misst die 34 Modelle (BASIC A und EA: Länge, Höhe, Breite, L/H, Füllgrad, Visierlinie, Akzente, Hände, Rollen, nächster Nachbar) und schreibt Tabelle und Bänder je Klasse in den Kanon; ein Test meldet, wenn er veraltet.
+- Neu: `python -m formgen.kanon paket --out <Ordner>` bündelt Kanon, [Stilprüfung](docs/kanon-stilpruefung.md), Modellsprache, Register, Skins und acht Musterlösungen für eine fremde Entwurfssitzung.
+
 ## 0.38.2 Patch pin48
 
 - Pin auf Agent Tools 0.48.0 (`b15e808`), Lader `ce` folgt; sonst keine Änderung.
