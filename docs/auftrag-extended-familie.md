@@ -77,5 +77,35 @@ Lies `docs/uebergabe-0.15-spearhead.md` (Vokabular, Renderweg, Sperren) und die 
 
 Je Sitzung eine **Version** (`./ce session reserve <Name> --about … --model …`, Opus `high`), `./check`, Richter `./ce judge`
 (`~/.claude/templates/pruefung.md`), PR auf den eigenen Branch, Bericht als PR-Beschreibung mit Belegpfaden. Kein Merge ohne Ja des Nutzers.
-Keine Blatt-ID, keine Website-Aufnahme (Entscheidung des Nutzers steht aus). **Kontextlänge ist irrelevant** (Nutzer 23.11.2026):
+Blatt-ID `EA<NN>` je Modell (Nutzerentscheid, Register in [docs/extended.md](extended.md)); keine Website-Aufnahme (Entscheidung des
+Nutzers steht aus). **Kontextlänge ist irrelevant** (Nutzer 23.11.2026):
 bei der Hook-Meldung > 150 000 Tokens nicht übergeben, in derselben Sitzung bis zum PR weiterarbeiten.
+
+## Ergebnis: Motivtabelle der Familie (Stand 25.11.2026)
+
+Alle 16 Typen gebaut, gesichtet und gemergt, dazu EXTENDED-01; Quelle der Zeilen sind die Motivzeilen der Versionsberichte.
+
+| Blatt | Typ | Leitmotiv | Silhouette | Querschnitt | Blickfang | Negativraum | Front | Version |
+|---|---|---|---|---|---|---|---|---|
+| EA01 | Automatik „Spearhead“ | Speerspitze: fallende Ober-, steigende Unterlinie | 0,90 m, Draufsicht-Verjüngung | Sechseck-Kern | sechseckiger Energiekern | Fuller-Schlitz | Sechskant-Kompensator | 0.15 (#27) |
+| EA02 | Impuls „Cadence“ | Bullpup-Monoblock als Parallelogramm, alles 15° | 0,70 m, Magazin hinter dem Griff | Trapez mit Schulterfasen | Taktfenster mit drei Leuchtbalken | drei schräge Taktschlitze | vorgeneigte Stirn, achtkantige Stufenmündung | 0.17 (#28) |
+| EA03 | Späher „Meridian“ | koaxiale Rohrlinie | 0,91 m, parallele Ober- und Unterlinie | Kreis mit vier Rillen | Leuchtlinie in der oberen Rille | Fenster der Wangenbrücke | runde Rohrstirn mit Krone | 0.17 (#28) |
+| EA04 | Handkanone „Sledge“ | Hammerkopf mit Prallkammer, schlanker Hals | Oberlinie hoch-tief-hoch | Doppel-T mit Längsnuten | rundes Zündauge | offene Kehle, Prallkammer | Kopf mit Mündungsmulde | 0.18 (#30) |
+| EA05 | Seitenwaffe „Duplex“ | Doppeldeck: Schlitten über tiefem Laufrohr | flache Oberlinie, gerundetes Heck | Zweistock | Kapselanzeige (Stadionfenster) | Schlitz zwischen Rohr und Schlitten | zweistufig mit Mündungsring | 0.18 (#30) |
+| EA06 | MP „Wishbone“ | Gabelbein: Schachtgriff 24° vor, Griff 15° zurück | 0,42 m, Λ unter kurzem Gehäuse | T (Deck kragt über), Rückenleiste | Λ-Fenster | geschlossener Gabelzwickel | Kinnstirn 24°, runder Kompensator | 0.22 (#32) |
+| EA07 | Kampfbogen „Caliper“ | Klammer: tiefer Bügel, Wurfarme fast parallel zu großen Rollen | Spanne 0,80 m, kurz und tief | Keilrippe, Wurfarme von oben verjüngt | Spannlicht als liegender Halbmond | Sichtfenster, Rippenschlitze, Gabeln | Pfeilspitze → Pinring → Höhenschlitten → Bügel | 0.28 (#40) |
+| EA08 | Schrotflinte „Brace“ | Brille: zwei Läufe nebeneinander, Schiebemantel | 0,79 m, freie Läufe vor dem Mantel | Brille (zwei Wülste) | Zwillingsauge | Brillenspalt, Kolbenspalt, Brillenfenster | Brillenjoch mit zwei Kronen | 0.23 (#33) |
+| EA09 | Scharfschützengewehr „Theodolite“ | Stativ: Rautenrumpf auf drei Stützen mit Gummisohlen | 1,18 m, gerade Decklinie, Wangenkamm | Raute mit senkrechtem Gürtel | Libelle | Spannweite unter dem Rumpf, Kolbenbogen | Zweikammerbremse, freier Lauf, Rautenstirn | 0.25 (#36) |
+| EA10 | Fusion „Bellmouth“ | Glocke: Ladetrommel und Streutrichter | 0,56 m, vorn breiter | Drehkörper über Tonnendach | Glutring | Glockenmund, Ringschaft-Schlaufe | Streuscheibe mit sechs Ports | 0.19 (#31) |
+| EA11 | Lineare Fusion „Collimator“ | offener Stabkäfig mit Fokusplatten | 1,13 m, offen, gerade | Quadrat | Linearkern im Käfig | der ganze Käfig | Fokuskegel mit Rillen | 0.19 (#31) |
+| EA12 | Spurgewehr „Shuttle“ | Weberschiffchen: Spindel mit Auge, Fokusspule | 0,81 m, Linse mit Bauch, Schaft läuft zusammen | stehendes Oval, Fuge als Bogen | leuchtende Wicklung im Auge | Auge quer durch den Körper | Linse → Krone → Kegel → Fokusrohr | 0.28 (#40) |
+| EA13 | Granatwerfer „Mantlet“ | Panzerhaube: Helmwölbung, Schirm über der Stirn | 0,65 m, gedrungen, großes Kastenmagazin | U-Haube mit Visiergasse | Ladeanzeige in Geschossform | Visiergasse, Kehle unter dem Schirm | Mündungsring, gefaster Schirm | 0.23 (#33) |
+| EA14 | Raketenwerfer „Keelson“ | Rumpf: Startrohr als Deck auf tiefem Kiel | 0,92 m, flacher Bauch, Kielhacke | Tropfen | Zielerfassungsraute | Schulterbucht, Sattelbogen, Ladeschacht | Tropfenstirn mit Bohrungsring | 0.25 (#36) |
+| EA15 | MG „Flywheel“ | Schwungrad: Gurttrommel quer unter dem Gehäuse | 0,98 m, Rad zwischen Griff und Stützhand | Kreuz (Kühlmantel mit vier Rippen) | Leuchtspeiche | offene Nabe | Rippenenden, runde Bremse | 0.22 (#32) |
+| EA16 | Schwert „Sweepguard“ | Säbelbogen mit Korbbügel | Klinge 76 % | dreistufig geschichtet | drei Leuchtsegmente auf einem Bogen | Handraum im Bügel | Spitze mit Schneidenstufe | 0.20 (#29) |
+| EA17 | Glefe „Gorget“ | Ringkragen im Takt auf langem Rundschaft | Schaft 70 % | Keilklinge mit Tanto-Spitze | Emitterlinse in der Laterne | Laternenfenster | Kopf mit Schildflügel | 0.20 (#29) |
+
+Familienprüfung 25.11.2026 (Kontaktbögen `~/Library/Caches/CubeEscapeFormgen2/familie/abschluss/`): Seiten-IoU aller 136 Paare im genauen Maß
+höchstens 0,64 (EA01/EA03, EA08/EA12), größennormiert höchstens 0,67 (EA13/EA14); keine Silhouette wiederholt sich. Offen und vom Nutzer
+nicht beauftragt: Kastigkeit in Front oder Draufsicht bei EA01, EA02, EA04, EA05, EA06, EA11 und EA15 sowie am Bügel von EA07, ähnliche
+Plattenschäfte von EA03 und EA11, orange Chevrons auf EA01, EA04 und EA05.
