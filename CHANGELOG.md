@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.53.0 Beacon
+
+- Die gewählten Pistolen Service, Patrol, Ranger und Field sind als Volt-05 (K05 bis N05) registriert und mit `python -m formgen.pipeline --series Volt-05` baubar.
+
 ## 0.51.0 Relay
 
 - Die vier freigegebenen Handfeuerwaffen Service, Patrol, Ranger und Field bilden Volt-04 (K04 bis N04). Alle vier Modellblätter lassen sich mit `python -m formgen.pipeline --series Volt-04` bauen.
