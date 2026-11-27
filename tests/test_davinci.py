@@ -335,6 +335,33 @@ class TestPreviewStamp(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "gerendert"):
                     davinci.preview("d01", out, (40, 20), ("side_left",), SNAP, force=True)
 
+    def test_only_missing_views(self):
+        """Richter R5: passt der Stempel und fehlt nur eine Ansicht, wird genau diese gerendert; Gegenprobe: veralteter Stempel → alle."""
+        from unittest import mock
+        from PIL import Image
+        from formgen import raster
+        views = ("side_left", "top")
+        want = davinci.preview_stamp("d01", (40, 20), views, SNAP)
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            files = davinci.preview_files("d01", out, views)
+            for f in files:
+                Image.new("RGB", (40, 20)).save(f)
+            davinci.write_stamp(out / "preview.json", want)
+            files[1].unlink()
+            calls = []
+            fake = lambda ev, view, w, h, skin, **kw: calls.append((skin, view)) or Image.new("RGB", (w, h))   # noqa: E731
+            with mock.patch.object(davinci, "evaluate", return_value={"parts": []}), \
+                    mock.patch.object(raster, "framing", return_value={"scale": 1.0, "center": [0, 0, 0]}), \
+                    mock.patch.object(raster, "render", side_effect=fake):
+                davinci.preview("d01", out, (40, 20), views, SNAP)
+                self.assertEqual(calls, [("clay", "top")])
+                self.assertTrue(davinci.current(out, want, files, name="preview.json"))
+                calls.clear()
+                davinci.write_stamp(out / "preview.json", dict(want, skin="0"))   # Gegenprobe: veralteter Stempel
+                davinci.preview("d01", out, (40, 20), views, SNAP)
+                self.assertEqual(len(calls), 4)
+
 
 if __name__ == "__main__":
     unittest.main()

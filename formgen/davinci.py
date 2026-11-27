@@ -108,29 +108,34 @@ def preview_stamp(key: str, size, views, snap=None) -> dict:
 
 
 def preview(key: str, out: Path, size=(1200, 520), views=PREVIEW_VIEWS, snap=None, force=False) -> list[Path]:
-    """Rastervorschau je Ansicht in Clay (einfarbig, Form) und im Signature-Skin; gleicher Maßstab für alle Ansichten. Ohne force nur,
-    wenn ein Bild fehlt oder der Stempel `preview.json` nicht passt (Projektregel: nur Fehlendes/Veraltetes)."""
+    """Rastervorschau je Ansicht in Clay (einfarbig, Form) und im Signature-Skin; gleicher Maßstab für alle Ansichten. Projektregel nur
+    Fehlendes/Veraltetes: passt der Stempel `preview.json`, werden nur fehlende Ansichten gerendert (und der Bogen neu gesetzt);
+    passt er nicht oder ist force gesetzt, alle."""
     from PIL import Image
     from . import raster
     files = preview_files(key, out, views)
     want = preview_stamp(key, size, views, snap)
-    if not force and current(out, want, files, name="preview.json"):
+    valid = not force and current(out, want, [], name="preview.json")
+    jobs = [(path, name, view) for path, (name, view) in zip(files, [(n, v) for n in ("clay", SKINS[key]) for v in views])
+            if not (valid and path.exists())]
+    if not jobs and files[-1].exists():
         print(out, "aktuell, keine Vorschau (--force baut neu)", flush=True)
         return files
-    ev = evaluate(key, snap)
-    frame = raster.framing(ev, list(views), size[0], size[1])
-    palette = raster.palette()
-    clay = dict(de="Clay", kind="Farbe", wear=0.0, roles={role: "#B9B6B0" for role in palette["roles"]})
     out.mkdir(parents=True, exist_ok=True)
-    (out / "preview.json").unlink(missing_ok=True)
-    original = raster.palette
-    raster.palette = lambda: {**palette, "skins": {**palette["skins"], "clay": clay}}
-    try:
-        for path, (name, view) in zip(files, [(n, v) for n in ("clay", SKINS[key]) for v in views]):
-            image = raster.render(ev, view, size[0], size[1], skin=name, scale=frame["scale"], center=frame["center"])
-            image.convert("RGB").save(path)
-    finally:
-        raster.palette = original
+    if jobs:
+        (out / "preview.json").unlink(missing_ok=True)   # ein abgebrochener Lauf hinterlässt keinen gültigen Stempel
+        ev = evaluate(key, snap)
+        frame = raster.framing(ev, list(views), size[0], size[1])
+        palette = raster.palette()
+        clay = dict(de="Clay", kind="Farbe", wear=0.0, roles={role: "#B9B6B0" for role in palette["roles"]})
+        original = raster.palette
+        raster.palette = lambda: {**palette, "skins": {**palette["skins"], "clay": clay}}
+        try:
+            for path, name, view in jobs:
+                image = raster.render(ev, view, size[0], size[1], skin=name, scale=frame["scale"], center=frame["center"])
+                image.convert("RGB").save(path)
+        finally:
+            raster.palette = original
     sheet = Image.new("RGB", (size[0] * 2, size[1] * len(views)), (128, 128, 128))
     for i, path in enumerate(files[:-1]):
         sheet.paste(Image.open(path), ((i // len(views)) * size[0], (i % len(views)) * size[1]))
