@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.52.0 Atelier — Serie DaVinci, DaVinci-01 „Linea“ mit Signature-Skin „Sfumato“
+
+- Neu: eigene Serie DaVinci (Blatt `D<Linie><NN>`, Register `formgen/davinci.py`), erstes Modell DaVinci-01 „Linea“ (`DA01`, Automatikgewehr): gerade Oberlinie vom Kolben bis zur Stirn, Daumenlochschaft als geschlossene Schleife, ein einziger Schrägwinkel (18°), Vesica-Schlossplatte mit Oculus-Kern; aus drei Blockouts gewählt ([DaVinci](docs/davinci.md)).
+- Neu: Skin „Sfumato“ – Nachtpetrol, Elfenbein, dunkles Titan, gebürsteter Champagner; mit `finish` (Rauheit/Metall je Rolle), auch als Finish für EXTENDED wählbar.
+- Neu: `python -m formgen.davinci preview|export` – Rastervorschau Clay + Skin; GLB, .blend und spec.json über BALLONs Kit ohne Ansichten, Materialien `DA01_sfumato_<Rolle>`.
+- Hinweis: Ein neuer Skin ändert den Hash von `skins.toml`; die Blätter der BASIC-Pipeline gelten beim nächsten Lauf als veraltet (wie 0.38).
+
 ## 0.49.0 Cascade — ZERO-03 „Cascade“, Impulsgewehr der ZERO-Reihe
 
 - Neu: [ZERO-03 „Cascade“](docs/zero.md#zero-03-cascade) (Blatt `ZA03`, `formgen/models/zero/z03_cascade.py`), Impulsgewehr mit Dreier-Salve, Nutzerwahl P1 „Staffel“ mit Daumenloch-Schaft S2a. Der Körper fällt in drei 45°-Stufen nach vorn ab und wird dabei schmaler; drei Leuchtnuten (Schaftfuge, zwei Stufenflächen) leuchten bei der Salve von hinten nach vorn. Der Schaft liegt bündig mit dem Deck. Seiten-IoU 0,70 gegen BA02, 0,59 gegen EA02, `kanon.outside` ohne Befund. Stilprüfung durch ein zweites Modell: Runde 2 Freigabe.
