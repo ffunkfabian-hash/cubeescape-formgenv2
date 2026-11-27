@@ -605,7 +605,10 @@ def _keep_accents(model, base, added, notes):
 
 def adapt(data):
     """Return an editable copy plus the list of documented adaptations of BALLON data."""
-    model = {k: copy.deepcopy(data[k]) for k in ("META", "PARTS", "ASSEMBLIES", "ANCHORS")}
+    model = {k: copy.deepcopy(data[k]) for k in ("META", "ASSEMBLIES", "ANCHORS")}
+    # Jedes Teil einzeln kopieren: ein gemeinsamer deepcopy erhält geteilte Schnittkörper (BASIC-02: pulse_chamber und handguard teilen
+    # den Laufkanal), und `_stretch` verschöbe sie je Teil erneut (Patch basic-schnitte, wie EXTENDED in 0.38)
+    model["PARTS"] = [copy.deepcopy(p) for p in data["PARTS"]]
     model["POINTS"] = copy.deepcopy(data.get("POINTS") or {})
     notes = []
     for p in model["PARTS"]:

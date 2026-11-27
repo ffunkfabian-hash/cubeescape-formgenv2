@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.52.0 Atelier — Serie DaVinci, DaVinci-01 „Linea“ mit Signature-Skin „Sfumato“
+
+- Neu: eigene Serie DaVinci (Blatt `D<Linie><NN>`, Register `formgen/davinci.py`), erstes Modell DaVinci-01 „Linea“ (`DA01`, Automatikgewehr): gerade Oberlinie vom Kolben bis zur Stirn, Daumenlochschaft als geschlossene Schleife, ein einziger Schrägwinkel (18°), Vesica-Schlossplatte mit Oculus-Kern; aus drei Blockouts gewählt ([DaVinci](docs/davinci.md)).
+- Neu: Skin „Sfumato“ – Nachtpetrol, Elfenbein, dunkles Titan, gebürsteter Champagner; mit `finish` (Rauheit/Metall je Rolle), auch als Finish für EXTENDED wählbar.
+- Neu: `python -m formgen.davinci preview|export` – Rastervorschau Clay + Skin; GLB, .blend und spec.json über BALLONs Kit ohne Ansichten, Materialien `DA01_sfumato_<Rolle>`.
+- Hinweis: Ein neuer Skin ändert den Hash von `skins.toml`; die Blätter der BASIC-Pipeline gelten beim nächsten Lauf als veraltet (wie 0.38).
+
+## 0.49.0 Cascade — ZERO-03 „Cascade“, Impulsgewehr der ZERO-Reihe
+
+- Neu: [ZERO-03 „Cascade“](docs/zero.md#zero-03-cascade) (Blatt `ZA03`, `formgen/models/zero/z03_cascade.py`), Impulsgewehr mit Dreier-Salve, Nutzerwahl P1 „Staffel“ mit Daumenloch-Schaft S2a. Der Körper fällt in drei 45°-Stufen nach vorn ab und wird dabei schmaler; drei Leuchtnuten (Schaftfuge, zwei Stufenflächen) leuchten bei der Salve von hinten nach vorn. Der Schaft liegt bündig mit dem Deck. Seiten-IoU 0,70 gegen BA02, 0,59 gegen EA02, `kanon.outside` ohne Befund. Stilprüfung durch ein zweites Modell: Runde 2 Freigabe.
+
+## 0.46.0 Zero — ZERO-01 „Crosshair“, neues Automatikgewehr der BASIC-Familie
+
+- Neu: [ZERO-01 „Crosshair“](docs/zero.md) (Blatt `ZA01`, `formgen/models/zero/z01_crosshair.py`). Das Gehäuse ist ein offener Achteckrahmen, der Nullrahmen. Verschluss, Leuchtkammer, Zuführsäule und Steg bilden darin ein Fadenkreuz. Die Silhouette folgt Arm – Rahmen – Arm, mit L-Schaft (Keilbalken) und 45° als wiederkehrendem Winkel. Ausgewählt aus zehn Rasterskizzen; Seiten-IoU 0,77 gegen EA01, 0,75 gegen BA01, `kanon.outside` ohne Befund (Formen 173 über dem Bandmaximum 164, nur nach unten geprüft).
+- Neu: [ZERO-02 „Facet“](docs/zero.md#zero-02-facet) (Blatt `ZA02`, `formgen/models/zero/z02_facet.py`), Nutzerwahl aus vier Formvarianten mit geschlossenem Gehäuse. Facettenkeil nach V1 Black Ice: Gehäuse, Haube und Schaft teilen einen Sechskant-Querschnitt, eine erhabene blanke Facettenleiste läuft als Leitlinie über die ganze Waffe und wird links zur Leuchtkante (Blickfang). Der Keilschaft steigt nach hinten und hat einen waagerechten Schlitz. Seiten-IoU 0,78 gegen EA01, 0,71 gegen BA01; im Paar mit ZA01 0,66 (genaues Maß, Grenze 0,70).
+- Neu: ZERO-Reihe im selben Ladeweg wie EXTENDED (`extended.PACKAGES`, Blatt-ID `Z<Linie><NN>`); die EA-Quellhashes bleiben bytegleich.
+- Behoben: `tools/extended_render.py` baute für ein Modell ohne Linienregister still EXTENDED-01 (Blatt-ID über das EXTENDED-Register); jetzt rendert es die eigene Grundform, Test mit Gegenprobe.
+
+## 0.42.2 Patch kanon-klarheit — Klarheit der Seitenkonturen im Design-Kanon
+
+- Neu: Der Kanon misst die Klarheit der Seitenprofile (Anteil waagerechter/senkrechter Kanten, Anteil der sechs häufigsten Richtungen) mit Grenze je Klasse; `outside` meldet unruhige Konturen. Anlass: Astras HORIZON-Skizzen lagen alle darunter („klare Formen wie BASIC und EXTENDED … garnicht“).
+
+## 0.42.1 Patch kanon-detail — Detaildichte im Design-Kanon
+
+- Neu: Der Kanon misst je Modell die Detaildichte (Teile, Formen, Anteil Rundkörper und Quader, Materialrollen, blanke Kanten) mit Bändern je Klasse; `formgen.kanon zeile` und `outside` nennen Werte außerhalb des Bands. Anlass: Astras Formstudien wirkten blockig und lagen trotzdem in den Proportionsbändern.
+
+## 0.42.0 Canon — Design-Kanon für eine weitere Waffen-Generation
+
+- Neu: [Design-Kanon](docs/design-kanon.md) – Grundsätze, Silhouette und Proportion, Formvokabular, Motivtabelle EA01–EA17, Materialrollen und Skins, „Nie wieder“ aus allen Nutzerkorrekturen, die Tests dazu und der Ablauf für eine neue Generation; jede Aussage mit Fundstelle.
+- Neu: `python -m formgen.kanon messen [--check]` misst die 34 Modelle (BASIC A und EA: Länge, Höhe, Breite, L/H, Füllgrad, Visierlinie, Akzente, Hände, Rollen, nächster Nachbar) und schreibt Tabelle und Bänder je Klasse in den Kanon; ein Test meldet, wenn er veraltet.
+- Neu: `python -m formgen.kanon paket --out <Ordner>` bündelt Kanon, [Stilprüfung](docs/kanon-stilpruefung.md), Modellsprache, Register, Skins und acht Musterlösungen für eine fremde Entwurfssitzung.
+
+## 0.38.1 Patch ext-magazin — Schrägmagazin und Signalrot nach der AAA-Abnahme
+
+- Behoben: Mündungs- und Frontstreckung scherten das nach vorn hängende Schrägmagazin von EA06 (EF06: Körper trapezförmig, Bodenplatte abgelöst); ein Magazin, das hinter dem Schnitt einsteckt, bleibt im EXTENDED-Weg starr. Neu gebaut: ED06, EE06, EF06, EL06, die übrigen 200 Linienblätter bleiben gleich.
+- Signalrot: metallische Schale `#B3140E` statt Lack `#B23A2E`; als Lack wurde jedes Rot im AgX-Licht lachsfarben ([EXTENDED](docs/extended.md)).
+
 ## 0.34.0 Skiff
 
 - BT08 ergänzt die Linie T als Schrotflinte mit eigenem Fensterheck, ansteigender Kufe und dem offenen K2 von BASIC-08. Ein Wechselmodul füllt die gesamte Ladung im animierten Viewer. Sechs einzeln modellierte Lichtzellen stehen in zwei Dreierreihen für sechs Schuss. [Versionsbericht](docs/versions/0.34.md)
@@ -37,6 +74,49 @@
 ## 0.24.0 Crossbeam — TRESTLE im BASIC-Pass
 
 - EXTENDED-18 auf Blatt BT01 mit H0, BASIC-Anbauteilen und eigenen Spielankern. BT02–BT05 behalten ihre Außenformen. [Versionsbericht](docs/versions/0.24.md)
+
+## Patch agents-abschnitte — AGENTS.md im Standard
+
+- `AGENTS.md` trägt die Standardabschnitte (Projekt, Wahrheit und Aktualität, Befehle, Regeln, Definition of Done); die Regeln sind nur umsortiert, ihr Wortlaut bleibt. `./ce lint` ohne Fehler; der Pin auf 0.46 (Warnung) kommt mit der nächsten Version, ein Pin verlangt die Patch-Nummer +1 und machte alle Blattcaches veraltet.
+
+## 0.38.0 Foundry — EXTENDED-Linien, Finish und Rollentest
+
+- Neu: 12 eigene Formlinien für alle 17 EXTENDED-Modelle (EB01 … EN17, 204 Waffen) im Register `data/extended_lines.toml`, gebaut mit den silhouettenerhaltenden Eingriffen des Generators (Strecken, Mündung, Magazin, Leuchtstreifen, Weglassen, Visier), ohne Verkleidung; jede Linie weicht nach dem BASIC-Maß sichtbar von ihrem EA ab.
+- Neu: Finish – jeder Waffen-Skin frei auf jedes EXTENDED-Blatt, als Rastervorschau (`python -m formgen.extended_lines sketch|finishes`) und als AAA (`tools/extended_render.py --line/--finish`); acht neue Skins für die Linien.
+- Neu: Rollentest (Flächenanteil je Rolle, ΔE der Hauptrollen und der Leuchtrolle); Nachtschicht und Frost fielen als Linienskin durch, C und L tragen Schiefer und Eisgrau.
+- Behoben: geteilte Schnittkörper wurden beim Strecken doppelt verschoben (EXTENDED und BASIC-02, Patch basic-schnitte unten), die Frontstreckung riss an EA06 die Mündung ab ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.38.md)).
+
+## Patch basic-schnitte — geteilte Schnittkörper im Generator (erschienen mit 0.38.0)
+
+- `generator.adapt` kopiert jedes Teil einzeln: Der BALLON-Pilot BASIC-02 teilt den Laufkanal zwischen `pulse_chamber` und `handguard`, der Generator verschob ihn je Teil erneut (BB02 77 mm zu weit vorn, BC02/BE02/BG02 mit negativer Länge).
+- Neu gebaut: Specs und Prompts von BB02, BC02, BD02, BE02, BG02, BJ02, BL02, BM02 (Golden nachgezogen); alle übrigen 196 Blätter bitgleich. Test `tests/test_generator_cuts.py` mit Gegenprobe ([Bericht](docs/versions/0.28.md)).
+
+## Patch extended-familie — Abschluss der EXTENDED-Familie
+
+- Motivtabelle aller 17 EXTENDED-Modelle und Ergebnis der Familienprüfung in `docs/auftrag-extended-familie.md`; der Satz „Keine Blatt-ID“ ist durch die Blatt-ID `EA<NN>` ersetzt.
+- Lehre zu `mesh_plan` aus 0.28 korrigiert: beide Laufrichtungen schneiden gleich ([Nachtrag](docs/extended.md)).
+- Urteil „Ergebnis“ für 0.17–0.28 nach Merge eingetragen (0.23 und 0.25 nachgebessert, mit je einer Lehre).
+
+## 0.28.0 Quiver — EXTENDED-07 Kampfbogen und EXTENDED-12 Spurgewehr
+
+- Neu: EXTENDED-07 „Caliper“ (`formgen/models/extended/e07_caliper.py`), ein Compound-Kampfbogen als Klammer: Ein tief eingezogener Bügel mit Keilrippe trägt vorn zwei Wurfarmtaschen, die Wurfarme laufen fast parallel nach hinten zu großen Rollen (Spanne 0,80 m statt der Sichel von BASIC-07). Pinvisier B1 über dem Pfeil auf einem Höhenschlitten, Spannlicht als Halbmond, Sehne mit Wicklungen lesbar.
+- Neu: EXTENDED-12 „Shuttle“ (`formgen/models/extended/e12_shuttle.py`), ein Spurgewehr als Weberschiffchen: Der Einteilkörper ist eine Spindel mit Ovalquerschnitt, durch ihr Auge läuft die Strahlachse, darin leuchtet die Fokusspule; vorn tritt das freie Fokusrohr mit Kegel aus der Spitze, die Zelle ist der Bauch.
+- Blatt-IDs `EA07`/`EA12` (nur ID); Tests `tests/test_extended_sonder.py`; `tools/extended_render.py` mit Nahaufnahmen für beide (additiv) ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.28.md)).
+
+## 0.25.0 Pauldron — EXTENDED-09 Scharfschützengewehr und EXTENDED-14 Raketenwerfer
+
+- Neu: EXTENDED-09 „Theodolite“ (`formgen/models/extended/e09_theodolite.py`), ein Repetier-Scharfschützengewehr als Messinstrument: Der Rautenrumpf mit Gürtel steht auf drei Stützen (Magazin, Pylon und Kolbenbein auf Gummisohlen) und spannt dazwischen frei. Der Kolben ist Teil des Rumpfs, Blickfang ist eine Libelle.
+- Neu: EXTENDED-14 „Keelson“ (`formgen/models/extended/e14_keelson.py`), ein Raketenwerfer mit Rumpf: Das Startrohr liegt als Deck auf einem tiefen Kiel mit Tropfenquerschnitt, die Stirn ist ein Tropfen. Der Schultersattel ist ein kleiner Kiel, Blickfang ist eine Zielerfassungsraute; die Sicht am Seitenvisier W2 bleibt frei wie bei BASIC-14.
+- Nach der Sichtung: E09 ohne dünne Stifte (Gummisohlen unter Pylon und Kolbenbein), E14 mit Visierkonsole aus Schale und Kiel und Klemmleisten.
+- Blatt-IDs `EA09`/`EA14` (nur ID); Tests `tests/test_extended_schulter.py` mit genauem Seitenmaß für Querprofile ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.25.md)).
+
+## 0.23.0 Breacher — EXTENDED-08 Schrotflinte und EXTENDED-13 Granatwerfer
+
+- Neu: EXTENDED-08 „Brace“ (`formgen/models/extended/e08_brace.py`), eine Vorderschaftrepetierflinte mit zwei Läufen nebeneinander: Brillen-Querschnitt (zwei Wülste) in Gehäuse, Schiebemantel und Mündungsjoch, offener Brillenspalt zwischen den freien Läufen, Zwillingsauge als Blickfang; die Streuung liest sich als Breite statt als Trichter.
+- Neu: EXTENDED-13 „Mantlet“ (`formgen/models/extended/e13_mantlet.py`), ein halbautomatischer Granatwerfer mit Panzerhaube: Helmwölbung über dem Verschluss mit Schirm über der Stirn, Visiergasse durch die Wölbung, Kastenmagazin vor dem Griff statt Trommel, Ladeanzeige in Geschossform.
+- Runde 9/10 nach der Sichtung: Spaltkolben (E08) und Lamellenkolben (E13), geschichtete Flanken und Mantel, Schirm mit Materialstärke und Fase, Detaildichte wie die Piloten.
+- Runde 12/13 nach der zweiten Sichtung: Brillenfenster im Kolben von E08, Kolbenschalen als Fortsetzung der Haube bei E13, eingezogene und gefaste Querschnitte der Hauptkörper.
+- Blatt-IDs `EA08`/`EA13` (nur ID); Tests `tests/test_extended_streuung.py` ([EXTENDED](docs/extended.md), [Bericht](docs/versions/0.23.md)).
 
 ## 0.22.0 Torrent — EXTENDED-06 Maschinenpistole und EXTENDED-15 Maschinengewehr
 
