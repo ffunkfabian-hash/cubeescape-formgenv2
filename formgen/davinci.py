@@ -96,14 +96,15 @@ def preview_files(key: str, out: Path, views=PREVIEW_VIEWS) -> list[Path]:
 
 
 def preview_stamp(key: str, size, views, snap=None) -> dict:
-    """Alles, was die Vorschaubilder bestimmt: Datensatz, Quellhash, Raster- und Geometriecode, Rollen und Skinwerte, Größe, Ansichten."""
+    """Alles, was die Vorschaubilder bestimmt: Datensatz, Quellhash, Raster- und Geometriecode, diese Datei (Clay-Farbe, Bogen), Rollen und
+    Skinwerte, Größe, Ansichten."""
     from . import build, raster, versions
     with (ROOT / "skins.toml").open("rb") as stream:
         palette = tomllib.load(stream)
     digest = lambda v: hashlib.sha256(json.dumps(v, sort_keys=True, default=str).encode()).hexdigest()   # noqa: E731
     code = build.source_hashes(Path(raster.__file__))
     return {"key": key, "data_sha256": digest(load(key, snap)), "source_sha256": source(key, snap)["source_sha256"],
-            "code": digest(code), "raster": versions.RASTER, "geom": versions.GEOM, "roles": digest(palette["roles"]),
+            "code": digest(code), "preview_code": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), "raster": versions.RASTER, "geom": versions.GEOM, "roles": digest(palette["roles"]),
             "skin": digest(palette["skins"][SKINS[key]]), "size": list(size), "views": list(views)}
 
 

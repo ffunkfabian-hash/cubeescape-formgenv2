@@ -331,6 +331,10 @@ class TestPreviewStamp(unittest.TestCase):
                 self.assertEqual(davinci.preview("d01", out, (40, 20), ("side_left",), SNAP), files)
             self.assertFalse(davinci.current(out, dict(want, skin="0"), files, name="preview.json"))   # Gegenprobe: Skin geändert
             self.assertFalse(davinci.current(out, dict(want, size=[80, 40]), files, name="preview.json"))   # Gegenprobe: Größe
+            import hashlib   # Richter R6: der Vorschaucode (Clay-Farbe, Bogen) steht im Stempel; geändert → ungültig
+            self.assertEqual(want["preview_code"], hashlib.sha256(Path(davinci.__file__).read_bytes()).hexdigest())
+            changed = dict(want, preview_code=hashlib.sha256(b"anderer Vorschaucode").hexdigest())
+            self.assertFalse(davinci.current(out, changed, files, name="preview.json"))
             with mock.patch.object(davinci, "evaluate", side_effect=RuntimeError("gerendert")):   # Gegenprobe: force rendert
                 with self.assertRaisesRegex(RuntimeError, "gerendert"):
                     davinci.preview("d01", out, (40, 20), ("side_left",), SNAP, force=True)
