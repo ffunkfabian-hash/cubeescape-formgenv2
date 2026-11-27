@@ -146,7 +146,8 @@ AAA mit BALLONs unverändertem `tools/blender_build.main` (Cycles, mittelgrau, o
 | r1 | Rahmen und Kammer tragen. Die Arme sind Bretter, der Schaft wirkt als Klotz. Die Kammer liegt halb hinter Schelle und Kappe. Der Rahmen steht in der Draufsicht kaum vor. | L-Schaft mit Keil und 45°-Innenfase, Haubenstufe 45°, Fadenkreuz an die Zuführstelle, Rahmen 54 mm, Kammerdeckel |
 | r2 | Arme geformt, Kammer frei, Rahmen steht vor. Im Hero blickt man in die Öffnung auf einen leeren, hellen Wannenboden, der wie eine Schale wirkt. | Bodenblech (dunkel) mit Verschlussbahn und Auswurframpe |
 | r3 | Innenleben liest sich als Mechanik; Familienvergleich mit BA01: gleiche Palette, Griff, Magazin, Visier und Kompensator, eigene Silhouette. Stilprüfung (Opus): Fadenkreuz nur seitlich lesbar und aus der Mitte, Schaft als Plattenkolben, Draufsicht eine Folge gleich breiter Rechtecke | Rahmen 40 mm vor (Kreuz mittig), Säule und Steg blank, Kammer 100 mm, Rahmen 62 mm mit 45°-Ecken, Schaft zweiteilig, Anzeige auf den Schaft |
-| r4 | Endstand | – |
+| r4 | Endstand der Renders | – |
+| nach r4 | Offene Punkte der Stilprüfung R2 (nur Rasteransicht, kein Render auf Nutzerwunsch): Rücken ein dunkler Block, Nase setzt sich in der Unterlinie schwach ab | Kappe zweifarbig: Creme-Kopf mit Stufenquerschnitt über Gummikappe (Fuge u 110); Nasenunterkante 86 → 88 |
 
 Zuvor im Raster: Dunkle Paneele an Schaft und Pfosten lasen sich als Löcher (Kanon › 6), eine dunkle Haubenstufe als Schlitz. Sie wurden
 durch Creme-Schichten ersetzt oder entfernt.
@@ -238,7 +239,7 @@ Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
 
 - **Leitmerkmal Staffel:** Deck (Gehäuse und Schaft bündig) u 136 → Handschutz u 118 → eloxierte Nase u 108. Jede Stufe ist eine
   45°-Fläche, und jede Stufe ist schmaler (50 → 40 → 32 mm), in der Seite wie in der Draufsicht; die Unterlinie staffelt mit
-  (66 → 70 → 86). Gehäuse, Handschutz, Schaftbalken und Kappe haben den Stufenquerschnitt: Die Flanke springt oben mit einer 45°-Kante
+  (66 → 70 → 88). Gehäuse, Handschutz, Schaftbalken und Kappe haben den Stufenquerschnitt: Die Flanke springt oben mit einer 45°-Kante
   3 mm ein, so liest sich die Staffel auch von vorn und hinten.
 - **Drei Impulse:** Leuchtnuten quer ganz durch die beiden Stufenflächen und die 6 mm breite 45°-Fuge zwischen Schaft und Gehäuse, alle
   drei nach vorn fallend. Bei der
@@ -279,7 +280,8 @@ Kanon-IoU: BA02 0,70, EA02 0,58, EA01 0,67, ZA01 0,66, ZA02 0,73; alle Langwaffe
 | r1 | Silhouette, Staffel und Daumenloch tragen. Front und Rücken sind Rechtecke (kastig); die Leuchtstreifen der Stufen sind von der Seite kaum zu sehen und stehen an den Fasen über. | Leuchten in Nuten quer ganz durch; Stufenquerschnitt an Gehäuse, Handschutz und Schaft; Auswurf und Ladehebel unter die Flankenstufe |
 | r2 | Stilprüfung (Opus) Runde 1 Nachbessern: Stufen zu flach (14/10 mm, Breiten 46/42/36), Fuge gegen den Takt, Rücken ein Block, Nase ein Kasten | Deck 136, Breiten 50/40/32, Unterlinie staffelt, Fuge fällt nach vorn (6 mm), Nuten fast voll hoch, Kappe mit Stufenquerschnitt, Strebe schmaler, Nase 45° oben und unten |
 | r3 | Stilprüfung Runde 2 Freigabe; niedrig: Fase der Strebe griff nicht (alte Breite), Leuchtfuge stand oben an der Deckfase über | Strebenfase auf die neue Breite, Fuge mit Deckfase |
-| r4 | Endstand | – |
+| r4 | Endstand der Renders | – |
+| nach r4 | Offene Punkte der Stilprüfung R2 (nur Rasteransicht, kein Render auf Nutzerwunsch): Rücken ein dunkler Block, Nase setzt sich in der Unterlinie schwach ab | Kappe zweifarbig: Creme-Kopf mit Stufenquerschnitt über Gummikappe (Fuge u 110); Nasenunterkante 86 → 88 |
 
 Bewegung am Endstand: `~/Library/Caches/CubeEscapeFormgen2/0.49/belege/bewegung/z03_fire_burst.mp4` und `z03_reload_empty.mp4` (480p).
 
@@ -291,7 +293,8 @@ Bewegung am Endstand: `~/Library/Caches/CubeEscapeFormgen2/0.49/belege/bewegung/
   mit Schwere niedrig: In der Schrägsicht von oben verdeckt der Bügel den Steg, das Kreuz liest sich dort als umgedrehtes „T“. Der Einzug
   des Schaftbalkens ist flach. Das Kammerglas wirft im Cycles-Bild einen hellen Schleier auf den Wannenboden. Front und Rücken bleiben nahe
   an EA01, und der Fersenkeil verschwindet hinten im Graphit.
-- ZERO-03, Stilprüfung Runde 2 (Freigabe), offen mit Schwere niedrig: Auf 64 px ist die Staffel nur angedeutet; der Rücken bleibt
-  ein dunkler Block (Kappe Gummi, Strebe Graphit); Seiten-IoU 0,73 gegen ZA02 (flaches Creme-Deck mit Balkenschaft bei beiden, andere
+- ZERO-03, Stilprüfung Runde 2 (Freigabe), offen mit Schwere niedrig: Auf 64 px ist die Staffel nur angedeutet (Nase seither 2 mm stärker
+  abgesetzt; der Rücken ist seit der Kappe mit Creme-Kopf zweifarbig, vorher ein
+  dunkler Block aus Gummi und Graphit); Seiten-IoU 0,73 gegen ZA02 (flaches Creme-Deck mit Balkenschaft bei beiden, andere
   Version, Paarregel gilt nicht). Das Daumenloch liegt hinten (Nutzerwahl S2a), nicht am Griff.
 - Die Sichtung durch den Nutzer steht aus.
