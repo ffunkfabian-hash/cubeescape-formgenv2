@@ -1,4 +1,4 @@
-"""ZERO-01 „Crosshair“ (0.46 „Zero“): eigenständiges Automatikgewehr der BASIC-Familie mit offenem Nullrahmen-Gehäuse.
+"""ZERO-01 „Crosshair“ (0.46 „Zero“), ZERO-02 „Facet“ (0.46) und ZERO-03 „Cascade“ (0.49): eigenständiges Automatikgewehr der BASIC-Familie mit offenem Nullrahmen-Gehäuse.
 
 Prüft den Datensatz ohne Blender nach dem Design-Kanon (docs/design-kanon.md › 7): Felder und IDs, Blatt-ID ZA01, Weltpunkte mit BALLONs
 `variant.problems` als Orakel, Budgets, Visierlinie, eigene Silhouette gegen BASIC-01 und alle EXTENDED-Langwaffen, keine schwebenden
@@ -441,6 +441,174 @@ class TestFacet(unittest.TestCase):
         row = kanon.measure_model(self.data, "ZA02", SNAP, family=(self.rows, self.tris))
         self.assertEqual(kanon.outside(row, self.rows), [])
         self.assertIn("parts", {k for k, *_ in kanon.outside(dict(row, parts=10), self.rows)})   # Gegenprobe
+
+
+@unittest.skipIf(SNAP is None, REASON)
+class TestCascade(unittest.TestCase):
+    """ZERO-03 „Cascade“ (0.49, Nutzerwahl P1 „Staffel“ mit Schaft S2a): Impulsgewehr, das in drei Stufen nach vorn abfällt; drei
+    Leuchtimpulse (Schaftfuge, zwei Stufenflächen) laufen bei der Salve von hinten nach vorn; Schaft bündig mit dem Deck, Daumenloch."""
+
+    @classmethod
+    def setUpClass(cls):
+        from formgen import kanon, variety, extended_lines
+        cls.data = extended.load("z03", SNAP)
+        sys.path.insert(0, str(SNAP))   # Modulkonstanten (Stufen, Fuge) für die Leitmotiv-Tests
+        try:
+            cls.mod = importlib.import_module(extended.module_name("z03"))
+        finally:
+            sys.path.remove(str(SNAP))
+            extended._purge()
+        cls.parts = cls.data["PARTS"]
+        cls.ids = {p["id"]: p for p in cls.parts}
+        cls.basic = extended.load_basic("02", SNAP)
+        cls.rows, cls.tris = kanon._family(SNAP)
+        cls.own = variety.triangles(extended_lines.author(cls.data, "ZA03")[0])
+        cls.zero = {k: variety.triangles(extended_lines.author(extended.load(k, SNAP), extended.sheet_id(k))[0]) for k in ("z01", "z02")}
+
+    def test_fields_ids_and_sheet(self):
+        meta = self.data["META"]
+        self.assertEqual((meta["id"], meta["type"], meta["sheet_id"], meta["burst"]), ("ZERO-03", "pulse_rifle", "ZA03", 3))
+        self.assertEqual((extended.sheet_id("z03"), extended.package("z03")), ("ZA03", "zero"))
+        self.assertRegex("ZA03", f"^{extended.SHEET_PATTERN}$")
+        self.assertEqual(len(self.ids), len(self.parts), "Teil-IDs doppelt")
+        self.assertEqual({a["id"] for a in self.data["ASSEMBLIES"]}, {a["id"] for a in self.basic["ASSEMBLIES"]})
+        self.assertEqual(len(set(extended.SHEETS.values())), len(extended.SHEETS), "Blatt-IDs doppelt")
+
+    def test_anchors_points_actions(self):
+        A = self.data["ANCHORS"]
+        for name in ("Socket_Hand", "Socket_SupportHand", "Socket_Muzzle", "Socket_MagWell", "Socket_Charge", "Socket_Eye"):
+            self.assertIn(A[name]["part"], self.ids, name)
+        for k, v in self.data["ACTIONS"].items():
+            for pid in v["keys"]:
+                self.assertIn("move", self.ids[pid], f"{k}: {pid} ohne Bewegung")
+        sys.path.insert(0, str(SNAP))
+        try:
+            variant = importlib.import_module("basic.variant")
+            self.assertEqual(variant.problems(variant.as_module(copy.deepcopy(self.data))), [])
+        finally:
+            sys.path.remove(str(SNAP))
+            extended._purge()
+
+    def test_burst_runs_rear_to_front(self):
+        """Salve: drei Schüsse, je Schuss leuchtet der nächste Impuls auf, von hinten (Schaftfuge) nach vorn (zweite Stufe).
+        Gegenprobe: vertauschte Schlüssel fallen durch."""
+        fire = self.data["ACTIONS"]["fire_burst"]
+        self.assertEqual([f for f, e in fire["events"] if e == "shot"], [2, 6, 10])
+
+        shots = [f for f, e in fire["events"] if e == "shot"]
+
+        def ordered(keys):
+            on = [next(f for f, v in keys[f"pulse_{i}"] if v == 1) for i in (1, 2, 3)]
+            pos = [sum(f for f, _ in self.ids[f"pulse_{i}"]["pts"]) / 4 for i in (1, 2, 3)]
+            return on == shots and pos == sorted(pos)   # je Schuss genau eine Stufe, von hinten nach vorn
+        self.assertTrue(ordered(fire["keys"]))
+        swapped = dict(fire["keys"], pulse_1=fire["keys"]["pulse_3"], pulse_3=fire["keys"]["pulse_1"])
+        self.assertFalse(ordered(swapped))                                        # Gegenprobe: falsche Reihenfolge
+        late = {k: ([(f + 1 if f else 0, v) for f, v in val] if k.startswith("pulse_") else val) for k, val in fire["keys"].items()}
+        self.assertFalse(ordered(late))                                           # Gegenprobe: ein Bild nach dem Schuss
+
+    def test_family_and_budgets(self):
+        self.assertEqual((self.ids["grip"]["iface"], self.ids["mag_well"]["iface"], self.ids["muzzle"]["iface"]), ("BGM-1", "BMW-R", "BMZ-15"))
+        self.assertEqual((self.ids["upper"]["mat"], self.ids["lower"]["mat"], self.ids["stock_strut"]["mat"]), ("shell", "graphite", "graphite"))
+        self.assertEqual(lights(self.parts), ["ammo_counter", "emitter_glow", "pulse_1", "pulse_2", "pulse_3", "sight_emitter", "sight_status"])
+        self.assertEqual(accent_functions(self.parts), ["charging_handle", "mag_release", "selector"])
+        self.assertEqual([p["id"] for p in self.parts if p["shape"] == "text"], ["text_r"])
+        self.assertEqual(graphics(self.parts), ["chevron"])
+        bore, eye = self.ids["barrel"]["c"][0], self.data["ANCHORS"]["Socket_Eye"]["at"][1]
+        self.assertEqual(bore, 100)   # V: Laufachse wie BASIC-02
+        self.assertTrue(SIGHT_RANGE[0] <= eye - bore <= min(SIGHT_RANGE[1], 74), eye - bore)
+
+    def test_own_silhouette(self):
+        """Kanon-IoU < 0,85 gegen BASIC-02, jede EXTENDED-Langwaffe, ZERO-01 und ZERO-02 (Skizze S2a: BA02 0,71). Gegenprobe: ein langer,
+        tiefer Handschutz wie an BASIC-02 rückt näher an BA02 (die Messung reagiert auf den Unterschied)."""
+        from formgen import kanon, variety, extended_lines
+        for sid in ("BA02",) + tuple(f"EA{k[1:]}" for k in LONG):
+            with self.subTest(sid):
+                self.assertLess(kanon._side_iou(self.own, self.tris[sid]), IOU_MAX)
+        for k, t in self.zero.items():
+            self.assertLess(kanon._side_iou(self.own, t), IOU_MAX, k)
+        deep = copy.deepcopy(self.data)
+        deep["PARTS"].append(dict(shape="prof", id="deep_guard", asm="support", mat="shell", pts=[(190, 88), (440, 88), (440, 60), (190, 60)], w=40))
+        t = variety.triangles(extended_lines.author(deep, "ZA03")[0])
+        self.assertGreater(kanon._side_iou(t, self.tris["BA02"]), kanon._side_iou(self.own, self.tris["BA02"]))
+
+    def test_no_floating_parts(self):
+        self.assertEqual(extended.components(self.parts)[1:], [])
+        moved = copy.deepcopy(self.parts)   # Gegenprobe: Nase 40 mm nach außen
+        next(p for p in moved if p["id"] == "nose")["x"] = 40
+        self.assertGreater(len(extended.components(moved)), 1)
+
+    def test_cascade(self):
+        """Leitmotiv Staffel: Deck → Handschutz → Nase fallen in der Höhe und werden schmaler; jede Stufe ist eine 45°-Fläche mit einer
+        Leuchtnut quer ganz durch (in der Seite sichtbar); die Impulsfuge zwischen Schaft und Gehäuse fällt ebenfalls 45° nach vorn; Gehäuse,
+        Handschutz und Schaftbalken haben den Stufenquerschnitt (Flanke springt oben 45° ein, Staffel auch von vorn).
+        Gegenprobe: gleich hohe Stufen fallen durch."""
+        levels = [(max(u for _, u in self.ids[k]["pts"]), self.ids[k]["w"]) for k in ("upper", "hg", "nose")]
+
+        def staffel(lv):
+            return all(a[0] - b[0] >= 8 and a[1] > b[1] for a, b in zip(lv, lv[1:]))
+        self.assertTrue(staffel(levels))
+        self.assertFalse(staffel([(132, 46), (132, 42), (108, 36)]))
+        slope = lambda a, b: (b[1] - a[1]) / (b[0] - a[0])   # noqa: E731
+        m = self.mod
+        self.assertEqual(slope((m.STEP1[0], m.TOP), (m.STEP1[1], m.HG_TOP)), -1)
+        self.assertEqual(slope((m.STEP2[0], m.HG_TOP), (m.STEP2[1], m.NOSE_TOP - 4)), -1)
+        self.assertEqual(slope(*m.SEAM), -1)   # Fuge fällt nach vorn wie die Stufen (Stilprüfung R1)
+        for pid in ("upper", "hg", "stock"):
+            with self.subTest(ledge=pid):
+                steps = [c for c in self.ids[pid]["cuts"] if c.get("shape") == "xprof" and len(c["pts"]) == 4 and c["pts"][2][1] == 400]
+                self.assertEqual(len(steps), 2, pid)
+                (x0, u0), (x1, u1) = steps[0]["pts"][:2]
+                self.assertAlmostEqual(abs(u1 - u0), abs(x1 - x0))   # 45°-Kante
+        for pid, body in (("pulse_2", "upper"), ("pulse_3", "hg")):
+            with self.subTest(pid):
+                self.assertGreaterEqual(self.ids[pid]["w"], self.ids[body]["w"] - 7)   # bis an die eingezogene Flanke (Stufenquerschnitt)
+                groove = [c for c in self.ids[body]["cuts"] if c.get("shape") == "prof" and c.get("w") == 80]
+                c = tuple(sum(v) / 4 for v in zip(*self.ids[pid]["pts"]))
+                self.assertTrue(any(inside(c, g["pts"]) for g in groove), pid)                       # Leuchte sitzt in der Nut
+                self.assertFalse(any(inside((c[0] + 20, c[1]), g["pts"]) for g in groove), pid)      # Gegenprobe: 20 mm daneben
+
+    def test_stock_flush_and_thumbhole(self):
+        """Nutzer: der Schaft geht nicht nach oben – kein Schaftteil über dem Deck außer Wangenauflage (≤ 5 mm) und Kappe (≤ 2 mm).
+        Das Daumenloch ist ein umschlossener Negativraum am ausgewerteten Netz. Gegenproben: Balken auf u 152 (P1-Schaft) und
+        geschlossene Strebe."""
+        top = self.mod.TOP
+
+        def flush(parts):
+            return all(max(u for _, u in p["pts"]) <= top + {"cheek_rest": 5, "butt_pad": 2}.get(p["id"], 0)
+                       for p in parts if p["asm"] == "stock" and p["shape"] == "prof")
+        self.assertTrue(flush(self.parts))
+        high = copy.deepcopy(self.parts)
+        next(p for p in high if p["id"] == "stock")["pts"][-1] = (-300, 152)
+        self.assertFalse(flush(high))
+        filled = copy.deepcopy(self.data)
+        filled["PARTS"].append(dict(shape="prof", id="fill", asm="stock", mat="graphite", pts=[(-272, 68), (-108, 68), (-108, 106), (-272, 106)], w=40))
+        self.assertGreater(holes(self.data, "ZA03") - holes(filled, "ZA03"), 2000)   # Daumenloch ≈ 160 × 14–34 mm
+
+    def test_magazine_sticks_lettering_profiles(self):
+        guard = max(q[0] for q in self.ids["trigger_guard"]["pts"])
+        self.assertGreater(min(q[0] for q in self.ids["magazine"]["pts"]), guard)
+        self.assertEqual(sticks(self.parts), [])
+        t = self.ids["text_r"]
+        start, end = text_span(t)
+        port = next(c for c in self.ids["upper"]["cuts"] if c.get("shape", "box") == "box" and c.get("x") == -self.mod.HALF)
+        ok = lambda s, e, u: e < port["f0"] and s >= self.mod.F0 and 88 + 1 <= u - 2.5 and u + 2.5 <= self.mod.TOP - 8   # noqa: E731
+        self.assertTrue(ok(start, end, t["u"]))
+        self.assertFalse(ok(start + 100, end + 100, t["u"]))   # Gegenprobe: auf dem Auswurffenster
+        self.assertFalse(ok(start, end, 130))                  # Gegenprobe: in der Deckfase
+        for p in self.parts:
+            for q in (p["items"] if p["shape"] == "multi" else [p]):
+                if q.get("shape", p["shape"]) == "prof":
+                    self.assertIsNone(crossing(list(map(tuple, q["pts"]))), p["id"])
+
+    def test_source_and_band(self):
+        from formgen import kanon
+        a = extended.source("z03", SNAP)
+        self.assertIn("formgen/models/zero/z03_cascade.py", a["files"])
+        self.assertFalse([f for f in a["files"] if "z01_" in f or "z02_" in f or "e02_" in f or "w02_" in f], "kein Umbau")
+        row = kanon.measure_model(self.data, "ZA03", SNAP, family=(self.rows, self.tris))
+        self.assertEqual(kanon.outside(row, self.rows), [])
+        self.assertIn("round", {k for k, *_ in kanon.outside(dict(row, round=0.1), self.rows)})   # Gegenprobe
 
 
 @unittest.skipIf(SNAP is None, REASON)

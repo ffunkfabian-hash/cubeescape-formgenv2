@@ -10,6 +10,7 @@ Spiel.
 |---|---|---|---|---|
 | `z01` | ZERO-01 „Crosshair“ | `ZA01` | `formgen/models/zero/z01_crosshair.py` | Automatikgewehr |
 | `z02` | ZERO-02 „Facet“ | `ZA02` | `formgen/models/zero/z02_facet.py` | Automatikgewehr |
+| `z03` | ZERO-03 „Cascade“ | `ZA03` | `formgen/models/zero/z03_cascade.py` | Impulsgewehr |
 
 IDs sind ewig. Die Blatt-ID folgt dem Schema `Z<Linie><NN>` analog zu `EA01`: Linie A ist die Grundform. Anders als bei EXTENDED
 ist NN die laufende ZERO-Nummer und nicht die BASIC-Typnummer (ZA02 ist ein Automatikgewehr). `kanon.klasse` ordnet ZA01 und ZA02
@@ -211,6 +212,79 @@ Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
 - Quellhash ohne Umbau.
 - Messzeile im Band.
 
+## ZERO-03 „Cascade“
+
+### Herkunft
+
+Der Nutzer bat um den nächsten Waffentyp: das Impulsgewehr (Typ 02, Dreier-Salve; Familie BASIC-02 und EXTENDED-02 „Cadence“). Gesperrt
+waren die Motive von EA02 (Bullpup, Parallelogramm, Taktschlitze), ZA01 (offenes Mittelteil) und ZA02 (Sechskant-Facetten). Vier
+Rasterskizzen mit geschlossenem Gehäuse (Versuch, nur Cache, `~/Library/Caches/CubeEscapeFormgen2/0.46/belege/formvarianten_z03/`),
+IoU des Kanons:
+
+| Variante | Formidee | BA02 | EA02 | ZA01 | ZA02 |
+|---|---|---|---|---|---|
+| **P1 Staffel** | drei Stufen fallen nach vorn ab, je Stufe ein Leuchtstreifen | 0,70 | 0,59 | 0,64 | 0,77 |
+| P2 Dreiklang | drei stehende Kondensatoren im flachen Handschutz | 0,82 | 0,64 | 0,66 | 0,76 |
+| P3 Pflug | flacher Rücken, tiefer Bug mit Abstrahler | 0,74 | 0,60 | 0,66 | 0,69 |
+| P4 Gegenschwung | Stirn und Kolbenende 30° einwärts | 0,81 | 0,65 | 0,68 | 0,75 |
+
+Der Nutzer wählte P1 und ließ den Schaft umbauen. Vier Schäfte auf P1 (S1 Stufenkiel 0,70, S2 Daumenloch 0,67, S3 Kurzschaft 0,69,
+S4 Rundschaft 0,69 gegen BA02); gewählt S2, aber „so, dass es nicht nach oben geht“: Der Balken liegt bündig mit dem Deck, die erste
+Stufe wird dafür eine 45°-Leuchtfuge zwischen Schaft und Gehäuse (S2a, Strebe steigt zur Kappe; S2b mit waagerechter Strebe verworfen).
+
+### Formsprache
+
+Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
+
+- **Leitmerkmal Staffel:** Deck (Gehäuse und Schaft bündig) u 136 → Handschutz u 118 → eloxierte Nase u 108. Jede Stufe ist eine
+  45°-Fläche, und jede Stufe ist schmaler (50 → 40 → 32 mm), in der Seite wie in der Draufsicht; die Unterlinie staffelt mit
+  (66 → 70 → 88). Gehäuse, Handschutz, Schaftbalken und Kappe haben den Stufenquerschnitt: Die Flanke springt oben mit einer 45°-Kante
+  3 mm ein, so liest sich die Staffel auch von vorn und hinten.
+- **Drei Impulse:** Leuchtnuten quer ganz durch die beiden Stufenflächen und die 6 mm breite 45°-Fuge zwischen Schaft und Gehäuse, alle
+  drei nach vorn fallend. Bei der
+  Dreier-Salve leuchten sie nacheinander von hinten nach vorn auf (`fire_burst`, Schüsse auf Bild 2, 6 und 10), der Emitterspalt vor der
+  Nase blitzt je Schuss. Das ist der Blickfang; in der Seite liest er sich als drei parallele 45°-Lichtlinien.
+- **Schaft:** Creme-Balken bündig mit dem Deck, schräge Graphit-Strebe vom Griffansatz zum Kolbenpfosten, dazwischen ein
+  umschlossenes Daumenloch. Kein Kamm über dem Gehäuse (Nutzer).
+- **Front:** zweite Stufenfläche → Nase mit 45°-Stirn → blanker Emitterring mit Leuchtspalt → freier, kannelierter Lauf → Achtkant-Mündung
+  → Krone.
+- **Zweiton:** Creme oben über Graphit unten, Fuge u 88; die Nase ist eloxiert.
+- **Grafik und Schrift:** ein Chevronpaar am Handschutz vor der Kühlleiste, „BASIC  ZP-03“ rechts am Gehäuse vor dem Auswurffenster.
+- **Gleich wie BASIC-02:** Laufachse u 100, Holovisier H4 „Kasten“ (Visierlinie 70), Schnittstellen BGM-1, BMW-R, BMZ-15 und BRI-22,
+  Baugruppen, Aktionen `fire_burst` (drei Schuss) und `reload_empty`.
+
+### Prüfung
+
+`tests/test_zero.py` › `TestCascade` prüft jede Regel mit Gegenprobe: Felder, IDs und Blatt-ID; Weltpunkte mit `basic.variant.problems`;
+Salve von hinten nach vorn (Gegenprobe: vertauschte Schlüssel); Familie und Budgets mit Laufachse 100 und Visierlinie; Kanon-IoU unter
+0,85 gegen BASIC-02, alle EXTENDED-Langwaffen, ZA01 und ZA02 (Gegenprobe: ein tiefer Handschutz wie an BASIC-02 rückt näher an BA02);
+keine schwebenden Teile; Staffel (Höhe und Breite fallen, 45°-Flächen, Leuchte in der Nut; Gegenprobe: gleich hohe Stufen); bündiger
+Schaft und Daumenloch am ausgewerteten Netz (Gegenproben: Balken auf u 152, geschlossene Strebe); Magazin vor dem Bügel, keine Stifte,
+Schrift auf ebener Fläche, einfache Profile; Quellhash ohne Umbau; Messzeile im Band.
+
+### Messzeile (Kanon, `kanon.measure_model`)
+
+| Länge | Höhe | Breite | L/H | Füllgrad | Visierlinie | Teile | Formen | Rundkörper | Quader | Rollen | blanke Kanten | Achsen | Richtungen | Nachbar |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 824 | 261 | 57 | 3.2 | 0.30 | 70 | 68 | 149 | 0.28 | 0.12 | 14 | 11 | 0.71 | 0.90 | BA02 0,70 |
+
+Kanon-IoU: BA02 0,70, EA02 0,59, EA01 0,67, ZA01 0,66, ZA02 0,73; alle Langwaffen unter 0,85. `kanon.outside` meldet nichts.
+
+### Renders
+
+`tools/extended_render.py z03 --tag rN --res 1600 --gpu --extra --basic 02`, Belege `~/Library/Caches/CubeEscapeFormgen2/0.15/belege/z03/rN/`.
+
+| Runde | Befund | Änderung |
+|---|---|---|
+| r1 | Silhouette, Staffel und Daumenloch tragen. Front und Rücken sind Rechtecke (kastig); die Leuchtstreifen der Stufen sind von der Seite kaum zu sehen und stehen an den Fasen über. | Leuchten in Nuten quer ganz durch; Stufenquerschnitt an Gehäuse, Handschutz und Schaft; Auswurf und Ladehebel unter die Flankenstufe |
+| r2 | Stilprüfung (Opus) Runde 1 Nachbessern: Stufen zu flach (14/10 mm, Breiten 46/42/36), Fuge gegen den Takt, Rücken ein Block, Nase ein Kasten | Deck 136, Breiten 50/40/32, Unterlinie staffelt, Fuge fällt nach vorn (6 mm), Nuten fast voll hoch, Kappe mit Stufenquerschnitt, Strebe schmaler, Nase 45° oben und unten |
+| r3 | Stilprüfung Runde 2 Freigabe; niedrig: Fase der Strebe griff nicht (alte Breite), Leuchtfuge stand oben an der Deckfase über | Strebenfase auf die neue Breite, Fuge mit Deckfase |
+| r4 | Endstand der Renders | – |
+| nach r4 | Offene Punkte der Stilprüfung R2 (nur Rasteransicht, kein Render auf Nutzerwunsch): Rücken ein dunkler Block, Nase setzt sich in der Unterlinie schwach ab | Kappe zweifarbig: Creme-Kopf mit Stufenquerschnitt über Gummikappe (Fuge u 110); Nasenunterkante 86 → 88 |
+
+Bewegung am Stand r4 (vor Kappe und Nase, die die Bewegung nicht ändern): `~/Library/Caches/CubeEscapeFormgen2/0.49/belege/bewegung/z03_fire_burst.mp4`
+und `z03_reload_empty.mp4` (480p). Endstand als Rasteransicht: `…/0.49/belege/ansicht/za03_ansicht_endstand.png`.
+
 ## Grenzen
 
 - ZERO hat kein Linienregister, keinen Blattweg (`formgen.pipeline`) und keine Website-Aufnahme.
@@ -219,4 +293,8 @@ Die Herkunft jeder Zahl steht im Docstring und in den Kommentaren des Moduls.
   mit Schwere niedrig: In der Schrägsicht von oben verdeckt der Bügel den Steg, das Kreuz liest sich dort als umgedrehtes „T“. Der Einzug
   des Schaftbalkens ist flach. Das Kammerglas wirft im Cycles-Bild einen hellen Schleier auf den Wannenboden. Front und Rücken bleiben nahe
   an EA01, und der Fersenkeil verschwindet hinten im Graphit.
+- ZERO-03, Stilprüfung Runde 2 (Freigabe), offen mit Schwere niedrig: Auf 64 px ist die Staffel nur angedeutet (Nase seither 2 mm stärker
+  abgesetzt; der Rücken ist seit der Kappe mit Creme-Kopf zweifarbig, vorher ein
+  dunkler Block aus Gummi und Graphit); Seiten-IoU 0,73 gegen ZA02 (flaches Creme-Deck mit Balkenschaft bei beiden, andere
+  Version, Paarregel gilt nicht). Das Daumenloch liegt hinten (Nutzerwahl S2a), nicht am Griff.
 - Die Sichtung durch den Nutzer steht aus.

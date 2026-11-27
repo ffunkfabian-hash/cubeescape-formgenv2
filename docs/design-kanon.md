@@ -225,7 +225,8 @@ EB–EN nur mit silhouettenerhaltenden Eingriffen (sight, mag, muzzle, muzzle_r,
 ZERO-Reihe (0.46, [ZERO](zero.md)): ZA01 „Crosshair“ (Automatikgewehr) belegt den Nullrahmen (quer offenes Rahmengehäuse), das Fadenkreuz
 im Rahmen (Achse, Zuführsäule, Steg) und den L-Schaft mit Keilbalken und 45°-Innenfase. ZA02 „Facet“ (Automatikgewehr) belegt den
 Sechskant-Facettenquerschnitt mit senkrechtem Mittelband, die Leuchtkante in der Facettenkante und den steigenden Keilschaft mit
-waagerechtem Schlitz.
+waagerechtem Schlitz. ZA03 „Cascade“ (Impulsgewehr, 0.49) belegt die Staffel (Deck → Handschutz → Nase fallen in 45°-Stufen und
+werden schmaler), die drei Leuchtnuten in Schaftfuge und Stufenflächen als Salvenanzeige und den bündigen Daumenloch-Schaft mit schräger Strebe.
 
 Ebenfalls gesperrt: Serien J–M als Leitmotiv (AF:50–51), Lamellen, die sich als Zähne lesen (X:284), v1 KF18 „Gabelkrone“ (X:333), Haube über
 dem Rohr wie BASIC-12 (X:667). Offen: ähnliche Plattenschäfte EA03/EA11 (AF:111), orange Chevrons auf EA01/04/05 (AF:111).
