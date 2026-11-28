@@ -24,7 +24,7 @@ from pathlib import Path
 import numpy as np
 
 from . import ballon, extended, extended_lines, generator, variants, variety
-from .models.weapons import AUTHORED
+from .models.weapons.authored import AUTHORED
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs/design-kanon.md"

@@ -245,3 +245,36 @@ Abnehmer ab **0.6.0**: `formgen.viewer` und `formgen.release_assets` lesen Versi
 
 `FORMGEN_GOLDEN_IMAGES=1 python -m unittest tests.test_golden` ist die **Gesamtabnahme** (voller Vergleich aller Golden-Dateien,
 `FORMGEN_GOLDEN_MODELS` nicht setzen). `FORMGEN_GOLDEN_MODELS=BA01,…` ist eine ausdrücklich benannte Teilabnahme; im Bericht nennen.
+
+
+## EXTENDED-18 Trestle (BT01)
+
+`python -m formgen.pipeline BT01` baut das Einzelblatt mit GLB, Ansichten und Vorschau. Die Linie T umfasst BASIC-01 bis BASIC-13. Der Parameter `architecture = "trestle"` wählt für BT01 die Außenform aus `formgen/models/weapons/trestle.py`. Das statische Modell übernimmt den gepinnten Typbezug und die Materialrollen von BASIC-01. Schaft, Griff, Kassette, Bug und Rückenbrücke besitzen eigene Konturen. Die mittlere Öffnung bleibt als Durchblick im Netz erhalten.
+
+`python -m formgen.pipeline BT02` baut das statische Impulsgewehr Vesper aus `formgen/models/weapons/vesper.py`. Die drei hellen Impulssegmente auf dem dunklen Kern tragen je ein Keramikinlay und eine Lichtmarke pro Seite. Der offene Heckrahmen und die Gesamtbreite von 51,0 mm folgen BASIC-02. Vesper verwendet denselben H4-Baustein „Kasten“ wie der BA02-Pilot. Das Modul liefert Gehäuse, Glas, Absehen und die dazugehörigen Unity-Zielanker. Der gemeinsame Griff stammt aus der ursprünglichen T-Linie.
+
+Heron (BT03) übernimmt das vollständige Z1 „Tropfen“ samt Augen-, Visier-, Absehen- und Objektivanker aus dem BA03-Piloten. Die helle Gabel und die offene Heckwange bilden zwei Fenster im Seitenriss. Die Breite einschließlich Schrift und Optik beträgt 47,0 mm. Der Aufruf lautet `python -m formgen.pipeline BT03`.
+
+`python -m formgen.pipeline BT04 BT05` baut die beiden Seitenwaffen. Cairn hat zwei helle Keramiklagen, seitliche Medaillons und die offene Visierung von BASIC-04. Die Breite über alle sichtbaren Teile beträgt 44,83 mm. Die sechs Visierteile und die drei zugehörigen Spielanker stammen aus demselben BA04-Piloten. Seit 0.30 trägt das linke Medaillon den Ladeanker. Der GLB-Clip `reload` dauert 1,30 Sekunden. Seine Ereignisse stehen als `reload_events` am BT04-Knoten. `seal_contact` liegt bei 0,25 s und `rounds_in` bei 0,85 s. Der Viewer übernimmt die Ladung einmal beim Überqueren von `rounds_in`. Ein früherer Abbruch stellt den vorherigen Ladezustand wieder her. Der Formgen-Viewer unterstützt Clip und Ereignisse ab Version 0.30.0. Ältere Viewer können das ruhende Modell weiter anzeigen. Die Abnahme des Ereignisvertrags im Unity-Spiel steht aus.
+
+Swift (BT05) erhält eine diagonal aufsteigende helle Front und einen Griff mit offener Ferse. Die dunklen Griffwangen bestimmen die Gesamtbreite von 33,50 mm. Die sechs sichtbaren Teile und drei Zielanker der offenen Visierung stammen aus BASIC-05. Die Visierteile sind wie beim BA05-Piloten der oberen Schale zugeordnet.
+
+Tern (BT06) ergänzt die Linie T als Maschinenpistole. Die beiden Schulterfelder begrenzen die Außenbreite auf 47,00 mm. Das H2 „Pille“ übernimmt alle zwölf Visierteile und die drei Zielanker aus BASIC-06. Der Einzelbau läuft über `python -m formgen.pipeline BT06`.
+
+Lark (BT07) ergänzt Linie T als Bogen. Die 904,72 mm hohe Fassung besitzt ein offenes, kantiges Mittelstück und eine seitliche Statuskapsel. Das B1 mit drei Pins, die Spielanker und die Aktionsdaten stammen aus BASIC-07. Die Gesamtbreite einschließlich des seitlich versetzten B1 beträgt 68,77 mm. Der Einzelbau läuft über `python -m formgen.pipeline BT07`.
+
+Skiff (BT08) besitzt ein kurzes Fensterheck und eine ansteigende Kufe. Die beiden dunklen Kufenwangen bestimmen die Gesamtbreite von 52,00 mm. Die offene K2-Visierung und ihre drei Spielanker stammen aus BASIC-08. Der GLB-Clip `reload` tauscht eine Lichtzelle an der Kufe. Das einmalige Ereignis `rounds_in` am BT08-Knoten steht bei 1,20 s für die gesamte Ladung. Die Wiedergabe endet bei 1,50 s. Der 3D-Viewer lässt den Vorgang vor dem Einsetzen abbrechen. Der Einzelbau läuft über `python -m formgen.pipeline BT08`.
+
+Avocet (BT09) verbindet ein offenes Sichelheck mit einem geraden, zweifarbig unterteilten Lauf. Der Objektivring des BASIC-09-Zielfernrohrs bestimmt die Außenbreite. Die neun Spielanker umfassen auch den Objektivanker.
+
+Calyx (BT10) umfasst seinen türkisfarbenen Kern mit einer tiefen Keramikschale. Die gesamte Front verläuft gerade. Die beiden seitlichen Wangen bestimmen die Breite von 46,70 mm. Das F1-Visier mit 15 Teilen stammt aus BASIC-10.
+
+Plover (BT11) trägt das Z2-Zielfernrohr von BASIC-11. Seine Objektivgabel bestimmt die Gesamtbreite von 50,02 mm. Drei geneigte Keramiklamellen liegen vor einem durchgehenden Lichtband. Der lange Lauf hat eine gerade Mittelachse.
+
+Filament (BT12) trägt das H3-Reflexvisier von BASIC-12. Zwischen Heckfahne und geradem Lauf sitzt ein seitlich sichtbarer Leuchtring mit freier Mitte. Die beiden Leuchtflanken bestimmen die Gesamtbreite von 48,80 mm.
+
+Moraine (BT13) hat einen seitlich gestuften, geschlossenen Mittelkörper zwischen kurzer Heckstufe und gerader Front. Die äußersten Facetten begrenzen die Breite auf 141,83 mm. Das W1-Reflexvisier mit D-Linse stammt aus BASIC-13.
+
+BT01 trägt das H0-Visier auf dem BRI-22. Nutzerentscheid für Variante A vom 24.11.2026: Nur BT01 hat eine Visierlinie 105 mm über dem Mündungsanker. Die Augenposition liegt auf der Visierlinie 90 mm hinter dem Glas. Die Anker werden mit der Außenhaut zum Ursprung der hinteren Hand verschoben. Der Entwurf übernimmt von BASIC-01 die cremefarbene Schale über graphitfarbenen Kontaktflächen. In V1 lieferten die Modelle `codex/parallax/models/assault.py` und `codex/fluxbloom/models/assault.py` zwei unterschiedliche Beispiele dafür, wie sich Gehäuse und Negativraum im Seitenriss entwickeln lassen. Unter den drei ersten Skizzen hatte die offene Brücke die klarste Innenkontur. Seitliche Typenschilder, kurze Lamellenfelder und ein einzelnes orangefarbenes Bandpaar gliedern die größeren Flächen.
+
+Blatt-Spec 4 erlaubt den Architekturparameter und die zugehörige Generatoroperation. Viewer und Release-Paket für BT01 benötigen Formgen v2 ab 0.24.0. Ältere Leser weisen Spec 4 als unbekannte Version zurück. Die Migration 3 → 4 erhält alle Nutzdaten. Der Generator schreibt herkömmliche Linien weiter als Version 3. Neue auf einen Typ begrenzte Linien werden mit `formgen.variants new … --types 01` angelegt.

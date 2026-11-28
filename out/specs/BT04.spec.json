@@ -1,0 +1,1440 @@
+{
+ "anchors": {
+  "Socket_Eye": {
+   "part": "sight_rear",
+   "position_mm": [
+    -70.0,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip_cast",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_MagWell": {
+   "part": "coin_l",
+   "position_mm": [
+    72.0,
+    62.0,
+    22.41
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "nose_glaze",
+   "position_mm": [
+    269.0,
+    68.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    248.0,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_rear",
+   "position_mm": [
+    0.0,
+    103.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "grip_panel_l",
+   "position_mm": [
+    -4.0,
+    -34.0,
+    17.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-04",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/w04_hand_cannon_v21.py": "5374b12713d43f41843173abb47987bacc3cbd4ab7232a0e51b5e93e98f8837c",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w04_hand_cannon.py": "ae205a2df26fb13dca2eebbfbc5fd7e4b611b2050e0d8d61f6f93d7d2615b4b5"
+  },
+  "source_sha256": "fda8c58be8e981d6e93bc44b05bc0211e866a5e324069ae5d444e00e177e30f1",
+  "spec_sha256": "0b6d1c446d32a79e25dae089a1760dcae9a71e42a3bc79f822e4bae18a22b909"
+ },
+ "ballon_dimensions_mm": {
+  "height": 184.0,
+  "length": 306.5,
+  "width": 44.8
+ },
+ "base": "v21",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Gibt den Kran frei (Daumen)",
+    "Spannt den Fuß"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "rubber"
+   },
+   "sight_line_mm": 32.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Einzelne schräge Farbmarke",
+    "Spannt den Fuß"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "rubber"
+   },
+   "sight_line_mm": 35.0
+  }
+ },
+ "counts": {
+  "assemblies": 4,
+  "parts": 51,
+  "triangles": 14820
+ },
+ "dimensions_mm": {
+  "height": 163.84,
+  "length": 311.49,
+  "width": 44.83
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 4,
+ "generator": {
+  "adaptations": [
+   {
+    "kind": "Annahme",
+    "reason": "Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/cairn.py."
+   },
+   {
+    "field": "assemblies",
+    "kind": "Annahme",
+    "reason": "leere Baugruppe ohne Teile (in BALLON nur deklariert)",
+    "removed": [
+     "ammo",
+     "mechanism"
+    ]
+   }
+  ],
+  "ops": [
+   {
+    "kind": "trestle",
+    "op": "architecture"
+   }
+  ]
+ },
+ "id": "BT04",
+ "name_de": "Handfeuerwaffe · Cairn",
+ "name_en": "Hand Cannon · Cairn",
+ "parts": [
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -40.25,
+     35.86
+    ],
+    "u": [
+     -56.64,
+     48.91
+    ],
+    "x": [
+     -15.5,
+     15.5
+    ]
+   },
+   "id": "grip_cast",
+   "moving": false,
+   "name_de": "Schräger Griffkörper",
+   "name_en": "grip cast",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 620
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -29.75,
+     15.79
+    ],
+    "u": [
+     -43.83,
+     34.77
+    ],
+    "x": [
+     15.1,
+     17.3
+    ]
+   },
+   "id": "grip_panel_l",
+   "moving": false,
+   "name_de": "Eingelassene Griffwange",
+   "name_en": "grip panel l",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 412
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -29.75,
+     15.79
+    ],
+    "u": [
+     -43.83,
+     34.77
+    ],
+    "x": [
+     -17.3,
+     -15.1
+    ]
+   },
+   "id": "grip_panel_r",
+   "moving": false,
+   "name_de": "Eingelassene Griffwange",
+   "name_en": "grip panel r",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 412
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -42.49,
+     11.35
+    ],
+    "u": [
+     -58.84,
+     -39.79
+    ],
+    "x": [
+     -17.9,
+     17.9
+    ]
+   },
+   "id": "heel",
+   "moving": false,
+   "name_de": "Abgesetzte Griffsohle",
+   "name_en": "heel",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 492
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     17.49,
+     74.49
+    ],
+    "u": [
+     -6.0,
+     39.44
+    ],
+    "x": [
+     -7.0,
+     7.0
+    ]
+   },
+   "id": "bow",
+   "moving": false,
+   "name_de": "Offene Griffspange",
+   "name_en": "bow",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 644
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     32.1,
+     42.76
+    ],
+    "u": [
+     17.13,
+     39.91
+    ],
+    "x": [
+     -4.5,
+     4.5
+    ]
+   },
+   "id": "pendant",
+   "moving": false,
+   "name_de": "Dunkle Innenzunge",
+   "name_en": "pendant",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 500
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -33.38,
+     265.68
+    ],
+    "u": [
+     22.0,
+     89.0
+    ],
+    "x": [
+     -17.9,
+     17.9
+    ]
+   },
+   "id": "core",
+   "moving": false,
+   "name_de": "Dunkle Mittelfuge",
+   "name_en": "core",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 620
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -34.37,
+     66.95
+    ],
+    "u": [
+     52.1,
+     92.0
+    ],
+    "x": [
+     -19.5,
+     19.5
+    ]
+   },
+   "id": "rear_stone",
+   "moving": false,
+   "name_de": "Hohe hintere Keramikschulter",
+   "name_en": "rear stone",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 592
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -11.6,
+     27.54
+    ],
+    "u": [
+     87.0,
+     92.1
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "aft_seat",
+   "moving": false,
+   "name_de": "Dunkle Deckkante",
+   "name_en": "aft seat",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     80.27,
+     263.57
+    ],
+    "u": [
+     62.0,
+     91.0
+    ],
+    "x": [
+     -20.2,
+     20.2
+    ]
+   },
+   "id": "fore_stone",
+   "moving": false,
+   "name_de": "Lange obere Keramiklage",
+   "name_en": "fore stone",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 476
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     234.32,
+     259.74
+    ],
+    "u": [
+     87.0,
+     92.1
+    ],
+    "x": [
+     -11.0,
+     11.0
+    ]
+   },
+   "id": "fore_seat",
+   "moving": false,
+   "name_de": "Abgesetzte vordere Deckkante",
+   "name_en": "fore seat",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 152
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     101.26,
+     252.24
+    ],
+    "u": [
+     30.0,
+     54.8
+    ],
+    "x": [
+     -18.2,
+     18.2
+    ]
+   },
+   "id": "keel",
+   "moving": false,
+   "name_de": "Kurze untere Keramiklage",
+   "name_en": "keel",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 608
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     255.0,
+     268.0
+    ],
+    "u": [
+     51.5,
+     84.5
+    ],
+    "x": [
+     -15.5,
+     15.5
+    ]
+   },
+   "id": "nose_tile",
+   "moving": false,
+   "name_de": "Geschlossene Stirnkachel",
+   "name_en": "nose tile",
+   "role": "graphite",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     266.0,
+     269.0
+    ],
+    "u": [
+     55.5,
+     80.5
+    ],
+    "x": [
+     -12.0,
+     12.0
+    ]
+   },
+   "id": "nose_glaze",
+   "moving": false,
+   "name_de": "Stirneinlage",
+   "name_en": "nose glaze",
+   "role": "anodized",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     47.85,
+     96.15
+    ],
+    "u": [
+     37.85,
+     86.15
+    ],
+    "x": [
+     16.8,
+     20.5
+    ]
+   },
+   "id": "medallion_l",
+   "moving": false,
+   "name_de": "Facettiertes Seitenmedaillon",
+   "name_en": "medallion l",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     51.72,
+     92.28
+    ],
+    "u": [
+     41.72,
+     82.28
+    ],
+    "x": [
+     20.1,
+     22.41
+    ]
+   },
+   "id": "coin_l",
+   "moving": false,
+   "name_de": "Facettiertes Seitenmedaillon",
+   "name_en": "coin l",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 956
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     47.85,
+     96.15
+    ],
+    "u": [
+     37.85,
+     86.15
+    ],
+    "x": [
+     -20.5,
+     -16.8
+    ]
+   },
+   "id": "medallion_r",
+   "moving": false,
+   "name_de": "Facettiertes Seitenmedaillon",
+   "name_en": "medallion r",
+   "role": "dark_metal",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     51.72,
+     92.28
+    ],
+    "u": [
+     41.72,
+     82.28
+    ],
+    "x": [
+     -22.41,
+     -20.1
+    ]
+   },
+   "id": "coin_r",
+   "moving": false,
+   "name_de": "Facettiertes Seitenmedaillon",
+   "name_en": "coin r",
+   "role": "anodized",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     72.73,
+     77.81
+    ],
+    "u": [
+     75.16,
+     78.98
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_00",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 00",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     76.79,
+     82.93
+    ],
+    "u": [
+     72.72,
+     77.97
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_01",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 01",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     81.02,
+     86.23
+    ],
+    "u": [
+     69.65,
+     75.0
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_02",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 02",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     84.49,
+     88.73
+    ],
+    "u": [
+     64.44,
+     69.7
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_03",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 03",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     85.79,
+     89.0
+    ],
+    "u": [
+     59.06,
+     64.94
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_04",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 04",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 308
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     84.49,
+     88.73
+    ],
+    "u": [
+     54.3,
+     59.56
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_05",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 05",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     81.02,
+     86.23
+    ],
+    "u": [
+     49.0,
+     54.35
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_06",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 06",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     76.79,
+     82.93
+    ],
+    "u": [
+     46.03,
+     51.28
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_07",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 07",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     72.73,
+     77.81
+    ],
+    "u": [
+     45.02,
+     48.84
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_08",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 08",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     66.19,
+     71.27
+    ],
+    "u": [
+     45.02,
+     48.84
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_09",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 09",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     61.07,
+     67.21
+    ],
+    "u": [
+     46.03,
+     51.28
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_10",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 10",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     57.77,
+     62.98
+    ],
+    "u": [
+     49.0,
+     54.35
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_11",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 11",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     55.27,
+     59.51
+    ],
+    "u": [
+     54.3,
+     59.56
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_12",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 12",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     55.0,
+     58.21
+    ],
+    "u": [
+     59.06,
+     64.94
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_13",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 13",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 308
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     55.27,
+     59.51
+    ],
+    "u": [
+     64.44,
+     69.7
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_14",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 14",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     57.77,
+     62.98
+    ],
+    "u": [
+     69.65,
+     75.0
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_15",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 15",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     61.07,
+     67.21
+    ],
+    "u": [
+     72.72,
+     77.97
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_16",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 16",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     66.19,
+     71.27
+    ],
+    "u": [
+     75.16,
+     78.98
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_arc_17",
+   "moving": true,
+   "name_de": "Lichtbogen",
+   "name_en": "seal arc 17",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 20
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     64.0,
+     80.0
+    ],
+    "u": [
+     55.5,
+     67.0
+    ],
+    "x": [
+     20.85,
+     21.15
+    ]
+   },
+   "id": "seal_stamp",
+   "moving": true,
+   "name_de": "Doppeltes Prägezeichen",
+   "name_en": "seal stamp",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 40
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     170.25,
+     190.76
+    ],
+    "u": [
+     70.0,
+     81.0
+    ],
+    "x": [
+     19.9,
+     20.65
+    ]
+   },
+   "id": "slate_band_l",
+   "moving": false,
+   "name_de": "Einzelne schräge Farbmarke",
+   "name_en": "slate band l",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     170.25,
+     190.76
+    ],
+    "u": [
+     70.0,
+     81.0
+    ],
+    "x": [
+     -20.65,
+     -19.9
+    ]
+   },
+   "id": "slate_band_r",
+   "moving": false,
+   "name_de": "Einzelne schräge Farbmarke",
+   "name_en": "slate band r",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     111.22,
+     159.81
+    ],
+    "u": [
+     72.0,
+     82.0
+    ],
+    "x": [
+     19.9,
+     20.7
+    ]
+   },
+   "id": "name_plate_l",
+   "moving": false,
+   "name_de": "Dunkles Schriftfeld",
+   "name_en": "name plate l",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 192
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     111.22,
+     159.81
+    ],
+    "u": [
+     72.0,
+     82.0
+    ],
+    "x": [
+     -20.7,
+     -19.9
+    ]
+   },
+   "id": "name_plate_r",
+   "moving": false,
+   "name_de": "Dunkles Schriftfeld",
+   "name_en": "name plate r",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 192
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     129.28,
+     142.85
+    ],
+    "u": [
+     74.76,
+     78.05
+    ],
+    "x": [
+     20.64,
+     21.08
+    ]
+   },
+   "id": "word_l",
+   "moving": false,
+   "name_de": "Modellschriftzug",
+   "name_en": "word l",
+   "role": "shell",
+   "shape": "text",
+   "triangles": 856
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     129.15,
+     142.72
+    ],
+    "u": [
+     74.76,
+     78.05
+    ],
+    "x": [
+     -21.08,
+     -20.64
+    ]
+   },
+   "id": "word_r",
+   "moving": false,
+   "name_de": "Modellschriftzug",
+   "name_en": "word r",
+   "role": "shell",
+   "shape": "text",
+   "triangles": 856
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -21.92,
+     -6.15
+    ],
+    "u": [
+     -37.88,
+     -29.11
+    ],
+    "x": [
+     16.9,
+     17.65
+    ]
+   },
+   "id": "heel_inset_l",
+   "moving": false,
+   "name_de": "Flacher Griffindex",
+   "name_en": "heel inset l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -21.92,
+     -6.15
+    ],
+    "u": [
+     -37.88,
+     -29.11
+    ],
+    "x": [
+     -17.65,
+     -16.9
+    ]
+   },
+   "id": "heel_inset_r",
+   "moving": false,
+   "name_de": "Flacher Griffindex",
+   "name_en": "heel inset r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -4.0,
+     18.0
+    ],
+    "u": [
+     91.5,
+     98.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": false,
+   "name_de": "Kimmenfuß",
+   "name_en": "Rear base",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     0.0,
+     13.77
+    ],
+    "u": [
+     92.8,
+     95.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.0,
+     7.87
+    ],
+    "u": [
+     97.5,
+     105.0
+    ],
+    "x": [
+     -10.0,
+     10.0
+    ]
+   },
+   "id": "sight_rear",
+   "moving": false,
+   "name_de": "Kimmenblatt",
+   "name_en": "Rear blade",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.1,
+     0.3
+    ],
+    "u": [
+     99.4,
+     104.2
+    ],
+    "x": [
+     -5.25,
+     5.25
+    ]
+   },
+   "id": "sight_status",
+   "moving": false,
+   "name_de": "Leuchtklammern",
+   "name_en": "Glow brackets",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     240.0,
+     256.0
+    ],
+    "u": [
+     91.5,
+     102.2
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "sight_front",
+   "moving": false,
+   "name_de": "Korn",
+   "name_en": "Front sight",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     247.5,
+     248.1
+    ],
+    "u": [
+     100.72,
+     102.48
+    ],
+    "x": [
+     -0.88,
+     0.88
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Kornpunkt",
+   "name_en": "Front dot",
+   "role": "energy",
+   "shape": "cyl",
+   "triangles": 60
+  }
+ ],
+ "pilot": {
+  "module": "basic/pilot/w04_hand_cannon_v21.py",
+  "version": "2.1"
+ },
+ "provenance": {
+  "kind": "Annahme",
+  "source": "Eigenständige Außenformen nach Silhouettenstudie. Familienreferenz: BASIC-04 „Trommel v2.1“ · v2.1"
+ },
+ "type": {
+  "id": "BASIC-04",
+  "name": "Trommel v2.1",
+  "nick": "Familie v2.1",
+  "num": "04",
+  "type": "hand_cannon",
+  "type_de": "Handfeuerwaffe",
+  "type_en": "Hand Cannon"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Die offene Rückenbrücke überspannt zwei versetzte Keilschalen. Ein kurzer, facettierter Bug und eine geneigte Kassette schließen die Silhouette ab.",
+  "letter": "T",
+  "name": "Trestle",
+  "params": {
+   "architecture": "trestle"
+  },
+  "since": "0.24",
+  "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "f6730ab8f16a4269",
+  "values": {
+   "architecture": "trestle"
+  }
+ },
+ "warnings": [
+  "seal_arc_00: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_01: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_07: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_08: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_09: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_10: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_16: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_arc_17: Fase nicht ausgewertet: Degenerierte Fläche",
+  "seal_stamp: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert"
+ ]
+}

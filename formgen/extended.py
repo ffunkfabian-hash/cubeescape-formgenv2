@@ -45,8 +45,12 @@ MODELS["e16"], SHEETS["e16"] = "e16_sweepguard", "EA16"   # 0.20 Riftguard: Schw
 MODELS["e17"], SHEETS["e17"] = "e17_gorget", "EA17"       # 0.20 Riftguard: Glefe (Nahkampf)
 
 
+# Trestle erhielt BT01 mit der Linie T. Die vorhandene Blatt-ID bleibt auch im AAA-Weg erhalten.
+PIPELINE_SHEETS = {"e18": "BT01"}
+
+
 def sheet_id(key: str) -> str:
-    return SHEETS[key]
+    return PIPELINE_SHEETS[key] if key in PIPELINE_SHEETS else SHEETS[key]
 FIELDS = ("META", "PARTS", "ASSEMBLIES", "ANCHORS", "POINTS", "ACTIONS", "EJECT", "EGO_GRIPS", "EXPLODE", "HERO")
 MM_PX = 1.0
 
@@ -68,6 +72,11 @@ def _purge(extra=()):
 def load(key: str = "e01", snap: Path | None = None) -> dict:
     """Datensatz eines EXTENDED-Modells (tief kopiert). Der Snapshot steht nur während des Imports auf sys.path."""
     snap = Path(snap or ballon.snapshot())
+    if key in PIPELINE_SHEETS:
+        from . import asset, variants
+        entry = variants.sheets()[sheet_id(key)]
+        model, _, _ = asset.variant_model(entry, snap)
+        return model
     name = module_name(key)
     _purge((name,))
     sys.path.insert(0, str(snap))
@@ -87,7 +96,17 @@ def load_basic(num: str = "01", snap: Path | None = None) -> dict:
 
 
 def source(key: str = "e01", snap: Path | None = None) -> dict:
-    """Quellhash: Modelldatei + statisch importierte `basic`-Module des Snapshots (Inhalt, keine Pfade)."""
+    """Quellhash: Modelldatei + statisch importierte `basic`-Module des Snapshots (Inhalt, keine Pfade); Blätter aus der Pipeline
+    (0.24, `PIPELINE_SHEETS`): BALLON-Abschluss des Grundtyps plus Generatorquellen."""
+    if key in PIPELINE_SHEETS:
+        from . import build, variants
+        snap = Path(snap or ballon.snapshot())
+        entry = variants.sheets()[sheet_id(key)]
+        base = ballon.resolve_base(snap, entry["num"], entry["variant"]["base"])
+        files = ballon.closure(snap, entry["num"], base)
+        files.update({Path(p).relative_to(ROOT).as_posix(): digest for p, digest in
+                      build.source_hashes(ROOT / "formgen/generator.py").items()})
+        return {"files": files, "source_sha256": hashlib.sha256(canonical(files)).hexdigest()}
     return source_of(ROOT / "formgen/models" / package(key) / f"{MODELS[key]}.py", snap)
 
 

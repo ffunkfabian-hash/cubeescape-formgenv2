@@ -1,0 +1,1400 @@
+{
+ "anchors": {
+  "Socket_Cell": {
+   "part": "prism",
+   "position_mm": [
+    188.0,
+    69.0,
+    0.0
+   ]
+  },
+  "Socket_Eye": {
+   "part": "sight_frame",
+   "position_mm": [
+    -61.6,
+    162.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "grip_leaf",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "end_tile",
+   "position_mm": [
+    416.0,
+    96.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    28.4,
+    162.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_body",
+   "position_mm": [
+    -11.0,
+    162.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "palm",
+   "position_mm": [
+    206.0,
+    10.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Schaft",
+   "en": "Stock",
+   "id": "stock"
+  },
+  {
+   "de": "Kühlung",
+   "en": "Cooling",
+   "id": "cooling"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-10",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/pilot/energy_roles.py": "4d36c51d0a80167bfc2b52ccb74634c9bc64670e0ba7906fbd8a50f1afad8782",
+   "basic/pilot/w10_fusion_rifle_v21.py": "3e73fb3c3b453cd7bc3d6377a9b8740d2255623d2531674a66a7ef6e46b74fa7",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w10_fusion_rifle.py": "fdf9db6ab35d090886af453b008833162c878967842317cf18923c2e04116caa"
+  },
+  "source_sha256": "6ac0827278974e236284407412c982b954461c996a8f33741a4cbffa9290dfb5",
+  "spec_sha256": "42ec45874a48078e4f312e01c94c626ea4d522dc72164aec59b5d6fd291e9872"
+ },
+ "ballon_dimensions_mm": {
+  "height": 254.1,
+  "length": 700.6,
+  "width": 46.7
+ },
+ "base": "v21",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Löst die Energiezelle",
+    "Spannt den Klemmfuß werkzeuglos"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 66.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Schräge Flankenmarke",
+    "Spannt den Klemmfuß werkzeuglos"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 66.0
+  }
+ },
+ "counts": {
+  "assemblies": 8,
+  "parts": 49,
+  "triangles": 12536
+ },
+ "dimensions_mm": {
+  "height": 226.74,
+  "length": 641.69,
+  "width": 46.7
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 4,
+ "generator": {
+  "adaptations": [
+   {
+    "kind": "Annahme",
+    "reason": "Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/calyx.py."
+   }
+  ],
+  "ops": [
+   {
+    "kind": "trestle",
+    "op": "architecture"
+   }
+  ]
+ },
+ "id": "BT10",
+ "name_de": "Fusionsgewehr · Calyx",
+ "name_en": "Fusion Rifle · Calyx",
+ "parts": [
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -225.69,
+     -156.27
+    ],
+    "u": [
+     6.52,
+     95.61
+    ],
+    "x": [
+     -17.5,
+     17.5
+    ]
+   },
+   "id": "heel",
+   "moving": false,
+   "name_de": "Dunkler Abschluss der Heckschale",
+   "name_en": "heel",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 632
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -218.0,
+     -62.51
+    ],
+    "u": [
+     28.69,
+     123.75
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "tail_fold",
+   "moving": false,
+   "name_de": "Gefaltete kurze Heckschale",
+   "name_en": "tail fold",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 524
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -200.74,
+     -127.32
+    ],
+    "u": [
+     74.07,
+     98.93
+    ],
+    "x": [
+     18.8,
+     19.6
+    ]
+   },
+   "id": "tail_ridge_l",
+   "moving": false,
+   "name_de": "Flache Falte im Heck",
+   "name_en": "tail ridge l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -200.74,
+     -127.32
+    ],
+    "u": [
+     74.07,
+     98.93
+    ],
+    "x": [
+     -19.6,
+     -18.8
+    ]
+   },
+   "id": "tail_ridge_r",
+   "moving": false,
+   "name_de": "Flache Falte im Heck",
+   "name_en": "tail ridge r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 132
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -137.11,
+     126.7
+    ],
+    "u": [
+     47.0,
+     135.0
+    ],
+    "x": [
+     -19.5,
+     19.5
+    ]
+   },
+   "id": "backbone",
+   "moving": false,
+   "name_de": "Geneigte Schulter",
+   "name_en": "backbone",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 492
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -123.06,
+     107.82
+    ],
+    "u": [
+     87.0,
+     139.0
+    ],
+    "x": [
+     -21.5,
+     21.5
+    ]
+   },
+   "id": "mantle",
+   "moving": false,
+   "name_de": "Schräger keramischer Schulterpanzer",
+   "name_en": "mantle",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 500
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -22.61,
+     43.55
+    ],
+    "u": [
+     124.0,
+     136.7
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "saddle",
+   "moving": false,
+   "name_de": "Kurze ebene Visierauflage",
+   "name_en": "saddle",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 192
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -78.75,
+     -9.31
+    ],
+    "u": [
+     104.05,
+     123.94
+    ],
+    "x": [
+     21.2,
+     22.3
+    ]
+   },
+   "id": "signature_l",
+   "moving": false,
+   "name_de": "Schriftfeld in der Schulter",
+   "name_en": "signature l",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -78.75,
+     -9.31
+    ],
+    "u": [
+     104.05,
+     123.94
+    ],
+    "x": [
+     -22.3,
+     -21.2
+    ]
+   },
+   "id": "signature_r",
+   "moving": false,
+   "name_de": "Schriftfeld in der Schulter",
+   "name_en": "signature r",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -53.09,
+     -37.14
+    ],
+    "u": [
+     111.95,
+     115.52
+    ],
+    "x": [
+     22.28,
+     22.72
+    ]
+   },
+   "id": "word_l",
+   "moving": false,
+   "name_de": "Modellschriftzug",
+   "name_en": "word l",
+   "role": "shell",
+   "shape": "text",
+   "triangles": 528
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -52.86,
+     -36.91
+    ],
+    "u": [
+     111.95,
+     115.52
+    ],
+    "x": [
+     -22.72,
+     -22.28
+    ]
+   },
+   "id": "word_r",
+   "moving": false,
+   "name_de": "Modellschriftzug",
+   "name_en": "word r",
+   "role": "shell",
+   "shape": "text",
+   "triangles": 528
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -46.52,
+     30.45
+    ],
+    "u": [
+     -51.64,
+     77.57
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "grip_leaf",
+   "moving": false,
+   "name_de": "Dunkle rückwärts geneigte Griffschale",
+   "name_en": "grip leaf",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 636
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -33.87,
+     11.97
+    ],
+    "u": [
+     -39.86,
+     43.96
+    ],
+    "x": [
+     16.8,
+     17.8
+    ]
+   },
+   "id": "grip_relief_l",
+   "moving": false,
+   "name_de": "Flaches Relief der Griffschale",
+   "name_en": "grip relief l",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 364
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -33.87,
+     11.97
+    ],
+    "u": [
+     -39.86,
+     43.96
+    ],
+    "x": [
+     -17.8,
+     -16.8
+    ]
+   },
+   "id": "grip_relief_r",
+   "moving": false,
+   "name_de": "Flaches Relief der Griffschale",
+   "name_en": "grip relief r",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 364
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     52.63,
+     316.34
+    ],
+    "u": [
+     7.0,
+     87.34
+    ],
+    "x": [
+     -21.5,
+     21.5
+    ]
+   },
+   "id": "lower_petal",
+   "moving": false,
+   "name_de": "Tiefer Kelch unter dem Sichtfenster",
+   "name_en": "lower petal",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 716
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     127.7,
+     263.39
+    ],
+    "u": [
+     1.0,
+     31.41
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "palm",
+   "moving": false,
+   "name_de": "Dunkler Fuß der Kelchschale",
+   "name_en": "palm",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 368
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     94.35,
+     172.42
+    ],
+    "u": [
+     20.05,
+     61.89
+    ],
+    "x": [
+     21.1,
+     23.35
+    ]
+   },
+   "id": "flank_l",
+   "moving": false,
+   "name_de": "Erhabene Wange am Kelch",
+   "name_en": "flank l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     94.35,
+     172.42
+    ],
+    "u": [
+     20.05,
+     61.89
+    ],
+    "x": [
+     -23.35,
+     -21.1
+    ]
+   },
+   "id": "flank_r",
+   "moving": false,
+   "name_de": "Erhabene Wange am Kelch",
+   "name_en": "flank r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     101.7,
+     197.48
+    ],
+    "u": [
+     65.02,
+     80.97
+    ],
+    "x": [
+     -9.5,
+     9.5
+    ]
+   },
+   "id": "cell_back",
+   "moving": false,
+   "name_de": "Dunkler Grat hinter dem Kern",
+   "name_en": "cell back",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     141.88,
+     244.44
+    ],
+    "u": [
+     47.0,
+     89.79
+    ],
+    "x": [
+     -13.5,
+     13.5
+    ]
+   },
+   "id": "prism",
+   "moving": false,
+   "name_de": "Türkisfarbener facettierter Fusionskern",
+   "name_en": "prism",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 188
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     148.28,
+     241.72
+    ],
+    "u": [
+     47.03,
+     66.87
+    ],
+    "x": [
+     13.1,
+     13.8
+    ]
+   },
+   "id": "core_facet_l",
+   "moving": false,
+   "name_de": "Metallische Facette am unteren Kernrand",
+   "name_en": "core facet l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 248
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     148.28,
+     241.72
+    ],
+    "u": [
+     47.03,
+     66.87
+    ],
+    "x": [
+     -13.8,
+     -13.1
+    ]
+   },
+   "id": "core_facet_r",
+   "moving": false,
+   "name_de": "Metallische Facette am unteren Kernrand",
+   "name_en": "core facet r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 248
+  },
+  {
+   "assembly": "cooling",
+   "extent_mm": {
+    "f": [
+     67.0,
+     266.06
+    ],
+    "u": [
+     105.21,
+     125.0
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "brow",
+   "moving": false,
+   "name_de": "Obere Kelchlippe",
+   "name_en": "brow",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 440
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     97.0,
+     404.0
+    ],
+    "u": [
+     84.5,
+     107.5
+    ],
+    "x": [
+     -12.0,
+     12.0
+    ]
+   },
+   "id": "straight_spine",
+   "moving": false,
+   "name_de": "Gerader Steg der Front",
+   "name_en": "straight spine",
+   "role": "dark_metal",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     283.0,
+     397.0
+    ],
+    "u": [
+     79.0,
+     113.0
+    ],
+    "x": [
+     -18.5,
+     18.5
+    ]
+   },
+   "id": "front_jacket",
+   "moving": false,
+   "name_de": "Gerade facettierte Frontschale",
+   "name_en": "front jacket",
+   "role": "shell",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     387.0,
+     416.0
+    ],
+    "u": [
+     81.5,
+     110.5
+    ],
+    "x": [
+     -16.5,
+     16.5
+    ]
+   },
+   "id": "end_tile",
+   "moving": false,
+   "name_de": "Geschlossene dunkle Stirn",
+   "name_en": "end tile",
+   "role": "graphite",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     398.14,
+     411.86
+    ],
+    "u": [
+     95.0,
+     98.0
+    ],
+    "x": [
+     16.3,
+     16.9
+    ]
+   },
+   "id": "end_light_l",
+   "moving": false,
+   "name_de": "Kurze Lichtmarke an der Stirn",
+   "name_en": "end light l",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     398.14,
+     411.86
+    ],
+    "u": [
+     95.0,
+     98.0
+    ],
+    "x": [
+     -16.9,
+     -16.3
+    ]
+   },
+   "id": "end_light_r",
+   "moving": false,
+   "name_de": "Kurze Lichtmarke an der Stirn",
+   "name_en": "end light r",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     294.14,
+     303.86
+    ],
+    "u": [
+     94.0,
+     103.0
+    ],
+    "x": [
+     18.3,
+     18.9
+    ]
+   },
+   "id": "streak_0_l",
+   "moving": false,
+   "name_de": "Schräge Flankenmarke",
+   "name_en": "streak 0 l",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     294.14,
+     303.86
+    ],
+    "u": [
+     94.0,
+     103.0
+    ],
+    "x": [
+     -18.9,
+     -18.3
+    ]
+   },
+   "id": "streak_0_r",
+   "moving": false,
+   "name_de": "Schräge Flankenmarke",
+   "name_en": "streak 0 r",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     305.14,
+     314.86
+    ],
+    "u": [
+     94.0,
+     103.0
+    ],
+    "x": [
+     18.3,
+     18.9
+    ]
+   },
+   "id": "streak_1_l",
+   "moving": false,
+   "name_de": "Schräge Flankenmarke",
+   "name_en": "streak 1 l",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     305.14,
+     314.86
+    ],
+    "u": [
+     94.0,
+     103.0
+    ],
+    "x": [
+     -18.9,
+     -18.3
+    ]
+   },
+   "id": "streak_1_r",
+   "moving": false,
+   "name_de": "Schräge Flankenmarke",
+   "name_en": "streak 1 r",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     316.14,
+     325.86
+    ],
+    "u": [
+     94.0,
+     103.0
+    ],
+    "x": [
+     18.3,
+     18.9
+    ]
+   },
+   "id": "streak_2_l",
+   "moving": false,
+   "name_de": "Schräge Flankenmarke",
+   "name_en": "streak 2 l",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     316.14,
+     325.86
+    ],
+    "u": [
+     94.0,
+     103.0
+    ],
+    "x": [
+     -18.9,
+     -18.3
+    ]
+   },
+   "id": "streak_2_r",
+   "moving": false,
+   "name_de": "Schräge Flankenmarke",
+   "name_en": "streak 2 r",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -12.0,
+     34.0
+    ],
+    "u": [
+     136.5,
+     142.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": true,
+   "name_de": "Visier-Klemmfuß",
+   "name_en": "Sight mount",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.0,
+     21.54
+    ],
+    "u": [
+     136.8,
+     139.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -11.0,
+     18.0
+    ],
+    "u": [
+     141.5,
+     148.0
+    ],
+    "x": [
+     -8.0,
+     8.0
+    ]
+   },
+   "id": "sight_body",
+   "moving": false,
+   "name_de": "Visiergehäuse",
+   "name_en": "Sight housing",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 180
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     17.43,
+     34.6
+    ],
+    "u": [
+     141.5,
+     147.1
+    ],
+    "x": [
+     -16.1,
+     16.1
+    ]
+   },
+   "id": "sight_base",
+   "moving": false,
+   "name_de": "Haubensockel",
+   "name_en": "Hood base",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 68
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     9.65,
+     14.35
+    ],
+    "u": [
+     141.45,
+     146.15
+    ],
+    "x": [
+     -10.0,
+     -7.5
+    ]
+   },
+   "id": "sight_knob_w",
+   "moving": false,
+   "name_de": "Seitenverstellung",
+   "name_en": "Windage knob",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     8.86,
+     15.14
+    ],
+    "u": [
+     140.66,
+     146.94
+    ],
+    "x": [
+     7.5,
+     10.0
+    ]
+   },
+   "id": "sight_battery",
+   "moving": false,
+   "name_de": "Batteriedeckel",
+   "name_en": "Battery cap",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     22.0,
+     34.0
+    ],
+    "u": [
+     164.49,
+     175.1
+    ],
+    "x": [
+     -12.79,
+     12.79
+    ]
+   },
+   "id": "sight_frame",
+   "moving": false,
+   "name_de": "Oberer Bogen",
+   "name_en": "Upper bow",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 260
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     22.0,
+     34.0
+    ],
+    "u": [
+     145.9,
+     158.86
+    ],
+    "x": [
+     -15.72,
+     15.72
+    ]
+   },
+   "id": "sight_frame_b",
+   "moving": false,
+   "name_de": "Unterer Bogen",
+   "name_en": "Lower bow",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 260
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     33.6,
+     34.6
+    ],
+    "u": [
+     164.49,
+     175.1
+    ],
+    "x": [
+     -12.79,
+     12.79
+    ]
+   },
+   "id": "sight_frame_trim",
+   "moving": false,
+   "name_de": "Stirnkante oben",
+   "name_en": "Upper bow trim",
+   "role": "trim",
+   "shape": "xprof",
+   "triangles": 260
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     33.6,
+     34.6
+    ],
+    "u": [
+     145.9,
+     158.86
+    ],
+    "x": [
+     -15.72,
+     15.72
+    ]
+   },
+   "id": "sight_frame_trim_b",
+   "moving": false,
+   "name_de": "Stirnkante unten",
+   "name_en": "Lower bow trim",
+   "role": "trim",
+   "shape": "xprof",
+   "triangles": 260
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     22.0,
+     34.0
+    ],
+    "u": [
+     158.6,
+     164.75
+    ],
+    "x": [
+     11.41,
+     15.55
+    ]
+   },
+   "id": "sight_web",
+   "moving": false,
+   "name_de": "Steg links",
+   "name_en": "Web left",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 80
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     22.0,
+     34.0
+    ],
+    "u": [
+     158.6,
+     164.75
+    ],
+    "x": [
+     -15.55,
+     -11.41
+    ]
+   },
+   "id": "sight_web_r",
+   "moving": false,
+   "name_de": "Steg rechts",
+   "name_en": "Web right",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 80
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -9.0,
+     1.0
+    ],
+    "u": [
+     147.8,
+     148.3
+    ],
+    "x": [
+     -0.75,
+     0.75
+    ]
+   },
+   "id": "sight_emitter",
+   "moving": true,
+   "name_de": "Ladebalken",
+   "name_en": "Charge bar",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     28.0,
+     28.8
+    ],
+    "u": [
+     149.0,
+     175.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Visierglas",
+   "name_en": "Sight glass",
+   "role": "glass_scope",
+   "shape": "xprof",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     27.95,
+     28.0
+    ],
+    "u": [
+     160.24,
+     163.76
+    ],
+    "x": [
+     -1.76,
+     1.76
+    ]
+   },
+   "id": "sight_reticle",
+   "moving": false,
+   "name_de": "Absehen Eckklammern",
+   "name_en": "Reticle Corner brackets",
+   "role": "reticle_cyan",
+   "shape": "multi",
+   "triangles": 172
+  }
+ ],
+ "pilot": {
+  "module": "basic/pilot/w10_fusion_rifle_v21.py",
+  "version": "2.1"
+ },
+ "provenance": {
+  "kind": "Annahme",
+  "source": "Eigenständige Außenformen nach Silhouettenstudie. Familienreferenz: BASIC-10 „Glutkern v2.1“ · v2.1"
+ },
+ "type": {
+  "id": "BASIC-10",
+  "name": "Glutkern v2.1",
+  "nick": "Familie v2.1",
+  "num": "10",
+  "type": "fusion_rifle",
+  "type_de": "Fusionsgewehr",
+  "type_en": "Fusion Rifle"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Die offene Rückenbrücke überspannt zwei versetzte Keilschalen. Ein kurzer, facettierter Bug und eine geneigte Kassette schließen die Silhouette ab.",
+  "letter": "T",
+  "name": "Trestle",
+  "params": {
+   "architecture": "trestle"
+  },
+  "since": "0.24",
+  "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "daf296d9be4ef372",
+  "values": {
+   "architecture": "trestle"
+  }
+ },
+ "warnings": [
+  "sight_frame: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "sight_frame_b: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "sight_frame_trim: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert",
+  "sight_frame_trim_b: Fase nicht ausgewertet: Fasen für konkave Netzkomponenten noch nicht implementiert"
+ ]
+}

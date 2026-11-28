@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.60.0 Gantry — Linie T (0.24–0.40) als ein Block nach main
+
+- Die 14 Versionen der Linie T (BT01–BT13, Blatt-Spec 4) kommen unverändert in einem Merge, ihre Einträge unten behalten die Nummer.
+- Abgleich mit main: Pipeline-Quellhash in `extended.source`; Schnitt-Test aus 0.38 nur für Linien ohne eigene Architektur, mit Gegenprobe.
+- Register der eigenständigen Kits (`AUTHORED`, `SERIES`) in `formgen/models/weapons/authored.py`: die Geometrie-Stufe hängt nicht mehr an Raster und Website.
+
 ## 0.59.0 Prism
 
 - Die vier gewählten linearen Fusionsgewehre bilden die Serie Volt-11. Der Serienbau erstellt K11 bis N11.
@@ -85,10 +91,68 @@
 - Neu: `python -m formgen.kanon messen [--check]` misst die 34 Modelle (BASIC A und EA: Länge, Höhe, Breite, L/H, Füllgrad, Visierlinie, Akzente, Hände, Rollen, nächster Nachbar) und schreibt Tabelle und Bänder je Klasse in den Kanon; ein Test meldet, wenn er veraltet.
 - Neu: `python -m formgen.kanon paket --out <Ordner>` bündelt Kanon, [Stilprüfung](docs/kanon-stilpruefung.md), Modellsprache, Register, Skins und acht Musterlösungen für eine fremde Entwurfssitzung.
 
+## 0.40.0 Moraine
+
+- BT13 erweitert Linie T um einen stilisierten Trommel-Granatwerfer mit facettiertem Mittelkörper, gerader Front und W1-Visier. [Versionsbericht](docs/versions/0.40.md)
+
+## 0.39.0 Filament
+
+- BT12 ergänzt Linie T um ein Spurgewehr mit offenem Leuchtring, geradem Lauf und H3-Reflexvisier von BASIC-12. [Versionsbericht](docs/versions/0.39.md)
+
 ## 0.38.1 Patch ext-magazin — Schrägmagazin und Signalrot nach der AAA-Abnahme
 
 - Behoben: Mündungs- und Frontstreckung scherten das nach vorn hängende Schrägmagazin von EA06 (EF06: Körper trapezförmig, Bodenplatte abgelöst); ein Magazin, das hinter dem Schnitt einsteckt, bleibt im EXTENDED-Weg starr. Neu gebaut: ED06, EE06, EF06, EL06, die übrigen 200 Linienblätter bleiben gleich.
 - Signalrot: metallische Schale `#B3140E` statt Lack `#B23A2E`; als Lack wurde jedes Rot im AgX-Licht lachsfarben ([EXTENDED](docs/extended.md)).
+
+## 0.37.0 Plover
+
+- BT11 ergänzt Linie T als lineares Fusionsgewehr mit offenem Heckrahmen, drei Keramiklamellen, geradem Lauf und dem Z2-Visier von BASIC-11. [Versionsbericht](docs/versions/0.37.md)
+
+## 0.36.0 Calyx
+
+- BT10 ergänzt die Linie T um ein Fusionsgewehr mit offenem Keramikkelch, sichtbarem Kern, gerader Front und F1-Visier aus BASIC-10. [Versionsbericht](docs/versions/0.36.md)
+
+## 0.35.0 Avocet
+
+- BT09 erweitert Linie T um ein Scharfschützengewehr mit offenem Sichelheck, gerader Front und dem vollständigen Z3-Zielfernrohr von BASIC-09. Bei der anschließenden Prüfung der gesamten Linie T erhielten BT03, BT05, BT06 und BT08 geradere Frontkonturen. [Versionsbericht](docs/versions/0.35.md)
+
+## 0.34.0 Skiff
+
+- BT08 ergänzt die Linie T als Schrotflinte mit eigenem Fensterheck, ansteigender Kufe und dem offenen K2 von BASIC-08. Ein Wechselmodul füllt die gesamte Ladung im animierten Viewer. Sechs einzeln modellierte Lichtzellen stehen in zwei Dreierreihen für sechs Schuss. [Versionsbericht](docs/versions/0.34.md)
+
+## 0.33.0 Quill — Lark
+
+- Lark ergänzt Linie T als Bogen BT07 mit 68,77 mm Gesamtbreite und dem B1-Pinvisier von BASIC-07. [Versionsbericht](docs/versions/0.33.md)
+
+## 0.32.0 Windward — Tern
+
+- Tern ergänzt Linie T als Maschinenpistole BT06 mit 47,00 mm Gesamtbreite und dem H2-Visier aus BASIC-06. [Versionsbericht](docs/versions/0.32.md)
+
+## 0.31.0 Pinion — Swift
+
+- Swift (BT05) erhält eine helle Federkontur, 33,50 mm Gesamtbreite und die offene Visierung von BASIC-05. [Versionsbericht](docs/versions/0.31.md)
+
+## 0.30.0 Imprint — Ladesiegel
+
+- Cairns linkes Medaillon trägt einen animierten Lichtring und das Prägezeichen. Der GLB-Clip und die abbrechbare Nachladevorschau im Viewer verwenden denselben Übergabezeitpunkt. [Versionsbericht](docs/versions/0.30.md)
+
+## 0.29.0 Strata — Cairn
+
+- Cairn (BT04) erhält eine geschichtete Außenform und die offene Visierung von BASIC-04. Die Gesamtbreite beträgt 44,83 mm. [Versionsbericht](docs/versions/0.29.md)
+
+## 0.27.0 Plume — Heron
+
+- Heron (BT03) erhält eine offene Heckwange, eine zweigeteilte Front und das vollständige Z1 „Tropfen“ von BA03. Die Breite über alle Teile beträgt 47,0 mm. [Versionsbericht](docs/versions/0.27.md)
+
+## 0.26.0 Lamella — Vesper
+
+- Vesper (BT02) erhält einen offenen Heckrahmen und drei getrennte Impulssegmente mit je einer eigenen Lichtmarke. Vesper übernimmt das vollständige H4 „Kasten“ von BASIC-02 samt Ring-Punkt-Absehen und drei Zielankern für Unity. Die Gesamtbreite beträgt wie bei BASIC-02 51,0 mm. [Versionsbericht](docs/versions/0.26.md)
+
+- Die gebogenen Konturen des H4 und seines gezeichneten Absehens werden auf ein Nanometer gerundet. So lässt sich der Modellhash auf macOS und Linux exakt prüfen.
+
+## 0.24.0 Crossbeam — TRESTLE im BASIC-Pass
+
+- EXTENDED-18 auf Blatt BT01 mit H0, BASIC-Anbauteilen und eigenen Spielankern. BT02–BT05 behalten ihre Außenformen. [Versionsbericht](docs/versions/0.24.md)
 
 ## Patch agents-abschnitte — AGENTS.md im Standard
 

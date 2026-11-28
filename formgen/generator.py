@@ -691,7 +691,41 @@ def vary(data, variant, num, snap=None):
     sid = variants.sheet_id(variant["letter"], num)
     params, draws = variants.resolve(variant.get("params", {}), sid)
     before = contract(model)
-    ops, added = _apply(model, params, num, _kit(snap), notes)
+    if params.get("architecture") == "trestle":
+        from .models.weapons import avocet, cairn, calyx, filament, heron, lark, moraine, plover, skiff, swift, tern, trestle, vesper
+        designs = {"01": trestle, "02": vesper, "03": heron, "04": cairn, "05": swift, "06": tern, "07": lark, "08": skiff, "09": avocet, "10": calyx, "11": plover, "12": filament, "13": moraine}
+        if num not in designs:
+            raise GeneratorError(f"Für BASIC-{num} gibt es keinen Trestle-Entwurf")
+        design = designs[num]
+        ops = [{"op": "architecture", "kind": "trestle"}]
+        if num == "01":
+            with ballon.snapshot_imports(snap or ballon.snapshot()):
+                geometry = design.build()
+        elif num == "02":
+            geometry = vesper.build(snap=snap)
+        elif num == "07":
+            # Kompakte Silhouette über dieselbe Formoperation wie die übrigen Bogenlinien.
+            ops.append(limbs(model, lark.LIMB_FACTOR))
+            geometry = lark.build(pilot=model)
+        else:
+            geometry = design.build(pilot=data)
+        model["PARTS"], model["ANCHORS"], model["POINTS"] = geometry
+        # Gleicher Ursprung wie die übrigen Spielmodelle: Mitte der hinteren Hand.
+        hand = model["ANCHORS"]["Socket_Hand"]["at"][:]
+        for axis, offset in enumerate(hand[:2]):
+            for part in model["PARTS"]:
+                _map(part, axis, lambda value: value - offset)
+            for point in _located(model):
+                point["at"][axis] -= offset
+        # Der Bogen übernimmt die beiden Spielaktionen aus seinem BALLON-Piloten.
+        if num in ("04", "08"):
+            model["ACTIONS"] = {"reload": design.reload_action()}
+        elif num != "07":
+            model["ACTIONS"] = {}
+        notes = [{"kind": "Annahme", "reason": f"Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/{design.__name__.split('.')[-1]}.py."}]
+        added = set()
+    else:
+        ops, added = _apply(model, params, num, _kit(snap), notes)
     _keep_accents(model, before, added, notes)
     _finish(model, notes)
     return model, {"sid": sid, "params": params, "draws": draws, "ops": ops, "notes": notes, "before": before}
@@ -719,6 +753,9 @@ def generate(data, variant, num, source, snap=None, base="standard"):
              ["Grundform", shape],
              ["BALLON-Quellhash", source["source_sha256"][:12]],
              ["Skin", variant.get("skin", "standard")]]
+    if params.get("architecture"):
+        facts.append(["Entwurf", f"{variants.TRESTLE_EXTENDED_ID} · Trestle" if num == "01" else variants.TRESTLE_NAMES[num]])
+        provenance = {"kind": "Annahme", "source": "Eigenständige Außenformen nach Silhouettenstudie. Familienreferenz: " + shape}
     if kit_ops:
         facts.append(["Baukasten", " · ".join(f"{o['op']} {o.get('kind') or o.get('count')}" for o in kit_ops)])
     if draws:
@@ -727,6 +764,27 @@ def generate(data, variant, num, source, snap=None, base="standard"):
             "name_en": f"{meta['type_en']} · {variant['name']}",
             "summary": f"{meta.get('summary', '')} Linie {variant['letter']} „{variant['name']}“: {variant['idea']}",
             "provenance": provenance, "facts": facts}
+    if params.get("architecture"):
+        info["summary"] = variant["idea"]
+        info["hero_with_sight"] = True
+        design_name = variants.TRESTLE_NAMES[num]
+        info["name_de"] = f"{meta['type_de']} · {design_name}"
+        info["name_en"] = f"{meta['type_en']} · {design_name}"
+        summaries = {
+            "02": "Offener Heckrahmen und drei getrennte Impulssegmente mit je einem leuchtenden Fenster.",
+            "03": "Offene Heckwange, lange helle Gabel und das tropfenförmige Originalvisier von BASIC-03.",
+            "04": "Zwei helle Keramiklagen fassen eine dunkle Fuge ein. Seitlich sitzt ein facettiertes Medaillon, oben die offene Visierung von BASIC-04.",
+            "05": "Eine helle Feder zieht sich zur kompakten Front. Die offene Ferse und die niedrige Visierung von BASIC-05 prägen die Silhouette.",
+            "06": "Ein offener Heckrahmen, zwei helle Schalen und eine kurze dunkle Handauflage prägen Tern. Das Holovisier H2 stammt aus BASIC-06.",
+            "07": "Ein kompakter Bogen mit geknickter Keramikschulter, dunklem Mittelstück und seitlicher Statuskapsel. Das B1-Pinvisier stammt aus BASIC-07.",
+            "08": "Ein kurzes Fensterheck und eine ansteigende helle Kufe prägen die Silhouette. Die offene Visierung K2 stammt aus BASIC-08.",
+            "09": "Ein offenes Sichelheck und zwei versetzte Keramikfelder prägen Avocet. Die lange gerade Front trägt eine dunkle Stirnkappe, das Zielfernrohr stammt aus BASIC-09.",
+            "11": "Ein offener Heckrahmen und drei schräge Keramiklamellen fassen ein langes Lichtband. Die gerade Front und das Z2-Visier prägen die Seitenansicht.",
+            "10": "Ein offener Keramikkelch umschließt einen türkisfarbenen Kern. Die gerade Front trägt eine abgesetzte Stirnkappe, das F1-Visier stammt aus BASIC-10.",
+            "12": "Ein offener türkisfarbener Leuchtring steht zwischen flacher Heckfahne und gerader Front. Das H3-Visier stammt aus BASIC-12.",
+            "13": "Ein facettierter Mittelkörper aus hellen und dunklen Schichten prägt Moraine. Die Front ist gerade, auf der Schulter sitzt die D-Linse W1 von BASIC-13.",
+        }
+        info["summary"] = summaries.get(num, variant["idea"])
     parts = []
     for p in model["PARTS"]:
         q = {k: v for k, v in p.items() if k not in ("en", "func", "attach", "iface")}

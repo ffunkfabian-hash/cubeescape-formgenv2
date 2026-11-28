@@ -105,8 +105,68 @@
    if(first&&list.some(s=>s.id===first)){select.value=first;apply(first)}
    label.hidden=false;
  }
+ // Ladung erst beim Datenereignis übernehmen, auch wenn Eingabe und Bildaufbau
+ // zwischen zwei Frames liegen. stop() stellt die ursprünglichen Node-Posen wieder her.
+ function reloadPreview(root,animations,render){
+   const clip=animations.find(a=>a.name==='reload');
+   if(!clip)return;
+   let commit,cellExchange=false;
+   root.traverse(o=>{
+     const events=o.userData.reload_events;
+     if(events?.some(event=>event.name==='cell_exchange'))cellExchange=true;
+     const e=events?.find(event=>event.name==='rounds_in');
+     if(e)commit=e.time;
+   });
+   if(!Number.isFinite(commit)||commit<0||commit>clip.duration)return;
+   const button=pick('[data-reload]'),status=pick('[data-charge]');
+   const mixer=new T.AnimationMixer(root),action=mixer.clipAction(clip);
+   action.setLoop(T.LoopOnce,1);action.clampWhenFinished=true;
+   let start=null,frame=0,charged=false,committed=false,audio;
+   function clickSeal(){
+     if(audio?.state!=='running')return;
+     const tone=audio.createOscillator(),gain=audio.createGain(),now=audio.currentTime;
+     tone.type='triangle';tone.frequency.setValueAtTime(1460,now);
+     tone.frequency.exponentialRampToValueAtTime(440,now+.036);
+     gain.gain.setValueAtTime(.12,now);gain.gain.exponentialRampToValueAtTime(.0001,now+.045);
+     tone.connect(gain);gain.connect(audio.destination);tone.start(now);tone.stop(now+.046);
+   }
+   function update(now){
+     const time=Math.min(clip.duration,(now-start)/1000);
+     mixer.setTime(time);
+     if(!committed&&time>=commit){
+       charged=true;committed=true;clickSeal();status.textContent='Ladung voll';button.disabled=true;
+       button.textContent=cellExchange?'Zelle eingesetzt':'Siegel schließt';
+     }
+     render();
+     if(time>=clip.duration){
+       start=null;button.disabled=false;button.textContent='Erneut ansehen';return;
+     }
+     frame=requestAnimationFrame(update);
+   }
+   button.hidden=false;status.hidden=false;
+   button.onclick=()=>{
+     const now=performance.now();
+     if(start!==null){
+       cancelAnimationFrame(frame);
+       if((now-start)/1000>=commit){update(now);return}
+       action.stop();
+       if(charged){
+         action.reset().play();mixer.setTime(clip.duration);
+       }
+       start=null;render();button.textContent=charged?'Erneut ansehen':'Nachladen';
+       status.textContent=charged?'Abgebrochen · Ladung weiterhin voll':'Abgebrochen · Ladung unverändert';
+       return;
+     }
+     if(window.AudioContext){
+       audio??=new AudioContext();
+       if(audio.state==='suspended')audio.resume().catch(()=>{});
+     }
+     action.reset().play();committed=false;start=now;
+     button.textContent='Abbrechen';status.textContent=cellExchange?'Lichtzelle wechselt':'Siegel lädt';update(now);
+   };
+ }
  async function show(entry,model){
-   const {scene:root,parser}=await new GLTFLoader().parseAsync(bytes(model.glb).buffer,'');
+   const {scene:root,parser,animations}=await new GLTFLoader().parseAsync(bytes(model.glb).buffer,'');
    model.glb=null;
    root.updateMatrixWorld(true);
    const meshes=[];
@@ -154,6 +214,7 @@
    const button=pick('[data-reset]');button.disabled=false;button.onclick=reset;
    chooser(meshes,model,group);
    skinSwitch(root,entry,render);
+   if(group==='all')reloadPreview(root,animations,render);
    window.formgenEnableAnnotation({T,stage,canvas,meshes,group,camera,controls,radius,render,
      model:{...model,kind:entry.kind,name:entry.name}});
  }

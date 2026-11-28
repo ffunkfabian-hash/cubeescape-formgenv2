@@ -14,7 +14,7 @@ import tomllib
 from pathlib import Path
 
 from .. import spec as model_spec, wspec
-from ..models.weapons import AUTHORED, SERIES
+from ..models.weapons.authored import AUTHORED, SERIES
 from ..cache import Artifact, canonical, file_hash, run_artifacts
 from ..versions import VIEWER
 
@@ -245,6 +245,7 @@ def model_page() -> str:
             f'<div class="stage" data-orbit>{guide}</div><div class="stage-foot"><small>Mausrad gedrückt ziehen: drehen · mit Umschalt: verschieben · '
             'Scrollen: zoomen</small><label data-view hidden>Ansicht <select data-assembly></select></label>'
             '<label data-skin hidden>Skin <select data-skin-select></select></label>'
+            '<button type="button" data-reload hidden>Nachladen</button><span data-charge role="status" hidden></span>'
             '<button type="button" data-reset disabled>Ansicht zurücksetzen</button></div></div>' + panel + '</div></main>')
     license_link = f'<a href="web/{THREE["license_file"]}">Three.js {THREE["version"]} (MIT)</a>'
     return page('3D-Ansicht', 'modell', main, footer=f'Änderungsdateien: Format formgen/change-request. {license_link}',

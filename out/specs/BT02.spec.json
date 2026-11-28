@@ -1,0 +1,1966 @@
+{
+ "anchors": {
+  "Socket_Eye": {
+   "part": "sight_frame",
+   "position_mm": [
+    -89.6,
+    138.0,
+    0.0
+   ]
+  },
+  "Socket_Hand": {
+   "part": "handle",
+   "position_mm": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "Socket_Muzzle": {
+   "part": "front_trace_1",
+   "position_mm": [
+    401.8,
+    58.0,
+    0.0
+   ]
+  },
+  "Socket_Reticle": {
+   "part": "sight_glass",
+   "position_mm": [
+    0.4,
+    138.0,
+    0.0
+   ]
+  },
+  "Socket_Sight": {
+   "part": "sight_body",
+   "position_mm": [
+    -39.0,
+    138.0,
+    0.0
+   ]
+  },
+  "Socket_SupportHand": {
+   "part": "chin",
+   "position_mm": [
+    185.0,
+    12.0,
+    0.0
+   ]
+  }
+ },
+ "assemblies": [
+  {
+   "de": "Hauptgehäuse",
+   "en": "Receiver",
+   "id": "receiver"
+  },
+  {
+   "de": "Lauf / Emitter",
+   "en": "Barrel / emitter",
+   "id": "barrel"
+  },
+  {
+   "de": "Munitionsversorgung",
+   "en": "Ammunition feed",
+   "id": "ammo"
+  },
+  {
+   "de": "Visier",
+   "en": "Sight",
+   "id": "sight"
+  },
+  {
+   "de": "Griff und Bedienung",
+   "en": "Grip and controls",
+   "id": "grip_controls"
+  },
+  {
+   "de": "Stützbereich",
+   "en": "Support",
+   "id": "support"
+  },
+  {
+   "de": "Schaft",
+   "en": "Stock",
+   "id": "stock"
+  }
+ ],
+ "ballon": {
+  "basic_id": "BASIC-02",
+  "commit": "fe4a5dc4e026fba503bf9354da2fb055cbc7e724",
+  "files": {
+   "basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/arms/ego.py": "42de5a5b8b8802b57cc7cd1119e056bba18b0d6b9244afbb73160b9c4c906a02",
+   "basic/arms/robot_arm.py": "d713339efd85b3f2b24304133129094c550f55e62725dd9c72b1be0864ce29f5",
+   "basic/common.py": "4ab5ffddaca73b1137d909641a0c8b50323b4995fe47bb2bc796cd228cc549e3",
+   "basic/pilot/w02_pulse_rifle_v21.py": "efc5184f4a1777bcc8bc1d9dcae025806fbafb100b0ee935e2ab16419fb79ab1",
+   "basic/reticles.py": "64405f68d902a83ee38bdadbb51951657c51dde16f30661eb352e27d5468f19e",
+   "basic/variant.py": "58b05ec8a106ae9d03772caeb2f1d9ee081ab172078a382e98242befcb49b15b",
+   "basic/weapons/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "basic/weapons/w02_pulse_rifle.py": "a8fdd2f1c65150800773e8815c67bf640eb757eef92fb682a49365f1242af4d3"
+  },
+  "source_sha256": "39ec1a3d2c1778f749bfdad1d0fbed3175fc8bb517fd38f1803933b786385965",
+  "spec_sha256": "e664519eb2c28c7876617fe9159dd6b8dc7fbbfdb048f4a0c8dde4972f8d9da7"
+ },
+ "ballon_dimensions_mm": {
+  "height": 254.6,
+  "length": 815.5,
+  "width": 51.0
+ },
+ "base": "v21",
+ "contract": {
+  "base": {
+   "accent_functions": [
+    "Löst das Magazin",
+    "Sichern / Feuer, mit dem Daumen der Haupthand",
+    "Spannt den Klemmfuß werkzeuglos",
+    "Verschluss spannen (Stützhand zieht nach hinten)"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "rubber",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 64.0
+  },
+  "variant": {
+   "accent_functions": [
+    "Seitliche Impulsmarke",
+    "Spannt den Klemmfuß werkzeuglos"
+   ],
+   "hand_roles": {
+    "Socket_Hand": "graphite",
+    "Socket_SupportHand": "graphite"
+   },
+   "sight_line_mm": 80.0
+  }
+ },
+ "counts": {
+  "assemblies": 7,
+  "parts": 73,
+  "triangles": 21364
+ },
+ "dimensions_mm": {
+  "height": 211.56,
+  "length": 697.8,
+  "width": 51.0
+ },
+ "format": "formgenv2/weapon-sheet-spec",
+ "format_version": 4,
+ "generator": {
+  "adaptations": [
+   {
+    "kind": "Annahme",
+    "reason": "Konturen, Tiefen und Fasen sind gestalterische Annahmen in formgen/models/weapons/vesper.py."
+   },
+   {
+    "field": "assemblies",
+    "kind": "Annahme",
+    "reason": "leere Baugruppe ohne Teile (in BALLON nur deklariert)",
+    "removed": [
+     "mechanism"
+    ]
+   }
+  ],
+  "ops": [
+   {
+    "kind": "trestle",
+    "op": "architecture"
+   }
+  ]
+ },
+ "id": "BT02",
+ "name_de": "Impulsgewehr · Vesper",
+ "name_en": "Pulse Rifle · Vesper",
+ "parts": [
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -27.47,
+     36.84
+    ],
+    "u": [
+     -53.91,
+     50.52
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "handle",
+   "moving": false,
+   "name_de": "Hinterer Griff",
+   "name_en": "handle",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 600
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     5.57,
+     78.48
+    ],
+    "u": [
+     -14.95,
+     36.21
+    ],
+    "x": [
+     -9.0,
+     9.0
+    ]
+   },
+   "id": "loop",
+   "moving": false,
+   "name_de": "Offener Griffbügel",
+   "name_en": "loop",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 632
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     26.44,
+     47.24
+    ],
+    "u": [
+     5.4,
+     31.85
+    ],
+    "x": [
+     -6.0,
+     6.0
+    ]
+   },
+   "id": "trigger_switch",
+   "moving": false,
+   "name_de": "Abzugskontur",
+   "name_en": "trigger switch",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 512
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -17.81,
+     7.0
+    ],
+    "u": [
+     -40.73,
+     20.66
+    ],
+    "x": [
+     18.75,
+     21.35
+    ]
+   },
+   "id": "grip_cheek_l",
+   "moving": false,
+   "name_de": "Weiche Griffwange",
+   "name_en": "grip cheek l",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 192
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -11.85,
+     -3.15
+    ],
+    "u": [
+     -26.88,
+     -22.12
+    ],
+    "x": [
+     20.95,
+     21.95
+    ]
+   },
+   "id": "grip_rib_0_l",
+   "moving": false,
+   "name_de": "Griffrille",
+   "name_en": "grip rib 0 l",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -9.85,
+     -1.15
+    ],
+    "u": [
+     -16.88,
+     -12.12
+    ],
+    "x": [
+     20.95,
+     21.95
+    ]
+   },
+   "id": "grip_rib_1_l",
+   "moving": false,
+   "name_de": "Griffrille",
+   "name_en": "grip rib 1 l",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -7.85,
+     0.85
+    ],
+    "u": [
+     -6.88,
+     -2.12
+    ],
+    "x": [
+     20.95,
+     21.95
+    ]
+   },
+   "id": "grip_rib_2_l",
+   "moving": false,
+   "name_de": "Griffrille",
+   "name_en": "grip rib 2 l",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -17.81,
+     7.0
+    ],
+    "u": [
+     -40.73,
+     20.66
+    ],
+    "x": [
+     -21.35,
+     -18.75
+    ]
+   },
+   "id": "grip_cheek_r",
+   "moving": false,
+   "name_de": "Weiche Griffwange",
+   "name_en": "grip cheek r",
+   "role": "rubber",
+   "shape": "prof",
+   "triangles": 192
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -11.85,
+     -3.15
+    ],
+    "u": [
+     -26.88,
+     -22.12
+    ],
+    "x": [
+     -21.95,
+     -20.95
+    ]
+   },
+   "id": "grip_rib_0_r",
+   "moving": false,
+   "name_de": "Griffrille",
+   "name_en": "grip rib 0 r",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -9.85,
+     -1.15
+    ],
+    "u": [
+     -16.88,
+     -12.12
+    ],
+    "x": [
+     -21.95,
+     -20.95
+    ]
+   },
+   "id": "grip_rib_1_r",
+   "moving": false,
+   "name_de": "Griffrille",
+   "name_en": "grip rib 1 r",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "grip_controls",
+   "extent_mm": {
+    "f": [
+     -7.85,
+     0.85
+    ],
+    "u": [
+     -6.88,
+     -2.12
+    ],
+    "x": [
+     -21.95,
+     -20.95
+    ]
+   },
+   "id": "grip_rib_2_r",
+   "moving": false,
+   "name_de": "Griffrille",
+   "name_en": "grip rib 2 r",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -296.0,
+     -271.06
+    ],
+    "u": [
+     2.73,
+     111.09
+    ],
+    "x": [
+     -20.5,
+     20.5
+    ]
+   },
+   "id": "aft_pad",
+   "moving": false,
+   "name_de": "Heckabschluss",
+   "name_en": "aft pad",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 212
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -282.9,
+     -106.13
+    ],
+    "u": [
+     11.0,
+     116.0
+    ],
+    "x": [
+     -19.0,
+     19.0
+    ]
+   },
+   "id": "aft_shell",
+   "moving": false,
+   "name_de": "Offener Winkelrahmen",
+   "name_en": "aft shell",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 736
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -277.0,
+     -117.09
+    ],
+    "u": [
+     12.13,
+     57.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "aft_spine",
+   "moving": false,
+   "name_de": "Untere Rahmenkante",
+   "name_en": "aft spine",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 404
+  },
+  {
+   "assembly": "stock",
+   "extent_mm": {
+    "f": [
+     -257.11,
+     -167.54
+    ],
+    "u": [
+     111.24,
+     121.0
+    ],
+    "x": [
+     -15.0,
+     15.0
+    ]
+   },
+   "id": "aft_rest",
+   "moving": false,
+   "name_de": "Auflage auf dem Rahmen",
+   "name_en": "aft rest",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 356
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -122.6,
+     130.62
+    ],
+    "u": [
+     17.16,
+     108.99
+    ],
+    "x": [
+     -21.5,
+     21.5
+    ]
+   },
+   "id": "body_spine",
+   "moving": false,
+   "name_de": "Dunkler Gehäusesockel",
+   "name_en": "body spine",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 572
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -123.66,
+     122.71
+    ],
+    "u": [
+     62.0,
+     117.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "aft_cowl",
+   "moving": false,
+   "name_de": "Gerade obere Gehäuseschale",
+   "name_en": "aft cowl",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 596
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -102.18,
+     103.04
+    ],
+    "u": [
+     113.0,
+     121.0
+    ],
+    "x": [
+     -17.5,
+     17.5
+    ]
+   },
+   "id": "bridge_shadow",
+   "moving": false,
+   "name_de": "Flache Rückenfuge",
+   "name_en": "bridge shadow",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 532
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -76.55,
+     96.61
+    ],
+    "u": [
+     118.0,
+     122.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "bridge_fold",
+   "moving": false,
+   "name_de": "Oberes Deck",
+   "name_en": "bridge fold",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 608
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -102.52,
+     -71.3
+    ],
+    "u": [
+     117.0,
+     123.0
+    ],
+    "x": [
+     -16.0,
+     16.0
+    ]
+   },
+   "id": "bridge_seat",
+   "moving": false,
+   "name_de": "Hintere Deckstufe",
+   "name_en": "bridge seat",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 136
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -91.86,
+     -82.14
+    ],
+    "u": [
+     97.0,
+     106.0
+    ],
+    "x": [
+     -24.3,
+     24.3
+    ]
+   },
+   "id": "bridge_mark_0",
+   "moving": false,
+   "name_de": "Seitliche Impulsmarke",
+   "name_en": "bridge mark 0",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -80.86,
+     -71.14
+    ],
+    "u": [
+     97.0,
+     106.0
+    ],
+    "x": [
+     -24.3,
+     24.3
+    ]
+   },
+   "id": "bridge_mark_1",
+   "moving": false,
+   "name_de": "Seitliche Impulsmarke",
+   "name_en": "bridge mark 1",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -45.77,
+     10.77
+    ],
+    "u": [
+     109.0,
+     112.5
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "crest",
+   "moving": false,
+   "name_de": "Flache Visierauflage",
+   "name_en": "crest",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     109.44,
+     352.54
+    ],
+    "u": [
+     33.0,
+     93.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "well_floor",
+   "moving": false,
+   "name_de": "Durchgehender Kern der Impulsreihe",
+   "name_en": "well floor",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 240
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     117.16,
+     181.88
+    ],
+    "u": [
+     51.0,
+     116.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "pulse_mantle",
+   "moving": false,
+   "name_de": "Impulssegment 1",
+   "name_en": "pulse mantle",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 800
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     191.16,
+     255.87
+    ],
+    "u": [
+     51.0,
+     113.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "pulse_middle",
+   "moving": false,
+   "name_de": "Impulssegment 2",
+   "name_en": "pulse middle",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 800
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     265.16,
+     329.86
+    ],
+    "u": [
+     51.0,
+     110.0
+    ],
+    "x": [
+     -24.0,
+     24.0
+    ]
+   },
+   "id": "pulse_front",
+   "moving": false,
+   "name_de": "Impulssegment 3",
+   "name_en": "pulse front",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 848
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     118.28,
+     353.46
+    ],
+    "u": [
+     11.0,
+     60.19
+    ],
+    "x": [
+     -17.5,
+     17.5
+    ]
+   },
+   "id": "chin",
+   "moving": false,
+   "name_de": "Flache Unterkante der Impulsreihe",
+   "name_en": "chin",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 500
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     73.2,
+     129.8
+    ],
+    "u": [
+     -57.0,
+     31.83
+    ],
+    "x": [
+     -18.5,
+     18.5
+    ]
+   },
+   "id": "cell",
+   "moving": false,
+   "name_de": "Abgesetzte kantige Kassette",
+   "name_en": "cell",
+   "role": "graphite",
+   "shape": "prof",
+   "triangles": 432
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     80.27,
+     132.0
+    ],
+    "u": [
+     -61.96,
+     -44.88
+    ],
+    "x": [
+     -20.5,
+     20.5
+    ]
+   },
+   "id": "cell_heel",
+   "moving": false,
+   "name_de": "Kassettenunterkante",
+   "name_en": "cell heel",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 520
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     315.0,
+     363.0
+    ],
+    "u": [
+     32.5,
+     73.5
+    ],
+    "x": [
+     -20.0,
+     20.0
+    ]
+   },
+   "id": "front_gasket",
+   "moving": false,
+   "name_de": "Hals hinter der Stirn",
+   "name_en": "front gasket",
+   "role": "dark_metal",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     359.0,
+     386.0
+    ],
+    "u": [
+     37.0,
+     69.0
+    ],
+    "x": [
+     -17.0,
+     17.0
+    ]
+   },
+   "id": "front_mask",
+   "moving": false,
+   "name_de": "Gestufter Vorbau",
+   "name_en": "front mask",
+   "role": "graphite",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     382.0,
+     401.0
+    ],
+    "u": [
+     39.5,
+     66.5
+    ],
+    "x": [
+     -13.5,
+     13.5
+    ]
+   },
+   "id": "front_glaze",
+   "moving": false,
+   "name_de": "Keramische Endkappe",
+   "name_en": "front glaze",
+   "role": "anodized",
+   "shape": "xprof",
+   "triangles": 284
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     400.6,
+     401.8
+    ],
+    "u": [
+     46.6,
+     49.4
+    ],
+    "x": [
+     -12.63,
+     11.63
+    ]
+   },
+   "id": "front_trace_0",
+   "moving": false,
+   "name_de": "Lichtsignatur",
+   "name_en": "front trace 0",
+   "role": "energy",
+   "shape": "xprof",
+   "triangles": 100
+  },
+  {
+   "assembly": "barrel",
+   "extent_mm": {
+    "f": [
+     400.6,
+     401.8
+    ],
+    "u": [
+     56.6,
+     59.4
+    ],
+    "x": [
+     -12.63,
+     11.63
+    ]
+   },
+   "id": "front_trace_1",
+   "moving": false,
+   "name_de": "Lichtsignatur",
+   "name_en": "front trace 1",
+   "role": "energy",
+   "shape": "xprof",
+   "triangles": 100
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     134.36,
+     163.73
+    ],
+    "u": [
+     74.04,
+     91.0
+    ],
+    "x": [
+     16.7,
+     21.0
+    ]
+   },
+   "id": "porcelain_0_l",
+   "moving": false,
+   "name_de": "Keramikinlay",
+   "name_en": "porcelain 0 l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     140.17,
+     157.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     20.7,
+     21.6
+    ]
+   },
+   "id": "pulse_line_0_l",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 0 l",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     208.36,
+     237.73
+    ],
+    "u": [
+     74.04,
+     91.0
+    ],
+    "x": [
+     16.7,
+     21.0
+    ]
+   },
+   "id": "porcelain_1_l",
+   "moving": false,
+   "name_de": "Keramikinlay",
+   "name_en": "porcelain 1 l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     214.17,
+     231.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     20.7,
+     21.6
+    ]
+   },
+   "id": "pulse_line_1_l",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 1 l",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     282.36,
+     311.73
+    ],
+    "u": [
+     74.04,
+     91.0
+    ],
+    "x": [
+     16.7,
+     21.0
+    ]
+   },
+   "id": "porcelain_2_l",
+   "moving": false,
+   "name_de": "Keramikinlay",
+   "name_en": "porcelain 2 l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     288.17,
+     305.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     20.7,
+     21.6
+    ]
+   },
+   "id": "pulse_line_2_l",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 2 l",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     82.07,
+     122.92
+    ],
+    "u": [
+     -47.97,
+     3.0
+    ],
+    "x": [
+     18.1,
+     20.0
+    ]
+   },
+   "id": "cell_panel_l",
+   "moving": false,
+   "name_de": "Kassettenwange",
+   "name_en": "cell panel l",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -105.68,
+     -34.28
+    ],
+    "u": [
+     78.0,
+     98.0
+    ],
+    "x": [
+     23.6,
+     24.9
+    ]
+   },
+   "id": "aft_badge_l",
+   "moving": false,
+   "name_de": "Eloxiertes Schriftfeld",
+   "name_en": "aft badge l",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -81.59,
+     -58.41
+    ],
+    "u": [
+     83.93,
+     89.04
+    ],
+    "x": [
+     24.8,
+     25.4
+    ]
+   },
+   "id": "word_l",
+   "moving": false,
+   "name_de": "Schriftzug",
+   "name_en": "word l",
+   "role": "graphite",
+   "shape": "text",
+   "triangles": 1196
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     132.21,
+     167.82
+    ],
+    "u": [
+     102.0,
+     109.0
+    ],
+    "x": [
+     23.7,
+     25.5
+    ]
+   },
+   "id": "serial_l",
+   "moving": false,
+   "name_de": "Serienfeld",
+   "name_en": "serial l",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     52.12,
+     58.88
+    ],
+    "u": [
+     41.0,
+     47.0
+    ],
+    "x": [
+     21.2,
+     22.2
+    ]
+   },
+   "id": "index_0_l",
+   "moving": false,
+   "name_de": "Indexsegment",
+   "name_en": "index 0 l",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     59.12,
+     65.88
+    ],
+    "u": [
+     41.0,
+     47.0
+    ],
+    "x": [
+     21.2,
+     22.2
+    ]
+   },
+   "id": "index_1_l",
+   "moving": false,
+   "name_de": "Indexsegment",
+   "name_en": "index 1 l",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     66.12,
+     72.88
+    ],
+    "u": [
+     41.0,
+     47.0
+    ],
+    "x": [
+     21.2,
+     22.2
+    ]
+   },
+   "id": "index_2_l",
+   "moving": false,
+   "name_de": "Indexsegment",
+   "name_en": "index 2 l",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     134.36,
+     163.73
+    ],
+    "u": [
+     74.04,
+     91.0
+    ],
+    "x": [
+     -21.0,
+     -16.7
+    ]
+   },
+   "id": "porcelain_0_r",
+   "moving": false,
+   "name_de": "Keramikinlay",
+   "name_en": "porcelain 0 r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     140.17,
+     157.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     -21.6,
+     -20.7
+    ]
+   },
+   "id": "pulse_line_0_r",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 0 r",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     208.36,
+     237.73
+    ],
+    "u": [
+     74.04,
+     91.0
+    ],
+    "x": [
+     -21.0,
+     -16.7
+    ]
+   },
+   "id": "porcelain_1_r",
+   "moving": false,
+   "name_de": "Keramikinlay",
+   "name_en": "porcelain 1 r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     214.17,
+     231.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     -21.6,
+     -20.7
+    ]
+   },
+   "id": "pulse_line_1_r",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 1 r",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     282.36,
+     311.73
+    ],
+    "u": [
+     74.04,
+     91.0
+    ],
+    "x": [
+     -21.0,
+     -16.7
+    ]
+   },
+   "id": "porcelain_2_r",
+   "moving": false,
+   "name_de": "Keramikinlay",
+   "name_en": "porcelain 2 r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     288.17,
+     305.83
+    ],
+    "u": [
+     77.0,
+     83.0
+    ],
+    "x": [
+     -21.6,
+     -20.7
+    ]
+   },
+   "id": "pulse_line_2_r",
+   "moving": false,
+   "name_de": "Lichtmarke",
+   "name_en": "pulse line 2 r",
+   "role": "energy",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "ammo",
+   "extent_mm": {
+    "f": [
+     82.07,
+     122.92
+    ],
+    "u": [
+     -47.97,
+     3.0
+    ],
+    "x": [
+     -20.0,
+     -18.1
+    ]
+   },
+   "id": "cell_panel_r",
+   "moving": false,
+   "name_de": "Kassettenwange",
+   "name_en": "cell panel r",
+   "role": "shell",
+   "shape": "prof",
+   "triangles": 176
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -105.68,
+     -34.28
+    ],
+    "u": [
+     78.0,
+     98.0
+    ],
+    "x": [
+     -24.9,
+     -23.6
+    ]
+   },
+   "id": "aft_badge_r",
+   "moving": false,
+   "name_de": "Eloxiertes Schriftfeld",
+   "name_en": "aft badge r",
+   "role": "anodized",
+   "shape": "prof",
+   "triangles": 172
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     -81.59,
+     -58.41
+    ],
+    "u": [
+     83.93,
+     89.04
+    ],
+    "x": [
+     -25.4,
+     -24.8
+    ]
+   },
+   "id": "word_r",
+   "moving": false,
+   "name_de": "Schriftzug",
+   "name_en": "word r",
+   "role": "graphite",
+   "shape": "text",
+   "triangles": 1196
+  },
+  {
+   "assembly": "support",
+   "extent_mm": {
+    "f": [
+     132.21,
+     167.82
+    ],
+    "u": [
+     102.0,
+     109.0
+    ],
+    "x": [
+     -25.5,
+     -23.7
+    ]
+   },
+   "id": "serial_r",
+   "moving": false,
+   "name_de": "Serienfeld",
+   "name_en": "serial r",
+   "role": "dark_metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     52.12,
+     58.88
+    ],
+    "u": [
+     41.0,
+     47.0
+    ],
+    "x": [
+     -22.2,
+     -21.2
+    ]
+   },
+   "id": "index_0_r",
+   "moving": false,
+   "name_de": "Indexsegment",
+   "name_en": "index 0 r",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     59.12,
+     65.88
+    ],
+    "u": [
+     41.0,
+     47.0
+    ],
+    "x": [
+     -22.2,
+     -21.2
+    ]
+   },
+   "id": "index_1_r",
+   "moving": false,
+   "name_de": "Indexsegment",
+   "name_en": "index 1 r",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "receiver",
+   "extent_mm": {
+    "f": [
+     66.12,
+     72.88
+    ],
+    "u": [
+     41.0,
+     47.0
+    ],
+    "x": [
+     -22.2,
+     -21.2
+    ]
+   },
+   "id": "index_2_r",
+   "moving": false,
+   "name_de": "Indexsegment",
+   "name_en": "index 2 r",
+   "role": "metal",
+   "shape": "prof",
+   "triangles": 140
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -40.0,
+     6.0
+    ],
+    "u": [
+     112.5,
+     118.0
+    ],
+    "x": [
+     -11.5,
+     11.5
+    ]
+   },
+   "id": "sight_mount",
+   "moving": true,
+   "name_de": "Visier-Klemmfuß",
+   "name_en": "Sight mount",
+   "role": "sight_anod",
+   "shape": "multi",
+   "triangles": 120
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -28.0,
+     -6.46
+    ],
+    "u": [
+     112.8,
+     115.59
+    ],
+    "x": [
+     11.5,
+     13.3
+    ]
+   },
+   "id": "sight_clamp",
+   "moving": false,
+   "name_de": "Klemmhebel",
+   "name_en": "Clamp lever",
+   "role": "accent",
+   "shape": "prof",
+   "triangles": 76
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -39.0,
+     -10.0
+    ],
+    "u": [
+     117.5,
+     124.0
+    ],
+    "x": [
+     -8.0,
+     8.0
+    ]
+   },
+   "id": "sight_body",
+   "moving": false,
+   "name_de": "Visiergehäuse",
+   "name_en": "Sight housing",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 180
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -10.71,
+     6.6
+    ],
+    "u": [
+     117.5,
+     127.6
+    ],
+    "x": [
+     -14.6,
+     14.6
+    ]
+   },
+   "id": "sight_base",
+   "moving": false,
+   "name_de": "Haubensockel",
+   "name_en": "Hood base",
+   "role": "sight_anod",
+   "shape": "prof",
+   "triangles": 72
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -18.35,
+     -13.65
+    ],
+    "u": [
+     117.45,
+     122.15
+    ],
+    "x": [
+     -10.0,
+     -7.5
+    ]
+   },
+   "id": "sight_knob_w",
+   "moving": false,
+   "name_de": "Seitenverstellung",
+   "name_en": "Windage knob",
+   "role": "trim",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -19.14,
+     -12.86
+    ],
+    "u": [
+     116.66,
+     122.94
+    ],
+    "x": [
+     7.5,
+     10.0
+    ]
+   },
+   "id": "sight_battery",
+   "moving": false,
+   "name_de": "Batteriedeckel",
+   "name_en": "Battery cap",
+   "role": "sight_anod",
+   "shape": "cyl",
+   "triangles": 188
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -24.5,
+     -22.5
+    ],
+    "u": [
+     121.6,
+     123.4
+    ],
+    "x": [
+     -3.0,
+     3.0
+    ]
+   },
+   "id": "sight_emitter",
+   "moving": false,
+   "name_de": "Emitter",
+   "name_en": "Reticle emitter",
+   "role": "energy",
+   "shape": "box",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -6.0,
+     6.0
+    ],
+    "u": [
+     126.4,
+     149.6
+    ],
+    "x": [
+     -14.6,
+     14.6
+    ]
+   },
+   "id": "sight_frame",
+   "moving": false,
+   "name_de": "Haube",
+   "name_en": "Sight hood",
+   "role": "sight_anod",
+   "shape": "xprof",
+   "triangles": 432
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     5.6,
+     6.6
+    ],
+    "u": [
+     126.4,
+     149.6
+    ],
+    "x": [
+     -14.6,
+     14.6
+    ]
+   },
+   "id": "sight_frame_trim",
+   "moving": false,
+   "name_de": "Stirnkante",
+   "name_en": "Hood trim",
+   "role": "trim",
+   "shape": "xprof",
+   "triangles": 432
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -9.28,
+     -8.28
+    ],
+    "u": [
+     121.1,
+     125.1
+    ],
+    "x": [
+     -6.2,
+     5.9
+    ]
+   },
+   "id": "sight_status",
+   "moving": false,
+   "name_de": "Ziffernfeld",
+   "name_en": "Digit field",
+   "role": "energy",
+   "shape": "multi",
+   "triangles": 36
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.0,
+     0.8
+    ],
+    "u": [
+     128.0,
+     148.0
+    ],
+    "x": [
+     -13.0,
+     13.0
+    ]
+   },
+   "id": "sight_glass",
+   "moving": false,
+   "name_de": "Visierglas",
+   "name_en": "Sight glass",
+   "role": "glass_scope",
+   "shape": "xprof",
+   "triangles": 60
+  },
+  {
+   "assembly": "sight",
+   "extent_mm": {
+    "f": [
+     -0.05,
+     -0.0
+    ],
+    "u": [
+     136.76,
+     139.24
+    ],
+    "x": [
+     -1.24,
+     1.24
+    ]
+   },
+   "id": "sight_reticle",
+   "moving": false,
+   "name_de": "Absehen Ring mit Punkt",
+   "name_en": "Reticle Ring and dot",
+   "role": "reticle_cyan",
+   "shape": "multi",
+   "triangles": 652
+  }
+ ],
+ "pilot": {
+  "module": "basic/pilot/w02_pulse_rifle_v21.py",
+  "version": "2.1"
+ },
+ "provenance": {
+  "kind": "Annahme",
+  "source": "Eigenständige Außenformen nach Silhouettenstudie. Familienreferenz: BASIC-02 „Impuls v2.1“ · v2.1"
+ },
+ "type": {
+  "id": "BASIC-02",
+  "name": "Impuls v2.1",
+  "nick": "Familie v2.1",
+  "num": "02",
+  "type": "pulse_rifle",
+  "type_de": "Impulsgewehr",
+  "type_en": "Pulse Rifle"
+ },
+ "variant": {
+  "base": "pilot",
+  "idea": "Die offene Rückenbrücke überspannt zwei versetzte Keilschalen. Ein kurzer, facettierter Bug und eine geneigte Kassette schließen die Silhouette ab.",
+  "letter": "T",
+  "name": "Trestle",
+  "params": {
+   "architecture": "trestle"
+  },
+  "since": "0.24",
+  "skin": "standard"
+ },
+ "variation": {
+  "draws": {},
+  "seed": "581f5b4369c543a2",
+  "values": {
+   "architecture": "trestle"
+  }
+ },
+ "warnings": []
+}

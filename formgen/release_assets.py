@@ -13,7 +13,7 @@ from urllib.parse import unquote, urlsplit
 
 from . import __version__, geo, spec, wspec
 from .cache import canonical
-from .models.weapons import AUTHORED
+from .models.weapons.authored import AUTHORED
 from .web import site
 
 

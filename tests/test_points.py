@@ -187,8 +187,20 @@ class PointMoveTests(unittest.TestCase):
             base = pilot(num)
             model, run, _ = asset.variant_model(entry, SNAP)
             with self.subTest(sid=sid):
-                self.assertEqual(binding_errors(base, model), {})
-                self.assertTrue(set(model["POINTS"]) == set(base["POINTS"]))
+                reference = base
+                if sid == "BT01":
+                    # Der BASIC-Pass übernimmt den Kithebel, definiert aber den
+                    # Kontaktpunkt an seiner Außenfläche im Trestle-Autorenmodell.
+                    from formgen.models.weapons import trestle
+                    with ballon.snapshot_imports(SNAP):
+                        parts, anchors, points = trestle.build()
+                    reference = {"PARTS": parts, "POINTS": points}
+                    hand = anchors["Socket_Hand"]["at"]
+                    for name, pt in points.items():
+                        self.assertEqual(model["POINTS"][name], {
+                            "part": pt["part"], "at": [a - b for a, b in zip(pt["at"], hand)]})
+                self.assertEqual(binding_errors(reference, model), {})
+                self.assertEqual(set(model["POINTS"]), set(base["POINTS"]))
             if any(o.get("points_moved") for o in run["ops"]):
                 moved.append(sid)
                 with fixed_points():

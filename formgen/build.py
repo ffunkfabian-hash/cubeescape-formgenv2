@@ -147,7 +147,7 @@ def select_document(document: dict, selection: str) -> dict:
     """Select/transform already evaluated meshes, never reconstruct or render them."""
     result = copy.deepcopy(document)
     parts = result["parts"]
-    if selection == "hero" and document["info"]["kind"] == "weapon":
+    if selection == "hero" and document["info"]["kind"] == "weapon" and not document["info"].get("hero_with_sight"):
         parts = [part for part in parts if not _sight(part)]
     elif selection in ("sight_iso", "sight_side"):
         parts = [part for part in parts if _sight(part)]

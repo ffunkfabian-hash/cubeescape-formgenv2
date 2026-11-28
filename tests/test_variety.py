@@ -62,6 +62,261 @@ class SeedTests(unittest.TestCase):
 
 @unittest.skipIf(SNAP is None, REASON)
 class KitTests(unittest.TestCase):
+    def test_trestle_h0_sits_on_bri22_above_flat_crown_and_is_shown(self):
+        from formgen.build import select_document
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        document = geom.evaluate(model.normalize(author))
+        parts = document["parts"]
+        crown = next(part for part in parts if part["id"] == "crown")
+        lo, hi = np.array(crown["bounds_m"])
+        # Scheitel bleibt eben; BRI-22 und H0 stehen gemäß Variante A darüber.
+        self.assertAlmostEqual(hi[2], 0.132)
+        body = [part for part in parts if part["id"] != "rail" and not part["id"].startswith("sight_")]
+        self.assertAlmostEqual(max(part["bounds_m"][1][2] for part in body), hi[2])
+        rail = next(part for part in parts if part["id"] == "rail")
+        self.assertAlmostEqual(rail["bounds_m"][0][2], 0.1315)
+        self.assertAlmostEqual(rail["bounds_m"][1][2], 0.140)
+        self.assertLessEqual(rail["bounds_m"][0][2], hi[2])
+        self.assertGreater(rail["bounds_m"][1][2], hi[2])
+        foot = next(part for part in parts if part["id"] == "sight_mount")
+        self.assertAlmostEqual(foot["bounds_m"][0][2] - rail["bounds_m"][1][2], 0.0005)
+        self.assertGreater(foot["bounds_m"][1][2], rail["bounds_m"][1][2])
+        hero = {p["id"] for p in select_document(document, "hero")["parts"]}
+        self.assertTrue({"rail", "sight_mount", "sight_glass", "sight_frame"} <= hero)
+        self.assertFalse(any(key.startswith("optic_") for key in hero))
+        face = next(part for part in parts if part["id"] == "face")["mesh"]
+        front = geom._as_manifold(face["vertices"], face["faces"])
+        self.assertTrue(front.ray_cast((0, -0.44, 0.061), (0, -0.40, 0.061)),
+                        "Variante A behält die geschlossene Front auf Laufachse u84")
+        mesh = crown["mesh"]
+        surface = geom._as_manifold(mesh["vertices"], mesh["faces"])
+        for fx in (0.1, 0.5, 0.9):
+            for fy in (0.15, 0.5, 0.85):
+                x, y = lo[:2] + (hi[:2] - lo[:2]) * [fx, fy]
+                hits = surface.ray_cast((x, y, hi[2] + 0.01), (x, y, lo[2] - 0.01))
+                self.assertTrue(hits, (x, y))
+                self.assertAlmostEqual(hits[0].position[2], hi[2])
+
+    def test_trestle_width_matches_basic_01_including_kit(self):
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        bounds = np.asarray([part["bounds_m"] for part in parts])
+        extent_mm = 1000 * (bounds[:, 1].max(axis=0) - bounds[:, 0].min(axis=0))
+        # BA01-Spec: 52,2 mm über alle Teile. Länge und Höhe vom freigegebenen BT01.
+        np.testing.assert_allclose(extent_mm, [52.2, 704.24, 260.65], rtol=0, atol=0.1)
+
+    def test_vesper_width_matches_basic_02_and_front_steps_inward(self):
+        entry = variants.sheets()["BT02"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        bounds = {p["id"]: np.asarray(p["bounds_m"]) * 1000 for p in parts}
+        # Quelle: Gesamtbreite BA02 am GLB. Beide Außenkanten zählen einschließlich Beschriftung.
+        all_bounds = np.array(list(bounds.values()))
+        np.testing.assert_allclose([all_bounds[:, 0, 0].min(), all_bounds[:, 1, 0].max()],
+                                   [-25.5, 25.5], atol=0.05, rtol=0)
+        # In den zwei Fugen zwischen den drei Deckschalen bleibt der schmalere Kern sichtbar.
+        segments = ["pulse_mantle", "pulse_middle", "pulse_front"]
+        for rear, front in zip(segments, segments[1:]):
+            gap = bounds[rear][0, 1] - bounds[front][1, 1]
+            self.assertGreaterEqual(gap, 9.0)
+        core_width = np.ptp(bounds["well_floor"][:, 0])
+        self.assertAlmostEqual(core_width, 34.0, delta=0.1)
+        for key in segments:
+            self.assertAlmostEqual(np.ptp(bounds[key][:, 0]), 48.0, delta=0.1)
+        front_widths = [np.ptp(bounds[key][:, 0]) for key in ("front_gasket", "front_mask", "front_glaze")]
+        np.testing.assert_allclose(front_widths, [40, 34, 27], atol=0.1, rtol=0)
+
+    def test_heron_total_width_matches_basic_03_including_the_scope(self):
+        entry = variants.sheets()["BT03"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        meshes = geom.evaluate(model.normalize(author))["parts"]
+        bounds = np.asarray([p["bounds_m"] for p in meshes]) * 1000
+        # Die beidseitigen Keilfelder bestimmen das Außenmaß. Auch Schrift und Z1 zählen mit.
+        np.testing.assert_allclose([bounds[:, 0, 0].min(), bounds[:, 1, 0].max()], [-23.5, 23.5],
+                                   rtol=0, atol=0.01)
+        self.assertEqual({p["id"] for p in meshes if max(abs(v[0]) for v in p["bounds_m"]) >= 0.02349},
+                         {"fore_chevron_l", "fore_chevron_r"})
+
+    def test_cairn_width_matches_basic_04_across_both_medallions(self):
+        widths = {}
+        for sid in ("BA04", "BT04"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            meshes = geom.evaluate(model.normalize(author))["parts"]
+            bounds = np.asarray([part["bounds_m"] for part in meshes]) * 1000
+            widths[sid] = bounds[:, 1, 0].max() - bounds[:, 0, 0].min()
+            if sid == "BT04":
+                self.assertEqual({p["id"] for p in meshes
+                                  if max(abs(v[0]) for v in p["bounds_m"]) >= 0.02241},
+                                 {"coin_l", "coin_r"})
+        self.assertAlmostEqual(widths["BT04"], 44.83, delta=0.005)
+        self.assertAlmostEqual(widths["BA04"], widths["BT04"], delta=0.005)
+
+    def test_swift_width_matches_basic_05_across_the_grip_inlays(self):
+        widths = {}
+        for sid in ("BA05", "BT05"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            parts = geom.evaluate(model.normalize(author))["parts"]
+            bounds = np.asarray([p["bounds_m"] for p in parts]) * 1000
+            widths[sid] = bounds[:, 1, 0].max() - bounds[:, 0, 0].min()
+            if sid == "BT05":
+                self.assertEqual({p["id"] for p in parts if max(abs(v[0]) for v in p["bounds_m"]) >= .01674},
+                                 {"palm_wing_l", "palm_wing_r"})
+        self.assertAlmostEqual(widths["BT05"], 33.50, delta=.005)
+        self.assertAlmostEqual(widths["BT05"], widths["BA05"], delta=.005)
+
+    def test_moraine_width_is_local_to_the_two_side_facets(self):
+        widths = {}
+        for sid in ("BA13", "BT13"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            bounds = {p["id"]: p["bounds_m"] for p in geom.evaluate(model.normalize(author))["parts"]}
+            left = min(b[0][0] for b in bounds.values())
+            right = max(b[1][0] for b in bounds.values())
+            widths[sid] = 1000 * (right - left)
+            if sid == "BT13":
+                widest = {k for k, b in bounds.items() if max(abs(v[0]) for v in b) > .070}
+                self.assertEqual(widest, {"boss_l", "boss_r"})
+                self.assertAlmostEqual(bounds["saddle"][1][2], bounds["sight_mount"][0][2], delta=.0001)
+        self.assertAlmostEqual(widths["BT13"], widths["BA13"], delta=.005)
+        self.assertAlmostEqual(widths["BT13"], 141.83, delta=.005)
+
+    def test_filament_matches_basic_12_width_and_seats_its_h3(self):
+        widths = {}
+        for sid in ("BA12", "BT12"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            bounds = {p["id"]: p["bounds_m"] for p in geom.evaluate(model.normalize(author))["parts"]}
+            left, right = min(b[0][0] for b in bounds.values()), max(b[1][0] for b in bounds.values())
+            widths[sid] = 1000 * (right - left)
+            if sid == "BT12":
+                widest = {k for k, b in bounds.items() if max(abs(v[0]) for v in b) > .0243}
+                self.assertEqual(widest, {"halo_light_l", "halo_light_r"})
+                # Die überlappenden Flanken müssen auf beiden Seiten getrennt bleiben.
+                tail, bridge = bounds["tail_blade"], bounds["bridge"]
+                self.assertLess(bridge[0][0], tail[0][0])
+                self.assertLess(tail[1][0], bridge[1][0])
+                self.assertAlmostEqual(bounds["deck"][1][2], bounds["sight_mount"][0][2], delta=.0001)
+        self.assertAlmostEqual(widths["BT12"], widths["BA12"], delta=.005)
+        self.assertAlmostEqual(widths["BT12"], 48.8, delta=.005)
+
+    def test_plover_width_and_both_scope_mounts(self):
+        widths = {}
+        for sid in ("BA11", "BT11"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            bounds = {p["id"]: p["bounds_m"] for p in geom.evaluate(model.normalize(author))["parts"]}
+            widths[sid] = 1000 * (max(b[1][0] for b in bounds.values())
+                                  - min(b[0][0] for b in bounds.values()))
+            if sid == "BT11":
+                widest = {k for k, b in bounds.items() if max(abs(v[0]) for v in b) > .025}
+                self.assertEqual(widest, {"scope_fork", "scope_fork_trim"})
+                deck = next(p for p in author["PARTS"] if p["id"] == "stepped_deck")
+                for foot in ("scope_mount_r", "scope_mount_f"):
+                    low, high = bounds[foot]
+                    ends = [f for f, u in deck["pts"] if abs(u - 1000 * low[2]) < .05]
+                    self.assertGreaterEqual(len(ends), 2)
+                    self.assertLessEqual(min(ends), -1000 * high[1] + .05)
+                    self.assertGreaterEqual(max(ends), -1000 * low[1] - .05)
+        self.assertAlmostEqual(widths["BT11"], widths["BA11"], delta=.005)
+        self.assertAlmostEqual(widths["BT11"], 50.02, delta=.005)
+
+    def test_calyx_matches_the_basic_10_width_including_sight(self):
+        widths = {}
+        for sid in ("BA10", "BT10"):
+            entry = variants.sheets()[sid]
+            author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+            parts = geom.evaluate(model.normalize(author))["parts"]
+            left, left_part = min((p["bounds_m"][0][0], p["id"]) for p in parts)
+            right, right_part = max((p["bounds_m"][1][0], p["id"]) for p in parts)
+            widths[sid] = (right - left) * 1000
+            if sid == "BT10":
+                self.assertEqual({left_part, right_part}, {"flank_l", "flank_r"})
+                bounds = {p["id"]: p["bounds_m"] for p in parts}
+                self.assertAlmostEqual(bounds["saddle"][1][2], bounds["sight_mount"][0][2], delta=.0005)
+        self.assertAlmostEqual(widths["BT10"], widths["BA10"], delta=.005)
+        self.assertAlmostEqual(widths["BT10"], 46.7, delta=.005)
+
+    def test_avocet_width_is_set_by_the_basic_09_objective_rim(self):
+        entry = variants.sheets()["BT09"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        left, left_part = min((p["bounds_m"][0][0], p["id"]) for p in parts)
+        right, right_part = max((p["bounds_m"][1][0], p["id"]) for p in parts)
+        self.assertEqual((left_part, right_part), ("scope_rim", "scope_rim"))
+        self.assertAlmostEqual((right - left) * 1000, 51.54, delta=.005)
+
+    def test_skiff_front_sight_touches_its_separate_seat(self):
+        entry = variants.sheets()["BT08"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = geom.evaluate(model.normalize(author))["parts"]
+        bounds = {p["id"]: np.asarray(p["bounds_m"]) for p in parts}
+        seat, sight, spine = (bounds[k] for k in ("fore_seat", "sight_front", "spine"))
+        self.assertLessEqual(seat[0, 2], spine[1, 2])
+        self.assertAlmostEqual(seat[1, 2], sight[0, 2], delta=.0005)
+        np.testing.assert_array_less(seat[0, :2], sight[0, :2])
+        np.testing.assert_array_less(sight[1, :2], seat[1, :2])
+
+    def test_skiff_and_basic_08_have_the_same_full_width(self):
+        for sid in ("BA08", "BT08"):
+            with self.subTest(sid=sid):
+                entry = variants.sheets()[sid]
+                author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+                parts = geom.evaluate(model.normalize(author))["parts"]
+                bounds = np.array([p["bounds_m"] for p in parts]) * 1000
+                np.testing.assert_allclose([bounds[:, 0, 0].min(), bounds[:, 1, 0].max()],
+                                           [-26, 26], rtol=0, atol=.005)
+                if sid == "BT08":
+                    outer = {p["id"] for p in parts if max(abs(v[0]) for v in p["bounds_m"]) >= .02599}
+                    self.assertEqual(outer, {"cheek_l", "cheek_r"})
+
+    def test_lark_preserves_the_asymmetric_basic_07_width_including_the_b1(self):
+        for sid in ("BA07", "BT07"):
+            with self.subTest(sid=sid):
+                entry = variants.sheets()[sid]
+                author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+                parts = geom.evaluate(model.normalize(author))["parts"]
+                low, left_part = min((p["bounds_m"][0][0], p["id"]) for p in parts)
+                high, right_part = max((p["bounds_m"][1][0], p["id"]) for p in parts)
+                height = max(p["bounds_m"][1][2] for p in parts) - min(p["bounds_m"][0][2] for p in parts)
+                self.assertAlmostEqual(height * 1000, {"BA07": 1015.67, "BT07": 904.72}[sid], delta=.01)
+                self.assertEqual((left_part, right_part), ("sight_pin_screws", "riser"))
+                np.testing.assert_allclose([low * 1000, high * 1000], [-24.52, 44.25], rtol=0, atol=.005)
+
+    def test_tern_total_width_matches_basic_06(self):
+        for sid in ("BA06", "BT06"):
+            with self.subTest(sid=sid):
+                entry = variants.sheets()[sid]
+                author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+                parts = geom.evaluate(model.normalize(author))["parts"]
+                bounds = np.asarray([p["bounds_m"] for p in parts]) * 1000
+                self.assertAlmostEqual(bounds[:, 1, 0].max() - bounds[:, 0, 0].min(), 47., delta=.005)
+                if sid == "BT06":
+                    outer = {p["id"] for p in parts if max(abs(v[0]) for v in p["bounds_m"]) >= .02349}
+                    self.assertEqual(outer, {"shoulder_l", "shoulder_r"})
+
+    def test_trestle_front_window_and_nameplate_have_depth(self):
+        entry = variants.sheets()["BT01"]
+        author, _ = generator.build(entry["variant"], entry["num"], SNAP)
+        parts = {p["id"]: p for p in geom.evaluate(model.normalize(author))["parts"]}
+        for case, inset, through in (("fore_cuff", "louvre_2", True), ("flank", "badge", False)):
+            mesh = parts[case]["mesh"]
+            shell = geom._as_manifold(mesh["vertices"], mesh["faces"])
+            for side, suffix in ((1, "l"), (-1, "r")):
+                lo, hi = np.array(parts[inset + "_" + suffix]["bounds_m"])
+                _, y, z = (lo + hi) / 2
+                outer = max(side * lo[0], side * hi[0])
+                self.assertLess(outer, parts[case]["bounds_m"][1][0])
+                hits = shell.ray_cast((side * 0.05, y, z), (-side * 0.05, y, z))
+                if through:
+                    self.assertFalse(hits, "Die Lamelle muss durch das Schalenfenster sichtbar sein")
+                else:
+                    self.assertTrue(hits, "Die Tasche des Typenschilds braucht einen Boden")
+                    self.assertLess(side * hits[0].position[0], outer)
+
     def gen(self, num, base="standard", **params):
         return generator.build(dict(BASE, letter="J", name="Probe", base=base, params=params), num, SNAP)
 
@@ -220,7 +475,7 @@ class RegisterVarietyTests(unittest.TestCase):
 
     def test_lines_with_frozen_ids(self):
         letters = [v["letter"] for v in self.entries]
-        self.assertTrue(6 <= len(letters) <= 12, letters)      # 0.8: acht Linien + vier Serien
+        self.assertEqual(letters, list("ABCDEFGHJKLMT"))
         self.assertEqual(letters[:3], ["A", "B", "C"])
         self.assertEqual([v["name"] for v in self.entries[:3]], ["Baseline", "Long Reach", "Close Quarters"])
         # 0.38: Skins der EXTENDED-Linien (titan … eisgrau) gehören zu data/extended_lines.toml; kein Skin ohne Linie, keine Linie ohne Skin
@@ -248,7 +503,11 @@ class RegisterVarietyTests(unittest.TestCase):
             for socket, role in mine["hand_roles"].items():
                 self.assertTrue(role in generator.HAND_ROLES or role == base["hand_roles"].get(socket), (sid, socket, role))
             before, after = base["sight_line_mm"], mine["sight_line_mm"]
-            if generator._in_band(before):
+            if sid == "BT01":
+                # Nutzerentscheid Variante A (24.11.2026): H0 auf der Scheitelleiste,
+                # Front unverändert. Nur diese Blatt-ID hat die feste Höhe 105 mm.
+                self.assertEqual(after, 105.0, sid)
+            elif generator._in_band(before):
                 self.assertTrue(generator._in_band(after), (sid, before, after))
             elif after is not None and before is not None:
                 self.assertLessEqual(abs(after - 70), abs(before - 70) + 1e-9, (sid, before, after))

@@ -26,7 +26,7 @@ import time
 from pathlib import Path
 
 from . import ballon, build, variants, versions
-from .models.weapons import AUTHORED, SERIES
+from .models.weapons.authored import AUTHORED, SERIES
 from .cache import Artifact, canonical, file_hash, run_artifacts
 
 ROOT = build.ROOT
