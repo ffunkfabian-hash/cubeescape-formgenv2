@@ -13,7 +13,8 @@ import json
 import tomllib
 from pathlib import Path
 
-from .. import wspec
+from .. import spec as model_spec, wspec
+from ..models.weapons import AUTHORED, SERIES
 from ..cache import Artifact, canonical, file_hash, run_artifacts
 from ..versions import VIEWER
 
@@ -92,6 +93,18 @@ def collect(out) -> list[dict]:
                           'variant': v['letter'], 'variant_name': v['name'], 'skin_id': v.get('skin'), 'swatches': swatches(v.get('skin'), palettes),
                           'group': f"BASIC-{t['num']} · {t['type_de']} ({t['type_en']})",
                           'note': f"{v['letter']} · {v['name']} · {spec['dimensions_mm']['length']:.0f} mm"})
+        elif sid in AUTHORED and spec.get('format') == 'cubeescape-design/weapon-spec':
+            model_spec.validate(spec)
+            sheet = spec['sheet']
+            if sheet['id'] != sid:
+                raise ValueError(f"Blatt und Spec widersprechen sich: {sid} / {sheet['id']}")
+            labels = {p['source_id']: p['label'] for p in spec['parts']}
+            assemblies = {p['assembly']: p['assembly'] for p in spec['parts']}
+            found.append({'id': sid, 'kind': 'weapon', 'name': sheet['nick'], 'has_3d': has_3d,
+                          'labels': {'parts': labels, 'assemblies': assemblies, 'families': [], 'order': []},
+                          'variant': sid, 'variant_name': sheet['nick'], 'skin_id': 'standard',
+                          'swatches': swatches('standard', palettes), 'group': next((name for name, ids in SERIES.items() if sid in ids), spec['weapon']['name_de']),
+                          'note': f"{spec['dimensions_m']['with_sight']['length'] * 1000:.0f} mm"})
         elif spec.get('format') == ROBOT_FORMAT:
             spec = robot_spec(spec)
             found.append({'id': sid, 'kind': 'robot', 'name': spec['name_de'], 'has_3d': has_3d, 'labels': part_labels(spec),
@@ -157,7 +170,7 @@ def weapons_page(items: list[dict]) -> str:
         sections.append(f'<section><h2>{esc(group)}<small>{len(entries)} Blätter</small></h2><div class="grid">{cards}</div></section>')
     options = '<option value="">alle Varianten</option>' + ''.join(
         f'<option value="{esc(v)}">{esc(v)} · {esc(names[v])}</option>' for v in sorted(names))
-    return page('Waffen', 'waffen', f'<header><h1>Waffen</h1><p>Waffen-Varianten auf den 17 BALLON-Grundformen.</p>'
+    return page('Waffen', 'waffen', f'<header><h1>Waffen</h1><p>BASIC-Varianten und eigenständige Kit-Modelle.</p>'
                 f'<p>{len(weapons)} Konzeptblätter · {len(names)} Varianten · lokal verfügbar</p>'
                 '<div class="tools"><input type="search" aria-label="Blätter filtern" placeholder="Name, Typ oder Kennung …">'
                 f'<select aria-label="Variante">{options}</select></div></header><main>{"".join(sections)}</main>',

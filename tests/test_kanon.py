@@ -134,6 +134,20 @@ class KanonMeasureTests(unittest.TestCase):
         keys = {k for k, *_ in kanon.outside(row, self.rows)}
         self.assertEqual(keys, {"parts", "forms", "round", "boxy", "mats", "trim"})   # Platten ohne Seitenprofil: Klarheit „–“
 
+    def test_clarity_below_both_limits_is_reported(self):
+        row = dict(next(r for r in self.rows if r["id"] == "BA01"), id="VA01", axis=.60, dirs=.62)
+        self.assertEqual({key for key, *_ in kanon.outside(row, self.rows)}, {"axis", "dirs"})
+
+    def test_clarity_changes_invalidate_documentation(self):
+        rows = copy.deepcopy(self.rows)
+        rows[0]["axis"] = 0
+        self.assertNotEqual(kanon.table(rows), kanon.table(self.rows))
+        # Grenzen im Format von Patch kanon-klarheit (0.42.2): Achsen gegen das untere Quartil, Richtungen gegen das Bandminimum
+        self.assertIn("Grenze Achsen (unteres Quartil)", kanon.table(self.rows))
+        for key, label in (("axis", "Achsen"), ("dirs", "Richtungen")):
+            self.assertRegex(kanon.table(self.rows), rf"· {label} [0-9.]+ / [0-9.]+ / [0-9.]+")
+            self.assertIn(key, dict(kanon.DETAIL))
+
     def test_counterproof_a_changed_model_is_detected(self):
         rows = copy.deepcopy(self.rows)
         rows[0]["length"] += 1

@@ -24,6 +24,7 @@ from pathlib import Path
 import numpy as np
 
 from . import ballon, extended, extended_lines, generator, variants, variety
+from .models.weapons import AUTHORED
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs/design-kanon.md"
@@ -291,7 +292,11 @@ def main(argv=None) -> int:
     if a.cmd == "zeile":
         snap = ballon.snapshot()
         family = _family(snap)
-        row = measure_model(extended.load(a.key, snap), extended.sheet_id(a.key), snap, family)
+        if a.key in AUTHORED:
+            raw, sid = AUTHORED[a.key].make(snap), a.key
+        else:
+            raw, sid = extended.load(a.key, snap), extended.sheet_id(a.key)
+        row = measure_model(raw, sid, snap, family)
         print("\n".join(_table([row], COLUMNS) + [""] + _table([row], DETAIL)))
         off = outside(row, family[0])
         print(f"\nKlasse {klasse(row['id'])}: " + ("alle Werte im Band" if not off else "außerhalb des Bands: " + " · ".join(

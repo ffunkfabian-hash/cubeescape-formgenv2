@@ -13,6 +13,7 @@ from urllib.parse import unquote, urlsplit
 
 from . import __version__, geo, spec, wspec
 from .cache import canonical
+from .models.weapons import AUTHORED
 from .web import site
 
 
@@ -110,7 +111,12 @@ def _verify(files, ids):
     for sid in ids:
         if f'geo/{sid}.geo.json' not in files:   # Waffen- und Roboterblatt: Blatt-Spec statt Geo-Vertrag
             specification = json.loads(files[f'specs/{sid}.spec.json'])
-            if specification.get('format') not in (wspec.FORMAT,site.ROBOT_FORMAT) or specification.get('id') != sid:
+            if sid in AUTHORED:
+                spec.validate(specification)
+                sheet_id = specification['sheet']['id']
+            else:
+                sheet_id = specification.get('id') if specification.get('format') in (wspec.FORMAT,site.ROBOT_FORMAT) else None
+            if sheet_id != sid:
                 raise ValueError(f'Waffenblatt-Spec widerspricht Modell-ID: {sid}')
             if f'sheets/{sid}.dc.html' not in links or f'previews/{sid}.webp' not in links:
                 raise ValueError(f'Viewer enthält Modell nicht vollständig: {sid}')
@@ -131,7 +137,7 @@ def _verify(files, ids):
 def _default_ids(out):
     """Alle Specs; liegen Blätter der Website vor, nur diese: alte Formate (R01, KG02 …) stehen nicht mehr im Viewer."""
     specs = {p.name.removesuffix('.spec.json'):json.loads(p.read_bytes()).get('format') for p in (out/'specs').glob('*.spec.json')}
-    current = [sid for sid,kind in specs.items() if kind in (wspec.FORMAT,site.ROBOT_FORMAT)]
+    current = [sid for sid,kind in specs.items() if kind in (wspec.FORMAT,site.ROBOT_FORMAT) or (sid in AUTHORED and kind == 'cubeescape-design/weapon-spec')]
     return sorted(current or specs)
 
 
@@ -155,7 +161,7 @@ def package(out, destination, ids=None):
         pending += [f'specs/{sid}.spec.json',f'sheets/{sid}.dc.html',f'previews/{sid}.webp']
         robot = re.fullmatch(r'R[A-Z]\d\d',sid)
         pending.append(f'prompts/{sid}.prompts.json')
-        if not robot and not re.fullmatch(r'B[A-Z]\d\d',sid):   # Waffen- und Roboterblätter liefern Spec statt Geo
+        if sid not in AUTHORED and not robot and not re.fullmatch(r'B[A-Z]\d\d',sid):   # Waffen- und Roboterblätter liefern Spec statt Geo
             pending.append(f'geo/{sid}.geo.json')
         pending += [p.relative_to(out).as_posix() for p in sorted((out/'views'/sid).glob('*.png'))]
     files = {}
