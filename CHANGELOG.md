@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.60.0 Gantry — Linie T (0.24–0.40) als ein Block nach main
+
+- Die 14 Versionen der Linie T (BT01–BT13, Blatt-Spec 4) kommen unverändert in einem Merge, ihre Einträge unten behalten die Nummer.
+- Abgleich mit main: Pipeline-Quellhash in `extended.source`; Schnitt-Test aus 0.38 nur für Linien ohne eigene Architektur, mit Gegenprobe.
+
 ## 0.52.0 Atelier — Serie DaVinci, DaVinci-01 „Linea“ mit Signature-Skin „Sfumato“
 
 - Neu: eigene Serie DaVinci (Blatt `D<Linie><NN>`, Register `formgen/davinci.py`), erstes Modell DaVinci-01 „Linea“ (`DA01`, Automatikgewehr): gerade Oberlinie vom Kolben bis zur Stirn, Daumenlochschaft als geschlossene Schleife, ein einziger Schrägwinkel (18°), Vesica-Schlossplatte mit Oculus-Kern; aus drei Blockouts gewählt ([DaVinci](docs/davinci.md)).
