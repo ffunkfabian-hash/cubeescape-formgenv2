@@ -4,6 +4,7 @@
 
 - Die 14 Versionen der Linie T (BT01–BT13, Blatt-Spec 4) kommen unverändert in einem Merge, ihre Einträge unten behalten die Nummer.
 - Abgleich mit main: Pipeline-Quellhash in `extended.source`; Schnitt-Test aus 0.38 nur für Linien ohne eigene Architektur, mit Gegenprobe.
+- Register der eigenständigen Kits (`AUTHORED`, `SERIES`) in `formgen/models/weapons/authored.py`: die Geometrie-Stufe hängt nicht mehr an Raster und Website.
 
 ## 0.59.0 Prism
 

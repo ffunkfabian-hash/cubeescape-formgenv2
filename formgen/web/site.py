@@ -14,7 +14,7 @@ import tomllib
 from pathlib import Path
 
 from .. import spec as model_spec, wspec
-from ..models.weapons import AUTHORED, SERIES
+from ..models.weapons.authored import AUTHORED, SERIES
 from ..cache import Artifact, canonical, file_hash, run_artifacts
 from ..versions import VIEWER
 
