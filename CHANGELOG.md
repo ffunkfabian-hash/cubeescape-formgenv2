@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.54.0 Mica
+
+- Die vier ausgewählten Maschinenpistolen sind als Volt-06 (K06 bis N06) mit `python -m formgen.pipeline --series Volt-06` baubar.
+
 ## 0.53.0 Beacon
 
 - Die gewählten Pistolen Service, Patrol, Ranger und Field sind als Volt-05 (K05 bis N05) registriert und mit `python -m formgen.pipeline --series Volt-05` baubar.
