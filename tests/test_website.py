@@ -331,6 +331,26 @@ class ReleaseTests(Fixture):
         write(self.out/'assets/BB01.glb', GLB)
         viewer.build(self.out, self.cache)
 
+    def test_volt_series_in_mixed_catalog_and_release(self):
+        from formgen import geom, model, spec
+        from formgen.models.weapons import volt01, volt02, volt03, volt04, volt05, volt06, volt07, volt08, volt09, volt10, volt11
+
+        for sid, entry in (volt01.SHEETS | volt02.SHEETS | volt03.SHEETS | volt04.SHEETS | volt05.SHEETS | volt06.SHEETS | volt07.SHEETS | volt08.SHEETS | volt09.SHEETS | volt10.SHEETS | volt11.SHEETS).items():
+            native = spec.build(geom.evaluate(model.normalize(entry.author(None))))
+            sheet(self.out, sid, native, glb=False)
+        self.prepare()
+        catalog = site.collect(self.out)
+        members = []
+        for number in ('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'):
+            series = [row['id'] for row in catalog if row.get('group') == 'Volt-' + number]
+            self.assertEqual(series, [letter + number for letter in 'KLMN'])
+            members.extend(series)
+        result = release_assets.package(self.out, self.path/'release')
+        self.assertEqual(result['models'], sorted(['BA01', 'BB01', 'RA01', *members]))
+        with zipfile.ZipFile(result['path']) as archive:
+            for sid in members:
+                self.assertEqual(json.loads(archive.read(f'specs/{sid}.spec.json'))['sheet']['id'], sid)
+
     def test_main_zip_follows_the_pages_without_3d_data(self):
         self.prepare()
         result = release_assets.package(self.out, self.path/'release')

@@ -5,6 +5,39 @@
 - Die 14 Versionen der Linie T (BT01–BT13, Blatt-Spec 4) kommen unverändert in einem Merge, ihre Einträge unten behalten die Nummer.
 - Abgleich mit main: Pipeline-Quellhash in `extended.source`; Schnitt-Test aus 0.38 nur für Linien ohne eigene Architektur, mit Gegenprobe.
 
+## 0.59.0 Prism
+
+- Die vier gewählten linearen Fusionsgewehre bilden die Serie Volt-11. Der Serienbau erstellt K11 bis N11.
+
+## 0.58.0 Lumen
+
+- Die gewählten Fusionsgewehre Service, Patrol, Ranger und Field bilden Volt-10. Der Serienbau erstellt K10 bis N10.
+
+## 0.57.0 Ember
+
+- Die vier gewählten Scharfschützengewehre der Serie Volt-09 sind über den Serienbau als K09 bis N09 verfügbar.
+
+## 0.56.0 Halo
+
+- Die vier ausgewählten Volt-08-Schrotflinten Service, Patrol, Ranger und Field sind als K08 bis N08 über den Serienbau verfügbar.
+
+## 0.55.0 Flare
+
+- Volt-07 umfasst die gewählten Bögen Service, Patrol, Ranger und Field. Die Blätter K07 bis N07 sind mit `python -m formgen.pipeline --series Volt-07` baubar.
+
+## 0.54.0 Mica
+
+- Die vier ausgewählten Maschinenpistolen sind als Volt-06 (K06 bis N06) mit `python -m formgen.pipeline --series Volt-06` baubar.
+
+## 0.53.0 Beacon
+
+- Die gewählten Pistolen Service, Patrol, Ranger und Field sind als Volt-05 (K05 bis N05) registriert und mit `python -m formgen.pipeline --series Volt-05` baubar.
+
+## 0.52.1 Patch pin48
+
+- Pin auf Agent Tools 0.48.0 (`b15e808`), Lader `ce` folgt; sonst keine Änderung.
+
+
 ## 0.52.0 Atelier — Serie DaVinci, DaVinci-01 „Linea“ mit Signature-Skin „Sfumato“
 
 - Neu: eigene Serie DaVinci (Blatt `D<Linie><NN>`, Register `formgen/davinci.py`), erstes Modell DaVinci-01 „Linea“ (`DA01`, Automatikgewehr): gerade Oberlinie vom Kolben bis zur Stirn, Daumenlochschaft als geschlossene Schleife, ein einziger Schrägwinkel (18°), Vesica-Schlossplatte mit Oculus-Kern; aus drei Blockouts gewählt ([DaVinci](docs/davinci.md)).
@@ -12,9 +45,25 @@
 - Neu: `python -m formgen.davinci preview|export` – Rastervorschau Clay + Skin; GLB, .blend und spec.json über BALLONs Kit ohne Ansichten, Materialien `DA01_sfumato_<Rolle>`.
 - Hinweis: Ein neuer Skin ändert den Hash von `skins.toml`; die Blätter der BASIC-Pipeline gelten beim nächsten Lauf als veraltet (wie 0.38).
 
+## 0.51.0 Relay
+
+- Die vier freigegebenen Handfeuerwaffen Service, Patrol, Ranger und Field bilden Volt-04 (K04 bis N04). Alle vier Modellblätter lassen sich mit `python -m formgen.pipeline --series Volt-04` bauen.
+
+## 0.50.0 Survey
+
+- Die freigegebenen Scout-Gewehre Service, Patrol, Ranger und Field bilden Volt-03 (K03 bis N03). Der gemeinsame Bau läuft über `python -m formgen.pipeline --series Volt-03`.
+
 ## 0.49.0 Cascade — ZERO-03 „Cascade“, Impulsgewehr der ZERO-Reihe
 
 - Neu: [ZERO-03 „Cascade“](docs/zero.md#zero-03-cascade) (Blatt `ZA03`, `formgen/models/zero/z03_cascade.py`), Impulsgewehr mit Dreier-Salve, Nutzerwahl P1 „Staffel“ mit Daumenloch-Schaft S2a. Der Körper fällt in drei 45°-Stufen nach vorn ab und wird dabei schmaler; drei Leuchtnuten (Schaftfuge, zwei Stufenflächen) leuchten bei der Salve von hinten nach vorn. Der Schaft liegt bündig mit dem Deck. Seiten-IoU 0,70 gegen BA02, 0,59 gegen EA02, `kanon.outside` ohne Befund. Stilprüfung durch ein zweites Modell: Runde 2 Freigabe.
+
+## 0.48.0 Pulse
+
+- Volt-02 ist als Impulsgewehrserie mit Service (K02), Patrol (L02), Ranger (M02) und Field (N02) über `python -m formgen.pipeline --series Volt-02` baubar.
+
+## 0.47.0 Volt
+
+- Volt-01 umfasst Service (K01), Patrol (L01), Ranger (M01) und Field (N01). Die freigegebenen Kits lassen sich gemeinsam über `python -m formgen.pipeline --series Volt-01` bauen.
 
 ## 0.46.0 Zero — ZERO-01 „Crosshair“, neues Automatikgewehr der BASIC-Familie
 
@@ -22,6 +71,10 @@
 - Neu: [ZERO-02 „Facet“](docs/zero.md#zero-02-facet) (Blatt `ZA02`, `formgen/models/zero/z02_facet.py`), Nutzerwahl aus vier Formvarianten mit geschlossenem Gehäuse. Facettenkeil nach V1 Black Ice: Gehäuse, Haube und Schaft teilen einen Sechskant-Querschnitt, eine erhabene blanke Facettenleiste läuft als Leitlinie über die ganze Waffe und wird links zur Leuchtkante (Blickfang). Der Keilschaft steigt nach hinten und hat einen waagerechten Schlitz. Seiten-IoU 0,78 gegen EA01, 0,71 gegen BA01; im Paar mit ZA01 0,66 (genaues Maß, Grenze 0,70).
 - Neu: ZERO-Reihe im selben Ladeweg wie EXTENDED (`extended.PACKAGES`, Blatt-ID `Z<Linie><NN>`); die EA-Quellhashes bleiben bytegleich.
 - Behoben: `tools/extended_render.py` baute für ein Modell ohne Linienregister still EXTENDED-01 (Blatt-ID über das EXTENDED-Register); jetzt rendert es die eigene Grundform, Test mit Gegenprobe.
+
+## 0.45.0 Longspan
+
+- VA01 Longspan ist ein eigenständiges Automatikgewehr mit offener Längsbrücke. Der Bau über `python -m formgen.pipeline VA01` erzeugt das Rasterblatt und die lokale Vorschau aus dem v2-Kit. Die Kanonmessung bewertet auch die Richtungen langer Profilkanten.
 
 ## 0.42.2 Patch kanon-klarheit — Klarheit der Seitenkonturen im Design-Kanon
 

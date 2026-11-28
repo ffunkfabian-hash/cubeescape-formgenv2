@@ -75,6 +75,11 @@ Minimum bewusste Schrägen setzen (EA01 Speerspitze, Bogen); so melden auch zehn
 EA01, EA02, EA06, EA07, EA12, EA14, EA16) – dort ist das Leitmotiv der Grund. Die HORIZON-Skizzen (0.43) lagen alle darunter
 (Achsen 0,23–0,52, Richtungen 0,57–0,77).
 
+Für die Klarheit zählen die Seitenprofilkanten ab 8 mm, auch in zusammengesetzten Teilen. Jede Kante erhält ihr Gewicht nach Länge.
+**Achsen** misst den Anteil innerhalb von weniger als 2° zur Waagerechten oder Senkrechten. **Richtungen** misst den Anteil der sechs
+häufigsten Richtungen in 5°-Gruppen. Die Untergrenze für Achsen ist das untere Quartil der Vergleichsklasse, bei Richtungen ihr Minimum.
+Die Einzelmessung für VA01 läuft über `python -m formgen.kanon zeile VA01`. Eine neue Waffe verändert die BASIC-/EXTENDED-Referenz nicht.
+
 <!-- kanon:messung:anfang -->
 | Blatt | Name | Art | Länge mm | Höhe mm | Breite mm | L/H | Füllgrad | Visierlinie mm | Akzente | Hände | größte Rollen | Nachbar (Seiten-IoU) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|

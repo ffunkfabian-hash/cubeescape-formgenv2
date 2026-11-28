@@ -1,0 +1,211 @@
+{
+  "INFO": {
+    "id": "N03",
+    "kind": "weapon",
+    "name_de": "Volt-03 Field",
+    "name_en": "Volt-03 Field",
+    "summary": "Die helle Seitenwange liegt tief in der dunklen Frontwanne. Eine breite Wangenauflage schließt den Schaft ab.",
+    "facts": [
+      [
+        "Serie",
+        "Volt-03"
+      ],
+      [
+        "Formvariante",
+        "Field"
+      ],
+      [
+        "Typ",
+        "Scout-Gewehr"
+      ]
+    ],
+    "provenance": {
+      "kind": "Annahme",
+      "source": "Volt-03-Formstudie auf den freigegebenen Volt-Familienteilen, neue Außenprofile für Typ 03."
+    },
+    "nick": "Volt-03 Field",
+    "num": "03",
+    "type": "scout_rifle",
+    "type_de": "Scout-Gewehr",
+    "variant": "N",
+    "source_id": "N03"
+  },
+  "ASSEMBLIES": [
+    {
+      "id": "receiver",
+      "de": "Hauptgehäuse",
+      "en": "Receiver"
+    },
+    {
+      "id": "barrel",
+      "de": "Lauf",
+      "en": "Barrel"
+    },
+    {
+      "id": "ammo",
+      "de": "Munitionsversorgung",
+      "en": "Ammunition feed"
+    },
+    {
+      "id": "sight",
+      "de": "Visier",
+      "en": "Sight"
+    },
+    {
+      "id": "grip_controls",
+      "de": "Griff und Bedienung",
+      "en": "Grip and controls"
+    },
+    {
+      "id": "support",
+      "de": "Stützbereich",
+      "en": "Support"
+    },
+    {
+      "id": "stock",
+      "de": "Schaft",
+      "en": "Stock"
+    },
+    {
+      "id": "mechanism",
+      "de": "Bewegliche Mechanik",
+      "en": "Moving mechanism"
+    }
+  ],
+  "ANCHORS": {
+    "Socket_Hand": {
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "part": "grip",
+      "note": "Haupthand, auf der Griffachse"
+    },
+    "Socket_SupportHand": {
+      "part": "scout_pad",
+      "at": [
+        265,
+        69,
+        0
+      ]
+    },
+    "Socket_Muzzle": {
+      "part": "scout_face",
+      "at": [
+        598,
+        108,
+        0
+      ]
+    },
+    "Socket_MagWell": {
+      "at": [
+        108,
+        70,
+        0
+      ],
+      "part": "ridge_base",
+      "note": "Einrastpunkt Magazin (Schnittstelle BMW-R)"
+    },
+    "Socket_Charge": {
+      "at": [
+        -83,
+        121,
+        27
+      ],
+      "part": "charging_handle",
+      "note": "Griffpunkt Ladehebel für die Stützhand"
+    },
+    "Socket_Sight": {
+      "at": [
+        -48,
+        174,
+        0
+      ],
+      "part": "scope_eyepiece",
+      "note": "hinteres Okularende auf der Visierlinie"
+    },
+    "Socket_Reticle": {
+      "at": [
+        67.5,
+        174,
+        0
+      ],
+      "part": "scope_glass",
+      "note": "gezeichnetes Absehen auf der Objektivlinse"
+    },
+    "Socket_Eye": {
+      "at": [
+        -18.0,
+        174,
+        0
+      ],
+      "part": "scope_objective",
+      "sight_type": "scope",
+      "std": true,
+      "note": "Augenpunkt beim Zielen (Visier-Standard: 90 mm hinter dem Objektivring, ads_hide-Teile aus)"
+    }
+  },
+  "PARTS": [
+    {"id": "mag_release", "de": "Magazinhalter", "asm": "grip_controls", "shape": "cyl", "mat": "accent", "bevel": 0.8, "move": {"kind": "translate", "pivot": [74, 60, 21], "vector_mm": [0, 0, -2.5], "event": "reload"}, "axis": "x", "c": [74, 60], "a0": 19, "a1": 23.5, "r": 5, "segs": 20, "name_en": "Magazine release", "func": "Löst das Magazin", "attach": "Druckknopf links"},
+    {"id": "grip", "de": "Pistolengriff", "asm": "grip_controls", "shape": "prof", "mat": "rubber", "bevel": 6.5, "pts": [[-8.746133917892847, 42], [-19.784609690826528, 12], [-31.8948822334847, -22], [-35.93335800641838, -52], [-42.14874831559185, -64], [-41.82824023990308, -74], [-32.364138624765324, -76], [-4.364138624765324, -76], [4.2435565298214115, -70], [1.923048454132637, -60], [7.602540378443866, -50], [6.282032302755091, -40], [12.961524227066318, -30], [11.641016151377546, -20], [18.856406460551018, -8], [24.287187078897965, 16], [32.25386608210715, 42]], "w": 30, "name_en": "Pistol grip", "func": "Haupthand hält die Waffe; trägt Socket_Hand", "attach": "mit Unterem Gehäuse verschraubt (fest)"},
+    {"id": "trigger", "de": "Abzug", "asm": "grip_controls", "shape": "prof", "mat": "metal", "bevel": 0.8, "move": {"kind": "rotate", "pivot": [45.25386608210715, 39, 0], "axis": "x", "range_deg": [0, -12], "event": "fire", "expect": [[46.25386608210715, 16, 0], [-1, 0, 0]]}, "pts": [[43.25386608210715, 41], [49.25386608210715, 41], [51.25386608210715, 26], [48.25386608210715, 15], [44.25386608210715, 16], [46.25386608210715, 27]], "w": 7, "name_en": "Trigger", "func": "Feuer auslösen (Zeigefinger)", "attach": "Drehpunkt im Unteren Gehäuse"},
+    {"id": "trigger_guard", "de": "Abzugsbügel", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[25.25386608210715, 8], [83.25386608210715, 8], [83.25386608210715, 43], [76.25386608210715, 43], [76.25386608210715, 15], [27.25386608210715, 15]], "w": 12, "name_en": "Trigger guard", "func": "Schützt den Abzug, Fingerfreiraum ≥ 22 mm", "attach": "Griff vorn und Unteres Gehäuse (fest)"},
+    {"id": "grip_cap", "de": "Griffboden", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[-42.56029104747196, -73], [4.4397089525280435, -73], [0.8320137979413076, -79], [-42.16798620205869, -79]], "w": 32, "name_en": "Grip cap", "func": "Ausgestellter Abschluss; schützt den Griff", "attach": "unten auf den Griff geschraubt"},
+    {"id": "selector", "de": "Feuerwahlhebel", "asm": "grip_controls", "shape": "prof", "mat": "accent", "bevel": 0.8, "move": {"kind": "rotate", "pivot": [8, 70, 0], "axis": "x", "range_deg": [0, 90], "event": "safety"}, "pts": [[4, 66], [12, 66], [24, 68], [24, 72], [12, 74], [4, 74]], "w": 3, "x": 22.5, "name_en": "Fire selector", "func": "Sichern / Feuer, mit dem Daumen der Haupthand", "attach": "Achse quer im Unteren Gehäuse"},
+    {"id": "selector_r", "de": "Feuerwahlhebel rechts", "asm": "grip_controls", "shape": "prof", "mat": "accent", "bevel": 0.8, "move": {"kind": "rotate", "pivot": [8, 70, 0], "axis": "x", "range_deg": [0, 90], "event": "safety"}, "pts": [[4, 66], [12, 66], [24, 68], [24, 72], [12, 74], [4, 74]], "w": 3, "x": -22.5, "name_en": "Fire selector right", "func": "Sichern / Feuer, mit dem Daumen der Haupthand", "attach": "Achse quer im Unteren Gehäuse"},
+    {"id": "charging_handle", "de": "Ladehebel", "asm": "mechanism", "shape": "prof", "mat": "accent", "bevel": 1.5, "move": {"kind": "translate", "pivot": [-96, 121, 22.5], "vector_mm": [-60, 0, 0], "event": "charge"}, "pts": [[-96, 115], [-70, 115], [-66, 119], [-66, 123], [-70, 127], [-96, 127]], "w": 9, "x": 22.5, "name_en": "Charging handle", "func": "Verschluss spannen (Stützhand zieht nach hinten)", "attach": "in Längsnut links (gleitet)"},
+    {"id": "magazine", "de": "Magazin (gekrümmt)", "asm": "ammo", "shape": "prof", "mat": "shell", "bevel": 3.0, "move": {"kind": "translate", "pivot": [108.0, 72, 0], "vector_mm": [22.3, -158.4, 0], "event": "reload", "note": "Entnahme entlang der Magazinachse nach unten; Schacht nach unten offen", "removable": true}, "pts": [[97.2347655342167, 17.5], [99.08874905742182, 8.138295858133262], [105.98663905761006, -21.187096099113546], [113.94532008561112, -50.36340359986673], [119.84043578639672, -69.73145056898352], [159.45115853605955, -64.1645265305809], [153.55604283527393, -44.79647956146411], [145.59736180727288, -15.620172060710928], [138.69947180708465, 13.70521989653588], [137.9479569461796, 17.5]], "w": 24, "cuts": [{"shape": "prof", "pts": [[109.9850883472898, -12.546530118277829], [139.6931304095369, -8.371337089475858], [139.38694958742477, -6.192747338244402], [109.67890752517766, -10.367940367046373]], "w": 3, "x": 12}, {"shape": "prof", "pts": [[109.9850883472898, -12.546530118277829], [139.6931304095369, -8.371337089475858], [139.38694958742477, -6.192747338244402], [109.67890752517766, -10.367940367046373]], "w": 3, "x": -12}, {"shape": "prof", "pts": [[113.43512039343467, -26.19924575002328], [143.14316245568176, -22.02405272122131], [142.83698163356962, -19.845462969989853], [113.12893957132252, -24.020655998791824]], "w": 3, "x": 12}, {"shape": "prof", "pts": [[113.43512039343467, -26.19924575002328], [143.14316245568176, -22.02405272122131], [142.83698163356962, -19.845462969989853], [113.12893957132252, -24.020655998791824]], "w": 3, "x": -12}, {"shape": "prof", "pts": [[117.1161691523032, -39.81949410013236], [146.82421121455033, -35.64430107133039], [146.5180303924382, -33.46571132009893], [116.80998833019105, -37.640904348900904]], "w": 3, "x": 12}, {"shape": "prof", "pts": [[117.1161691523032, -39.81949410013236], [146.82421121455033, -35.64430107133039], [146.5180303924382, -33.46571132009893], [116.80998833019105, -37.640904348900904]], "w": 3, "x": -12}, {"shape": "prof", "pts": [[106.21742342219534, 33.37602744412692], [109.71968280562058, 15.69134159588264], [113.60382695905844, -1.939673848023915], [131.4286521964067, 0.5654419692572645], [127.54450804296884, 18.19645741316382], [124.0422486595436, 35.881143261408084]], "w": 8, "x": 10}], "name_en": "Magazine", "func": "Hält die Patronen; leicht gekrümmt; entnehmbar", "attach": "rastet im Magazinschacht ein (lösbar, Magazinhalter)"},
+    {"id": "magazine_base", "de": "Magazinboden", "asm": "ammo", "shape": "prof", "mat": "anodized", "bevel": 1.5, "parent_part": "magazine", "pts": [[117.92948619939361, -70.50493080527443], [163.48181736150585, -64.10296816111142], [166.2188475754122, -72.30183801665162], [120.66651641329996, -78.70380066081462]], "w": 27, "name_en": "Magazine base plate", "func": "Greifkante zum Herausziehen", "attach": "am Magazin (fest)"},
+    {"id": "mag_band", "de": "Bodenband", "asm": "ammo", "shape": "prof", "mat": "metal", "bevel": 0.8, "pts": [[116.43554591585755, -62.13135605330987], [158.02680480300353, -56.28608581298711], [160.13547358113493, -63.05852475042798], [118.54421469398898, -68.90379499075073]], "w": 25, "parent_part": "magazine", "name_en": "Base band", "func": "Metallband über dem Magazinboden; Greifkante", "attach": "am Magazin"},
+    {"id": "stock_joint", "de": "Schaftverbindung", "asm": "stock", "shape": "box", "mat": "dark_metal", "bevel": 1.5, "f0": -131, "f1": -119, "u0": 84, "u1": 126, "w": 30, "name_en": "Stock joint", "func": "Verbindet Schaft und Gehäuse; Verriegelung", "attach": "Steckverbindung am Gehäuseende"},
+    {"id": "ridge_base", "de": "Ansteigender Griffträger", "asm": "receiver", "shape": "prof", "mat": "graphite", "bevel": 3, "pts": [[-125, 82], [-105, 62], [-54, 62], [-34, 42], [70, 42], [90, 22], [145, 22], [175, 52], [193, 52], [193, 100], [145, 100], [125, 80], [-40, 80], [-60, 100], [-125, 100]], "w": 44, "name_en": "Ansteigender Griffträger", "func": "Ansteigender Griffträger", "attach": "an der angrenzenden Gehäusefläche"},
+    {"id": "ridge_shell", "de": "Durchgehende schräge Oberschale", "asm": "receiver", "shape": "prof", "mat": "shell", "bevel": 4, "pts": [[-125, 100], [-67, 100], [-47, 80], [44, 80], [65, 101], [191, 101], [191, 125], [182, 134], [56, 134], [48, 142], [-109, 142], [-125, 126]], "w": 46, "name_en": "Durchgehende schräge Oberschale", "func": "Durchgehende schräge Oberschale", "attach": "an der angrenzenden Gehäusefläche"},
+    {"id": "ridge_middle", "de": "Zurückgesetzte Fuge zwischen Ober- und Unterschale", "asm": "receiver", "shape": "xprof", "mat": "anodized", "bevel": 1.5, "f0": 55, "f1": 192, "cu": 94, "pts": [[-14, -14], [14, -14], [18, -10], [18, 10], [14, 14], [-14, 14], [-18, 10], [-18, -10]], "cuts": [], "name_en": "Zurückgesetzte Fuge zwischen Ober- und Unterschale", "func": "Zurückgesetzte Fuge zwischen Ober- und Unterschale", "attach": "zwischen den benachbarten Schalen"},
+    {"id": "ridge_crest", "de": "Schmale dunkle Dachkante", "asm": "receiver", "shape": "xprof", "mat": "anodized", "bevel": 1.5, "f0": -65, "f1": 49, "cu": 139, "pts": [[-11, -6], [11, -6], [15, -2], [15, 2], [11, 6], [-11, 6], [-15, 2], [-15, -2]], "cuts": [], "name_en": "Schmale dunkle Dachkante", "func": "Schmale dunkle Dachkante", "attach": "zwischen den benachbarten Schalen"},
+    {"id": "ridge_mag", "de": "Flach ausgestellter Magazinsitz", "asm": "receiver", "shape": "prof", "mat": "anodized", "bevel": 2.0, "pts": [[74, 49], [85, 20], [143, 20], [159, 36], [159, 51], [151, 55], [83, 55]], "w": 46, "name_en": "Flach ausgestellter Magazinsitz", "func": "Flach ausgestellter Magazinsitz", "attach": "an der angrenzenden Gehäusefläche"},
+    {"id": "ridge_lip", "de": "Untere Einfassung", "asm": "receiver", "shape": "prof", "mat": "graphite", "bevel": 0.8, "pts": [[80, 21], [84, 17.5], [144, 17.5], [148, 22], [144, 25], [84, 25]], "w": 47, "name_en": "Untere Einfassung", "func": "Untere Einfassung", "attach": "an der angrenzenden Gehäusefläche"},
+    {"id": "ridge_fix", "de": "Deckelschrauben", "asm": "receiver", "shape": "multi", "mat": "trim", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [-106, 118], "a0": 22.4, "a1": 24.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [43, 97], "a0": 22.4, "a1": 24.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [161, 117], "a0": 22.4, "a1": 24.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-106, 118], "a0": -22.4, "a1": -24.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [43, 97], "a0": -22.4, "a1": -24.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [161, 117], "a0": -22.4, "a1": -24.5, "r": 3, "segs": 12}], "name_en": "Cover fasteners", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen"},
+    {"id": "ridge_lower_fix", "de": "Deckelschrauben", "asm": "receiver", "shape": "multi", "mat": "trim", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [-21, 65], "a0": 21.4, "a1": 23.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [124, 41], "a0": 21.4, "a1": 23.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-21, 65], "a0": -21.4, "a1": -23.5, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [124, 41], "a0": -21.4, "a1": -23.5, "r": 3, "segs": 12}], "name_en": "Cover fasteners", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen"},
+    {"id": "ridge_ledge_l", "de": "Schulter der Oberschale", "asm": "receiver", "shape": "prof", "mat": "graphite", "bevel": 1, "pts": [[-111, 126], [-99, 114], [-62, 114], [-45, 97], [22, 97], [49, 119], [65, 119], [65, 129], [-111, 129]], "w": 3, "x": 23, "name_en": "Schulter der Oberschale", "func": "Zweite seitliche Stufe der Haube", "attach": "an der angrenzenden Gehäusefläche"},
+    {"id": "ridge_ledge_r", "de": "Schulter der Oberschale", "asm": "receiver", "shape": "prof", "mat": "graphite", "bevel": 1, "pts": [[-111, 126], [-99, 114], [-62, 114], [-45, 97], [22, 97], [49, 119], [65, 119], [65, 129], [-111, 129]], "w": 3, "x": -23, "name_en": "Schulter der Oberschale", "func": "Zweite seitliche Stufe der Haube", "attach": "an der angrenzenden Gehäusefläche"},
+    {"id": "ridge_status_rim", "de": "Anzeigerahmen", "asm": "receiver", "shape": "prof", "mat": "dark_metal", "bevel": 0.5, "pts": [[-36, 107], [-33, 104], [-1, 104], [2, 107], [2, 117], [-36, 117]], "w": 2, "x": 25.4, "name_en": "Anzeigerahmen", "func": "Dunkler Rahmen des Statusfelds", "attach": "an der angrenzenden Gehäusefläche"},
+    {"id": "ridge_status", "de": "Status", "asm": "receiver", "shape": "box", "mat": "energy", "bevel": 0.3, "move": {"kind": "glow", "pivot": null, "event": "charge", "max": 5.0}, "f0": -32, "f1": -4, "u0": 108, "u1": 113, "w": 1, "x": 26.799999999999997, "name_en": "Status", "func": "Zeigt den Spielzustand", "attach": "eingelassen"},
+    {"id": "bank_body", "de": "Geschlossene Schaftschale", "asm": "stock", "shape": "prof", "mat": "graphite", "func": "Geschlossene Schaftschale", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-315, 44], [-278, 44], [-252, 70], [-216, 70], [-193, 93], [-125, 93], [-125, 120], [-139, 134], [-300, 134], [-315, 119]], "w": 40, "name_en": "Geschlossene Schaftschale"},
+    {"id": "bank_sole", "de": "Dunkle Schulterkappe", "asm": "stock", "shape": "prof", "mat": "rubber", "func": "Dunkle Schulterkappe", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-324, 32], [-317, 32], [-313, 36], [-313, 126], [-317, 130], [-324, 130], [-328, 126], [-328, 36]], "w": 44, "name_en": "Dunkle Schulterkappe"},
+    {"id": "bank_comb", "de": "Durchgehender Schaftrücken", "asm": "stock", "shape": "prof", "mat": "shell", "func": "Durchgehender Schaftrücken", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-311, 123], [-294, 106], [-241, 106], [-227, 120], [-161, 120], [-146, 132], [-153, 140], [-299, 140], [-311, 132]], "w": 42, "name_en": "Durchgehender Schaftrücken"},
+    {"id": "bank_inset_l", "de": "Seitliche Einlage", "asm": "stock", "shape": "prof", "mat": "anodized", "func": "Seitliche Einlage", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.7, "pts": [[-299, 73], [-287, 61], [-277, 61], [-253, 84], [-215, 84], [-200, 99], [-206, 103], [-278, 103], [-299, 82]], "w": 2, "x": 20, "name_en": "Seitliche Einlage"},
+    {"id": "bank_inset_r", "de": "Seitliche Einlage", "asm": "stock", "shape": "prof", "mat": "anodized", "func": "Seitliche Einlage", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.7, "pts": [[-299, 73], [-287, 61], [-277, 61], [-253, 84], [-215, 84], [-200, 99], [-206, 103], [-278, 103], [-299, 82]], "w": 2, "x": -20, "name_en": "Seitliche Einlage"},
+    {"id": "cheek_caps", "de": "Wangenbeschlag", "asm": "stock", "shape": "multi", "mat": "trim", "func": "Zeichnet die Seitenflächen", "attach": "auf beiden Wangen", "bevel": 0.3, "items": [{"shape": "cyl", "axis": "x", "c": [-298, 111], "a0": 19.4, "a1": 21.2, "r": 2.7, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-292, 56], "a0": 19.4, "a1": 21.2, "r": 2.7, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-160, 110], "a0": 19.4, "a1": 21.2, "r": 2.7, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-298, 111], "a0": -19.4, "a1": -21.2, "r": 2.7, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-292, 56], "a0": -19.4, "a1": -21.2, "r": 2.7, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [-160, 110], "a0": -19.4, "a1": -21.2, "r": 2.7, "segs": 12}], "name_en": "Cheek fittings"},
+    {"id": "scout_saddle", "de": "Gehäuserücken der Scout-Optik", "asm": "receiver", "shape": "prof", "mat": "anodized", "func": "Gehäuserücken der Scout-Optik", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[-53, 138], [-17, 138], [-14, 141], [-14, 151], [-17, 154], [-53, 154], [-56, 151], [-56, 141]], "w": 25, "name_en": "Gehäuserücken der Scout-Optik"},
+    {"id": "rail", "de": "Schiene", "asm": "receiver", "shape": "box", "mat": "anodized", "bevel": 1.5, "f0": -52, "f1": -18, "u0": 152.5, "u1": 161, "w": 22, "name_en": "Top rail", "func": "Aufnahme für Visiere (BRI-22)", "attach": "auf dem Gehäusebuckel hinter dem Augenpunkt (fest)"},
+    {"id": "rail_front", "de": "Schiene vorn", "asm": "receiver", "shape": "box", "mat": "anodized", "bevel": 1.5, "f0": 38, "f1": 76, "u0": 134.5, "u1": 143, "w": 22, "name_en": "Front rail", "func": "Aufnahme für Visiere (BRI-22)", "attach": "auf dem Gehäuse unter dem Objektiv (fest)"},
+    {"id": "scope_mount_r", "de": "Rohrsattel", "asm": "sight", "shape": "prof", "mat": "sight_anod", "bevel": 1.5, "move": {"kind": "translate", "pivot": [-33.0, 161, 0], "vector_mm": [0, 80, 0], "event": "swap_sight", "note": "Spannband und Klemmhebel lösen, Zielfernrohr senkrecht abnehmen", "removable": true}, "name_en": "Scope saddle", "func": "Wiege unter Okular und Rohr hinter dem Augenpunkt (im Zielen unsichtbar); Klemmblock um die Schiene BRI-22", "attach": "Klemmung auf Schiene (lösbar)", "w": 26, "pts": [[-46, 155], [-44, 153], [-22, 153], [-20, 155], [-20, 163], [-22, 165], [-42, 165], [-46, 161]]},
+    {"id": "scope_strap", "de": "Spannband", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 0.8, "axis": "f", "c": [174, 0], "a0": -42, "a1": -32, "r": 12.427272727272726, "r_in": 10.827272727272726, "segs": 40, "ads_hide": true, "parent_part": "scope_mount_r", "name_en": "Scope strap", "func": "Hält das Okular in der Wiege", "attach": "um das Okular, im Sattel verschraubt"},
+    {"id": "scope_tube", "de": "Mittelrohr", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 0.8, "axis": "f", "c": [174, 0], "a0": -28, "a1": 29.448504983388702, "r": 9.5, "r_in": 8.0, "segs": 40, "ads_hide": true, "parent_part": "scope_mount_r", "name_en": "Scope tube", "func": "Verbindet Okular und Objektiv; hohl", "attach": "im Sattel (fest)"},
+    {"id": "scope_eyepiece", "de": "Okular", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 1.5, "axis": "f", "c": [174, 0], "a0": -48, "a1": -26, "r": 11.0, "r_in": 9.0, "segs": 40, "ads_hide": true, "parent_part": "scope_mount_r", "name_en": "Eyepiece", "func": "Augenseite, schlank; Socket_Sight hinten", "attach": "am Mittelrohr (fest)"},
+    {"id": "scope_eye_trim", "de": "Okularkante", "asm": "sight", "shape": "cyl", "mat": "trim", "bevel": 0.3, "axis": "f", "c": [174, 0], "a0": -49, "a1": -46.5, "r": 11.4, "r_in": 9.5, "segs": 40, "ads_hide": true, "parent_part": "scope_mount_r", "name_en": "Eyepiece trim", "func": "Blanke Kante am Okular", "attach": "hinten am Okular"},
+    {"id": "scope_ocular_glass", "de": "Okularlinse", "asm": "sight", "shape": "cyl", "mat": "glass_scope", "bevel": 0, "axis": "f", "c": [174, 0], "a0": -45, "a1": -44, "r": 9.0, "segs": 40, "ads_hide": true, "parent_part": "scope_mount_r", "name_en": "Ocular lens", "func": "Augenlinse", "attach": "im Okular (fest)"},
+    {"id": "scope_turret", "de": "Höhenturm", "asm": "sight", "shape": "cyl", "mat": "accent", "bevel": 0.8, "axis": "u", "c": [-0.2757475083056491, 0], "a0": 181.5, "a1": 188.5, "r": 5.0, "segs": 32, "ads_hide": true, "parent_part": "scope_mount_r", "name_en": "Elevation turret", "func": "Höhenverstellung (Bedienelement)", "attach": "oben am Mittelrohr (fest)"},
+    {"id": "scope_turret_w", "de": "Seitenturm", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 0.8, "axis": "x", "c": [-0.2757475083056491, 174], "a0": -7.5, "a1": -13.5, "r": 4.0, "segs": 32, "ads_hide": true, "parent_part": "scope_mount_r", "name_en": "Windage turret", "func": "Seitenverstellung", "attach": "rechts am Mittelrohr (fest)"},
+    {"id": "scope_glass", "de": "Objektivlinse", "asm": "sight", "shape": "cyl", "mat": "glass_scope", "bevel": 0, "axis": "f", "c": [174, 0], "a0": 67.5, "a1": 68.0, "r": 14.0, "segs": 48, "parent_part": "scope_mount_r", "name_en": "Objective lens", "func": "Linse vorn (im Zielen dasselbe Weltbild, lichte Öffnung)", "attach": "im Objektiv (fest)"},
+    {"id": "scope_objective", "de": "Objektiv", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 0.3, "axis": "f", "c": [174, 0], "a0": 27.448504983388702, "a1": 46.72425249169435, "r": 13.371578947368421, "r_in": 8.4, "segs": 48, "parent_part": "scope_mount_r", "name_en": "Objective bell", "func": "Kegel 1 zum Auge (kein Wulst)", "attach": "am Mittelrohr (fest)"},
+    {"id": "scope_step", "de": "Absatz", "asm": "sight", "shape": "cyl", "mat": "trim", "bevel": 0.2, "axis": "f", "c": [174, 0], "a0": 46.72425249169435, "a1": 48.22425249169435, "r": 13.371578947368421, "r_in": 12.171578947368422, "segs": 48, "parent_part": "scope_mount_r", "name_en": "Step", "func": "Blanker Absatz zwischen den Kegeln", "attach": "am Objektiv"},
+    {"id": "scope_objective_b", "de": "Objektiv vorn", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 0.3, "axis": "f", "c": [174, 0], "a0": 48.22425249169435, "a1": 66, "r": 17.443157894736842, "r_in": 11.48842105263158, "segs": 48, "parent_part": "scope_mount_r", "name_en": "Objective front", "func": "Kegel 2 zum Auge", "attach": "am Objektiv"},
+    {"id": "scope_rim", "de": "Objektivring", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 0.5, "axis": "f", "c": [174, 0], "a0": 66, "a1": 72, "r": 19.010526315789473, "r_in": 13.75438596491228, "segs": 64, "parent_part": "scope_mount_r", "name_en": "Objective ring", "func": "Flacher Stirnring, außen/innen 1.29", "attach": "vorn auf dem Objektiv"},
+    {"id": "scope_crown", "de": "Objektivkante", "asm": "sight", "shape": "cyl", "mat": "trim", "bevel": 0.1, "axis": "f", "c": [174, 0], "a0": 70.5, "a1": 72.1, "r": 15.336842105263157, "r_in": 14.736842105263158, "segs": 64, "parent_part": "scope_mount_r", "name_en": "Objective trim", "func": "Blanke Innenkante (dünne Linie im Zielen)", "attach": "innen am Ring"},
+    {"id": "scope_mount_f", "de": "Klemmfuß vorn", "asm": "sight", "shape": "multi", "mat": "sight_anod", "bevel": 1.5, "parent_part": "scope_mount_r", "items": [{"shape": "box", "f0": 42, "f1": 72, "u0": 143.5, "u1": 146.5, "w": 23}, {"shape": "box", "f0": 44, "f1": 70, "u0": 146, "u1": 149, "w": 18}], "name_en": "Front sight mount", "func": "Klemmfuß unter dem Objektiv (gestuft)", "attach": "Klemmung auf Schiene (lösbar)"},
+    {"id": "sight_clamp", "de": "Klemmhebel", "asm": "sight", "shape": "prof", "mat": "accent", "bevel": 0.8, "parent_part": "scope_mount_f", "pts": [[46, 143.8], [66, 143.8], [68, 146.2], [46, 146.6]], "w": 1.8, "x": 12.4, "name_en": "Clamp lever", "func": "Spannt den Klemmfuß werkzeuglos", "attach": "links am Klemmfuß"},
+    {"id": "scope_keel", "de": "Tropfensockel", "asm": "sight", "shape": "xprof", "mat": "sight_anod", "bevel": 0.4, "f0": 56, "f1": 70, "cu": 174, "pts": [[-11, -25], [11, -25], [14, -13], [10, -12], [-10, -12], [-14, -13]], "cuts": [], "parent_part": "scope_mount_r", "name_en": "Drop base", "func": "Sockel läuft tangential in die Ringstirn", "attach": "auf dem Klemmfuß unter dem Ring (fest)"},
+    {"id": "sight_reticle", "de": "Absehen Fadenkreuz", "asm": "sight", "shape": "multi", "mat": "reticle_cyan", "bevel": 0, "parent_part": "scope_mount_r", "drawn": {"kind": "cross", "share_h": 0.045, "dist_mm": 85.5}, "items": [{"shape": "xprof", "f0": 67.45, "f1": 67.5, "cu": 174, "pts": [[-1.615655897617183, 0.0820080718402514], [-1.615655897617183, -0.0820080718402514], [-0.3692927765982133, -0.0820080718402514], [-0.3692927765982133, 0.0820080718402514]]}, {"shape": "xprof", "f0": 67.45, "f1": 67.5, "cu": 174, "pts": [[0.3692927765982133, 0.0820080718402514], [0.3692927765982133, -0.0820080718402514], [1.615655897617183, -0.0820080718402514], [1.615655897617183, 0.0820080718402514]]}, {"shape": "xprof", "f0": 67.45, "f1": 67.5, "cu": 174, "pts": [[-0.0820080718402514, -1.615655897617183], [0.0820080718402514, -1.615655897617183], [0.0820080718402514, -0.3692927765982133], [-0.0820080718402514, -0.3692927765982133]]}, {"shape": "xprof", "f0": 67.45, "f1": 67.5, "cu": 174, "pts": [[-0.0820080718402514, 0.3692927765982133], [0.0820080718402514, 0.3692927765982133], [0.0820080718402514, 1.615655897617183], [-0.0820080718402514, 1.615655897617183]]}, {"shape": "xprof", "f0": 67.45, "f1": 67.5, "cu": 174, "pts": [[0.09840968620830168, 0.0], [0.09359317333496661, 0.030410265449471098], [0.07961510855362194, 0.057843762235969716], [0.057843762235969716, 0.07961510855362194], [0.030410265449471105, 0.09359317333496661], [6.025855361004604e-18, 0.09840968620830168], [-0.03041026544947109, 0.09359317333496663], [-0.0578437622359697, 0.07961510855362194], [-0.07961510855362193, 0.05784376223596973], [-0.09359317333496661, 0.03041026544947111], [-0.09840968620830168, 1.2051710722009208e-17], [-0.09359317333496663, -0.030410265449471088], [-0.07961510855362194, -0.0578437622359697], [-0.05784376223596973, -0.07961510855362193], [-0.030410265449471115, -0.09359317333496661], [-1.807756608301381e-17, -0.09840968620830168], [0.03041026544947108, -0.09359317333496663], [0.057843762235969695, -0.07961510855362196], [0.07961510855362193, -0.05784376223596974], [0.09359317333496661, -0.030410265449471126]]}], "name_en": "Reticle Crosshair", "func": "Zielpunkt im Glas: Fadenkreuz gezeichnet (Hüftform der Klasse, Cyan, vom Emitter projiziert)", "attach": "flach auf der Glasebene"},
+    {"id": "scout_core", "de": "Breite dunkle Wanne", "asm": "support", "shape": "prof", "mat": "graphite", "func": "Breite dunkle Wanne", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[181, 96], [207, 70], [325, 70], [346, 91], [432, 91], [452, 111], [452, 123], [440, 135], [206, 135], [181, 112]], "w": 43, "name_en": "Breite dunkle Wanne"},
+    {"id": "scout_cheek_l", "de": "Helle Vorderschale", "asm": "support", "shape": "prof", "mat": "shell", "func": "Helle Vorderschale", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[189, 103], [210, 82], [307, 82], [324, 99], [415, 99], [435, 119], [435, 126], [218, 126], [207, 115], [189, 115]], "w": 3.2, "x": 22, "cuts": [{"shape": "prof", "pts": [[223, 99], [232, 92], [300, 92], [317, 110], [383, 110], [389, 116], [237, 116], [223, 104]], "w": 60}], "name_en": "Helle Vorderschale"},
+    {"id": "scout_cheek_r", "de": "Helle Vorderschale", "asm": "support", "shape": "prof", "mat": "shell", "func": "Helle Vorderschale", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[189, 103], [210, 82], [307, 82], [324, 99], [415, 99], [435, 119], [435, 126], [218, 126], [207, 115], [189, 115]], "w": 3.2, "x": -22, "cuts": [{"shape": "prof", "pts": [[223, 99], [232, 92], [300, 92], [317, 110], [383, 110], [389, 116], [237, 116], [223, 104]], "w": 60}], "name_en": "Helle Vorderschale"},
+    {"id": "scout_fix", "de": "Deckelschrauben", "asm": "support", "shape": "multi", "mat": "trim", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [215, 105], "a0": 23.0, "a1": 25.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [320, 119], "a0": 23.0, "a1": 25.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [414, 116], "a0": 23.0, "a1": 25.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [215, 105], "a0": -23.0, "a1": -25.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [320, 119], "a0": -23.0, "a1": -25.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [414, 116], "a0": -23.0, "a1": -25.1, "r": 3, "segs": 12}], "name_en": "Cover fasteners"},
+    {"id": "scout_pad", "de": "Griffpolster", "asm": "support", "shape": "prof", "mat": "rubber", "func": "Griffpolster", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1, "pts": [[225, 66], [305, 66], [308, 69], [308, 72], [305, 75], [225, 75], [222, 72], [222, 69]], "w": 32, "name_en": "Griffpolster"},
+    {"id": "scout_neck", "de": "Freies Vorderstück", "asm": "barrel", "shape": "cyl", "mat": "dark_metal", "func": "Schlanke Frontkontur", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [108, 0], "a0": 423, "a1": 576, "r": 10, "segs": 24, "name_en": "Freies Vorderstück"},
+    {"id": "scout_tip", "de": "Kurze gefasste Stirn", "asm": "barrel", "shape": "xprof", "mat": "anodized", "func": "Gefasster Frontabschluss", "attach": "zwischen den benachbarten Schalen", "bevel": 1.5, "f0": 563, "f1": 596, "cu": 108, "pts": [[-10, -14], [10, -14], [14, -10], [14, 10], [10, 14], [-10, 14], [-14, 10], [-14, -10]], "cuts": [], "name_en": "Kurze gefasste Stirn"},
+    {"id": "scout_rim", "de": "Helle Stirnkante", "asm": "barrel", "shape": "cyl", "mat": "trim", "func": "Lichtkante der Stirn", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [108, 0], "a0": 594, "a1": 597, "r": 11, "segs": 24, "name_en": "Helle Stirnkante"},
+    {"id": "scout_face", "de": "Dunkles Stirnfeld", "asm": "barrel", "shape": "cyl", "mat": "graphite", "func": "Dunkles Ende der Silhouette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [108, 0], "a0": 596.5, "a1": 598, "r": 8, "segs": 24, "name_en": "Dunkles Stirnfeld"}
+  ]
+}
