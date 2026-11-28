@@ -1,0 +1,206 @@
+{
+  "INFO": {
+    "id": "L07",
+    "kind": "weapon",
+    "name_de": "Volt-07 Patrol",
+    "name_en": "Volt-07 Patrol",
+    "summary": "Kurze Arme knicken früh nach hinten. Breite helle Schulterkappen stehen deutlich vom dunklen Mittelstück ab.",
+    "provenance": {
+      "kind": "Annahme",
+      "source": "Grafische Außenprofile als statische Spielrequisiten auf Grundlage von BASIC-07."
+    },
+    "facts": [
+      [
+        "Serie",
+        "Volt-07"
+      ],
+      [
+        "Formvariante",
+        "Patrol"
+      ],
+      [
+        "Typ",
+        "Bogen"
+      ]
+    ],
+    "source_id": "L07",
+    "variant": "L",
+    "num": "07",
+    "type": "combat_bow",
+    "type_de": "Bogen",
+    "nick": "Volt-07 Patrol"
+  },
+  "ASSEMBLIES": [
+    {
+      "id": "riser",
+      "de": "Mittelstück",
+      "en": "Riser"
+    },
+    {
+      "id": "limbs",
+      "de": "Wurfarme",
+      "en": "Limbs"
+    },
+    {
+      "id": "string",
+      "de": "Sehne",
+      "en": "String"
+    },
+    {
+      "id": "arrow",
+      "de": "Pfeil",
+      "en": "Arrow"
+    },
+    {
+      "id": "sight",
+      "de": "Visier",
+      "en": "Sight"
+    },
+    {
+      "id": "grip_controls",
+      "de": "Griff und Bedienung",
+      "en": "Grip and controls"
+    }
+  ],
+  "ANCHORS": {
+    "Socket_Hand": {
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "part": "grip",
+      "note": "Bogenhand im Griffstück (Griffachse)"
+    },
+    "Socket_SupportHand": {
+      "at": [
+        -150,
+        46,
+        0
+      ],
+      "part": "string_top",
+      "note": "Zughand am Nockpunkt in Ruhe"
+    },
+    "Socket_Nock": {
+      "at": [
+        -150,
+        46,
+        0
+      ],
+      "part": "string_top",
+      "note": "Nockpunkt in Ruhe (Toolgen-Name)"
+    },
+    "Socket_DrawFull": {
+      "at": [
+        -570,
+        46,
+        0
+      ],
+      "part": "string_top",
+      "note": "Nockpunkt bei vollem Auszug (420 mm)"
+    },
+    "Socket_ArrowTip": {
+      "at": [
+        553,
+        46,
+        0
+      ],
+      "part": "arrow_head",
+      "note": "Pfeilspitze in Ruhe (Toolgen-Name)"
+    },
+    "Socket_Muzzle": {
+      "at": [
+        10,
+        46,
+        0
+      ],
+      "part": "arrow_rest",
+      "note": "Abgangspunkt des Pfeils an der Auflage"
+    },
+    "Socket_Reticle": {
+      "at": [
+        89.69999999999999,
+        115.5,
+        0
+      ],
+      "part": "sight_pin",
+      "note": "Oberster Pinkopf auf der Visierlinie"
+    },
+    "Socket_Sight": {
+      "at": [
+        85.69999999999999,
+        115.5,
+        0
+      ],
+      "part": "sight_frame",
+      "note": "Ringrückseite (Pinvisier B1)"
+    },
+    "Socket_Eye": {
+      "at": [
+        -590,
+        115.5,
+        0
+      ],
+      "part": "sight_pin",
+      "sight_type": "pins",
+      "std": true,
+      "deck": 77.5,
+      "note": "Augenpunkt 680 mm hinter den Pins; die Pins sind das Absehen"
+    }
+  },
+  "PARTS": [
+    {"id": "grip", "de": "Griffstück", "asm": "grip_controls", "shape": "prof", "mat": "rubber", "bevel": 6.5, "pts": [[-22, -52], [6, -52], [14, -40], [15, -18], [11, -2], [15, 18], [13, 34], [-14, 38], [-28, 26], [-36, 2], [-34, -26], [-28, -44]], "w": 32, "name_en": "Bow grip", "func": "Bogenhand umschließt das Mittelstück; trägt Socket_Hand", "attach": "um das Mittelstück geschraubt"},
+    {"id": "arrow_rest", "de": "Pfeilauflage", "asm": "riser", "shape": "multi", "mat": "anodized", "bevel": 0.4, "items": [{"shape": "box", "f0": -6, "f1": 18, "u0": 37, "u1": 41, "w": 30.0, "x": 14.0}, {"shape": "prof", "pts": [[-2, 40], [14, 40], [10, 42.4], [2, 42.4]], "w": 3, "x": 0}], "name_en": "Arrow rest", "func": "Führt den Pfeil im Sichtfenster", "attach": "am Fensterbogen verschraubt (quer ins Fenster)"},
+    {"id": "sight_arm", "de": "Visierträger", "asm": "riser", "shape": "multi", "mat": "anodized", "bevel": 0.8, "items": [{"shape": "box", "f0": 30, "f1": 52, "u0": 68.5, "u1": 76.5, "w": 21, "x": 21}], "name_en": "Sight arm", "func": "Trägt die Visierschiene links neben dem Fensterbogen", "attach": "außen an der Kröpfung des Mittelstücks verschraubt (6 mm eingelassen)"},
+    {"id": "rail", "de": "Schiene", "asm": "riser", "shape": "box", "mat": "dark_metal", "bevel": 1.5, "f0": 40, "f1": 104, "u0": 69.0, "u1": 77.5, "w": 22, "x": 0, "cuts": [{"shape": "box", "f0": 46, "f1": 51, "u0": 73.5, "u1": 78.5, "w": 30, "x": 0}, {"shape": "box", "f0": 58, "f1": 63, "u0": 73.5, "u1": 78.5, "w": 30, "x": 0}, {"shape": "box", "f0": 70, "f1": 75, "u0": 73.5, "u1": 78.5, "w": 30, "x": 0}, {"shape": "box", "f0": 82, "f1": 87, "u0": 73.5, "u1": 78.5, "w": 30, "x": 0}, {"shape": "box", "f0": 94, "f1": 99, "u0": 73.5, "u1": 78.5, "w": 30, "x": 0}], "name_en": "Top rail", "func": "Aufnahme für Visiere (BRI-22)", "attach": "auf Oberem Gehäuse (fest)"},
+    {"id": "sight_mount", "de": "Visier-Klemmfuß", "asm": "sight", "shape": "multi", "mat": "sight_anod", "bevel": 1.5, "items": [{"shape": "box", "f0": 56, "f1": 95.1, "u0": 78.0, "u1": 81.0, "w": 23, "x": 0}, {"shape": "box", "f0": 58, "f1": 93.1, "u0": 80.5, "u1": 83.5, "w": 18, "x": 0}], "name_en": "Sight mount", "func": "Klemmt das Visier auf die Schiene BRI-22; gestuftes Trapez", "attach": "Klemmung auf Schiene (lösbar)"},
+    {"id": "sight_clamp", "de": "Klemmhebel", "asm": "sight", "shape": "prof", "mat": "accent", "bevel": 0.8, "parent_part": "sight_mount", "pts": [[66.2, 78.3], [83.2, 78.3], [84.9, 80.7], [66.2, 81.1]], "w": 1.8, "x": 12.4, "name_en": "Clamp lever", "func": "Spannt den Klemmfuß werkzeuglos", "attach": "Drehachse links am Klemmfuß"},
+    {"id": "sight_body", "de": "Visiergehäuse", "asm": "sight", "shape": "prof", "mat": "sight_anod", "bevel": 1.5, "pts": [[57, 83.0], [81.5, 83.0], [81.5, 87.0], [71.3, 87.0], [67.9, 89.5], [57, 89.5]], "w": 16, "parent_part": "sight_mount", "x": 0, "name_en": "Sight housing", "func": "Trägt Emitter und Batterie; flach, hinten", "attach": "auf Klemmfuß (fest)"},
+    {"id": "sight_base", "de": "Haubensockel", "asm": "sight", "shape": "prof", "mat": "sight_anod", "bevel": 0.8, "parent_part": "sight_mount", "pts": [[80.65, 83.0], [95.69999999999999, 83.0], [95.69999999999999, 89.1], [84.65, 89.1]], "w": 15.6, "x": 0, "name_en": "Hood base", "func": "Trägt Haube und Glas bis zur Fensterunterkante; trapezförmig verjüngt, Anzeigen unter der Visierlinie", "attach": "auf Klemmfuß (fest)"},
+    {"id": "sight_knob_w", "de": "Seitenverstellung", "asm": "sight", "shape": "cyl", "mat": "trim", "bevel": 0.8, "axis": "x", "c": [76.4, 85.3], "a0": -7.5, "a1": -10, "r": 2.4, "parent_part": "sight_mount", "segs": 16, "name_en": "Windage knob", "func": "Verstellt das Absehen seitlich", "attach": "rechts am Gehäuse"},
+    {"id": "sight_battery", "de": "Batteriedeckel", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "bevel": 0.8, "axis": "x", "c": [76.4, 85.3], "a0": 7.5, "a1": 10, "r": 3.2, "parent_part": "sight_mount", "segs": 16, "name_en": "Battery cap", "func": "Batteriefach links", "attach": "links am Gehäuse (schraubbar)"},
+    {"id": "sight_frame", "de": "Haube", "asm": "sight", "shape": "xprof", "mat": "sight_anod", "bevel": 0.4, "f0": 85.69999999999999, "f1": 93.69999999999999, "cu": 115.5, "pts": [[27.8, 0.0], [27.694212606950526, 2.422929648384897], [27.377655533739382, 4.827419339140663], [26.8527379708361, 7.195169453850077], [26.123454857848255, 9.50815998445359], [25.19535647961887, 11.748787676391444], [24.0755062252074, 13.899999999999999], [22.77242683123397, 15.945424930559081], [21.29603551870759, 17.86949554928579], [19.65756851698602, 19.65756851698602], [17.869495549285794, 21.29603551870759], [15.945424930559081, 22.77242683123397], [13.900000000000004, 24.075506225207395], [11.748787676391444, 25.19535647961887], [9.508159984453593, 26.12345485784825], [7.195169453850077, 26.8527379708361], [4.827419339140666, 27.377655533739382], [2.4229296483848963, 27.694212606950526], [1.702259050814821e-15, 27.8], [-2.422929648384899, 27.694212606950526], [-4.827419339140662, 27.377655533739382], [-7.19516945385008, 26.8527379708361], [-9.50815998445359, 26.123454857848255], [-11.748787676391443, 25.195356479618873], [-13.899999999999995, 24.0755062252074], [-15.945424930559083, 22.772426831233968], [-17.869495549285794, 21.29603551870759], [-19.65756851698602, 19.65756851698602], [-20.52, 17.869495549285798], [-20.52, 15.945424930559078], [-20.52, 13.899999999999999], [-20.52, 11.748787676391446], [-20.52, 9.508159984453595], [-20.52, 7.1951694538500846], [-20.52, 4.827419339140662], [-20.52, 2.4229296483848977], [-20.52, 3.404518101629642e-15], [-20.52, -2.422929648384891], [-20.52, -4.8274193391406675], [-20.52, -7.195169453850078], [-20.52, -9.50815998445359], [-20.52, -11.74878767639144], [-20.52, -13.900000000000004], [-20.52, -15.945424930559083], [-20.52, -17.86949554928579], [-19.657568516986025, -19.65756851698602], [-17.869495549285798, -21.296035518707587], [-15.94542493055909, -22.772426831233968], [-13.900000000000013, -24.075506225207388], [-11.748787676391437, -25.195356479618873], [-9.508159984453586, -26.123454857848255], [-7.195169453850074, -26.8527379708361], [-4.827419339140663, -27.377655533739382], [-2.4229296483848994, -27.694212606950526], [-5.1067771524444625e-15, -27.8], [2.4229296483848892, -27.694212606950526], [4.827419339140653, -27.377655533739386], [7.195169453850064, -26.852737970836102], [9.508159984453599, -26.12345485784825], [11.74878767639145, -25.195356479618866], [13.900000000000004, -24.075506225207395], [15.945424930559081, -22.77242683123397], [17.86949554928579, -21.296035518707594], [19.657568516986018, -19.657568516986025], [21.296035518707583, -17.8694955492858], [22.772426831233968, -15.945424930559092], [24.075506225207388, -13.900000000000013], [25.195356479618873, -11.748787676391439], [26.123454857848255, -9.508159984453588], [26.8527379708361, -7.195169453850075], [27.377655533739382, -4.827419339140665], [27.694212606950526, -2.422929648384901]], "cuts": [{"shape": "xprof", "f0": 84.69999999999999, "f1": 94.69999999999999, "cu": 115.5, "pts": [[26.0, 0.0], [25.901062150385386, 2.2660493114391125], [25.60500157831741, 4.514852619340188], [25.114071483515776, 6.729295172665539], [24.43200814043362, 8.892523726467386], [23.5640024629529, 10.988074805258185], [22.516660498395407, 12.999999999999998], [21.297953151513788, 14.912987345127197], [19.917155521093427, 16.71247785185002], [18.38477631085024, 18.384776310850235], [16.712477851850025, 19.917155521093427], [14.912987345127197, 21.297953151513788], [13.000000000000004, 22.516660498395403], [10.988074805258185, 23.5640024629529], [8.89252372646739, 24.432008140433616], [6.729295172665539, 25.114071483515776], [4.514852619340191, 25.60500157831741], [2.2660493114391116, 25.901062150385386], [1.592040838891559e-15, 26.0], [-2.2660493114391143, 25.901062150385386], [-4.5148526193401874, 25.60500157831741], [-6.729295172665542, 25.114071483515776], [-8.892523726467386, 24.43200814043362], [-10.988074805258183, 23.5640024629529], [-12.999999999999996, 22.516660498395407], [-14.9129873451272, 21.297953151513784], [-16.712477851850025, 19.917155521093427], [-18.384776310850235, 18.38477631085024], [-18.72, 16.712477851850025], [-18.72, 14.912987345127194], [-18.72, 12.999999999999998], [-18.72, 10.988074805258186], [-18.72, 8.892523726467392], [-18.72, 6.729295172665546], [-18.72, 4.5148526193401874], [-18.72, 2.266049311439113], [-18.72, 3.184081677783118e-15], [-18.72, -2.2660493114391067], [-18.72, -4.514852619340192], [-18.72, -6.729295172665541], [-18.72, -8.892523726467385], [-18.72, -10.988074805258181], [-18.72, -13.000000000000004], [-18.72, -14.9129873451272], [-18.72, -16.71247785185002], [-18.38477631085024, -18.384776310850235], [-16.712477851850025, -19.917155521093427], [-14.912987345127206, -21.29795315151378], [-13.00000000000001, -22.516660498395396], [-10.988074805258178, -23.5640024629529], [-8.892523726467383, -24.43200814043362], [-6.729295172665537, -25.114071483515776], [-4.514852619340188, -25.60500157831741], [-2.2660493114391143, -25.901062150385386], [-4.776122516674677e-15, -26.0], [2.266049311439105, -25.901062150385386], [4.5148526193401795, -25.605001578317413], [6.729295172665528, -25.11407148351578], [8.892523726467394, -24.432008140433616], [10.98807480525819, -23.564002462952896], [13.000000000000004, -22.516660498395403], [14.912987345127197, -21.297953151513788], [16.71247785185002, -19.91715552109343], [18.38477631085023, -18.38477631085024], [19.917155521093424, -16.71247785185003], [21.29795315151378, -14.91298734512721], [22.516660498395396, -13.00000000000001], [23.5640024629529, -10.98807480525818], [24.43200814043362, -8.892523726467383], [25.114071483515776, -6.7292951726655375], [25.60500157831741, -4.51485261934019], [25.901062150385386, -2.2660493114391165]], "cx": 0}], "parent_part": "sight_mount", "cx": 0, "name_en": "Sight hood", "func": "Haube aus Flachprofil", "attach": "auf dem Haubensockel (fest)"},
+    {"id": "sight_frame_trim", "de": "Stirnkante", "asm": "sight", "shape": "xprof", "mat": "trim", "bevel": 0.2, "f0": 93.29999999999998, "f1": 94.29999999999998, "cu": 115.5, "pts": [[27.8, 0.0], [27.694212606950526, 2.422929648384897], [27.377655533739382, 4.827419339140663], [26.8527379708361, 7.195169453850077], [26.123454857848255, 9.50815998445359], [25.19535647961887, 11.748787676391444], [24.0755062252074, 13.899999999999999], [22.77242683123397, 15.945424930559081], [21.29603551870759, 17.86949554928579], [19.65756851698602, 19.65756851698602], [17.869495549285794, 21.29603551870759], [15.945424930559081, 22.77242683123397], [13.900000000000004, 24.075506225207395], [11.748787676391444, 25.19535647961887], [9.508159984453593, 26.12345485784825], [7.195169453850077, 26.8527379708361], [4.827419339140666, 27.377655533739382], [2.4229296483848963, 27.694212606950526], [1.702259050814821e-15, 27.8], [-2.422929648384899, 27.694212606950526], [-4.827419339140662, 27.377655533739382], [-7.19516945385008, 26.8527379708361], [-9.50815998445359, 26.123454857848255], [-11.748787676391443, 25.195356479618873], [-13.899999999999995, 24.0755062252074], [-15.945424930559083, 22.772426831233968], [-17.869495549285794, 21.29603551870759], [-19.65756851698602, 19.65756851698602], [-20.52, 17.869495549285798], [-20.52, 15.945424930559078], [-20.52, 13.899999999999999], [-20.52, 11.748787676391446], [-20.52, 9.508159984453595], [-20.52, 7.1951694538500846], [-20.52, 4.827419339140662], [-20.52, 2.4229296483848977], [-20.52, 3.404518101629642e-15], [-20.52, -2.422929648384891], [-20.52, -4.8274193391406675], [-20.52, -7.195169453850078], [-20.52, -9.50815998445359], [-20.52, -11.74878767639144], [-20.52, -13.900000000000004], [-20.52, -15.945424930559083], [-20.52, -17.86949554928579], [-19.657568516986025, -19.65756851698602], [-17.869495549285798, -21.296035518707587], [-15.94542493055909, -22.772426831233968], [-13.900000000000013, -24.075506225207388], [-11.748787676391437, -25.195356479618873], [-9.508159984453586, -26.123454857848255], [-7.195169453850074, -26.8527379708361], [-4.827419339140663, -27.377655533739382], [-2.4229296483848994, -27.694212606950526], [-5.1067771524444625e-15, -27.8], [2.4229296483848892, -27.694212606950526], [4.827419339140653, -27.377655533739386], [7.195169453850064, -26.852737970836102], [9.508159984453599, -26.12345485784825], [11.74878767639145, -25.195356479618866], [13.900000000000004, -24.075506225207395], [15.945424930559081, -22.77242683123397], [17.86949554928579, -21.296035518707594], [19.657568516986018, -19.657568516986025], [21.296035518707583, -17.8694955492858], [22.772426831233968, -15.945424930559092], [24.075506225207388, -13.900000000000013], [25.195356479618873, -11.748787676391439], [26.123454857848255, -9.508159984453588], [26.8527379708361, -7.195169453850075], [27.377655533739382, -4.827419339140665], [27.694212606950526, -2.422929648384901]], "cuts": [{"shape": "xprof", "f0": 92.29999999999998, "f1": 95.29999999999998, "cu": 115.5, "pts": [[26.0, 0.0], [25.901062150385386, 2.2660493114391125], [25.60500157831741, 4.514852619340188], [25.114071483515776, 6.729295172665539], [24.43200814043362, 8.892523726467386], [23.5640024629529, 10.988074805258185], [22.516660498395407, 12.999999999999998], [21.297953151513788, 14.912987345127197], [19.917155521093427, 16.71247785185002], [18.38477631085024, 18.384776310850235], [16.712477851850025, 19.917155521093427], [14.912987345127197, 21.297953151513788], [13.000000000000004, 22.516660498395403], [10.988074805258185, 23.5640024629529], [8.89252372646739, 24.432008140433616], [6.729295172665539, 25.114071483515776], [4.514852619340191, 25.60500157831741], [2.2660493114391116, 25.901062150385386], [1.592040838891559e-15, 26.0], [-2.2660493114391143, 25.901062150385386], [-4.5148526193401874, 25.60500157831741], [-6.729295172665542, 25.114071483515776], [-8.892523726467386, 24.43200814043362], [-10.988074805258183, 23.5640024629529], [-12.999999999999996, 22.516660498395407], [-14.9129873451272, 21.297953151513784], [-16.712477851850025, 19.917155521093427], [-18.384776310850235, 18.38477631085024], [-18.72, 16.712477851850025], [-18.72, 14.912987345127194], [-18.72, 12.999999999999998], [-18.72, 10.988074805258186], [-18.72, 8.892523726467392], [-18.72, 6.729295172665546], [-18.72, 4.5148526193401874], [-18.72, 2.266049311439113], [-18.72, 3.184081677783118e-15], [-18.72, -2.2660493114391067], [-18.72, -4.514852619340192], [-18.72, -6.729295172665541], [-18.72, -8.892523726467385], [-18.72, -10.988074805258181], [-18.72, -13.000000000000004], [-18.72, -14.9129873451272], [-18.72, -16.71247785185002], [-18.38477631085024, -18.384776310850235], [-16.712477851850025, -19.917155521093427], [-14.912987345127206, -21.29795315151378], [-13.00000000000001, -22.516660498395396], [-10.988074805258178, -23.5640024629529], [-8.892523726467383, -24.43200814043362], [-6.729295172665537, -25.114071483515776], [-4.514852619340188, -25.60500157831741], [-2.2660493114391143, -25.901062150385386], [-4.776122516674677e-15, -26.0], [2.266049311439105, -25.901062150385386], [4.5148526193401795, -25.605001578317413], [6.729295172665528, -25.11407148351578], [8.892523726467394, -24.432008140433616], [10.98807480525819, -23.564002462952896], [13.000000000000004, -22.516660498395403], [14.912987345127197, -21.297953151513788], [16.71247785185002, -19.91715552109343], [18.38477631085023, -18.38477631085024], [19.917155521093424, -16.71247785185003], [21.29795315151378, -14.91298734512721], [22.516660498395396, -13.00000000000001], [23.5640024629529, -10.98807480525818], [24.43200814043362, -8.892523726467383], [25.114071483515776, -6.7292951726655375], [25.60500157831741, -4.51485261934019], [25.901062150385386, -2.2660493114391165]], "cx": 0}], "parent_part": "sight_mount", "cx": 0, "name_en": "Hood trim", "func": "Blanke Stirnkante der Haube (dünn)", "attach": "vorn an der Haube"},
+    {"id": "sight_pin_rail", "de": "Pinschiene", "asm": "sight", "shape": "xprof", "mat": "sight_anod", "bevel": 0.4, "f0": 86.69999999999999, "f1": 92.69999999999999, "cu": 115.5, "pts": [[-20.32, -16.12], [-23.72, -16.12], [-23.72, 16.12], [-20.32, 16.12]], "cuts": [], "parent_part": "sight_mount", "cx": 0, "name_en": "Pin rail", "func": "Senkrechte Schiene; klemmt die drei Pins (Höhe je Pin verstellbar)", "attach": "rechts außen am Ring (fest)"},
+    {"id": "sight_pin_screws", "de": "Pinklemmen", "asm": "sight", "shape": "multi", "mat": "trim", "bevel": 0.2, "parent_part": "sight_mount", "items": [{"shape": "cyl", "axis": "x", "c": [89.69999999999999, 115.5], "a0": -23.52, "a1": -24.52, "r": 1.1, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [89.69999999999999, 106.14], "a0": -23.52, "a1": -24.52, "r": 1.1, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [89.69999999999999, 96.78], "a0": -23.52, "a1": -24.52, "r": 1.1, "segs": 12}], "name_en": "Pin clamps", "func": "Klemmen die Pins in der Schiene", "attach": "rechts in der Pinschiene"},
+    {"id": "sight_pin_blade_0", "de": "Pin 1", "asm": "sight", "shape": "xprof", "mat": "sight_anod", "bevel": 0.15, "f0": 88.79999999999998, "f1": 90.6, "cu": 115.5, "pts": [[-22.52, -0.45], [-0.4, -0.45], [-0.4, 0.45], [-22.52, 0.45]], "cuts": [], "parent_part": "sight_mount", "cx": 0, "name_en": "Pin 1", "func": "Waagerechter Pin von der Schiene zur Mitte", "attach": "in der Pinschiene geklemmt"},
+    {"id": "sight_pin", "de": "Pinkopf 1", "asm": "sight", "shape": "cyl", "mat": "pin_glow", "bevel": 0.1, "axis": "f", "c": [115.5, 0], "a0": 88.69999999999999, "a1": 90.69999999999999, "r": 2.0, "segs": 20, "parent_part": "sight_mount", "name_en": "Pin head 1", "func": "Leuchtkopf; Zielpunkt (Visierlinie)", "attach": "an der Pinspitze"},
+    {"id": "sight_pin_blade_1", "de": "Pin 2", "asm": "sight", "shape": "xprof", "mat": "sight_anod", "bevel": 0.15, "f0": 88.79999999999998, "f1": 90.6, "cu": 115.5, "pts": [[-22.52, -9.809999999999999], [-0.4, -9.809999999999999], [-0.4, -8.91], [-22.52, -8.91]], "cuts": [], "parent_part": "sight_mount", "cx": 0, "name_en": "Pin 2", "func": "Waagerechter Pin von der Schiene zur Mitte", "attach": "in der Pinschiene geklemmt"},
+    {"id": "sight_pin_1", "de": "Pinkopf 2", "asm": "sight", "shape": "cyl", "mat": "pin_glow", "bevel": 0.1, "axis": "f", "c": [106.14, 0], "a0": 88.69999999999999, "a1": 90.69999999999999, "r": 1.75, "segs": 20, "parent_part": "sight_mount", "name_en": "Pin head 2", "func": "Leuchtkopf; Zielpunkt für größere Entfernung (2.)", "attach": "an der Pinspitze"},
+    {"id": "sight_pin_blade_2", "de": "Pin 3", "asm": "sight", "shape": "xprof", "mat": "sight_anod", "bevel": 0.15, "f0": 88.79999999999998, "f1": 90.6, "cu": 115.5, "pts": [[-22.52, -19.169999999999998], [-0.4, -19.169999999999998], [-0.4, -18.27], [-22.52, -18.27]], "cuts": [], "parent_part": "sight_mount", "cx": 0, "name_en": "Pin 3", "func": "Waagerechter Pin von der Schiene zur Mitte", "attach": "in der Pinschiene geklemmt"},
+    {"id": "sight_pin_2", "de": "Pinkopf 3", "asm": "sight", "shape": "cyl", "mat": "pin_glow", "bevel": 0.1, "axis": "f", "c": [96.78, 0], "a0": 88.69999999999999, "a1": 90.69999999999999, "r": 1.5, "segs": 20, "parent_part": "sight_mount", "name_en": "Pin head 3", "func": "Leuchtkopf; Zielpunkt für größere Entfernung (3.)", "attach": "an der Pinspitze"},
+    {"id": "string_top", "de": "Sehne oben", "asm": "string", "shape": "cyl", "mat": "string", "bevel": 0, "axis": "u", "c": [-150, 0], "a0": 46, "a1": 384, "r": 1.6, "segs": 8, "name_en": "Upper string", "func": "Obere Sehnenhälfte; folgt dem Nockpunkt", "attach": "zwischen Rollenachse und Nockpunkt"},
+    {"id": "string_bottom", "de": "Sehne unten", "asm": "string", "shape": "cyl", "mat": "string", "bevel": 0, "axis": "u", "c": [-150, 0], "a0": -384, "a1": 46, "r": 1.6, "segs": 8, "name_en": "Lower string", "func": "Untere Sehnenhälfte; folgt dem Nockpunkt", "attach": "zwischen Rollenachse und Nockpunkt"},
+    {"id": "arrow_shaft", "de": "Pfeilschaft", "asm": "arrow", "shape": "cyl", "mat": "graphite", "bevel": 0.8, "axis": "f", "c": [46, 0], "a0": -150, "a1": 505, "r": 3.2, "segs": 12, "removable": true, "name_en": "Arrow shaft", "func": "Pfeil; wird mit der Sehne zurückgezogen", "attach": "auf der Auflage, Nocke an der Sehne"},
+    {"id": "arrow_ferrule", "de": "Spitzenhülse", "asm": "arrow", "shape": "cyl", "mat": "trim", "bevel": 0.4, "axis": "f", "c": [46, 0], "a0": 499, "a1": 509, "r": 4.2, "segs": 16, "parent_part": "arrow_shaft", "name_en": "Ferrule", "func": "Blanke Hülse; trägt die Spitze", "attach": "vorn auf dem Schaft"},
+    {"id": "arrow_head", "de": "Pfeilspitze", "asm": "arrow", "shape": "cyl", "mat": "dark_metal", "bevel": 0.8, "axis": "f", "c": [46, 0], "a0": 508, "a1": 553, "r": 6.5, "r1": 0.6, "segs": 4, "parent_part": "arrow_shaft", "name_en": "Arrow head", "func": "Schneide (vierkant)", "attach": "auf der Hülse"},
+    {"id": "arrow_nock", "de": "Nocke", "asm": "arrow", "shape": "cyl", "mat": "anodized", "bevel": 0.8, "axis": "f", "c": [46, 0], "a0": -158, "a1": -144, "r": 3.4, "segs": 12, "parent_part": "arrow_shaft", "cuts": [{"shape": "box", "f0": -160, "f1": -148.5, "u0": 44.6, "u1": 47.4, "w": 12, "x": 0.0}], "name_en": "Nock", "func": "Rastet an der Sehne ein", "attach": "Schaftende"},
+    {"id": "fletch_top", "de": "Leitfeder", "asm": "arrow", "shape": "prof", "mat": "accent", "bevel": 0.3, "pts": [[-136, 46], [-76, 46], [-82, 57], [-126, 58]], "w": 1.2, "parent_part": "arrow_shaft", "name_en": "Cock vane", "func": "Stabilisiert den Flug; zeigt die Nockrichtung", "attach": "am Schaft"},
+    {"id": "fletch_l", "de": "Befiederung links", "asm": "arrow", "shape": "plan", "mat": "graphite", "bevel": 0.3, "parent_part": "arrow_shaft", "u0": 45.4, "u1": 46.6, "pts": [[-136, 2], [-76, 2], [-82, 12], [-126, 13]], "name_en": "Left vane", "func": "Stabilisiert den Flug", "attach": "am Schaft"},
+    {"id": "fletch_r", "de": "Befiederung rechts", "asm": "arrow", "shape": "plan", "mat": "graphite", "bevel": 0.3, "parent_part": "arrow_shaft", "u0": 45.4, "u1": 46.6, "pts": [[-136, -2], [-126, -13], [-82, -12], [-76, -2]], "name_en": "Right vane", "func": "Stabilisiert den Flug", "attach": "am Schaft"},
+    {"id": "hand_back", "de": "Griffrücken", "asm": "riser", "shape": "prof", "mat": "graphite", "func": "Griffrücken", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1.7, "pts": [[-13, -64], [12, -64], [15, -50], [10, -28], [10, 32], [21, 52], [18, 67], [-11, 67], [-18, 45], [-18, -46]], "w": 22, "x": 16, "name_en": "Griffrücken"},
+    {"id": "sight_seat", "de": "Seitlicher Visiersockel", "asm": "riser", "shape": "prof", "mat": "dark_metal", "func": "Seitlicher Visiersockel", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1.7, "pts": [[9, 65], [40, 65], [44, 70], [43, 77], [13, 77]], "w": 16, "x": 22, "name_en": "Seitlicher Visiersockel"},
+    {"id": "core_top", "de": "Mittelstück", "asm": "riser", "shape": "prof", "mat": "graphite", "func": "Mittelstück", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1.7, "pts": [[-14, 34], [-21, 56], [-21, 126], [-35, 143], [-36, 176], [-23, 203], [7, 219], [37, 219], [55, 195], [55, 153], [39, 137], [39, 86], [26, 65], [11, 47], [11, 34]], "w": 40, "x": 23, "name_en": "Mittelstück"},
+    {"id": "arm_top", "de": "Bogenarm", "asm": "limbs", "shape": "prof", "mat": "dark_metal", "func": "Bogenarm", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1.7, "pts": [[-15, 190], [28, 192], [26, 255], [8, 283], [-63, 345], [-91, 365], [-147, 396], [-155, 378], [-108, 348], [-88, 330], [-23, 267], [-16, 245]], "w": 24, "x": 7, "name_en": "Bogenarm"},
+    {"id": "cuff_top", "de": "Schulterkappe", "asm": "limbs", "shape": "prof", "mat": "shell", "func": "Schulterkappe", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2.3, "pts": [[-32, 160], [-16, 145], [33, 145], [48, 163], [47, 199], [26, 230], [-6, 230], [-27, 205]], "w": 45, "x": 23.5, "name_en": "Schulterkappe"},
+    {"id": "cheek_top", "de": "Seitenfeld", "asm": "riser", "shape": "prof", "mat": "anodized", "func": "Seitenfeld", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.9, "pts": [[-12, 72], [20, 72], [32, 85], [32, 121], [19, 134], [-8, 134], [-13, 123]], "w": 2.8, "x": 43.25, "name_en": "Seitenfeld"},
+    {"id": "status_top", "de": "Statuslicht", "asm": "riser", "shape": "prof", "mat": "energy", "func": "Statuslicht", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.6, "pts": [[8, 91], [14, 91], [14, 111], [8, 111]], "w": 1.4, "x": 44.65, "name_en": "Statuslicht"},
+    {"id": "end_top", "de": "Runder Endbeschlag", "asm": "limbs", "shape": "cyl", "mat": "graphite", "func": "Runder Endbeschlag", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-150, 384], "a0": -9, "a1": 19.3, "r": 25, "segs": 24, "name_en": "Runder Endbeschlag"},
+    {"id": "end_face_top", "de": "Endplakette", "asm": "limbs", "shape": "cyl", "mat": "shell", "func": "Endplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-150, 384], "a0": 19, "a1": 21.2, "r": 17.0, "segs": 24, "name_en": "Endplakette"},
+    {"id": "end_pin_top", "de": "Heller Endpunkt", "asm": "limbs", "shape": "cyl", "mat": "trim", "func": "Heller Endpunkt", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-150, 384], "a0": 20.8, "a1": 22.5, "r": 4, "segs": 24, "name_en": "Heller Endpunkt"},
+    {"id": "shoulder_top_outer", "de": "Schulterplakette", "asm": "limbs", "shape": "cyl", "mat": "trim", "func": "Schulterplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [0, 182], "a0": 45.5, "a1": 47.3, "r": 4.4, "segs": 24, "name_en": "Schulterplakette"},
+    {"id": "shoulder_top_inner", "de": "Schulterplakette", "asm": "limbs", "shape": "cyl", "mat": "trim", "func": "Schulterplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [0, 182], "a0": -0.4, "a1": 1.6, "r": 4.4, "segs": 24, "name_en": "Schulterplakette"},
+    {"id": "arm_pin_top", "de": "Armplakette", "asm": "limbs", "shape": "cyl", "mat": "metal", "func": "Armplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [2, 246], "a0": 18, "a1": 20, "r": 3.4, "segs": 24, "name_en": "Armplakette"},
+    {"id": "core_bottom", "de": "Mittelstück", "asm": "riser", "shape": "prof", "mat": "graphite", "func": "Mittelstück", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1.7, "pts": [[11, -34], [11, -47], [26, -65], [39, -86], [39, -137], [55, -153], [55, -195], [37, -219], [7, -219], [-23, -203], [-36, -176], [-35, -143], [-21, -126], [-21, -56], [-14, -34]], "w": 40, "x": 23, "name_en": "Mittelstück"},
+    {"id": "arm_bottom", "de": "Bogenarm", "asm": "limbs", "shape": "prof", "mat": "dark_metal", "func": "Bogenarm", "attach": "an der angrenzenden Gehäusefläche", "bevel": 1.7, "pts": [[-16, -245], [-23, -267], [-88, -330], [-108, -348], [-155, -378], [-147, -396], [-91, -365], [-63, -345], [8, -283], [26, -255], [28, -192], [-15, -190]], "w": 24, "x": 7, "name_en": "Bogenarm"},
+    {"id": "cuff_bottom", "de": "Schulterkappe", "asm": "limbs", "shape": "prof", "mat": "shell", "func": "Schulterkappe", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2.3, "pts": [[-27, -205], [-6, -230], [26, -230], [47, -199], [48, -163], [33, -145], [-16, -145], [-32, -160]], "w": 45, "x": 23.5, "name_en": "Schulterkappe"},
+    {"id": "cheek_bottom", "de": "Seitenfeld", "asm": "riser", "shape": "prof", "mat": "anodized", "func": "Seitenfeld", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.9, "pts": [[-13, -123], [-8, -134], [19, -134], [32, -121], [32, -85], [20, -72], [-12, -72]], "w": 2.8, "x": 43.25, "name_en": "Seitenfeld"},
+    {"id": "status_bottom", "de": "Statuslicht", "asm": "riser", "shape": "prof", "mat": "energy", "func": "Statuslicht", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.6, "pts": [[8, -111], [14, -111], [14, -91], [8, -91]], "w": 1.4, "x": 44.65, "name_en": "Statuslicht"},
+    {"id": "end_bottom", "de": "Runder Endbeschlag", "asm": "limbs", "shape": "cyl", "mat": "graphite", "func": "Runder Endbeschlag", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-150, -384], "a0": -9, "a1": 19.3, "r": 25, "segs": 24, "name_en": "Runder Endbeschlag"},
+    {"id": "end_face_bottom", "de": "Endplakette", "asm": "limbs", "shape": "cyl", "mat": "shell", "func": "Endplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-150, -384], "a0": 19, "a1": 21.2, "r": 17.0, "segs": 24, "name_en": "Endplakette"},
+    {"id": "end_pin_bottom", "de": "Heller Endpunkt", "asm": "limbs", "shape": "cyl", "mat": "trim", "func": "Heller Endpunkt", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-150, -384], "a0": 20.8, "a1": 22.5, "r": 4, "segs": 24, "name_en": "Heller Endpunkt"},
+    {"id": "shoulder_bottom_outer", "de": "Schulterplakette", "asm": "limbs", "shape": "cyl", "mat": "trim", "func": "Schulterplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [0, -182], "a0": 45.5, "a1": 47.3, "r": 4.4, "segs": 24, "name_en": "Schulterplakette"},
+    {"id": "shoulder_bottom_inner", "de": "Schulterplakette", "asm": "limbs", "shape": "cyl", "mat": "trim", "func": "Schulterplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [0, -182], "a0": -0.4, "a1": 1.6, "r": 4.4, "segs": 24, "name_en": "Schulterplakette"},
+    {"id": "arm_pin_bottom", "de": "Armplakette", "asm": "limbs", "shape": "cyl", "mat": "metal", "func": "Armplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [2, -246], "a0": 18, "a1": 20, "r": 3.4, "segs": 24, "name_en": "Armplakette"}
+  ]
+}

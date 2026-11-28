@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.55.0 Flare
+
+- Volt-07 umfasst die gewählten Bögen Service, Patrol, Ranger und Field. Die Blätter K07 bis N07 sind mit `python -m formgen.pipeline --series Volt-07` baubar.
+
 ## 0.54.0 Mica
 
 - Die vier ausgewählten Maschinenpistolen sind als Volt-06 (K06 bis N06) mit `python -m formgen.pipeline --series Volt-06` baubar.
