@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.57.0 Ember
+
+- Die vier gewählten Scharfschützengewehre der Serie Volt-09 sind über den Serienbau als K09 bis N09 verfügbar.
+
 ## 0.56.0 Halo
 
 - Die vier ausgewählten Volt-08-Schrotflinten Service, Patrol, Ranger und Field sind als K08 bis N08 über den Serienbau verfügbar.

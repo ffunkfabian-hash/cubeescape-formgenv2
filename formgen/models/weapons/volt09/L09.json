@@ -1,0 +1,191 @@
+{
+  "INFO": {
+    "id": "L09",
+    "kind": "weapon",
+    "name_de": "Volt-09 Patrol",
+    "name_en": "Volt-09 Patrol",
+    "summary": "Volt-09 Patrol – statische Formstudie",
+    "provenance": {
+      "kind": "Annahme",
+      "source": "Spielreferenzen BA09 und EA09, eigenständige statische Außenprofile."
+    },
+    "facts": [
+      [
+        "Serie",
+        "Volt-09"
+      ],
+      [
+        "Formvariante",
+        "Patrol"
+      ],
+      [
+        "Typ",
+        "Scharfschützengewehr"
+      ]
+    ],
+    "source_id": "L09",
+    "num": "09",
+    "variant": "L",
+    "type": "sniper_rifle",
+    "type_de": "Scharfschützengewehr",
+    "nick": "Volt-09 Patrol"
+  },
+  "ASSEMBLIES": [
+    {
+      "id": "receiver",
+      "de": "Hauptgehäuse",
+      "en": "Receiver"
+    },
+    {
+      "id": "barrel",
+      "de": "Lauf / Emitter",
+      "en": "Barrel / emitter"
+    },
+    {
+      "id": "ammo",
+      "de": "Munitionsversorgung",
+      "en": "Ammunition feed"
+    },
+    {
+      "id": "sight",
+      "de": "Visier",
+      "en": "Sight"
+    },
+    {
+      "id": "grip_controls",
+      "de": "Griff und Bedienung",
+      "en": "Grip and controls"
+    },
+    {
+      "id": "support",
+      "de": "Stützbereich",
+      "en": "Support"
+    },
+    {
+      "id": "stock",
+      "de": "Schaft",
+      "en": "Stock"
+    }
+  ],
+  "ANCHORS": {
+    "Socket_Hand": {
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "part": "grip",
+      "note": "Haupthand, auf der Griffachse"
+    },
+    "Socket_SupportHand": {
+      "at": [
+        270,
+        60,
+        0
+      ],
+      "part": "fore",
+      "note": "Unterseite des Vorderschafts"
+    },
+    "Socket_Muzzle": {
+      "at": [
+        657.6,
+        96,
+        0
+      ],
+      "part": "face_dark",
+      "note": "Stirn der Mündungskrone auf der Laufachse"
+    },
+    "Socket_MagWell": {
+      "at": [
+        111.5,
+        20,
+        0
+      ],
+      "part": "mag_well",
+      "note": "Einrastpunkt Magazin (Schnittstelle BMW-R)"
+    },
+    "Socket_Sight": {
+      "at": [
+        -58,
+        162,
+        0
+      ],
+      "part": "ocular",
+      "note": "hinteres Okularende auf der Visierlinie"
+    },
+    "Socket_Objective": {
+      "at": [
+        119,
+        162,
+        0
+      ],
+      "part": "rim",
+      "note": "Stirn des Objektivrings"
+    },
+    "Socket_Reticle": {
+      "at": [
+        119.5,
+        162,
+        0
+      ],
+      "part": "lens",
+      "note": "gezeichnetes Absehen auf der Objektivlinse"
+    },
+    "Socket_Eye": {
+      "at": [
+        29,
+        162,
+        0
+      ],
+      "part": "objective",
+      "sight_type": "fullscreen",
+      "std": true,
+      "note": "Augenpunkt 90 mm hinter dem Objektivring (Sitz wie Z1); im Zielen Vollbild mit Duplex, Waffe aus"
+    }
+  },
+  "PARTS": [
+    {"id": "lower", "de": "Unteres Gehäuse", "asm": "receiver", "shape": "prof", "mat": "graphite", "bevel": 3.0, "pts": [[-112, 69], [208, 69], [208, 52], [150, 48], [136, 30], [130, 20], [92, 20], [88, 28], [82, 40], [-70, 40], [-112, 60]], "w": 38, "name_en": "Lower receiver", "func": "Unteres Gehäuse", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "mag_well", "de": "Schachtlippe", "asm": "receiver", "shape": "prof", "mat": "trim", "bevel": 0.6, "pts": [[91, 17.5], [131, 17.5], [131.5, 21], [90.5, 21]], "w": 39, "name_en": "Magazine well lip", "func": "Schachtlippe", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "magazine", "de": "Magazin", "asm": "ammo", "shape": "prof", "mat": "shell", "bevel": 3.0, "pts": [[93.0, 24.0], [130.0, 24.0], [130.0, -36.0], [93.0, -36.0]], "w": 24, "name_en": "Magazine", "func": "Magazin", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "magazine_base", "de": "Magazinboden", "asm": "ammo", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[91.0, -35.5], [132.0, -35.5], [132.0, -45.0], [91.0, -45.0]], "w": 27, "name_en": "Magazine base plate", "func": "Magazinboden", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "grip", "de": "Pistolengriff", "asm": "grip_controls", "shape": "prof", "mat": "rubber", "bevel": 6.5, "pts": [[-9.282032302755091, 43], [-19.784609690826528, 12], [-31.8948822334847, -22], [-35.93335800641838, -52], [-42.14874831559185, -64], [-41.82824023990308, -74], [-32.364138624765324, -76], [-4.364138624765324, -76], [4.2435565298214115, -70], [1.923048454132637, -60], [7.602540378443866, -50], [6.282032302755091, -40], [12.961524227066318, -30], [11.641016151377546, -20], [18.856406460551018, -8], [24.287187078897965, 16], [31.71796769724491, 43]], "w": 30, "name_en": "Pistol grip", "func": "Pistolengriff", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "grip_cap", "de": "Griffboden", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[-42.56029104747196, -73], [4.4397089525280435, -73], [0.8320137979413076, -79], [-42.16798620205869, -79]], "w": 32, "name_en": "Grip cap", "func": "Griffboden", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "trigger", "de": "Abzug", "asm": "grip_controls", "shape": "prof", "mat": "metal", "bevel": 0.8, "pts": [[42.71796769724491, 43], [48.71796769724491, 43], [50.71796769724491, 24], [47.71796769724491, 13], [43.71796769724491, 14], [45.71796769724491, 25]], "w": 7, "name_en": "Trigger", "func": "Abzug", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "trigger_guard", "de": "Abzugsbügel", "asm": "grip_controls", "shape": "prof", "mat": "anodized", "bevel": 1.5, "pts": [[17, 6], [82.71796769724492, 6], [82.71796769724492, 43], [75.71796769724492, 43], [75.71796769724492, 13], [17, 13]], "w": 12, "name_en": "Trigger guard", "func": "Abzugsbügel", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "mag_release", "de": "Magazinhalter", "asm": "grip_controls", "shape": "cyl", "mat": "accent", "bevel": 0.8, "axis": "x", "c": [84, 56], "a0": 18.5, "a1": 22.0, "r": 4.2, "segs": 20, "name_en": "Magazine release", "func": "Magazinhalter", "attach": "Übernommene Außenform des Spielmodells BA09"},
+    {"id": "upper", "de": "Gehäuseschale", "asm": "receiver", "shape": "prof", "mat": "graphite", "func": "Gehäuseschale", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-122, 90], [-101, 64], [23, 64], [50, 48], [133, 48], [153, 68], [206, 68], [224, 83], [224, 110], [209, 124], [35, 124], [22, 117], [-96, 117], [-122, 105]], "w": 48, "name_en": "Gehäuseschale"},
+    {"id": "fore", "de": "Vorderschaft", "asm": "support", "shape": "prof", "mat": "graphite", "func": "Vorderschaft", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[197, 92], [229, 60], [315, 60], [337, 75], [391, 75], [411, 95], [411, 103], [397, 117], [219, 117], [197, 108]], "w": 40, "name_en": "Vorderschaft"},
+    {"id": "stock", "de": "Schulterstück", "asm": "stock", "shape": "prof", "mat": "graphite", "func": "Schulterstück", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-251, 40], [-231, 40], [-218, 53], [-218, 65], [-189, 91], [-109, 91], [-96, 103], [-96, 113], [-160, 113], [-180, 127], [-231, 127], [-251, 105]], "w": 38, "name_en": "Schulterstück"},
+    {"id": "heel", "de": "Schulterpolster", "asm": "stock", "shape": "prof", "mat": "rubber", "func": "Schulterpolster", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-256, 45], [-250, 40], [-244, 40], [-244, 111], [-252, 108], [-256, 101]], "w": 42, "name_en": "Schulterpolster"},
+    {"id": "panel_l", "de": "Seitenwange", "asm": "receiver", "shape": "prof", "mat": "shell", "func": "Seitenwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.8, "pts": [[-5, 91], [29, 69], [113, 69], [134, 84], [175, 84], [192, 99], [192, 112], [47, 112], [31, 103], [-5, 103]], "w": 3.2, "x": 24.0, "name_en": "Seitenwange"},
+    {"id": "indicator_l", "de": "Statusfeld", "asm": "receiver", "shape": "prof", "mat": "energy", "func": "Statusfeld", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.35, "pts": [[67, 88.2], [89, 88.2], [90, 89.2], [90, 92.8], [89, 93.8], [67, 93.8], [66, 92.8], [66, 89.2]], "w": 1.5, "x": 25.55, "name_en": "Statusfeld"},
+    {"id": "fore_panel_l", "de": "Seitenfeld", "asm": "support", "shape": "prof", "mat": "shell", "func": "Seitenfeld", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.6, "pts": [[223, 93], [242, 75], [307, 75], [328, 90], [378, 90], [388, 100], [379, 109], [239, 109], [223, 101]], "w": 3.4, "x": 20, "name_en": "Seitenfeld"},
+    {"id": "cheek_l", "de": "Schaftwange", "asm": "stock", "shape": "prof", "mat": "shell", "func": "Schaftwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.8, "pts": [[-239, 76], [-225, 76], [-202, 97], [-182, 104], [-188, 115], [-226, 115], [-239, 102]], "w": 3, "x": 19, "name_en": "Schaftwange"},
+    {"id": "grip_badge_l", "de": "Griffplakette", "asm": "grip_controls", "shape": "cyl", "mat": "brass", "func": "Griffplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-13, -30], "a0": 14.6, "a1": 16.5, "r": 4, "segs": 24, "name_en": "Griffplakette"},
+    {"id": "panel_r", "de": "Seitenwange", "asm": "receiver", "shape": "prof", "mat": "shell", "func": "Seitenwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.8, "pts": [[-5, 91], [29, 69], [113, 69], [134, 84], [175, 84], [192, 99], [192, 112], [47, 112], [31, 103], [-5, 103]], "w": 3.2, "x": -24.0, "name_en": "Seitenwange"},
+    {"id": "indicator_r", "de": "Statusfeld", "asm": "receiver", "shape": "prof", "mat": "energy", "func": "Statusfeld", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.35, "pts": [[67, 88.2], [89, 88.2], [90, 89.2], [90, 92.8], [89, 93.8], [67, 93.8], [66, 92.8], [66, 89.2]], "w": 1.5, "x": -25.55, "name_en": "Statusfeld"},
+    {"id": "fore_panel_r", "de": "Seitenfeld", "asm": "support", "shape": "prof", "mat": "shell", "func": "Seitenfeld", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.6, "pts": [[223, 93], [242, 75], [307, 75], [328, 90], [378, 90], [388, 100], [379, 109], [239, 109], [223, 101]], "w": 3.4, "x": -20, "name_en": "Seitenfeld"},
+    {"id": "cheek_r", "de": "Schaftwange", "asm": "stock", "shape": "prof", "mat": "shell", "func": "Schaftwange", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.8, "pts": [[-239, 76], [-225, 76], [-202, 97], [-182, 104], [-188, 115], [-226, 115], [-239, 102]], "w": 3, "x": -19, "name_en": "Schaftwange"},
+    {"id": "grip_badge_r", "de": "Griffplakette", "asm": "grip_controls", "shape": "cyl", "mat": "brass", "func": "Griffplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-13, -30], "a0": -14.6, "a1": -16.5, "r": 4, "segs": 24, "name_en": "Griffplakette"},
+    {"id": "panel_marks", "de": "Deckelschrauben", "asm": "receiver", "shape": "multi", "mat": "trim", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [40, 90], "a0": 24.95, "a1": 27.05, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [150, 96], "a0": 24.95, "a1": 27.05, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [40, 90], "a0": -24.95, "a1": -27.05, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [150, 96], "a0": -24.95, "a1": -27.05, "r": 3, "segs": 12}], "name_en": "Cover fasteners"},
+    {"id": "fore_marks", "de": "Deckelschrauben", "asm": "support", "shape": "multi", "mat": "trim", "func": "Markieren die abnehmbare Abdeckung", "attach": "auf beiden Deckelflächen", "bevel": 0.25, "items": [{"shape": "cyl", "axis": "x", "c": [256, 92], "a0": 21.0, "a1": 23.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [304, 95], "a0": 21.0, "a1": 23.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [256, 92], "a0": -21.0, "a1": -23.1, "r": 3, "segs": 12}, {"shape": "cyl", "axis": "x", "c": [304, 95], "a0": -21.0, "a1": -23.1, "r": 3, "segs": 12}], "name_en": "Cover fasteners"},
+    {"id": "barrel", "de": "Vordere Laufkontur", "asm": "barrel", "shape": "cyl", "mat": "metal", "func": "Vordere Laufkontur", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [96, 0], "a0": 393, "a1": 649, "r": 10, "segs": 24, "name_en": "Vordere Laufkontur"},
+    {"id": "collar", "de": "Frontanschluss", "asm": "barrel", "shape": "cyl", "mat": "anodized", "func": "Frontanschluss", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [96, 0], "a0": 400, "a1": 423, "r": 13, "segs": 24, "name_en": "Frontanschluss"},
+    {"id": "nose", "de": "Kantige Stirnkappe", "asm": "barrel", "shape": "xprof", "mat": "dark_metal", "func": "Frontabschluss", "attach": "zwischen den benachbarten Schalen", "bevel": 1.5, "f0": 589, "f1": 655, "cu": 96, "pts": [[-12, -16], [12, -16], [17, -11], [17, 11], [12, 16], [-12, 16], [-17, 11], [-17, -11]], "cuts": [], "name_en": "Kantige Stirnkappe"},
+    {"id": "face", "de": "Stirnfläche", "asm": "barrel", "shape": "cyl", "mat": "trim", "func": "Stirnfläche", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [96, 0], "a0": 654, "a1": 657, "r": 12, "segs": 24, "name_en": "Stirnfläche"},
+    {"id": "face_dark", "de": "Dunkle Stirn", "asm": "barrel", "shape": "cyl", "mat": "graphite", "func": "Dunkle Stirn", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [96, 0], "a0": 656, "a1": 657.6, "r": 9, "segs": 24, "name_en": "Dunkle Stirn"},
+    {"id": "base_rear", "de": "Optiksockel", "asm": "sight", "shape": "prof", "mat": "anodized", "func": "Optiksockel", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[-43, 114], [-15, 114], [-12, 117], [-12, 130], [-15, 133], [-43, 133], [-46, 130], [-46, 117]], "w": 24, "name_en": "Optiksockel"},
+    {"id": "foot_rear", "de": "Optikfuß", "asm": "sight", "shape": "prof", "mat": "sight_anod", "func": "Optikfuß", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.8, "pts": [[-41, 131], [-19, 131], [-13, 150], [-20, 155], [-37, 155], [-44, 148]], "w": 18, "name_en": "Optikfuß"},
+    {"id": "base_front", "de": "Optiksockel", "asm": "sight", "shape": "prof", "mat": "anodized", "func": "Optiksockel", "attach": "an der angrenzenden Gehäusefläche", "bevel": 2, "pts": [[66, 114], [94, 114], [97, 117], [97, 130], [94, 133], [66, 133], [63, 130], [63, 117]], "w": 24, "name_en": "Optiksockel"},
+    {"id": "foot_front", "de": "Optikfuß", "asm": "sight", "shape": "prof", "mat": "sight_anod", "func": "Optikfuß", "attach": "an der angrenzenden Gehäusefläche", "bevel": 0.8, "pts": [[68, 131], [90, 131], [96, 150], [89, 155], [72, 155], [65, 148]], "w": 18, "name_en": "Optikfuß"},
+    {"id": "scope_body", "de": "Optikmittelstück", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "func": "Optikmittelstück", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [162, 0], "a0": -46, "a1": 106, "r": 12, "segs": 24, "name_en": "Optikmittelstück"},
+    {"id": "ocular", "de": "Okulargehäuse", "asm": "sight", "shape": "cyl", "mat": "anodized", "func": "Okulargehäuse", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [162, 0], "a0": -58, "a1": -22, "r": 16, "segs": 24, "name_en": "Okulargehäuse"},
+    {"id": "ocular_face", "de": "Okularfläche", "asm": "sight", "shape": "cyl", "mat": "glass_scope", "func": "Okularfläche", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [162, 0], "a0": -59, "a1": -57, "r": 13, "segs": 24, "name_en": "Okularfläche"},
+    {"id": "objective", "de": "Objektivhaube", "asm": "sight", "shape": "cyl", "mat": "sight_anod", "func": "Objektivhaube", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0, "axis": "f", "c": [162, 0], "a0": 67, "a1": 116, "r": 13, "segs": 24, "r1": 19, "name_en": "Objektivhaube"},
+    {"id": "rim", "de": "Objektivrand", "asm": "sight", "shape": "cyl", "mat": "anodized", "func": "Objektivrand", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [162, 0], "a0": 109, "a1": 119, "r": 20, "segs": 24, "name_en": "Objektivrand"},
+    {"id": "lens", "de": "Objektivfläche", "asm": "sight", "shape": "cyl", "mat": "glass_scope", "func": "Objektivfläche", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "f", "c": [162, 0], "a0": 118, "a1": 120, "r": 16, "segs": 24, "name_en": "Objektivfläche"},
+    {"id": "index", "de": "Optikmarke", "asm": "sight", "shape": "cyl", "mat": "accent", "func": "Optikmarke", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "u", "c": [15, 0], "a0": 172, "a1": 178, "r": 5, "segs": 24, "name_en": "Optikmarke"},
+    {"id": "scope_pin_l", "de": "Optikplakette", "asm": "sight", "shape": "cyl", "mat": "trim", "func": "Optikplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-29, 140], "a0": 8.7, "a1": 10.4, "r": 3.4, "segs": 24, "name_en": "Optikplakette"},
+    {"id": "scope_pin_r", "de": "Optikplakette", "asm": "sight", "shape": "cyl", "mat": "trim", "func": "Optikplakette", "attach": "auf der sichtbaren Stirnfläche", "bevel": 0.6, "axis": "x", "c": [-29, 140], "a0": -8.7, "a1": -10.4, "r": 3.4, "segs": 24, "name_en": "Optikplakette"}
+  ]
+}
