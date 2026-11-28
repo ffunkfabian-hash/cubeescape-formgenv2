@@ -13,8 +13,8 @@
     ]
   },
   "tools_version": {
-    "version": "0.45.0",
-    "commit": "e5e0eb9591351180f2d451bffdbe5f68fd13f4e0"
+    "version": "0.48.0",
+    "commit": "b15e808775e0bfff9f2ee5876e6411248b31af3a"
   },
   "core_paths": [
     "docs/schemas/*.schema.json",
