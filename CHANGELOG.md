@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.56.0 Halo
+
+- Die vier ausgewählten Volt-08-Schrotflinten Service, Patrol, Ranger und Field sind als K08 bis N08 über den Serienbau verfügbar.
+
 ## 0.55.0 Flare
 
 - Volt-07 umfasst die gewählten Bögen Service, Patrol, Ranger und Field. Die Blätter K07 bis N07 sind mit `python -m formgen.pipeline --series Volt-07` baubar.
