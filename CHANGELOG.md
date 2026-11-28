@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.52.1 Patch pin48
+
+- Pin auf Agent Tools 0.48.0 (`b15e808`), Lader `ce` folgt; sonst keine Änderung.
+
+
 ## 0.52.0 Atelier — Serie DaVinci, DaVinci-01 „Linea“ mit Signature-Skin „Sfumato“
 
 - Neu: eigene Serie DaVinci (Blatt `D<Linie><NN>`, Register `formgen/davinci.py`), erstes Modell DaVinci-01 „Linea“ (`DA01`, Automatikgewehr): gerade Oberlinie vom Kolben bis zur Stirn, Daumenlochschaft als geschlossene Schleife, ein einziger Schrägwinkel (18°), Vesica-Schlossplatte mit Oculus-Kern; aus drei Blockouts gewählt ([DaVinci](docs/davinci.md)).
